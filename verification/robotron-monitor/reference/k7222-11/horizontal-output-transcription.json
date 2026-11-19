@@ -345,10 +345,9 @@
         "0",
         "h_sync",
         "h_upper2",
-        "h_hvac",
         "h_hvcold",
+        "h_hvac",
         "h_upper2",
-        "t3_x1_3",
         "t3_x1_5",
         "h_hvcold",
         "t3_x1_9",
@@ -373,7 +372,6 @@
     "X2_3",
     "X1_16",
     "X1_1",
-    "X1_2",
     "X1_3",
     "X1_5",
     "X1_7",
@@ -393,18 +391,19 @@
     "X2_5": "0",
     "X2_6": "h_sync",
     "X2_3": "h_upper2",
-    "X1_16": "h_hvac",
-    "X1_1": "h_hvcold",
-    "X1_2": "h_upper2",
+    "X1_16": "h_hvcold",
+    "X1_1": "h_hvac",
     "X1_7": "h_hvcold",
     "X1_13": "h_lower13",
-    "X1_15": "h_boost"
+    "X1_15": "h_boost",
+    "X1_3": "h_upper2"
   },
   "assumptions": [
     "External connections read from older.pdf page 4; annotated K7222_HK.jpg used only to distinguish crossing wires. Internal tap continuity/polarity remains the separate T3 hypothesis.",
     "E2 closed parallel connection selected for L4:1/L4:2; L4:3 trim branch is bridged in this configuration. No specimen jumper setting is known.",
     "C30 optional parallel retrace correction is populated for this candidate.",
     "R35=82 ohm is across L3, R36=1800 ohm is base/emitter, following the older scan/BOM variant; later annotated diagram exchanges these labels.",
-    "R28=1 megohm and R32=1 megohm are potentiometers at explicit midpoint settings."
+    "R28=1 megohm and R32=1 megohm are potentiometers at explicit midpoint settings.",
+    "Manual p19 fixes HV winding terminals X1:1/16; schematic p4 puts V21 anode at X1:1 and cathode X1:2 (EHT). X1:2 is the external diode output, not a magnetic T3 port. X1:3 tied to X2:3 is a return hypothesis, not an agent-read factory winding fact."
   ]
 }

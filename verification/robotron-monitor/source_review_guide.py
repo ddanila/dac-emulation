@@ -16,11 +16,10 @@ SCHEMATIC_QUESTIONS = {
         ' corrections to the horizontal and neck-board nodes. Keep this control'
         ' distinct from the R28 dark-raster preset.'),
     4: ('Trace every T3 tap through the X1/X2 connectors, especially the auxiliary'
-        ' SYNCH output and V14 cathode at TP17. Determine whether X1:2 at V21 is'
-        ' the rectified EHT output rather than a winding tap; the current graph'
-        ' puts X1_2 in upper_taps. If X1:2 is the EHT output, identify the real'
-        ' upper-tap return (a startup-only X1:3 return hypothesis is documented)'
-        ' and check winding continuity and polarity before selecting T3.'),
+        ' SYNCH output and V14 cathode at TP17. X1:2 is now modeled as the V21'
+        ' EHT output, not a winding tap; verify the provisional X1:3-to-X2:3'
+        ' upper-tap return and check winding continuity and polarity before'
+        ' selecting T3.'),
     9: ('Trace horizontal centring R4, L1/L2, R2 and bridge E1–E4 from X1:5/6'
         ' to the rails and deflection circuit. Determine the bridge position and'
         ' whether this branch can be represented with ideal converter rails.'),
@@ -82,7 +81,7 @@ def build(audit, *, parts_images, schematic_images, source_pdf):
     return ('<!doctype html><html lang="en"><meta charset="utf-8"><title>Phase A source review guide</title>'
         +f'<style>{style}</style><h1>Phase A source review guide</h1><p>{len(open_entries)} open inventory entries across '
         +f'{len(by_page)} source pages, plus {len(SCHEMATIC_PAGES)} schematic pages. Compare each entry with the source image; '
-        +'the OCR readings are aids, not decisions. Record identified human marks in the JSON template after review.</p>'
+        +'the OCR readings are aids, not decisions. Record agent readings with source hashes in the audit after review.</p>'
         +''.join(sections)+'<h1>Schematic connectivity review</h1>'+''.join(schematic)+'</html>\n')
 
 

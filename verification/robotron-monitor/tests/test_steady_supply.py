@@ -61,6 +61,13 @@ class SteadySupplyTests(unittest.TestCase):
             self.assertEqual(by_id['012-6921:R28']['nodes'],['h_g1raw','ug1','0'])
             self.assertEqual(by_id['012-6921:C21']['nodes'],['h_feed','h_boost'])
             self.assertNotIn('hy1',by_id['012-6921:L4:1']['nodes'])
+            t3=by_id['012-6921:T3']
+            pins=dict(zip(table['ports'],t3['nodes']))
+            self.assertEqual(pins['X1_16'],'h_hvcold')
+            self.assertEqual(pins['X1_1'],'h_hvac')
+            self.assertNotIn('X1_2',pins)
+            self.assertEqual(by_id['012-6921:V21']['nodes'],['h_hvac','eht'])
+            self.assertEqual(pins['X1_3'],'h_upper2')
 
     def test_tapped_flux_backend_preserves_sections_and_bounds(self):
         graph=json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
@@ -68,8 +75,9 @@ class SteadySupplyTests(unittest.TestCase):
         candidates=tc.enumerate_candidates(graph)
         for candidate in candidates:
             model,meta=tc.compile_model(graph,candidate,params,backend='flux')
-            self.assertEqual(len(meta['sections']),15)
-            self.assertEqual(len(meta['ports']),20)
+            self.assertEqual(len(meta['sections']),14)
+            self.assertEqual(len(meta['ports']),19)
+            self.assertNotIn('X1_2',meta['ports'])
             self.assertIn('Cflux flux_b',model)
             self.assertFalse(meta['full_monitor_qualified'])
         ac=json.loads((ROOT/'reference/k7222-11/t3-ac-loss-parameters.json').read_text())

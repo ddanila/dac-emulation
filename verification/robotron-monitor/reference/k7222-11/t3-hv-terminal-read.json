@@ -1,0 +1,40 @@
+{
+  "format": "dac-monitor-t3-hv-terminal-read-v1",
+  "qualification": "partial A1 pin-to-pin source read; page-4 gate remains open",
+  "source_views": [
+    {
+      "file": "older.pdf",
+      "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "page": 4,
+      "render": "600 dpi full page",
+      "render_sha256": "ef325eb44040c7d493c88e10c85a50d276583ce39bd5579929b4c53a2de7d4dc",
+      "reading": "V21 anode is X1:1; V21 cathode is X1:2 on the UG3/EHT output."
+    },
+    {
+      "file": "older.pdf",
+      "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "page": 4,
+      "render": "T3 terminal crop at a different crop and resolution",
+      "render_sha256": "aa64127bd61d587e6c2de4af44eec1e0e3ac78b9434f81413651eaca47cad3c5",
+      "reading": "V21 anode is X1:1; V21 cathode is X1:2 on the UG3/EHT output."
+    },
+    {
+      "file": "older-operation.pdf",
+      "pdf_sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
+      "page": 19,
+      "render": "manual page-19 text and T3 diagram",
+      "render_sha256": "4caf89ef43ab3a92018a8587aceee9eb389fcd046e49a35937c14cf951a069ef",
+      "reading": "T3 high-voltage winding terminals are 1 and 16."
+    }
+  ],
+  "source_edges": [
+    {"kind": "winding", "terminals": ["X1:16", "X1:1"]},
+    {"kind": "rectifier", "part": "V21", "anode": "X1:1", "cathode": "X1:2"},
+    {"kind": "output", "terminal": "X1:2", "net": "EHT/UG3"}
+  ],
+  "model_decomposition": "The 19-port magnetic T3 wrapper covers the winding terminals; V21 is an external diode model from X1:1 to the EHT net corresponding to X1:2.",
+  "unresolved": [
+    "X1:3-to-X2:3 upper-tap return is a topology hypothesis, not a confirmed source edge.",
+    "Remaining T3 tap continuity and polarity need independent page-4 transcription and functional checks."
+  ]
+}

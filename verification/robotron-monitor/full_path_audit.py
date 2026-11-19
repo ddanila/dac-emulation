@@ -13,7 +13,7 @@ SHEETS=(('k7222-11-input.kicad_sch','012-6921',{'T200_BOUND':14}),
         ('k7222-11-power-input.kicad_sch','012-6931',None),
         ('k7222-11-converter.kicad_sch','012-6931',{'CONVERTER_TRIM':3,'TDA1060_FUNCTIONAL':16,'T1_BOUND':6}),
         ('k7222-11-horizontal-oscillator.kicad_sch','012-6921',{'HORIZONTAL_TRIM':3,'HORIZONTAL_TANK':3,'HORIZONTAL_DRIVER':4}),
-        ('k7222-11-horizontal-output.kicad_sch','012-6921',{'HORIZONTAL_CHOKE':2,'HORIZONTAL_LINEARITY':2,'HORIZONTAL_COMPENSATION':2,'HORIZONTAL_BRIGHTNESS':3,'HORIZONTAL_FOCUS':3,'T3_CANDIDATE':20}),
+        ('k7222-11-horizontal-output.kicad_sch','012-6921',{'HORIZONTAL_CHOKE':2,'HORIZONTAL_LINEARITY':2,'HORIZONTAL_COMPENSATION':2,'HORIZONTAL_BRIGHTNESS':3,'HORIZONTAL_FOCUS':3,'T3_CANDIDATE':19}),
         ('k7222-11-neck.kicad_sch','012-6891',None))
 
 

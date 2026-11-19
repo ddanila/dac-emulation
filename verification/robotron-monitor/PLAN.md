@@ -408,20 +408,20 @@ Phase C (speed) waits for B8.
 
 The goal "Phase A of the PLAN is fully implemented; intermediate results
 documented, committed and pushed" cannot yet be marked complete. The decisive
-technical blocker is the unverified T3 high-voltage winding and V21 rectifier
-path. Manual page 19 names X1:1 and X1:16 as the high-voltage winding terminals;
-schematic page 4 appears to put V21 between X1:1 and the X1:2 EHT output. The
-current provisional winding graph instead treats X1:2 as an upper magnetic tap,
-while the KiCad transcription feeds its external V21 from X1:16. These are
-different circuit topologies, so the A5 winding ratio, magnetic polarity and
-candidate list cannot be frozen from the current model. The isolated startup
-trials in `phase-a-evidence.md` neither resolve the pin map nor demonstrate the
-documented 11–12 kV sustained EHT.
+technical blocker is the unverified T3 winding topology. Manual page 19 names
+X1:1 and X1:16 as the high-voltage winding terminals; schematic page 4 puts
+V21 between X1:1 and the X1:2 EHT output. The model now uses those terminal
+roles, with X1:2 outside the magnetic graph. The provisional X1:3-to-X2:3
+return and other tap continuity and polarity still lack an independent
+pin-to-pin source check. The A5 winding ratios, polarity and candidate list
+therefore cannot be frozen from the current model. The isolated startup
+trials in `phase-a-evidence.md` neither resolve the remaining pin map nor
+demonstrate the documented 11–12 kV sustained EHT.
 
 The immediate route to resolution is A1's independent pin-to-pin transcription
 of schematic pages 3–4, 9–10, 16 and 18, diffed against the KiCad exports and
-re-read where they differ. The source readings must settle the T3 connector,
-diode and return path before the A5 design point is calculated. Where the
+re-read where they differ. The source readings must settle the remaining T3
+connector and return paths before the A5 design point is calculated. Where the
 documents cannot settle a parameter, the A1/A5 bounded `class-typical` route
 applies; the plan does not require a human or a physical measurement.
 The page-18 source transcription has an eight-pair semantic comparison against
