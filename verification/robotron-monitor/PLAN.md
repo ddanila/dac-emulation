@@ -412,10 +412,10 @@ completion blocker is the unfinished A1 source-to-model chain: pages 3–4,
 9–10, 16 and 18 still need independent schematic netlists checked against the
 KiCad exports. Until their differences are settled, the T3 winding connections
 and rectifier paths needed to finish the A5 design point remain provisional.
-The saved audit flags 26 frame-path part entries; 20 now have agent readings.
-The six still open are `012-6921:R41`, `V18`, `V21`, `T3`, and
-`012-6931:V27`, `V28`. Seven converter-only entries are outside the A1
-gate.
+The saved audit flags 26 frame-path part entries; 21 now have agent readings
+or bounded class-typical decisions. The five still open are `012-6921:V18`,
+`V21`, `T3`, and `012-6931:V27`, `V28`. Seven converter-only entries are
+outside the A1 gate.
 
 Other required close-out work is also missing. There is no complete bounded
 device-model register for the frame-path identity-only parts (A2), the waveform

@@ -885,11 +885,29 @@ decisions and leaves six frame-path parts open; all six schematic pages still
 need independent netlists. V4's electrical model remains A2 work.
 
 Manual page 17 calls `R41` a thermistor that compensates the horizontal
-generator and output transistor, whereas the current inventory calls
-`012-6921:R41` an unvalued potentiometer. The page-8 board parts list skips
-R41 between R40 and R42. This is a source/inventory conflict, not evidence
-for a potentiometer value; R41 remains open pending a schematic connection
-read and a bounded thermistor equivalent if no factory value is recoverable.
+generator and output transistor. Page-3 source crops at 300, 600 and 900 dpi
+show the upper thermistor symbol **labelled R43** in series between R25 and
+the R24 trim; no numeric value is printed. The page-8 board parts list skips
+R41 between R40 and R42. The inventory had misclassified manual R41 as a
+potentiometer, and the KiCad oscillator omitted this series element. The
+inventory now identifies R41 as a thermistor, while its correspondence to
+the annotated R43 is explicitly provisional. The oscillator netlist exports
+R25 → provisional R41/R43 → R24. The fixed-temperature equivalent is
+`horizontal_r41_r = 470 Ω`, bounded 100–2000 Ω, based on the documented
+470 Ω R13 thermistor in the same chain. This is a `class-typical` decision,
+not a recovered factory R41 value, designator map or temperature curve.
+
+Isolated 0.4 ms oscillator bench runs at 100, 470 and 2000 Ω all completed.
+Over their final quarter, `v(h_control)` averages 1.0532, 1.0183 and
+0.9014 V; `v(h_reactbase)` averages 0.9994, 0.9661 and 0.8627 V; and
+`v(h_outputbase)` averages 0.3686, 0.3300 and 0.3239 V. Relative to the
+nominal, the low bound moves the secondary by 11.7%, and the high bound moves
+the control/reactance nodes by about 11%. Thus the unknown R41 value is
+material to the stage, so its bounds remain exposed to later analysis. The
+KiCad export and 49 affected tests pass. The saved A1 audit accepts 21
+agent-resolved decisions and leaves five frame-path parts plus all six
+schematic pages open. This source correction does not itself settle the
+page-3 A1 netlist check or establish a temperature response.
 
 ### Page-18 interconnection source transcription (2026-11-19)
 

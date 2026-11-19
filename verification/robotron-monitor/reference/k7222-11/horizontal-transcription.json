@@ -28,10 +28,19 @@
       "reference": "R1002",
       "nodes": [
         "h_supply",
-        "h_trimtop"
+        "h_r41top"
       ],
       "value": "5600.0",
       "source_id": "012-6921:R25"
+    },
+    {
+      "reference": "R1039",
+      "nodes": [
+        "h_r41top",
+        "h_trimtop"
+      ],
+      "value": "{horizontal_r41_r}",
+      "source_id": "012-6921:R41"
     },
     {
       "reference": "R1003",
@@ -366,7 +375,7 @@
     }
   ],
   "assumptions": [
-    "R43/R44 labels in annotated scan differ from inventory. This explicit BOM-based variant uses no extra upper resistor and uses documented R14=680 ohm below R24; factory revision is unverified.",
+    "Annotated page 3 labels the upper thermistor between R25 and R24 as R43; manual page 17 calls the temperature-compensating thermistor R41. Their correspondence is provisional. The page-8 BOM omits R41, so the stage uses a bounded fixed-temperature equivalent. Annotated lower R44 differs from the BOM-based R14/R13 variant; factory revision is unverified.",
     "T1 inductance, coupling, losses and T2 turns/coupling are bounded engineering assumptions.",
     "Transistor families are not manufacturer-calibrated.",
     "C17 couples the flyback-feedback wire crossing the return rail without a junction into the R15/C8 return; X12:2 is a test point on its upper terminal."

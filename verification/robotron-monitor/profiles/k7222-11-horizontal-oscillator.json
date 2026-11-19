@@ -9,6 +9,14 @@
   "inventory": "reference/k7222-11/inventory.json",
   "board": "012-6921",
   "parameters": {
+    "horizontal_r41_r": {
+      "nominal": 470,
+      "minimum": 100,
+      "maximum": 2000,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Manual page 17 names thermistor R41, while annotated schematic page 3 labels the upper series thermistor R43. Their correspondence is provisional; no value is printed and the page-8 BOM omits R41. A 470-ohm nominal matches documented R13 in the bias chain; 100..2000 ohms brackets a broad effect. Fixed-temperature equivalent only."
+    },
     "horizontal_trim_fraction": {
       "nominal": 0.5,
       "minimum": 0.01,
@@ -184,7 +192,7 @@
   "limitations": [
     "Isolated oscillator/driver bench; no output transistor, flyback, sync acquisition or complete monitor claim.",
     "T1/T2 and semiconductor models are uncalibrated.",
-    "BOM-based R14/R24/R25 variant differs from annotated R43/R44 drawing labels; see horizontal-transcription.json."
+    "Manual R41 is provisionally mapped to the annotated page-3 R43 upper thermistor. The fixed-temperature 100..2000-ohm equivalent is not a recovered factory value; the R43/R44 drawing revision differs from the BOM-based R14/R13 variant."
   ],
   "source_pages": [
     {
