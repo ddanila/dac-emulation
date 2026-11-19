@@ -407,11 +407,23 @@ Phase C (speed) waits for B8.
 ## Phase A goal completion blocker (2026-11-19)
 
 The goal "Phase A of the PLAN is fully implemented; intermediate results
-documented, committed and pushed" cannot yet be marked complete. The immediate
-completion blocker is the unfinished A1 source-to-model chain: pages 3–4,
-9–10, 16 and 18 still need independent schematic netlists checked against the
-KiCad exports. Until their differences are settled, the T3 winding connections
-and rectifier paths needed to finish the A5 design point remain provisional.
+documented, committed and pushed" cannot yet be marked complete. The decisive
+technical blocker is the unverified T3 high-voltage winding and V21 rectifier
+path. Manual page 19 names X1:1 and X1:16 as the high-voltage winding terminals;
+schematic page 4 appears to put V21 between X1:1 and the X1:2 EHT output. The
+current provisional winding graph instead treats X1:2 as an upper magnetic tap,
+while the KiCad transcription feeds its external V21 from X1:16. These are
+different circuit topologies, so the A5 winding ratio, rectifier polarity and
+candidate list cannot be frozen from the current model. The isolated startup
+trials in `phase-a-evidence.md` neither resolve the pin map nor demonstrate the
+documented 11–12 kV sustained EHT.
+
+The immediate route to resolution is A1's independent pin-to-pin transcription
+of schematic pages 3–4, 9–10, 16 and 18, diffed against the KiCad exports and
+re-read where they differ. The source readings must settle the T3 connector,
+diode and return path before the A5 design point is calculated. Where the
+documents cannot settle a parameter, the A1/A5 bounded `class-typical` route
+applies; the plan does not require a human or a physical measurement.
 The saved audit flags 26 frame-path part entries; 21 now have agent readings
 or bounded class-typical decisions. The five still open are `012-6921:V18`,
 `V21`, `T3`, and `012-6931:V27`, `V28`. Seven converter-only entries are
@@ -431,11 +443,10 @@ simply enlarging it would overlap the assumed winding. These are recorded in
 `phase-a-evidence.md`; the connected grid startup traces do not establish a
 sustained-state solution.
 
-This blocks declaring Phase A complete; it does not require a human decision or
-a physical measurement. Resolve the source readings and netlists by the bounded
-A1 process, use labelled `class-typical` values where a documented value cannot
-be settled, then finish and verify A2–A6. The ground rule and fallbacks above
-still require the work to continue.
+This is a completion blocker, not an external dependency or a reason to pause
+implementation. Finish the A1 source review, then verify A2–A6 and commit and
+push the resulting evidence. The ground rule and fallbacks above still require
+the work to continue.
 
 ## What the result may be called
 
