@@ -2193,3 +2193,26 @@ functional discriminator, not evidence that the printed trace joins the
 two terminals. The xspice tied variant aborts from a timestep failure
 near 6 µs, so its sign result cannot confirm this loaded amplitude test.
 The source return, winding order and connected service scores remain open.
+
+### A2/A5: T3 cross-revision HV winding comparators (2026-11-20)
+
+The [T3 winding comparator](reference/k7222-11/t3-hv-winding-comparator.json)
+records two firsthand ÜHA78 repair accounts. A [2026 winding account](https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=22157)
+reports 36 layers of 66 turns plus 33 turns, or 2,409 turns of 0.08 mm wire,
+for an original HV winding. A [K7222.25 repair guide](https://www.sax.de/~zander/zubehoer/k7222/uha78rep.pdf)
+uses a 1,768-turn replacement with about 440 Ω measured DC resistance and
+reroutes its cold end to chassis. Neither source proves the K7222.11 factory
+winding or its tap/return graph. Using the reported 25 mm tube and 50 mm
+maximum outer diameter only as broad candidate mean-diameter endpoints,
+[standard copper resistivity](https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular73e2.pdf)
+gives 649–1,298 Ω at 20 °C for the 2,409-turn winding. That calculation makes
+the active 1 kΩ winding resistance plausible but does not qualify it; the
+active 1,000 turns are below both reported counts.
+
+Holding the isolated loaded T3 bench fixed and changing only HV turns gives
+20.30, 37.40, 43.12 and 50.92 V after five 1 V pulses for 1,000, 1,768,
+2,035 and 2,409 turns respectively. These values do not predict the connected
+11–12 kV operating point. The [A2 register](reference/k7222-11/device-model-register.json)
+now includes a provisional T3 row, bringing [coverage](reference/k7222-11/device-model-coverage.json)
+to 64/64 assembled frame-path devices. None of the 64 rows closes all
+parameter qualification checks, so the [Phase A blocker](PLAN.md) remains.

@@ -1,0 +1,66 @@
+{
+  "format": "dac-monitor-t3-hv-winding-comparator-v1",
+  "qualification": "cross-revision ÜHA78 comparator; no factory specification or .11 winding/return-path proof",
+  "sources": {
+    "original_winding_report": {
+      "url": "https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=22157",
+      "retrieved_html_sha256": "203ac61310988be538aab049504dcaf945b1312411f64e0a46593bebc8756105",
+      "author": "Heiko_P",
+      "post": "015, 20 April 2026",
+      "observation": "The author describes ÜHA78 high-voltage winding as 36 layers of 66 turns plus one layer of 33 turns, using 0.08 mm enamelled copper wire; outer diameter at most 50 mm, winding over a 25 mm tube.",
+      "evidence_tier": "class-typical comparator; firsthand repair account, not factory .11 data"
+    },
+    "replacement_winding_report": {
+      "url": "https://www.sax.de/~zander/zubehoer/k7222/uha78rep.pdf",
+      "pdf_sha256": "19655bfdcb2132cf6348629919ed1bb86c212921fd0273d4664625b47092754a",
+      "author": "Daniel Auerbach",
+      "version": "2.7, 25 April 2015",
+      "observation": "K7222.25 repair winds 26 layers of 68 turns with about 0.10 mm wire and reports about 440 ohms measured DC resistance. It reroutes the replacement cold end to the chassis, so its connection is not the original .11 graph.",
+      "evidence_tier": "class-typical comparator; measured replacement, not original .11 data"
+    },
+    "copper_reference": {
+      "url": "https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular73e2.pdf",
+      "pdf_sha256": "cbb5f7fe8094e6cd07390977db92d2eb5db57d22fc3f3481e7ee6e8b89854f44",
+      "value_ohm_mm2_per_m_at_20c": 0.017241,
+      "use": "Standard annealed-copper resistivity for R = rho * length / area; enamel, copper temperature and effective wire diameter add uncertainty."
+    }
+  },
+  "derived_comparison": {
+    "original_reported_turns": 2409,
+    "original_turn_equation": "36 * 66 + 33",
+    "replacement_reported_turns": 1768,
+    "replacement_turn_equation": "26 * 68",
+    "original_wire_diameter_mm": 0.08,
+    "original_winding_diameter_mm_candidate_range": [25, 50],
+    "original_copper_length_m_candidate_range": [189.2024175624453, 378.4048351248906],
+    "original_copper_resistance_ohm_at_20c_candidate_range": [648.962015625, 1297.92403125],
+    "original_copper_resistance_ohm_at_37p5mm_mean_diameter": 973.4430234375,
+    "resistance_equation": "R = 0.017241 ohm mm2/m * turns * pi * mean_diameter_m / (pi * (0.08 mm)^2 / 4)",
+    "replacement_measured_resistance_ohm": 440,
+    "warning": "The original diameter bounds are geometry-based estimates, not reported resistance limits. The 25 mm tube and 50 mm maximum outer diameter need not be exact winding mean-diameter endpoints."
+  },
+  "active_model_comparison": {
+    "parameters_file": "t3-initial-parameters.json",
+    "parameters_sha256": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+    "high_voltage_turns": 1000,
+    "high_voltage_dc_resistance_ohm": 1000,
+    "drive_total_turns": 64,
+    "active_ideal_hv_to_drive_ratio": 15.625,
+    "original_comparator_ideal_hv_to_64_turn_drive_ratio": 37.640625,
+    "replacement_comparator_ideal_hv_to_64_turn_drive_ratio": 27.625,
+    "conditional_design_ratio_range_if_60_to_70v_boost": [28.237066663792028, 35.938084844826214],
+    "drive_turns_implied_by_original_comparator_and_conditional_ratio": [67.03195260408566, 85.31339422338175],
+    "interpretation": "The active 1,000-turn HV hypothesis is below both reported ÜHA78 winding counts. Its 1 kohm DC resistance is within the broad geometry-derived original-winding copper range. The 2,409-turn comparator with a 64-turn drive exceeds the conditional boost-case ratio by 4.7 percent; that discrepancy cannot identify the drive turns or boost voltage because both are unverified."
+  },
+  "isolated_loaded_sensitivity": {
+    "setup": "t3_return_variants.py flux backend, one accepted sign candidate, tied X1:3/X2:3 return, 1 V/16 us primary pulses, 1 nF EHT load and V21-class diode; all parameters except HV turns held at the active hypothesis",
+    "eht_peak_after_five_pulses_v": {
+      "1000_turns": 20.3007,
+      "1768_turns": 37.4033,
+      "2035_turns": 43.1167,
+      "2409_turns": 50.9203
+    },
+    "interpretation": "The HV-turn choice materially changes the isolated loaded result. These low-voltage pulses cannot establish a connected 11–12 kV operating point."
+  },
+  "next": "Keep the original .11 T3 graph and other section parameters conditional. Compare the two source-derived turn scales under connected horizontal-output loading and check which, if either, can meet the documented retrace, feedback and EHT constraints before replacing the active model."
+}

@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; 63 of 64 frame-path instances have provisional register coverage, including conditional T1, T2 primary, L1 feed, L3 output and L4 base-path checks; T3 remains uncovered",
+  "status": "partial; all 64 frame-path instances have provisional register rows, but T3 and the other devices still lack complete source-bounded parameter qualification",
   "sources": {
     "ti_sn74h00_1985": {"url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf", "edition": "Texas Instruments The TTL Data Book, 1985, printed pages 3-3 and 3-6", "use": "SN74H00 4x 2-input NAND class: 4.75-5.25 V supply, VIH >=2 V, VIL <=0.8 V, VOH >=2.4 V at -0.5 mA, VOL <=0.4 V at 20 mA, IIH <=50 uA, IIL >=-2 mA, ICCH <=16.8 mA, ICCL <=40 mA, and tPLH/tPHL <=10 ns at 280 ohm/25 pF. A Robotron table maps T200 to this family; not a T200 specimen test."},
     "ti_lm709c": {"url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf", "revision": "National Semiconductor / TI SNOS659A", "pages": [2, 3, 4], "use": "LM709C class comparator at +/-15 V: minimum 15 V/mV large-signal gain, +/-10 V minimum output swing into 2 kohm, 2.6 mA typical/6.6 mA maximum supply current, 300 nA typical/1.5 uA maximum bias, 50 kohm minimum/250 kohm typical input resistance, 150 ohm typical output resistance and 0.25 V/us typical slew. The K7222.11 printed P09A is not identified as LM709."},
@@ -96,6 +96,10 @@
     "horizontal_l4_design": {
       "file": "reference/k7222-11/horizontal-l4-design.json",
       "use": "The selected, unverified E2 configuration puts L4:1/L4:2 in parallel in the V18 base path and bypasses L4:3. A conditional 1 V branch voltage for one third of the documented 46.5 us trace reaches the BU508AF-class 0.5 A switching comparator with 50 uH/1 ohm per coil. Actual T2 delivery and original choke values remain unknown."
+    },
+    "t3_hv_winding_comparator": {
+      "file": "reference/k7222-11/t3-hv-winding-comparator.json",
+      "use": "Cross-revision ÜHA78 firsthand winding reports and copper-geometry calculation challenge the active T3 HV turn count while leaving its 1 kohm winding resistance plausible. This does not prove the original .11 turns, tap map or return path."
     },
     "philips_bd139_bd140": {
       "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1986_S04a_Philips_Low-Frequency_Power_Transistors_and_Hybrid_Modules.pdf",
@@ -1125,6 +1129,24 @@
         "TT_s": {"spice_parameter": "TT", "nominal": 1e-7, "bounds": [1e-7, 2.5e-6], "basis": "provisional transit-time proxy bracketed by Rectron 0.1 us and Semtech 2.5 us reverse-recovery specifications under different test currents; model recovery must be measured, because SPICE TT is not t_rr"}
       },
       "remaining": ["Resolve the remaining T3 tap/return map against an independent page-4 netlist", "Measure reverse recovery of the SPICE candidate at both data-sheet test conditions", "Bound unexamined IS, N and RS and sweep diode capacitance/recovery sensitivity"]
+    },
+    {
+      "id": "012-6921:T3",
+      "candidate_class": "tapped ÜHA78-class line-output transformer with a separate high-voltage winding; .11 factory construction unverified",
+      "identity_tier": "class-typical cross-revision comparator, not a documented .11 winding identity",
+      "model": "T3_CANDIDATE",
+      "model_file": "transformer_candidates.py",
+      "parameter_file": "reference/k7222-11/t3-initial-parameters.json",
+      "topology_file": "reference/k7222-11/t3-winding-hypothesis.json",
+      "sources": ["t3_hv_winding_comparator"],
+      "qualification": "incomplete; active section values retain assumed-bound evidence and winding continuity is unverified",
+      "parameters": {
+        "high_voltage_turns": {"active_nominal": 1000, "active_bounds": [250, 4000], "active_tier": "assumed-bound", "cross_revision_comparators": [1768, 2409], "basis": "The K7222.25 replacement has 1,768 turns; a separate firsthand ÜHA78 winding account reports 2,409 turns. The active 1,000 turns are below both, but neither source proves the .11 factory count."},
+        "high_voltage_resistance_ohm": {"active_nominal": 1000, "active_bounds": [250, 4000], "active_tier": "assumed-bound", "geometry_comparator_ohm_at_20c": [648.962015625, 1297.92403125], "basis": "2,409 turns of 0.08 mm copper over candidate 25–50 mm mean diameters give a broad 649–1298 ohm range; the active 1 kohm value is plausible, not source-qualified."},
+        "drive_total_turns": {"active_nominal": 64, "active_bounds": [16, 256], "active_tier": "assumed-bound", "conditional_range_if_2409_hv_turns_and_boost_case": [67.03195260408566, 85.31339422338175], "basis": "The conditional 28.24–35.94 EHT ratio and 2,409-turn comparator imply 67–85 drive turns; the boost premise and original winding map remain unverified."}
+      },
+      "model_response_report": "reference/k7222-11/t3-hv-winding-comparator.json",
+      "remaining": ["Independent page-4 T3 tap, return and polarity source closure", "Source-bounded drive, auxiliary and tap-section turns, resistance, leakage and capacitance", "Connected EHT/retrace/feedback comparison across the comparator turn scales", "Core loss, saturation, winding temperature and insulation bounds for the original .11 transformer"]
     },
     {
       "id": "012-6931:A3",
