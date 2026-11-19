@@ -435,6 +435,9 @@ remains open. The source readings must settle the remaining T3 connector and
 return paths before the A5 design point is calculated. Where the
 documents cannot settle a parameter, the A1/A5 bounded `class-typical` route
 applies; the plan does not require a human or a physical measurement.
+A source-first page-9 read now matches all 16 pins in the seven-part 5.1 V
+reference branch, including the zener, transistor and capacitor polarities.
+The remaining page-9 circuit and page 10 still lack a complete second netlist.
 The page-18 source transcription has an eight-pair semantic comparison against
 the ideal-rail KiCad assembly, but the main-board sheet still lacks physical
 connector pins and the other cables remain unchecked; that partial comparison

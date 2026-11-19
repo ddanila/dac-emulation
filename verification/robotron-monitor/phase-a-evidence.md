@@ -1219,3 +1219,22 @@ with `uA723` and `B260D` with `TDA1060`.
 hashes. This independently supports the 723 functional family used for
 K7222.11 `MAA723`, while its missing H suffix and electrical parameters remain
 unverified. `B260D` is converter-only in the Phase A ideal-rail scope.
+
+### Independent page-9 regulator branch read (2026-11-19)
+
+The source-side `reference/k7222-11/page9-reference-source-netlist.json` records
+the seven-part 5.1 V branch from `older.pdf` page 9: R10, R9, V3, R11, V4,
+C7 and C5. It was written from the 300 dpi full page and a 600 dpi branch
+crop before the KiCad sheet was opened for comparison. The initial capacitor
+labels were wrong: the source-ID check prompted enlarged crops, which resolve
+the base capacitor as C7 and the output capacitor as C5; the feed also reads
+12P, not 41P. The saved source file records the crop hashes and correction.
+
+`page9_reference_compare.py` exports a fresh regulator KiCad netlist and checks
+each source terminal, including V3 direction, V4 collector/base/emitter and
+both electrolytic polarities. The saved
+`reference/k7222-11/page9-reference-comparison.json` reports 16 of 16 pins
+matched with no extra pins in this seven-component sheet. At nominal input,
+the regulator stage bench retains a 4.8–5.3 V output at its sampled load
+steps and after time-step refinement. This comparison covers only the page-9
+reference branch; the rest of pages 9–10 and the whole-page A1 gate remain open.
