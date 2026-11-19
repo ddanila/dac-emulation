@@ -8,7 +8,6 @@ import gzip
 import hashlib
 import json
 import math
-from datetime import date
 from pathlib import Path
 import tempfile
 
@@ -40,7 +39,7 @@ def point_status(score,n):
 
 
 def waveform_review_template(score):
-    """Blank identified reviews for this exact scored trace and manual register."""
+    """Blank waveform observations for this exact scored trace and register."""
     if score.get('format')!='dac-monitor-service-score-v1':
         raise ValueError('waveform review needs a service score')
     points=score.get('points',[])
@@ -54,8 +53,7 @@ def waveform_review_template(score):
                     reference_shape=p.get('reference',{}).get('shape_class'),
                     reference_condition_id=p.get('reference',{}).get('condition_id'),
                     reference_operating_conditions=p.get('reference',{}).get('operating_conditions'),
-                    shape=None,operating_conditions=None,notes=None,
-                    reviewer=None,reviewed_at=None) for p in points})
+                    shape=None,operating_conditions=None,notes=None) for p in points})
 
 
 def waveform_reviewed(evidence, n, score):
@@ -76,12 +74,8 @@ def waveform_reviewed(evidence, n, score):
             or review.get('reference_operating_conditions')!=point.get('reference',{}).get('operating_conditions')
             or review.get('shape')!='agrees'
             or review.get('operating_conditions')!='agrees'
-            or not isinstance(review.get('notes'),str) or not review['notes'].strip()
-            or not isinstance(review.get('reviewer'),str) or not review['reviewer'].strip()
-            or not isinstance(review.get('reviewed_at'),str)):
+            or not isinstance(review.get('notes'),str) or not review['notes'].strip()):
         return False
-    try:date.fromisoformat(review['reviewed_at'])
-    except ValueError:return False
     return True
 
 
@@ -98,7 +92,7 @@ def verify_service_score(score):
 
 
 def verify_source_review(evidence, *, ocr_root, source_pdf, marks_path):
-    """Recompute the A1 prerequisite from the current source and human marks."""
+    """Recompute the A1 prerequisite from the current source and agent readings."""
     ocr_root=Path(ocr_root);source_pdf=Path(source_pdf);marks_path=Path(marks_path)
     if not ocr_root.is_dir() or not marks_path.is_file() or not source_pdf.is_file():
         raise ValueError('A1 source review inputs are missing')
@@ -128,12 +122,16 @@ def verify_source_review(evidence, *, ocr_root, source_pdf, marks_path):
 
 def source_review_passes(review):
     if not isinstance(review,dict):return False
-    count=review.get('machine_confirmed');marked=review.get('human_marked')
-    return (review.get('format')=='dac-monitor-phase-a-source-review-gate-v1'
+    count=review.get('machine_confirmed');resolved=review.get('agent_resolved')
+    excluded=review.get('converter_only_unresolved')
+    return (review.get('format')=='dac-monitor-phase-a-source-review-gate-v2'
             and review.get('passed') is True
             and review.get('inventory_entries')==260
-            and type(count) is int and type(marked) is int
-            and count>=0 and marked>=0 and count+marked==260
+            and type(count) is int and type(resolved) is int
+            and count>=0 and resolved>=0 and count+resolved<=260
+            and isinstance(excluded,list) and len(excluded)==260-count-resolved
+            and set(excluded)<=phase_a_review.converter_only_ids()
+            and review.get('frame_path_open_parts')==[]
             and review.get('open_parts')==[] and review.get('open_schematics')==[]
             and review.get('source_pdf_sha256')==phase_a_review.source_hash()
             and review.get('kicad_tree_sha256')==phase_a_review.kicad_tree_hash()

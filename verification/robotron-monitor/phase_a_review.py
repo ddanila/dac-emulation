@@ -1,13 +1,13 @@
-"""Prepare and validate the human source review required by Phase A A1.
+"""Prepare and validate agent source readings required by Phase A A1.
 
-OCR agreement is not a human mark. A mark is bound to one inventory entry and
-the hashed .11/.21 schematic PDF; schematic review is recorded separately.
+An open inventory entry needs two independent readings or a bounded typical
+value. All decisions remain bound to the inventory and source PDF hashes.
 """
 import argparse
 import hashlib
 import json
+import math
 import re
-from datetime import date
 from pathlib import Path
 
 import inventory_audit
@@ -15,7 +15,8 @@ import inventory_audit
 ROOT = Path(__file__).resolve().parent
 SOURCES = ROOT / 'sources.json'
 SCHEMATIC_PAGES = (3, 4, 9, 10, 16, 18)
-DECISIONS = frozenset(('inventory-correct', 'inventory-corrected', 'unresolved'))
+DECISIONS = frozenset(('inventory-correct', 'inventory-corrected', 'class-typical'))
+HEX_SHA256 = re.compile(r'[0-9a-f]{64}')
 
 
 def digest(value):
@@ -39,11 +40,31 @@ def kicad_tree_hash():
     return sha.hexdigest()
 
 
+def converter_only_ids():
+    """Scope out parts drawn only on the excluded converter or power input."""
+    import steady_supply
+    circuits = ROOT / 'circuits'
+    excluded = ('k7222-11-converter.kicad_sch', 'k7222-11-power-input.kicad_sch')
+    used = set()
+    excluded_ids = set()
+    for name in excluded:
+        path = circuits / name
+        ids = set(re.findall(r'\(property "SourceId" "([^"]+)"', path.read_text()))
+        excluded_ids.update(ids)
+    for name, _, _ in steady_supply.assembly_sheets():
+        path = circuits / name
+        ids = set(re.findall(r'\(property "SourceId" "([^"]+)"', path.read_text()))
+        used.update(ids)
+    return excluded_ids - used
+
+
 def template(inventory, audit):
     by_id = {part['id']: part for part in inventory['parts']}
-    return dict(format='dac-monitor-phase-a-source-review-v1',
-                instruction='Fill only from the hashed PDF and KiCad review; blank fields are not marks.',
+    excluded = converter_only_ids()
+    return dict(format='dac-monitor-phase-a-source-review-v2',
+                instruction='Record independent source readings or bounded typical values; blank fields are not decisions.',
                 parts=[dict(id=entry['id'], source_page=entry['source_page'],
+                            frame_path=entry['id'] not in excluded,
                             inventory_value=by_id[entry['id']].get('value'),
                             inventory_unit=by_id[entry['id']].get('unit'),
                             inventory_description=entry['inventory_description'],
@@ -53,26 +74,50 @@ def template(inventory, audit):
                             ocr_readings=entry.get('readings', {}),
                             inventory_entry_sha256=digest(by_id[entry['id']]),
                             source_pdf_sha256=source_hash(),
-                            decision=None, observed=None, rationale=None,
-                            reviewer=None, reviewed_at=None)
+                            decision=None, reading=None, independent_reads=[],
+                            crop_sha256=None, argument=None, typical_value=None,
+                            typical_bounds=None, typical_source=None)
                        for entry in audit['entries'] if entry['status'] != 'confirmed-by-3-passes'],
                 schematics=[dict(source_page=page, source_pdf_sha256=source_hash(),
                                  kicad_tree_sha256=kicad_tree_hash(),
-                                 kicad_commit=None, connectivity_checked=False,
+                                 independent_netlist_sha256=None,
+                                 connectivity_checked=False,
                                  diode_direction_checked=False, winding_polarity_checked=False,
-                                 reviewer=None, reviewed_at=None, notes=None)
+                                 argument=None)
                             for page in SCHEMATIC_PAGES])
 
 
-def _identified(mark):
-    if not (isinstance(mark.get('reviewer'), str) and mark['reviewer'].strip()
-            and isinstance(mark.get('reviewed_at'), str)):
+def _nonempty(value):
+    return isinstance(value, str) and bool(value.strip())
+
+
+def _agent_read(mark):
+    reads = mark.get('independent_reads')
+    if not isinstance(reads, list) or len(reads) < 2 or not _nonempty(mark.get('reading')):
         return False
-    try:
-        date.fromisoformat(mark['reviewed_at'])
-    except ValueError:
+    if not HEX_SHA256.fullmatch(mark.get('crop_sha256') or ''):
         return False
-    return True
+    identities = set()
+    for read in reads:
+        if not isinstance(read, dict) or not all(_nonempty(read.get(k)) for k in ('reading', 'method')):
+            return False
+        crop = read.get('crop_sha256')
+        if not isinstance(crop, str) or not HEX_SHA256.fullmatch(crop):
+            return False
+        if read['reading'].strip() != mark['reading'].strip():
+            return False
+        identities.add((crop, read['method'], read.get('resolution_px')))
+    return len(identities) >= 2 and mark['crop_sha256'] in {r['crop_sha256'] for r in reads}
+
+
+def _typical(mark):
+    bounds = mark.get('typical_bounds')
+    value = mark.get('typical_value')
+    return (type(value) in (int, float) and math.isfinite(value)
+            and isinstance(bounds, list) and len(bounds) == 2
+            and all(type(x) in (int, float) and math.isfinite(x) for x in bounds)
+            and bounds[0] <= value <= bounds[1]
+            and _nonempty(mark.get('typical_source')))
 
 
 def evaluate(inventory, audit, marks):
@@ -90,8 +135,8 @@ def evaluate(inventory, audit, marks):
                 or entry['inventory_description'] != part['description']
                 or entry['inventory_evidence'] != part['evidence']):
             raise ValueError('audit is stale relative to the current inventory')
-    if marks.get('format') != 'dac-monitor-phase-a-source-review-v1':
-        raise ValueError('invalid human-review format')
+    if marks.get('format') != 'dac-monitor-phase-a-source-review-v2':
+        raise ValueError('invalid agent-review format')
     part_marks = marks.get('parts', [])
     schematic_marks = marks.get('schematics', [])
     if not isinstance(part_marks, list) or not isinstance(schematic_marks, list):
@@ -107,18 +152,22 @@ def evaluate(inventory, audit, marks):
         raise ValueError('review marks contain an unknown inventory entry')
     required = [entry for entry in audit['entries'] if entry['status'] != 'confirmed-by-3-passes']
     source = source_hash()
+    excluded = converter_only_ids()
     open_parts = []
+    resolved_parts = []
     for entry in required:
         mark = by_mark.get(entry['id'], {})
-        if not (mark.get('source_page') == entry['source_page']
+        valid = (mark.get('source_page') == entry['source_page']
+                and mark.get('frame_path') is (entry['id'] not in excluded)
                 and mark.get('source_pdf_sha256') == source
                 and mark.get('inventory_entry_sha256') == digest(by_part[entry['id']])
                 and mark.get('decision') in DECISIONS
-                and (mark.get('decision') != 'unresolved'
-                     or by_part[entry['id']]['evidence'] == 'unresolved')
-                and isinstance(mark.get('observed'), str) and mark['observed'].strip()
-                and isinstance(mark.get('rationale'), str) and mark['rationale'].strip()
-                and _identified(mark)):
+                and _nonempty(mark.get('argument'))
+                and (_typical(mark) if mark.get('decision') == 'class-typical'
+                     else _agent_read(mark)))
+        if valid:
+            resolved_parts.append(entry['id'])
+        elif entry['id'] not in excluded:
             open_parts.append(entry['id'])
     by_page = {mark.get('source_page'): mark for mark in schematic_marks}
     open_schematics = []
@@ -127,15 +176,18 @@ def evaluate(inventory, audit, marks):
         mark = by_page.get(page, {})
         if not (mark.get('source_pdf_sha256') == source
                 and mark.get('kicad_tree_sha256') == kicad_hash
-                and isinstance(mark.get('kicad_commit'), str)
-                and re.fullmatch(r'[0-9a-f]{8,40}', mark['kicad_commit'])
+                and isinstance(mark.get('independent_netlist_sha256'), str)
+                and HEX_SHA256.fullmatch(mark['independent_netlist_sha256'])
                 and all(mark.get(key) is True for key in ('connectivity_checked',
                     'diode_direction_checked', 'winding_polarity_checked'))
-                and _identified(mark)):
+                and _nonempty(mark.get('argument'))):
             open_schematics.append(page)
-    return dict(format='dac-monitor-phase-a-source-review-gate-v1',
+    return dict(format='dac-monitor-phase-a-source-review-gate-v2',
                 inventory_entries=260, machine_confirmed=260-len(required),
-                human_marked=len(required)-len(open_parts),
+                agent_resolved=len(resolved_parts),
+                frame_path_open_parts=open_parts,
+                converter_only_unresolved=[entry['id'] for entry in required
+                                           if entry['id'] in excluded and entry['id'] not in resolved_parts],
                 open_parts=open_parts, open_schematics=open_schematics,
                 passed=not open_parts and not open_schematics)
 
@@ -167,7 +219,7 @@ def main():
     else:
         destination.write_text(json.dumps(result, indent=2, ensure_ascii=False) + '\n')
     if args.marks:
-        print(json.dumps({key: result[key] for key in ('machine_confirmed','human_marked',
+        print(json.dumps({key: result[key] for key in ('machine_confirmed','agent_resolved',
                                                       'open_parts','open_schematics','passed')}))
         return 0 if result['passed'] else 2
     print(f"Review template contains {len(result['parts'])} parts and {len(result['schematics'])} schematic pages")
