@@ -1,0 +1,71 @@
+{
+  "format": "dac-k7222-11-design-point-v1",
+  "status": "partial; do not use as a calibration freeze or replace T3 parameters yet",
+  "source_hashes": {
+    "older.pdf": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "older-operation.pdf": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21"
+  },
+  "mode": {
+    "name": "S550 2 kByte",
+    "line_period_s": 0.0000625,
+    "horizontal_trace_s": 0.0000465,
+    "horizontal_retrace_s": 0.000016,
+    "field_period_s": 0.0195,
+    "vertical_retrace_s": 0.0015,
+    "evidence": "documented",
+    "source": {"file": "older-operation.pdf", "page": 5},
+    "argument": "The manual gives 46.5 us write plus 16.0 us retrace per line, and 18.0 ms display plus 1.5 ms retrace per field for the 2 kByte mode."
+  },
+  "horizontal_resonance": {
+    "candidate_parallel_capacitors": [
+      {"source_id": "012-6921:C27", "value_f": 1e-8, "tolerance_fraction": 0.1},
+      {"source_id": "012-6921:C30", "value_f": 1e-9, "tolerance_fraction": 0.1}
+    ],
+    "candidate_capacitance_f": {"nominal": 1.1e-8, "minimum": 9.9e-9, "maximum": 1.21e-8},
+    "effective_inductance_h": {"nominal": 0.0023580202738580423, "minimum": 0.002143654794416402, "maximum": 0.002620022526508936},
+    "equation": "T_retrace = pi * sqrt(L_effective * (C27 + C30))",
+    "evidence": "design-derived from documented timing and printed capacitor values; capacitor parallel connection remains agent-read candidate",
+    "sources": [{"file": "older-operation.pdf", "page": 5}, {"file": "older.pdf", "page": 4}, {"file": "older.pdf", "page": 6}],
+    "limitation": "This is the effective resonance of the entire horizontal network, not a measurement or direct assignment of yoke inductance. Recheck C27/C30 connectivity against the source before using it to replace a parameter."
+  },
+  "collector_flyback": {
+    "ideal_ratio_to_trace_supply": 5.565126824747668,
+    "equation": "V_collector_peak = V_trace_supply * (1 + pi * T_trace / (2 * T_retrace))",
+    "source_for_equation": "https://patents.google.com/patent/JP2001313845A/en",
+    "ideal_41v_case_v": 228.17019981465438,
+    "candidate_boost_60_to_70v_case_v": {"minimum": 333.9076094848601, "maximum": 389.5588777323367},
+    "evidence": "design-derived ideal LC approximation; 41 V is the planned ideal rail, 60–70 V is a handwritten boost annotation on source page 4",
+    "limitation": "The boost voltage and actual collector trace supply have not been verified. Loss, loading, damper conduction and transformer coupling change the pulse; neither case is a measured collector peak."
+  },
+  "high_voltage_ratio": {
+    "eht_target_v": {"minimum": 11000, "maximum": 12000},
+    "ratio_if_boost_case_is_correct": {"minimum": 28.237066663792028, "maximum": 35.938084844826214, "nominal_at_11500v_and_65v_supply": 31.79138274734627},
+    "equation": "EHT / collector_flyback_peak",
+    "evidence": "design-derived from manual EHT target and candidate ideal collector pulse",
+    "source": {"file": "older-operation.pdf", "page": 6},
+    "limitation": "Not yet a T3 turns ratio. The high-voltage rectifier arrangement and winding polarity on schematic page 4 must be resolved first."
+  },
+  "manual_test_points": {
+    "14": {"node": "X12:2", "swing_vpp": 70, "role": "feedback waveform; path to T3 needs source review"},
+    "15": {"node": "V13 collector", "swing_vpp": 45, "role": "driver collector; cannot directly specify an auxiliary winding ratio"},
+    "17": {"node": "V14 cathode", "swing_vpp": 80, "role": "rectified flyback-derived pulse; source polarity and loading need review"},
+    "source": {"file": "older-operation.pdf", "page": 21}
+  },
+  "geometry_diagnostic": {
+    "status": "current assumed model cannot reach documented width",
+    "source_profiles": ["profiles/k7222-11-yoke-geometry.json", "trajectory.py"],
+    "conditions": {"anode_v": 11500, "grid2_v": 350, "focus_v": 4000, "neck_radius_m": 0.01, "horizontal_tesla_per_amp": 0.007979477182945251},
+    "maximum_horizontal_current_before_neck_clip_a": 0.5255402,
+    "maximum_reachable_half_width_m": 0.0908711,
+    "required_half_width_m": 0.105,
+    "method": "Binary search of trajectory.ray() to the neck-aperture boundary; 0.2, 0.1 and 0.05 mm integration steps agree on half-width within 1 nm.",
+    "evidence": "design-derived from documented width and explicitly assumed geometry; not a physical B31G22 measurement",
+    "conclusion": "The current 10 mm neck aperture clips the beam before the 210 mm documented width. Increasing the assumed neck radius to 12 mm would permit the width, but the current horizontal winding inner radius is 11.5 mm, so the tube and yoke geometry must be revised together before peak current is frozen."
+  },
+  "remaining_design_work": [
+    "Resolve T3 pin/tap map, rectifier direction and boost supply from the source before fixing winding polarity or turns.",
+    "Derive yoke field-per-ampere and peak currents with bounded tube/yoke geometry; current tube neck assumptions clip the documented 210 mm width.",
+    "Derive the vertical operating point from test points 1–8 and the vertical yoke model.",
+    "Check each derived quantity against the source and replace placeholder T3 parameters only after the constraints are mutually consistent."
+  ]
+}
