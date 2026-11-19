@@ -478,7 +478,9 @@ have no entry. V19/V20 on 012-6921 and L1/L2 on 012-6931 are absent from the
 current ideal-rail assembly. None of the twenty-three instances yet closes all
 A2 parameter checks. The V18 horizontal-output model now passes a BU508AF-class
 DC gain and saturation proxy; its inductive switching, parameter bounds and
-connected-stage stress remain unchecked.
+connected-stage stress remain unchecked. A separate current-fed turn-off
+diagnostic shows that its transfer interval is sensitive to model TF and TR;
+it does not reproduce the data-sheet inductive timing test.
 The waveform scorer now supports separately loaded SPICE solves for the bounded
 EO 203 probe equivalent and records an explicit grid stimulus choice. No
 connected stage score yet has all required loaded probes or recorded trims (A3).

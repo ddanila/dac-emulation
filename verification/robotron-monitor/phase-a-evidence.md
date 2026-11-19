@@ -1132,6 +1132,20 @@ low-gain model mutation fails the check. The proxy is a steady-state solve,
 so it does not establish the data-sheet's pulsed saturation, 2.5 µs storage
 time, 0.2 µs fall time or safe operating area. A2 remains open.
 
+`horizontal_output_switching_proxy.py` adds a separate 16 kHz current-fed
+turn-off diagnostic for the same live model. It uses 4.5 A collector current,
+about 0.5 A forward base current, a -2.7 V off rail and 4.5 µH series base
+inductance. Its ideal collector-current source, 200 V diode clamp and 1 nF
+snubber are declared assumptions; this is not the ST Figure 9 inductive-load
+circuit. In the saved
+`reference/k7222-11/horizontal-output-switching-proxy.json`, the nominal
+model starts transferring current to the clamp 1.132 µs after the off command;
+the clamp current rises from 10% to 90% in 0.517 µs. Sweeping model TF from
+20 to 300 ns changes that transfer interval from 0.146 to 1.067 µs; sweeping
+TR from 100 ns to 2 µs shifts the command-to-10% interval from 1.004 to
+1.591 µs. These metrics identify model sensitivity; they are not measured
+storage or fall times under ST's specified test, so A2 remains open.
+
 ### Vertical output part-identity decisions (2026-11-19)
 
 The A1 part entries for V27 and V28 now use the bounded `class-typical`
