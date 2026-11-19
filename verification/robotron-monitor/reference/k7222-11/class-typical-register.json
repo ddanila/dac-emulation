@@ -3,6 +3,7 @@
   "status": "partial; contains currently cited bounded candidates, not a completed A6 freeze",
   "scope": "K7222.11 ideal-rail frame path and service comparison",
   "sources": {
+    "vishay_uf4007": {"url": "https://www.vishay.com/docs/88755/uf4001.pdf", "revision": "6 April 2020, document 88755", "pages": [1, 2, 3], "use": "Comparable 1000 V ultrafast 1 A rectifier: VF <=1.7 V at 1 A, IR <=10 uA at 1000 V/25 C, trr <=75 ns at IF=0.5 A/IR=1 A/Irr=0.25 A and typical 17 pF at 4 V/1 MHz. Not an identity for 1YL1 variants."},
     "nexperia_bzx84_series": {"url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", "revision": "Rev. 7, 1 January 2023", "pages": [5, 6], "use": "BZX84-C6V2, C9V1 and C16 comparable 5 mA zener voltage, differential resistance and capacitance limits; not historical identifications or SPICE transit-time data."},
     "nexperia_1n4148": {
       "url": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
@@ -1082,6 +1083,468 @@
       "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_Z16.TT",
       "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required",
       "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AL25-horizontal-signal-diode.IS",
+      "stage": "horizontal-oscillator",
+      "value": 1e-09,
+      "bounds": [
+        1e-12,
+        1e-07
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_D.IS",
+      "basis": "broad SPICE reverse-current proxy; 1N4148 IR <=25 nA at 20 V does not directly bound IS or original 1AL25",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AL25-horizontal-signal-diode.N",
+      "stage": "horizontal-oscillator",
+      "value": 1.5,
+      "bounds": [
+        1,
+        2
+      ],
+      "unit": "1",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_D.N",
+      "basis": "bounded ideality proxy; 1N4148 forward curve does not uniquely fit N",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AL25-horizontal-signal-diode.RS",
+      "stage": "horizontal-oscillator",
+      "value": 2,
+      "bounds": [
+        0.1,
+        10
+      ],
+      "unit": "ohm",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_D.RS",
+      "basis": "bounded series-resistance proxy; 1N4148 VF <=1 V at 10 mA does not uniquely fit RS",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AL25-horizontal-signal-diode.CJO",
+      "stage": "horizontal-oscillator",
+      "value": 2e-12,
+      "bounds": [
+        5e-13,
+        2e-11
+      ],
+      "unit": "F",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_D.CJO",
+      "basis": "zero-bias proxy; 1N4148 comparator Cd <=4 pF, with wider original-part uncertainty",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AL25-horizontal-signal-diode.TT",
+      "stage": "horizontal-oscillator",
+      "value": 5e-09,
+      "bounds": [
+        5e-10,
+        5e-08
+      ],
+      "unit": "s",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_D.TT",
+      "basis": "transit-time proxy; 1N4148 trr <=4 ns under specified test, but TT is not trr",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AL25-horizontal-signal-diode.BV",
+      "stage": "horizontal-oscillator",
+      "value": 100,
+      "bounds": [
+        100,
+        200
+      ],
+      "unit": "V",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_D.BV",
+      "basis": "explicit breakdown proxy from 1N4148 100 V repetitive reverse rating plus unverified upper margin",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AL25-horizontal-signal-diode.IBV",
+      "stage": "horizontal-oscillator",
+      "value": 0.0001,
+      "bounds": [
+        1e-06,
+        0.001
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_D.IBV",
+      "basis": "explicit breakdown-knee proxy; 1N4148 data sheet does not specify SPICE IBV",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1YL1-2-flyback-rectifier.IS",
+      "stage": "horizontal-flyback",
+      "value": 1e-08,
+      "bounds": [
+        1e-12,
+        1e-06
+      ],
+      "unit": "A",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.IS",
+      "basis": "broad SPICE reverse-current proxy; UF4007 IR <=10 uA at 1000 V/25 C is not an IS bound",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1YL1-2-flyback-rectifier.N",
+      "stage": "horizontal-flyback",
+      "value": 1.5,
+      "bounds": [
+        1,
+        2
+      ],
+      "unit": "1",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.N",
+      "basis": "bounded ideality proxy; UF4007 VF <=1.7 V at 1 A does not uniquely fit N",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1YL1-2-flyback-rectifier.RS",
+      "stage": "horizontal-flyback",
+      "value": 0.2,
+      "bounds": [
+        0.01,
+        2
+      ],
+      "unit": "ohm",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.RS",
+      "basis": "bounded series-resistance proxy; UF4007 VF <=1.7 V at 1 A does not uniquely fit RS",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1YL1-2-flyback-rectifier.CJO",
+      "stage": "horizontal-flyback",
+      "value": 4e-11,
+      "bounds": [
+        5e-12,
+        1e-10
+      ],
+      "unit": "F",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.CJO",
+      "basis": "zero-bias model proxy yielding 17.88 pF at 4 V; UF4007 17 pF at 4 V is typical, not a CJO limit",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1YL1-2-flyback-rectifier.TT",
+      "stage": "horizontal-flyback",
+      "value": 2e-08,
+      "bounds": [
+        2e-09,
+        2e-07
+      ],
+      "unit": "s",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.TT",
+      "basis": "transit-time proxy yielding 8.16 ns recovery in comparator-style test; UF4007 75 ns maximum is not a direct TT limit",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1YL1-2-flyback-rectifier.BV",
+      "stage": "horizontal-flyback",
+      "value": 1000,
+      "bounds": [
+        600,
+        1200
+      ],
+      "unit": "V",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.BV",
+      "basis": "1000 V active-model choice from UF4007 rating; lower bound spans UF4005 600 V, upper margin unverified for original variants",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1YL1-2-flyback-rectifier.IBV",
+      "stage": "horizontal-flyback",
+      "value": 1e-05,
+      "bounds": [
+        1e-06,
+        0.0001
+      ],
+      "unit": "A",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.IBV",
+      "basis": "bounded breakdown knee proxy; UF4007 IR <=10 uA at 1000 V/25 C is not a SPICE IBV specification",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1YL1-4-flyback-rectifier.IS",
+      "stage": "horizontal-flyback",
+      "value": 1e-08,
+      "bounds": [
+        1e-12,
+        1e-06
+      ],
+      "unit": "A",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.IS",
+      "basis": "broad SPICE reverse-current proxy; UF4007 IR <=10 uA at 1000 V/25 C is not an IS bound",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.IS"
+    },
+    {
+      "id": "1YL1-4-flyback-rectifier.N",
+      "stage": "horizontal-flyback",
+      "value": 1.5,
+      "bounds": [
+        1,
+        2
+      ],
+      "unit": "1",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.N",
+      "basis": "bounded ideality proxy; UF4007 VF <=1.7 V at 1 A does not uniquely fit N",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.N"
+    },
+    {
+      "id": "1YL1-4-flyback-rectifier.RS",
+      "stage": "horizontal-flyback",
+      "value": 0.2,
+      "bounds": [
+        0.01,
+        2
+      ],
+      "unit": "ohm",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.RS",
+      "basis": "bounded series-resistance proxy; UF4007 VF <=1.7 V at 1 A does not uniquely fit RS",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.RS"
+    },
+    {
+      "id": "1YL1-4-flyback-rectifier.CJO",
+      "stage": "horizontal-flyback",
+      "value": 4e-11,
+      "bounds": [
+        5e-12,
+        1e-10
+      ],
+      "unit": "F",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.CJO",
+      "basis": "zero-bias model proxy yielding 17.88 pF at 4 V; UF4007 17 pF at 4 V is typical, not a CJO limit",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.CJO"
+    },
+    {
+      "id": "1YL1-4-flyback-rectifier.TT",
+      "stage": "horizontal-flyback",
+      "value": 2e-08,
+      "bounds": [
+        2e-09,
+        2e-07
+      ],
+      "unit": "s",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.TT",
+      "basis": "transit-time proxy yielding 8.16 ns recovery in comparator-style test; UF4007 75 ns maximum is not a direct TT limit",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.TT"
+    },
+    {
+      "id": "1YL1-4-flyback-rectifier.BV",
+      "stage": "horizontal-flyback",
+      "value": 1000,
+      "bounds": [
+        600,
+        1200
+      ],
+      "unit": "V",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.BV",
+      "basis": "1000 V active-model choice from UF4007 rating; lower bound spans UF4005 600 V, upper margin unverified for original variants",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.BV"
+    },
+    {
+      "id": "1YL1-4-flyback-rectifier.IBV",
+      "stage": "horizontal-flyback",
+      "value": 1e-05,
+      "bounds": [
+        1e-06,
+        0.0001
+      ],
+      "unit": "A",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.IBV",
+      "basis": "bounded breakdown knee proxy; UF4007 IR <=10 uA at 1000 V/25 C is not a SPICE IBV specification",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.IBV"
+    },
+    {
+      "id": "1YL1-8-flyback-rectifier.IS",
+      "stage": "horizontal-flyback",
+      "value": 1e-08,
+      "bounds": [
+        1e-12,
+        1e-06
+      ],
+      "unit": "A",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.IS",
+      "basis": "broad SPICE reverse-current proxy; UF4007 IR <=10 uA at 1000 V/25 C is not an IS bound",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.IS"
+    },
+    {
+      "id": "1YL1-8-flyback-rectifier.N",
+      "stage": "horizontal-flyback",
+      "value": 1.5,
+      "bounds": [
+        1,
+        2
+      ],
+      "unit": "1",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.N",
+      "basis": "bounded ideality proxy; UF4007 VF <=1.7 V at 1 A does not uniquely fit N",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.N"
+    },
+    {
+      "id": "1YL1-8-flyback-rectifier.RS",
+      "stage": "horizontal-flyback",
+      "value": 0.2,
+      "bounds": [
+        0.01,
+        2
+      ],
+      "unit": "ohm",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.RS",
+      "basis": "bounded series-resistance proxy; UF4007 VF <=1.7 V at 1 A does not uniquely fit RS",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.RS"
+    },
+    {
+      "id": "1YL1-8-flyback-rectifier.CJO",
+      "stage": "horizontal-flyback",
+      "value": 4e-11,
+      "bounds": [
+        5e-12,
+        1e-10
+      ],
+      "unit": "F",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.CJO",
+      "basis": "zero-bias model proxy yielding 17.88 pF at 4 V; UF4007 17 pF at 4 V is typical, not a CJO limit",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.CJO"
+    },
+    {
+      "id": "1YL1-8-flyback-rectifier.TT",
+      "stage": "horizontal-flyback",
+      "value": 2e-08,
+      "bounds": [
+        2e-09,
+        2e-07
+      ],
+      "unit": "s",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.TT",
+      "basis": "transit-time proxy yielding 8.16 ns recovery in comparator-style test; UF4007 75 ns maximum is not a direct TT limit",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.TT"
+    },
+    {
+      "id": "1YL1-8-flyback-rectifier.BV",
+      "stage": "horizontal-flyback",
+      "value": 1000,
+      "bounds": [
+        600,
+        1200
+      ],
+      "unit": "V",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.BV",
+      "basis": "1000 V active-model choice from UF4007 rating; lower bound spans UF4005 600 V, upper margin unverified for original variants",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.BV"
+    },
+    {
+      "id": "1YL1-8-flyback-rectifier.IBV",
+      "stage": "horizontal-flyback",
+      "value": 1e-05,
+      "bounds": [
+        1e-06,
+        0.0001
+      ],
+      "unit": "A",
+      "sources": [
+        "vishay_uf4007"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_RECT.IBV",
+      "basis": "bounded breakdown knee proxy; UF4007 IR <=10 uA at 1000 V/25 C is not a SPICE IBV specification",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1YL1-2-flyback-rectifier.IBV"
     }
   ],
   "open_families": [
@@ -1103,7 +1566,7 @@
     },
     {
       "file": "reference/k7222-11/device-model-register.json",
-      "reason": "nine individual provisional semiconductor models still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 instances have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
+      "reason": "nine individual provisional semiconductor models and six horizontal diode instances still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 instances have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
     }
   ],
   "use_for_sensitivity": "Only entries whose model_ref resolves to an active parameter and whose model response is validated may be swept as A6 class-typical bounds. Pending families are not qualified."

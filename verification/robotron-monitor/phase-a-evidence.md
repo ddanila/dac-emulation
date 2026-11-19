@@ -1469,3 +1469,36 @@ bound sensitivity remain open, so none of these rows closes A2.
 The service register already has `agent-read` shape descriptors for all 17
 manual test points. A3 remains open because the descriptors have not yet been
 scored on connected stages with all required loaded probes and recorded trims.
+
+### Horizontal diode class checks (2026-11-19)
+
+The active `HOR_D` model serves the two printed 1AL25 horizontal timing diodes.
+The [Nexperia 1N4148 data sheet](https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf)
+is a provisional high-speed signal-diode comparator, not a 1AL25 identity.
+The active `HOR_RECT` model serves four printed 1YL1/2, 1YL1/4 and 1YL1/8
+flyback rectifiers. The [Vishay UF4007 data sheet](https://www.vishay.com/docs/88755/uf4001.pdf)
+is a provisional 1000 V ultrafast class comparator; the printed suffixes may
+represent different original ratings, which this shared model does not yet
+resolve. Both models now set BV and IBV explicitly. `HOR_RECT` also has revised
+CJO and TT to place its nominal 4 V capacitance and reverse recovery within
+the comparator's test range.
+
+`horizontal_diode_check.py` solves both live models at 25 °C. For `HOR_D`, it
+reports 0.649 V at 10 mA, 0.834 nA leakage at 20 V, 2.00 pF at zero bias and
+1 MHz, and 1.23 ns recovery at 10.48 mA forward, 60.09 mA peak reverse through
+100 Ω. For `HOR_RECT`, it reports 0.918 V at 1 A, 9.14 nA at 1000 V, 17.88 pF
+at 4 V and 1 MHz, and 8.16 ns recovery at 0.504 A forward, 1.041 A peak
+reverse to the 0.25 A return threshold. These nominal values pass the stated
+class comparisons. The recovery stimulus matches the comparator currents but
+is an approximate fixture, not a reproduction of the manufacturer's switching
+test. Changing the rectifier CJO to 200 pF fails its capacitance
+check. The saved report is
+`reference/k7222-11/horizontal-diode-class-check.json`.
+
+The A2 register adds four printed-type families covering six instances; A6
+adds 28 bounded rows, with shared-model references for the three 1YL1 suffixes.
+Regenerated provisional A2 coverage is 37 of 64 frame-path instances, leaving
+23 assembled but unregistered and four absent from the ideal-rail assembly.
+Original ratings, individual diode directions, 1YL1 suffix differences,
+in-circuit voltage/current stress and joint-bound connected sensitivity remain
+open. The nominal comparator checks do not close A2 or A6.
