@@ -414,9 +414,14 @@ order; the L1-to-flyback crossing is a conditional functional choice. The 300
 and 600 dpi T3 reads cannot establish the proposed X1:3-to-X2:3 return, so
 the eight surviving flyback-sign candidates still depend on an unverified
 winding graph. A5 therefore cannot freeze the winding ratios, polarities or
-complete design point. A2 has one assembled horizontal-board magnetic
-instance without a register entry, and the 63 registered instances remain
-provisional. A fresh loaded A3 vertical-stage run with the current device
+complete design point. A2 now has provisional register rows for all 64
+assembled frame-path devices, including T3, but none meets every parameter
+qualification check. T3's active turns, resistance and parasitics remain
+assumed-bound. Two cross-revision ÜHA78 winding reports give 1,768 replacement
+turns and 2,409 reported original turns, both above the active 1,000-turn
+hypothesis; neither establishes the K7222.11 factory winding or connection
+graph. The active T3 model therefore cannot be frozen from these reports.
+A fresh loaded A3 vertical-stage run with the current device
 models passes TP7 at 2.1599 Vpp and gives TP8 a 25.7855 Vpp full swing. The
 prior TP8 comparison to 17 Vpp was a source-reading error: the manual's 17 V
 arrow ends at the drawn zero line, while its separate 10 V arrow spans the
@@ -452,7 +457,7 @@ labelled as such. The remaining done-condition gaps are:
 | Item | Evidence still needed for completion |
 | --- | --- |
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed local branches and page-9 centring bridge, including transistor C/E polarity, L1's ambiguous hot-line crossing and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. The installed E1–E4 pair is not identified. |
-| A2 | Model and bound every frame-path device. Sixty-three of 64 instances have provisional register coverage; T3 has none. Both page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes have conditional checks, but original values and connected sensitivity remain unqualified. None of the 63 closes every qualification check. |
+| A2 | Qualify every frame-path device model and its bounds. All 64 instances have provisional register rows, including T3, but none closes every parameter check. The two cross-revision ÜHA78 winding reports challenge T3's active 1,000-turn hypothesis without proving the K7222.11 construction; its other turns, parasitics and connected sensitivity remain unqualified. Original values and connected sensitivity also remain open for the page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes. |
 | A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check passes in the synthetic-sync loaded bench; a dual-node probe shows the separate 10 V arrow remains sensitive to reset masking and node attribution. Score connected stages with stable feature definitions, the required loaded probes, native grid stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
 | A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 201 partial entries. |
@@ -465,8 +470,9 @@ passes nominal gain, saturation and transition-frequency comparisons against
 the [onsemi BC546B data sheet](https://www.onsemi.com/download/data-sheet/pdf/bc546-d.pdf).
 This is a class comparator, not a claim that either printed type is a BC546B.
 Original ratings, every printed-arrow read, connected current/voltage/thermal
-stress, joint bounds and implicit BJT defaults remain unqualified. The sole
-assembled device without a register row is T3 on board 012-6921. Both
+stress, joint bounds and implicit BJT defaults remain unqualified. T3 on board
+012-6921 now has a provisional register row, with assumed-bound active values
+and unresolved winding continuity. Both
 012-6931 L1/L2 centring chokes now have
 bounded provisional RL models in the source-addressed
 [page-9 bridge sheet](circuits/k7222-11-centering.kicad_sch). The
@@ -622,6 +628,19 @@ model's 5–15 µs mean HV ratio is 14.62, also below that target; the
 ratio. No active T3
 parameter is changed by this diagnostic; loaded EHT and the return/tap
 graph must be established before a winding freeze.
+The [T3 winding comparator](reference/k7222-11/t3-hv-winding-comparator.json)
+adds two firsthand, cross-revision ÜHA78 reports: a K7222.25 repair uses a
+1,768-turn replacement winding with about 440 Ω measured resistance, while a
+separate repair account reports 2,409 turns of 0.08 mm wire for an original
+ÜHA78 HV winding. A broad copper-geometry estimate for the latter is
+649–1,298 Ω at 20 °C, so the active 1 kΩ resistance is plausible, while its
+1,000-turn count is below both reports. The isolated loaded model changes
+materially across these turn counts. Neither report identifies the K7222.11
+factory winding map, and the K7222.25 repair changes the cold-end connection.
+The A2 row is therefore an explicit provisional gap record, not a qualified
+T3 model or evidence that A5 is complete. Compare the bounded candidates in
+the connected horizontal stage after the return and tap alternatives are
+resolved or retained explicitly.
 The page-4 HV source edges now have a fresh KiCad-export comparison: T3 X1:1
 meets V21's anode, V21's cathode reaches EHT, and X1:16 remains a separate
 winding terminal. This partial check leaves the return and winding questions
@@ -688,11 +707,11 @@ Seven converter-only entries are
 outside the A1 gate.
 
 Other required close-out work is also missing. The A2 coverage report counts
-64 frame-path device instances in 30 printed-type families. Sixty-three have
-provisional device-model register coverage, now including both page-9
+64 frame-path device instances in 30 printed-type families. All 64 have
+provisional device-model register coverage, now including T3, both page-9
 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and the three
-L4 sections; T3 alone has no entry. V19 on 012-6921 and L1/L2 on 012-6931
-are now assembled. None of the 63 instances yet closes all A2 parameter
+L4 sections. V19 on 012-6921 and L1/L2 on 012-6931
+are now assembled. None of the 64 instances yet closes all A2 parameter
 checks. The [isolated L3/R35 check](reference/k7222-11/horizontal-l3-design.json)
 uses the documented 82 Ω ±5% shunt and 16 µs retrace. Its provisional
 95 µH ceiling keeps the shunt current below 25% of L3 current at the

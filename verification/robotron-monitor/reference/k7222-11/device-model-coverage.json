@@ -2,16 +2,14 @@
   "format": "dac-monitor-a2-device-coverage-v1",
   "qualification": "A2 gap inventory; registered rows are provisional, not completed model qualification",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
-  "register_sha256": "0f95852322bf50580f3415d1fcc04e3feb10e8acde854948cfb03196b6963e48",
+  "register_sha256": "9fa36f19f5eec756da05120510741ee7a72aa2412e90a4e2b235784223997abc",
   "assembly_source_sha256": "c8b19ed1ea49dd2b54f8524e30a5b0647db1c3c76ffe96e028da665f08919e4b",
   "inventory_device_instances": 77,
   "frame_path_device_instances": 64,
   "assembled_instances": 64,
-  "registered_instances": 63,
+  "registered_instances": 64,
   "absent_from_assembly": [],
-  "unregistered_assembled": [
-    "012-6921:T3"
-  ],
+  "unregistered_assembled": [],
   "families": [
     {
       "kind": "bjt",
@@ -444,7 +442,9 @@
       "active_models": [
         "T3_CANDIDATE"
       ],
-      "registered_ids": [],
+      "registered_ids": [
+        "012-6921:T3"
+      ],
       "absent_from_assembly": []
     },
     {
@@ -732,8 +732,12 @@
       "printed_type": "None",
       "assembled_reference": "X1136",
       "active_model": "T3_CANDIDATE",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "T3_CANDIDATE",
+      "registered_parameter_keys": [
+        "drive_total_turns",
+        "high_voltage_resistance_ohm",
+        "high_voltage_turns"
+      ]
     },
     {
       "id": "012-6921:V1",
