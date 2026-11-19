@@ -1,8 +1,10 @@
 {
-  "format": "dac-monitor-vertical-design-point-v1",
+  "format": "dac-monitor-vertical-design-point-v2",
   "qualification": "conditional reduced-geometry design point; no physical tube/yoke measurement or connected voltage score",
   "source_sha256": "4e8610f675cf22e13b91d82cda0146bf0a406ec9f284eb60fed0ea6760ad8f0e",
   "geometry_sha256": "4553f3d817ed5d094cea2df8d49343bed890c1b70dc9911b998c6f10e5b98f78",
+  "sense_source_sha256": "e4a8404cfcd31c9d2501313efaf69d16d12604cac4834dec930df8fafb9b812d",
+  "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
   "source_target": {
     "picture_height_mm": 145,
     "tolerance_mm": 15,
@@ -124,12 +126,29 @@
       24.375
     ],
     "required_ideal_ramp_swing_vpp": 13.710661076185687,
+    "tp7_sense_branch": {
+      "resistor_source_id": "012-6931:R27",
+      "nominal_resistance_ohm": 3.9,
+      "resistance_tolerance_fraction": 0.02,
+      "parallel_shunt_source_id": "012-6931:R29",
+      "parallel_shunt_ohm": 430.0,
+      "tp7_guideline_vpp": 2.5,
+      "nominal_total_return_current_swing_a": 0.6410256410256411,
+      "tolerated_total_return_current_swing_a": [
+        0.47134238310708904,
+        0.8176347462061747
+      ],
+      "geometry_yoke_current_swing_a": 0.5611099880933764,
+      "yoke_only_sense_voltage_proxy_vpp": 2.188328953564168,
+      "interpretation": "Ohm-law current through R27 includes yoke, R29 shunt and feedback-branch currents; the manual TP7 swing does not uniquely determine yoke current"
+    },
     "inside_toleranced_possibility": true,
     "interpretation": "separate terminal swings do not fix differential waveform phase or DC level; compare only as a consistency screen"
   },
   "limitations": [
     "The 40 mm axial field, 10 mm inner neck radius, 20 mH and 10 ohm yoke are unmeasured reduced-model assumptions.",
     "Test points 1-6 constrain upstream stage waveforms, not yoke current directly; points 7 and 8 are separate terminal voltages.",
+    "R27 converts TP7 voltage into total sense current; its shunt and feedback branches prevent equating that directly with yoke current.",
     "Linear current ramps and V=RI+L dI/dt omit driver loss, coupling and yoke saturation.",
     "This calculation does not settle the horizontal T3 graph or constitute a sustained connected-stage score."
   ]

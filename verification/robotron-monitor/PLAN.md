@@ -488,12 +488,13 @@ A separate source-first read matches all eight endpoints of R3/C2/C1/R20 in
 the vertical sync input. Its enlarged crossing review confirms that SYNC does
 not join the 0 V return bus. The remaining page-9 circuit and page 10 still
 lack a complete second netlist.
-A page-10 driver-and-output read now matches all 20 terminals of
-V18/V19/V20/V21/V26/V27/V28/R48 in a fresh KiCad export. It checks all six
-V27/V28 terminals, all three bias-diode directions and R48's feed to the
-V20/V21 junction. Printed arrows confirm the modeled upper NPN/lower PNP
-assignment; the contradictory handwritten BD labels remain unverified. The
-rest of page 10 and its connected-stage function check are still open.
+A page-10 driver-and-output read now matches 26 terminals of
+V18/V19/V20/V21/V26/V27/V28/R27/R29/R48 and X2 in a fresh KiCad export. It
+checks all six V27/V28 terminals, all three bias-diode directions, R48's feed
+to the V20/V21 junction, and the R29 shunt/R27 sense return between Y1, Y2
+and 0 V. Printed arrows confirm the modeled upper NPN/lower PNP assignment;
+the contradictory handwritten BD labels remain unverified. The rest of page
+10 and its connected-stage function check are still open.
 The page-18 source transcription now has all 18 labelled board-cable pairs
 compared at both physical connector pins in fresh KiCad exports. Twelve signal
 nets occur on both corresponding functional board models; six have model-scope
@@ -598,7 +599,11 @@ linear-ramp yoke voltage swing of about 13.7 V. Its height-only range is
 0.254–0.307 A at the manual's ±15 mm tolerance. The current is conditional on
 the assumed 40 mm field, 10 mm internal neck aperture and 20 mH/10 Ω yoke;
 TP7/TP8 are separate terminal-voltage guidelines and do not measure that
-differential waveform. The calculation advances A5 but cannot freeze it.
+differential waveform. The source-checked 3.9 Ω R27 converts the TP7 2.5 Vpp
+guideline to 0.641 App of total sense current (0.471–0.818 App with TP7 and
+R27 tolerances). R29 and the feedback network also return through R27, so
+this is not a direct yoke-current target. The calculation advances A5 but
+cannot freeze it.
 
 To clear the completion blocker, finish the independent pin-to-pin comparison
 of pages 3–4, 9–10 and 18, close page 16's source-observation check, resolve

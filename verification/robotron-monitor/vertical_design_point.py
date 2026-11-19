@@ -15,6 +15,8 @@ ROOT=Path(__file__).resolve().parent
 TARGETS=ROOT/'reference/k7222-11/service-observations.json'
 GEOMETRY=ROOT/'profiles/k7222-11-yoke-geometry.json'
 DESIGN=ROOT/'reference/k7222-11/design-point.json'
+SENSE_SOURCE=ROOT/'reference/k7222-11/page10-output-pair-source-netlist.json'
+INVENTORY=ROOT/'reference/k7222-11/inventory.json'
 
 
 def sha(path):
@@ -72,6 +74,19 @@ def run():
     points={row['test_point']:row for row in register['waveforms']}
     if {points[n]['model_node'] for n in (7,8)}!={'y1','y2'}:
         raise ValueError('manual yoke-terminal probe mapping changed')
+    sense_source=json.loads(SENSE_SOURCE.read_text())
+    if (sense_source.get('format')!='dac-monitor-page10-output-pair-source-netlist-v3'
+            or not {'R27:1','X2:4'}<=set(sense_source['nets']['Y2_RETURN'])
+            or 'R27:2' not in sense_source['nets']['ZERO_RETURN']
+            or not {'R29:1','X2:3'}<=set(sense_source['nets']['Y1_OUTPUT'])
+            or 'R29:2' not in sense_source['nets']['Y2_RETURN']
+            or points[7]['node']!='012-6931:X2:4'):
+        raise ValueError('page-10 Y2 sense path is not source established')
+    parts={item['id']:item for item in json.loads(INVENTORY.read_text())['parts']}
+    r27=parts['012-6931:R27'];r29=parts['012-6931:R29']
+    if (r27['value']!=3.9 or r27['tolerance_percent']!=2
+            or r29['value']!=430 or r29['tolerance_percent']!=5):
+        raise ValueError('page-14 sense and shunt resistor values changed')
     field_model=yoke_geometry.read(GEOMETRY)
     field=field_model['field']
     inductance=field_model['electrical']['yoke_vertical_l']
@@ -98,6 +113,17 @@ def run():
                 for step in (.0002,.0001,.00005)]
     probes={n:points[n]['approximate_swing_v'] for n in (7,8)}
     tolerances={n:points[n]['acceptance_tolerance'] for n in (7,8)}
+    sense_current=dict(resistor_source_id=r27['id'],nominal_resistance_ohm=r27['value'],
+        resistance_tolerance_fraction=r27['tolerance_percent']/100,
+        parallel_shunt_source_id=r29['id'],parallel_shunt_ohm=r29['value'],
+        tp7_guideline_vpp=probes[7],
+        nominal_total_return_current_swing_a=probes[7]/r27['value'],
+        tolerated_total_return_current_swing_a=[
+            probes[7]*(1-tolerances[7])/(r27['value']*(1+r27['tolerance_percent']/100)),
+            probes[7]*(1+tolerances[7])/(r27['value']*(1-r27['tolerance_percent']/100))],
+        geometry_yoke_current_swing_a=2*nominal['peak_current_a'],
+        yoke_only_sense_voltage_proxy_vpp=2*nominal['peak_current_a']*r27['value'],
+        interpretation='Ohm-law current through R27 includes yoke, R29 shunt and feedback-branch currents; the manual TP7 swing does not uniquely determine yoke current')
     # Separate terminal peak-to-peak values have unknown relative phase and
     # offsets. Their difference must have a swing between these two bounds.
     terminal_difference_bounds=[abs(probes[8]-probes[7]),probes[8]+probes[7]]
@@ -105,9 +131,10 @@ def run():
                                       probes[7]*(1+tolerances[7])),
                                  probes[8]*(1+tolerances[8])+
                                  probes[7]*(1+tolerances[7])]
-    return dict(format='dac-monitor-vertical-design-point-v1',
+    return dict(format='dac-monitor-vertical-design-point-v2',
                 qualification='conditional reduced-geometry design point; no physical tube/yoke measurement or connected voltage score',
                 source_sha256=sha(TARGETS),geometry_sha256=sha(GEOMETRY),
+                sense_source_sha256=sha(SENSE_SOURCE),inventory_sha256=sha(INVENTORY),
                 source_target=dict(picture_height_mm=height['value'],
                     tolerance_mm=height['tolerance'],source=height['source'],
                     native_2k_mode_source=mode['source']),
@@ -129,6 +156,7 @@ def run():
                     accepted_tolerances={str(n):tolerances[n] for n in (7,8)},
                     toleranced_possible_difference_swing_vpp=tolerated_difference_bounds,
                     required_ideal_ramp_swing_vpp=nominal['voltage_budget']['total_swing_v'],
+                    tp7_sense_branch=sense_current,
                     inside_toleranced_possibility=(tolerated_difference_bounds[0]<=
                         nominal['voltage_budget']['total_swing_v']<=
                         tolerated_difference_bounds[1]),
@@ -136,6 +164,7 @@ def run():
                 limitations=[
                     'The 40 mm axial field, 10 mm inner neck radius, 20 mH and 10 ohm yoke are unmeasured reduced-model assumptions.',
                     'Test points 1-6 constrain upstream stage waveforms, not yoke current directly; points 7 and 8 are separate terminal voltages.',
+                    'R27 converts TP7 voltage into total sense current; its shunt and feedback branches prevent equating that directly with yoke current.',
                     'Linear current ramps and V=RI+L dI/dt omit driver loss, coupling and yoke saturation.',
                     'This calculation does not settle the horizontal T3 graph or constitute a sustained connected-stage score.'])
 

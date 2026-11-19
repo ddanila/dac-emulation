@@ -1,14 +1,15 @@
 {
-  "format": "dac-monitor-page10-output-pair-comparison-v2",
-  "qualification": "partial A1 check of twenty driver, bias-diode and output-pair terminals; whole page 10 remains open",
-  "source_netlist_sha256": "a013ca4272c3a16931919ebd923044032b2e644eaa89aef2c65b97c11cd3b831",
+  "format": "dac-monitor-page10-output-pair-comparison-v3",
+  "qualification": "partial A1 check of 26 driver, bias, output and Y2-sense terminals; whole page 10 remains open",
+  "source_netlist_sha256": "e4a8404cfcd31c9d2501313efaf69d16d12604cac4834dec930df8fafb9b812d",
   "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
   "sheet_sha256": "2ede9c1c8c2aaf783bc11d726045f4387f7d9bf43965a23b5117eaa312ae7c4c",
   "model_sha256": "aeaa5490bc98cde0c088825fec00b7ae5958e45fb66cb02fd62fd4cd05c80eb1",
-  "source_pins": 20,
-  "matched_pins": 20,
+  "source_pins": 26,
+  "matched_pins": 26,
   "output_transistor_pins_checked": 6,
   "diode_directions_checked": 3,
+  "yoke_and_sense_pins_checked": 6,
   "printed_polarity": {
     "V27": "NPN",
     "V28": "PNP"
@@ -19,5 +20,11 @@
   },
   "missing_or_changed_pins": [],
   "extra_kicad_pins": [],
+  "unscoped_x2_pins": [
+    "1",
+    "2",
+    "5",
+    "6"
+  ],
   "passed": true
 }

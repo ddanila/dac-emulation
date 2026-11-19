@@ -1,10 +1,11 @@
 {
-  "format": "dac-monitor-page10-output-pair-source-netlist-v2",
-  "qualification": "partial page-10 source-side read of the vertical driver, bias diodes and output pair; the rest of page 10 remains open",
+  "format": "dac-monitor-page10-output-pair-source-netlist-v3",
+  "qualification": "partial page-10 source-side read of the vertical driver, bias diodes, output pair and Y2 sense return; the rest of page 10 remains open",
   "source": {
     "file": "older.pdf",
     "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
     "page": 10,
+    "parts_list_page": 14,
     "views": [
       {
         "description": "300 dpi full page, output pair and Y1 connection",
@@ -26,8 +27,8 @@
   },
   "scope": {
     "board": "012-6931",
-    "parts": ["V18", "V19", "V20", "V21", "V26", "V27", "V28", "R48"],
-    "omitted_neighbours": "Driver collector-feed resistors, emitter resistors, A3's internal pins, feedback and other page-10 connections are outside this partial read"
+    "parts": ["V18", "V19", "V20", "V21", "V26", "V27", "V28", "R27", "R29", "R48", "X2"],
+    "omitted_neighbours": "Driver collector-feed resistors, emitter resistors, A3's internal pins, the rest of the feedback network and the other X2 pins are outside this partial read"
   },
   "reading_notes": [
     "V27's printed collector branch reaches the positive vertical supply rail also serving V18's collector; its base meets V18's emitter; its emitter reaches the Y1 output line.",
@@ -35,7 +36,8 @@
     "V19, V20 and V21 point down the series bias chain: each anode is above its cathode. V19's anode joins V18's base; V21's cathode joins V26's base.",
     "R48 runs from A3's output to the junction of V20's cathode and V21's anode. That junction does not meet either output emitter directly.",
     "The printed emitter arrows identify V27 as NPN and V28 as PNP. Handwritten BD140/BD139 labels beside the parts reverse those polarities and do not establish factory identities.",
-    "Y1 is the output to the vertical deflection coil; this read does not establish the other coil terminal or a complete page-10 netlist."
+    "Y1 reaches X2:3 and the upper end of R29; Y2 reaches X2:4 and the lower end of R29. The diagram's small shunt-resistor label is corroborated by the page-14 parts list: R29 is 430 ohms, while R28 is 1.5 kilohms.",
+    "R27 joins Y2 to the 0 V return; the page-14 parts list gives R27 as 3.9 ohms. Y2 also has other feedback branches, so its voltage divided by R27 is total sense current, not isolated yoke current."
   ],
   "nets": {
     "UPPER_RAIL": ["V18:C", "V27:C"],
@@ -44,7 +46,9 @@
     "MID_BIAS": ["V20:K", "V21:A", "R48:2"],
     "AMP_OUTPUT": ["R48:1"],
     "UPPER_DRIVER": ["V18:E", "V27:B"],
-    "Y1_OUTPUT": ["V27:E", "V28:E"],
+    "Y1_OUTPUT": ["V27:E", "V28:E", "R29:1", "X2:3"],
+    "Y2_RETURN": ["R29:2", "R27:1", "X2:4"],
+    "ZERO_RETURN": ["R27:2"],
     "LOWER_DRIVER": ["V26:E", "V28:B"],
     "LOWER_BASE": ["V21:K", "V26:B"],
     "LOWER_RAIL": ["V26:C", "V28:C"]

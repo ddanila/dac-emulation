@@ -1,4 +1,4 @@
-"""Check the source-read page-10 vertical driver and output against KiCad."""
+"""Check source-read page-10 vertical driver, output and Y2 return against KiCad."""
 import argparse
 import hashlib
 import json
@@ -16,12 +16,14 @@ NET_NAMES = {
     'UPPER_RAIL': 'p22', 'UPPER_BASE': 'upper_base',
     'DIODE_19_20': 'bias_diode', 'MID_BIAS': 'bias_middle',
     'AMP_OUTPUT': 'amp_out', 'UPPER_DRIVER': 'upper_emitter',
-    'Y1_OUTPUT': 'y1', 'LOWER_DRIVER': 'lower_emitter',
-    'LOWER_BASE': 'lower_base', 'LOWER_RAIL': 'n16',
+    'Y1_OUTPUT': 'y1', 'Y2_RETURN': 'y2', 'ZERO_RETURN': '0',
+    'LOWER_DRIVER': 'lower_emitter', 'LOWER_BASE': 'lower_base',
+    'LOWER_RAIL': 'n16',
 }
 PIN_NUMBERS = {'C': '1', 'B': '2', 'E': '3',
-               'A': '1', 'K': '2', '1': '1', '2': '2'}
-PARTS = ['V18', 'V19', 'V20', 'V21', 'V26', 'V27', 'V28', 'R48']
+               'A': '1', 'K': '2', '1': '1', '2': '2', '3': '3', '4': '4'}
+PARTS = ['V18', 'V19', 'V20', 'V21', 'V26', 'V27', 'V28',
+         'R27', 'R29', 'R48', 'X2']
 
 
 def sha(path):
@@ -29,7 +31,7 @@ def sha(path):
 
 
 def compare(source, xml):
-    if source.get('format') != 'dac-monitor-page10-output-pair-source-netlist-v2':
+    if source.get('format') != 'dac-monitor-page10-output-pair-source-netlist-v3':
         raise ValueError('unsupported source netlist')
     if source['source']['page'] != 10 or source['scope']['board'] != '012-6931':
         raise ValueError('wrong source page or board')
@@ -49,7 +51,9 @@ def compare(source, xml):
             expected[key] = NET_NAMES[source_net]
     for part in PARTS:
         pins = {pin for source_id, pin in expected if source_id == '012-6931:' + part}
-        required = {'1', '2'} if part in {'V19', 'V20', 'V21', 'R48'} else {'1', '2', '3'}
+        required = ({'3', '4'} if part == 'X2' else
+                    {'1', '2'} if part in {'V19', 'V20', 'V21', 'R27', 'R29', 'R48'}
+                    else {'1', '2', '3'})
         if pins != required:
             raise ValueError('part has an incomplete source read: ' + part)
     if [row['part'] for row in source['diode_directions']] != ['V19', 'V20', 'V21']:
@@ -70,6 +74,10 @@ def compare(source, xml):
         if source_id in {'012-6931:' + part for part in PARTS}:
             if source_id in refs.values():
                 raise ValueError('duplicate KiCad SourceId: ' + source_id)
+            if source_id == '012-6931:X2' and not any(
+                    prop.get('name') == 'AuditOnly' and prop.get('value') == 'source-connector'
+                    for prop in comp.findall('property')):
+                raise ValueError('X2 is not a physical source connector')
             refs[comp.get('ref')] = source_id
             values[source_id] = comp.findtext('value')
     if set(values) != {'012-6931:' + part for part in PARTS}:
@@ -86,8 +94,13 @@ def compare(source, xml):
                        actual_net=actual.get((part, pin)))
                   for (part, pin), net in sorted(expected.items())
                   if actual.get((part, pin)) != net]
+    unscoped_connector_pins = [pin for (part, pin) in actual
+                               if part == '012-6931:X2' and pin not in {'3', '4'}]
+    if set(unscoped_connector_pins) != {'1', '2', '5', '6'}:
+        raise ValueError('X2 physical connector is not six-pin complete')
     extras = [dict(source_id=part, pin=pin, actual_net=net)
-              for (part, pin), net in sorted(actual.items()) if (part, pin) not in expected]
+              for (part, pin), net in sorted(actual.items()) if (part, pin) not in expected
+              and not (part == '012-6931:X2' and pin in unscoped_connector_pins)]
     model_text = MODELS.read_text()
     polarity = {}
     for part in source['printed_polarity']:
@@ -95,16 +108,18 @@ def compare(source, xml):
         match = re.search(r'^\.model\s+' + re.escape(alias) + r'\s+(NPN|PNP)\b',
                           model_text, flags=re.I | re.M)
         polarity[part] = match.group(1).upper() if match else None
-    return dict(format='dac-monitor-page10-output-pair-comparison-v2',
-                qualification='partial A1 check of twenty driver, bias-diode and output-pair terminals; whole page 10 remains open',
+    return dict(format='dac-monitor-page10-output-pair-comparison-v3',
+                qualification='partial A1 check of 26 driver, bias, output and Y2-sense terminals; whole page 10 remains open',
                 source_netlist_sha256=sha(SOURCE),
                 source_pdf_sha256=source['source']['pdf_sha256'],
                 sheet_sha256=sha(SHEET), model_sha256=sha(MODELS),
                 source_pins=len(expected), matched_pins=len(expected) - len(mismatches),
                 output_transistor_pins_checked=6,
                 diode_directions_checked=len(source['diode_directions']),
+                yoke_and_sense_pins_checked=6,
                 printed_polarity=source['printed_polarity'], model_polarity=polarity,
                 missing_or_changed_pins=mismatches, extra_kicad_pins=extras,
+                unscoped_x2_pins=sorted(unscoped_connector_pins),
                 passed=not mismatches and not extras and polarity == source['printed_polarity'])
 
 
