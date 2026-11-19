@@ -1305,11 +1305,17 @@ while page 6 lists C34 as 470 pF. A fresh ideal-rail assembly check finds
 all five source IDs missing from the input sheet. A separate page-edge view
 shows V20's lower terminal continuing to the same local return line as R2's
 lower end, correcting the interim open-terminal reading. The four distinct
-left-edge lines have no settled page-3/4 net names, and V20's
-collector/emitter orientation remains unresolved, so no branch was connected
+left-edge lines now have page-3 trace matches in independent 300 and 600 dpi
+renders: V20's upper line reaches the long control feed beside V6;
+R38-left/R39-top reaches R37's upper and R11.2's left/bypass line;
+R39-lower reaches V10's upper terminal; and the V20/R2 lower return meets
+the V6/V10 common lower line. The [source read](reference/k7222-11/page4-v20-source-read.json)
+records the matching pixel ranges and avoids merging an undotted crossing
+with the V6 lower trace. The upstream control feed and V20's
+collector/emitter orientation remain unresolved, so no branch was connected
 on this evidence alone. V19's page-8 listing is separate and its schematic
-location remains unresolved. This is an A1 transcription gap and an A2 model
-gap, not a converter-only omission.
+location remains unresolved. This is still an A1 transcription gap and an A2
+model gap, not a converter-only omission.
 
 The report also makes shared-family decisions visible. Fourteen frame-path
 `1AE15` diode instances currently use two different model names, and five
