@@ -41,6 +41,16 @@ The initial narrower winding regions failed packing. The frozen default uses:
 - Ferrite annulus: radii 34–42 mm, relative permeability 2000.
 - Active axial length: 40 mm.
 
+An archived [B31-G family outline](https://www.elektroncso.hu/cikkek/crt_m31.gif)
+shows a 20 mm outside neck diameter (+0.8/-0.5 mm). A 12 mm internal trajectory
+aperture is incompatible with that family outline. A 34.7 mm active-field hypothesis
+can narrowly reach the manual's 105 mm half-width at the present assumed
+10 mm internal aperture while staying below the ideal packing ceiling; the
+calculation and its limitations are in `reference/k7222-11/design-point.json`.
+The default remains 40 mm until inner glass clearance and yoke extent can be
+bounded. Neither the outside dimension nor the reduced field trial establishes
+the installed tube's physical aperture.
+
 Derived horizontal/vertical field factors are 7.979/12.196 mT/A; inductances are
 4.0069/19.9868 mH. Peak fill fractions are 0.599/0.331. These dimensions were
 chosen to satisfy electrical, clearance and packing constraints before rendering,

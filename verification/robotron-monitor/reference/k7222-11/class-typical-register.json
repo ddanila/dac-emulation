@@ -1,0 +1,336 @@
+{
+  "format": "dac-monitor-class-typical-register-v1",
+  "status": "partial; contains currently cited bounded candidates, not a completed A6 freeze",
+  "scope": "K7222.11 ideal-rail frame path and service comparison",
+  "sources": {
+    "st_bu508af": {
+      "url": "https://www.st.com/resource/en/datasheet/bu508af.pdf",
+      "revision": "August 2007 Rev 2",
+      "pages": [
+        1,
+        4
+      ],
+      "use": "CRT horizontal-output NPN class: hFE 10..30 at 0.1 A and minimum 5 at 4.5 A; VCEsat <=1 V at 4.5 A/1.6 A base drive; typical inductive storage/fall times 2.5/0.2 us at 16 kHz"
+    },
+    "rectron_r12000h": {
+      "url": "https://www.rectron.com/public/product_datasheets/r12000h.pdf",
+      "revision": "June 2020 Rev O",
+      "page": 1,
+      "use": "12 kV fast CRT/FBT rectifier; maximum reverse recovery 0.1 us at IF=2 mA, IR=4 mA; maximum zero-bias junction capacitance 1 pF at 1 MHz"
+    },
+    "semtech_sdh15k": {
+      "url": "https://www.semtech.com/uploads/design-support/SG-SEMTECH-PD-DATABOOK.pdf",
+      "edition": "2009 data book pages 348\u2013349",
+      "use": "15 kV working reverse voltage, maximum 2 uA reverse leakage at 25 C and maximum 2.5 us recovery at IF=50 mA, IR=100 mA"
+    },
+    "st_bd139_bd140": {
+      "url": "https://www.st.com/resource/en/datasheet/bd139.pdf",
+      "revision": "May 2008 Rev 5",
+      "pages": [
+        1,
+        4
+      ],
+      "use": "BD139 NPN / BD140 PNP, hFE 40..250 at 150 mA and minimum 25 at 5 mA and 500 mA; |VCEsat| <= 0.5 V at 0.5 A with 50 mA base drive"
+    },
+    "philips_bd139_bd140": {
+      "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1986_S04a_Philips_Low-Frequency_Power_Transistors_and_Hybrid_Modules.pdf",
+      "edition": "October 1985 data pages 60 and 70",
+      "use": "typical fT 250 MHz NPN and 75 MHz PNP at 50 mA and 5 V"
+    },
+    "rft_eo203": {
+      "url": "https://www.mikrocontroller.net/attachment/269865/RFT_EO_203_Spec.pdf",
+      "pages": [
+        2,
+        4
+      ],
+      "use": "Comparable EO203 scope, not the exact EO2 instrument setting."
+    },
+    "b31_g_outline": {
+      "url": "https://www.elektroncso.hu/cikkek/crt_m31.gif",
+      "sha256": "edf8c17c807b174e3f90e2a24946fd7e5342fcd9c3448e4788d9c7f0848ea35d",
+      "use": "Scanned B31-G family outline; original catalog attribution and installed B31G22 dimensions unverified."
+    },
+    "robotron_schematic": {
+      "url": "https://www.tiffe.de/Robotron/Monitore/Monitore_2/K7222.11_.21_sch.pdf",
+      "sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "pages": [
+        3,
+        18
+      ]
+    },
+    "robotron_manual": {
+      "url": "https://www.tiffe.de/Robotron/Monitore/Monitore_2/Monitor_K7222_11_21_Betriebsdokumentation.pdf",
+      "sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
+      "page": 17
+    }
+  },
+  "entries": [
+    {
+      "id": "012-6921:V18.BF",
+      "stage": "horizontal-output",
+      "value": 20,
+      "bounds": [
+        5,
+        30
+      ],
+      "unit": "1",
+      "sources": [
+        "st_bu508af"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.BF",
+      "basis": "ST BU508AF hFE at 0.1 A and 4.5 A, both at VCE=5 V",
+      "qualification": "bounded-class-candidate"
+    },
+    {
+      "id": "012-6921:V21.BV_v",
+      "stage": "horizontal-output",
+      "value": 15000,
+      "bounds": [
+        12000,
+        16000
+      ],
+      "unit": "V",
+      "sources": [
+        "rectron_r12000h",
+        "semtech_sdh15k"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_HV_RECT.BV",
+      "basis": "Semtech SDH15K 15 kV and Rectron R12000H 12 kV reverse ratings; 16 kV is an adjacent rectifier class, not a source assertion for V21",
+      "qualification": "bounded-class-candidate"
+    },
+    {
+      "id": "012-6921:V21.IBV_a",
+      "stage": "horizontal-output",
+      "value": 2e-06,
+      "bounds": [
+        1e-06,
+        5e-06
+      ],
+      "unit": "A",
+      "sources": [
+        "rectron_r12000h",
+        "semtech_sdh15k"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_HV_RECT.IBV",
+      "basis": "Semtech 2 uA maximum reverse leakage at 15 kV/25 C; Rectron 2 uA at 12 kV",
+      "qualification": "bounded-class-candidate"
+    },
+    {
+      "id": "012-6921:V21.CJO_f",
+      "stage": "horizontal-output",
+      "value": 1e-12,
+      "bounds": [
+        5e-13,
+        2e-12
+      ],
+      "unit": "F",
+      "sources": [
+        "rectron_r12000h"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_HV_RECT.CJO",
+      "basis": "Rectron R12000H maximum 1 pF at zero bias/1 MHz; wider class uncertainty spans unverified assembly capacitance",
+      "qualification": "bounded-class-candidate"
+    },
+    {
+      "id": "012-6921:V21.TT_s",
+      "stage": "horizontal-output",
+      "value": 1e-07,
+      "bounds": [
+        1e-07,
+        2.5e-06
+      ],
+      "unit": "s",
+      "sources": [
+        "rectron_r12000h",
+        "semtech_sdh15k"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_HV_RECT.TT",
+      "basis": "provisional transit-time proxy bracketed by Rectron 0.1 us and Semtech 2.5 us reverse-recovery specifications under different test currents; model recovery must be measured, because SPICE TT is not t_rr",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V27.BF",
+      "stage": "vertical-output",
+      "value": 60,
+      "bounds": [
+        25,
+        250
+      ],
+      "unit": "1",
+      "sources": [
+        "st_bd139_bd140"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_POWER_N.output_bf",
+      "basis": "ST hFE spread",
+      "qualification": "bounded-class-candidate"
+    },
+    {
+      "id": "012-6931:V27.TF_s",
+      "stage": "vertical-output",
+      "value": 7e-10,
+      "bounds": [
+        3e-10,
+        5e-09
+      ],
+      "unit": "s",
+      "sources": [
+        "philips_bd139_bd140"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_POWER_N.output_n_tf",
+      "basis": "bounded 1/(2 pi fT) estimate from Philips NPN typical; junction capacitances alter actual model fT",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V28.BF",
+      "stage": "vertical-output",
+      "value": 60,
+      "bounds": [
+        25,
+        250
+      ],
+      "unit": "1",
+      "sources": [
+        "st_bd139_bd140"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_POWER_P.output_bf",
+      "basis": "ST hFE spread",
+      "qualification": "bounded-class-candidate"
+    },
+    {
+      "id": "012-6931:V28.TF_s",
+      "stage": "vertical-output",
+      "value": 2e-09,
+      "bounds": [
+        8e-10,
+        1e-08
+      ],
+      "unit": "s",
+      "sources": [
+        "philips_bd139_bd140"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_POWER_P.output_p_tf",
+      "basis": "bounded 1/(2 pi fT) estimate from Philips PNP typical; junction capacitances alter actual model fT",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "service-instrument.vertical_bandwidth_hz",
+      "stage": "service-waveform-scoring",
+      "value": 10000000,
+      "bounds": [
+        5000000,
+        10000000
+      ],
+      "unit": "Hz",
+      "sources": [
+        "rft_eo203"
+      ],
+      "model_ref": "reference/k7222-11/service-instrument.json#vertical_bandwidth_hz",
+      "basis": "The EO 203 manual lists a 10 MHz vertical channel and 5 MHz for high-voltage attenuator settings. The exact EO2 and its setting are not documented.",
+      "qualification": "class-typical-comparator"
+    },
+    {
+      "id": "service-instrument.direct_input_resistance_ohm",
+      "stage": "service-waveform-scoring",
+      "value": 1000000,
+      "bounds": [
+        1000000,
+        10000000
+      ],
+      "unit": "ohm",
+      "sources": [
+        "rft_eo203"
+      ],
+      "model_ref": "reference/k7222-11/service-instrument.json#direct_input_resistance_ohm",
+      "basis": "EO 203 direct input is 1 M\u03a9; its 10:1 accessory is listed as 10 M\u03a9. The EO2 probe arrangement is unspecified.",
+      "qualification": "class-typical-comparator"
+    },
+    {
+      "id": "service-instrument.direct_input_capacitance_f",
+      "stage": "service-waveform-scoring",
+      "value": 4.8e-11,
+      "bounds": [
+        2e-11,
+        4.8e-11
+      ],
+      "unit": "F",
+      "sources": [
+        "rft_eo203"
+      ],
+      "model_ref": "reference/k7222-11/service-instrument.json#direct_input_capacitance_f",
+      "basis": "EO 203 direct input is 48 pF; its 10:1 accessory is listed as 20 pF. The EO2 probe arrangement is unspecified.",
+      "qualification": "class-typical-comparator"
+    },
+    {
+      "id": "tube.outside_neck_diameter_m",
+      "stage": "tube-yoke-geometry",
+      "value": 0.02,
+      "bounds": [
+        0.0195,
+        0.0208
+      ],
+      "unit": "m",
+      "sources": [
+        "b31_g_outline"
+      ],
+      "model_ref": "reference/k7222-11/design-point.json#geometry_diagnostic.tube_outline_candidate",
+      "basis": "Printed family outline OD 20 mm with +0.8/-0.5 mm tolerance; the internal beam aperture is smaller and unknown.",
+      "qualification": "family-geometry-candidate"
+    },
+    {
+      "id": "012-6921:R41.resistance_ohm",
+      "stage": "horizontal-control",
+      "value": 470,
+      "bounds": [
+        100,
+        2000
+      ],
+      "unit": "ohm",
+      "sources": [
+        "robotron_schematic",
+        "robotron_manual"
+      ],
+      "model_ref": "reference/k7222-11/source-review-decisions.json#012-6921:R41",
+      "basis": "Agent class-typical decision: compensation role, nearby 470 ohm thermistor and marked series topology; not a printed R41 value.",
+      "qualification": "bounded-class-candidate"
+    },
+    {
+      "id": "external-brightness-r1.resistance_ohm",
+      "stage": "brightness-control",
+      "value": 10000,
+      "bounds": [
+        5000,
+        10000
+      ],
+      "unit": "ohm",
+      "sources": [
+        "robotron_schematic"
+      ],
+      "model_ref": "steady_supply.py#ASSEMBLY_BOUNDS.brightness_pot_r",
+      "basis": "Page-18 handwritten 10 kOhm brightness and 5 kOhm contrast annotations set alternative class values; not factory BOM values.",
+      "qualification": "annotation-bounded-candidate"
+    }
+  ],
+  "open_families": [
+    {
+      "file": "electrothermal.py",
+      "reason": "heater, emission and tube thermal/electrode bounds are engineering assumptions without tube-class sources"
+    },
+    {
+      "file": "reference/k7222-11/t3-initial-parameters.json",
+      "reason": "T3 turns and parasitics still carry assumed-bound, not sourced class-typical or design-derived evidence"
+    },
+    {
+      "file": "profiles/k7222-11-yoke-geometry.json",
+      "reason": "inner neck clearance, actual axial field length, sensitivity and packing geometry are not sourced to AE9VT"
+    },
+    {
+      "file": "steady_supply.py#ASSEMBLY_BOUNDS",
+      "reason": "remaining assembly capacitance, leakage and control bounds lack per-value class sources"
+    },
+    {
+      "file": "reference/k7222-11/device-model-register.json",
+      "reason": "four provisional semiconductor models still have fixed SPICE parameters without examined bounds; other frame-path devices absent"
+    }
+  ],
+  "use_for_sensitivity": "Only entries whose model_ref resolves to an active parameter and whose model response is validated may be swept as A6 class-typical bounds. Pending families are not qualified."
+}
