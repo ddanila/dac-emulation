@@ -2262,3 +2262,32 @@ Neither inference identifies the K7222.11 turn count or return graph. The
 next connected T3 sweep should compare the reported winding scales with
 feedback, retrace and EHT constraints jointly, rather than select turns from
 the isolated ratio alone.
+
+### A5/B3 preparation: prescribed-drive T3 output-stage sweep (2026-11-20)
+
+The [output-stage sweep](reference/k7222-11/t3-output-stage-sweep.json) uses
+the source-addressed horizontal-output transcription for V18, T3, V16/V17/V21,
+L3/R35/R36 and the selected boost, retrace and yoke-coupling capacitors. It
+drives V18 through a prescribed 1 Ω base resistor with a 46.5 µs on pulse,
+uses an ideal 41 V feed, a 4 mH/2 Ω yoke, a 1 nF/200 MΩ EHT load and a
+65 V initial boost guess. Omitted feedback/sync loads have explicit shunts.
+These are stage assumptions, not a source-connected oscillator or a periodic
+monitor. The T3 graph remains the current unverified tied/floating-cold case.
+
+The active transformer without optional AC winding loss aborts from a tiny
+timestep. With the separately archived passive AC-loss hypothesis, 30 of
+32 combinations of eight sign-compatible polarities and 1,000/1,768/2,035/
+2,409 HV turns reach the 5 ms endpoint; two still abort. Across the completed
+4–5 ms windows, no case jointly falls inside the repairer-reported 370–420 V
+collector and 11.5–12.5 kV EHT ranges. The highest final EHT is 10.73 kV,
+also below the manual's 11–12 kV range. The representative 1,768-turn case
+reaches 382.93 V collector peak, 9.62 kV final EHT and a 15.59 µs collector
+flyback pulse at 10% of its swing. Holding that case fixed and sweeping the
+declared tube capacitance from 0.25 to 4 nF gives 8.46–9.86 kV final EHT;
+that alone does not close the gap. The final EHT still drifts across the
+last 16 lines, so these windows cannot establish sustained operation.
+
+This result identifies a concrete connected-stage mismatch under the stated
+ideal-drive assumptions. The next sweep must add the source-connected T2/L4
+drive and feedback loads, test explicit T3 return alternatives and validate
+periodicity before using collector, EHT or retrace as an A3/A5 score.
