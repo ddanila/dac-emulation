@@ -1653,3 +1653,28 @@ rows: coverage is now 43/64, with 17 assembled instances unregistered and
 four absent from the ideal-rail assembly; the A6 register has 131 partial
 entries. Connected V13/V26 stress, joint parameter bounds, original switching
 time and implicit SPICE defaults remain open, so A2 and A6 are not complete.
+
+### A2: vertical V18 SF127C group-C transistor
+
+The 012-6931 page-10 parts list prints V18 as `SF127C`. Its authored vertical
+output sheet formerly assigned `VERTICAL_NPN_BOUND`, the same generic alias
+used by two unresolved `1SA20C` oscillator transistors. V18 now selects a
+separate `SF127C_N` NPN alias so its documented type can be checked without
+asserting that the oscillator parts share its electrical class.
+
+The historical [DDR SF126–129 sheet](https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf)
+(SHA-256 `247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43`)
+specifies group-C h21E 56–140 at 50 mA/2 V, VCEsat at most 0.5 V at
+150 mA/15 mA, and fT at least 60 MHz at 10 mA/10 V with a 15 MHz test
+frequency. The [saved V18 check](reference/k7222-11/sf127c-vertical-model-check.json)
+reads the KiCad-exported Q723 model and reports hFE 91.8, a 0.258 V isolated
+DC saturation proxy and a 75.8 MHz 15 MHz gain-bandwidth proxy. All nine
+explicit model parameters have bounds in the A2 and A6 registers. These
+measurements establish nominal class response, not a fitted factory curve.
+
+The new row raises provisional A2 coverage to 44/64; 16 assembled instances
+remain unregistered and four are absent from the ideal-rail assembly. The A6
+register now has 140 partial entries. The independent page-10 pin and arrow
+review, connected V18 voltage/current/thermal stress against the historical
+30 V/500 mA/600 mW ratings, joint parameter bounds and implicit simulator
+defaults remain open. A2 and A6 are not complete.
