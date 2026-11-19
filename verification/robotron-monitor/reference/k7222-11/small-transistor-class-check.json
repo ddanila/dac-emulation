@@ -1,0 +1,107 @@
+{
+  "format": "dac-monitor-small-transistor-class-check-v1",
+  "qualification": "BC546B-class isolated DC/AC comparison for unidentified printed types; original identity, connected stress and joint bounds remain open",
+  "source": "https://www.onsemi.com/download/data-sheet/pdf/bc546-d.pdf",
+  "model_sha256": "6e3323dc2dd13b6c3127f5d8e5788a10084095692b93897045128263d7f7553b",
+  "register_sha256": "beba9b90d3b1597fd7f9f15908a159ff77e7e5687f7bf28671a29f15b134b182",
+  "rows": [
+    {
+      "printed_type": "1SA20C",
+      "model": "SA20C_CLASS_N",
+      "member_ids": [
+        "012-6921:V19",
+        "012-6921:V20",
+        "012-6921:V6",
+        "012-6931:V11",
+        "012-6931:V5"
+      ],
+      "parameters": {
+        "IS": 1e-14,
+        "BF": 260.0,
+        "VAF": 80.0,
+        "RC": 1.0,
+        "RE": 0.25,
+        "CJE": 1e-11,
+        "CJC": 4e-12,
+        "TF": 8.000000000000001e-10,
+        "TR": 1e-08
+      },
+      "hFE_at_2ma_5v": 274.04737128430554,
+      "VCEsat_at_10ma_0p5ma_v": 0.09431215,
+      "transition_frequency_proxy_hz": 187269500.0,
+      "comparison_targets": {
+        "hFE_2ma": {
+          "range": [
+            200,
+            450
+          ],
+          "conditions": "BC546B, IC=2 mA, VCE=5 V, 25 C"
+        },
+        "VCEsat_v": {
+          "maximum": 0.25,
+          "conditions": "BC546B, IC=10 mA, IB=0.5 mA, 25 C"
+        },
+        "fT_hz": {
+          "minimum": 150000000.0,
+          "conditions": "BC546 family, IC=10 mA, VCE=5 V, f=100 MHz, 25 C"
+        }
+      },
+      "checks": {
+        "two_ma_gain": true,
+        "ten_ma_saturation": true,
+        "transition_frequency_proxy": true,
+        "gain_bias_reached": true,
+        "ac_bias_reached": true
+      },
+      "passed": true
+    },
+    {
+      "printed_type": "1SC60A",
+      "model": "SC60A_CLASS_N",
+      "member_ids": [
+        "012-6921:V1",
+        "012-6921:V5"
+      ],
+      "parameters": {
+        "IS": 1e-14,
+        "BF": 260.0,
+        "VAF": 80.0,
+        "RC": 1.0,
+        "RE": 0.25,
+        "CJE": 1e-11,
+        "CJC": 4e-12,
+        "TF": 8.000000000000001e-10,
+        "TR": 1e-08
+      },
+      "hFE_at_2ma_5v": 274.04737128430554,
+      "VCEsat_at_10ma_0p5ma_v": 0.09431215,
+      "transition_frequency_proxy_hz": 187269500.0,
+      "comparison_targets": {
+        "hFE_2ma": {
+          "range": [
+            200,
+            450
+          ],
+          "conditions": "BC546B, IC=2 mA, VCE=5 V, 25 C"
+        },
+        "VCEsat_v": {
+          "maximum": 0.25,
+          "conditions": "BC546B, IC=10 mA, IB=0.5 mA, 25 C"
+        },
+        "fT_hz": {
+          "minimum": 150000000.0,
+          "conditions": "BC546 family, IC=10 mA, VCE=5 V, f=100 MHz, 25 C"
+        }
+      },
+      "checks": {
+        "two_ma_gain": true,
+        "ten_ma_saturation": true,
+        "transition_frequency_proxy": true,
+        "gain_bias_reached": true,
+        "ac_bias_reached": true
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

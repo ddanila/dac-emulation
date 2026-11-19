@@ -117,7 +117,8 @@ def run(capture_path,output,*,case='nominal',duration=.0002,step=2e-9,sections=4
         files={name:(ROOT/name).read_bytes() for name in [
             'circuits/1715w-output.kicad_sch','circuits/k7222-11-input.kicad_sch',
             'circuits/k7222-11-neck.kicad_sch','circuits/k7222-11-sync-filter.kicad_sch','circuits/signal-path-models.cir',
-            'circuits/k7222-11-neck-models.cir','reference/k7222-11/inventory.json',
+            'circuits/k7222-11-neck-models.cir','circuits/k7222-11-small-transistor-models.cir',
+            'reference/k7222-11/inventory.json',
             'profiles/k7222-11-neck.json','reference/1715w/output.json','sources.json','signal_path.py','lab.py','reference.py','faults.py','optics.py']}
         files['input.json']=Path(capture_path).read_bytes()
         for name,content in files.items():
@@ -149,7 +150,9 @@ def run(capture_path,output,*,case='nominal',duration=.0002,step=2e-9,sections=4
         lines=['Loaded 1715W -> cable -> K7222 bounded receiver/neck bench']
         lines += [f'.param {k}={v:.15g}' for k,v in params.items()]
         lines += [' '.join([c['reference'],*c['nodes'],c['value']]) for c in components]
-        lines += [files['circuits/k7222-11-neck-models.cir'].decode(),files['circuits/signal-path-models.cir'].decode()]
+        lines += [files['circuits/k7222-11-neck-models.cir'].decode(),
+                  files['circuits/k7222-11-small-transistor-models.cir'].decode(),
+                  files['circuits/signal-path-models.cir'].decode()]
         for i,signal in enumerate(('video','bsyn','intens'),1):
             lines.append(f'Vlogic_{signal} logic_{signal} 0 '+pwl(events,i,capture['clock_hz'],duration))
             previous='tx_'+signal
