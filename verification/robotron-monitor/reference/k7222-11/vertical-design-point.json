@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-vertical-design-point-v2",
   "qualification": "conditional reduced-geometry design point; no physical tube/yoke measurement or connected voltage score",
-  "source_sha256": "4e8610f675cf22e13b91d82cda0146bf0a406ec9f284eb60fed0ea6760ad8f0e",
+  "source_sha256": "4268a1b1f5f3eb5ae6721476cfc5f0a22e73528e992183bebd69a3260e0927a9",
   "geometry_sha256": "4553f3d817ed5d094cea2df8d49343bed890c1b70dc9911b998c6f10e5b98f78",
   "sense_source_sha256": "e4a8404cfcd31c9d2501313efaf69d16d12604cac4834dec930df8fafb9b812d",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
@@ -112,19 +112,20 @@
   ],
   "manual_yoke_terminal_guidelines": {
     "tp7_swing_vpp": 2.5,
-    "tp8_swing_vpp": 17,
-    "possible_difference_swing_vpp": [
-      14.5,
-      19.5
-    ],
+    "tp8_swing_vpp": null,
+    "tp8_positive_crest_above_zero_v": 17,
+    "tp8_secondary_excursion": {
+      "approximate_swing_v": 10,
+      "from": "post-step shoulder above the drawn zero line",
+      "to": "negative trough",
+      "node_attribution": "unresolved between the X2:3 and R48/V20 labels"
+    },
+    "possible_difference_swing_vpp": null,
     "accepted_tolerances": {
       "7": 0.25,
       "8": 0.25
     },
-    "toleranced_possible_difference_swing_vpp": [
-      9.625,
-      24.375
-    ],
+    "toleranced_possible_difference_swing_vpp": null,
     "required_ideal_ramp_swing_vpp": 13.710661076185687,
     "tp7_sense_branch": {
       "resistor_source_id": "012-6931:R27",
@@ -142,8 +143,8 @@
       "yoke_only_sense_voltage_proxy_vpp": 2.188328953564168,
       "interpretation": "Ohm-law current through R27 includes yoke, R29 shunt and feedback-branch currents; the manual TP7 swing does not uniquely determine yoke current"
     },
-    "inside_toleranced_possibility": true,
-    "interpretation": "separate terminal swings do not fix differential waveform phase or DC level; compare only as a consistency screen"
+    "inside_toleranced_possibility": null,
+    "interpretation": "TP8 has no printed full peak-to-peak value. Its 17 V crest-to-zero and second 10 V shoulder-to-trough arrows cannot bound the differential yoke waveform until the second arrow is attributed."
   },
   "limitations": [
     "The 40 mm axial field, 10 mm inner neck radius, 20 mH and 10 ohm yoke are unmeasured reduced-model assumptions.",

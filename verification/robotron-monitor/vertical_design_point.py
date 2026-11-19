@@ -124,13 +124,8 @@ def run():
         geometry_yoke_current_swing_a=2*nominal['peak_current_a'],
         yoke_only_sense_voltage_proxy_vpp=2*nominal['peak_current_a']*r27['value'],
         interpretation='Ohm-law current through R27 includes yoke, R29 shunt and feedback-branch currents; the manual TP7 swing does not uniquely determine yoke current')
-    # Separate terminal peak-to-peak values have unknown relative phase and
-    # offsets. Their difference must have a swing between these two bounds.
-    terminal_difference_bounds=[abs(probes[8]-probes[7]),probes[8]+probes[7]]
-    tolerated_difference_bounds=[max(0.,probes[8]*(1-tolerances[8])-
-                                      probes[7]*(1+tolerances[7])),
-                                 probes[8]*(1+tolerances[8])+
-                                 probes[7]*(1+tolerances[7])]
+    # Page 20's 17 V TP8 arrow ends at the drawn zero line, not at the lower
+    # trough. It cannot bound the differential yoke swing as a terminal Vpp.
     return dict(format='dac-monitor-vertical-design-point-v2',
                 qualification='conditional reduced-geometry design point; no physical tube/yoke measurement or connected voltage score',
                 source_sha256=sha(TARGETS),geometry_sha256=sha(GEOMETRY),
@@ -151,16 +146,16 @@ def run():
                 nominal=nominal,height_cases=height_cases,eht_cases=eht_cases,
                 trajectory_refinement=refinement,
                 manual_yoke_terminal_guidelines=dict(
-                    tp7_swing_vpp=probes[7],tp8_swing_vpp=probes[8],
-                    possible_difference_swing_vpp=terminal_difference_bounds,
+                    tp7_swing_vpp=probes[7],tp8_swing_vpp=None,
+                    tp8_positive_crest_above_zero_v=points[8]['positive_crest_above_zero_v'],
+                    tp8_secondary_excursion=points[8]['secondary_excursion'],
+                    possible_difference_swing_vpp=None,
                     accepted_tolerances={str(n):tolerances[n] for n in (7,8)},
-                    toleranced_possible_difference_swing_vpp=tolerated_difference_bounds,
+                    toleranced_possible_difference_swing_vpp=None,
                     required_ideal_ramp_swing_vpp=nominal['voltage_budget']['total_swing_v'],
                     tp7_sense_branch=sense_current,
-                    inside_toleranced_possibility=(tolerated_difference_bounds[0]<=
-                        nominal['voltage_budget']['total_swing_v']<=
-                        tolerated_difference_bounds[1]),
-                    interpretation='separate terminal swings do not fix differential waveform phase or DC level; compare only as a consistency screen'),
+                    inside_toleranced_possibility=None,
+                    interpretation='TP8 has no printed full peak-to-peak value. Its 17 V crest-to-zero and second 10 V shoulder-to-trough arrows cannot bound the differential yoke waveform until the second arrow is attributed.'),
                 limitations=[
                     'The 40 mm axial field, 10 mm inner neck radius, 20 mH and 10 ohm yoke are unmeasured reduced-model assumptions.',
                     'Test points 1-6 constrain upstream stage waveforms, not yoke current directly; points 7 and 8 are separate terminal voltages.',

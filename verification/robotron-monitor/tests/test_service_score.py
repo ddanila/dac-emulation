@@ -106,5 +106,25 @@ class ServiceScoreTests(unittest.TestCase):
             self.assertEqual(point['status'],'fail-numeric')
             self.assertEqual(result['required_failures'],[14])
 
+    def test_tp8_crest_is_not_mistaken_for_full_peak_to_peak(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'samples.csv'
+            with path.open('w',newline='') as stream:
+                writer=csv.writer(stream)
+                writer.writerow(('time','v(y1)'))
+                for i in range(19501):
+                    t=i*2e-6
+                    phase=t%0.0195
+                    value=17. if phase<.002 else 2.-10.*(phase-.002)/.0175
+                    writer.writerow((t,value))
+            result=service_score.score(path,required={8})
+            point=next(p for p in result['points'] if p['test_point']==8)
+            self.assertIsNone(point['reference']['peak_to_peak_v'])
+            self.assertAlmostEqual(point['measured']['peak_to_peak_v'],25.,delta=.2)
+            self.assertAlmostEqual(point['measured']['positive_crest_above_zero_v'],17.,delta=.2)
+            self.assertTrue(point['checks']['amplitude'])
+            self.assertEqual(point['status'],'reference-incomplete')
+            self.assertEqual(result['required_failures'],[8])
+
 
 if __name__=='__main__':unittest.main()

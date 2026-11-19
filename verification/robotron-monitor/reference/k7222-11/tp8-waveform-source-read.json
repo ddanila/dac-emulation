@@ -1,0 +1,25 @@
+{
+  "format": "dac-monitor-tp8-waveform-source-read-v1",
+  "qualification": "source-figure correction; the second voltage annotation is not yet assigned to a unique schematic node",
+  "manual": {
+    "file": "older-operation.pdf",
+    "page": 20,
+    "pdf_sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
+    "rendered_400_dpi_sha256": "361b9b185ec53a79d70c96279f382375751eb2b4c7977b9cd37addfc9a8d96d7"
+  },
+  "source_read": {
+    "left_arrow": "ca. 17 Vss runs from the upper waveform crest down to the drawn 0 V line; it does not reach the negative trough",
+    "right_arrow": "ca. 10 Vss runs from the post-step shoulder above the 0 V line to the negative trough",
+    "printed_node_labels": ["X2:3", "R48/V20"],
+    "whole_trace_peak_to_peak_v": null,
+    "reason": "Neither printed arrow spans the positive crest to the negative trough; the sketch cannot supply a single full peak-to-peak target"
+  },
+  "schematic_check": {
+    "file": "page10-output-pair-source-netlist.json",
+    "sha256": "e4a8404cfcd31c9d2501313efaf69d16d12604cac4834dec930df8fafb9b812d",
+    "x2_3_net": "Y1_OUTPUT",
+    "r48_v20_net": "MID_BIAS",
+    "conclusion": "The two printed location labels refer to distinct electrical nets, but the manual figure does not explicitly assign the 17 V and 10 V arrows one-to-one to them"
+  },
+  "scoring_decision": "Score the 17 V crest above the figure's zero line as a partial check at X2:3. Do not score 17 V as total peak-to-peak, infer a full peak-to-peak target by adding 17 and 10, or treat TP8 as numerically qualified until the 10 V arrow is attributed and checked."
+}

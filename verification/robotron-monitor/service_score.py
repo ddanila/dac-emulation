@@ -231,6 +231,9 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER,
         ts,vs=series[expression]
         entry=dict(test_point=n,source_node=w['node'],model_expression=expression,
                    role=w['calibration_role'],reference=dict(peak_to_peak_v=w['approximate_swing_v'],
+                       positive_crest_above_zero_v=w.get('positive_crest_above_zero_v'),
+                       secondary_excursion=w.get('secondary_excursion'),
+                       numeric_reference_status=w.get('numeric_reference_status'),
                        peak_to_peak_range_v=w.get('approximate_swing_range_v'),period_s=w['period_s'],
                        pulse_width_s=w['pulse_width_s'],rise_time_s=w.get('rise_time_s'),dc_level_v=w['dc_level_v'],
                        shape_class=w['shape_class'],polarity=w['polarity'],
@@ -272,6 +275,12 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER,
                 amplitude_ok=error<=w['acceptance_tolerance']
             elif bounds:
                 amplitude_ok=bounds[0]<=measured['peak_to_peak_v']<=bounds[1]
+            elif w.get('positive_crest_above_zero_v') is not None:
+                target=w['positive_crest_above_zero_v']
+                crest=measured['max_v']-w['positive_crest_baseline_v']
+                measured['positive_crest_above_zero_v']=crest
+                entry['positive_crest_relative_error']=abs(crest-target)/target
+                amplitude_ok=entry['positive_crest_relative_error']<=w['acceptance_tolerance']
             else:amplitude_ok=False
             checks={'amplitude':amplitude_ok}
             for key in ('period_s','pulse_width_s','dc_level_v'):
@@ -288,7 +297,9 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER,
             entry['shape_checks']=shape;entry['shape_features']=features
             entry['shape_status']='pass' if all(shape.values()) else 'fail'
             entry['checks']=checks
-            entry['status']='pass-numeric' if all(checks.values()) else 'fail-numeric'
+            entry['status']=('fail-numeric' if not all(checks.values()) else
+                             'reference-incomplete' if w.get('numeric_reference_status') else
+                             'pass-numeric')
         points.append(entry)
     missing=required-{p['test_point'] for p in points}
     if missing:raise ValueError('unknown required test points: '+str(sorted(missing)))
@@ -352,8 +363,15 @@ def main():
     args.output.write_text(json.dumps(result,indent=2)+'\n')
     for point in result['points']:
         m=point.get('measured',{})
+        reference=point['reference']
+        crest=reference['positive_crest_above_zero_v'] is not None
+        target=(f"{reference['positive_crest_above_zero_v']} V crest above zero"
+                if crest else f"{reference['peak_to_peak_v'] or reference['peak_to_peak_range_v']} Vpp")
+        observed=(m.get('positive_crest_above_zero_v',float('nan')) if crest
+                  else m.get('peak_to_peak_v',float('nan')))
+        unit='V crest above zero' if crest else 'Vpp'
         print(f"{point['test_point']:2} {point['status']:15} {point['model_expression']:24} "
-              f"{m.get('peak_to_peak_v',float('nan')):9.3g} Vpp / {point['reference']['peak_to_peak_v'] or point['reference']['peak_to_peak_range_v']}")
+              f"{observed:9.3g} {unit} / {target}")
     return 2 if result['required_failures'] else 0
 
 

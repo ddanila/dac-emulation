@@ -18,7 +18,10 @@ class VerticalDesignPointTests(unittest.TestCase):
         self.assertEqual(summary['report_sha256'],hashlib.sha256(path.read_bytes()).hexdigest())
         self.assertAlmostEqual(summary['nominal_peak_yoke_current_a'],
                                report['nominal']['peak_current_a'])
-        self.assertTrue(report['manual_yoke_terminal_guidelines']['inside_toleranced_possibility'])
+        self.assertIsNone(report['manual_yoke_terminal_guidelines']['inside_toleranced_possibility'])
+        self.assertIsNone(report['manual_yoke_terminal_guidelines']['tp8_swing_vpp'])
+        self.assertEqual(report['manual_yoke_terminal_guidelines']['tp8_positive_crest_above_zero_v'],17)
+        self.assertNotIn('manual_tp7_tp8_toleranced_possible_difference_vpp',summary)
         sense=report['manual_yoke_terminal_guidelines']['tp7_sense_branch']
         self.assertAlmostEqual(sense['nominal_total_return_current_swing_a'],2.5/3.9)
         self.assertLess(sense['tolerated_total_return_current_swing_a'][0],

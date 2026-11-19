@@ -145,16 +145,17 @@
   "vertical_yoke_conditional": {
     "status": "conditional reduced-geometry design point; not a yoke calibration or connected-stage score",
     "report": "reference/k7222-11/vertical-design-point.json",
-    "report_sha256": "ad020b31dedb4b58ae9a4e7eb107d3ba34e5607a4183a990bd2808cc80d706ef",
+    "report_sha256": "6ebdb125eba1abb6199d9d6f2549b3b494fffc21cf963c0ef37b855faa9402ea",
     "documented_picture_height_m": {"nominal": 0.145, "minimum": 0.130, "maximum": 0.160},
     "nominal_peak_yoke_current_a": 0.2805549940466882,
     "height_only_current_range_a_at_11p5kv": [0.253525585, 0.306913318],
     "anode_only_current_range_a_at_145mm": [0.274332641, 0.286648072],
     "ideal_linear_ramp_yoke_voltage_swing_vpp": 13.710661076185687,
     "tp7_total_sense_current_swing_a": {"nominal": 0.6410256410256411, "toleranced_range": [0.47134238310708904, 0.8176347462061747], "source_resistor": "012-6931:R27", "qualification": "R27 also senses R29 shunt and feedback currents, so this is not an isolated yoke-current target"},
-    "manual_tp7_tp8_toleranced_possible_difference_vpp": [9.625, 24.375],
+    "manual_tp8_positive_crest_above_zero_v": 17,
+    "manual_tp8_full_peak_to_peak_v": null,
     "evidence": "design-derived within the assumed 40 mm cosine-sheet yoke, 10 mm internal neck aperture, 20 mH/10 ohm winding and reduced electron trajectory",
-    "limitation": "The physical tube/yoke geometry and winding are not established. Separate TP7/TP8 terminal amplitudes do not specify their relative phase or the differential yoke waveform; this consistency screen cannot freeze the vertical operating point."
+    "limitation": "The physical tube/yoke geometry and winding are not established. The manual's 17 V TP8 arrow ends at zero rather than the negative trough; its separate 10 V arrow has unresolved node attribution. A TP7/TP8 differential-swing bound cannot be derived from those annotations, so this calculation cannot freeze the vertical operating point."
   },
   "geometry_diagnostic": {
     "status": "default model misses documented width; shorter-field trial narrowly reaches it but remains unqualified",
