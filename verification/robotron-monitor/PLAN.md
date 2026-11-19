@@ -406,19 +406,20 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (2026-11-19)
 
-**Tracked-goal blocked reason:** The goal is to finish all six Phase A done
-conditions and document, commit and push the results. The partial results are
-pushed, but the goal cannot be marked complete: A4 is done and A1, A2, A3,
-A5 and A6 are not. The immediate technical dependency is A1's independent
-source-to-KiCad connection review. T3's X1:3-to-X2:3 return and other winding
-taps remain provisional; the eight surviving flyback-sign candidates are
-conditional on that graph. A5 therefore has no source-verified winding graph,
-final ratios, polarity list or design point. The remaining done-condition gaps
-are:
+**Tracked-goal blocked reason:** The goal requires all six Phase A done
+conditions, with the results documented, committed and pushed. The partial
+results are pushed, but only A4 is complete. A1, A2, A3, A5 and A6 still fail
+their done conditions. The immediate A1 uncertainty is T3: the page-4 scan
+supports its external drive and high-voltage connections, but the 300 and
+600 dpi reviews do not distinguish the proposed X1:3-to-X2:3 return or the
+internal tap order. The current winding graph is therefore a hypothesis, and
+the eight surviving flyback-sign candidates are conditional on it. A5 cannot
+freeze the winding ratios, polarities or complete design point from those
+candidates. The other remaining done-condition gaps are:
 
 | Item | Evidence still needed for completion |
 | --- | --- |
-| A1 | Finish the independent page 3–4 and 9–10 pin comparisons; settle page 18's six functional model-scope gaps and connected contrast check; close page 16's source-observation check. |
+| A1 | Finish the independent page 3–4 and 9–10 pin comparisons, record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
 | A2 | Model and bound every frame-path device. Only 44 of 64 instances have provisional register coverage; 16 assembled instances have none and four are absent from the ideal-rail assembly. None of the 44 closes every parameter check. |
 | A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
@@ -434,9 +435,14 @@ unblock the A5 calculation, but it would not by itself close A2, A3 or A6.
 The tracked goal can be marked complete only after each row above has its
 required evidence and the final results are documented, committed and pushed.
 
-This is a completion blocker, not a wait for human review, hardware or
-permission. The source-review and bounded `class-typical` fallback rules above
-allow further work. The detailed evidence and route to completion follow.
+This blocks declaring the tracked goal complete; it does not require human
+review, hardware or permission. Another independent source read may resolve
+T3; otherwise its possible connection graphs must remain explicit, conditional
+alternatives while the stage is tested. The bounded `class-typical` fallback
+applies to unprinted electrical parameters, not proof of wiring. Keep the
+unverified graph and sign candidates labelled conditional until the remaining
+Phase A evidence is recorded. The detailed evidence and route to completion
+follow.
 
 The latest page-4 review at 300 and 600 dpi confirms only the external T3
 drive path already checked by the
