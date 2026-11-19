@@ -1,0 +1,32 @@
+{
+  "format": "dac-monitor-t3-collector-eht-comparator-v1",
+  "qualification": "firsthand K7222 repairer-reported operating comparator; revision and measurement method unspecified, not a K7222.11 factory winding ratio",
+  "source": {
+    "url": "https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=4514&pagenum=lastpage#157127",
+    "retrieved_html_sha256": "398f1f45a364e6afabb5f9d58f8eaecf2aa6d7e706b3f071c84a8565e699103e",
+    "author": "RP",
+    "post": "095, 2 February 2018, edited 19:55",
+    "context": "Repairer describes substituting three TV flyback transformers in K7222 monitors, reports no monitor readjustment in those trials, and compares TV collector pulses with K7222 collector pulse and EHT ranges.",
+    "reported_k7222_collector_pulse_v": [370, 420],
+    "reported_k7222_eht_kv": [11.5, 12.5],
+    "limits": "The post does not identify a .11 board, state how the voltages were measured, or separate original from replacement-transformer operating values."
+  },
+  "derived_effective_amplitude_ratio": {
+    "equation": "EHT DC voltage / collector flyback pulse amplitude; endpoints use the lowest EHT with highest pulse and highest EHT with lowest pulse",
+    "range": [27.38095238095238, 33.78378378378378],
+    "midpoint_of_reported_intervals": 30.379746835443036,
+    "interpretation": "This is an external effective voltage ratio with rectifier, loading and winding-baseline effects. It is not a measured turns ratio."
+  },
+  "comparison_to_active_hypothesis": {
+    "parameters_file": "t3-initial-parameters.json",
+    "parameters_sha256": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+    "active_hv_turns": 1000,
+    "active_drive_turns": 64,
+    "active_ideal_turns_ratio": 15.625,
+    "active_ratio_below_reported_effective_range": true,
+    "conditional_hv_turns_for_64_drive_turns": [1752.3809523809523, 2162.162162162162],
+    "conditional_drive_turns_for_2409_hv_turns": [71.3064, 87.98086956521739],
+    "limits": "The active 64 drive turns, tap graph, collector-pulse transfer and source revision remain unverified. The effective voltage range cannot alone select or freeze a turn count."
+  },
+  "next": "Carry the reported collector/EHT range as a class-typical operating comparator while checking the K7222.11 page-4 return alternatives and connected EHT/feedback/retrace response. Retain both reported HV winding scales as candidates until their drive turns and rectifier loading are jointly constrained."
+}

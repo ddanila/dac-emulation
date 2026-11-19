@@ -2241,3 +2241,24 @@ not independently select an X1:3/X2:3 tie: it depends on the unverified
 HV cold connection. This is a low-voltage, isolated diagnostic, not a
 connected 11–12 kV prediction or proof of factory wiring. A source-first
 pin comparison and connected stage sweep remain required for A1/A5.
+
+### A5: repairer-reported collector pulse versus EHT (2026-11-20)
+
+In [post 095 of a K7222 repair thread](https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=4514&pagenum=lastpage#157127),
+RP describes substituting three TV flyback transformers and reports a
+370–420 V K7222 collector pulse corresponding to 11.5–12.5 kV EHT. The
+monitor revision, measurement method and whether the values came from an
+original or replacement transformer are unspecified. The archived
+[comparator](reference/k7222-11/t3-collector-eht-comparator.json) therefore
+uses these as cross-revision operating evidence, not K7222.11 factory data.
+
+Dividing the endpoint ranges gives an effective EHT-to-collector amplitude
+range of 27.38–33.78, overlapping the existing 28.24–35.94 conditional
+design-point range. The active 1,000/64-turn ideal ratio is 15.625, below
+both ranges. If 64 drive turns were correct, the repairer range would imply
+about 1,752–2,162 HV turns before loading corrections; if the separate
+2,409-turn winding account applied, it would imply about 71–88 drive turns.
+Neither inference identifies the K7222.11 turn count or return graph. The
+next connected T3 sweep should compare the reported winding scales with
+feedback, retrace and EHT constraints jointly, rather than select turns from
+the isolated ratio alone.
