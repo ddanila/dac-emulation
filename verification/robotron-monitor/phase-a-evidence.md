@@ -1001,10 +1001,10 @@ the held heater branch is assembled outside it. On the vertical cables,
 `41P`, `SYNCH`, `X1` and `X2` have no matching vertical-board export net. The
 first two belong to the excluded supply/converter path; the latter two are
 horizontal-yoke pass-through labels on page 18, while the ideal-rail model
-connects the horizontal yoke directly. These are model-scope explanations,
-not verified physical pin connections. The comparison remains semantic for
-three cables; panel controls and yoke wiring also need pin-level comparison.
-The A1 page-18 gate stays open.
+connects the horizontal yoke directly. These are model-scope explanations;
+the separate physical-pin comparison below checks the connector labels but
+does not fill the six functional gaps. Panel controls and yoke wiring also
+need pin-level comparison. The A1 page-18 gate stays open.
 
 The main-board X4 and vertical-board X3 sheets now expose audit-only six-pin
 connector symbols. `page18_vertical_cable_compare.py` checks their fresh
@@ -1014,8 +1014,19 @@ KiCad XML exports against the source-first page-18 pin map and cable
 physical connector pins and all six 1-to-1 cable pairs: two 00 returns, 5P,
 12P, 22P and SYN. The audit symbols are excluded from circuit assembly, and
 `reference.py` rejects a changed pin map before assembling either sheet.
-This check verifies the physical pin labels represented in the model; it does
-not validate the three other cables, panel/yoke paths or T3 windings.
+This six-wire receipt verifies only that cable's represented physical pins.
+
+`page18_board_cable_pin_compare.py` now covers all four board-to-board cables.
+Audit-only symbols on the main-board X3, X5 and X6 sheets and vertical-board
+X1 sheet expose the other source-labelled pins; the page-16 neck X1 audit
+symbol supplies the neck ends. Its fresh-export receipt,
+`reference/k7222-11/page18-board-cable-pin-comparison.json`, matches all 18
+printed cable pairs at both ends (36 labelled connector pins). Neck X1:4 is
+unlabelled on page 18 and is separately checked as 0 against the page-16
+assembly map. A changed X6 pin assignment fails both this comparison and
+`reference.py`'s audit-symbol check. The physical symbols add no assembled
+circuit elements. The receipt still exposes six functional board-net gaps;
+panel controls, yoke wiring and T3 windings remain outside this result.
 
 ### Independent page-16 neck-board pin transcription (2026-11-19)
 
