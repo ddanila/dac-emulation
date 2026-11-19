@@ -406,15 +406,20 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (2026-11-19)
 
-**Goal completion is blocked by missing Phase A acceptance evidence.** The
-immediate dependency is A1's unverified T3 connectivity on the frame-path
-schematics: its part identity is resolved, but its winding returns, taps and
-polarity lack an independent pin-to-pin source comparison. A5 therefore cannot
-freeze the winding graph, ratios, candidate list or design point. Other A1
-sheet checks, A2 device models, A3 loaded stage scores and A6 bounded values
-also remain unfinished. The partial results below establish progress; they do
-not satisfy the goal "Phase A of the PLAN is fully implemented; intermediate
-results documented, committed and pushed."
+**Completion decision: Phase A is not yet complete, so the tracked goal cannot
+be closed.** The immediate blocker is missing A1 source evidence for T3's
+winding connections: its part identity is resolved, but the proposed
+X1:3-to-X2:3 return, other taps and winding polarity have no independent
+pin-to-pin source comparison. A5 cannot freeze the winding graph, ratios,
+candidate list or design point on that basis. The latest source-first page-9
+comparison confirms all 16 pins of the 5.1 V reference branch only; it does
+not establish the remaining page-9 circuit or T3. Other A1 sheet checks, A2
+device-model coverage, A3 waveform/scorer validation and A6 bounded values
+remain unfinished. The partial results below are committed evidence of
+progress, not evidence that the goal's implementation condition has passed.
+This is an unresolved technical review, not a dependency on a human reviewer
+or a physical measurement; Phase A work can continue under the bounded
+fallbacks above.
 
 The decisive technical uncertainty within A1 is the T3 winding topology.
 Manual page 19 names
