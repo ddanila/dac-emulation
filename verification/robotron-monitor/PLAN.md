@@ -435,6 +435,10 @@ applies; the plan does not require a human or a physical measurement.
 The page-18 source transcription has an eight-pair semantic comparison against
 the ideal-rail KiCad assembly, but the current sheets lack physical connector
 pin symbols; that partial comparison does not close its pin-to-pin A1 check.
+An independent page-16 neck-board read now matches all 39 component pins and
+six diode directions in a fresh KiCad export, and its 17 connector pins match
+the assembly map. That sheet also lacks physical connector symbols, so its A1
+pin-to-pin check remains open rather than being counted as a closed page.
 The saved audit flags 26 frame-path part entries; 25 now have agent readings
 or bounded class-typical decisions. Only `012-6921:T3` remains open as a part
 entry. V18, V21, V27 and V28 now have bounded `class-typical` candidates,

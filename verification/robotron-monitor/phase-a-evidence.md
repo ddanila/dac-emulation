@@ -984,6 +984,27 @@ KiCad diff required by A1: the authored sheets do not export physical connector
 pin symbols. The other ten cable pairs, panel controls and yoke connections
 also remain to be compared. The page-18 gate therefore stays open.
 
+### Independent page-16 neck-board pin transcription (2026-11-19)
+
+`reference/k7222-11/page16-neck-source-netlist.json` is a source-first read of
+the 012-6891 neck-board drawing from the hashed `older.pdf` page 16, using a
+600-dpi render and a separate lower-resolution render. It records 17 named
+nets, all 39 terminals of the 19 discrete board parts, 17 physical connector
+pins across X1/X2/X3, V1 collector/base/emitter, C1 polarity, and the anode and
+cathode of all six V2 diode sections. Undotted wire crossings and the drawn
+tube-electrode couplings are kept distinct from DC junctions.
+
+`page16_neck_compare.py` exports the current KiCad neck sheet afresh and
+compares every component pin by source part ID, pin number and net. All 39
+component pins agree, including six diode directions. The 17 connector pins
+agree with `assembly.json`. The saved comparison contains source, sheet and
+assembly hashes; a test reverses a diode in the exported netlist and verifies
+that the check fails. The neck KiCad sheet still has no physical connector
+symbols, so those 17 pins were compared to the assembly map rather than to a
+KiCad connector export. Page 16 therefore remains open under A1's stricter
+pin-to-pin rule until that representation gap is resolved and the remaining
+connectivity checks are recorded.
+
 ### Vertical output transistor model bounds (2026-11-19)
 
 The printed page-10 vertical output is provisionally modeled as upper NPN

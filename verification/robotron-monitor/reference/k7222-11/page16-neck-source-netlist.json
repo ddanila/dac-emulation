@@ -1,0 +1,53 @@
+{
+  "format": "dac-monitor-independent-source-netlist-v1",
+  "qualification": "source-side page-16 transcription; KiCad comparison follows separately",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 16,
+    "views": [
+      {
+        "description": "600 dpi PDF render",
+        "sha256": "5354bd7f10b7bfa71a0c13036be54c3b5f20ccab2fb0046f4709f05ca0b34cb55"
+      },
+      {
+        "description": "separate lower-resolution schematic-page render",
+        "sha256": "206a1026d5059a71a0c13036be54c3b5f20ccab2fb0046f4709f05ca0b34cb55"
+      }
+    ]
+  },
+  "reading_notes": [
+    "Solid junction dots distinguish connected crossings from crossing wires without dots.",
+    "The curved pairs below OO depict tube-electrode coupling, not discrete neck-board parts or DC shorts.",
+    "X1:4 is the RA return shown at the right edge; X3:1 and X3:2 sit on opposite sides of R4."
+  ],
+  "nets": {
+    "41P": ["X1:9", "C1:+", "C2:1", "R7:1", "V2:3:K"],
+    "OO": ["X1:8", "X1:4", "X2:4", "C1:-", "C2:2", "C3:1", "V1:E", "R8:2"],
+    "VID": ["X1:5", "R6:1", "C4:1"],
+    "VID_AFTER_R6": ["R6:2", "V2:1:A", "V2:2:A"],
+    "V1_BASE": ["V2:1:K", "V1:B", "C4:2"],
+    "V1_COLLECTOR": ["V1:C", "V2:2:K", "R7:2", "V2:3:A", "V2:5:A", "V2:6:K"],
+    "SUK_DRIVE": ["V2:5:K", "R5:1", "R4:1", "V2:4:K", "X3:1"],
+    "SUK": ["R4:2", "X2:2", "X3:2"],
+    "FEEDBACK": ["R5:2", "R8:1", "V2:6:A"],
+    "IS": ["X1:7", "V2:4:A"],
+    "HEATER_10_7P": ["X1:6", "X2:3"],
+    "UG1_INPUT": ["X1:1", "R1:1"],
+    "SUG1": ["R1:2", "C3:2", "X2:5"],
+    "UG2_INPUT": ["X1:2", "R2:1"],
+    "SUG2": ["R2:2", "X2:6"],
+    "UG4_INPUT": ["X1:3", "R3:1"],
+    "SUG4": ["R3:2", "X2:7"]
+  },
+  "diode_directions": [
+    {"section": "V2:1", "anode_net": "VID_AFTER_R6", "cathode_net": "V1_BASE"},
+    {"section": "V2:2", "anode_net": "VID_AFTER_R6", "cathode_net": "V1_COLLECTOR"},
+    {"section": "V2:3", "anode_net": "V1_COLLECTOR", "cathode_net": "41P"},
+    {"section": "V2:4", "anode_net": "IS", "cathode_net": "SUK_DRIVE"},
+    {"section": "V2:5", "anode_net": "V1_COLLECTOR", "cathode_net": "SUK_DRIVE"},
+    {"section": "V2:6", "anode_net": "FEEDBACK", "cathode_net": "V1_COLLECTOR"}
+  ],
+  "transistor": {"part": "V1", "collector_net": "V1_COLLECTOR", "base_net": "V1_BASE", "emitter_net": "OO"},
+  "capacitor_polarity": {"part": "C1", "positive_net": "41P", "negative_net": "OO"}
+}
