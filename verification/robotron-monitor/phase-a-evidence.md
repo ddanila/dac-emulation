@@ -1598,3 +1598,27 @@ separate `REG5_NPN` model used by the other SF1260 instance on page 9.
 The V10 typical-value comparison is not a manufacturer limit, and neither
 model is yet validated for part-specific switching, connected stress, joint
 bounds or every implicit simulator default. A2 and A6 remain open.
+
+### A2: page-9 V4 SF1260 regulator transistor
+
+The V4 in the source-checked 5.1 V reference branch uses a separate active
+`REG5_NPN` model. Its old 20 ns TF and 40/15 pF junction terms gave a
+sub-60 MHz transition-frequency proxy, inconsistent with the
+[historical SF126–129 family sheet](https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf)
+at 10 V/10 mA/15 MHz. The live alias now uses 1 ns TF and 20/8 pF depletion
+terms. At the manufacturer's stated test biases, the
+[saved V4 check](reference/k7222-11/regulator5-transistor-class-check.json)
+records hFE 61.2 at 2 V/50 mA, 0.069 V current-fed saturation at
+150 mA/15 mA, and a 144.3 MHz 15 MHz gain-bandwidth proxy. The previous
+charge terms fail the family frequency floor in the regression check.
+
+The gain profile now spans the full base-family A–F range, 18–1120, because
+the printed `SF1260` suffix is not resolved by that table. This is a broad
+provisional class bound, not an identified gain bin. The model and profile
+changes preserve the loaded reference-stage tests and the independent
+page-9 pin comparison; the adjacent zener report was refreshed for the model
+file hash. This adds one A2 instance and seven A6 rows: 41/64 instances have
+provisional coverage, nineteen assembled instances remain unregistered,
+and four are absent from the current assembly. V4 still needs connected
+current/voltage stress, joint-bound sensitivity and examination of implicit
+BJT defaults. A2 and A6 remain open.

@@ -419,10 +419,10 @@ are:
 | Item | Evidence still needed for completion |
 | --- | --- |
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons; settle page 18's six functional model-scope gaps and connected contrast check; close page 16's source-observation check. |
-| A2 | Model and bound every frame-path device. Only 40 of 64 instances have provisional register coverage; 20 assembled instances have none and four are absent from the ideal-rail assembly. None of the 40 closes every parameter check. |
+| A2 | Model and bound every frame-path device. Only 41 of 64 instances have provisional register coverage; 19 assembled instances have none and four are absent from the ideal-rail assembly. None of the 41 closes every parameter check. |
 | A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
-| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 115 partial entries. |
+| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 122 partial entries. |
 
 These are independent completion failures, not just one T3 issue. The
 [device-model coverage report](reference/k7222-11/device-model-coverage.json)
@@ -497,13 +497,13 @@ Seven converter-only entries are
 outside the A1 gate.
 
 Other required close-out work is also missing. The A2 coverage report counts
-64 frame-path device instances in 30 printed-type families. Forty have
-provisional device-model register coverage (twelve individual devices, fourteen
+64 frame-path device instances in 30 printed-type families. Forty-one have
+provisional device-model register coverage (thirteen individual devices, fourteen
 1AE15 diodes across two active model aliases, eight 1AD50 clamp diodes and six
 horizontal diodes);
-20 assembled instances
+19 assembled instances
 have no entry. V19/V20 on 012-6921 and L1/L2 on 012-6931 are absent from the
-current ideal-rail assembly. None of the forty instances yet closes all
+current ideal-rail assembly. None of the forty-one instances yet closes all
 A2 parameter checks. The V18 horizontal-output model now passes a BU508AF-class
 DC gain and saturation proxy; its inductive switching, parameter bounds and
 connected-stage stress remain unchecked. A separate current-fed turn-off
@@ -529,14 +529,15 @@ V10 now has its own SC237E group-E model instead of sharing V12's lower-gain
 `HOR_N`. At the historical bias points, its gain, typical saturation and
 transition-frequency proxies agree with the group-E data; V12's `HOR_N`
 passes broad SF126-family gain, saturation and frequency checks. The second
-SF1260 instance in the 5.1 V reference branch still uses a separate,
-unqualified `REG5_NPN` alias. Neither horizontal model has a connected-stage
-stress or joint-bound check.
+SF1260 instance in the 5.1 V reference branch uses a separate `REG5_NPN`
+alias; its provisional family gain, saturation and frequency checks now pass.
+The printed suffix, connected-stage stress, joint parameter bounds and
+implicit simulator defaults remain open for these transistors.
 The waveform scorer now supports separately loaded SPICE solves for the bounded
 EO 203 probe equivalent and records an explicit grid stimulus choice. No
 connected stage score yet has all required loaded probes or recorded trims (A3).
 The class-typical register collects
-115 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
+122 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
 All three A4 controls are now bound in the ideal-rail
 assembly: R4 and R5 use declared equivalents, and external R1 uses the
