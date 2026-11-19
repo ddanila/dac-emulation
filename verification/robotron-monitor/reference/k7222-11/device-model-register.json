@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; 54 of 64 frame-path instances have provisional register coverage, including seven unidentified small-signal transistors under BC546B-class proxies; eight assembled magnetics and two absent inductors remain uncovered",
+  "status": "partial; 56 of 64 frame-path instances have provisional register coverage, including the two source-addressed page-9 centring chokes; eight assembled horizontal-board magnetics remain uncovered",
   "sources": {
     "ti_sn74h00_1985": {"url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf", "edition": "Texas Instruments The TTL Data Book, 1985, printed pages 3-3 and 3-6", "use": "SN74H00 4x 2-input NAND class: 4.75-5.25 V supply, VIH >=2 V, VIL <=0.8 V, VOH >=2.4 V at -0.5 mA, VOL <=0.4 V at 20 mA, IIH <=50 uA, IIL >=-2 mA, ICCH <=16.8 mA, ICCL <=40 mA, and tPLH/tPHL <=10 ns at 280 ohm/25 pF. A Robotron table maps T200 to this family; not a T200 specimen test."},
     "ti_lm709c": {"url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf", "revision": "National Semiconductor / TI SNOS659A", "pages": [2, 3, 4], "use": "LM709C class comparator at +/-15 V: minimum 15 V/mV large-signal gain, +/-10 V minimum output swing into 2 kohm, 2.6 mA typical/6.6 mA maximum supply current, 300 nA typical/1.5 uA maximum bias, 50 kohm minimum/250 kohm typical input resistance, 150 ohm typical output resistance and 0.25 V/us typical slew. The K7222.11 printed P09A is not identified as LM709."},
@@ -70,6 +70,11 @@
       "revision": "BC546/D August 2021 Rev. 8, electrical characteristics pages 1-2",
       "use": "BC546B small-signal NPN comparator: VCEO >=65 V; hFE 200..450 at IC=2 mA/VCE=5 V; VCEsat <=0.25 V at IC=10 mA/IB=0.5 mA; fT >=150 MHz at IC=10 mA/VCE=5 V/f=100 MHz; Cobo <=4.5 pF at VCB=10 V. It does not identify printed 1SA20C or 1SC60A."
     },
+    "page9_centering_design": {
+      "file": "reference/k7222-11/page9-centering-source-netlist.json",
+      "companion": "reference/k7222-11/centering-bridge-check.json",
+      "use": "Page 9 gives L1/L2 source topology and 12P, R2=150 ohm and R4=1000 ohm. The 16 kHz nominal 4 mH yoke and a 5% isolated AC loading objective give 80 mH per choke as an engineering nominal; 0.5-15 ohm series resistance is bounded by the allowable DC drop relative to R2, not an original winding measurement."
+    },
     "philips_bd139_bd140": {
       "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1986_S04a_Philips_Low-Frequency_Power_Transistors_and_Hybrid_Modules.pdf",
       "edition": "October 1985 data pages 60 and 70",
@@ -77,6 +82,26 @@
     }
   },
   "families": [
+    {
+      "id": "page9-horizontal-centering-chokes",
+      "printed_type": "1.11.017324.0/01",
+      "candidate_class": "two-terminal RL equivalent of each printed 1/3-to-2/4 centring choke; internal winding arrangement and mutual coupling unresolved",
+      "identity_tier": "printed stock identity with design-derived operating model; no original electrical specification",
+      "model": "CENTERING_CHOKE",
+      "model_file": "circuits/k7222-11-centering-models.cir",
+      "member_ids": ["012-6931:L1", "012-6931:L2"],
+      "sources": ["page9_centering_design"],
+      "parameters": {
+        "L": {"assembly_key": "centering_coil_l_h", "nominal": 0.08, "bounds": [0.02, 0.32], "unit": "H", "tier": "design-derived nominal; exploratory bounds", "basis": "At 16 kHz, nominal 4 mH yoke impedance is about 402 ohm; 80 mH gives about 8.04 kohm, then the isolated bridge model draws 2.5% of baseline yoke AC current. 20-320 mH tests 10% to 0.6% loading; the installed value is unknown."},
+        "RDC": {"assembly_key": "centering_coil_r_ohm", "nominal": 5, "bounds": [0.5, 15], "unit": "ohm", "tier": "design-derived DC budget", "basis": "Two chokes at the 15 ohm upper bound add 30 ohm relative to the printed 150 ohm R2; nominal 5 ohm each leaves a 10 ohm added drop. This is a functional budget, not a measured winding resistance."}
+      },
+      "comparison_targets": {
+        "nominal_16khz_bridge_loading": {"maximum_ratio": 0.05, "conditions": "isolated yoke at 4 mH/2 ohm, R4 midpoint, E1+E2, 16 kHz"},
+        "dc_yoke_current_midpoint_a": {"nominal_magnitude": 0.01770956, "conditions": "isolated 12 V bridge, R4 midpoint, either valid strap pair, nominal parts"}
+      },
+      "model_response_report": "reference/k7222-11/centering-bridge-check.json",
+      "remaining": ["Original choke inductance, copper resistance, core loss, winding topology and L1/L2 coupling are unknown", "Installed E1-E4 pair and connected native-stage sensitivity remain unqualified"]
+    },
     {
       "id": "1SA20C-small-npn-class",
       "printed_type": "1SA20C",

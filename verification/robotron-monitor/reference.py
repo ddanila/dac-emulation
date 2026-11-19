@@ -81,7 +81,7 @@ def read_profile(path):
     return profile
 
 
-def source_connectivity(path, inventory, board, subcircuits=None):
+def source_connectivity(path, inventory, board, subcircuits=None, *, allow_floating=False):
     boards = [board] if isinstance(board,str) else board
     if not isinstance(boards,list) or not boards or any(not isinstance(b,str) for b in boards):
         raise ValueError('invalid source board scope')
@@ -134,7 +134,8 @@ def source_connectivity(path, inventory, board, subcircuits=None):
                       for connector in [source_id.split(':')[-1]]}
         if physical!=expected:
             raise ValueError('source connector pins differ from source map')
-    components = lab.connectivity(path,subcircuits,ignored_refs=audit_refs)
+    components = lab.connectivity(path,subcircuits,ignored_refs=audit_refs,
+                                  allow_floating=allow_floating)
     seen = set()
     for c in components:
         sid = source_ids[c['reference']]

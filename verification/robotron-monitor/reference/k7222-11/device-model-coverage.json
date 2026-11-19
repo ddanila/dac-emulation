@@ -2,16 +2,13 @@
   "format": "dac-monitor-a2-device-coverage-v1",
   "qualification": "A2 gap inventory; registered rows are provisional, not completed model qualification",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
-  "register_sha256": "beba9b90d3b1597fd7f9f15908a159ff77e7e5687f7bf28671a29f15b134b182",
-  "assembly_source_sha256": "1f21af90ec034d58ba3472e2cb576ea704a3d8b110ee4282c4c97992181f2cc0",
+  "register_sha256": "9af48de1e162e2179a6f70679dec69ace5e1a27e5411e3476ed64174774977b0",
+  "assembly_source_sha256": "c8b19ed1ea49dd2b54f8524e30a5b0647db1c3c76ffe96e028da665f08919e4b",
   "inventory_device_instances": 77,
   "frame_path_device_instances": 64,
-  "assembled_instances": 62,
-  "registered_instances": 54,
-  "absent_from_assembly": [
-    "012-6931:L1",
-    "012-6931:L2"
-  ],
+  "assembled_instances": 64,
+  "registered_instances": 56,
+  "absent_from_assembly": [],
   "unregistered_assembled": [
     "012-6921:L1",
     "012-6921:L3",
@@ -362,12 +359,14 @@
         "012-6931:L1",
         "012-6931:L2"
       ],
-      "active_models": [],
-      "registered_ids": [],
-      "absent_from_assembly": [
+      "active_models": [
+        "CENTERING_CHOKE"
+      ],
+      "registered_ids": [
         "012-6931:L1",
         "012-6931:L2"
-      ]
+      ],
+      "absent_from_assembly": []
     },
     {
       "kind": "inductor",
@@ -1143,19 +1142,25 @@
       "id": "012-6931:L1",
       "kind": "inductor",
       "printed_type": "1.11.017324.0/01",
-      "assembled_reference": null,
-      "active_model": null,
-      "register_model": null,
-      "registered_parameter_keys": []
+      "assembled_reference": "X971",
+      "active_model": "CENTERING_CHOKE",
+      "register_model": "CENTERING_CHOKE",
+      "registered_parameter_keys": [
+        "L",
+        "RDC"
+      ]
     },
     {
       "id": "012-6931:L2",
       "kind": "inductor",
       "printed_type": "1.11.017324.0/01",
-      "assembled_reference": null,
-      "active_model": null,
-      "register_model": null,
-      "registered_parameter_keys": []
+      "assembled_reference": "X972",
+      "active_model": "CENTERING_CHOKE",
+      "register_model": "CENTERING_CHOKE",
+      "registered_parameter_keys": [
+        "L",
+        "RDC"
+      ]
     },
     {
       "id": "012-6931:V11",

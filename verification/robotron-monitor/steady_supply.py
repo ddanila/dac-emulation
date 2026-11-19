@@ -49,6 +49,11 @@ PROBES += ('v(sync_gate)', 'v(vf1)', 'v(vertical_timing)', 'v(vertical_base)',
 ASSEMBLY_BOUNDS = {
     'width_r5_position': (.63, 0., 1., 'fraction'),
     'centering_horizontal_r4_position': (.5, 0., 1., 'fraction'),
+    'centering_horizontal_strap_pair': (0., 0., 1., 'E1+E2=0; E3+E4=1'),
+    'centering_r4_total_ohm': (1000., 900., 1100., 'ohm'),
+    'centering_r2_ohm': (150., 142.5, 157.5, 'ohm'),
+    'centering_coil_l_h': (.08, .02, .32, 'H'),
+    'centering_coil_r_ohm': (5., .5, 15., 'ohm'),
     'brightness_position': (.5, 0., 1., 'fraction'),
     'brightness_pot_r': (10000., 5000., 10000., 'ohm'),
     'yoke_horizontal_r': (2., .5, 8., 'ohm'),
@@ -73,16 +78,26 @@ def r5_rail_scale(position):
     return (2400+1000*.63)/(2400+1000*position)
 
 
-def r4_center_current(position):
-    """Bounded DC yoke bias equivalent for the unresolved page-9 R4 bridge.
+def centering_bridge_dc_estimate(position, pair, r2, r4, coil_r, yoke_r):
+    """Isolated page-9 DC bridge current, positive from hy1 to hy2.
 
-    The 12 V bridge feed and documented 150 ohm R2 limit its nominal
-    short-circuit current to 80 mA. This is a model full-scale bound,
-    not a claim that the physical bridge reaches either endpoint.
+    The horizontal output can also drive the yoke, so this is an isolated
+    design estimate, not a connected operating-point prediction.
     """
     if type(position) not in (int,float) or not math.isfinite(position) or not 0<=position<=1:
         raise ValueError('R4 position outside physical travel')
-    return .08*(2*position-1)
+    if pair not in (0,1):
+        raise ValueError('centering bridge requires one complete opposite-polarity strap pair')
+    if min(r2,r4,coil_r,yoke_r)<=0:
+        raise ValueError('centering bridge passive values must be positive')
+    a=max(1.,r4*position)
+    b=max(1.,r4*(1-position))
+    # Both link pairs put R4+R2 across 12 V. The loaded wiper has a
+    # Thevenin source relative to end_a; the link pair reverses yoke current.
+    supply_r=a+b+r2
+    thevenin_v=12*a/supply_r
+    thevenin_r=a*(b+r2)/supply_r
+    return (1 if pair==0 else -1)*thevenin_v/(thevenin_r+2*coil_r+yoke_r)
 
 
 def brightness_resistances(position, total_r):
@@ -195,7 +210,8 @@ def assemble(output, *, yoke_path=None):
         archive('circuits/'+name); xml=out/(Path(name).stem+'.xml')
         lab.run_command(['kicad-cli','sch','export','netlist','--format','kicadxml','-o',str(xml),
                          str(out/'circuits'/name)],out,out/(Path(name).stem+'.log'))
-        parts=reference.source_connectivity(xml,cpu if board=='1715w' else inv,board,contracts)
+        parts=reference.source_connectivity(xml,cpu if board=='1715w' else inv,board,contracts,
+            allow_floating=name=='k7222-11-centering.kicad_sch')
         if board=='1715w':
             for part in parts:part['nodes']=['computer_return' if n=='0' else n for n in part['nodes']]
         components += parts
@@ -215,7 +231,7 @@ def assemble(output, *, yoke_path=None):
     hashes['profiles/yoke.json']=lab.digest(raw_yoke)
     yoke=yoke_profile.read(destination)
     params.update(yoke['electrical'])
-    models.append('circuits/signal-path-models.cir')
+    models += ['circuits/signal-path-models.cir','circuits/k7222-11-centering-models.cir']
     texts=[archive(name) for name in models]
     # The neck's parameterized 1AD50 family also serves the sync filter; do not
     # let a duplicate fixed .model silently shadow its explicit parameters.
@@ -230,9 +246,13 @@ def assemble(output, *, yoke_path=None):
                  'reference/k7222-11/assembly.json',
                  'reference/k7222-11/page18-interconnect-transcription.json',
                  'reference/k7222-11/page18-frame-comparison.json',
+                 'reference/k7222-11/page9-centering-source-netlist.json',
+                 'reference/k7222-11/page9-centering-comparison.json',
+                 'reference/k7222-11/centering-bridge-check.json',
                  'reference/k7222-11/device-model-register.json',
                  'reference/k7222-11/class-typical-register.json',
                  'steady_supply.py',
+                 'page9_centering_compare.py','centering_bridge_check.py',
                  'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py','yoke_geometry.py',
                  'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py','collection.py','beam_feedback.py','energy_ledger.py','energy_validation.py',
                  'service_score.py','calibration_contract.py','calibration_measurements.py','grid_geometry.py','phase_a_gates.py'):
@@ -286,7 +306,12 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     thermal=heater_equilibrium(); period=selection['period_ticks']/selection['clock_hz']
     p={k:v[0] for k,v in ASSEMBLY_BOUNDS.items()} | assembly['parameters']
     rail_scale=r5_rail_scale(p['width_r5_position'])
-    centering_current=r4_center_current(p['centering_horizontal_r4_position'])
+    strap=p['centering_horizontal_strap_pair']
+    centering_current=centering_bridge_dc_estimate(
+        p['centering_horizontal_r4_position'],strap,p['centering_r2_ohm'],
+        p['centering_r4_total_ohm'],p['centering_coil_r_ohm'],p['yoke_horizontal_r'])
+    centering_r4_a=max(1.,p['centering_r4_total_ohm']*p['centering_horizontal_r4_position'])
+    centering_r4_b=max(1.,p['centering_r4_total_ohm']*(1-p['centering_horizontal_r4_position']))
     brightness_top,brightness_bottom=brightness_resistances(p['brightness_position'],p['brightness_pot_r'])
     yoke=assembly.get('yoke')
     if yoke is not None and yoke['inductance_field_relationship_verified']:
@@ -301,8 +326,13 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     lines=[f'Experimental steady-supply K7222 {label}; unqualified hypothesis']
     lines += [f'.param {k}={v:.15g}' for k,v in p.items()]
     l4,expanded=compensation_network(assembly['components'],p['l4_coupling'])
+    lines += [f'.param centering_r4_a_ohm={centering_r4_a:.15g}',
+              f'.param centering_r4_b_ohm={centering_r4_b:.15g}']
     lines += [' '.join([c['reference'],*c['nodes'],c['value']]) for c in assembly['components'] if c['reference'] not in expanded]
     lines += l4
+    links=([('E1','centering_a','0'),('E2','centering_c','p12')] if strap==0
+           else [('E3','centering_c','0'),('E4','centering_a','p12')])
+    lines += [f'Rcentering_{name} {a} {b} 1m' for name,a,b in links]
     collection_report=assembly.get('collection_report')
     if collection_report is not None and abs(collection_report['period_s']-period)>1e-12:
         raise ValueError('collection period differs from native field')
@@ -330,7 +360,6 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         'Xcrt p10_7 0 cathode g1 g2 eht heater_rise cathode_rise CRT_THERMAL',
         'Ctube eht 0 {tube_anode_c}', 'Rhvleak eht 0 {tube_hv_leakage}',
         'Rhorizontal hy1 h_winding {yoke_horizontal_r}','Lhorizontal h_winding hy2 {yoke_horizontal_l}',
-        f'Icentering hy2 hy1 {centering_current:.15g}',
         'Rvertical y1 v_winding {yoke_vertical_r}','Lvertical v_winding y2 {yoke_vertical_l}',
         'Rcapmid h_rectmid 0 {isolated_cap_leakage}','Ryokeleak hy1 0 {isolated_cap_leakage}',
         f'.options {linear_solver} reltol={reltol} abstol={abstol} vntol=1e-6 method=gear',
@@ -338,7 +367,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         *(['.ic '+' '.join(f'v({n})={v:.15g}' for n,v in sorted(initial_voltages.items()))] if initial_voltages else []),
         f'.tran {max_step_s} {period*fields:.17g} {period*(fields-4):.17g} {max_step_s}', '.end']
     assumptions=['Ideal 12 V converter input and R5-scaled 22/41/-16 V outputs; actual 5 V regulator retained.',
-        'R4 horizontal centring uses a bounded DC yoke-current equivalent while the page-9 bridge links remain unresolved.',
+        'Page-9 R4/R2/L1/L2 centring bridge uses one conditional opposite-polarity E-link pair; installed pair and choke construction are unverified.',
         'External brightness R1 has page-3/page-18 terminal mapping and a handwritten 5–10 kohm class-typical value; A1 netlist comparison remains open.',
         'External contrast R2 is a two-wire rheostat from KRA to KRS. Its page-3/4 board-side mapping and X1 pin export match; the connected stage score remains open.',
         'Periodic repetition of a captured static field initializes the circuit; no cold thermal timeline.',
@@ -355,11 +384,14 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
             output_rails_v={'p41':41*rail_scale,'p22':22*rail_scale,'n16':-16*rail_scale},
             unchanged_input_rail_v={'p12':12},
             rule='(2400 + 1000*0.63)/(2400 + 1000*position)'),
-        r4_equivalent=dict(source_ids=['012-6931:R4','012-6931:R2','012-6931:L1','012-6931:L2'],
-            source_pdf_page=9,tier='class-typical',position=p['centering_horizontal_r4_position'],
-            current_a=centering_current,current_bound_a=.08,
-            bound_basis='12 V bridge feed / documented 150 ohm R2; nominal short-circuit limit',
-            rule='current_a = 0.08 * (2 * position - 1); positive flows hy1 to hy2 through yoke'),
+        centering_bridge=dict(source_ids=['012-6931:R4','012-6931:R2','012-6931:L1','012-6931:L2'],
+            source_pdf_page=9,source_netlist='reference/k7222-11/page9-centering-source-netlist.json',
+            position=p['centering_horizontal_r4_position'],strap_pair='E1+E2' if strap==0 else 'E3+E4',
+            links_closed=[item[0] for item in links],link_resistance_ohm=.001,
+            r4_segments_ohm={'a_to_wiper':centering_r4_a,'wiper_to_b':centering_r4_b},
+            isolated_dc_yoke_current_estimate_a=centering_current,
+            estimate_qualification='isolated design estimate; connected horizontal drive changes current',
+            original_choke_values_and_installed_links_unverified=True),
         external_brightness=dict(source_pdf_pages=[3,4,18],source_id='external:R1',tier='class-typical',
             position=p['brightness_position'],total_r_ohm=p['brightness_pot_r'],
             top_r_ohm=brightness_top,bottom_r_ohm=brightness_bottom,

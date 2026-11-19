@@ -1943,3 +1943,56 @@ swing is about 0.423 App. This is consistent with other Y2 branches carrying
 some current, but the stage still misses the manual TP7 guideline. A5 remains
 conditional on the tube/yoke geometry, circuit model and full connection
 review; this calculation does not freeze a trim or an operating point.
+
+### A1/A2: page-9 centring bridge replaces the DC source equivalent
+
+The earlier `Icentering` midpoint-neutral current source described above is
+superseded. Independent 600 and 1200 dpi reads of source page 9 now resolve
+the [local bridge netlist](reference/k7222-11/page9-centering-source-netlist.json):
+X1:5/X2 goes through L1 to R4 end A, X1:6/X1 goes through L2 to R4's wiper,
+and R4 end B goes through R2 to the second link bank. Each choke symbol labels
+the X-side as pins 1/3 and the R4-side as pins 2/4; the paired pins are joined
+externally on the drawing. E1 joins R4 end A to 00, E2 joins the R2 end to
+12P, E3 joins the R2 end to 00, and E4 joins R4 end A to 12P. The 00 and 12P
+verticals cross the yoke lines without junctions. The drawing leaves all four
+links open; E1+E2 and E3+E4 are opposite-polarity functional alternatives,
+not evidence of the installed pair. The source also does not reveal each
+choke's internal winding/coupling construction.
+
+The new [KiCad bridge sheet](circuits/k7222-11-centering.kicad_sch) contains
+the four inventoried components R2, R4, L1 and L2. A
+[fresh source-to-export comparison](reference/k7222-11/page9-centering-comparison.json)
+matches all nine selected component terminals. The E links remain conditional
+in the ideal-rail adapter, whose default E1+E2 setting is explicitly a
+scenario. R4 is a two-segment 1 kΩ potentiometer; R2 is 150 Ω. L1/L2 each
+use a series RL subcircuit and are now source-addressed in the assembled
+deck. The former `Icentering` element is gone.
+
+The choke parts list gives only type `1.11.017324.0/01`, with no electrical
+rating. The provisional 80 mH nominal is a **design-derived operating
+candidate**: at 16 kHz its reactance is about 8.04 kΩ versus about 402 Ω
+for the nominal 4 mH yoke. The [isolated bridge check](reference/k7222-11/centering-bridge-check.json)
+finds 2.50% incremental AC source current at 80 mH, 9.97% at 20 mH and
+0.625% at 320 mH. The 5 Ω nominal / 0.5–15 Ω copper-resistance range is a
+DC-drop budget against the documented 150 Ω R2, not a winding measurement.
+Core loss and mutual coupling are still unmodeled, explicitly provisional.
+
+R4 is loaded by the yoke, so its isolated DC current is not the earlier
+`12/(R2+R4 segment)` series estimate. With the 1 Ω end-stop floor, let
+`a=max(1, R4×position)` and `b=max(1, R4×(1−position))`. Seen from the wiper
+relative to end A, the 12 V bridge has `Vth=12a/(a+b+R2)` and
+`Rth=a(b+R2)/(a+b+R2)`; the yoke branch adds the two choke resistances and
+yoke resistance. The isolated ngspice check agrees with this expression at
+both link polarities and positions 0, 0.5 and 1 to within 2 µA, allowing for
+the two 1 mΩ numerical link contacts. At midpoint, the nominal current is
+about ±17.71 mA, not zero. Full assembled-deck DC operating-point runs for
+the two link pairs give +17.70951 and −17.70950 mA in `Lhorizontal`, with
+unchanged other settings. These are only static checks; neither the fitted
+link pair nor connected 16 kHz/native-frame behavior is qualified.
+
+The regenerated A2 coverage report now has provisional register rows for
+56/64 frame-path devices, zero devices absent from the ideal-rail assembly,
+and eight unregistered horizontal-board magnetics. A6 has 190 partial bounded
+entries including the two shared choke parameters and conditional link
+selection. A1 still needs the rest of pages 9–10 and the installed link
+orientation; A2 still needs the eight magnetics and connected sensitivity.

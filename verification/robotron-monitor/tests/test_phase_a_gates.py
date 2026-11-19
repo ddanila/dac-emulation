@@ -221,7 +221,8 @@ class PhaseAGateTests(unittest.TestCase):
             trace=Path(temp)/'trace.raw';trace.write_bytes(b'fixture')
             metadata_path=trace.with_name('metadata.json')
             names={name for name,_,_ in phase_a_gates.steady_supply.assembly_sheets()}
-            self.assertEqual(len(names),10)
+            self.assertEqual(len(names),11)
+            self.assertIn('k7222-11-centering.kicad_sch',names)
             archived={'circuits/'+name:hashlib.sha256(
                 (ROOT/'circuits'/name).read_bytes()).hexdigest() for name in names}
             experiment={'capture_sha256':manifest['capture_sha256'],

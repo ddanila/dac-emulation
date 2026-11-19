@@ -1,0 +1,11 @@
+* Page-9 centring bridge. L1/L2 are two-terminal equivalents of the printed
+* 1/3 and 2/4 externally joined pin pairs; internal construction is unknown.
+.subckt CENTERING_CHOKE a b
+Rdc a n {centering_coil_r_ohm}
+Lcoil n b {centering_coil_l_h}
+.ends CENTERING_CHOKE
+
+.subckt CENTERING_POT a b w
+Ra a w {centering_r4_a_ohm}
+Rb w b {centering_r4_b_ohm}
+.ends CENTERING_POT

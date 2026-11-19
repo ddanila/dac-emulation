@@ -56,7 +56,7 @@ def subcircuit_contracts(subcircuits):
     return subcircuits
 
 
-def connectivity(xml_path, subcircuits=None, *, ignored_refs=()):
+def connectivity(xml_path, subcircuits=None, *, ignored_refs=(), allow_floating=False):
     subcircuits = subcircuit_contracts(subcircuits)
     ignored_refs=set(ignored_refs)
     root = ET.parse(xml_path).getroot()
@@ -73,7 +73,7 @@ def connectivity(xml_path, subcircuits=None, *, ignored_refs=()):
             if key in pins:
                 raise ValueError(f'duplicate pin {key}')
             pins[key] = name
-    if '0' not in names:
+    if '0' not in names and not allow_floating:
         raise ValueError('circuit requires ground net 0')
     components = []
     for comp in root.findall('./components/comp'):

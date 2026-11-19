@@ -95,9 +95,17 @@
       "url": "https://www.tiffe.de/Robotron/Monitore/Monitore_2/Monitor_K7222_11_21_Betriebsdokumentation.pdf",
       "sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
       "page": 17
+    },
+    "page9_centering_design": {
+      "file": "reference/k7222-11/page9-centering-source-netlist.json",
+      "companion": "reference/k7222-11/centering-bridge-check.json",
+      "use": "Documented bridge topology plus conditional rail links; 16 kHz isolation and DC-drop engineering bounds for otherwise unprinted choke values."
     }
   },
   "entries": [
+    {"id":"page9-horizontal-centering-chokes.L","stage":"horizontal-centering","value":0.08,"bounds":[0.02,0.32],"unit":"H","sources":["page9_centering_design"],"model_ref":"steady_supply.ASSEMBLY_BOUNDS#centering_coil_l_h","basis":"80 mH nominal gives 8.04 kohm at 16 kHz and 2.5% isolated bridge-to-yoke AC current for the nominal 4 mH yoke; 20-320 mH spans about 10%-0.6%","qualification":"provisional-design-derived"},
+    {"id":"page9-horizontal-centering-chokes.RDC","stage":"horizontal-centering","value":5,"bounds":[0.5,15],"unit":"ohm","sources":["page9_centering_design"],"model_ref":"steady_supply.ASSEMBLY_BOUNDS#centering_coil_r_ohm","basis":"Each coil at the 15 ohm upper bound adds no more than 10% of the printed 150 ohm R2 to the DC path; not a measured winding resistance","qualification":"provisional-design-derived"},
+    {"id":"012-6931:E1-E4.pair","stage":"horizontal-centering","value":0,"bounds":[0,1],"unit":"E1+E2=0; E3+E4=1","sources":["page9_centering_design"],"model_ref":"steady_supply.ASSEMBLY_BOUNDS#centering_horizontal_strap_pair","basis":"Both opposite-polarity link pairs are drawn open; default E1+E2 is a conditional model scenario and the installed pair is unknown","qualification":"conditional-source-topology"},
     {"id":"1SA20C-small-npn-class.IS","stage":"horizontal-sync/vertical-oscillator","value":1e-14,"bounds":[1e-16,1e-12],"unit":"A","sources":["onsemi_bc546b"],"model_ref":"circuits/k7222-11-small-transistor-models.cir#SA20C_CLASS_N.IS","basis":"silicon saturation-current proxy; source leakage does not determine IS","qualification":"provisional-model-proxy"},
     {"id":"1SA20C-small-npn-class.BF","stage":"horizontal-sync/vertical-oscillator","value":260,"bounds":[190,420],"unit":"1","sources":["onsemi_bc546b"],"model_ref":"circuits/k7222-11-small-transistor-models.cir#SA20C_CLASS_N.BF","basis":"SPICE BF proxy for BC546B hFE 200..450 at 2 mA/5 V; effective gain checked at that bias","qualification":"provisional-model-proxy"},
     {"id":"1SA20C-small-npn-class.VAF","stage":"horizontal-sync/vertical-oscillator","value":80,"bounds":[30,150],"unit":"V","sources":["onsemi_bc546b"],"model_ref":"circuits/k7222-11-small-transistor-models.cir#SA20C_CLASS_N.VAF","basis":"bounded Early-voltage proxy; no direct data-book extraction","qualification":"provisional-model-proxy"},

@@ -141,20 +141,25 @@ class SteadySupplyTests(unittest.TestCase):
         self.assertAlmostEqual(steady.r5_rail_scale(1.),3.03/3.4)
         with self.assertRaises(ValueError):steady.r5_rail_scale(1.1)
 
-    def test_r4_equivalent_biases_yoke_with_neutral_midpoint(self):
+    def test_page9_centering_bridge_has_both_source_link_polarities(self):
         selection=steady.select(capture())
         graph=json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
         candidate=tc.enumerate_candidates(graph)[0]
         base={k:v[0] for k,v in steady.signal_path.BOUNDS.items()}
-        for position,current in ((0.,-.08),(.5,0.),(1.,.08)):
-            deck,metadata=steady.deck(dict(parameters=base|{'centering_horizontal_r4_position':position},
+        for pair,links,sign in ((0,('E1','E2'),1),(1,('E3','E4'),-1)):
+            deck,metadata=steady.deck(dict(parameters=base|{'centering_horizontal_strap_pair':pair},
                                           components=[],models=[]),selection,candidate)
-            self.assertIn(f'.param centering_horizontal_r4_position={position:g}',deck)
-            self.assertIn(f'Icentering hy2 hy1 {current:g}',deck)
-            self.assertEqual(metadata['r4_equivalent']['current_a'],current)
-            self.assertEqual(metadata['r4_equivalent']['tier'],'class-typical')
+            for link in links:self.assertIn('Rcentering_'+link+' ',deck)
+            for link in {'E1','E2','E3','E4'}-set(links):self.assertNotIn('Rcentering_'+link+' ',deck)
+            self.assertEqual(metadata['centering_bridge']['strap_pair'],'E1+E2' if pair==0 else 'E3+E4')
+            self.assertEqual(math.copysign(1,metadata['centering_bridge']['isolated_dc_yoke_current_estimate_a']),sign)
+            self.assertNotIn('Icentering ',deck)
+        expected=(12*500/1150)/(500*650/1150+12)
+        self.assertAlmostEqual(steady.centering_bridge_dc_estimate(.5,0,150,1000,5,2),expected)
+        self.assertAlmostEqual(steady.centering_bridge_dc_estimate(.5,1,150,1000,5,2),-expected)
         for position in (-.01,1.01,float('nan')):
-            with self.assertRaises(ValueError):steady.r4_center_current(position)
+            with self.assertRaises(ValueError):steady.centering_bridge_dc_estimate(position,0,150,1000,5,2)
+        with self.assertRaises(ValueError):steady.centering_bridge_dc_estimate(.5,.5,150,1000,5,2)
 
     def test_external_brightness_pot_reaches_video_bias_node(self):
         selection=steady.select(capture())
