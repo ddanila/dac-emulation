@@ -127,6 +127,30 @@ Add one scoring tool that reads the register, measures the mapped nodes in any
 bench or assembly run, and reports measured versus expected for each test
 point. Every Phase B step ends with its output.
 
+## Phase A status: blocked (2026-11-19)
+
+The A1 source-review gate has not passed. Of 260 inventory entries, 227 are
+machine-confirmed, none has a human review mark, and 33 remain open. Human
+review is also outstanding for schematic pages 3, 4, 9, 10, 16 and 18,
+especially T3 winding/pin connectivity and diode direction, the horizontal
+centring bridge, and external brightness wiring. The current gate report is
+`build/monitor/phase-a/source-review-gate-current-20261118.json`; the local
+review guide and mark template are described in
+[`phase-a-evidence.md`](phase-a-evidence.md).
+
+A3 has no passing sustained-state grid calibration or calibration freeze.
+The T3/TP17 path still needs source review before its startup diagnostics can
+be used to select a candidate. Brightness and 012-6931:R4 horizontal centring
+are not bound to verified model controls. The manual's 012-6931:R5 picture-width
+trim acts through converter feedback, while this plan excludes the converter
+and uses fixed rails; R5 therefore cannot adjust width in the current model.
+
+Resume by completing the human source marks and resolving those connections,
+then decide whether to include the R5 converter feedback path or revise the
+width-trim requirement for ideal rails. Bind the remaining controls, run the
+synthetic grid to sustained state, and freeze calibration only after its
+documented gates pass. The Phase A requirements above remain in force.
+
 ## Phase B: build toward the frame
 
 Each step runs on ideal rails and must pass before the next starts.
