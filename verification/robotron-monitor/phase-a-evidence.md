@@ -430,6 +430,15 @@ not a confirmed source read. The rest of page 4 still needs an independent
 pin-to-pin transcription; winding continuity and relative polarity remain
 unverified, and the A1 page-4 check and A5 design point remain open.
 
+The T3 inventory entry itself is now closed separately: two differently
+resolved page-4 views label the part `T3 Zeilentrafo`, confirming its
+line-output transformer identity. `source-review-decisions.json` records both
+image hashes and the scope of that decision. A fresh current-inventory OCR
+audit plus `phase_a_review.evaluate` reports 227 machine-confirmed entries,
+26 agent-resolved frame-path entries, no open frame-path part entries, and all
+six schematic pages still open. This part decision does not verify a winding
+graph or promote the startup traces into an A5 design point.
+
 The original incomplete run's partial-trace summary can be regenerated with:
 
 ```sh
