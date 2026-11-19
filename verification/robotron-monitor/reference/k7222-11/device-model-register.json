@@ -1,8 +1,11 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; fourteen individual devices, six horizontal diode instances, fourteen 1AE15 instances, eight 1AD50 instances and two KFY18 instances have provisional bounds",
+  "status": "partial; fifteen individual devices, six horizontal diode instances, fourteen 1AE15 instances, eight 1AD50 instances and two KFY18 instances have provisional bounds",
   "sources": {
+    "robotron_pc1715_ic_crossref": {"file": "reference/k7222-11/pc1715-ic-crossref.json", "use": "A separate Robotron PC 1715 service-manual table pairs MAA723H with uA723. K7222.11 prints MAA723 without the H suffix; family comparison only."},
+    "ti_ua723": {"url": "https://www.ti.com/lit/ds/symlink/ua723.pdf", "revision": "SLVS057D, July 1999", "pages": [1, 3], "use": "uA723C comparator: 6.8–7.5 V reference at 25 C, 2.3 mA typical/4 mA maximum standby at 30 V, 9.5–40 V input range, and 150 mA output capability. Behavioral error-amplifier parameters are fitted proxies, not internal specifications."},
+    "ti_lm723": {"url": "https://www.ti.com/lit/ds/symlink/lm723.pdf", "revision": "SNVS765C, April 2013", "pages": [2, 3, 4], "use": "10-pin metal-can functional pin contract; 1.7 mA typical standby and 0.2% maximum 1–50 mA load regulation for LM723C at the stated 5 V test fixture. Comparable 723 family, not an MAA723 identification."},
     "tesla_kfy18_1987": {"url": "https://teslakatalog.cz/download/tesla_katalog_2_1987_bw.pdf", "sha256": "fa340fb7a38b8a21091882d4fb3968297e669005c5601f1606fe17960accdc4b", "edition": "TESLA Katalog 2, 1987, printed pages 221-223", "use": "Original KFY18 PNP: h21e 50..250 at IC=1 mA/VCE=5 V, h21E 90..300 at IC=10 mA/VCE=10 V, |VCEsat| typical 0.6 V/max 1 V at IC=150 mA/IB=15 mA, fT typical 100/min 60 MHz at IC=50 mA/VCE=10 V/f=30 MHz, Ccbo typical 19/max 30 pF at VCB=10 V and Cebo typical 55/max 80 pF at VEB=0.5 V. No unique SPICE parameter fit."},
     "ddr_sc237": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SC 236 · SC 237 · SC 238 · SC 239", "use": "Historical SC237 group-E h21e 224–560 at VCE=6 V/IC=2 mA/1 kHz, typical fT 170 MHz at VCE=6 V/IC=10 mA/f=20 MHz, typical pulsed VCEsat 210 mV at IC=100 mA/IB=5 mA, and C11b/C22b 7.7/3.8 pF at stated biases. Not a fitted SC237E transistor curve."},
     "ddr_sf126_129": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SF 126 · SF 127 · SF 128 · SF 129", "use": "Historical SF128 base-family h21E groups A–F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."},
@@ -1513,6 +1516,30 @@
       },
       "model_response_report": "reference/k7222-11/sf127c-vertical-model-check.json",
       "remaining": ["Confirm source pin and transistor arrow in page-10 independent netlist", "Measure connected V18 current, voltage and thermal stress against 30 V/500 mA/600 mW SF127 ratings", "Qualify joint parameter bounds and implicit simulator defaults"]
+    },
+    {
+      "id": "012-6931:A2",
+      "printed_type": "MAA723",
+      "candidate_class": "723-family functional regulator/ramp amplifier proxy",
+      "identity_tier": "Robotron MAA723H-to-uA723 comparison; K7222.11 lacks H suffix, so exact identity and internal circuit remain unverified",
+      "model": "MAA723_BOUND",
+      "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
+      "profile": "profiles/k7222-11-vertical-output.json",
+      "sources": ["robotron_pc1715_ic_crossref", "ti_ua723", "ti_lm723"],
+      "parameters": {
+        "m723_ref_v": {"nominal": 7.15, "bounds": [6.8, 7.5], "unit": "V", "basis": "uA723C reference spread at 25 C; applied as a family proxy, not an MAA723 limit"},
+        "m723_iq": {"nominal": 0.0023, "bounds": [0.0017, 0.004], "unit": "A", "basis": "uA723C 2.3 mA typical/4 mA maximum at 30 V; lower engineering bound is LM723-family 1.7 mA typical"},
+        "m723_error_gm": {"nominal": 0.25, "bounds": [0.1, 0.5], "unit": "S", "basis": "behavioral transconductance chosen to reproduce the LM723C 1–50 mA load-regulation class; internal gm not specified"},
+        "m723_drive_limit": {"nominal": 0.002, "bounds": [0.0015, 0.004], "unit": "A", "basis": "behavioral base-drive bound supporting the uA723 150 mA output class with the provisional pass BJT; not a measured current limit"}
+      },
+      "comparison_targets": {
+        "reference_v": {"range": [6.8, 7.5], "conditions": "uA723C, 25 C, family comparison"},
+        "standby_current_a": {"maximum": 0.004, "conditions": "uA723C, 30 V input, no output load, 25 C, family comparison"},
+        "load_regulation_v": {"maximum": 0.01, "conditions": "LM723C 0.2% of 5 V for 1 to 50 mA load, 12 V input, 25 C, family comparison"},
+        "output_150ma_v": {"minimum": 4.9, "conditions": "engineering proxy for uA723 150 mA capability at 12 V input; no 4.9 V data-sheet limit"}
+      },
+      "model_response_report": "reference/k7222-11/maa723-model-check.json",
+      "remaining": ["Check the K7222.11 MAA723 suffix and page-9 functional pin map", "Qualify connected vertical-stage voltage/current/thermal stress and joint parameter bounds", "Examine the internal 30 pF pole, pass/current-limit transistor and diode curves, and their implicit SPICE defaults; no transistor-level MAA723 identity is claimed"]
     }
   ]
 }
