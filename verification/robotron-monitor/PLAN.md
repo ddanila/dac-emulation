@@ -390,7 +390,7 @@ Every equivalent stage is named in the result label and in the B8 report. An
 equivalent stage is not final: if a later re-read or stage result explains the
 failure, restore the component-level stage and re-run the gates from there.
 
-## Status (2026-11-19)
+## Status before the 2026-11-19 agent-review migration
 
 Phase A tooling exists but still demands human marks (A4 above). A1 stands at
 227 machine-confirmed and 33 open entries, with no second netlist. A2 has 77
@@ -403,6 +403,34 @@ Next, in order: A4 tool change, A5 design point, A2 device models, A1 second
 netlist and open reads, A3 waveform descriptors, A6 register, then B1. A5 comes
 early because it is cheap and its result tells A1 and A2 which parts matter.
 Phase C (speed) waits for B8.
+
+## Phase A goal completion blocker (2026-11-19)
+
+The goal "Phase A of the PLAN is fully implemented; intermediate results
+documented, committed and pushed" cannot yet be marked complete. The immediate
+blocker is an unfinished source-to-model chain: the frame-path connectivity has
+not received its independent schematic netlist check (A1), so the T3 winding
+connections and rectifier paths needed to finish the design point (A5) remain
+provisional. The saved audit still has 26 open frame-path part entries and six
+open schematic pages; seven converter-only entries are outside the A1 gate.
+
+Other required close-out work is also missing. There is no complete bounded
+device-model register for the frame-path identity-only parts (A2), the waveform
+scorer has no EO2 bandwidth/probe model or recorded stimulus for each stage
+(A3), the R5 equivalent and horizontal-centring R4 are not bound in the ideal-
+rail assembly (A4), and no consolidated class-typical register exists (A6).
+The partial A5 calculation also exposes an incompatible assumed tube/yoke
+geometry: the present 10 mm neck clips before the documented half-width, while
+simply enlarging it would overlap the assumed winding. These are recorded in
+`phase-a-evidence.md`; the connected grid startup traces do not establish a
+sustained-state solution.
+
+This is a current completion blocker, not a need for a human decision or a
+physical measurement. Resolve the source readings and netlist by the bounded
+A1 process, use labelled `class-typical` values where a documented value cannot
+be settled, then finish and verify A2–A6. The ground rule and fallbacks above
+still require the work to continue and forbid treating an open item as a reason
+to stop.
 
 ## What the result may be called
 
