@@ -73,8 +73,14 @@ The exploratory post-step descent estimates span 6.49–6.83 V at X2:3 and
 7.41–7.75 V at R48/V20 over 128/256 phase bins. The R48/V20 estimate crosses
 the ±25% lower bound of the 10 V annotation as resolution changes; 64 bins
 also merge the reset into the descent. This does not identify the annotation
-or justify a numeric pass. A reset-excluding feature and source attribution
-remain A3 work.
+or justify a numeric pass. A qualified reset-excluding feature and source
+attribution remain A3 work.
+The [long-line fit check](reference/k7222-11/tp8-ramp-feature-sensitivity.json)
+adds a reproducible reset-excluding diagnostic and synthetic tests. It is
+stable across 64–256 bins at a 2% fit-error allowance, but R48/V20 crosses
+the 7.5 V lower target when that allowance is tightened to 1%. No source
+defines the allowance; picking the passing value would turn the check into a
+fit. The score therefore still treats the 10 V arrow as unresolved.
 The point-7 figure marks a 1 ms rise interval; it is retained as a rise-time
 annotation rather than misclassified as pulse width.
 The fourth text pass reads point 13 as 6.4 Vpp but moves decimal points on
