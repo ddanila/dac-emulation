@@ -406,24 +406,27 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (2026-11-19)
 
-**Tracked-goal blocked reason:** The goal requires all Phase A done conditions
-to pass, with the results documented, committed and pushed. The partial results
-are pushed, but A1, A2, A3, A5 and A6 remain open. Most critically, A1's
-independent source-to-KiCad pin comparison has not established T3's winding
-connections and polarity. Its X1:3-to-X2:3 return and other taps remain
-provisional, so A5 cannot freeze the winding graph, ratios, candidate list or
-design point as source-verified. The page-18 check now compares the physical
-pins of all 18 labelled board-cable pairs, but six signals have functional
-model-scope gaps. A separate comparison matches the yoke connector and four
-winding endpoints. The panel read and deck now agree that R2 is a two-wire
-KRA/KRS rheostat: KRA reaches board R4's left/wiper node and KRS reaches V1's
-emitter. A fresh KiCad export matches all six main-board X1 physical pins;
-the connected contrast stage remains unscored.
-The source-first page-9 checks cover only the 16-pin 5.1 V reference branch
-and eight endpoints of the four-part sync input. Other A1 sheet checks, A2
-device-model coverage, A3 waveform/scorer validation and A6 bounded values
-are unfinished. The bounded source-review and fallback rules above allow
-progress without a human reviewer or physical measurement.
+**Tracked-goal blocked reason:** The goal is to finish all six Phase A done
+conditions and document, commit and push the results. The partial results are
+pushed, but the goal cannot be marked complete: A4 is done and A1, A2, A3,
+A5 and A6 are not. The immediate technical dependency is A1's independent
+source-to-KiCad connection review. T3's X1:3-to-X2:3 return and other winding
+taps remain provisional; the eight surviving flyback-sign candidates are
+conditional on that graph. A5 therefore has no source-verified winding graph,
+final ratios, polarity list or design point. The remaining done-condition gaps
+are:
+
+| Item | Evidence still needed for completion |
+| --- | --- |
+| A1 | Finish the independent page 3–4 and 9–10 pin comparisons; settle page 18's six functional model-scope gaps and connected contrast check; close page 16's source-observation check. |
+| A2 | Model and bound every frame-path device. Only 28 of 64 instances have provisional register coverage; 32 assembled instances have none and four are absent from the ideal-rail assembly. None of the 28 closes every parameter check. |
+| A3 | Finish the manual waveform descriptors and score connected stages with the required loaded probes, stimulus and recorded trims. |
+| A5 | Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and complete the document-consistent tube/yoke design point. |
+| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 43 partial entries. |
+
+This is a completion blocker, not a wait for human review, hardware or
+permission. The source-review and bounded `class-typical` fallback rules above
+allow further work. The detailed evidence and route to completion follow.
 
 The decisive technical uncertainty within A1 is the T3 winding topology.
 Manual page 19 names
