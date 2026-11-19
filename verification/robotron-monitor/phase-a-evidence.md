@@ -950,3 +950,26 @@ capacitance means these transit times are not by themselves a verified model
 fT. Saturation and the other fixed model parameters remain A2 work. The
 isolated vertical-output stage completes with the revised models; no sustained
 grid or factory transistor identification is inferred.
+
+### EHT rectifier class and model bound (2026-11-19)
+
+The `.11` board inventory has no factory type for assembly V21. Source
+schematic page 4 draws V21 as the EHT rectifier from T3 X1:1 to X1:2, and
+operating-manual page 19 says it charges the tube to 11–12 kV. The A1 part
+review now assigns only a bounded `class-typical` 12–16 kV reverse-voltage
+class, nominal 15 kV. This resolves the missing *part identity decision* by
+the plan's fallback without claiming a historical type or closing page-4
+connectivity. The audit now reports 22 agent-resolved frame-path entries and
+four open parts: V18, T3, V27 and V28.
+
+The [Rectron R12000H data sheet](https://www.rectron.com/public/product_datasheets/r12000h.pdf)
+describes a 12 kV fast CRT/FBT rectifier with maximum 100 ns reverse recovery
+and 1 pF zero-bias junction capacitance. The
+[Semtech SDH15K data-book pages 348–349](https://www.semtech.com/uploads/design-support/SG-SEMTECH-PD-DATABOOK.pdf)
+give 15 kV working reverse voltage, 2 µA maximum reverse leakage at 25 °C,
+and 2.5 µs maximum recovery under a different test current. The partial A2
+register records these as alternative class limits. `HOR_HV_RECT` now states
+the 15 kV breakdown and 2 µA knee current explicitly, alongside its existing
+1 pF capacitance and 100 ns transit-time proxy. SPICE `TT` is not the measured
+reverse-recovery time; IS, N and RS and the current T3/V21 terminal mapping
+still need review before this model can satisfy A2 or A5.

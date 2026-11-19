@@ -2,6 +2,21 @@
   "format": "dac-monitor-phase-a-source-review-v2",
   "parts": [
     {
+      "id": "012-6921:V21",
+      "source_page": 4,
+      "frame_path": true,
+      "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "inventory_entry_sha256": "cef9275db56878f26dc5d905103e9662916cb7da62c68c483eecec66e2ed36c9",
+      "decision": "class-typical",
+      "reading": "V21 is the EHT rectifier; no factory part type is printed for the assembly diode",
+      "independent_reads": [],
+      "crop_sha256": null,
+      "argument": "Schematic page 4 draws V21 from T3 X1:1 to X1:2/EHT, and operating-manual page 19 says V21 charges the tube to 11–12 kV. The board BOM does not identify this assembly diode. A 15 kV nominal, 12–16 kV bounded rectifier class is therefore used for electrical modelling, not asserted as the historical type. The T3 pin/return topology remains open in the page-4 netlist review.",
+      "typical_value": 15000,
+      "typical_bounds": [12000, 16000],
+      "typical_source": "VRRM in Rectron R12000H (12 kV), https://www.rectron.com/public/product_datasheets/r12000h.pdf, and Semtech SDH15K (15 kV), https://www.semtech.com/uploads/design-support/SG-SEMTECH-PD-DATABOOK.pdf, data-book pages 348–349; bounds are a candidate class, not an original part rating"
+    },
+    {
       "id": "012-6921:C11",
       "source_page": 6,
       "frame_path": true,

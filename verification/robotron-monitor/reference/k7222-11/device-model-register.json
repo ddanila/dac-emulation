@@ -1,8 +1,19 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; only V27/V28 candidate model bounds recorded",
+  "status": "partial; V21 and V27/V28 candidate model bounds recorded",
   "sources": {
+    "rectron_r12000h": {
+      "url": "https://www.rectron.com/public/product_datasheets/r12000h.pdf",
+      "revision": "June 2020 Rev O",
+      "page": 1,
+      "use": "12 kV fast CRT/FBT rectifier; maximum reverse recovery 0.1 us at IF=2 mA, IR=4 mA; maximum zero-bias junction capacitance 1 pF at 1 MHz"
+    },
+    "semtech_sdh15k": {
+      "url": "https://www.semtech.com/uploads/design-support/SG-SEMTECH-PD-DATABOOK.pdf",
+      "edition": "2009 data book pages 348–349",
+      "use": "15 kV working reverse voltage, maximum 2 uA reverse leakage at 25 C and maximum 2.5 us recovery at IF=50 mA, IR=100 mA"
+    },
     "schematic": {
       "file": "older.pdf",
       "page": 10,
@@ -23,6 +34,21 @@
     }
   },
   "devices": [
+    {
+      "id": "012-6921:V21",
+      "candidate_class": "12–15 kV silicon EHT rectifier assembly",
+      "identity_tier": "class-typical; assembly part type not printed",
+      "model": "HOR_HV_RECT",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "source_connection": "older.pdf page 4 shows anode at T3 X1:1 and cathode at X1:2/EHT; current KiCad transcription instead feeds D1132 from X1:16, pending A1 netlist correction",
+      "parameters": {
+        "BV_v": {"spice_parameter": "BV", "nominal": 15000, "bounds": [12000, 16000], "basis": "Semtech SDH15K 15 kV and Rectron R12000H 12 kV reverse ratings; 16 kV is an adjacent rectifier class, not a source assertion for V21"},
+        "IBV_a": {"spice_parameter": "IBV", "nominal": 2e-6, "bounds": [1e-6, 5e-6], "basis": "Semtech 2 uA maximum reverse leakage at 15 kV/25 C; Rectron 2 uA at 12 kV"},
+        "CJO_f": {"spice_parameter": "CJO", "nominal": 1e-12, "bounds": [5e-13, 2e-12], "basis": "Rectron R12000H maximum 1 pF at zero bias/1 MHz; wider class uncertainty spans unverified assembly capacitance"},
+        "TT_s": {"spice_parameter": "TT", "nominal": 1e-7, "bounds": [1e-7, 2.5e-6], "basis": "provisional transit-time proxy bracketed by Rectron 0.1 us and Semtech 2.5 us reverse-recovery specifications under different test currents; model recovery must be measured, because SPICE TT is not t_rr"}
+      },
+      "remaining": ["Resolve X1:1/X1:2/X1:16 and the winding return against independent page-4 netlist", "Measure reverse recovery of the SPICE candidate at both data-sheet test conditions", "Bound unexamined IS, N and RS and sweep diode capacitance/recovery sensitivity"]
+    },
     {
       "id": "012-6931:V27",
       "candidate_class": "BD139-class NPN output transistor",

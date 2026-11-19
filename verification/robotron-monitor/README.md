@@ -43,8 +43,8 @@ CRT load. Only converter switching is replaced by ideal 12/22/41/-16 V rails.
 Horizontal and vertical winding currents, flyback feedback and electrode voltages
 are solved by the circuit. There is no prescribed scan current or framebuffer.
 
-The source audit now includes 247 of 260 entries; this count is **not** a complete
-or validated monitor. The steady-supply assembly uses 206 historical entries,
+The source audit now includes 248 of 260 entries; this count is **not** a complete
+or validated monitor. The steady-supply assembly uses 207 historical entries,
 excluding the converter/input supply network. Nine unimplemented input-board
 entries and other assembly details remain outside this experimental path. T3,
 T1/T2, L4 mutual coupling, yoke parameters and semiconductor families still need
