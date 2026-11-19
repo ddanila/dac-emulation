@@ -704,8 +704,29 @@ the excluded supply sheets; all six schematic pages remain open. The latter
 counts are diagnostics, not new source decisions or a passing A1 gate.
 
 `phase_a_gates.py` accepts the v2 source report and no longer requires a named
-reviewer or date on waveform observations. The A3 scorer still needs the
-machine-checkable shape descriptors and instrument treatment required by the
-revised PLAN, so this change does not complete A3 or A4. The prior v1
-human-review template and report under ignored `build/` are historical inputs,
-not evidence that the v2 gate passes.
+reviewer or date. The prior v1 human-review template and report under ignored
+`build/` are historical inputs, not evidence that the v2 gate passes.
+
+### Machine waveform descriptors (2026-11-19)
+
+Manual PDF pages 20–21 were read directly for all 17 test-point sketches.
+`service-observations.json` now records the visible pulse polarity, sawtooth
+direction or bipolar ramp class as `agent-read`, bound to the hashed manual.
+Only point 5 has a numerical duty bound, from its printed 0.5 ms pulse in the
+19.5 ms native field. Other sketches do not give a defensible numerical duty.
+
+`service_score.py` now evaluates these descriptors from sampled traces. It
+checks pulse sense and repetition, time-weighted duty where specified,
+sampling resolution, sawtooth direction/reset and point 7's bipolar excursion.
+G3 and G4 consume the computed shape result. The separate waveform-review
+template and its gate requirement were removed; an unsupported assertion that
+"shape agrees" can no longer pass either gate. G4 now applies the revised
+PLAN's allowance of at most three explained held-out misses.
+
+This does not finish A3. The score still uses raw trace amplitudes and has not
+applied a class-typical EO2 bandwidth or single-probe loading. A
+[manufacturer manual for the comparable RFT EO 203](https://www.mikrocontroller.net/attachment/269865/RFT_EO_203_Spec.pdf)
+lists 10 MHz bandwidth and 1 MΩ/48 pF direct input, with a separate 10 MΩ/20 pF
+accessory figure; it is a candidate range, not proof of the exact EO2 setup.
+The source figure also leaves stimulus and trim settings unspecified, so the
+grid choice must be recorded with each stage score.
