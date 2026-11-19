@@ -1,0 +1,41 @@
+{
+  "format": "dac-monitor-vertical-a3-tp8-source-corrected-diagnostic-v1",
+  "qualification": "diagnostic only; synthetic field sync and incomplete TP8 numeric reference",
+  "source_read": "tp8-waveform-source-read.json",
+  "run": {
+    "profile": "profiles/k7222-11-vertical-output.json",
+    "profile_sha256": "6da1382ef697e82246d9c231a2ebff6d1faa2f7cb672cbae2a77ad8e887aeada",
+    "stop_s": 0.2535,
+    "step_s": 0.000002,
+    "parameter_override": {"sync_period": 0.0195},
+    "height_trim_ohm": 11000,
+    "report_sha256": "9bd3021c7d782ede6a3860db723e947ee72487b3f435aa29ce17fa5a3b4e95d5",
+    "deck_sha256": "6642624b3e4d4cdb7076df577424648d7d325572ebb5fe9fa4f46abf0ed70185",
+    "trace_sha256": "d85c8f5b4cdd0e0ed5a2355bed2feacd0429079737acddbd08f792f75759149c"
+  },
+  "probe": {
+    "model": "separate EO 203-equivalent circuit loads and bandwidth response",
+    "resistance_ohm": 1000000,
+    "capacitance_f": 4.8e-11,
+    "tp7_loaded_trace_sha256": "5c6cbeb3273919c6738ac5bbb83bca94a3882b9b3bde394a9db175d2001c8f54",
+    "tp8_loaded_trace_sha256": "05324a39ee86e226038a8f35aa7d9bdd472c8ebe927c967276d51395524053f6"
+  },
+  "score": {
+    "window_s": [0.234, 0.2535],
+    "samples": 9750,
+    "service_score_py_sha256": "c57e74828ec73083e5de487e860e8126f54ed4ca15a1653adf458af3b2109ba7",
+    "score_sha256": "182f19a107c50e03667792e2fe7212c091fd0f88c589070413dde74e807fd30b",
+    "tp7": {"loaded_swing_vpp": 2.159876636920127, "status": "pass-numeric", "shape_status": "pass"},
+    "tp8": {
+      "loaded_full_swing_vpp": 25.785470273195045,
+      "loaded_positive_crest_above_zero_v": 14.580295938549376,
+      "crest_reference_v": 17,
+      "crest_within_25_percent": true,
+      "status": "reference-incomplete",
+      "shape_status": "pass",
+      "reason": "the second 10 V shoulder-to-trough annotation is not yet assigned to X2:3 or R48/V20"
+    },
+    "required_failures": [8]
+  },
+  "next": "Attribute the 10 V arrow, record and load the corresponding node, and use native grid stimulus before qualifying A3."
+}

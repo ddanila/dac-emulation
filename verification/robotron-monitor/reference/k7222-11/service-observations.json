@@ -344,7 +344,16 @@
     {
       "test_point": 8,
       "node": "012-6931:X2:3",
-      "approximate_swing_v": 17,
+      "approximate_swing_v": null,
+      "positive_crest_above_zero_v": 17,
+      "positive_crest_baseline_v": 0,
+      "secondary_excursion": {
+        "approximate_swing_v": 10,
+        "from": "post-step shoulder above the drawn zero line",
+        "to": "negative trough",
+        "node_attribution": "unresolved between the X2:3 and R48/V20 labels"
+      },
+      "numeric_reference_status": "partial; second annotated excursion has no settled node attribution",
       "source": {
         "file": "older-operation.pdf",
         "page": 20
@@ -354,7 +363,7 @@
       "status": "reference-transcribed-not-measured",
       "model_node": "y1",
       "model_expression": "v(y1)",
-      "additional_source_annotation": "The same figure also labels R48/V20 and a second approximately 10 Vpp excursion below the zero line; its exact probe relationship to X2:3 awaits schematic review.",
+      "additional_source_annotation": "The 17 V arrow spans the positive crest to the drawn 0 V line, not the full peak-to-peak trace. The 10 V arrow spans a positive post-step shoulder to a negative trough. Page 10 puts R48/V20 on a separate bias net from X2:3, but the figure does not unambiguously assign its two annotations to those nodes; see tp8-waveform-source-read.json.",
       "mapping_source": {
         "file": "older.pdf",
         "page": 10

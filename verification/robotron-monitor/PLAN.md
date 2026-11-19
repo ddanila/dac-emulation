@@ -417,12 +417,15 @@ winding graph. A5 therefore cannot freeze the winding ratios, polarities or
 complete design point. A2 has one assembled horizontal-board magnetic
 instance without a register entry, and the 63 registered instances remain
 provisional. A fresh loaded A3 vertical-stage run with the current device
-models passes TP7 at 2.1599 Vpp but scores TP8 at 25.7855 Vpp against the
-current 17 V ±25% register target. It uses synthetic sync, and adjacent late
-fields still differ by about 0.59 V at the Y1 reset. Manual page 20 also
-annotates a separate approximately 10 V excursion at TP8, so the register's
-interpretation of 17 V as total peak-to-peak needs source review before this
-numeric mismatch can be treated as a settled calibration target. The isolated,
+models passes TP7 at 2.1599 Vpp and gives TP8 a 25.7855 Vpp full swing. The
+prior TP8 comparison to 17 Vpp was a source-reading error: the manual's 17 V
+arrow ends at the drawn zero line, while its separate 10 V arrow spans the
+post-step shoulder to the negative trough. The corrected register tests the
+17 V positive crest (14.5803 V measured, within ±25%) and marks the full TP8
+numeric reference incomplete until the 10 V arrow is attributed between X2:3
+and the distinct R48/V20 bias net.
+The run uses synthetic sync, and adjacent late fields still differ by about
+0.59 V at the Y1 reset. The isolated,
 unloaded driver also misses TP15
 (30.02 Vpp versus 45 Vpp ±20%). No connected native-grid A3 score exists. A6
 still lacks bounded frame-path values. The isolated L3/R35 branch check now
@@ -450,7 +453,7 @@ labelled as such. The remaining done-condition gaps are:
 | --- | --- |
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed local branches and page-9 centring bridge, including transistor C/E polarity, L1's ambiguous hot-line crossing and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. The installed E1–E4 pair is not identified. |
 | A2 | Model and bound every frame-path device. Sixty-three of 64 instances have provisional register coverage; T3 has none. Both page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes have conditional checks, but original values and connected sensitivity remain unqualified. None of the 63 closes every qualification check. |
-| A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
+| A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check now passes in the synthetic-sync loaded bench, but its separate 10 V arrow still needs node attribution. Score connected stages with the required loaded probes, native grid stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
 | A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 201 partial entries. |
 
@@ -557,8 +560,9 @@ the source compensation connections. The
 passes eight nominal LM709C-class response and rail-current checks, with
 provisional parameter bounds in A2/A6. The printed P09A identity is still
 unknown. The [connected diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-p09a-equivalent.json)
-passes loaded TP7 at 2.159 Vpp, but TP8 is 25.767 Vpp against the manual's
-17 V ±25% guideline, and Y1 is still not field-periodic. A3 and the remaining
+passes loaded TP7 at 2.159 Vpp. Its archived TP8 comparison treated 25.767
+Vpp as a failure against 17 Vpp; that total-swing target was misread from the
+manual figure. Y1 is still not field-periodic. A3 and the remaining
 A2 qualification therefore stay open; the failed transistor proxy is kept
 only as historical evidence.
 
@@ -756,7 +760,8 @@ The waveform scorer now supports separately loaded SPICE solves for the bounded
 EO 203 probe equivalent and records an explicit grid stimulus choice. The
 [earlier vertical-stage diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic.json)
 records trims and separate TP7/TP8 probe solves at the native 19.5 ms field
-period. TP8's loaded 18.31 Vpp passes its 17 V guideline and both shapes pass;
+period. The archived scorer marked TP8's loaded 18.31 Vpp as passing a 17 Vpp
+target now known to be misread; both shapes pass;
 TP7's loaded 1.74 Vpp fails its 2.5 V guideline. The stimulus is a synthetic
 field pulse, and a 2.29 V Y1 reset difference remains between late adjacent
 fields. This is not a grid-stimulus or sustained connected-stage A3 score;
@@ -764,7 +769,8 @@ the remaining points and complete A3 comparison stay open.
 The [refreshed loaded diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-maa723.json)
 uses the revised MAA723 proxy with the same nominal trims and synthetic
 19.5 ms field pulse. TP7 rises to 1.8718 Vpp, just below the 1.875 Vpp lower
-bound of the manual's ±25% guideline; TP8 passes at 18.7763 Vpp. Both shapes
+bound of the manual's ±25% guideline; the archived 18.7763 Vpp TP8 pass used
+the same misread full-swing target. Both shapes
 pass. Adjacent late fields still differ by 2.61 V at Y1 reset (13.9% of its
 swing), so periodic steady state is not established. These are conditional
 stage diagnostics, not a native-grid A3 score.
@@ -772,17 +778,21 @@ That diagnostic still used the failed `LM709_FAMILY` P09A proxy. With the
 labelled `P09A_EQUIV` fallback, the latest
 [pre-class-model loaded diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-p09a-equivalent.json)
 at the native 19.5 ms period gives TP7 2.1594 Vpp (pass) and TP8 25.7674 Vpp
-(fail against 17 V ±25%); both shapes pass. Y1's late-field reset differs by
+(fail against the former 17 Vpp target); both shapes pass. Y1's late-field
+reset differs by
 0.5972 V, or 2.32% of its 25.768 V swing. This remains synthetic-sync and
 nonperiodic, not the complete connected grid-stimulus A3 comparison.
 A fresh rerun with the current small-transistor models and nominal 11 kΩ
 height trim, scored over 0.234–0.2535 s with separate EO 203-equivalent
-circuit-loaded probes, reproduces the gap: TP7 passes at 2.1599 Vpp, TP8
-scores 25.7855 Vpp and fails the present 17 V ±25% target; both registered
-shape checks pass. The adjacent Y1 reset differs by about 0.59 V, and the
-stimulus is still synthetic. The manual's additional approximately 10 V TP8
-annotation and its relationship to the 17 V annotation remain unresolved;
-do not freeze the amplitude target from this diagnostic alone.
+circuit-loaded probes, gives TP7 2.1599 Vpp and TP8 25.7855 Vpp; both
+registered shape checks pass. The adjacent Y1 reset differs by about 0.59 V,
+and the stimulus is still synthetic. The
+[TP8 source reread](reference/k7222-11/tp8-waveform-source-read.json) shows
+that 17 V is crest-to-zero, not full peak-to-peak. The
+[source-corrected loaded score](reference/k7222-11/vertical-a3-tp8-source-corrected-diagnostic.json)
+measures a 14.5803 V crest, inside the 17 V ±25% guideline. The 10 V
+shoulder-to-trough arrow has unresolved node attribution, so TP8 remains
+`reference-incomplete` rather than a full-swing pass or failure.
 The class-typical register collects
 201 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).

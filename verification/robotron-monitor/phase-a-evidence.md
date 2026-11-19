@@ -59,8 +59,13 @@ printed 1–8 set,
 annotated 22 and 10 Vpp at V22's collector. The register preserves it as an
 auxiliary observation. Its converter node is excluded from Phase B's ideal-rail
 stages, so it is not silently treated as one of the numbered 1–17 score points.
-The point-8 figure additionally labels R48/V20 and approximately 10 Vpp below
-zero; its relationship to X2:3 is left for schematic review.
+The point-8 figure additionally labels R48/V20. A later 400 dpi source reread
+found that its approximately 17 V arrow ends at the drawn zero line, while a
+separate approximately 10 V arrow spans a shoulder above zero to the negative
+trough. Neither is a full-trace peak-to-peak value. Page 10 places R48/V20 on
+a distinct bias net from X2:3; the figure does not settle which node owns the
+second arrow. The [source reread](reference/k7222-11/tp8-waveform-source-read.json)
+records the image hashes and keeps that attribution open.
 The point-7 figure marks a 1 ms rise interval; it is retained as a rise-time
 annotation rather than misclassified as pulse width.
 The fourth text pass reads point 13 as 6.4 Vpp but moves decimal points on
@@ -1636,13 +1641,14 @@ hashes, all input conditions and the following conditional results:
 For a linear -I-to-+I trace followed by a 1.5 ms retrace, `V=RI+L dI/dt`
 requires 31.17 A/s during trace and -374.07 A/s during retrace. The ideal
 terminal differential ranges from -10.28 to +3.43 V, a 13.71 Vpp swing.
-Manual test points 7 and 8 are **separate** yoke-terminal waveforms with 2.5
-and 17 Vpp guidelines. Without their relative phase and DC offsets they cannot
-yield a measured differential. Their nominal possible differential-swing
-interval is 14.5–19.5 Vpp, placing the ideal calculation 0.79 V below its
-nominal lower edge; with each point's recorded ±25% guideline tolerance, the
-possible interval widens to 9.625–24.375 Vpp and contains 13.71 Vpp. This is
-a consistency screen, not a connected-stage pass or a document contradiction.
+Manual test points 7 and 8 are separate yoke-terminal waveforms. TP7 has a
+2.5 Vpp guideline, but page 20's 17 V TP8 arrow runs from the positive crest
+to zero rather than across the full trace. Its separate 10 V shoulder-to-trough
+arrow has unresolved node attribution. The earlier nominal 14.5–19.5 Vpp and
+toleranced 9.625–24.375 Vpp possible differential-swing intervals were derived
+from the mistaken 17 Vpp interpretation and have been withdrawn. The 13.71 Vpp
+ideal calculation remains a conditional model result, not a connected-stage
+pass or a document contradiction.
 The nominal current is stable within 2 nA across 0.2, 0.1 and 0.05 mm
 trajectory steps.
 
@@ -1849,7 +1855,8 @@ its swing and yoke current by 0.42%, but Y1 still differs by 2.29 V, or 12.5%
 of its swing, briefly near reset. Periodic steady state is not established.
 For the final field, the separate EO 203-equivalent loaded solves give TP7
 1.740 Vpp against the manual's 2.5 V ±25% guideline (numeric fail) and TP8
-18.307 Vpp against 17 V ±25% (numeric pass). Both registered shape checks pass.
+18.307 Vpp against the then-registered 17 Vpp target (archived numeric pass;
+that full-swing target was later corrected). Both registered shape checks pass.
 The probe loading changes these low-impedance nodes by less than 0.00001 Vpp.
 
 The scorer labels this result `diagnostic-only; grid stimulus not established`.
@@ -1864,8 +1871,9 @@ nominal trims were solved again through 0.2535 s. The new
 records the then-current model parameters and hashes of its stage deck, raw trace,
 independent TP7/TP8 probe solves and score. In the final field, TP7 is
 1.8718 Vpp after probe loading. It misses the 1.875 Vpp lower bound of the
-2.5 V ±25% guideline by 0.0032 V; TP8 passes at 18.7763 Vpp against its
-17 V guideline. Both shape checks pass. Across 9,750 paired samples from the
+2.5 V ±25% guideline by 0.0032 V; the archived scorer passes TP8 at 18.7763
+Vpp against the former, misread 17 Vpp target. Both shape checks pass. Across
+9,750 paired samples from the
 two final fields, the vertical ramp differs by at most 0.38% of its swing and
 yoke current by 0.39%, but Y1 differs by 2.61 V (13.9% of its swing) near
 reset. The stage is still not proved periodic, and the stimulus remains a
@@ -1890,14 +1898,20 @@ page-10 loaded output current remain unchecked.
 The archived [native-period diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-p09a-equivalent.json)
 uses the same nominal trims, 19.5 ms synthetic field pulse and separate
 EO 203-equivalent probe solves. Loaded TP7 now passes at 2.1594 Vpp against
-its 2.5 V ±25% guideline, but loaded TP8 fails at 25.7674 Vpp against
-17 V ±25%; both shape checks pass. The late-field Y1 maximum difference is
+its 2.5 V ±25% guideline. The archived scorer marked TP8's 25.7674 Vpp as
+failing a 17 Vpp target, now corrected because 17 V is crest-to-zero; both
+shape checks pass. The late-field Y1 maximum difference is
 0.5972 V, or 2.32% of its 25.768 V swing, concentrated near reset. This is
 still not periodic steady state, and the bench does not use the native grid
 input. This run predates the new BC546B-class transistor proxies, so its TP8
-failure is historical evidence, not a current connected-stage score. A fresh
-loaded diagnostic and source-first review of the remaining page-10
-feedback/output path are needed before parameters are changed to match TP8.
+failure is historical evidence, not a current connected-stage score. The
+current small-transistor-model rerun gives 25.7855 Vpp full swing at TP8 but
+does not establish a manual full-swing target. The
+[corrected loaded score](reference/k7222-11/vertical-a3-tp8-source-corrected-diagnostic.json)
+checks the 17 V positive crest: 14.5803 V is within ±25%, while the separate
+10 V annotation remains unresolved. A source-first
+review of the remaining page-10 feedback/output path is still needed before
+parameters are changed to match TP8.
 
 ### A1: page-10 feedback branch and cross-page R44 identity
 
