@@ -85,7 +85,7 @@ def compare(source, assembly, exports, components, *, pdf_sha256):
                    if row['from_export_net'] != row['model_net']
                    or row['to_export_net'] != row['model_net']]
     return dict(format='dac-monitor-page18-board-cable-pin-comparison-v1',
-                qualification='all 18 labelled board-cable pairs checked at both physical pins; functional gaps and panel/yoke paths remain open',
+                qualification='all 18 labelled board-cable pairs checked at both physical pins; functional gaps and panel paths remain open',
                 source_sha256=sha(SOURCE), source_pdf_sha256=pdf_sha256,
                 assembly_sha256=sha(ASSEMBLY),
                 sheet_sha256={stem: sha(ROOT/'circuits'/(stem+'.kicad_sch'))
@@ -97,7 +97,7 @@ def compare(source, assembly, exports, components, *, pdf_sha256):
                 functional_board_nets_both_present=semantic_report['both_board_nets'],
                 functional_model_scope_gaps=semantic_report['missing_board_nets'],
                 open_checks=['six cable signals have functional model-scope gaps',
-                             'panel controls and yoke wiring need source-to-KiCad pin comparison',
+                             'panel controls need source-to-KiCad pin comparison; yoke is checked separately',
                              'T3 internal winding order is outside this page-18 cable map'],
                 passed=not pin_misses and not extras and not pair_misses)
 
