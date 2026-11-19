@@ -29,9 +29,10 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def simulate(stimulus, analysis, probes, model=MODEL):
+def simulate(stimulus, analysis, probes, model=MODEL, models_path=None):
+    models_path = MODELS if models_path is None else models_path
     deck = ('Horizontal transistor class check\n.temp 25\n'
-            + MODELS.read_text() + '\nQ1 c b 0 ' + model + '\n'
+            + models_path.read_text() + '\nQ1 c b 0 ' + model + '\n'
             + stimulus + '\n.control\nset noaskquit\n' + analysis
             + '\nprint ' + ' '.join(probes) + '\n.endc\n.end\n')
     with tempfile.TemporaryDirectory() as directory:
@@ -45,8 +46,8 @@ def simulate(stimulus, analysis, probes, model=MODEL):
     return result.stdout
 
 
-def op(stimulus, probes, model=MODEL):
-    output = simulate(stimulus, 'op', probes, model)
+def op(stimulus, probes, model=MODEL, models_path=None):
+    output = simulate(stimulus, 'op', probes, model, models_path)
     values = {key: float(value) for key, value in VALUE.findall(output)}
     if set(values) != set(probes):
         raise RuntimeError('ngspice omitted transistor operating-point values: '
@@ -54,29 +55,29 @@ def op(stimulus, probes, model=MODEL):
     return values
 
 
-def gain_at(target_a, vce_v, model=MODEL):
+def gain_at(target_a, vce_v, model=MODEL, models_path=None):
     low, high = 1e-8, .02
     for _ in range(25):
         base_a = (low+high)/2
         point = op(f'VCE c 0 {vce_v}\nIBASE 0 b {base_a:.12g}',
-                   ('i(vce)', 'v(b)'), model)
+                   ('i(vce)', 'v(b)'), model, models_path)
         if -point['i(vce)'] > target_a:
             high = base_a
         else:
             low = base_a
     base_a = (low+high)/2
     point = op(f'VCE c 0 {vce_v}\nIBASE 0 b {base_a:.12g}',
-               ('i(vce)', 'v(b)'), model)
+               ('i(vce)', 'v(b)'), model, models_path)
     collector_a = -point['i(vce)']
     return dict(collector_current_a=collector_a, base_current_a=base_a,
                 collector_emitter_voltage_v=vce_v,
                 base_emitter_voltage_v=point['v(b)'], hFE=collector_a/base_a)
 
 
-def ac_gain_at(base_a, vce_v, frequency_hz, model=MODEL):
+def ac_gain_at(base_a, vce_v, frequency_hz, model=MODEL, models_path=None):
     output = simulate(f'VCE c 0 {vce_v}\nIBASE 0 b DC {base_a:.12g} AC 1',
                       f'ac lin 1 {frequency_hz:.12g} {frequency_hz:.12g}',
-                      ('mag(i(vce))',), model)
+                      ('mag(i(vce))',), model, models_path)
     match = AC_GAIN.search(output)
     if not match:
         raise RuntimeError('ngspice omitted current-gain row: '
