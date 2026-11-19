@@ -3,6 +3,7 @@
   "status": "partial; contains currently cited bounded candidates, not a completed A6 freeze",
   "scope": "K7222.11 ideal-rail frame path and service comparison",
   "sources": {
+    "ddr_sc237": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SC 236 · SC 237 · SC 238 · SC 239", "use": "Historical SC237 group-E h21e 224–560 at VCE=6 V/IC=2 mA/1 kHz, typical fT 170 MHz at VCE=6 V/IC=10 mA/f=20 MHz, typical pulsed VCEsat 210 mV at IC=100 mA/IB=5 mA, and C11b/C22b 7.7/3.8 pF at stated biases. Not a fitted SC237E transistor curve."},
     "ddr_sf126_129": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SF 126 · SF 127 · SF 128 · SF 129", "use": "Historical SF128 base-family h21E groups A–F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."},
     "vishay_uf4007": {"url": "https://www.vishay.com/docs/88755/uf4001.pdf", "revision": "6 April 2020, document 88755", "pages": [1, 2, 3], "use": "Comparable 1000 V ultrafast 1 A rectifier: VF <=1.7 V at 1 A, IR <=10 uA at 1000 V/25 C, trr <=75 ns at IF=0.5 A/IR=1 A/Irr=0.25 A and typical 17 pF at 4 V/1 MHz. Not an identity for 1YL1 variants."},
     "nexperia_bzx84_series": {"url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", "revision": "Rev. 7, 1 January 2023", "pages": [5, 6], "use": "BZX84-C6V2, C9V1 and C16 comparable 5 mA zener voltage, differential resistance and capacitance limits; not historical identifications or SPICE transit-time data."},
@@ -1658,6 +1659,262 @@
       "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_DRIVER_N.TR",
       "basis": "reverse transit-time/storage proxy; historical family sheet has no inductive storage/fall test, so this range remains unqualified",
       "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V10.IS",
+      "stage": "horizontal-oscillator",
+      "value": 1e-14,
+      "bounds": [
+        1e-16,
+        1e-12
+      ],
+      "unit": "A",
+      "sources": [
+        "ddr_sc237"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#SC237E_N.IS",
+      "basis": "SPICE saturation-current proxy; source leakage limit does not uniquely determine IS",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V10.BF",
+      "stage": "horizontal-oscillator",
+      "value": 300,
+      "bounds": [
+        224,
+        560
+      ],
+      "unit": "1",
+      "sources": [
+        "ddr_sc237"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#SC237E_N.BF",
+      "basis": "selected inside the printed SC237 E gain group at 2 mA/6 V",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V10.VAF",
+      "stage": "horizontal-oscillator",
+      "value": 80,
+      "bounds": [
+        20,
+        200
+      ],
+      "unit": "V",
+      "sources": [
+        "ddr_sc237"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#SC237E_N.VAF",
+      "basis": "Early-voltage proxy; historical sheet has no extraction, assumed sensitivity range",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V10.RC",
+      "stage": "horizontal-oscillator",
+      "value": 1,
+      "bounds": [
+        0.1,
+        5
+      ],
+      "unit": "ohm",
+      "sources": [
+        "ddr_sc237"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#SC237E_N.RC",
+      "basis": "collector series-resistance proxy chosen with RE to reproduce typical 210 mV saturation at documented bias; not a measured RC",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V10.RE",
+      "stage": "horizontal-oscillator",
+      "value": 0.25,
+      "bounds": [
+        0.01,
+        1
+      ],
+      "unit": "ohm",
+      "sources": [
+        "ddr_sc237"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#SC237E_N.RE",
+      "basis": "emitter series-resistance proxy chosen with RC to reproduce typical 210 mV saturation at documented bias; not a measured RE",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V10.CJE",
+      "stage": "horizontal-oscillator",
+      "value": 7.7e-12,
+      "bounds": [
+        3e-12,
+        2e-11
+      ],
+      "unit": "F",
+      "sources": [
+        "ddr_sc237"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#SC237E_N.CJE",
+      "basis": "proxy around historical C11b 7.7 pF at UEB=0.5 V/1 MHz; CJE zero-bias parameter is not that measured capacitance",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V10.CJC",
+      "stage": "horizontal-oscillator",
+      "value": 3.8e-12,
+      "bounds": [
+        1e-12,
+        1e-11
+      ],
+      "unit": "F",
+      "sources": [
+        "ddr_sc237"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#SC237E_N.CJC",
+      "basis": "proxy around historical C22b 3.8 pF at UCB=6 V/1 MHz; CJC zero-bias parameter is not that measured capacitance",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V10.TF",
+      "stage": "horizontal-oscillator",
+      "value": 9e-10,
+      "bounds": [
+        4e-10,
+        2e-09
+      ],
+      "unit": "s",
+      "sources": [
+        "ddr_sc237"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#SC237E_N.TF",
+      "basis": "forward transit-time proxy selected to reproduce group-E typical fT 170 MHz at 10 mA/6 V/20 MHz; not a measured TF",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V10.TR",
+      "stage": "horizontal-oscillator",
+      "value": 1e-08,
+      "bounds": [
+        1e-09,
+        1e-07
+      ],
+      "unit": "s",
+      "sources": [
+        "ddr_sc237"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#SC237E_N.TR",
+      "basis": "reverse transit-time proxy; historical sheet has no storage/fall test, so range is unqualified",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V12.IS",
+      "stage": "horizontal-pre-driver",
+      "value": 1e-14,
+      "bounds": [
+        1e-16,
+        1e-12
+      ],
+      "unit": "A",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_N.IS",
+      "basis": "SPICE saturation-current proxy; family sheet has no IS extraction",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V12.BF",
+      "stage": "horizontal-pre-driver",
+      "value": 100,
+      "bounds": [
+        18,
+        1120
+      ],
+      "unit": "1",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_N.BF",
+      "basis": "nominal broad SF126–129 family gain at 50 mA/2 V; printed SF1260 suffix/group unresolved",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V12.VAF",
+      "stage": "horizontal-pre-driver",
+      "value": 80,
+      "bounds": [
+        20,
+        200
+      ],
+      "unit": "V",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_N.VAF",
+      "basis": "Early-voltage proxy; family sheet has no extraction, assumed sensitivity range",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V12.CJE",
+      "stage": "horizontal-pre-driver",
+      "value": 2e-11,
+      "bounds": [
+        2e-12,
+        1e-10
+      ],
+      "unit": "F",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_N.CJE",
+      "basis": "base-emitter capacitance proxy; family sheet has no junction capacitance specification",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V12.CJC",
+      "stage": "horizontal-pre-driver",
+      "value": 8e-12,
+      "bounds": [
+        1e-12,
+        5e-11
+      ],
+      "unit": "F",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_N.CJC",
+      "basis": "base-collector capacitance proxy; family sheet has no junction capacitance specification",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V12.TF",
+      "stage": "horizontal-pre-driver",
+      "value": 2e-09,
+      "bounds": [
+        1e-10,
+        4e-09
+      ],
+      "unit": "s",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_N.TF",
+      "basis": "forward transit-time proxy; live model passes family fT >=60 MHz under data-book bias, not a direct TF limit",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V12.TR",
+      "stage": "horizontal-pre-driver",
+      "value": 1e-08,
+      "bounds": [
+        1e-09,
+        1e-07
+      ],
+      "unit": "s",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_N.TR",
+      "basis": "reverse transit-time proxy; family sheet has no storage/fall test, so range is unqualified",
+      "qualification": "provisional-model-proxy"
     }
   ],
   "open_families": [
@@ -1679,7 +1936,7 @@
     },
     {
       "file": "reference/k7222-11/device-model-register.json",
-      "reason": "ten individual provisional semiconductor models and six horizontal diode instances still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 instances have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
+      "reason": "twelve individual provisional semiconductor models and six horizontal diode instances still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 instances have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
     }
   ],
   "use_for_sensitivity": "Only entries whose model_ref resolves to an active parameter and whose model response is validated may be swept as A6 class-typical bounds. Pending families are not qualified."
