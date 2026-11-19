@@ -1,10 +1,11 @@
 {
   "format": "dac-monitor-page18-panel-topology-comparison-v1",
-  "qualification": "partial source-to-deck comparison; no physical X1 pin export or board-side KRA/KRS netlist yet",
-  "source_read_sha256": "7ae418221f5faf52da48bd38fe3c0571a7603cb84426602df41f1dd74f6adb27",
+  "qualification": "six main-board X1 pins and panel topology compared; full page-3/4 netlist and connected stage score remain open",
+  "source_read_sha256": "3339b047d8b26dcc3747e295676c3077e5a909364aac86c410bc11e2841b1223",
   "interconnect_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
   "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
-  "model_sha256": "3113efe2a145067c1c16f2f1bb35c1e4efccdb3ee5518dc961b6c76df046ee35",
+  "model_sha256": "9b97647aa632e81520a3c2b2c4e160823255e011261be1ddc48defd297bf658e",
+  "sheet_sha256": "fbf6c9d5167c16341f2d312a1bf0a2b489fdcd85845040961ac83728f17ca0ac",
   "source_r1_terminals": {
     "E": "35P",
     "S": "HRS",
@@ -15,6 +16,37 @@
     "A": "KRA"
   },
   "source_r2_wiper_tied_to_end": true,
+  "source_kra_board_edge": {
+    "source_pages": [
+      3,
+      4
+    ],
+    "connector": "012-6921:X1",
+    "pin": "6",
+    "signal": "KRA",
+    "component": "012-6921:R4",
+    "terminal": "left_end_and_wiper",
+    "split_trace": {
+      "page3_y_px": 3783,
+      "page4_y_px": 3726,
+      "registration_offset_px": -57
+    }
+  },
+  "source_krs_board_edge": {
+    "source_page": 4,
+    "connector": "012-6921:X1",
+    "pin": "5",
+    "signal": "KRS",
+    "component": "012-6921:V1",
+    "terminal": "E"
+  },
+  "assembled_r4_left_node": "reference9",
+  "assembled_v1_emitter_node": "contrast_low",
+  "physical_connector_pins_checked": 6,
+  "physical_connector_pin_misses": [],
+  "extra_kicad_connector_pins": [],
+  "kra_physical_connector_pin_verified": true,
+  "krs_physical_connector_pin_verified": true,
   "brightness_model_elements": [
     {
       "element": "Rbrightness_top",
@@ -37,31 +69,20 @@
   "brightness_topology_matches": true,
   "contrast_model_elements": [
     {
-      "element": "Rcontrast_top",
-      "from_node": "contrast_adjust",
-      "to_node": "intens",
-      "resistance": "{contrast_r*contrast_position}"
-    },
-    {
-      "element": "Rcontrast_bottom",
-      "from_node": "intens",
+      "element": "Rcontrast",
+      "from_node": "reference9",
       "to_node": "contrast_low",
-      "resistance": "{contrast_r*(1-contrast_position)}"
+      "resistance": "{contrast_r*contrast_position}"
     }
   ],
   "contrast_model_nodes": [
-    "contrast_adjust",
     "contrast_low",
-    "intens"
+    "reference9"
   ],
-  "contrast_topology_matches": false,
-  "mismatches": [
-    "source R2 is a two-wire KRA/KRS rheostat, but the assembled contrast network has 2 elements and 3 distinct nodes"
-  ],
+  "contrast_topology_matches": true,
+  "mismatches": [],
   "open_checks": [
-    "trace KRA and KRS to board component pins on pages 3/4",
-    "compare main-board X1 physical pins with a fresh KiCad export",
-    "replace the three-node contrast divider with the source-connected rheostat",
+    "complete the page-3/4 second netlist",
     "check the corrected contrast control in an assembled stage"
   ],
   "page18_gate_closed": false

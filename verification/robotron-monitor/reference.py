@@ -91,7 +91,8 @@ def source_connectivity(path, inventory, board, subcircuits=None):
     audit_refs = {}
     audit_expected = {
         '012-6891': {'J1': '012-6891:X1', 'J2': '012-6891:X2', 'J3': '012-6891:X3'},
-        '012-6921': {'J930': '012-6921:X3', 'J940': '012-6921:X4',
+        '012-6921': {'J901': '012-6921:X1', 'J930': '012-6921:X3',
+                     'J940': '012-6921:X4',
                      'J950': '012-6921:X5', 'J960': '012-6921:X6'},
         '012-6931': {'J910': '012-6931:X1', 'J920': '012-6931:X2',
                      'J931': '012-6931:X3'},
@@ -125,7 +126,9 @@ def source_connectivity(path, inventory, board, subcircuits=None):
             names={'00':'0','5P':'p5','12P':'p12','22P':'p22','SYN':'sync_gate',
                    '41P':'p41','SYNCH':'h_sync','X2':'hy2','X1':'hy1',
                    'UG2':'ug2','UG4':'ug4','VID':'vid','INTENS':'intens',
-                   '10.7P':'p10_7','UG1':'ug1','Y1':'y1','Y2':'y2'}
+                   '10.7P':'p10_7','UG1':'ug1','Y1':'y1','Y2':'y2',
+                   'HRA':'contrast_adjust','HRS':'collector_i','35P':'p35',
+                   'KRS':'contrast_low','KRA':'reference9'}
             expected={connector:{pin:names[label] for pin,label in source['connectors'][source_id].items()}
                       for source_id in (source_ids[ref] for ref in audit_refs)
                       for connector in [source_id.split(':')[-1]]}

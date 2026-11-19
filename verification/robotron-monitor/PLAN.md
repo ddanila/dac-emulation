@@ -415,9 +415,10 @@ provisional, so A5 cannot freeze the winding graph, ratios, candidate list or
 design point as source-verified. The page-18 check now compares the physical
 pins of all 18 labelled board-cable pairs, but six signals have functional
 model-scope gaps. A separate comparison matches the yoke connector and four
-winding endpoints. The panel read matches R1's deck topology but finds that
-source R2 is a two-wire KRA/KRS rheostat while the deck has a three-node
-contrast divider; main-board X1 pins and KRA/KRS board-side nets remain open.
+winding endpoints. The panel read and deck now agree that R2 is a two-wire
+KRA/KRS rheostat: KRA reaches board R4's left/wiper node and KRS reaches V1's
+emitter. A fresh KiCad export matches all six main-board X1 physical pins;
+the connected contrast stage remains unscored.
 The source-first page-9 checks cover only the 16-pin 5.1 V reference branch
 and eight endpoints of the four-part sync input. Other A1 sheet checks, A2
 device-model coverage, A3 waveform/scorer validation and A6 bounded values
@@ -458,10 +459,11 @@ compared at both physical connector pins in fresh KiCad exports. Twelve signal
 nets occur on both corresponding functional board models; six have model-scope
 gaps. Vertical-board X2's six pins, four yoke terminal labels and assembled
 winding endpoints match a separate page-18 comparison. A source-first panel
-read matches the represented R1 topology but finds an R2 mismatch: the source
-ties its wiper to one end and exposes only KRA/KRS, while the deck inserts
-`intens` between two contrast resistors. Main-board X1 pins and the KRA/KRS
-board-side mapping remain unchecked, so A1 page 18 stays open.
+read now matches R1's represented topology and R2's corrected two-wire
+rheostat between the board R4 left/wiper node and V1 emitter. All six main-board
+X1 physical pins match a fresh KiCad export. Six board-cable signals still have
+functional model-scope gaps, and the connected contrast stage has no score;
+A1 page 18 therefore stays open.
 An independent page-16 neck-board read now matches all 39 component pins and
 six diode directions in a fresh KiCad export. Three audit-only connector
 symbols now expose all 17 physical pins in that export, and every pin matches
