@@ -637,6 +637,15 @@ model's 5–15 µs mean HV ratio is 14.62, also below that target; the
 ratio. No active T3
 parameter is changed by this diagnostic; loaded EHT and the return/tap
 graph must be established before a winding freeze.
+An independent [K7222 repairer comparator](reference/k7222-11/t3-collector-eht-comparator.json)
+reports 370–420 V collector pulses and 11.5–12.5 kV EHT, giving an effective
+EHT-to-collector amplitude range of 27.38–33.78. The post does not identify a
+K7222.11 board or document its measurement method. Its range overlaps the
+conditional design-point ratio and is well above the active 15.625 ideal
+turns ratio, but rectifier loading and collector baseline prevent treating
+that effective voltage ratio as measured turns. It supplies a useful
+cross-revision operating comparator for the connected candidate sweep, not a
+factory winding specification.
 The [T3 winding comparator](reference/k7222-11/t3-hv-winding-comparator.json)
 adds two firsthand, cross-revision ÜHA78 reports: a K7222.25 repair uses a
 1,768-turn replacement winding with about 440 Ω measured resistance, while a
