@@ -1,0 +1,127 @@
+{
+  "format": "dac-monitor-maa723-class-check-v1",
+  "qualification": "723-family isolated DC proxy only; exact MAA723 identity, transient response, current limiting and connected-stage stress remain open",
+  "sources": {
+    "robotron_pc1715_ic_crossref": {
+      "file": "reference/k7222-11/pc1715-ic-crossref.json",
+      "use": "A separate Robotron PC 1715 service-manual table pairs MAA723H with uA723. K7222.11 prints MAA723 without the H suffix; family comparison only."
+    },
+    "ti_ua723": {
+      "url": "https://www.ti.com/lit/ds/symlink/ua723.pdf",
+      "revision": "SLVS057D, July 1999",
+      "pages": [
+        1,
+        3
+      ],
+      "use": "uA723C comparator: 6.8\u20137.5 V reference at 25 C, 2.3 mA typical/4 mA maximum standby at 30 V, 9.5\u201340 V input range, and 150 mA output capability. Behavioral error-amplifier parameters are fitted proxies, not internal specifications."
+    },
+    "ti_lm723": {
+      "url": "https://www.ti.com/lit/ds/symlink/lm723.pdf",
+      "revision": "SNVS765C, April 2013",
+      "pages": [
+        2,
+        3,
+        4
+      ],
+      "use": "10-pin metal-can functional pin contract; 1.7 mA typical standby and 0.2% maximum 1\u201350 mA load regulation for LM723C at the stated 5 V test fixture. Comparable 723 family, not an MAA723 identification."
+    }
+  },
+  "register_sha256": "e9c1354dfb635926c95dff96fb959e879dadc3f8f6d077a87fe27d17107459c7",
+  "model_file_sha256": "c841bb30de84564cf8715e0886196f6b20df611dc114fdd320784697bc0f5a0a",
+  "sheet_sha256": "fcc4105a85343558459544a6a0e19538b2b82691860eb9517956c0992e9c65ea",
+  "profile_sha256": {
+    "k7222-11-vertical-integrator.json": "89f5bb1152862d7f7709d4d86948a8d8c7089ecccf2c46d726c68c61335237ce",
+    "k7222-11-vertical-output.json": "f08cb53263e3fe5c6fa4c7fae07eef45d3c40e5690a7a11eab222483ad9a9f0a"
+  },
+  "assembly_source_id": "012-6931:A2",
+  "assembly_reference": "X615",
+  "parameters": {
+    "m723_ref_v": {
+      "nominal": 7.15,
+      "bounds": [
+        6.8,
+        7.5
+      ],
+      "unit": "V",
+      "basis": "uA723C reference spread at 25 C; applied as a family proxy, not an MAA723 limit"
+    },
+    "m723_iq": {
+      "nominal": 0.0023,
+      "bounds": [
+        0.0017,
+        0.004
+      ],
+      "unit": "A",
+      "basis": "uA723C 2.3 mA typical/4 mA maximum at 30 V; lower engineering bound is LM723-family 1.7 mA typical"
+    },
+    "m723_error_gm": {
+      "nominal": 0.25,
+      "bounds": [
+        0.1,
+        0.5
+      ],
+      "unit": "S",
+      "basis": "behavioral transconductance chosen to reproduce the LM723C 1\u201350 mA load-regulation class; internal gm not specified"
+    },
+    "m723_drive_limit": {
+      "nominal": 0.002,
+      "bounds": [
+        0.0015,
+        0.004
+      ],
+      "unit": "A",
+      "basis": "behavioral base-drive bound supporting the uA723 150 mA output class with the provisional pass BJT; not a measured current limit"
+    }
+  },
+  "data_book_targets": {
+    "reference_v": {
+      "range": [
+        6.8,
+        7.5
+      ],
+      "conditions": "uA723C, 25 C, family comparison"
+    },
+    "standby_current_a": {
+      "maximum": 0.004,
+      "conditions": "uA723C, 30 V input, no output load, 25 C, family comparison"
+    },
+    "load_regulation_v": {
+      "maximum": 0.01,
+      "conditions": "LM723C 0.2% of 5 V for 1 to 50 mA load, 12 V input, 25 C, family comparison"
+    },
+    "output_150ma_v": {
+      "minimum": 4.9,
+      "conditions": "engineering proxy for uA723 150 mA capability at 12 V input; no 4.9 V data-sheet limit"
+    }
+  },
+  "standby_30v": {
+    "reference_v": 7.15,
+    "output_v": 1.119028e-08,
+    "supply_current_a": 0.0023000000600182998
+  },
+  "five_volt_loads_12v": {
+    "1ma": {
+      "reference_v": 7.14,
+      "output_v": 4.989962,
+      "supply_current_a": 0.004303544
+    },
+    "50ma": {
+      "reference_v": 7.14,
+      "output_v": 4.988207,
+      "supply_current_a": 0.05318759
+    },
+    "150ma": {
+      "reference_v": 7.14,
+      "output_v": 4.984627,
+      "supply_current_a": 0.15284417
+    }
+  },
+  "load_regulation_v": 0.001755000000000173,
+  "checks": {
+    "reference_class": true,
+    "standby_class": true,
+    "load_regulation_class": true,
+    "output_current_capability_proxy": true
+  },
+  "passed": true
+}

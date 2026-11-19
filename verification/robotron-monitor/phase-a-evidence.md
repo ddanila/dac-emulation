@@ -1289,8 +1289,8 @@ instances in the source inventory with the current ideal-rail assembly and
 device-model register. The saved
 `reference/k7222-11/device-model-coverage.json` accounts for 64 frame-path
 instances in 30 printed-type families; 13 instances are converter-only under
-the existing A1 scope rule. Twenty-eight frame-path instances have provisional
-A2 register coverage, 32 have active model names but no register entry, and four
+the existing A1 scope rule. Forty-five frame-path instances have provisional
+A2 register coverage, 15 have active model names but no register entry, and four
 appear in the source inventory but not in the current assembled model:
 012-6921 V19/V20 and 012-6931 L1/L2. Assembly presence and a model name do
 not establish sourced parameter bounds.
@@ -1336,21 +1336,25 @@ uses approximately 10 mA forward current and 60 mA peak reverse current,
 matching the comparator's stated conditions within 5%; it meets that data
 sheet's 4 ns limit. These are model-response checks, not measurements of the
 original 1AE15 part. Original 1AE15 ratings and native connected-frame
-sensitivity remain open. Four other 1AE15 instances still
-use `1AD50_BOUND` and have no A2 family entry. The regenerated A2 coverage
-report at that checkpoint recorded 15 provisionally covered frame-path instances, 45 assembled
-but unregistered, and four absent from the ideal-rail assembly.
+sensitivity remain open. Four other 1AE15 instances use `1AD50_BOUND` and now
+have a separate provisional A2 family entry; their part-specific stress remains
+unchecked. The first diode-only checkpoint had 15 provisionally covered
+frame-path instances, 45 assembled but unregistered, and four absent from the
+ideal-rail assembly.
 
 `vertical_diode_sensitivity.py` also varies each of the seven registered
 parameters to its minimum and maximum in the connected vertical output stage.
 The saved `reference/k7222-11/vertical-diode-stage-sensitivity.json` contains
 all 14 runs, model/profile/register hashes and final-field metrics for the
 20.8 ms bench stimulus. The largest one-at-a-time yoke-current span change is
-0.0203 A, or 4.68% of its 0.4335 A baseline, with `IS` at its minimum. The
-largest mean-yoke-current change is 0.00865 A, or 11.6% of its 0.0747 A
-baseline. Ramp and trigger-pulse spans move by at most 0.048% and 0.0012%,
+0.02456 A, or 5.26% of its 0.46707 A baseline, with `IS` at its minimum. The
+largest mean-yoke-current change is 0.00797 A, or 13.33% of its 0.05977 A
+baseline. Ramp and trigger-pulse spans move by at most 0.092% and 0.0012%,
 respectively. The 20.8 ms bench is not the native 19.5 ms mode, and this sweep
 does not cover simultaneous extremes or establish the original 1AE15 ratings.
+The baseline yoke-current span changed from 0.43353 A when the MAA723 proxy
+had its former drive limit, so these new sensitivity numbers replace the old
+receipt rather than extending a single fixed model.
 
 A separately scanned [Robotron PC 1715 service manual](https://magentacloud.de/s/iNaPeeaM2m5TbHS)
 has a comparison table on PDF page 119 (printed page 117) that pairs `MAA723H`
@@ -1359,6 +1363,33 @@ with `uA723` and `B260D` with `TDA1060`.
 hashes. This independently supports the 723 functional family used for
 K7222.11 `MAA723`, while its missing H suffix and electrical parameters remain
 unverified. `B260D` is converter-only in the Phase A ideal-rail scope.
+
+The active `MAA723_BOUND` functional subcircuit is now provisionally registered
+for 012-6931:A2. The separate Robotron table establishes only a 723-family
+comparison; it does not identify the K7222.11 part's missing H suffix. The
+[TI µA723 data sheet](https://www.ti.com/lit/ds/symlink/ua723.pdf) gives a
+6.8–7.5 V reference, 2.3 mA typical/4 mA maximum standby current at 30 V and
+150 mA output capability for the comparable µA723C. The
+[TI LM723 data sheet](https://www.ti.com/lit/ds/symlink/lm723.pdf) supplies the
+10-pin can contract and a 0.2% maximum 1–50 mA load-regulation comparison at
+5 V. The old functional proxy's 1 mS error transconductance and 200 µA
+drive ceiling delivered only 2.31 V into a 100 Ω load in an isolated 5 V
+regulator fixture. That conflicts with the 723 output-current class.
+
+The revised proxy exposes bounded reference, standby, error-transconductance
+and drive-limit parameters. Its saved
+[isolated class check](reference/k7222-11/maa723-model-check.json) reports
+7.150 V reference and 2.300 mA standby at 30 V. At 12 V input, the same
+fixture gives 4.990 V at approximately 1 mA, 4.988 V at 50 mA and 4.985 V
+at 150 mA; the 1–50 mA droop is 1.755 mV. These are behavioral comparisons,
+not a fit to MAA723 internal silicon. A regression test demonstrates that the
+former 1 mS/200 µA settings fail the 50 mA check. The existing connected
+vertical-integrator and vertical-output tests still pass with the revised
+model. Four matching A6 bounds bring the partial class-typical register to
+144 entries. Its pole, internal BJT/diode curves, current-limit response, dynamic
+behavior, joint bounds, and connected-stage electrical stress remain
+unqualified, so A2 is still open. The preceding TP7/TP8 diagnostic used the
+older model; the updated A3 diagnostic is recorded below.
 
 ### Independent page-9 regulator branch read (2026-11-19)
 
@@ -1674,8 +1705,9 @@ DC saturation proxy and a 75.8 MHz 15 MHz gain-bandwidth proxy. All nine
 explicit model parameters have bounds in the A2 and A6 registers. These
 measurements establish nominal class response, not a fitted factory curve.
 
-The new row raises provisional A2 coverage to 44/64; 16 assembled instances
-remain unregistered and four are absent from the ideal-rail assembly. The A6
+At this V18 checkpoint, the row raised provisional A2 coverage to 44/64; 16
+assembled instances remained unregistered and four were absent from the
+ideal-rail assembly. The A6
 register now has 140 partial entries. The remaining page-10 netlist review,
 connected V18 voltage/current/thermal stress against the historical
 30 V/500 mA/600 mW ratings, joint parameter bounds and implicit simulator
@@ -1706,7 +1738,8 @@ function check remain in A1. The A2 parameter and stress checks remain open.
 The connected vertical stage was solved with a 19.5 ms synthetic field-sync
 period through 0.2535 s, retaining the profile's nominal 50 kΩ vertical trim,
 11 kΩ height trim, 0.5 symmetry fraction, 23.5 kΩ R59/R60 settings and
-20 mH/10 Ω hypothetical vertical yoke. The
+20 mH/10 Ω hypothetical vertical yoke. This run predates the revised MAA723
+proxy above and does not describe its current-stage response. The
 [saved diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic.json)
 records every parameter, the deck and trace hashes, both probe-solve hashes,
 and the final-field score. `service_probe.py` now accepts the stage deck's
@@ -1727,6 +1760,20 @@ The stage bench uses synthetic sync and has no native grid input, so it cannot
 close A3. TP7's amplitude, the residual Y1 reset difference, the remaining
 test points and a connected grid-stimulus score remain to be resolved; the
 nominal trims were recorded, not fitted to the manual values.
+
+After the MAA723 proxy revision, the same 19.5 ms synthetic field period and
+nominal trims were solved again through 0.2535 s. The new
+[loaded diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-maa723.json)
+records the current model parameters and hashes of its stage deck, raw trace,
+independent TP7/TP8 probe solves and score. In the final field, TP7 is
+1.8718 Vpp after probe loading. It misses the 1.875 Vpp lower bound of the
+2.5 V ±25% guideline by 0.0032 V; TP8 passes at 18.7763 Vpp against its
+17 V guideline. Both shape checks pass. Across 9,750 paired samples from the
+two final fields, the vertical ramp differs by at most 0.38% of its swing and
+yoke current by 0.39%, but Y1 differs by 2.61 V (13.9% of its swing) near
+reset. The stage is still not proved periodic, and the stimulus remains a
+synthetic field pulse rather than native grid input. No A3 completion claim
+follows from this narrower result.
 
 ### A1/A5: page-10 Y2 sense return and TP7 current constraint
 

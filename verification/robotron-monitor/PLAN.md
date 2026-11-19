@@ -420,10 +420,10 @@ candidates. The other remaining done-condition gaps are:
 | Item | Evidence still needed for completion |
 | --- | --- |
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons, record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
-| A2 | Model and bound every frame-path device. Only 44 of 64 instances have provisional register coverage; 16 assembled instances have none and four are absent from the ideal-rail assembly. None of the 44 closes every parameter check. |
+| A2 | Model and bound every frame-path device. Only 45 of 64 instances have provisional register coverage; 15 assembled instances have none and four are absent from the ideal-rail assembly. None of the 45 closes every parameter check. |
 | A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
-| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 140 partial entries. |
+| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 144 partial entries. |
 
 The A2 gap includes all five printed `1SA20C` instances and both `1SC60A`
 instances. Five are assembled under generic transistor aliases without device
@@ -530,13 +530,13 @@ Seven converter-only entries are
 outside the A1 gate.
 
 Other required close-out work is also missing. The A2 coverage report counts
-64 frame-path device instances in 30 printed-type families. Forty-four have
-provisional device-model register coverage (fourteen individual devices, fourteen
+64 frame-path device instances in 30 printed-type families. Forty-five have
+provisional device-model register coverage (fifteen individual devices, fourteen
 1AE15 diodes across two active model aliases, eight 1AD50 clamp diodes, six
 horizontal diodes and two KFY18 transistors);
-16 assembled instances
+15 assembled instances
 have no entry. V19/V20 on 012-6921 and L1/L2 on 012-6931 are absent from the
-current ideal-rail assembly. None of the forty-four instances yet closes all
+current ideal-rail assembly. None of the forty-five instances yet closes all
 A2 parameter checks. The V18 horizontal-output model now passes a BU508AF-class
 DC gain and saturation proxy; its inductive switching, parameter bounds and
 connected-stage stress remain unchecked. A separate current-fed turn-off
@@ -578,17 +578,34 @@ unidentified `1SA20C` oscillator alias. Its isolated group-C gain, saturation
 and frequency proxies pass the historical SF127 family limits; the rest of
 the page-10 pin review, connected stress, joint bounds and simulator defaults
 remain open.
+The active MAA723 ramp-amplifier proxy now has a provisional register entry
+linked to the Robotron `MAA723H`/`uA723` family comparison and TI's 723-family
+limits. Its former 200 µA drive ceiling let a 5 V class fixture collapse to
+2.31 V at a 50 mA load. Bounded error-amplifier drive now gives 4.988 V at
+50 mA, 4.985 V at 150 mA, 7.15 V reference and 2.30 mA standby in the
+[isolated check](reference/k7222-11/maa723-model-check.json). The printed type
+lacks the cross-reference's H suffix; internal device
+defaults, dynamic response, current limiting, connected-stage stress and joint
+bounds remain unqualified. The earlier TP7/TP8 diagnostic below predates this
+model revision; the refreshed diagnostic is described after it.
 The waveform scorer now supports separately loaded SPICE solves for the bounded
 EO 203 probe equivalent and records an explicit grid stimulus choice. The
-[vertical-stage diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic.json)
-now records trims and separate TP7/TP8 probe solves at the native 19.5 ms field
+[earlier vertical-stage diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic.json)
+records trims and separate TP7/TP8 probe solves at the native 19.5 ms field
 period. TP8's loaded 18.31 Vpp passes its 17 V guideline and both shapes pass;
 TP7's loaded 1.74 Vpp fails its 2.5 V guideline. The stimulus is a synthetic
 field pulse, and a 2.29 V Y1 reset difference remains between late adjacent
 fields. This is not a grid-stimulus or sustained connected-stage A3 score;
 the remaining points and complete A3 comparison stay open.
+The [refreshed loaded diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-maa723.json)
+uses the revised MAA723 proxy with the same nominal trims and synthetic
+19.5 ms field pulse. TP7 rises to 1.8718 Vpp, just below the 1.875 Vpp lower
+bound of the manual's ±25% guideline; TP8 passes at 18.7763 Vpp. Both shapes
+pass. Adjacent late fields still differ by 2.61 V at Y1 reset (13.9% of its
+swing), so periodic steady state is not established. These are conditional
+stage diagnostics, not a native-grid A3 score.
 The class-typical register collects
-140 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
+144 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
 All three A4 controls are now bound in the ideal-rail
 assembly: R4 and R5 use declared equivalents, and external R1 uses the

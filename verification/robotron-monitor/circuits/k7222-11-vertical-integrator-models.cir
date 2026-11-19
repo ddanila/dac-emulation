@@ -7,18 +7,19 @@
 .model VERTICAL_DIODE D(IS=2n RS=2 N=1.7 CJO=2p TT=5n BV=100 IBV=100u)
 * KFY18-class PNP proxy: Tesla 1987 catalog, pages 221-223; not a fitted factory curve.
 .model VERTICAL_PNP_BOUND PNP(IS=1e-14 BF={retrace_bf} VAF=60 RC=3 RE=0.25 CJE=65p CJC=45p TF=1.5n TR=50n)
-* LM723-family functional equivalent: TI SNVS765C p2 metal-can pin contract.
+* 723-family functional equivalent: TI SNVS765C p2 metal-can pin contract.
 * cs inv noninv ref vminus out collector vplus compensation current-limit
 * NOT a transistor-level Tesla MAA723 model. No thermal/SOA qualification.
-* Assumed gm 1 mS, gain 10000, +/-200 uA drive and 30 pF internal pole.
+* Error gm and drive bound by the uA723-class 1..50 mA output response;
+* internal 30 pF pole and transistor curves remain unqualified assumptions.
 .subckt MAA723_BOUND cs inv noninv ref vm out vc vp comp cl
-Breference ref_i vm V={min(7.15,max(v(vp,vm)-2.35,0))}
+Breference ref_i vm V={min(m723_ref_v,max(v(vp,vm)-2.35,0))}
 Rreference ref_i ref 10
 Breference_draw vp vm I={max(i(Breference)*-1,0)}
-Bquiescent vp vm I={1.7m*min(max(v(vp,vm)/9.5,0),1)}
+Bquiescent vp vm I={m723_iq*min(max(v(vp,vm)/9.5,0),1)}
 Rinput inv noninv 10Meg
-Bdrive_up vp comp I={max(min(.001*v(noninv,inv),200u),0)*min(max(v(vp,vm)/9.5,0),1)}
-Bdrive_down comp vm I={max(min(-.001*v(noninv,inv),200u),0)*min(max(v(vp,vm)/9.5,0),1)}
+Bdrive_up vp comp I={max(min(m723_error_gm*v(noninv,inv),m723_drive_limit),0)*min(max(v(vp,vm)/9.5,0),1)}
+Bdrive_down comp vm I={max(min(-m723_error_gm*v(noninv,inv),m723_drive_limit),0)*min(max(v(vp,vm)/9.5,0),1)}
 Rgain comp vm 10Meg
 Cinternal comp vm 30p
 Dupper comp vp M723_CLAMP

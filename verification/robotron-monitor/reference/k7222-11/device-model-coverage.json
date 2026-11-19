@@ -2,12 +2,12 @@
   "format": "dac-monitor-a2-device-coverage-v1",
   "qualification": "A2 gap inventory; registered rows are provisional, not completed model qualification",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
-  "register_sha256": "4ade9ccbdf88e873dff65e618ff5a1c258fab8670a6ad27e15c738dcdeb8c66a",
+  "register_sha256": "e9c1354dfb635926c95dff96fb959e879dadc3f8f6d077a87fe27d17107459c7",
   "assembly_source_sha256": "09c419128d8c1b98937fd4b7c8fc1c6a9d34c6d2a1103b954adf8e05b7183064",
   "inventory_device_instances": 77,
   "frame_path_device_instances": 64,
   "assembled_instances": 60,
-  "registered_instances": 44,
+  "registered_instances": 45,
   "absent_from_assembly": [
     "012-6921:V19",
     "012-6921:V20",
@@ -27,7 +27,6 @@
     "012-6921:V1",
     "012-6921:V5",
     "012-6921:V6",
-    "012-6931:A2",
     "012-6931:A3",
     "012-6931:V11",
     "012-6931:V5"
@@ -327,7 +326,9 @@
       "active_models": [
         "MAA723_BOUND"
       ],
-      "registered_ids": [],
+      "registered_ids": [
+        "012-6931:A2"
+      ],
       "absent_from_assembly": []
     },
     {
@@ -1044,8 +1045,13 @@
       "printed_type": "MAA723",
       "assembled_reference": "X615",
       "active_model": "MAA723_BOUND",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "MAA723_BOUND",
+      "registered_parameter_keys": [
+        "m723_drive_limit",
+        "m723_error_gm",
+        "m723_iq",
+        "m723_ref_v"
+      ]
     },
     {
       "id": "012-6931:A3",
