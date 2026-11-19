@@ -1,0 +1,62 @@
+{
+  "format": "dac-monitor-interconnect-source-v1",
+  "status": "source transcription; A1 page-18 KiCad-export comparison and functional checks open",
+  "source": {
+    "file": "older.pdf",
+    "page": 18,
+    "drawing": "1.11.017260.0/17",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "render": "build/monitor/phase-a/page18-300.png",
+    "render_sha256": "714831c2ea6e78286efca9a9d2bd4d7bb7b637f213a1867c3f416a5890aae719"
+  },
+  "connectors": {
+    "012-6921:X9": {"1": "VIDEO", "3": "BSYN", "4": "00", "5": "INTENS", "6": "00"},
+    "012-6921:X5": {"1": "41P", "3": "SYNCH", "5": "X2", "6": "X1"},
+    "012-6921:X4": {"1": "00", "2": "00", "3": "5P", "4": "12P", "5": "22P", "6": "SYN"},
+    "012-6921:X6": {"2": "UG2", "3": "UG4"},
+    "012-6921:X3": {"1": "VID", "2": "INTENS", "3": "10.7P", "4": "41P", "5": "UG1", "6": "00"},
+    "012-6921:X1": {"1": "HRA", "2": "HRS", "3": "35P", "4": "35P", "5": "KRS", "6": "KRA"},
+    "012-6931:X1": {"1": "41P", "3": "SYNCH", "5": "X2", "6": "X1"},
+    "012-6931:X3": {"1": "00", "2": "00", "3": "5P", "4": "12P", "5": "22P", "6": "SYN"},
+    "012-6931:X2": {"1": "41P", "2": "41P", "3": "Y1", "4": "Y2", "5": "X2", "6": "X1"},
+    "012-6931:X21": {"1": "12P"},
+    "012-6931:X22": {"1": "00"},
+    "012-6891:X1": {"1": "UG1", "2": "UG2", "3": "UG4", "5": "VID", "6": "10.7P", "7": "INTENS", "8": "00", "9": "41P"},
+    "012-6891:X2": {"2": "SUK", "3": "SF10.7P", "4": "SF00", "5": "SUG1", "6": "SUG2", "7": "SUG4"},
+    "panel:R1": {"E": "35P", "S": "HRS", "A": "HRA"},
+    "panel:R2": {"S": "KRS", "A": "KRA"},
+    "yoke": {"1": "X1", "3": "X2", "4": "Y2", "6": "Y1"}
+  },
+  "cables": [
+    {
+      "part": "1.11.017307.0",
+      "from": "012-6921:X5",
+      "to": "012-6931:X1",
+      "pin_pairs": [["1", "1"], ["3", "3"], ["5", "5"], ["6", "6"]]
+    },
+    {
+      "part": "1.11.017308.0",
+      "from": "012-6921:X4",
+      "to": "012-6931:X3",
+      "pin_pairs": [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"]]
+    },
+    {
+      "part": "1.11.017293.0",
+      "from": "012-6921:X6",
+      "to": "012-6891:X1",
+      "pin_pairs": [["2", "2"], ["3", "3"]]
+    },
+    {
+      "part": "1.11.017294.0",
+      "from": "012-6921:X3",
+      "to": "012-6891:X1",
+      "pin_pairs": [["1", "5"], ["2", "7"], ["3", "6"], ["4", "9"], ["5", "1"], ["6", "8"]]
+    }
+  ],
+  "read_limits": [
+    "Matching printed signal labels identify the paired pins; the drawing does not expose the internal cable conductors.",
+    "The neck-board X1:4 pin is not labelled on page 18; its existing 0 assignment comes from page 16 and is outside this transcription.",
+    "Handwritten panel potentiometer values are excluded from this connection map.",
+    "This map does not establish T3 internal winding order or rectifier polarity."
+  ]
+}

@@ -890,3 +890,21 @@ generator and output transistor, whereas the current inventory calls
 R41 between R40 and R42. This is a source/inventory conflict, not evidence
 for a potentiometer value; R41 remains open pending a schematic connection
 read and a bounded thermistor equivalent if no factory value is recoverable.
+
+### Page-18 interconnection source transcription (2026-11-19)
+
+`reference/k7222-11/page18-interconnect-transcription.json` records the
+printed pin labels for the main board (012-6921), vertical board (012-6931),
+neck board (012-6891), panel controls and yoke. It identifies four numbered
+board-to-board cables and 18 signal-matched pin pairs from the page-18 drawing.
+The source PDF and the 300-dpi page render are SHA-256 identified in that
+file. This is a separate source transcription, not a completed A1 page mark.
+
+Mechanical checks of the transcription find that every recorded cable pin
+pair carries the same printed signal label at both ends. The X9 external
+input labels and all eight page-18-labelled neck X1 pins agree with
+`assembly.json`; neck X1:4 is unlabelled on page 18 and retains its separate
+page-16 reading. The current assembly reference now points to the new
+interconnect file. Page 18 still needs a KiCad-export comparison and
+functional settlement of any differences before the A1 netlist gate can
+close. This transcription also cannot settle T3's internal winding order.
