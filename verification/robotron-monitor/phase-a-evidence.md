@@ -982,15 +982,15 @@ interconnect file. Page 18 still needs a KiCad-export comparison and
 functional settlement of any differences before the A1 netlist gate can
 close. This transcription also cannot settle T3's internal winding order.
 
-`page18_frame_compare.py` now compares the two frame-path neck cables against
+`page18_frame_compare.py` compares the two frame-path neck cables against
 freshly exported ideal-rail KiCad components and the neck pin map. The saved
 `reference/k7222-11/page18-frame-comparison.json` records all eight pin pairs:
 six signal nets occur on both board sheets. `INTENS` is absent on the main-board
 KiCad sheet because its contrast path is assembled outside that sheet;
 `10.7P` is absent on the neck sheet because the held heater branch is assembled
 outside it. This is a semantic comparison, not the independent pin-to-pin
-KiCad diff required by A1: the authored sheets do not export physical connector
-pin symbols. The other ten cable pairs, panel controls and yoke connections
+KiCad diff required by A1: the main-board sheet still lacks physical connector
+pins. The other ten cable pairs, panel controls and yoke connections
 also remain to be compared. The page-18 gate therefore stays open.
 
 ### Independent page-16 neck-board pin transcription (2026-11-19)
@@ -1004,15 +1004,15 @@ cathode of all six V2 diode sections. Undotted wire crossings and the drawn
 tube-electrode couplings are kept distinct from DC junctions.
 
 `page16_neck_compare.py` exports the current KiCad neck sheet afresh and
-compares every component pin by source part ID, pin number and net. All 39
-component pins agree, including six diode directions. The 17 connector pins
-agree with `assembly.json`. The saved comparison contains source, sheet and
-assembly hashes; a test reverses a diode in the exported netlist and verifies
-that the check fails. The neck KiCad sheet still has no physical connector
-symbols, so those 17 pins were compared to the assembly map rather than to a
-KiCad connector export. Page 16 therefore remains open under A1's stricter
-pin-to-pin rule until that representation gap is resolved and the remaining
-connectivity checks are recorded.
+compares every component pin by source part ID, pin number and net. The sheet
+now includes three physical connector symbols, marked audit-only so they do
+not enter the SPICE component list. The electrical reader validates their
+pin-to-net map before omitting them. All 39 component pins and all 17 physical
+connector pins match the independent page-16 read, including six diode
+directions. A changed diode or connector pin is rejected in tests. The saved
+comparison contains source, sheet and assembly hashes. This closes the
+pin-representation gap on page 16; A1's page mark remains open until the
+remaining static and stage-function checks are recorded.
 
 ### Vertical output transistor model bounds (2026-11-19)
 

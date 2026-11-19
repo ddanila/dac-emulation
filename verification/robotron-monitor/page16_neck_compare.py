@@ -62,34 +62,58 @@ def compare(source,assembly,xml,*,source_pdf_sha256,sheet_sha256):
             or expected_parts[(part,'2')]!=NET_NAMES[cap['negative_net']]):
         raise ValueError('source electrolytic polarity conflicts with its netlist')
     tree=ET.parse(xml);root=tree.getroot()
-    refs={}
+    refs={};connector_refs={};seen_source_ids=set()
     for comp in root.findall('./components/comp'):
         source_id=next((p.get('value') for p in comp.findall('property')
                         if p.get('name')=='SourceId'),None)
-        if source_id is None or source_id in refs:raise ValueError('missing or duplicate KiCad SourceId')
+        if source_id is None or source_id in seen_source_ids:
+            raise ValueError('missing or duplicate KiCad SourceId')
+        seen_source_ids.add(source_id)
         refs[comp.get('ref')]=source_id
-    actual={}
+        if source_id in ('012-6891:X1','012-6891:X2','012-6891:X3'):
+            connector_refs[comp.get('ref')]=source_id.split(':')[-1]
+    if set(connector_refs.values())!={'X1','X2','X3'}:
+        raise ValueError('KiCad export lacks physical neck connector pins')
+    actual={};actual_connectors={name:{} for name in connector_refs.values()}
     for net in root.findall('./nets/net'):
         model_net=net.get('name').lstrip('/')
         for node in net.findall('node'):
-            key=(refs[node.get('ref')],node.get('pin'))
+            ref=node.get('ref');pin=node.get('pin')
+            if ref in connector_refs:
+                name=connector_refs[ref]
+                if pin in actual_connectors[name]:raise ValueError('KiCad connector pin occurs twice')
+                actual_connectors[name][pin]=model_net
+                continue
+            key=(refs[ref],pin)
             if key in actual:raise ValueError('KiCad terminal occurs on two nets')
             actual[key]=model_net
     missing=[dict(source_id=part,pin=pin,expected_net=net,actual_net=actual.get((part,pin)))
              for (part,pin),net in sorted(expected_parts.items()) if actual.get((part,pin))!=net]
     extra=[dict(source_id=part,pin=pin,actual_net=net)
            for (part,pin),net in sorted(actual.items()) if (part,pin) not in expected_parts]
+    connector_misses=[dict(connector=name,pin=pin,expected_net=net,
+                           actual_net=actual_connectors.get(name,{}).get(pin))
+                      for name,pins in sorted(expected_connectors.items())
+                      for pin,net in sorted(pins.items(),key=lambda item:int(item[0]))
+                      if actual_connectors.get(name,{}).get(pin)!=net]
+    connector_extras=[dict(connector=name,pin=pin,actual_net=net)
+                      for name,pins in sorted(actual_connectors.items())
+                      for pin,net in sorted(pins.items(),key=lambda item:int(item[0]))
+                      if pin not in expected_connectors.get(name,{})]
     return dict(format='dac-monitor-page16-neck-comparison-v1',
-        qualification=('component pins and diode directions match; physical connector pins are '
-                       'checked against assembly.json because the KiCad sheet has no connector symbols'),
+        qualification='independent source component and physical connector pins compared with fresh KiCad export',
         source_netlist_sha256=sha(SOURCE),source_pdf_sha256=source_pdf_sha256,
         sheet_sha256=sheet_sha256,assembly_sha256=sha(ASSEMBLY),
         source_nets=len(nets),source_component_pins=len(expected_parts),
         source_connector_pins=sum(map(len,expected_connectors.values())),
         matched_component_pins=len(expected_parts)-len(missing),
+        matched_connector_pins=sum(map(len,expected_connectors.values()))-len(connector_misses),
         diode_directions_checked=len(source['diode_directions']),
-        connector_pin_map_matches=True,missing_or_changed_pins=missing,extra_kicad_pins=extra,
-        passed=not missing and not extra)
+        connector_pin_map_matches=not connector_misses and not connector_extras,
+        missing_or_changed_pins=missing,extra_kicad_pins=extra,
+        missing_or_changed_connector_pins=connector_misses,
+        extra_kicad_connector_pins=connector_extras,
+        passed=not missing and not extra and not connector_misses and not connector_extras)
 
 
 def run(source_pdf):

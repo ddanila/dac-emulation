@@ -86,12 +86,33 @@ def source_connectivity(path, inventory, board, subcircuits=None):
     if not isinstance(boards,list) or not boards or any(not isinstance(b,str) for b in boards):
         raise ValueError('invalid source board scope')
     parts = {p['id']: p for p in inventory['parts']}
-    components = lab.connectivity(path,subcircuits)
     tree = ET.parse(path).getroot()
     source_ids = {}
+    audit_refs = {}
     for c in tree.findall('./components/comp'):
         fields = {f.attrib['name']: f.text for f in c.findall('./fields/field')}
-        source_ids[c.attrib['ref']] = fields.get('SourceId')
+        ref=c.attrib['ref'];source_ids[ref]=fields.get('SourceId')
+        audit_only=fields.get('AuditOnly')
+        if audit_only is not None:
+            expected={'J1':'012-6891:X1','J2':'012-6891:X2','J3':'012-6891:X3'}
+            if (boards!=['012-6891'] or audit_only!='source-connector'
+                    or expected.get(ref)!=source_ids[ref]):
+                raise ValueError('unrecognized audit-only schematic symbol')
+            audit_refs[ref]=source_ids[ref].split(':')[-1]
+    if audit_refs:
+        if set(audit_refs)!={'J1','J2','J3'}:
+            raise ValueError('neck source connector symbols are incomplete')
+        physical={name:{} for name in audit_refs.values()}
+        for net in tree.findall('./nets/net'):
+            name=net.attrib['name'].removeprefix('/')
+            for node in net.findall('node'):
+                ref=node.attrib['ref']
+                if ref in audit_refs:
+                    physical[audit_refs[ref]][node.attrib['pin']]=name
+        expected=json.loads((ROOT/'reference/k7222-11/assembly.json').read_text())['neck_connectors']
+        if physical!=expected:
+            raise ValueError('neck source connector pins differ from assembly map')
+    components = lab.connectivity(path,subcircuits,ignored_refs=audit_refs)
     seen = set()
     for c in components:
         sid = source_ids[c['reference']]

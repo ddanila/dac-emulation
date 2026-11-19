@@ -1,7 +1,7 @@
 """Compare page-18 neck cable labels with the ideal-rail KiCad assembly.
 
 This is a semantic check of the two frame-path cables, not a pin-level A1
-approval: the authored KiCad sheets have no physical connector-pin symbols.
+approval: the main-board KiCad sheet still lacks physical connector pins.
 """
 import argparse
 import hashlib
@@ -72,7 +72,7 @@ def compare(source, assembly, components):
                                     r['neck_board_net_present'] for r in rows),
                 missing_board_nets=[r for r in rows if not
                                     (r['horizontal_board_net_present'] and r['neck_board_net_present'])],
-                open_checks=['physical connector pins are absent from exported KiCad sheets',
+                open_checks=['main-board physical connector pins are absent from its KiCad export',
                              'the other two page-18 cables, panel controls and yoke wiring need a full source-to-KiCad comparison'])
 
 

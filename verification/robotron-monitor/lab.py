@@ -56,8 +56,9 @@ def subcircuit_contracts(subcircuits):
     return subcircuits
 
 
-def connectivity(xml_path, subcircuits=None):
+def connectivity(xml_path, subcircuits=None, *, ignored_refs=()):
     subcircuits = subcircuit_contracts(subcircuits)
+    ignored_refs=set(ignored_refs)
     root = ET.parse(xml_path).getroot()
     pins, names = {}, set()
     for net in root.findall('./nets/net'):
@@ -77,6 +78,9 @@ def connectivity(xml_path, subcircuits=None):
     components = []
     for comp in root.findall('./components/comp'):
         ref = comp.attrib['ref']
+        if ref in ignored_refs:
+            ignored_refs.remove(ref)
+            continue
         value = comp.findtext('value', '')
         if re.fullmatch(r'X\d+',ref) and subcircuits and value in subcircuits:
             count=subcircuits[value]
@@ -93,6 +97,7 @@ def connectivity(xml_path, subcircuits=None):
         components.append({'reference': ref, 'nodes': nets, 'value': value})
     if not components:
         raise ValueError('empty schematic')
+    if ignored_refs:raise ValueError('ignored component reference is absent')
     return components
 
 
