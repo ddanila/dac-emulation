@@ -25,7 +25,7 @@ Kcore Lp Ls {horizontal_coupling}
 * Output families and normal-operation ancillary components; no SOA claim.
 .model HOR_Z6 D(IS=1n N=1.5 RS=2 BV=6.2 IBV=1m)
 .model HOR_RECT D(IS=10n N=1.5 RS=.2 CJO=20p TT=100n)
-.model HOR_HV_RECT D(IS=1n N=2 RS=100 CJO=1p TT=100n)
+.model HOR_HV_RECT D(IS=1n N=2 RS=100 CJO=1p TT=100n BV=15k IBV=2u)
 .model HOR_OUTPUT_N NPN(IS=1e-10 BF=20 VAF=100 CJE=1n CJC=200p TF=100n TR=500n)
 .subckt HORIZONTAL_CHOKE a b
 Rloss a n {horizontal_choke_r}
