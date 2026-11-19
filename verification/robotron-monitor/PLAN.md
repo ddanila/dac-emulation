@@ -424,6 +424,16 @@ are:
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
 | A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 92 partial entries. |
 
+These are independent completion failures, not just one T3 issue. The
+[device-model coverage report](reference/k7222-11/device-model-coverage.json)
+records the A2 gap, and the [design point](reference/k7222-11/design-point.json)
+explicitly remains partial rather than a calibration freeze. The
+[Phase A evidence log](phase-a-evidence.md) records conditional stage results,
+not a completed connected A3 score. Resolving the T3 connection review would
+unblock the A5 calculation, but it would not by itself close A2, A3 or A6.
+The tracked goal can be marked complete only after each row above has its
+required evidence and the final results are documented, committed and pushed.
+
 This is a completion blocker, not a wait for human review, hardware or
 permission. The source-review and bounded `class-typical` fallback rules above
 allow further work. The detailed evidence and route to completion follow.
