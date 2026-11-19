@@ -426,7 +426,11 @@ An isolated L4 base-path pulse check also gives conditional operating bounds
 for the three stock-matched chokes, but E2 setting and loaded T2 drive are
 unverified. A T3 ratio sweep also shows that the active 1000/64-turn ideal
 ratio of 15.625 falls below the conditional 28.2–35.9 EHT ratio; the latter
-depends on an unverified boost voltage and winding scale. Only A4 meets its
+depends on an unverified boost voltage and winding scale. Both tied and open
+X1:3/X2:3 returns are now explicit in an isolated functional comparison;
+only the tied variant charges its EHT load in the active flux model, while
+the xspice tied case hits a timestep failure. Source continuity and a
+connected stage score remain open. Only A4 meets its
 done condition. Because the tracked goal requires all six
 Phase A items documented, committed and pushed, these partial results cannot
 complete it.
@@ -571,6 +575,16 @@ return. The [winding graph](reference/k7222-11/t3-winding-hypothesis.json)
 therefore remains a hypothesis; its eight surviving sign candidates cannot
 serve as evidence that A1 or A5 is complete. The next source review must settle
 or explicitly bound those connections before the T3 design point can be frozen.
+The [return-variant check](reference/k7222-11/t3-return-variants.json) now
+records two external X1:3/X2:3 graphs. A fresh KiCad export confirms the
+current tied model. With a 1 V isolated collector pulse, V21-class diode,
+1 nF EHT load and the current magnetic parameters, all eight sign-compatible
+flux candidates charge the tied EHT node to 20.30–21.90 V after five pulses;
+the open alternative reaches only 0.0044–0.0045 V. This strongly favors the
+tied return for **this functional model**, but the page-4 scan has not proved
+historical continuity. The xspice tied bench aborts near 6 µs at a tiny
+timestep, so no second magnetic backend corroborates this loaded comparison.
+Neither result is a connected 11–12 kV prediction or an A1 source closure.
 
 The decisive technical uncertainty within A1 is the T3 winding topology.
 Manual page 19 names
