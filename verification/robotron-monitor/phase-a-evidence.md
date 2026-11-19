@@ -4,7 +4,7 @@
 > every human-review requirement and every stop-for-decision point. Where this
 > record says a reading, connection or waveform "needs human review" or
 > "source review", read: to be closed by agent reads and functional checks
-> under plan steps A1–A3. Where it declines to add damping or typical values
+> under plan steps A1–A4. Where it declines to add damping or typical values
 > because no document prints them, the plan's `class-typical` tier now allows
 > them. The connected startup diagnostics below are kept as history and are
 > not evidence about the sustained state. The facts recorded here stand.
