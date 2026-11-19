@@ -1,0 +1,97 @@
+{
+  "format": "dac-monitor-page3-r11-r37-source-read-v1",
+  "qualification": "agent source read and assembled-net correction; connected manual score still open",
+  "source": {
+    "pdf": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "schematic_pdf_page": 3,
+    "parts_pdf_page": 8,
+    "views": [
+      {
+        "file": "build/monitor/phase-a/page3-300.png",
+        "sha256": "f56151717975bbca3b75bb321b31acc57b760b0cb68c7d35b27e8c7b843f1350",
+        "method": "300 dpi full page"
+      },
+      {
+        "file": "build/monitor/phase-a/page3-r11-feed.png",
+        "sha256": "7a6e8e50d46bcb0d06c5410bb49e80479d8656355eca2b21e222f504473689dd",
+        "method": "separate R11/00/12P feed crop"
+      },
+      {
+        "file": "build/monitor/phase-a/page3-r37-v10-600.png",
+        "sha256": "b95e65a90d86eb2799a1dbc39b9d74a4688d5a660c07ba57d895632021ac76aa",
+        "method": "600 dpi R37 and V10 base crop"
+      },
+      {
+        "file": "build/monitor/phase-a/page3-line-x-origin-600.png",
+        "sha256": "830fcfe67b3987ab0e08ac4732fbab1e03bdf88ffc7404aa327b39cf56a19545",
+        "method": "600 dpi C17 and feedback crossing crop"
+      },
+      {
+        "file": "build/monitor/phase-a/page3-lower-return-bus.png",
+        "sha256": "891ca8df41c9d5fb2d1674af3ae3a5ba42fe801ca3199cbec952a7f7bce1276f",
+        "method": "separate page-3 lower return and 00 connection crop"
+      }
+    ]
+  },
+  "source_nets": [
+    {
+      "name": "00",
+      "terminals": ["R11.2:outer_left", "R37:upper", "R38:left", "R39:upper", "V20:lower_right"],
+      "basis": "Page 3 marks the R11.2 outer-left line 00; the bypass reaches R37 upper and continues to page-4 R38/R39. The separate lower 00 line reaches V20's lower terminal through the page boundary."
+    },
+    {
+      "name": "SYNC_DIVIDER_MID",
+      "terminals": ["R11.2:inner_right", "R11.1:inner_left"],
+      "basis": "The two resistor sections meet at the centre tap."
+    },
+    {
+      "name": "12P",
+      "terminals": ["R11.1:outer_right"],
+      "basis": "The R11.1 outer-right wire meets the drawn 12P rail at a junction dot."
+    },
+    {
+      "name": "V10_BASE",
+      "terminals": ["R37:lower", "V10:base"],
+      "basis": "R37 lower continues to the left-facing V10 base. The C33-right connection on this net crosses the V6 upper-terminal wire without a junction dot."
+    },
+    {
+      "name": "FLYBACK_FEEDBACK",
+      "terminals": ["C17:lower", "V20:upper_right", "R38:right"],
+      "basis": "C17 lower crosses 00 without a junction, follows the printed Zeile = 15 kHz = X line to the page-3 right edge, and matches the page-4 V20 upper trace at both 300 and 600 dpi. This is the existing assembled h_feedback net."
+    }
+  ],
+  "parts_list": {
+    "R37": "11 kohm, 5 percent"
+  },
+  "before": {
+    "R11.2_nodes": ["p12", "sync_feed"],
+    "R11.1_nodes": ["sync_feed", "sync_c"],
+    "R37": "absent from ideal-rail assembly",
+    "page4_V20_branch": "five source-addressed components absent from ideal-rail assembly"
+  },
+  "current_assembly": {
+    "input_sheet": "circuits/k7222-11-input.kicad_sch",
+    "input_sheet_sha256": "d9f55b7ed1e17359675980c9c3e49f21f4af770c1ac80f55b18dc4b0ee494cc8",
+    "horizontal_sheet": "circuits/k7222-11-horizontal-oscillator.kicad_sch",
+    "horizontal_sheet_sha256": "0ed2a3e210830a7840e964fa4a0342ef79b49141f873e63f30891b7a68e18d96",
+    "R11.2_nodes": ["0", "sync_feed"],
+    "R11.1_nodes": ["sync_feed", "p12"],
+    "R37_nodes": ["0", "h_reactbase"],
+    "page4_V20_branch_nodes": {
+      "R38": ["0", "h_feedback"],
+      "R39": ["0", "h_tank"],
+      "R40": ["h_tank", "v20_base"],
+      "C34": ["h_tank", "v20_base"],
+      "V20": ["h_feedback", "v20_base", "0"]
+    }
+  },
+  "model_status": "V20 uses the same provisional SSY20A_BOUND NPN alias as printed-type peer V6; original 1SA20C electrical parameters and connected stress are not qualified.",
+  "remaining": [
+    "Compare the page-3/4 source graph to the full exported netlist, including the nearby V6/V10 lower-return crossing and transistor arrow, beyond this local branch.",
+    "Score the connected native-mode horizontal and contrast stages with required manual probe loading and stimulus.",
+    "Qualify the 1SA20C family model, including gain, transition frequency, saturation, switching timing and connected stress."
+  ],
+  "a1_closed": false,
+  "a2_closed": false
+}

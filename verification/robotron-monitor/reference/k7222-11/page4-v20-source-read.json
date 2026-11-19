@@ -1,6 +1,6 @@
 {
-  "format": "dac-monitor-page4-v20-source-read-v4",
-  "status": "partial; four cross-page traces matched, upstream control net and transistor model unresolved",
+  "format": "dac-monitor-page4-v20-source-read-v5",
+  "status": "local branch provisionally transcribed; complete page-3/4 comparison and 1SA20C qualification remain open",
   "source": {
     "pdf": "older.pdf",
     "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
@@ -87,7 +87,7 @@
         "page4_y_300": [2040, 2052],
         "page3_y_600": [4131, 4154],
         "page4_y_600": [4080, 4100],
-        "page3_connection": "rightward branch of the long vertical control feed immediately right of V6; upstream feed identity remains open"
+        "page3_connection": "C17 lower flyback-feedback trace, which crosses 00 without a junction; represented as h_feedback in the current assembly"
       },
       {
         "page4_local_net": "r38_left_r39_top",
@@ -95,7 +95,7 @@
         "page4_y_300": [2136, 2141],
         "page3_y_600": [4326, 4334],
         "page4_y_600": [4272, 4280],
-        "page3_connection": "R37 upper terminal and R11.2 left terminal/bypass line; do not merge this with the crossing V6 lower-terminal trace without a junction dot"
+        "page3_connection": "00 line at R11.2 outer-left terminal, continuing through the R37 upper bypass; do not merge the undotted crossing with the V6 terminal trace"
       },
       {
         "page4_local_net": "bias_left",
@@ -103,7 +103,7 @@
         "page4_y_300": [2335, 2345],
         "page3_y_600": [4725, 4745],
         "page4_y_600": [4671, 4691],
-        "page3_connection": "V10 upper-right symbol terminal"
+        "page3_connection": "V10 upper-right symbol terminal, represented as h_tank in the current assembly"
       },
       {
         "page4_local_net": "local_return",
@@ -111,29 +111,31 @@
         "page4_y_300": [2499, 2508],
         "page3_y_600": [5055, 5069],
         "page4_y_600": [4998, 5015],
-        "page3_connection": "lower common line serving V6 and V10 lower-right symbol terminals; page-3 line stops just short of the scan edge"
+        "page3_connection": "lower common 00 line serving V6 and V10 lower-right symbol terminals; page-3 line stops just short of the scan edge"
       }
     ]
   },
   "current_ideal_rail_assembly": {
     "input_sheet": "circuits/k7222-11-input.kicad_sch",
-    "input_sheet_sha256": "fbf6c9d5167c16341f2d312a1bf0a2b489fdcd85845040961ac83728f17ca0ac",
-    "absent_source_ids": [
+    "input_sheet_sha256": "d9f55b7ed1e17359675980c9c3e49f21f4af770c1ac80f55b18dc4b0ee494cc8",
+    "assembled_source_ids": [
       "012-6921:V20",
       "012-6921:R38",
       "012-6921:R39",
       "012-6921:R40",
       "012-6921:C34"
     ],
-    "consequence": "The local page-4 V20 branch is not represented in the assembled source-addressed circuit. V20 is not converter-only by location."
+    "model": "V20 is provisionally C=h_feedback, B=v20_base, E=0 with the unqualified SSY20A_BOUND alias also used for printed-type peer V6"
   },
   "unresolved": [
     "Version 1 interchanged R38 and R39 local terminal attributions; its three observed_local_nets must not be used for transcription. The 600 dpi read above corrects them.",
     "Version 2 incorrectly called V20's lower terminal open. The full-page view and the side-by-side crop show its vertical continuation to the R2 lower return line; that v2 assertion must not be used for transcription.",
-    "The four left-edge lines now have page-3 trace matches at 300 and 600 dpi. Follow the upper control feed upstream and settle the transistor terminal assignment before adding the branch; the matched endpoints alone do not qualify its device model.",
-    "Establish V20 collector/emitter assignment and electrical class. The printed 1SA20C code does not by itself justify the active NPN alias used for other instances.",
+    "The four left-edge lines have page-3 trace matches at 300 and 600 dpi; the page-3 R11/R37 source read traces the upper line to C17 lower and the other lines to 00 or V10 upper.",
+    "V20 collector/emitter assignment follows the same printed 1SA20C peer V6 symbol and existing NPN alias provisionally. Independently qualify original electrical class, connected stress and switching behavior before A2 can pass.",
     "The page-8 list includes V19, but this local V20 read does not locate V19 in the schematic or settle its assembly status."
   ],
+  "page3_source_read": "page3-r11-r37-source-read.json",
+  "local_branch_transcribed": true,
   "a1_closed": false,
   "a2_closed": false
 }

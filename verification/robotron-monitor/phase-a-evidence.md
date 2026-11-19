@@ -1290,9 +1290,9 @@ device-model register. The saved
 `reference/k7222-11/device-model-coverage.json` accounts for 64 frame-path
 instances in 30 printed-type families; 13 instances are converter-only under
 the existing A1 scope rule. Forty-seven frame-path instances have provisional
-A2 register coverage, 13 have active model names but no register entry, and four
+A2 register coverage, 14 have active model names but no register entry, and three
 appear in the source inventory but not in the current assembled model:
-012-6921 V19/V20 and 012-6931 L1/L2. Assembly presence and a model name do
+012-6921 V19 and 012-6931 L1/L2. Assembly presence and a model name do
 not establish sourced parameter bounds.
 
 A 600 dpi reread corrected the initial R38/R39 terminal attribution in the
@@ -1301,21 +1301,22 @@ Horizontal R38's right end and a separate line from the page edge reach
 V20's upper terminal. Vertical R39 joins R38's left side at its top and the
 left side of parallel R40/C34 at its bottom; their right side feeds V20's
 base. Page 8 lists V20 as `1 SA 20 C`; R38/R39 are 680 Ω and R40 is 1.1 kΩ,
-while page 6 lists C34 as 470 pF. A fresh ideal-rail assembly check finds
-all five source IDs missing from the input sheet. A separate page-edge view
-shows V20's lower terminal continuing to the same local return line as R2's
-lower end, correcting the interim open-terminal reading. The four distinct
-left-edge lines now have page-3 trace matches in independent 300 and 600 dpi
-renders: V20's upper line reaches the long control feed beside V6;
-R38-left/R39-top reaches R37's upper and R11.2's left/bypass line;
-R39-lower reaches V10's upper terminal; and the V20/R2 lower return meets
-the V6/V10 common lower line. The [source read](reference/k7222-11/page4-v20-source-read.json)
-records the matching pixel ranges and avoids merging an undotted crossing
-with the V6 lower trace. The upstream control feed and V20's
-collector/emitter orientation remain unresolved, so no branch was connected
-on this evidence alone. V19's page-8 listing is separate and its schematic
-location remains unresolved. This is still an A1 transcription gap and an A2
-model gap, not a converter-only omission.
+while page 6 lists C34 as 470 pF. A separate page-edge view shows V20's
+lower terminal continuing to the same local return line as R2's lower end,
+correcting the interim open-terminal reading. The four distinct left-edge
+lines have page-3 trace matches in independent 300 and 600 dpi renders. The
+[page-3 R11/R37 source read](reference/k7222-11/page3-r11-r37-source-read.json)
+then follows them to C17's lower feedback trace, the R11.2 `00` side, V10's
+upper terminal and the V6/V10 `00` return. It also shows that R11.1's outer
+end joins `12P`, not V6's collector as the prior model said. The live input
+sheet now contains all five V20 branch parts and the horizontal sheet contains
+R37 = 11 kΩ from `00` to V10's base network. The exported ideal-rail assembly
+has R11.2 on `[0, sync_feed]`, R11.1 on `[sync_feed, p12]` and V20 provisionally
+on `[h_feedback, v20_base, 0]` with the same unqualified NPN proxy as printed
+peer V6. The horizontal stage, assembly, signal-path and connected-stage
+regression tests pass. No native connected manual score or original 1SA20C
+qualification is claimed. V19's page-8 listing is separate and its schematic
+location remains unresolved, so A1 and A2 remain open.
 
 The report also makes shared-family decisions visible. Fourteen frame-path
 `1AE15` diode instances currently use two different model names, and five
