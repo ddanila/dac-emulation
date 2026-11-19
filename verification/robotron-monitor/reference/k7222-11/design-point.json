@@ -70,6 +70,19 @@
     "17": {"node": "V14 cathode", "swing_vpp": 80, "role": "rectified flyback-derived pulse; source polarity and loading need review"},
     "source": {"file": "older-operation.pdf", "page": 21}
   },
+  "vertical_yoke_conditional": {
+    "status": "conditional reduced-geometry design point; not a yoke calibration or connected-stage score",
+    "report": "reference/k7222-11/vertical-design-point.json",
+    "report_sha256": "2f2fcb8e0f3e27d39a09305e34ba081b56832da9af5257e12f673393ce519ba3",
+    "documented_picture_height_m": {"nominal": 0.145, "minimum": 0.130, "maximum": 0.160},
+    "nominal_peak_yoke_current_a": 0.2805549940466882,
+    "height_only_current_range_a_at_11p5kv": [0.253525585, 0.306913318],
+    "anode_only_current_range_a_at_145mm": [0.274332641, 0.286648072],
+    "ideal_linear_ramp_yoke_voltage_swing_vpp": 13.710661076185687,
+    "manual_tp7_tp8_toleranced_possible_difference_vpp": [9.625, 24.375],
+    "evidence": "design-derived within the assumed 40 mm cosine-sheet yoke, 10 mm internal neck aperture, 20 mH/10 ohm winding and reduced electron trajectory",
+    "limitation": "The physical tube/yoke geometry and winding are not established. Separate TP7/TP8 terminal amplitudes do not specify their relative phase or the differential yoke waveform; this consistency screen cannot freeze the vertical operating point."
+  },
   "geometry_diagnostic": {
     "status": "default model misses documented width; shorter-field trial narrowly reaches it but remains unqualified",
     "source_profiles": ["profiles/k7222-11-yoke-geometry.json", "trajectory.py"],
@@ -86,7 +99,7 @@
   "remaining_design_work": [
     "Resolve the remaining T3 tap/return map and boost supply from the source before fixing turns or the other winding polarities; only the HV relative sign is conditionally screened within the current graph.",
     "Bound the actual inner neck aperture and yoke axial extent before selecting the narrow 34.7 mm trial; the default geometry clips before 210 mm and a 12 mm internal aperture exceeds the family outside-neck diameter.",
-    "Derive the vertical operating point from test points 1–8 and the vertical yoke model.",
+    "Validate the conditional vertical operating point against sourced tube/yoke bounds and a connected TP7/TP8 differential waveform; test points 1–6 constrain upstream stage waveforms rather than yoke current directly.",
     "Check each derived quantity against the source and replace placeholder T3 parameters only after the constraints are mutually consistent."
   ]
 }

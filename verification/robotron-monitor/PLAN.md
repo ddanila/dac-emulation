@@ -421,7 +421,7 @@ are:
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons; settle page 18's six functional model-scope gaps and connected contrast check; close page 16's source-observation check. |
 | A2 | Model and bound every frame-path device. Only 37 of 64 instances have provisional register coverage; 23 assembled instances have none and four are absent from the ideal-rail assembly. None of the 37 closes every parameter check. |
 | A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
-| A5 | Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and complete the document-consistent tube/yoke design point. |
+| A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
 | A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 92 partial entries. |
 
 This is a completion blocker, not a wait for human review, hardware or
@@ -452,7 +452,7 @@ of schematic pages 3–4 and 9–10, plus the remaining panel-control interconne
 checks on page 18, diffed against the KiCad exports and re-read where they differ.
 Page 16 already has a complete pin comparison; its source-observation check
 remains open. The source readings must settle the remaining T3 connector and
-return paths before the A5 design point is calculated. Where the
+return paths before the T3 portion of A5 can be frozen. Where the
 documents cannot settle a parameter, the A1/A5 bounded `class-typical` route
 applies; the plan does not require a human or a physical measurement.
 A source-first page-9 read now matches all 16 pins in the seven-part 5.1 V
@@ -528,6 +528,13 @@ A 34.7 mm active-field trial narrowly reaches the width in the reduced model,
 but the inner tube clearance and yoke extent remain unverified. These are
 recorded in `phase-a-evidence.md`; the connected grid startup traces do not
 establish a sustained-state solution.
+A separate reduced-geometry vertical calculation now finds about 0.281 A peak
+current for the documented 145 mm picture height at 11.5 kV, with an ideal
+linear-ramp yoke voltage swing of about 13.7 V. Its height-only range is
+0.254–0.307 A at the manual's ±15 mm tolerance. The current is conditional on
+the assumed 40 mm field, 10 mm internal neck aperture and 20 mH/10 Ω yoke;
+TP7/TP8 are separate terminal-voltage guidelines and do not measure that
+differential waveform. The calculation advances A5 but cannot freeze it.
 
 To clear the completion blocker, finish the independent pin-to-pin comparison
 of pages 3–4, 9–10 and 18, close page 16's source-observation check, resolve
