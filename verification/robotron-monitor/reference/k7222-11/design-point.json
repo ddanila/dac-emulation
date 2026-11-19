@@ -52,19 +52,21 @@
     "source": {"file": "older-operation.pdf", "page": 21}
   },
   "geometry_diagnostic": {
-    "status": "current assumed model cannot reach documented width",
+    "status": "default model misses documented width; shorter-field trial narrowly reaches it but remains unqualified",
     "source_profiles": ["profiles/k7222-11-yoke-geometry.json", "trajectory.py"],
+    "tube_outline_candidate": {"source_url": "https://www.elektroncso.hu/cikkek/crt_m31.gif", "sha256": "edf8c17c807b174e3f90e2a24946fd7e5342fcd9c3448e4788d9c7f0848ea35d", "family": "M31-120/B31-G", "outside_neck_diameter_m": {"nominal": 0.020, "minimum": 0.0195, "maximum": 0.0208}, "implication": "An internal beam aperture cannot be 12 mm radius; even the maximum outer radius is 10.4 mm. Exact B31G22 inner glass radius is unknown."},
     "conditions": {"anode_v": 11500, "grid2_v": 350, "focus_v": 4000, "neck_radius_m": 0.01, "horizontal_tesla_per_amp": 0.007979477182945251},
     "maximum_horizontal_current_before_neck_clip_a": 0.5255402,
     "maximum_reachable_half_width_m": 0.0908711,
     "required_half_width_m": 0.105,
     "method": "Binary search of trajectory.ray() to the neck-aperture boundary; 0.2, 0.1 and 0.05 mm integration steps agree on half-width within 1 nm.",
     "evidence": "design-derived from documented width and explicitly assumed geometry; not a physical B31G22 measurement",
-    "conclusion": "The current 10 mm neck aperture clips the beam before the 210 mm documented width. Increasing the assumed neck radius to 12 mm would permit the width, but the current horizontal winding inner radius is 11.5 mm, so the tube and yoke geometry must be revised together before peak current is frozen."
+    "shorter_field_trial": {"field_length_m": 0.0347, "field_start_m": 0.075, "assumed_internal_neck_radius_m": 0.010, "horizontal_turns": 357, "horizontal_fill_fraction": 0.6482219511767212, "horizontal_inductance_h": 0.003995096090415071, "horizontal_tesla_per_amp": 0.008554574637571935, "current_for_105mm_half_width_a": 0.6324536409, "maximum_current_before_neck_clip_a": 0.6353833294, "maximum_half_width_m": 0.1055749955, "method": "Recompute the cosine-sheet yoke at 34.7 mm active length; binary-search the trajectory current and neck-clip boundary at 11.5 kV, 350 V G2 and 4 kV focus. 0.2, 0.1 and 0.05 mm integration steps agree to sub-nanometre half-width.", "qualification": "mathematically feasible only for the unverified 10 mm internal neck aperture and assumed 280 mm beam-origin-to-screen distance; margin to neck clipping and winding fill limit is small"},
+    "conclusion": "The default 40 mm yoke field clips before the 210 mm documented width. A 12 mm internal neck radius is excluded by the family outline drawing. Shortening the assumed active field to 34.7 mm reaches 105 mm half-width in the reduced model, but does not establish the real tube inner aperture, yoke extent or installed geometry; no peak current is frozen."
   },
   "remaining_design_work": [
     "Resolve the remaining T3 tap/return map and boost supply from the source before fixing winding polarity or turns; V21 terminal roles are now source-read.",
-    "Derive yoke field-per-ampere and peak currents with bounded tube/yoke geometry; current tube neck assumptions clip the documented 210 mm width.",
+    "Bound the actual inner neck aperture and yoke axial extent before selecting the narrow 34.7 mm trial; the default geometry clips before 210 mm and a 12 mm internal aperture exceeds the family outside-neck diameter.",
     "Derive the vertical operating point from test points 1–8 and the vertical yoke model.",
     "Check each derived quantity against the source and replace placeholder T3 parameters only after the constraints are mutually consistent."
   ]

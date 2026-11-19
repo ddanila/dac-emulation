@@ -437,16 +437,20 @@ outside the A1 gate.
 Other required close-out work is also missing. The bounded device-model
 register has only provisional V18/V21 and V27/V28 entries, not the full frame path (A2).
 The waveform scorer has only a comparable bandwidth model, with no probe-load model or
-recorded stimulus for each stage (A3), and no consolidated class-typical
-register exists (A6). All three A4 controls are now bound in the ideal-rail
+recorded stimulus for each stage (A3). The new class-typical register collects
+15 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
+sensitivity and other frame-path model values still lack sourced bounds (A6).
+All three A4 controls are now bound in the ideal-rail
 assembly: R4 and R5 use declared equivalents, and external R1 uses the
 page-3/4/18 pot connections. Their effects have not been measured on a grid;
 the A1 independent netlist check may revise provisional connections.
-The partial A5 calculation also exposes an incompatible assumed tube/yoke
-geometry: the present 10 mm neck clips before the documented half-width, while
-simply enlarging it would overlap the assumed winding. These are recorded in
-`phase-a-evidence.md`; the connected grid startup traces do not establish a
-sustained-state solution.
+The partial A5 calculation also exposes a narrow tube/yoke geometry constraint:
+the default 40 mm yoke field clips before the documented half-width, while a
+12 mm internal neck aperture exceeds a B31-G family outline's outside radius.
+A 34.7 mm active-field trial narrowly reaches the width in the reduced model,
+but the inner tube clearance and yoke extent remain unverified. These are
+recorded in `phase-a-evidence.md`; the connected grid startup traces do not
+establish a sustained-state solution.
 
 This is a completion blocker, not an external dependency or a reason to pause
 implementation. Finish the A1 source review, then verify A2–A6 and commit and

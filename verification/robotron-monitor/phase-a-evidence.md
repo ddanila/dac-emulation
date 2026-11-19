@@ -777,10 +777,25 @@ electrical calibration: with the current 10 mm neck radius, 11.5 kV anode and
 the geometry-derived field-per-ampere, the trajectory reaches only 90.87 mm
 half-width before neck clipping, against the manual's 105 mm half-width.
 Halving the trajectory integration step twice did not change that result.
-A 12 mm assumed neck radius can reach the target, but would overlap the
-current winding's 11.5 mm inner radius. Tube clearance and yoke geometry must
-be revised together, with a bounded class-typical source, before the peak
-yoke current can be frozen.
+A 12 mm assumed neck radius can reach the target mathematically, but exceeds
+the outside radius in a scanned [M31-120/B31-G family outline](https://www.elektroncso.hu/cikkek/crt_m31.gif)
+(SHA-256 `edf8c17c807b174e3f90e2a24946fd7e5342fcd9c3448e4788d9c7f0848ea35d`)
+draws a 20 mm outside neck diameter with +0.8/-0.5 mm tolerance. Even its
+maximum outside radius is 10.4 mm; the glass thickness makes the inner beam
+aperture smaller. This drawing is family geometry, not a measurement of the
+installed B31G22 or its inner aperture.
+
+One bounded design probe shortens the assumed cosine-sheet field from 40 to
+34.7 mm without enlarging the 10 mm internal aperture. Re-derived horizontal
+inductance is 3.995 mH, field factor 8.555 mT/A, and ideal sheet packing is
+0.648 against a 0.65 ceiling. At 11.5 kV, 350 V G2 and 4 kV focus, the
+reduced trajectory reaches the documented 105 mm half-width at about 0.63245 A;
+the neck-clip threshold is 0.63538 A and 105.575 mm half-width. Three
+integration steps (0.2, 0.1 and 0.05 mm) agree to sub-nanometre half-width.
+This is a narrow mathematical feasibility result, not a selected yoke design:
+the assumed 10 mm internal radius, 280 mm beam-origin-to-screen distance,
+active yoke length and winding packing have no specimen measurement. The A5
+peak current remains open.
 
 ### First agent source decisions (2026-11-19)
 
@@ -1001,8 +1016,9 @@ and 2.5 µs maximum recovery under a different test current. The partial A2
 register records these as alternative class limits. `HOR_HV_RECT` now states
 the 15 kV breakdown and 2 µA knee current explicitly, alongside its existing
 1 pF capacitance and 100 ns transit-time proxy. SPICE `TT` is not the measured
-reverse-recovery time; IS, N and RS and the current T3/V21 terminal mapping
-still need review before this model can satisfy A2 or A5.
+reverse-recovery time; IS, N and RS still need review before this model can
+satisfy A2. The X1:1-to-X1:2 V21 path was later corrected in the live model;
+the remaining T3 winding return and polarity are still open for A5.
 
 ### Horizontal output transistor class (2026-11-19)
 
@@ -1031,3 +1047,16 @@ handwritten labels are not treated as factory types. The page-10 independent
 netlist and transistor-arrow check still must settle the actual upper/lower
 connection. The current A1 audit has 25 resolved frame-path entries and only
 T3 open as a part entry. A2 remains partial for these devices.
+
+### Partial class-typical register (2026-11-19)
+
+`reference/k7222-11/class-typical-register.json` consolidates 15 currently
+cited bounded entries: the V18/V21/V27/V28 semiconductor candidates, comparable
+service-scope values, a B31-G family neck outside diameter, the provisional
+R41 value and the external brightness-pot range. Each entry identifies its
+stage, source, bounds and model location. The file stays `partial`: fixed SPICE
+parameters, tube emission/heater properties, T3 parasitics, yoke sensitivity
+and other assembly assumptions still lack appropriate class sources or
+design-derived bounds. Its proxy transit-time rows do not establish measured
+recovery or transistor switching times. A6 is therefore not closed, and B8
+cannot treat the register as a complete sensitivity basis.
