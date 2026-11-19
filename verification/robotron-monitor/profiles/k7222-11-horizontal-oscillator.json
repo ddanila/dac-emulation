@@ -26,20 +26,20 @@
       "rationale": "R24 wiper setting."
     },
     "horizontal_tank_l": {
-      "nominal": 0.0009,
-      "minimum": 0.0001,
-      "maximum": 0.004,
+      "nominal": 0.00145,
+      "minimum": 0.0012,
+      "maximum": 0.0021,
       "unit": "H",
-      "evidence": "assumed-bound",
-      "rationale": "Unmeasured inductance per half of adjustable T1 winding."
+      "evidence": "design-derived",
+      "rationale": "Per half of T1. C16=100 nF and 16 kHz give a 0.989 mH ideal LC scale; the source-connected autonomous oscillator reaches 15.89 kHz at 1.45 mH with its documented R21/C15 and provisional transistor loading. The 1.2-2.1 mH range spans C16 tolerance and unresolved loading; it is not a measured T1 winding or a calibration freeze."
     },
     "horizontal_tank_r": {
       "nominal": 1,
       "minimum": 0.1,
-      "maximum": 10,
+      "maximum": 5,
       "unit": "ohm",
-      "evidence": "assumed-bound",
-      "rationale": "Unmeasured winding resistance."
+      "evidence": "design-derived",
+      "rationale": "At 16 kHz and 1.45 mH, half-winding reactance is 146 ohm. A 0.1-5 ohm DC resistance budget gives an unloaded Q proxy of about 29-1458; the connected oscillator stage stays in the printed frequency range at the tested endpoints. Actual copper/core loss is unmeasured."
     },
     "horizontal_coupling": {
       "nominal": 0.995,

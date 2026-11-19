@@ -94,7 +94,9 @@ class SteadySupplyTests(unittest.TestCase):
     def test_tuning_and_solver_controls_stay_bounded(self):
         selection=steady.select(capture())
         assembly=dict(parameters={})
-        result=steady.tune(assembly,selection,{'vertical_trim':22000})
+        # This synthetic fixture has a 50 us line, outside the native 62.5 us
+        # mode used to derive T1; provide an in-range T1 starting value.
+        result=steady.tune(assembly,selection,{'horizontal_tank_l':.00145,'vertical_trim':22000})
         self.assertFalse(result['lock_verified'])
         self.assertEqual(assembly['parameters']['vertical_trim'],22000)
         for changes in ({'yoke_horizontal_l':1.},{'horizontal_tank_l':float('nan')},{'invented':1}):
