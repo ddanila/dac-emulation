@@ -420,10 +420,11 @@ gate.
 Other required close-out work is also missing. There is no complete bounded
 device-model register for the frame-path identity-only parts (A2), the waveform
 scorer has only a comparable bandwidth model, with no probe-load model or
-recorded stimulus for each stage (A3), horizontal-centring R4 and the external
-brightness control are not bound in the ideal-rail assembly (A4), and no
-consolidated class-typical register exists (A6). R5 now has a bounded ideal-
-rail equivalent, but its picture-width effect has not been measured on a grid.
+recorded stimulus for each stage (A3), the external brightness control is not
+bound in the ideal-rail assembly (A4), and no consolidated class-typical
+register exists (A6). R4 now has a bounded centring-current equivalent and R5
+has a bounded ideal-rail equivalent, but neither control's effect has been
+measured on a grid.
 The partial A5 calculation also exposes an incompatible assumed tube/yoke
 geometry: the present 10 mm neck clips before the documented half-width, while
 simply enlarging it would overlap the assumed winding. These are recorded in
