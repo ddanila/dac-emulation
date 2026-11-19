@@ -522,6 +522,14 @@ compensation/output terminals in a fresh KiCad export. The functional symbol's
 1–8 pin numbering is explicitly mapped to physical 3, 4, 5, 6, 9, 10, 11,
 12. This closes that local connection check, not P09A model qualification or
 the remaining page-10 netlist.
+An additional page-10 feedback read matches ten scoped terminals of
+A3/R43/R45/R46/R47/R27/X2 in the
+[fresh comparison](reference/k7222-11/page10-feedback-comparison.json).
+The page-14 parts list confirms the three checked feedback resistances.
+R44 is already the 160 Ω ramp-output divider resistor on page 9, not a
+second page-10 feedback part. The rest of the page-10 input, supply and
+feedback paths remain outside this partial check; the TP8 failure is still
+unexplained.
 The page-18 source transcription now has all 18 labelled board-cable pairs
 compared at both physical connector pins in fresh KiCad exports. Twelve signal
 nets occur on both corresponding functional board models; six have model-scope

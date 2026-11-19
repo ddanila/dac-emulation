@@ -1818,6 +1818,24 @@ still not periodic steady state, and the bench does not use the native grid
 input. The TP8 failure calls for source-first review of the remaining page-10
 feedback/output path before model parameters are changed to match it.
 
+### A1: page-10 feedback branch and cross-page R44 identity
+
+The 300 dpi page-10 view, enlarged 600 dpi feedback crop and page-14 parts
+list support a [scoped source read](reference/k7222-11/page10-feedback-source-netlist.json)
+of A3's inverting input, R43, R45/R46/R47 and the Y2 return. A
+[fresh KiCad export comparison](reference/k7222-11/page10-feedback-comparison.json)
+matches all ten selected terminals and the printed 5.6 kΩ, 5.6 kΩ and
+1.5 kΩ values. A mutation moving R46's Y2 end to the inverting input fails
+the comparison. This is a partial cross-check, not the independent full
+page-9/10 netlist required by A1.
+
+The nearby printed label is R46. Page 9 already places R44 in the A2
+ramp-output divider, where the live integrator assembles it as R613 with
+R40 to ground. A temporary second R44 on page 10 caused the source-coverage
+validator to reject the duplicate identity and was removed before changing
+the live assembly. The checked feedback branch therefore does not explain
+the TP8 failure. The rest of page 10 and A3's connected function remain open.
+
 ### A1/A5: page-10 Y2 sense return and TP7 current constraint
 
 The enlarged page-10 schematic shows R29 between Y1 and Y2 and R27 from Y2
