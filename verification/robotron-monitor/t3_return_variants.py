@@ -22,12 +22,20 @@ TRANSCRIPTION=ROOT/'reference/k7222-11/horizontal-output-transcription.json'
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def simulate(graph,parameters,candidate,joined,backend):
+def simulate(graph,parameters,candidate,joined,backend,*,cold_mode='shared_floating'):
     model,metadata=transformer_candidates.compile_model(graph,candidate,parameters,
                                                           backend=backend)
+    cold_nodes={
+        'shared_floating': ('hvcold','hvcold'),
+        'shared_grounded': ('0','0'),
+        'hv_only_grounded': ('0','hvcold'),
+    }
+    if cold_mode not in cold_nodes:
+        raise ValueError(f'unknown T3 cold-end mode: {cold_mode}')
+    hv_cold, upper_cold=cold_nodes[cold_mode]
     port_nodes={'X2_7':'hot','X2_4':'0','X2_5':'0','X2_3':'upper2',
                 'X1_3':'upper2' if joined else 'upper_return',
-                'X1_7':'hvcold','X1_16':'hvcold','X1_1':'hvac'}
+                'X1_7':upper_cold,'X1_16':hv_cold,'X1_1':'hvac'}
     nodes=[port_nodes.get(port,port) for port in metadata['ports']]
     shunts=[f'Rref{index} {node} 0 1G' for index,node in enumerate(nodes)
             if node not in ('hot','0')]
