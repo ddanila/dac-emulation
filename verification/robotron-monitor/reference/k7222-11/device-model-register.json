@@ -1,0 +1,55 @@
+{
+  "format": "dac-monitor-device-model-register-v1",
+  "scope": "K7222.11 ideal-rail frame path",
+  "status": "partial; only V27/V28 candidate model bounds recorded",
+  "sources": {
+    "schematic": {
+      "file": "older.pdf",
+      "page": 10,
+      "sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "render_300": {"path": "build/monitor/phase-a/page10-300.png", "sha256": "1e0998b2ec8568e3ccff1ab9a55d11d10bf0a729770d12d0d28edcf7ebff344e"},
+      "output_crop_600": {"path": "build/monitor/phase-a/page10-v27-v28-600.png", "sha256": "62b88b2c27e57b4538ab85d2b3ea082b99ded9e7ab1a24099f3123364af42a85"}
+    },
+    "st_bd139_bd140": {
+      "url": "https://www.st.com/resource/en/datasheet/bd139.pdf",
+      "revision": "May 2008 Rev 5",
+      "pages": [1, 4],
+      "use": "BD139 NPN / BD140 PNP, hFE 40..250 at 150 mA and minimum 25 at 5 mA and 500 mA; |VCEsat| <= 0.5 V at 0.5 A with 50 mA base drive"
+    },
+    "philips_bd139_bd140": {
+      "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1986_S04a_Philips_Low-Frequency_Power_Transistors_and_Hybrid_Modules.pdf",
+      "edition": "October 1985 data pages 60 and 70",
+      "use": "typical fT 250 MHz NPN and 75 MHz PNP at 50 mA and 5 V"
+    }
+  },
+  "devices": [
+    {
+      "id": "012-6931:V27",
+      "candidate_class": "BD139-class NPN output transistor",
+      "identity_tier": "class-typical; factory type unverified",
+      "model": "VERT_POWER_N",
+      "model_file": "circuits/k7222-11-vertical-output-models.cir",
+      "profile": "profiles/k7222-11-vertical-output.json",
+      "parameters": {
+        "BF": {"profile_key": "output_bf", "nominal": 60, "bounds": [25, 250], "basis": "ST hFE spread"},
+        "TF_s": {"profile_key": "output_n_tf", "nominal": 7e-10, "bounds": [3e-10, 5e-9], "basis": "bounded 1/(2 pi fT) estimate from Philips NPN typical; junction capacitances alter actual model fT"}
+      },
+      "source_conflict": "Handwritten page-10 BD140 at upper V27 is PNP according to ST, opposite the printed-stage NPN model. The handwriting is not adopted as a factory identity.",
+      "remaining": ["Confirm printed transistor arrow and pin mapping in A1 page-10 netlist", "Measure model fT and 0.5-A saturation at specified bias", "Bound IS, VAF, CJE, CJC and TR; assess yoke-stage sensitivity"]
+    },
+    {
+      "id": "012-6931:V28",
+      "candidate_class": "BD140-class PNP output transistor",
+      "identity_tier": "class-typical; factory type unverified",
+      "model": "VERT_POWER_P",
+      "model_file": "circuits/k7222-11-vertical-output-models.cir",
+      "profile": "profiles/k7222-11-vertical-output.json",
+      "parameters": {
+        "BF": {"profile_key": "output_bf", "nominal": 60, "bounds": [25, 250], "basis": "ST hFE spread"},
+        "TF_s": {"profile_key": "output_p_tf", "nominal": 2e-9, "bounds": [8e-10, 1e-8], "basis": "bounded 1/(2 pi fT) estimate from Philips PNP typical; junction capacitances alter actual model fT"}
+      },
+      "source_conflict": "Handwritten page-10 BD139 at lower V28 is NPN according to ST, opposite the printed-stage PNP model. The handwriting is not adopted as a factory identity.",
+      "remaining": ["Confirm printed transistor arrow and pin mapping in A1 page-10 netlist", "Measure model fT and 0.5-A saturation at specified bias", "Bound IS, VAF, CJE, CJC and TR; assess yoke-stage sensitivity"]
+    }
+  ]
+}

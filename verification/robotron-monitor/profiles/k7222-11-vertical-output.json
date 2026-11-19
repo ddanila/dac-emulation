@@ -123,11 +123,27 @@
     },
     "output_bf": {
       "nominal": 60,
-      "minimum": 20,
-      "maximum": 150,
+      "minimum": 25,
+      "maximum": 250,
       "unit": "1",
       "evidence": "assumed-bound",
-      "rationale": "Generic output BJT gain; factory V27/V28 identities unresolved."
+      "rationale": "Class-typical complementary power BJT gain. ST BD139/BD140 Rev 5 page 4 gives hFE 40..250 at 150 mA and at least 25 at 5 mA or 500 mA; factory V27/V28 identities remain unresolved."
+    },
+    "output_n_tf": {
+      "nominal": 7e-10,
+      "minimum": 3e-10,
+      "maximum": 5e-9,
+      "unit": "s",
+      "evidence": "assumed-bound",
+      "rationale": "NPN V27 forward transit time. Philips 1985 BD139/BD140 data book gives typical NPN fT 250 MHz at 50 mA, 5 V; 1/(2 pi fT) is about 0.64 ns before junction-capacitance effects. Broad 0.3..5 ns class-typical bound, not a factory V27 specification."
+    },
+    "output_p_tf": {
+      "nominal": 2e-9,
+      "minimum": 8e-10,
+      "maximum": 1e-8,
+      "unit": "s",
+      "evidence": "assumed-bound",
+      "rationale": "PNP V28 forward transit time. Philips 1985 BD139/BD140 data book gives typical PNP fT 75 MHz at 50 mA, 5 V; 1/(2 pi fT) is about 2.1 ns before junction-capacitance effects. Broad 0.8..10 ns class-typical bound, not a factory V28 specification."
     }
   },
   "probes": [
@@ -243,7 +259,7 @@
   "limitations": [
     "Connected vertical stage only; external ideal 12/+22/-16 V supplies and synthetic sync.",
     "A3 uses manufacturer LM709 topology with assumed generic transistor parameters; not a verified P09A equivalent.",
-    "V27/V28 factory identities and yoke R/L unresolved; explicit assumed models/bounds.",
+    "V27/V28 factory identities and yoke R/L unresolved. Handwritten page-10 BD140 by upper V27 and BD139 by lower V28 conflict with the modeled NPN/PNP polarity from the printed output stage; class-typical gains and transit times do not settle that conflict.",
     "No converter, horizontal/flyback, heater, CRT load, thermal or SOA qualification."
   ],
   "source_pages": [
