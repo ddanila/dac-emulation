@@ -113,6 +113,22 @@
       "evidence": "assumed-bound",
       "rationale": "Unknown diode recovery."
     },
+    "d_bv": {
+      "nominal": 100,
+      "minimum": 100,
+      "maximum": 150,
+      "unit": "V",
+      "evidence": "assumed-bound",
+      "rationale": "Explicit breakdown proxy: comparable 1N4148 has 100 V continuous/repetitive reverse rating; extra margin is unverified for the printed 1AD50."
+    },
+    "d_ibv": {
+      "nominal": 0.0001,
+      "minimum": 1e-06,
+      "maximum": 0.001,
+      "unit": "A",
+      "evidence": "assumed-bound",
+      "rationale": "Explicit SPICE breakdown-knee proxy; the 1N4148 data sheet does not specify IBV and the original 1AD50 rating is unknown."
+    },
     "tube_cathode_c": {
       "nominal": 2e-11,
       "minimum": 5e-12,

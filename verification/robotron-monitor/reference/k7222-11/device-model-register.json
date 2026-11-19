@@ -1,13 +1,13 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; five individual devices and ten vertical 1AE15 instances have provisional bounds",
+  "status": "partial; five individual devices, ten vertical 1AE15 instances and eight 1AD50 instances have provisional bounds",
   "sources": {
     "nexperia_1n4148": {
       "url": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
       "revision": "2004 August 10; NXP/Philips high-speed diode data sheet",
       "pages": [2, 3, 5, 6],
-      "use": "Comparable silicon signal diode class: VR and VRRM 100 V, VF <=1 V at IF=10 mA, IR <=25 nA at VR=20 V, Cd <=4 pF at 0 V/1 MHz, trr <=4 ns at IF=10 mA/IR=60 mA/RL=100 ohm. Not an identification of 1AE15."
+      "use": "Comparable silicon signal diode class: VR and VRRM 100 V, VF <=1 V at IF=10 mA, IR <=25 nA at VR=20 V, Cd <=4 pF at 0 V/1 MHz, trr <=4 ns at IF=10 mA/IR=60 mA/RL=100 ohm. Not an identification of 1AE15 or 1AD50."
     },
     "ddr_ssy20_bsy34": {
       "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
@@ -56,6 +56,34 @@
     }
   },
   "families": [
+    {
+      "id": "1AD50-signal-clamp-diode",
+      "printed_type": "1AD50",
+      "candidate_class": "1N4148-class silicon signal/clamp diode selected from the neck and horizontal input roles",
+      "identity_tier": "class-typical comparator; original 1AD50 electrical data not located",
+      "model": "1AD50_BOUND",
+      "model_file": "circuits/k7222-11-neck-models.cir",
+      "profile": "profiles/k7222-11-neck.json",
+      "member_ids": ["012-6891:V2:1", "012-6891:V2:2", "012-6891:V2:3", "012-6891:V2:4", "012-6891:V2:5", "012-6891:V2:6", "012-6921:V2", "012-6921:V3"],
+      "sources": ["nexperia_1n4148"],
+      "parameters": {
+        "IS": {"profile_key": "d_is", "nominal": 1e-9, "bounds": [1e-12, 1e-7], "unit": "A", "basis": "broad SPICE reverse-current proxy; 1N4148 comparator IR <=25 nA at 20 V, not a direct 1AD50 or IS limit"},
+        "N": {"profile_key": "d_n", "nominal": 1.5, "bounds": [1, 2], "unit": "1", "basis": "bounded ideality proxy; comparator forward curve does not uniquely fit N"},
+        "RS": {"profile_key": "d_rs", "nominal": 1, "bounds": [0.1, 10], "unit": "ohm", "basis": "bounded series-resistance proxy; comparator VF <=1 V at 10 mA does not uniquely fit RS"},
+        "CJO": {"profile_key": "d_cjo", "nominal": 3e-12, "bounds": [5e-13, 2e-11], "unit": "F", "basis": "comparator Cd <=4 pF at 0 V/1 MHz; wider upper bound retains uncertainty in the original 1AD50"},
+        "TT": {"profile_key": "d_tt", "nominal": 4e-9, "bounds": [5e-10, 4e-8], "unit": "s", "basis": "transit-time proxy; comparator trr <=4 ns under its test, but original 1AD50 recovery is unknown and TT is not trr"},
+        "BV": {"profile_key": "d_bv", "nominal": 100, "bounds": [100, 150], "unit": "V", "basis": "explicit breakdown proxy from comparator 100 V reverse rating, with unverified upper margin"},
+        "IBV": {"profile_key": "d_ibv", "nominal": 1e-4, "bounds": [1e-6, 1e-3], "unit": "A", "basis": "explicit assumed breakdown knee; comparator does not specify SPICE IBV"}
+      },
+      "comparison_targets": {
+        "VF_v": {"maximum": 1, "conditions": "IF=10 mA, Tj=25 C"},
+        "IR_a": {"maximum": 2.5e-8, "conditions": "VR=20 V, Tj=25 C"},
+        "Cd_f": {"maximum": 4e-12, "conditions": "VR=0 V, f=1 MHz"},
+        "trr_s": {"maximum": 4e-9, "conditions": "IF=10 mA to IR=60 mA, RL=100 ohm; measured at IR=1 mA"}
+      },
+      "model_response_report": "reference/k7222-11/neck-diode-model-check.json",
+      "remaining": ["Verify original 1AD50 class and per-device current/voltage stress", "Run joint-bound and native connected-stage sensitivity"]
+    },
     {
       "id": "1AE15-vertical-signal-diode",
       "printed_type": "1AE15",

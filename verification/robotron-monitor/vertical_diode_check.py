@@ -21,16 +21,18 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def model_deck(source, analysis):
-    profile = json.loads(PROFILE.read_text())
+def model_deck(source, analysis, *, model_name='VERTICAL_DIODE',
+               model_file=MODEL, profile_file=PROFILE):
+    profile = json.loads(profile_file.read_text())
     parameters = ''.join(f'.param {key}={spec["nominal"]}\n'
                          for key, spec in profile['parameters'].items())
-    return ('VERTICAL_DIODE live model check\n.temp 25\n' + parameters
-            + MODEL.read_text() + '\n' + source + '\n.control\n' + analysis)
+    return (model_name + ' live model check\n.temp 25\n' + parameters
+            + model_file.read_text() + '\n' + source + '\n.control\n' + analysis)
 
 
-def solve(source, analysis, expressions):
-    deck = model_deck(source, analysis) + '\nprint ' + ' '.join(expressions) + '\n.endc\n.end\n'
+def solve(source, analysis, expressions, **model_options):
+    deck = (model_deck(source, analysis, **model_options)
+            + '\nprint ' + ' '.join(expressions) + '\n.endc\n.end\n')
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory)/'diode.cir'
         path.write_text(deck)
@@ -52,17 +54,20 @@ def crossing(rows, level, direction, start):
     raise RuntimeError('reverse-recovery threshold not crossed: '+str(level))
 
 
-def recovery():
+def recovery(*, forward_source_v=1.7015, **model_options):
     # The 100 ohm series load and step from approximately 10 mA forward to
     # 60 mA reverse follow the comparator's specified test. The source is
-    # tuned to these currents for this model; it is not a 1AE15 rating.
-    source = ('VIN src 0 PWL(0 1.7015 10n 1.7015 10.05n -5.45 30n -5.45)\n'
-              'RLOAD src a 100\nVSENSE a b 0\nD1 b 0 VERTICAL_DIODE')
+    # tuned to these currents for each model; it is not an original-part rating.
+    model_name = model_options.get('model_name', 'VERTICAL_DIODE')
+    source = (f'VIN src 0 PWL(0 {forward_source_v} 10n {forward_source_v} '
+              '10.05n -5.45 30n -5.45)\n'
+              'RLOAD src a 100\nVSENSE a b 0\nD1 b 0 ' + model_name)
     with tempfile.TemporaryDirectory() as directory:
         trace = Path(directory)/'recovery.txt'
         deck = Path(directory)/'recovery.cir'
         deck.write_text(model_deck(source, 'tran 0.01n 20n\nset wr_singlescale\n'
-                                   + 'wrdata '+str(trace)+' i(vsense)')
+                                   + 'wrdata '+str(trace)+' i(vsense)',
+                                   **model_options)
                         + '\n.endc\n.end\n')
         result = subprocess.run(['ngspice', '-n', '-b', str(deck)],
                                 capture_output=True, text=True)
@@ -89,21 +94,26 @@ def recovery():
                 sample_step_s=1e-11)
 
 
-def run():
-    forward = solve('IF 0 a 10m\nD1 a 0 VERTICAL_DIODE', 'op', ('v(a)',))['v(a)']
-    reverse = solve('VR a 0 -20\nD1 a 0 VERTICAL_DIODE',
-                    'op', ('i(vr)',))['i(vr)']
-    capacitance = solve('VAC a 0 0 AC 1\nD1 a 0 VERTICAL_DIODE',
+def run(*, model_name='VERTICAL_DIODE', model_file=MODEL, profile_file=PROFILE,
+        recovery_forward_source_v=1.7015):
+    options = dict(model_name=model_name, model_file=model_file,
+                   profile_file=profile_file)
+    forward = solve(f'IF 0 a 10m\nD1 a 0 {model_name}', 'op', ('v(a)',),
+                    **options)['v(a)']
+    reverse = solve(f'VR a 0 -20\nD1 a 0 {model_name}',
+                    'op', ('i(vr)',), **options)['i(vr)']
+    capacitance = solve(f'VAC a 0 0 AC 1\nD1 a 0 {model_name}',
                         'ac lin 1 1meg 1meg\nlet cap=-imag(i(vac))/(2*pi*frequency)',
-                        ('cap',))['cap']
-    recovery_result = recovery()
+                        ('cap',), **options)['cap']
+    recovery_result = recovery(forward_source_v=recovery_forward_source_v,
+                               **options)
     recovery_conditions_met = (abs(recovery_result['forward_current_a']-0.01) <= 0.0005
                                and abs(recovery_result['peak_reverse_current_a']+0.06) <= 0.003
                                and recovery_result['series_load_ohm'] == 100)
     return dict(format='dac-monitor-1ae15-class-model-check-v2',
                 qualification='provisional 1N4148-class comparison; original 1AE15 identity and native connected-frame sensitivity remain open',
                 comparator='https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf',
-                model_sha256=sha(MODEL), profile_sha256=sha(PROFILE),
+                model_sha256=sha(model_file), profile_sha256=sha(profile_file),
                 measured=dict(forward_voltage_v_at_10ma=forward,
                               reverse_current_a_at_20v=reverse,
                               zero_bias_capacitance_f_at_1mhz=capacitance),

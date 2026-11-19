@@ -1109,11 +1109,12 @@ T3 open as a part entry. A2 remains partial for these devices.
 
 ### Partial class-typical register (2026-11-19)
 
-`reference/k7222-11/class-typical-register.json` consolidates 23 currently
+`reference/k7222-11/class-typical-register.json` consolidates 30 currently
 cited bounded entries: the V18/V21/V27/V28 and neck V1 semiconductor
 candidates, comparable service-scope values, a B31-G family neck outside
 diameter, the provisional R41 value, the external brightness-pot range, and
-seven parameters for the ten-member vertical 1AE15 diode family. Each entry
+seven parameters each for the ten-member vertical 1AE15 and eight-member
+1AD50 diode families. Each entry
 identifies its stage, source, bounds and model location. The file stays
 `partial`: fixed SPICE parameters, tube emission/heater properties, T3
 parasitics, yoke sensitivity
@@ -1198,7 +1199,7 @@ sheet's 4 ns limit. These are model-response checks, not measurements of the
 original 1AE15 part. Original 1AE15 ratings and native connected-frame
 sensitivity remain open. Four other 1AE15 instances still
 use `1AD50_BOUND` and have no A2 family entry. The regenerated A2 coverage
-report now records 15 provisionally covered frame-path instances, 45 assembled
+report at that checkpoint recorded 15 provisionally covered frame-path instances, 45 assembled
 but unregistered, and four absent from the ideal-rail assembly.
 
 `vertical_diode_sensitivity.py` also varies each of the seven registered
@@ -1238,3 +1239,28 @@ matched with no extra pins in this seven-component sheet. At nominal input,
 the regulator stage bench retains a 4.8–5.3 V output at its sampled load
 steps and after time-step refinement. This comparison covers only the page-9
 reference branch; the rest of pages 9–10 and the whole-page A1 gate remain open.
+
+### 1AD50 clamp-diode model comparison (2026-11-19)
+
+Eight frame-path instances printed `1AD50` use the shared `1AD50_BOUND`
+model: six neck-board V2 diodes and horizontal-input V2/V3. The source
+inventory supplies a type name, but no original 1AD50 electrical rating is
+established here. Their signal and clamp roles motivate a provisional
+comparison with the [Nexperia 1N4148 data sheet](https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf);
+the comparator is not an identification of the installed diodes. The model
+now sets `BV` and `IBV` explicitly in addition to the five existing bounded
+profile parameters. The A2 device register records all eight IDs and seven
+parameter bounds, and the A6 register records the same seven class-typical
+proxies. Broad capacitance and transit-time bounds retain uncertainty about
+the original 1AD50 rather than implying 1N4148 ratings for it.
+
+`neck_diode_check.py` measures the live nominal neck model against the
+comparator's 25 °C conditions. The saved
+`reference/k7222-11/neck-diode-model-check.json` records 0.639 V at 10 mA,
+0.834 nA reverse current at 20 V, 3.00 pF zero-bias capacitance at 1 MHz,
+and 1.24 ns recovery to 1 mA reverse current. Its switching stimulus reaches
+9.999 mA forward and 60.17 mA peak reverse current through 100 Ω. All four
+nominal checks pass the comparator limits; original part ratings, per-device
+stress and connected native-mode bound sensitivity are still open.
+Regenerated A2 coverage is 23 of 64 provisionally registered frame-path
+instances, 37 assembled but unregistered, and four absent from the assembly.
