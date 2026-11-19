@@ -54,6 +54,20 @@ def loaded_deck(base, node, resistance, capacitance):
             +lines[-1])
 
 
+def solver_trace(case, expression):
+    """Use ngspice raw output, or the deck's explicit wrdata sample export."""
+    raw=case/'trace.raw'
+    if raw.is_file() and raw.stat().st_size:
+        return raw
+    samples=case/'samples.txt'
+    if samples.is_file():
+        with samples.open() as stream:
+            columns=stream.readline().lower().split()
+        if columns and columns[0]=='time' and expression.lower() in columns:
+            return samples
+    raise RuntimeError(f'probe trace missing requested expression {expression}: {case}')
+
+
 def run(base_deck, base_trace, output, points, *, solver='ngspice', timeout_s=3600):
     base_deck=Path(base_deck).resolve();base_trace=Path(base_trace).resolve()
     output=Path(output).resolve()
@@ -84,8 +98,7 @@ def run(base_deck, base_trace, output, points, *, solver='ngspice', timeout_s=36
         solver_log=(case/'solver.log').read_text() if (case/'solver.log').exists() else ''
         if result.returncode or re.search(r'(?i)timestep too small|aborted|fatal|error',solver_log):
             raise RuntimeError(f'probe solve failed at point {number}: {case}')
-        trace=case/'trace.raw'
-        if not trace.is_file():raise RuntimeError(f'probe trace missing at point {number}')
+        trace=solver_trace(case,item['model_expression'])
         # The scorer validates both the trace content and the exact generated deck.
         manifest['cases'].append(dict(test_point=number,model_node=node,
             model_expression=item['model_expression'].lower(),

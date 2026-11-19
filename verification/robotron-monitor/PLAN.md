@@ -570,8 +570,14 @@ and frequency proxies pass the historical SF127 family limits; the rest of
 the page-10 pin review, connected stress, joint bounds and simulator defaults
 remain open.
 The waveform scorer now supports separately loaded SPICE solves for the bounded
-EO 203 probe equivalent and records an explicit grid stimulus choice. No
-connected stage score yet has all required loaded probes or recorded trims (A3).
+EO 203 probe equivalent and records an explicit grid stimulus choice. The
+[vertical-stage diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic.json)
+now records trims and separate TP7/TP8 probe solves at the native 19.5 ms field
+period. TP8's loaded 18.31 Vpp passes its 17 V guideline and both shapes pass;
+TP7's loaded 1.74 Vpp fails its 2.5 V guideline. The stimulus is a synthetic
+field pulse, and a 2.29 V Y1 reset difference remains between late adjacent
+fields. This is not a grid-stimulus or sustained connected-stage A3 score;
+the remaining points and complete A3 comparison stay open.
 The class-typical register collects
 140 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).

@@ -1700,3 +1700,30 @@ confirms that the comparison fails. This closes these local pin and polarity
 comparisons only. Driver collector-feed and emitter resistors, A3's other
 pins, feedback, the remaining page-10 connections and the connected-stage
 function check remain in A1. The A2 parameter and stress checks remain open.
+
+### A3: loaded vertical-stage waveform diagnostic
+
+The connected vertical stage was solved with a 19.5 ms synthetic field-sync
+period through 0.2535 s, retaining the profile's nominal 50 kΩ vertical trim,
+11 kΩ height trim, 0.5 symmetry fraction, 23.5 kΩ R59/R60 settings and
+20 mH/10 Ω hypothetical vertical yoke. The
+[saved diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic.json)
+records every parameter, the deck and trace hashes, both probe-solve hashes,
+and the final-field score. `service_probe.py` now accepts the stage deck's
+ngspice `wrdata samples.txt` output when no raw trace is emitted; a regression
+test checks that the scorer consumes this independently loaded result.
+
+The two late fields at 0.2145–0.234 s and 0.234–0.2535 s were compared at
+9,750 matching 2 µs samples. The vertical ramp differs by at most 0.39% of
+its swing and yoke current by 0.42%, but Y1 still differs by 2.29 V, or 12.5%
+of its swing, briefly near reset. Periodic steady state is not established.
+For the final field, the separate EO 203-equivalent loaded solves give TP7
+1.740 Vpp against the manual's 2.5 V ±25% guideline (numeric fail) and TP8
+18.307 Vpp against 17 V ±25% (numeric pass). Both registered shape checks pass.
+The probe loading changes these low-impedance nodes by less than 0.00001 Vpp.
+
+The scorer labels this result `diagnostic-only; grid stimulus not established`.
+The stage bench uses synthetic sync and has no native grid input, so it cannot
+close A3. TP7's amplitude, the residual Y1 reset difference, the remaining
+test points and a connected grid-stimulus score remain to be resolved; the
+nominal trims were recorded, not fitted to the manual values.

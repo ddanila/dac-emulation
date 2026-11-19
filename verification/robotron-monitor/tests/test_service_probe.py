@@ -15,6 +15,36 @@ import phase_a_gates
 
 class ServiceProbeTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which('ngspice'),'ngspice is required')
+    def test_control_deck_wrdata_is_a_valid_loaded_trace(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            deck=root/'run.cir'
+            deck.write_text('Control-block stage with service output\n'
+                'Vsrc src 0 PULSE(0 5 0 1u 1u 5u 10u)\n'
+                'Rsrc src y1 100000\n'
+                '.control\nset noaskquit\nset wr_singlescale\nset wr_vecnames\n'
+                'tran 0.1u 40u 0 0.01u\nlinearize v(y1)\n'
+                'wrdata samples.txt v(y1)\nquit\n.endc\n.end\n')
+            process=subprocess.run(['ngspice','-n','-b','run.cir'],
+                                   cwd=root,capture_output=True,text=True)
+            self.assertEqual(process.returncode,0,process.stdout+process.stderr)
+            baseline=root/'samples.txt'
+            self.assertTrue(baseline.is_file())
+            manifest=service_probe.run(deck,baseline,root/'probe',[8])
+            loaded=service_probe.validate(manifest,baseline)[8]
+            self.assertEqual(loaded.name,'samples.txt')
+            result=service_score.score(baseline,required={8},
+                                       probe_manifest=manifest,stimulus='grid')
+            point=next(p for p in result['points'] if p['test_point']==8)
+            self.assertEqual(point['instrument_model_status'],
+                             'circuit probe load and bandwidth applied')
+            self.assertEqual(result['qualification'],
+                             'probe-and-bandwidth-modeled grid comparison; manual values are guidelines')
+            diagnostic=service_score.score(baseline,required={8},probe_manifest=manifest)
+            self.assertEqual(diagnostic['qualification'],
+                             'diagnostic-only; grid stimulus not established')
+
+    @unittest.skipUnless(shutil.which('ngspice'),'ngspice is required')
     def test_loaded_solve_changes_a_high_impedance_node_and_is_reproducible(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory)
