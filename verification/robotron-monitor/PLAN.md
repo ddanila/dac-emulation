@@ -406,20 +406,21 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (2026-11-19)
 
-**Tracked-goal blocked reason:** Phase A cannot be marked complete because A1's
+**Tracked-goal blocked reason:** The goal requires all Phase A done conditions
+to pass, with the results documented, committed and pushed. The partial results
+are pushed, but A1, A2, A3, A5 and A6 remain open. Most critically, A1's
 independent source-to-KiCad pin comparison has not established T3's winding
 connections and polarity. Its X1:3-to-X2:3 return and other taps remain
 provisional, so A5 cannot freeze the winding graph, ratios, candidate list or
 design point as source-verified. The page-18 check now compares the physical
 pins of all 18 labelled board-cable pairs, but six signals have functional
 model-scope gaps and panel/yoke wiring remains unchecked. The source-first
-page-9 checks cover only the 16-pin
-5.1 V reference branch and eight endpoints of the four-part sync input.
-Other A1 sheet checks, A2 device-model coverage, A3 waveform/scorer validation
-and A6 bounded values are also unfinished. The partial results below are
-committed progress, while the completion gates remain open. Phase A work can
-continue using the bounded source-review and fallback rules above; no human
-reviewer or physical measurement is needed to resolve this blocker.
+page-9 checks cover only the 16-pin 5.1 V reference branch and eight endpoints
+of the four-part sync input. Other A1 sheet checks, A2 device-model coverage,
+A3 waveform/scorer validation and A6 bounded values are unfinished. These are
+completion gaps, not a reason to stop work: the bounded source-review and
+fallback rules above allow progress without a human reviewer or physical
+measurement.
 
 The decisive technical uncertainty within A1 is the T3 winding topology.
 Manual page 19 names
