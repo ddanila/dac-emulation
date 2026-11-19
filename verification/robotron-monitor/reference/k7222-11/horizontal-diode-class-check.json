@@ -1,0 +1,112 @@
+{
+  "format": "dac-monitor-horizontal-diode-class-check-v1",
+  "qualification": "provisional current-matched class comparisons; recovery stimulus is an approximate fixture, while original ratings, stage stress and connected sensitivity remain open",
+  "model_sha256": "c62bd763ada443ec4c28ffefc0acf0d61681a710b5050f3409fd192315700a6c",
+  "rows": [
+    {
+      "ids": [
+        "012-6921:V8",
+        "012-6921:V9"
+      ],
+      "active_model": "HOR_D",
+      "printed_type": "1AL25",
+      "comparator": "1N4148",
+      "source": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
+      "conditions": {
+        "forward_current_a": 0.01,
+        "forward_voltage_max_v": 1.0,
+        "reverse_voltage_v": 20.0,
+        "reverse_current_max_a": 2.5e-08,
+        "cap_bias_v": 0.0,
+        "capacitance_max_f": 4e-12,
+        "recovery_forward_source_v": 1.7,
+        "recovery_reverse_source_v": -5.5,
+        "recovery_load_ohm": 100.0,
+        "recovery_forward_target_a": 0.01,
+        "recovery_reverse_target_a": 0.06,
+        "recovery_return_a": 0.001,
+        "recovery_limit_s": 4e-09
+      },
+      "comparison": {
+        "measured": {
+          "forward_voltage_v": 0.6490846,
+          "reverse_current_a": 8.344117e-10,
+          "junction_capacitance_f": 1.99749e-12
+        },
+        "recovery_test": {
+          "forward_current_a": 0.010481406,
+          "peak_reverse_current_a": -0.0600938673,
+          "zero_crossing_s": 1.0007424683270032e-08,
+          "return_to_threshold_s": 1.123684768407175e-08,
+          "reverse_recovery_s": 1.2294230008017181e-09,
+          "return_threshold_a": 0.001,
+          "series_load_ohm": 100.0,
+          "source_transition_s": 5e-11,
+          "sample_step_s": 5e-11
+        },
+        "checks": {
+          "forward_voltage": true,
+          "reverse_current": true,
+          "capacitance": true,
+          "recovery_stimulus": true,
+          "reverse_recovery": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "ids": [
+        "012-6921:V14",
+        "012-6921:V15",
+        "012-6921:V16",
+        "012-6921:V17"
+      ],
+      "active_model": "HOR_RECT",
+      "printed_type": "1YL1/2, 1YL1/4, 1YL1/8",
+      "comparator": "UF4007",
+      "source": "https://www.vishay.com/docs/88755/uf4001.pdf",
+      "conditions": {
+        "forward_current_a": 1.0,
+        "forward_voltage_max_v": 1.7,
+        "reverse_voltage_v": 1000.0,
+        "reverse_current_max_a": 1e-05,
+        "cap_bias_v": 4.0,
+        "capacitance_typical_f": 1.7e-11,
+        "recovery_forward_source_v": 1.8,
+        "recovery_reverse_source_v": -1.6,
+        "recovery_load_ohm": 2.0,
+        "recovery_forward_target_a": 0.5,
+        "recovery_reverse_target_a": 1.0,
+        "recovery_return_a": 0.25,
+        "recovery_limit_s": 7.5e-08
+      },
+      "comparison": {
+        "measured": {
+          "forward_voltage_v": 0.9178237,
+          "reverse_current_a": 9.14406e-09,
+          "junction_capacitance_f": 1.787811e-11
+        },
+        "recovery_test": {
+          "forward_current_a": 0.503903852,
+          "peak_reverse_current_a": -1.04148283,
+          "zero_crossing_s": 1.0016303042730353e-08,
+          "return_to_threshold_s": 1.817558985841521e-08,
+          "reverse_recovery_s": 8.159286815684856e-09,
+          "return_threshold_a": 0.25,
+          "series_load_ohm": 2.0,
+          "source_transition_s": 5e-11,
+          "sample_step_s": 5e-11
+        },
+        "checks": {
+          "forward_voltage": true,
+          "reverse_current": true,
+          "capacitance": true,
+          "recovery_stimulus": true,
+          "reverse_recovery": true
+        },
+        "passed": true
+      }
+    }
+  ],
+  "passed": true
+}
