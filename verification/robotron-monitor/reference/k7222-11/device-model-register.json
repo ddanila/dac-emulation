@@ -1,8 +1,9 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; six individual devices, fourteen 1AE15 instances and eight 1AD50 instances have provisional bounds",
+  "status": "partial; nine individual devices, fourteen 1AE15 instances and eight 1AD50 instances have provisional bounds",
   "sources": {
+    "nexperia_bzx84_series": {"url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", "revision": "Rev. 7, 1 January 2023", "pages": [5, 6], "use": "BZX84-C6V2, C9V1 and C16 comparable 5 mA zener voltage, differential resistance and capacitance limits; not historical identifications or SPICE transit-time data."},
     "nexperia_1n4148": {
       "url": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
       "revision": "2004 August 10; NXP/Philips high-speed diode data sheet",
@@ -335,6 +336,289 @@
       },
       "source_conflict": "Handwritten page-10 BD139 at lower V28 is NPN according to ST, opposite the printed-stage PNP model. The handwriting is not adopted as a factory identity.",
       "remaining": ["Confirm printed transistor arrow and pin mapping in A1 page-10 netlist", "Measure model fT and 0.5-A saturation at specified bias", "Bound IS, VAF, CJE, CJC and TR; assess yoke-stage sensitivity"]
+    },
+    {
+      "id": "012-6921:V4",
+      "candidate_class": "BZX84-C9V1-class zener comparator",
+      "identity_tier": "class-typical comparator; printed 9.1 ZC electrical data unverified",
+      "model": "Z9_BOUND",
+      "model_file": "circuits/signal-path-models.cir",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "parameters": {
+        "IS": {
+          "nominal": 1e-09,
+          "bounds": [
+            1e-12,
+            1e-07
+          ],
+          "unit": "A",
+          "basis": "bounded SPICE saturation-current proxy; comparator VZ does not uniquely determine IS"
+        },
+        "N": {
+          "nominal": 1.5,
+          "bounds": [
+            1,
+            2
+          ],
+          "unit": "1",
+          "basis": "bounded ideality proxy; comparator forward curve does not uniquely determine N"
+        },
+        "RS": {
+          "nominal": 5,
+          "bounds": [
+            0.5,
+            15
+          ],
+          "unit": "ohm",
+          "basis": "comparator differential resistance <= 15 ohm at 5 mA includes junction slope and is not a direct RS limit"
+        },
+        "BV": {
+          "nominal": 9.1,
+          "bounds": [
+            8.5,
+            9.6
+          ],
+          "unit": "V",
+          "basis": "breakdown proxy around comparator 5 mA working-voltage spread; model response is checked separately"
+        },
+        "IBV": {
+          "nominal": 0.001,
+          "bounds": [
+            0.0001,
+            0.01
+          ],
+          "unit": "A",
+          "basis": "bounded breakdown-knee proxy; data sheet does not state SPICE IBV"
+        },
+        "CJO": {
+          "nominal": 7.5e-11,
+          "bounds": [
+            1e-12,
+            1.5e-10
+          ],
+          "unit": "F",
+          "basis": "zero-bias proxy below comparator maximum 1.5e-10 F at 1 MHz; original part capacitance remains unknown"
+        },
+        "TT": {
+          "nominal": 1e-07,
+          "bounds": [
+            1e-08,
+            1e-06
+          ],
+          "unit": "s",
+          "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required"
+        }
+      },
+      "comparison_targets": {
+        "VZ_v_at_5ma": {
+          "range": [
+            8.5,
+            9.6
+          ],
+          "conditions": "Tj=25 C, IZ=5 mA"
+        },
+        "rdif_ohm_at_5ma": {
+          "maximum": 15,
+          "conditions": "Tj=25 C, IZ=5 mA"
+        }
+      },
+      "model_response_report": "reference/k7222-11/frame-zener-class-check.json",
+      "remaining": [
+        "Confirm historical printed type and diode direction in the independent page netlist",
+        "Measure per-device voltage/current stress and connected-stage sensitivity",
+        "Source or separately justify the TT range; comparator has no recovery-time rating"
+      ]
+    },
+    {
+      "id": "012-6921:V11",
+      "candidate_class": "BZX84-C6V2-class zener comparator",
+      "identity_tier": "class-typical comparator; printed Z 86.2 electrical data unverified",
+      "model": "HOR_Z6",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "parameters": {
+        "IS": {
+          "nominal": 1e-09,
+          "bounds": [
+            1e-12,
+            1e-07
+          ],
+          "unit": "A",
+          "basis": "bounded SPICE saturation-current proxy; comparator VZ does not uniquely determine IS"
+        },
+        "N": {
+          "nominal": 1.5,
+          "bounds": [
+            1,
+            2
+          ],
+          "unit": "1",
+          "basis": "bounded ideality proxy; comparator forward curve does not uniquely determine N"
+        },
+        "RS": {
+          "nominal": 2,
+          "bounds": [
+            0.5,
+            10
+          ],
+          "unit": "ohm",
+          "basis": "comparator differential resistance <= 10 ohm at 5 mA includes junction slope and is not a direct RS limit"
+        },
+        "BV": {
+          "nominal": 6.2,
+          "bounds": [
+            5.8,
+            6.6
+          ],
+          "unit": "V",
+          "basis": "breakdown proxy around comparator 5 mA working-voltage spread; model response is checked separately"
+        },
+        "IBV": {
+          "nominal": 0.001,
+          "bounds": [
+            0.0001,
+            0.01
+          ],
+          "unit": "A",
+          "basis": "bounded breakdown-knee proxy; data sheet does not state SPICE IBV"
+        },
+        "CJO": {
+          "nominal": 1e-10,
+          "bounds": [
+            1e-12,
+            2e-10
+          ],
+          "unit": "F",
+          "basis": "zero-bias proxy below comparator maximum 2e-10 F at 1 MHz; original part capacitance remains unknown"
+        },
+        "TT": {
+          "nominal": 1e-07,
+          "bounds": [
+            1e-08,
+            1e-06
+          ],
+          "unit": "s",
+          "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required"
+        }
+      },
+      "comparison_targets": {
+        "VZ_v_at_5ma": {
+          "range": [
+            5.8,
+            6.6
+          ],
+          "conditions": "Tj=25 C, IZ=5 mA"
+        },
+        "rdif_ohm_at_5ma": {
+          "maximum": 10,
+          "conditions": "Tj=25 C, IZ=5 mA"
+        }
+      },
+      "model_response_report": "reference/k7222-11/frame-zener-class-check.json",
+      "remaining": [
+        "Confirm historical printed type and diode direction in the independent page netlist",
+        "Measure per-device voltage/current stress and connected-stage sensitivity",
+        "Source or separately justify the TT range; comparator has no recovery-time rating"
+      ],
+      "identity_note": "Inventory OCR reads Z 86.2; the active 6.2 V interpretation is provisional, not a settled printed part number."
+    },
+    {
+      "id": "012-6931:V15",
+      "candidate_class": "BZX84-C16-class zener comparator",
+      "identity_tier": "class-typical comparator; printed 16ZC electrical data unverified",
+      "model": "VERT_Z16",
+      "model_file": "circuits/k7222-11-vertical-output-models.cir",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "parameters": {
+        "IS": {
+          "nominal": 1e-09,
+          "bounds": [
+            1e-12,
+            1e-07
+          ],
+          "unit": "A",
+          "basis": "bounded SPICE saturation-current proxy; comparator VZ does not uniquely determine IS"
+        },
+        "N": {
+          "nominal": 1.5,
+          "bounds": [
+            1,
+            2
+          ],
+          "unit": "1",
+          "basis": "bounded ideality proxy; comparator forward curve does not uniquely determine N"
+        },
+        "RS": {
+          "nominal": 2,
+          "bounds": [
+            0.5,
+            40
+          ],
+          "unit": "ohm",
+          "basis": "comparator differential resistance <= 40 ohm at 5 mA includes junction slope and is not a direct RS limit"
+        },
+        "BV": {
+          "nominal": 16,
+          "bounds": [
+            15.3,
+            17.1
+          ],
+          "unit": "V",
+          "basis": "breakdown proxy around comparator 5 mA working-voltage spread; model response is checked separately"
+        },
+        "IBV": {
+          "nominal": 0.001,
+          "bounds": [
+            0.0001,
+            0.01
+          ],
+          "unit": "A",
+          "basis": "bounded breakdown-knee proxy; data sheet does not state SPICE IBV"
+        },
+        "CJO": {
+          "nominal": 4e-11,
+          "bounds": [
+            1e-12,
+            7.5e-11
+          ],
+          "unit": "F",
+          "basis": "zero-bias proxy below comparator maximum 7.5e-11 F at 1 MHz; original part capacitance remains unknown"
+        },
+        "TT": {
+          "nominal": 1e-07,
+          "bounds": [
+            1e-08,
+            1e-06
+          ],
+          "unit": "s",
+          "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required"
+        }
+      },
+      "comparison_targets": {
+        "VZ_v_at_5ma": {
+          "range": [
+            15.3,
+            17.1
+          ],
+          "conditions": "Tj=25 C, IZ=5 mA"
+        },
+        "rdif_ohm_at_5ma": {
+          "maximum": 40,
+          "conditions": "Tj=25 C, IZ=5 mA"
+        }
+      },
+      "model_response_report": "reference/k7222-11/frame-zener-class-check.json",
+      "remaining": [
+        "Confirm historical printed type and diode direction in the independent page netlist",
+        "Measure per-device voltage/current stress and connected-stage sensitivity",
+        "Source or separately justify the TT range; comparator has no recovery-time rating"
+      ]
     }
   ]
 }

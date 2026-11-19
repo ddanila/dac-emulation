@@ -400,7 +400,7 @@ an under-damped T3 placeholder and establish nothing about the sustained
 state; they are not to be extended.
 
 Next, in order: A4 tool change, A5 design point, A2 device models, A1 second
-netlist and open reads, A3 waveform descriptors, A6 register, then B1. A5 comes
+netlist and open reads, A3 connected waveform scoring, A6 register, then B1. A5 comes
 early because it is cheap and its result tells A1 and A2 which parts matter.
 Phase C (speed) waits for B8.
 
@@ -419,10 +419,10 @@ are:
 | Item | Evidence still needed for completion |
 | --- | --- |
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons; settle page 18's six functional model-scope gaps and connected contrast check; close page 16's source-observation check. |
-| A2 | Model and bound every frame-path device. Only 28 of 64 instances have provisional register coverage; 32 assembled instances have none and four are absent from the ideal-rail assembly. None of the 28 closes every parameter check. |
-| A3 | Finish the manual waveform descriptors and score connected stages with the required loaded probes, stimulus and recorded trims. |
+| A2 | Model and bound every frame-path device. Only 31 of 64 instances have provisional register coverage; 29 assembled instances have none and four are absent from the ideal-rail assembly. None of the 31 closes every parameter check. |
+| A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
 | A5 | Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and complete the document-consistent tube/yoke design point. |
-| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 43 partial entries. |
+| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 64 partial entries. |
 
 This is a completion blocker, not a wait for human review, hardware or
 permission. The source-review and bounded `class-typical` fallback rules above
@@ -487,12 +487,12 @@ Seven converter-only entries are
 outside the A1 gate.
 
 Other required close-out work is also missing. The A2 coverage report counts
-64 frame-path device instances in 30 printed-type families. Twenty-eight have
-provisional device-model register coverage (six individual devices, fourteen
+64 frame-path device instances in 30 printed-type families. Thirty-one have
+provisional device-model register coverage (nine individual devices, fourteen
 1AE15 diodes across two active model aliases, and eight 1AD50 clamp diodes);
-32 assembled instances
+29 assembled instances
 have no entry. V19/V20 on 012-6921 and L1/L2 on 012-6931 are absent from the
-current ideal-rail assembly. None of the twenty-eight instances yet closes all
+current ideal-rail assembly. None of the thirty-one instances yet closes all
 A2 parameter checks. The V18 horizontal-output model now passes a BU508AF-class
 DC gain and saturation proxy; its inductive switching, parameter bounds and
 connected-stage stress remain unchecked. A separate current-fed turn-off
@@ -501,11 +501,15 @@ it does not reproduce the data-sheet inductive timing test.
 The page-9 V3 reference zener now passes a BZX84-C5V1-class 5 mA voltage and
 differential-resistance comparison. Its original ZC5.1 rating, omitted TT
 parameter and connected-stage stress remain open.
+The three other active frame-path zeners now pass corresponding BZX84-C6V2,
+C9V1 and C16 class comparisons at 5 mA. Their CJO and TT model parameters
+are explicit and bounded, but historical identities, the TT range and
+connected-stage sensitivity are not qualified.
 The waveform scorer now supports separately loaded SPICE solves for the bounded
 EO 203 probe equivalent and records an explicit grid stimulus choice. No
 connected stage score yet has all required loaded probes or recorded trims (A3).
 The class-typical register collects
-43 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
+64 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
 All three A4 controls are now bound in the ideal-rail
 assembly: R4 and R5 use declared equivalents, and external R1 uses the
