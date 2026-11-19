@@ -1,0 +1,52 @@
+{
+  "format": "dac-monitor-page4-t3-hv-comparison-v1",
+  "qualification": "three settled HV source edges checked; T3 return, other taps and polarity remain open",
+  "source_sha256": "16d3efcdd886f8f40dc72b87fd988767312c47969b5d2876c92d7e690373400d",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "transcription_sha256": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+  "graph_sha256": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+  "sheet_sha256": "7b95a1ff30d726d9abdd6366880b7d38729773d8705d3a08beaa7d57426f5c6e",
+  "source_edges": [
+    {
+      "kind": "winding",
+      "terminals": [
+        "X1:16",
+        "X1:1"
+      ]
+    },
+    {
+      "kind": "rectifier",
+      "part": "V21",
+      "anode": "X1:1",
+      "cathode": "X1:2"
+    },
+    {
+      "kind": "output",
+      "terminal": "X1:2",
+      "net": "EHT/UG3"
+    }
+  ],
+  "model_hv_pins": {
+    "X1:16": "h_hvcold",
+    "X1:1": "h_hvac"
+  },
+  "model_v21_pins": {
+    "2": "eht",
+    "1": "h_hvac"
+  },
+  "model_eht_net": "eht",
+  "checks": {
+    "anode_shares_winding_pin": true,
+    "cathode_is_eht": true,
+    "anode_and_cathode_distinct": true,
+    "both_hv_winding_pins_connected": true,
+    "hv_winding_pins_distinct": true,
+    "magnetic_pins_complete": true,
+    "rectifier_pins_complete": true
+  },
+  "unresolved": [
+    "X1:3-to-X2:3 upper-tap return is a topology hypothesis, not a confirmed source edge.",
+    "Remaining T3 tap continuity and polarity need independent page-4 transcription and functional checks."
+  ],
+  "passed": true
+}
