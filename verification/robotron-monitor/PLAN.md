@@ -417,8 +417,9 @@ converter-only entries are outside the A1 gate.
 
 Other required close-out work is also missing. There is no complete bounded
 device-model register for the frame-path identity-only parts (A2), the waveform
-scorer has no EO2 bandwidth/probe model or recorded stimulus for each stage
-(A3), the R5 equivalent and horizontal-centring R4 are not bound in the ideal-
+scorer has only a comparable bandwidth model, with no probe-load model or
+recorded stimulus for each stage (A3), the R5 equivalent and horizontal-
+centring R4 are not bound in the ideal-
 rail assembly (A4), and no consolidated class-typical register exists (A6).
 The partial A5 calculation also exposes an incompatible assumed tube/yoke
 geometry: the present 10 mm neck clips before the documented half-width, while

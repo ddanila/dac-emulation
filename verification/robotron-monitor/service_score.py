@@ -13,6 +13,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 REGISTER = ROOT/'reference/k7222-11/service-observations.json'
+INSTRUMENT = ROOT/'reference/k7222-11/service-instrument.json'
+
+
+def bandwidth_response(times, values, bandwidth_hz):
+    """One-pole oscilloscope response to linearly interpolated trace samples."""
+    if not math.isfinite(bandwidth_hz) or bandwidth_hz <= 0:
+        raise ValueError('invalid instrument bandwidth')
+    tau=1/(2*math.pi*bandwidth_hz)
+    output=[values[0]]
+    for a,b,u0,u1 in zip(times,times[1:],values,values[1:]):
+        dt=b-a
+        if dt<=0:raise ValueError('nonmonotonic instrument input')
+        slope=(u1-u0)/dt
+        decay=math.exp(-dt/tau)
+        output.append(u1-slope*tau+(output[-1]-u0+slope*tau)*decay)
+    return output
 
 
 def samples(path):
@@ -182,6 +198,10 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
     if start is not None and end is not None and not start < end:raise ValueError('invalid window')
     source=json.loads(register.read_text())
     if source.get('format')!='dac-monitor-service-observations-v2':raise ValueError('unsupported register')
+    instrument=json.loads(INSTRUMENT.read_text())
+    if instrument.get('format')!='dac-monitor-service-instrument-v1':
+        raise ValueError('unsupported service instrument model')
+    bandwidth=instrument['vertical_bandwidth_hz']['value']
     conditions={item['id']:item for item in source['waveform_conditions']}
     wanted={w['model_expression'].lower() for w in source['waveforms']}
     series={name:([],[]) for name in wanted}
@@ -213,7 +233,10 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
         if len(ts)<3:
             entry.update(status='missing-probe',reason='mapped node was not recorded in this run')
         else:
-            measured=measure(ts,vs,w);entry['measured']=measured
+            entry['raw_measured']=measure(ts,vs,w)
+            scope_values=bandwidth_response(ts,vs,bandwidth)
+            measured=measure(ts,scope_values,w);entry['measured']=measured
+            entry['instrument_model_status']='bandwidth-applied; probe loading pending'
             expected=w['approximate_swing_v'];bounds=w.get('approximate_swing_range_v')
             if expected is not None:
                 error=abs(measured['peak_to_peak_v']-expected)/expected
@@ -233,7 +256,7 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
             # Excursion relative to the median is a diagnostic, not proof of
             # pulse direction for a mixed or asymmetric waveform.
             entry['polarity_match_hint']=(measured['dominant_excursion']==w['polarity'])
-            shape,features=shape_checks(ts,vs,w,measured)
+            shape,features=shape_checks(ts,scope_values,w,measured)
             entry['shape_checks']=shape;entry['shape_features']=features
             entry['shape_status']='pass' if all(shape.values()) else 'fail'
             entry['checks']=checks
@@ -253,10 +276,12 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
                     and p.get('shape_status')!='pass']
     return dict(format='dac-monitor-service-score-v1',input=str(path),input_sha256=input_hash,
                 register_sha256=hashlib.sha256(register.read_bytes()).hexdigest(),requested_window_s=[start,end],
+                instrument_model_sha256=hashlib.sha256(INSTRUMENT.read_bytes()).hexdigest(),
+                instrument_loading_status=instrument['probe_loading_status'],
                 samples_in_window=rows,required_points=sorted(required),required_failures=required_failures,
                 numeric_status='pass' if not numeric_failures else 'fail',
                 shape_status='pass' if not shape_failures else 'fail',
-                qualification='diagnostic-only; shape checked from samples; source conditions must match',points=points)
+                qualification='diagnostic-only; bandwidth applied, probe loading pending; source conditions must match',points=points)
 
 
 def main():
