@@ -3,6 +3,12 @@
   "status": "partial; contains currently cited bounded candidates, not a completed A6 freeze",
   "scope": "K7222.11 ideal-rail frame path and service comparison",
   "sources": {
+    "nexperia_1n4148": {
+      "url": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
+      "revision": "2004 August 10; NXP/Philips high-speed diode data sheet",
+      "pages": [2, 3, 5, 6],
+      "use": "Comparable 1N4148 signal-diode limits; not a factory identity for 1AE15"
+    },
     "ddr_ssy20_bsy34": {
       "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
       "sections": ["SSY 20", "BSY 34"],
@@ -75,6 +81,83 @@
     }
   },
   "entries": [
+    {
+      "id": "1AE15-vertical-signal-diode.IS",
+      "stage": "vertical-sync-integrator-output",
+      "value": 2e-9,
+      "bounds": [1e-12, 2.5e-8],
+      "unit": "A",
+      "sources": ["nexperia_1n4148"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.IS",
+      "basis": "SPICE reverse-current proxy; comparator IR <=25 nA at VR=20 V/25 C, not a direct IS specification",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.RS",
+      "stage": "vertical-sync-integrator-output",
+      "value": 2,
+      "bounds": [0.1, 10],
+      "unit": "ohm",
+      "sources": ["nexperia_1n4148"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.RS",
+      "basis": "bounded series-resistance proxy; comparator VF <=1 V at IF=10 mA, no unique RS fit",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.N",
+      "stage": "vertical-sync-integrator-output",
+      "value": 1.7,
+      "bounds": [1, 2],
+      "unit": "1",
+      "sources": ["nexperia_1n4148"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.N",
+      "basis": "bounded ideality proxy; comparator forward curve, no unique N fit",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.CJO",
+      "stage": "vertical-sync-integrator-output",
+      "value": 2e-12,
+      "bounds": [5e-13, 4e-12],
+      "unit": "F",
+      "sources": ["nexperia_1n4148"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.CJO",
+      "basis": "comparator zero-bias Cd <=4 pF; SPICE CJO is a zero-bias proxy",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.TT",
+      "stage": "vertical-sync-integrator-output",
+      "value": 5e-9,
+      "bounds": [5e-10, 1e-8],
+      "unit": "s",
+      "sources": ["nexperia_1n4148"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.TT",
+      "basis": "provisional transit-time proxy around comparator trr <=4 ns; TT is not measured reverse recovery",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.BV",
+      "stage": "vertical-sync-integrator-output",
+      "value": 100,
+      "bounds": [100, 150],
+      "unit": "V",
+      "sources": ["nexperia_1n4148"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.BV",
+      "basis": "explicit model breakdown from comparable 100 V reverse rating plus unverified breakdown margin",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.IBV",
+      "stage": "vertical-sync-integrator-output",
+      "value": 1e-4,
+      "bounds": [1e-6, 1e-3],
+      "unit": "A",
+      "sources": ["nexperia_1n4148"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.IBV",
+      "basis": "explicit assumed breakdown knee; comparator data sheet does not specify a SPICE IBV",
+      "qualification": "provisional-model-proxy"
+    },
     {
       "id": "012-6891:V1.BF",
       "stage": "neck-video",
@@ -350,7 +433,7 @@
     },
     {
       "file": "reference/k7222-11/device-model-register.json",
-      "reason": "five provisional semiconductor models still have fixed SPICE parameters without examined bounds; other frame-path devices absent"
+      "reason": "five individual provisional semiconductor models still have fixed SPICE parameters without examined bounds; ten vertical 1AE15 instances now have a bounded family entry, while other frame-path devices remain uncovered"
     }
   ],
   "use_for_sensitivity": "Only entries whose model_ref resolves to an active parameter and whose model response is validated may be swept as A6 class-typical bounds. Pending families are not qualified."

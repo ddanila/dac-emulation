@@ -35,6 +35,15 @@ def run():
     registered = {device['id']: device for device in register['devices']}
     if len(registered) != len(register['devices']):
         raise ValueError('duplicate A2 device register ID')
+    for family in register.get('families', []):
+        if not family['member_ids'] or len(set(family['member_ids'])) != len(family['member_ids']):
+            raise ValueError('empty or duplicate A2 family membership')
+        if any(source not in register['sources'] for source in family['sources']):
+            raise ValueError('A2 family cites an absent source')
+        for member_id in family['member_ids']:
+            if member_id in registered:
+                raise ValueError('device covered by two A2 register entries: '+member_id)
+            registered[member_id] = family
     families = defaultdict(list)
     rows = []
     for part in inventory['parts']:
@@ -46,6 +55,8 @@ def run():
         component = components[0] if components else None
         model = component['value'] if component else None
         entry = registered.get(part['id'])
+        if entry and entry.get('printed_type') and entry['printed_type'] != part.get('description'):
+            raise ValueError('A2 family printed type differs from inventory: '+part['id'])
         row = dict(id=part['id'], kind=part['kind'], printed_type=part.get('description'),
                    assembled_reference=component['reference'] if component else None,
                    active_model=model, register_model=entry['model'] if entry else None,

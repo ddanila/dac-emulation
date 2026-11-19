@@ -1,0 +1,27 @@
+{
+  "format": "dac-monitor-period-ic-crossref-v1",
+  "qualification": "independent Robotron comparison table; type-family evidence only, not K7222.11 electrical limits",
+  "source": {
+    "file": "pc1715-servicemanual.pdf",
+    "url": "https://magentacloud.de/s/iNaPeeaM2m5TbHS",
+    "pdf_sha256": "e810e4722d889a7e357e192486da3a8004b1fd08aca1c0dcef4f3bbc5b66021d",
+    "pdf_page": 119,
+    "printed_page": 117,
+    "render": "build/monitor/phase-a/pc1715-eser-2.png",
+    "render_sha256": "b906682cfb48e52cba7a046b6effbd5a4695c497b9035838594aff14ca090203"
+  },
+  "readings": [
+    {
+      "robotron_type": "MAA723H",
+      "comparison_type": "uA723",
+      "k7222_inventory_id": "012-6931:A2",
+      "limit": "K7222 inventory prints MAA723 without H; the table supports the 723 family, not exact suffix or parameters."
+    },
+    {
+      "robotron_type": "B260D",
+      "comparison_type": "TDA1060",
+      "k7222_inventory_id": "012-6931:A1",
+      "limit": "Converter-only under the ideal-rail Phase A scope; existing functional converter model remains unqualified."
+    }
+  ]
+}

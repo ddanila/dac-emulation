@@ -406,15 +406,15 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (2026-11-19)
 
-The goal "Phase A of the PLAN is fully implemented; intermediate results
-documented, committed and pushed" cannot be marked complete. The immediate
-technical blocker is A1's unverified T3 connectivity on the frame-path
-schematics: the part identity is resolved, but the winding returns, taps and
-polarity have no independent pin-to-pin source comparison. A5 therefore cannot
-freeze the winding graph, ratios, candidate list or design point. The A1
-review of the other frame-path sheets and the A2 device models, A3 loaded
-stage scores and A6 bounded-value register also remain unfinished. The
-committed partial results establish progress, not Phase A completion.
+**Goal completion is blocked by missing Phase A acceptance evidence.** The
+immediate dependency is A1's unverified T3 connectivity on the frame-path
+schematics: its part identity is resolved, but its winding returns, taps and
+polarity lack an independent pin-to-pin source comparison. A5 therefore cannot
+freeze the winding graph, ratios, candidate list or design point. Other A1
+sheet checks, A2 device models, A3 loaded stage scores and A6 bounded values
+also remain unfinished. The partial results below establish progress; they do
+not satisfy the goal "Phase A of the PLAN is fully implemented; intermediate
+results documented, committed and pushed."
 
 The decisive technical uncertainty within A1 is the T3 winding topology.
 Manual page 19 names
@@ -455,16 +455,17 @@ Seven converter-only entries are
 outside the A1 gate.
 
 Other required close-out work is also missing. The A2 coverage report counts
-64 frame-path device instances in 30 printed-type families. Only five have
-provisional device-model register entries; 55 assembled instances have no
-entry, and V19/V20 on 012-6921 plus L1/L2 on 012-6931 are absent from the
-current ideal-rail assembly. None of the five entries yet closes all A2
+64 frame-path device instances in 30 printed-type families. Fifteen have
+provisional device-model register coverage (five individual devices and ten
+vertical 1AE15 diodes); 45 assembled instances have no entry, and V19/V20 on
+012-6921 plus L1/L2 on 012-6931 are absent from the current ideal-rail
+assembly. None of the fifteen instances yet closes all A2
 parameter checks.
 The waveform scorer now supports separately loaded SPICE solves for the bounded
 EO 203 probe equivalent and records an explicit grid stimulus choice. No
 connected stage score yet has all required loaded probes or recorded trims (A3).
 The new class-typical register collects
-16 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
+23 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
 All three A4 controls are now bound in the ideal-rail
 assembly: R4 and R5 use declared equivalents, and external R1 uses the
