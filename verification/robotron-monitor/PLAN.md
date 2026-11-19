@@ -451,10 +451,12 @@ source-addressed parts are absent from the ideal-rail input sheet, so V20's
 absence is a real frame-path transcription gap rather than a converter
 exclusion. A separate page-edge view shows V20's lower terminal on the same
 local return line as R2's lower end, correcting the interim open-terminal
-reading. The four distinct left-edge nets remain unnamed, and the
-collector/emitter assignment needs an independent read before connecting the
-branch; the existing `1SA20C` NPN aliases do not establish V20's electrical
-class.
+reading. Independent 300 and 600 dpi edge alignment now matches all four
+left-edge traces to page 3: the long control feed beside V6, the
+R37/R11.2 line, V10's upper terminal, and the V6/V10 common lower line.
+The control feed's upstream identity and V20's collector/emitter assignment
+still need an independent read before connecting the branch; the existing
+`1SA20C` NPN aliases do not establish V20's electrical class.
 
 These are independent completion failures, not just one T3 issue. The
 [device-model coverage report](reference/k7222-11/device-model-coverage.json)

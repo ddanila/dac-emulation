@@ -1,6 +1,6 @@
 {
-  "format": "dac-monitor-page4-v20-source-read-v3",
-  "status": "partial; local connections read, cross-page net names and transistor polarity unresolved",
+  "format": "dac-monitor-page4-v20-source-read-v4",
+  "status": "partial; four cross-page traces matched, upstream control net and transistor model unresolved",
   "source": {
     "pdf": "older.pdf",
     "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
@@ -26,6 +26,16 @@
         "method": "separate 300 dpi page-3/page-4 edge crops placed side by side; page-4 local return re-read without assuming cross-page alignment",
         "file": "build/monitor/phase-a/page3-4-v20-boundary.png",
         "sha256": "a6b4ccf1f1017d9a270c6404d8568116aa23d67af6c32605847500f99567623a"
+      },
+      {
+        "method": "page-3/page-4 300 dpi edge crops aligned by repeated horizontal wires, with a 28-pixel visual offset",
+        "file": "build/monitor/phase-a/page3-4-v20-aligned.png",
+        "sha256": "43ae2a154266ab589e9fd77af569fdc4bf120156a2e931b91c3ae9b1c1b229ba"
+      },
+      {
+        "method": "independent 600 dpi page-3 circuit-side read of the four matched traces",
+        "file": "build/monitor/phase-a/page3-v20-feeds-600.png",
+        "sha256": "e8d4a5edb5bd4b803ce2e6095ab35dcad9a60f1d86dd37e2462a617b07ecc326"
       },
       {
         "method": "300 dpi parts-list visual read",
@@ -68,6 +78,43 @@
       "qualification": "V20's lower terminal continues vertically to the same bottom line as R2 lower; this is visible in the full-page view and the side-by-side page-edge crop"
     }
   ],
+  "cross_page_alignment": {
+    "method": "Match repeated horizontal wire endpoints at the page-3 right and page-4 left edges. Independent 300 and 600 dpi renders give the same pairing, with offsets of about 27 and 54 pixels. Coordinates are vertical pixel ranges in full-page renders, not circuit net names.",
+    "matches": [
+      {
+        "page4_local_net": "upper_transistor_terminal",
+        "page3_y_300": [2070, 2076],
+        "page4_y_300": [2040, 2052],
+        "page3_y_600": [4131, 4154],
+        "page4_y_600": [4080, 4100],
+        "page3_connection": "rightward branch of the long vertical control feed immediately right of V6; upstream feed identity remains open"
+      },
+      {
+        "page4_local_net": "r38_left_r39_top",
+        "page3_y_300": [2164, 2166],
+        "page4_y_300": [2136, 2141],
+        "page3_y_600": [4326, 4334],
+        "page4_y_600": [4272, 4280],
+        "page3_connection": "R37 upper terminal and R11.2 left terminal/bypass line; do not merge this with the crossing V6 lower-terminal trace without a junction dot"
+      },
+      {
+        "page4_local_net": "bias_left",
+        "page3_y_300": [2368, 2369],
+        "page4_y_300": [2335, 2345],
+        "page3_y_600": [4725, 4745],
+        "page4_y_600": [4671, 4691],
+        "page3_connection": "V10 upper-right symbol terminal"
+      },
+      {
+        "page4_local_net": "local_return",
+        "page3_y_300": [2527, 2534],
+        "page4_y_300": [2499, 2508],
+        "page3_y_600": [5055, 5069],
+        "page4_y_600": [4998, 5015],
+        "page3_connection": "lower common line serving V6 and V10 lower-right symbol terminals; page-3 line stops just short of the scan edge"
+      }
+    ]
+  },
   "current_ideal_rail_assembly": {
     "input_sheet": "circuits/k7222-11-input.kicad_sch",
     "input_sheet_sha256": "fbf6c9d5167c16341f2d312a1bf0a2b489fdcd85845040961ac83728f17ca0ac",
@@ -83,7 +130,7 @@
   "unresolved": [
     "Version 1 interchanged R38 and R39 local terminal attributions; its three observed_local_nets must not be used for transcription. The 600 dpi read above corrects them.",
     "Version 2 incorrectly called V20's lower terminal open. The full-page view and the side-by-side crop show its vertical continuation to the R2 lower return line; that v2 assertion must not be used for transcription.",
-    "Trace the four distinct left-edge lines to named page-3/4 nets independently before adding the branch; the side-by-side crop alone does not settle cross-page alignment.",
+    "The four left-edge lines now have page-3 trace matches at 300 and 600 dpi. Follow the upper control feed upstream and settle the transistor terminal assignment before adding the branch; the matched endpoints alone do not qualify its device model.",
     "Establish V20 collector/emitter assignment and electrical class. The printed 1SA20C code does not by itself justify the active NPN alias used for other instances.",
     "The page-8 list includes V19, but this local V20 read does not locate V19 in the schematic or settle its assembly status."
   ],
