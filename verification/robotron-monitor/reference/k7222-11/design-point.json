@@ -54,6 +54,17 @@
     "report": "reference/k7222-11/horizontal-l1-design.json",
     "limitation": "The original choke values, C22 ESR, core saturation and connected flyback loading remain unknown; this isolated passive-filter calculation is not an output-stage calibration."
   },
+  "horizontal_linearity_l3": {
+    "source_id": "012-6921:L3",
+    "conditional_branch": "L3 parallels R35=82 ohm +/-5% between h_hot and h_linout in the current KiCad page-4 graph; full independent page comparison remains open",
+    "candidate_inductance_h": {"nominal": 0.00002, "bounds": [0.000001, 0.000095]},
+    "candidate_resistance_ohm": {"nominal": 0.1, "bounds": [0.01, 1]},
+    "retrace_half_cycle_frequency_hz": 31250,
+    "equation": "|I_R35/I_L3| = sqrt(R_L3^2 + (2*pi*f*L3)^2) / R35_min",
+    "evidence": "design-derived upper operating bound using the documented 16 us retrace and 82 ohm +/-5% R35",
+    "report": "reference/k7222-11/horizontal-l3-design.json",
+    "limitation": "The 25% shunt-current and 2% series-resistance budgets are engineering choices. Original L3 values and connected output-stage behavior are unknown."
+  },
   "horizontal_resonance": {
     "candidate_parallel_capacitors": [
       {"source_id": "012-6921:C27", "value_f": 1e-8, "tolerance_fraction": 0.1},

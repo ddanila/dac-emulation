@@ -2095,3 +2095,18 @@ T2 A2 row therefore covers only primary operating bounds; its ratio,
 secondary resistance, coupling, core loss and thermal limits remain
 unqualified. Coverage is now 59/64, with L3, three L4 sections and T3
 unregistered; A6 has 197 partial entries.
+
+### A2/A6: L3 output branch bound (2026-11-20)
+
+The [isolated L3/R35 check](reference/k7222-11/horizontal-l3-design.json)
+confirms that the current KiCad output sheet places L3 in parallel with
+R35 between `h_hot` and `h_linout`. R35 is documented as 82 Ω ±5%; the
+manual's 16 µs retrace gives a 31.25 kHz half-cycle frequency. Limiting
+the R35 shunt current to 25% of L3 current even at the low R35 tolerance
+endpoint gives a 99.1 µH upper inductance budget at 1 Ω winding resistance.
+The active 95 µH ceiling passes that isolated AC check. The nominal 20 µH
+and lower 1 µH candidates are exploratory; neither the original coil values
+nor connected T3/yoke response has been established. The page-4 branch still
+needs independent whole-page source comparison. Coverage is now 60/64,
+leaving three L4 sections and T3; A6 has 199 partial entries. The
+[PLAN blocker](PLAN.md) therefore remains in effect.

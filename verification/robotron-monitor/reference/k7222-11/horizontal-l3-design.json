@@ -1,0 +1,124 @@
+{
+  "format": "dac-monitor-horizontal-l3-design-v1",
+  "qualification": "conditional isolated L3/R35 branch check; not a source-validated full output stage, factory L3 value or A3/A5 score",
+  "source_transcription_sha256": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+  "sheet_sha256": "54a21db8a705d33cebea7c00aa6605a8e27a77557696804132323f1d19f2ae9b",
+  "profile_sha256": "d857032135b293eba11dd3fe8d380cb2175631e0db81b783d1575176d8af207c",
+  "model_sha256": "5334ce01029e7f78f252f899d142af06e1010853711a65a8439b421b47501723",
+  "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
+  "documented": {
+    "r35_ohm": 82.0,
+    "r35_tolerance_percent": 5.0,
+    "minimum_r35_ohm": 77.89999999999999,
+    "r35_source": {
+      "file": "older.pdf",
+      "page": 8
+    },
+    "line_frequency_hz": 16000.0,
+    "retrace_half_cycle_hz": 31250.0,
+    "timing_source": {
+      "file": "older-operation.pdf",
+      "page": 5
+    }
+  },
+  "model_nodes": {
+    "l3": [
+      "h_hot",
+      "h_linout"
+    ],
+    "r35": [
+      "h_hot",
+      "h_linout"
+    ]
+  },
+  "design_rule": {
+    "maximum_l_h_for_r35_current_at_most_one_quarter_of_l3_at_retrace": 9.905451792533011e-05,
+    "maximum_r_ohm_for_two_percent_of_r35": 1.5579999999999998,
+    "equation": "|I_R35/I_L3| = sqrt(R_L3^2 + (2*pi*f*L3)^2) / R35_min",
+    "limitation": "The 25% branch-current and 2% resistance budgets are engineering operating choices, not printed L3 specifications."
+  },
+  "cases": {
+    "minimum_l_line": {
+      "inductance_h": 1e-06,
+      "resistance_ohm": 0.1,
+      "frequency_hz": 16000.0,
+      "line_branch_admittance_s": [
+        4.973522234203287,
+        -4.999929892300332
+      ],
+      "ngspice_source_current_a": [
+        -4.98572,
+        4.99993
+      ],
+      "calculated_source_current_a": [
+        -4.985717356154506,
+        4.999929892300332
+      ],
+      "shunt_to_inductor_current_ratio": 0.0017292353924901651,
+      "source_current_error_a": 2.646038210743845e-06
+    },
+    "nominal_line": {
+      "inductance_h": 2e-05,
+      "resistance_ohm": 0.1,
+      "frequency_hz": 16000.0,
+      "line_branch_admittance_s": [
+        0.024675578067541882,
+        -0.4961319345924544
+      ],
+      "ngspice_source_current_a": [
+        -0.0368707,
+        0.4961319
+      ],
+      "calculated_source_current_a": [
+        -0.036870700018761395,
+        0.4961319345924544
+      ],
+      "shunt_to_inductor_current_ratio": 0.02455005558913938,
+      "source_current_error_a": 3.4592459488630385e-08
+    },
+    "nominal_retrace": {
+      "inductance_h": 2e-05,
+      "resistance_ohm": 0.1,
+      "frequency_hz": 31250.0,
+      "line_branch_admittance_s": [
+        0.006480353531731981,
+        -0.2544828880994232
+      ],
+      "ngspice_source_current_a": [
+        -0.0186755,
+        0.2544829
+      ],
+      "calculated_source_current_a": [
+        -0.018675475482951495,
+        0.2544828880994232
+      ],
+      "shunt_to_inductor_current_ratio": 0.047905656709622595,
+      "source_current_error_a": 2.725269519989291e-08
+    },
+    "maximum_l_retrace": {
+      "inductance_h": 9.5e-05,
+      "resistance_ohm": 1,
+      "frequency_hz": 31250.0,
+      "line_branch_admittance_s": [
+        0.002865804889319575,
+        -0.05345645004726677
+      ],
+      "ngspice_source_current_a": [
+        -0.0157028,
+        0.05345645
+      ],
+      "calculated_source_current_a": [
+        -0.015702775364287484,
+        0.05345645004726677
+      ],
+      "shunt_to_inductor_current_ratio": 0.23979450823700935,
+      "source_current_error_a": 2.4635757858753886e-08
+    }
+  },
+  "open_checks": [
+    "The L3/R35/C25 page-4 branch has not passed the independent full-page A1 netlist comparison",
+    "Original L3 inductance, DC/core loss, current/saturation and thermal limits are unknown",
+    "The isolated branch has no C25, yoke, T3 or connected waveform loading"
+  ],
+  "passed": true
+}

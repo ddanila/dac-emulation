@@ -110,16 +110,16 @@
       "minimum": 0.01,
       "maximum": 1,
       "unit": "ohm",
-      "evidence": "assumed-bound",
-      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+      "evidence": "design-derived",
+      "rationale": "L3's 1 ohm maximum is below 2% of documented parallel R35=82 ohm, preserving an inductive-dominated branch at DC. Original copper and core loss are unknown."
     },
     "horizontal_linearity_l": {
       "nominal": 2e-05,
       "minimum": 1e-06,
-      "maximum": 0.0001,
+      "maximum": 9.5e-05,
       "unit": "H",
-      "evidence": "assumed-bound",
-      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+      "evidence": "design-derived",
+      "rationale": "At the 16 us retrace half-cycle frequency and documented parallel R35=82 ohm +/-5%, the 95 uH maximum keeps worst-case R35 current below one quarter of L3 current; 20 uH nominal and 1 uH lower bound are exploratory candidates, not factory measurements."
     },
     "horizontal_compensation_r": {
       "nominal": 0.1,
