@@ -1146,3 +1146,25 @@ of this model; switching times, fT and the other assumed transistor parameters
 still need A2 review. The page-16 isolated stage check was regenerated with
 BF=26 and still passes; bright-video collector voltage changes from about
 0.72 V to 0.77 V. The CRT emission and C15 observation gap remains open in A1.
+
+### Frame-path A2 device coverage (2026-11-19)
+
+`device_model_coverage.py` joins the 77 semiconductor and magnetic device
+instances in the source inventory with the current ideal-rail assembly and
+device-model register. The saved
+`reference/k7222-11/device-model-coverage.json` accounts for 64 frame-path
+instances in 30 printed-type families; 13 instances are converter-only under
+the existing A1 scope rule. Five frame-path instances have provisional A2
+register entries, 55 have active model names but no register entry, and four
+appear in the source inventory but not in the current assembled model:
+012-6921 V19/V20 and 012-6931 L1/L2. Assembly presence and a model name do
+not establish sourced parameter bounds.
+
+The report also makes shared-family decisions visible. Fourteen frame-path
+`1AE15` diode instances currently use two different model names, and five
+`1SA20C` transistor instances use two names or are absent from the assembly.
+The next A2 pass must check these assignments against source function and
+data-book bounds, then add one register row per frame-path device and validate
+the live model response. The page-4 T3 scan reviewed in this pass still does
+not independently establish the proposed X1:3-to-X2:3 winding return; its A1
+and A5 status is unchanged.
