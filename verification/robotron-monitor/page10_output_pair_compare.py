@@ -1,8 +1,9 @@
-"""Check the source-read page-10 vertical output pair against a fresh KiCad export."""
+"""Check the source-read page-10 vertical driver and output against KiCad."""
 import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 import xml.etree.ElementTree as ET
@@ -10,13 +11,17 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / 'reference/k7222-11/page10-output-pair-source-netlist.json'
 SHEET = ROOT / 'circuits/k7222-11-vertical-output.kicad_sch'
+MODELS = ROOT / 'circuits/k7222-11-vertical-output-models.cir'
 NET_NAMES = {
-    'UPPER_RAIL': 'p22', 'UPPER_DRIVER': 'upper_emitter',
+    'UPPER_RAIL': 'p22', 'UPPER_BASE': 'upper_base',
+    'DIODE_19_20': 'bias_diode', 'MID_BIAS': 'bias_middle',
+    'AMP_OUTPUT': 'amp_out', 'UPPER_DRIVER': 'upper_emitter',
     'Y1_OUTPUT': 'y1', 'LOWER_DRIVER': 'lower_emitter',
-    'LOWER_RAIL': 'n16',
+    'LOWER_BASE': 'lower_base', 'LOWER_RAIL': 'n16',
 }
-PIN_NUMBERS = {'C': '1', 'B': '2', 'E': '3'}
-MODEL_POLARITY = {'VERT_POWER_N': 'NPN', 'VERT_POWER_P': 'PNP'}
+PIN_NUMBERS = {'C': '1', 'B': '2', 'E': '3',
+               'A': '1', 'K': '2', '1': '1', '2': '2'}
+PARTS = ['V18', 'V19', 'V20', 'V21', 'V26', 'V27', 'V28', 'R48']
 
 
 def sha(path):
@@ -24,11 +29,11 @@ def sha(path):
 
 
 def compare(source, xml):
-    if source.get('format') != 'dac-monitor-page10-output-pair-source-netlist-v1':
+    if source.get('format') != 'dac-monitor-page10-output-pair-source-netlist-v2':
         raise ValueError('unsupported source netlist')
     if source['source']['page'] != 10 or source['scope']['board'] != '012-6931':
         raise ValueError('wrong source page or board')
-    if source['scope']['parts'] != ['V18', 'V26', 'V27', 'V28']:
+    if source['scope']['parts'] != PARTS:
         raise ValueError('unexpected output-pair source scope')
     if set(source['nets']) != set(NET_NAMES):
         raise ValueError('source nets lack explicit KiCad translations')
@@ -42,9 +47,18 @@ def compare(source, xml):
             if key in expected:
                 raise ValueError('duplicate source terminal: ' + terminal)
             expected[key] = NET_NAMES[source_net]
-    for part in ('V27', 'V28'):
-        if {pin for source_id, pin in expected if source_id == '012-6931:' + part} != {'1', '2', '3'}:
-            raise ValueError('output transistor has an incomplete source read: ' + part)
+    for part in PARTS:
+        pins = {pin for source_id, pin in expected if source_id == '012-6931:' + part}
+        required = {'1', '2'} if part in {'V19', 'V20', 'V21', 'R48'} else {'1', '2', '3'}
+        if pins != required:
+            raise ValueError('part has an incomplete source read: ' + part)
+    if [row['part'] for row in source['diode_directions']] != ['V19', 'V20', 'V21']:
+        raise ValueError('source diode direction list is incomplete')
+    for row in source['diode_directions']:
+        part = '012-6931:' + row['part']
+        if (expected[(part, '1')] != NET_NAMES[row['anode_net']]
+                or expected[(part, '2')] != NET_NAMES[row['cathode_net']]):
+            raise ValueError('source diode direction conflicts with netlist')
     if source['printed_polarity'] != {'V27': 'NPN', 'V28': 'PNP'}:
         raise ValueError('source polarity must be re-reviewed')
 
@@ -53,13 +67,13 @@ def compare(source, xml):
     for comp in root.findall('./components/comp'):
         source_id = next((prop.get('value') for prop in comp.findall('property')
                           if prop.get('name') == 'SourceId'), None)
-        if source_id in {'012-6931:' + part for part in source['scope']['parts']}:
+        if source_id in {'012-6931:' + part for part in PARTS}:
             if source_id in refs.values():
                 raise ValueError('duplicate KiCad SourceId: ' + source_id)
             refs[comp.get('ref')] = source_id
             values[source_id] = comp.findtext('value')
-    if set(values) != {'012-6931:' + part for part in source['scope']['parts']}:
-        raise ValueError('output pair or driver is missing from KiCad export')
+    if set(values) != {'012-6931:' + part for part in PARTS}:
+        raise ValueError('driver, diode or output part is missing from KiCad export')
     actual = {}
     for net in root.findall('./nets/net'):
         for node in net.findall('node'):
@@ -72,18 +86,26 @@ def compare(source, xml):
                        actual_net=actual.get((part, pin)))
                   for (part, pin), net in sorted(expected.items())
                   if actual.get((part, pin)) != net]
-    polarity = {part: MODEL_POLARITY.get(values['012-6931:' + part])
-                for part in source['printed_polarity']}
-    return dict(format='dac-monitor-page10-output-pair-comparison-v1',
-                qualification='partial A1 check of ten output-pair and driver terminals; whole page 10 remains open',
+    extras = [dict(source_id=part, pin=pin, actual_net=net)
+              for (part, pin), net in sorted(actual.items()) if (part, pin) not in expected]
+    model_text = MODELS.read_text()
+    polarity = {}
+    for part in source['printed_polarity']:
+        alias = values['012-6931:' + part]
+        match = re.search(r'^\.model\s+' + re.escape(alias) + r'\s+(NPN|PNP)\b',
+                          model_text, flags=re.I | re.M)
+        polarity[part] = match.group(1).upper() if match else None
+    return dict(format='dac-monitor-page10-output-pair-comparison-v2',
+                qualification='partial A1 check of twenty driver, bias-diode and output-pair terminals; whole page 10 remains open',
                 source_netlist_sha256=sha(SOURCE),
                 source_pdf_sha256=source['source']['pdf_sha256'],
-                sheet_sha256=sha(SHEET),
+                sheet_sha256=sha(SHEET), model_sha256=sha(MODELS),
                 source_pins=len(expected), matched_pins=len(expected) - len(mismatches),
                 output_transistor_pins_checked=6,
+                diode_directions_checked=len(source['diode_directions']),
                 printed_polarity=source['printed_polarity'], model_polarity=polarity,
-                missing_or_changed_pins=mismatches,
-                passed=not mismatches and polarity == source['printed_polarity'])
+                missing_or_changed_pins=mismatches, extra_kicad_pins=extras,
+                passed=not mismatches and not extras and polarity == source['printed_polarity'])
 
 
 def run(source_pdf):
