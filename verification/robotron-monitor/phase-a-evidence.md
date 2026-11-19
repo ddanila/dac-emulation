@@ -804,3 +804,26 @@ probe attached. The scorer states that probe loading remains pending; the
 current waveform comparison is therefore diagnostic rather than a completed
 EO2-equivalent measurement. Stimulus and trim settings also remain to be
 recorded with each stage score.
+
+### R5 width-control equivalent (2026-11-19)
+
+The page-10 converter drawing and a fresh KiCad netlist export agree that
+`012-6931:R7` (30 kΩ) feeds the top of `R5` (1 kΩ), whose bottom reaches
+ground through `R6` (2.4 kΩ). Its wiper goes to the TDA1060 feedback input.
+At a fixed feedback voltage, the output ratio between two R5 settings is the
+inverse ratio of `R6 + R5_bottom`; the common R7 and total R5 terms cancel.
+The existing converter profile uses 0.63 as its uncalibrated nominal wiper
+position. Anchoring the ideal 41 V output there gives a rail scale of
+`(2400 + 1000 × 0.63)/(2400 + 1000 × position)`, bounded by 0.8912–1.2625
+over the physical 0–1 travel.
+
+`steady_supply.py` now applies that one scale to the 41 V, 22 V and −16 V
+converter outputs, while the 12 V converter input remains fixed. The deck
+declares `width_r5_position`, records the calculated rails in metadata, and
+captures the rail voltages for later checks. `calibration_contract.py` binds
+the manual's `picture_width_r5` trim to this actual parameter. A full assembly
+deck generated at both ends and at 0.63 gives 41 V, 22 V and −16 V only at
+the nominal point, with all three outputs changing together. This is a
+design-derived equivalent based on the provisional page-10 topology, not a
+calibrated width result; the A1 independent netlist and B6 grid adjustment
+remain necessary.

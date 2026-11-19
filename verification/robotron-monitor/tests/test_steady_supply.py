@@ -109,6 +109,30 @@ class SteadySupplyTests(unittest.TestCase):
         with self.assertRaises(ValueError):steady.deck(assembly,selection,candidate,linear_solver='unknown')
         with self.assertRaises(ValueError):steady.deck(assembly,selection,candidate,abstol=1.)
 
+    def test_r5_equivalent_scales_converter_outputs_but_not_its_input(self):
+        selection=steady.select(capture())
+        graph=json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
+        candidate=tc.enumerate_candidates(graph)[0]
+        base={k:v[0] for k,v in steady.signal_path.BOUNDS.items()}
+        rails=[]
+        for position in (0.,.63,1.):
+            text,metadata=steady.deck(dict(parameters=base|{'width_r5_position':position},
+                                           components=[],models=[]),selection,candidate)
+            voltage={line.split()[0]:float(line.split()[3]) for line in text.splitlines()
+                     if line.startswith(('Vp12 ','Vp22 ','Vp41 ','Vn16 '))}
+            self.assertEqual(voltage['Vp12'],12)
+            self.assertAlmostEqual(voltage['Vp41']/41,voltage['Vp22']/22)
+            self.assertAlmostEqual(voltage['Vp41']/41,voltage['Vn16']/-16)
+            self.assertAlmostEqual(voltage['Vp41']/41,metadata['r5_equivalent']['rail_scale'])
+            self.assertIn(f'.param width_r5_position={position:g}',text)
+            rails.append(voltage)
+        self.assertGreater(rails[0]['Vp41'],rails[1]['Vp41'])
+        self.assertGreater(rails[1]['Vp41'],rails[2]['Vp41'])
+        self.assertEqual(rails[1]['Vp41'],41)
+        self.assertAlmostEqual(steady.r5_rail_scale(0.),1.2625)
+        self.assertAlmostEqual(steady.r5_rail_scale(1.),3.03/3.4)
+        with self.assertRaises(ValueError):steady.r5_rail_scale(1.1)
+
     def test_raw_parser_rejects_partial_or_nonfinite_runs(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)/'raw'
