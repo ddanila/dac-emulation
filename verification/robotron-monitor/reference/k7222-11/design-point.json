@@ -65,6 +65,20 @@
     "report": "reference/k7222-11/horizontal-l3-design.json",
     "limitation": "The 25% shunt-current and 2% series-resistance budgets are engineering choices. Original L3 values and connected output-stage behavior are unknown."
   },
+  "horizontal_base_compensation_l4": {
+    "source_ids": ["012-6921:L4:1", "012-6921:L4:2", "012-6921:L4:3"],
+    "conditional_branch": "Selected E2 setting places L4:1 and L4:2 in parallel between h_outputbase and h_outbase; L4:3 is bridged and has no modeled effect",
+    "candidate_inductance_h_per_coil": {"nominal": 0.000005, "bounds": [0.0000001, 0.00005]},
+    "candidate_resistance_ohm_per_coil": {"nominal": 0.1, "bounds": [0.01, 1]},
+    "conditional_voltage_headroom_v": 1,
+    "branch_current_target_a": 0.5,
+    "turn_on_budget_fraction_of_trace": 0.3333333333333333,
+    "maximum_case_current_at_turn_on_budget_a": 0.533092,
+    "equation": "I_pair(t) = 2*V/R*(1-exp(-R*t/L))",
+    "evidence": "conditional design-derived operating bound against BU508AF-class inductive switching comparator; not original L4 values or a measured T2 output",
+    "report": "reference/k7222-11/horizontal-l4-design.json",
+    "limitation": "E2 selection, original choke behavior, coupling, loaded T2 secondary drive and V18 base current remain unqualified."
+  },
   "horizontal_resonance": {
     "candidate_parallel_capacitors": [
       {"source_id": "012-6921:C27", "value_f": 1e-8, "tolerance_fraction": 0.1},

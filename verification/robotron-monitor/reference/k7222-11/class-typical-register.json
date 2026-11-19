@@ -118,9 +118,15 @@
     "horizontal_l3_design": {
       "file": "reference/k7222-11/horizontal-l3-design.json",
       "use": "Documented R35=82 ohm and 16 us retrace bound L3's isolated shunted output-branch reactance and resistance; not a factory choke specification."
+    },
+    "horizontal_l4_design": {
+      "file": "reference/k7222-11/horizontal-l4-design.json",
+      "use": "Conditional 1 V/15.5 us turn-on operating budget for two parallel L4 chokes against the BU508AF-class 0.5 A switching comparator; E2 setting and actual loaded driver are unknown."
     }
   },
   "entries": [
+    {"id":"horizontal-output-l4-chokes.L","stage":"horizontal-output-base","value":0.000005,"bounds":[0.0000001,0.00005],"unit":"H","sources":["horizontal_l4_design","st_bu508af"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_compensation_l","basis":"Selected L4:1/L4:2 parallel branch reaches 0.533 A in one third of the 46.5 us trace at 1 V for 50 uH and 1 ohm per coil; L4:3 shares printed stock but is bypassed; conditional operating budget, not original value","qualification":"provisional-design-derived"},
+    {"id":"horizontal-output-l4-chokes.RDC","stage":"horizontal-output-base","value":0.1,"bounds":[0.01,1],"unit":"ohm","sources":["horizontal_l4_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_compensation_r","basis":"1 ohm per active coil in parallel drops 0.25 V at 0.5 A total, one quarter of conditional 1 V headroom; bypassed L4:3 shares stock only","qualification":"provisional-design-derived"},
     {"id":"012-6921:L3.L","stage":"horizontal-output-linearity","value":0.00002,"bounds":[0.000001,0.000095],"unit":"H","sources":["horizontal_l3_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_linearity_l","basis":"At the retrace half-cycle frequency, 95 uH maximum keeps current in parallel R35=82 ohm +/-5% below 25% of L3 branch current; nominal and lower bound remain exploratory","qualification":"provisional-design-derived"},
     {"id":"012-6921:L3.RDC","stage":"horizontal-output-linearity","value":0.1,"bounds":[0.01,1],"unit":"ohm","sources":["horizontal_l3_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_linearity_r","basis":"1 ohm maximum is below 2% of documented R35=82 ohm even at -5% tolerance; original copper/core loss unknown","qualification":"provisional-design-derived"},
     {"id":"012-6921:T2.LP","stage":"horizontal-driver","value":0.005,"bounds":[0.0031,0.02],"unit":"H","sources":["horizontal_t2_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_driver_l","basis":"16 kHz primary reactance at least five times documented R23=62 ohm requires >=3.08 mH; upper bound remains exploratory","qualification":"provisional-design-derived"},
