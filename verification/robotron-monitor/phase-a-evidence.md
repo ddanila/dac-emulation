@@ -718,6 +718,8 @@ Only point 5 has a numerical duty bound, from its printed 0.5 ms pulse in the
 `service_score.py` now evaluates these descriptors from sampled traces. It
 checks pulse sense and repetition, time-weighted duty where specified,
 sampling resolution, sawtooth direction/reset and point 7's bipolar excursion.
+Ramp features accept one complete final field because the connected runner
+scores that field alone; G2 separately checks field-to-field periodicity.
 G3 and G4 consume the computed shape result. The separate waveform-review
 template and its gate requirement were removed; an unsupported assertion that
 "shape agrees" can no longer pass either gate. G4 now applies the revised
