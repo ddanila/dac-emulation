@@ -54,8 +54,8 @@ def run():
            ('high_inductance',{'horizontal_tank_l':.0018},1e-6),
            ('low_winding_resistance',{'horizontal_tank_l':.00145,'horizontal_tank_r':.1},1e-6),
            ('high_winding_resistance',{'horizontal_tank_l':.00145,'horizontal_tank_r':5},1e-6),
-           ('low_coupling',{'horizontal_tank_l':.00145,'horizontal_coupling':.95},1e-6),
-           ('high_coupling',{'horizontal_tank_l':.00145,'horizontal_coupling':.9999},1e-6),
+           ('low_coupling',{'horizontal_tank_l':.00145,'horizontal_tank_coupling':.95},1e-6),
+           ('high_coupling',{'horizontal_tank_l':.00145,'horizontal_tank_coupling':.9999},1e-6),
            ('low_r24_trim',{'horizontal_tank_l':.00145,'horizontal_trim_fraction':.1},1e-6),
            ('high_r24_trim',{'horizontal_tank_l':.00145,'horizontal_trim_fraction':.9},1e-6)]
     results={}
@@ -97,7 +97,7 @@ def run():
         open_checks=['The T1 core, winding resistance and magnetic coupling have no printed electrical data',
                      'The oscillator transistor model and R41/R43 thermistor mapping remain provisional',
                      'R24 endpoint trim tests do not span the whole manual control range; native connected synchronization needs Phase B scoring',
-                     'The shared horizontal_coupling parameter varies T1 and T2 together'],
+                     'The T1-only coupling sweep does not establish original T1 magnetic properties'],
         passed=passed)
 
 

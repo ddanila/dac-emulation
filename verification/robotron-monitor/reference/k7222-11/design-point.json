@@ -28,6 +28,19 @@
     "report": "reference/k7222-11/horizontal-t1-design.json",
     "limitation": "C16 is coupled through R21 and a provisional transistor network. The loaded 1.45 mH is not an original winding specification, a connected-sync result, or a Phase B calibration freeze."
   },
+  "horizontal_driver_t2": {
+    "source_id": "012-6921:T2",
+    "conditional_primary_source_edges": "T2 primary top follows R23=62 ohm; bottom meets V13 collector. The secondary seam and polarity remain unverified.",
+    "candidate_primary_inductance_h": {"nominal": 0.005, "bounds": [0.0031, 0.02]},
+    "candidate_primary_resistance_ohm": {"nominal": 2, "bounds": [0.1, 6.2]},
+    "minimum_primary_inductance_h_for_fivefold_reactance_budget": 0.0030836270224054723,
+    "manual_tp15_v13_collector_range_vpp": [36, 54],
+    "nominal_isolated_driver_collector_vpp": 30.01953440100339,
+    "equations": ["2*pi*f_line*L_primary >= 5*R23", "R_primary <= 0.1*R23"],
+    "report": "reference/k7222-11/horizontal-t2-design.json",
+    "evidence": "design-derived primary operating bounds from documented R23 and line rate; isolated source-connected driver-stage sensitivity",
+    "limitation": "The isolated stage omits V18 base/output loading and misses TP15's manual range. Ratio, secondary loss, coupling, polarity and core behavior remain unqualified; this is not an A3 score or T2 calibration."
+  },
   "horizontal_feed_l1": {
     "source_id": "012-6921:L1",
     "conditional_source_branch": "41P -> R42 (6.8 ohm) -> L1 -> C22 (220 uF) -> 00; the flyback-hot crossing is kept separate by a functional stress check",

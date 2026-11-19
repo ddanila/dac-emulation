@@ -2,7 +2,7 @@
   "format": "dac-monitor-horizontal-t1-design-v1",
   "qualification": "conditional T1 half-winding design check in autonomous source-connected oscillator; not a T1 measurement, full-stage calibration or B2 pass",
   "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
-  "profile_sha256": "ae788be28464cb1faa413fafbea341322d9fbf1415b1fdb3bbf370f7216102fc",
+  "profile_sha256": "97b25b966c480f4cf4e72a8b77b7ba7c415396ae9a87140e94f8e08d3472cd80",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
   "observations_sha256": "4e8610f675cf22e13b91d82cda0146bf0a406ec9f284eb60fed0ea6760ad8f0e",
   "documented": {
@@ -132,29 +132,29 @@
     "low_coupling": {
       "changes": {
         "horizontal_tank_l": 0.00145,
-        "horizontal_coupling": 0.95
+        "horizontal_tank_coupling": 0.95
       },
       "step_s": 1e-06,
-      "period_s": 6.477574758710115e-05,
-      "frequency_hz": 15437.876632073496,
+      "period_s": 6.47742951831883e-05,
+      "frequency_hz": 15438.222788405465,
       "late_crossings": 31,
       "cycle_period_range_s": [
-        6.471844969453428e-05,
-        6.48087523749557e-05
+        6.472528029421044e-05,
+        6.480710627665897e-05
       ]
     },
     "high_coupling": {
       "changes": {
         "horizontal_tank_l": 0.00145,
-        "horizontal_coupling": 0.9999
+        "horizontal_tank_coupling": 0.9999
       },
       "step_s": 1e-06,
-      "period_s": 6.266981855280844e-05,
-      "frequency_hz": 15956.64425224647,
+      "period_s": 6.267273221224369e-05,
+      "frequency_hz": 15955.90242680757,
       "late_crossings": 32,
       "cycle_period_range_s": [
-        6.259509735274168e-05,
-        6.272040305440327e-05
+        6.259400924384356e-05,
+        6.272080156097563e-05
       ]
     },
     "low_r24_trim": {
@@ -192,7 +192,7 @@
     "The T1 core, winding resistance and magnetic coupling have no printed electrical data",
     "The oscillator transistor model and R41/R43 thermistor mapping remain provisional",
     "R24 endpoint trim tests do not span the whole manual control range; native connected synchronization needs Phase B scoring",
-    "The shared horizontal_coupling parameter varies T1 and T2 together"
+    "The T1-only coupling sweep does not establish original T1 magnetic properties"
   ],
   "passed": true
 }

@@ -13,7 +13,7 @@ Ra left a {horizontal_tank_r}
 Rb right b {horizontal_tank_r}
 La a middle {horizontal_tank_l}
 Lb middle b {horizontal_tank_l}
-Kcore La Lb {horizontal_coupling}
+Kcore La Lb {horizontal_tank_coupling}
 .ends HORIZONTAL_TANK
 * Opposite polarity secondary for turn-off transformer drive.
 .subckt HORIZONTAL_DRIVER top collector base ground
@@ -21,7 +21,7 @@ Rp top p {horizontal_driver_r}
 Lp p collector {horizontal_driver_l}
 Rs s base {horizontal_secondary_r}
 Ls ground s {horizontal_driver_l/horizontal_driver_ratio^2}
-Kcore Lp Ls {horizontal_coupling}
+Kcore Lp Ls {horizontal_driver_coupling}
 .ends HORIZONTAL_DRIVER
 * Output families and normal-operation ancillary components; no SOA claim.
 .model HOR_Z6 D(IS=1n N=1.5 RS=2 BV=6.2 IBV=1m CJO=100p TT=100n)
