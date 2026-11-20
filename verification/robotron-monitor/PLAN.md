@@ -406,8 +406,10 @@ unqualified. The [loaded T2/L4 screen](reference/k7222-11/t2-l4-output-stage-swe
 has no joint TP15/EHT match in 24 cases. The
 [ideal-TP15 screen](reference/k7222-11/tp15-equivalent-output-stage.json)
 reaches the EHT range only with V18 reverse-base excursions beyond the 9 V
-class comparator; the [exploratory L4 bridge](reference/k7222-11/t2-l4-topology-sensitivity.json)
-keeps that excursion within the comparator but reaches only 9.92 kV EHT.
+class comparator. The [exploratory L4 bridge](reference/k7222-11/t2-l4-topology-sensitivity.json)
+keeps that excursion within the comparator but reaches only 9.92 kV EHT;
+its [bounded drive/turn screen](reference/k7222-11/t2-l4-bridge-drive-sensitivity.json)
+finds no joint EHT/stress match in seven sampled cases.
 The [connected Q201-retaining run](reference/k7222-11/t3-connected-ac-loss-39ms-diagnostic.json)
 aborts at the 39 ms field boundary; the [one-factor screen](reference/k7222-11/t3-horizontal-boundary-isolation.json)
 shows sensitivity to the Q201 branch without establishing its cause. The
