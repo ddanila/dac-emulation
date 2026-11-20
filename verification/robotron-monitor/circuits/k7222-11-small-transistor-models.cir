@@ -2,5 +2,7 @@
 * onsemi BC546/D Rev. 8 (2021): 65 V VCEO, 200..450 hFE at 2 mA/5 V,
 * 0.25 V max VCEsat at 10 mA/0.5 mA, 150 MHz min fT at 10 mA/5 V.
 * Separate aliases preserve provenance; parameters are not original-device fits.
-.model SA20C_CLASS_N NPN(IS=1e-14 BF=260 VAF=80 RC=1 RE=0.25 CJE=10p CJC=4p TF=0.8n TR=10n)
-.model SC60A_CLASS_N NPN(IS=1e-14 BF=260 VAF=80 RC=1 RE=0.25 CJE=10p CJC=4p TF=0.8n TR=10n)
+* IKF, RB and junction-shape values use the ngspice manual's BC546B example as
+* bounded class proxies; EG, XTI and FC make the screened defaults explicit.
+.model SA20C_CLASS_N NPN(IS=1e-14 BF=260 VAF=80 RC=1 RE=0.25 CJE=10p CJC=4p TF=0.8n TR=10n IKF=0.0962 RB=100 VJE=0.65 MJE=0.55 VJC=0.65 MJC=0.33 EG=1.11 XTI=3 FC=0.5)
+.model SC60A_CLASS_N NPN(IS=1e-14 BF=260 VAF=80 RC=1 RE=0.25 CJE=10p CJC=4p TF=0.8n TR=10n IKF=0.0962 RB=100 VJE=0.65 MJE=0.55 VJC=0.65 MJC=0.33 EG=1.11 XTI=3 FC=0.5)

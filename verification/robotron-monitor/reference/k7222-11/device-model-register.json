@@ -72,6 +72,11 @@
       "revision": "BC546/D August 2021 Rev. 8, electrical characteristics pages 1-2",
       "use": "BC546B small-signal NPN comparator: VCEO >=65 V; hFE 200..450 at IC=2 mA/VCE=5 V; VCEsat <=0.25 V at IC=10 mA/IB=0.5 mA; fT >=150 MHz at IC=10 mA/VCE=5 V/f=100 MHz; Cobo <=4.5 pF at VCB=10 V. It does not identify printed 1SA20C or 1SC60A."
     },
+    "ngspice_manual_bjt": {
+      "url": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf",
+      "section": "BJT model parameter table and BC546B example",
+      "use": "Defines screened BJT model parameters and defaults; its BC546B example supplies provisional IKF, RB, VJE, MJE, VJC and MJC class proxies, not original 1SA20C or 1SC60A limits. Bounds are engineering exploration ranges."
+    },
     "page9_centering_design": {
       "file": "reference/k7222-11/page9-centering-source-netlist.json",
       "companion": "reference/k7222-11/centering-bridge-check.json",
@@ -155,7 +160,7 @@
       "model": "SA20C_CLASS_N",
       "model_file": "circuits/k7222-11-small-transistor-models.cir",
       "member_ids": ["012-6921:V6", "012-6921:V19", "012-6921:V20", "012-6931:V5", "012-6931:V11"],
-      "sources": ["onsemi_bc546b"],
+      "sources": ["onsemi_bc546b", "ngspice_manual_bjt"],
       "parameters": {
         "IS": {"nominal": 1e-14, "bounds": [1e-16, 1e-12], "unit": "A", "basis": "silicon saturation-current proxy; source leakage does not determine IS"},
         "BF": {"nominal": 260, "bounds": [190, 420], "unit": "1", "basis": "SPICE BF proxy for BC546B hFE 200..450 at 2 mA/5 V; effective gain checked at that bias"},
@@ -165,7 +170,16 @@
         "CJE": {"nominal": 1e-11, "bounds": [5e-12, 2e-11], "unit": "F", "basis": "input-junction depletion proxy around 10 pF typical Cibo at VEB=0.5 V; CJE zero-bias parameter is not the measured capacitance"},
         "CJC": {"nominal": 4e-12, "bounds": [1.7e-12, 8e-12], "unit": "F", "basis": "output-junction depletion proxy; Cobo typical 1.7 pF and maximum 4.5 pF at VCB=10 V do not directly fit zero-bias CJC"},
         "TF": {"nominal": 8e-10, "bounds": [4e-10, 1.3e-9], "unit": "s", "basis": "forward transit proxy with CJE/CJC to meet BC546B-class fT >=150 MHz at 10 mA/5 V"},
-        "TR": {"nominal": 1e-8, "bounds": [1e-9, 1e-7], "unit": "s", "basis": "reverse transit/storage proxy; BC546B sheet gives no switching-time limit"}
+        "TR": {"nominal": 1e-8, "bounds": [1e-9, 1e-7], "unit": "s", "basis": "reverse transit/storage proxy; BC546B sheet gives no switching-time limit"},
+        "IKF": {"nominal": 0.0962, "bounds": [0.03, 0.3], "unit": "A", "basis": "ngspice BC546B example high-current beta roll-off corner; assumed class spread, not original-part data"},
+        "RB": {"nominal": 100, "bounds": [10, 200], "unit": "ohm", "basis": "ngspice BC546B example zero-bias base resistance; assumed class spread"},
+        "VJE": {"nominal": 0.65, "bounds": [0.6, 0.8], "unit": "V", "basis": "ngspice BC546B example base-emitter built-in potential; assumed class spread"},
+        "MJE": {"nominal": 0.55, "bounds": [0.33, 0.6], "unit": "1", "basis": "ngspice BC546B example base-emitter grading exponent; assumed class spread"},
+        "VJC": {"nominal": 0.65, "bounds": [0.5, 0.8], "unit": "V", "basis": "ngspice BC546B example base-collector built-in potential; assumed class spread"},
+        "MJC": {"nominal": 0.33, "bounds": [0.3, 0.6], "unit": "1", "basis": "ngspice BC546B example base-collector grading exponent; assumed class spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "explicit ngspice silicon energy-gap default; provisional temperature spread"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "explicit ngspice saturation-current temperature-exponent default; provisional spread"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "explicit ngspice forward-bias capacitance-transition default; provisional spread"}
       },
       "comparison_targets": {
         "hFE_2ma": {"range": [200, 450], "conditions": "BC546B, IC=2 mA, VCE=5 V, 25 C"},
@@ -173,7 +187,7 @@
         "fT_hz": {"minimum": 1.5e8, "conditions": "BC546 family, IC=10 mA, VCE=5 V, f=100 MHz, 25 C"}
       },
       "model_response_report": "reference/k7222-11/small-transistor-class-check.json",
-      "remaining": ["Original 1SA20C ratings and printed-arrow reads are unresolved", "Connected current/voltage/thermal stress and joint parameter bounds are unqualified", "Unexamined BJT simulator defaults and switching storage remain"]
+      "remaining": ["Original 1SA20C ratings and printed-arrow reads are unresolved", "Connected current/voltage/thermal stress and joint parameter bounds are unqualified", "Optional BJT simulator defaults beyond the screened set and switching storage remain unexamined"]
     },
     {
       "id": "1SC60A-small-npn-class",
@@ -183,7 +197,7 @@
       "model": "SC60A_CLASS_N",
       "model_file": "circuits/k7222-11-small-transistor-models.cir",
       "member_ids": ["012-6921:V1", "012-6921:V5"],
-      "sources": ["onsemi_bc546b"],
+      "sources": ["onsemi_bc546b", "ngspice_manual_bjt"],
       "parameters": {
         "IS": {"nominal": 1e-14, "bounds": [1e-16, 1e-12], "unit": "A", "basis": "silicon saturation-current proxy; source leakage does not determine IS"},
         "BF": {"nominal": 260, "bounds": [190, 420], "unit": "1", "basis": "SPICE BF proxy for BC546B hFE 200..450 at 2 mA/5 V; effective gain checked at that bias"},
@@ -193,7 +207,16 @@
         "CJE": {"nominal": 1e-11, "bounds": [5e-12, 2e-11], "unit": "F", "basis": "input-junction depletion proxy around 10 pF typical Cibo at VEB=0.5 V; CJE zero-bias parameter is not the measured capacitance"},
         "CJC": {"nominal": 4e-12, "bounds": [1.7e-12, 8e-12], "unit": "F", "basis": "output-junction depletion proxy; Cobo typical 1.7 pF and maximum 4.5 pF at VCB=10 V do not directly fit zero-bias CJC"},
         "TF": {"nominal": 8e-10, "bounds": [4e-10, 1.3e-9], "unit": "s", "basis": "forward transit proxy with CJE/CJC to meet BC546B-class fT >=150 MHz at 10 mA/5 V"},
-        "TR": {"nominal": 1e-8, "bounds": [1e-9, 1e-7], "unit": "s", "basis": "reverse transit/storage proxy; BC546B sheet gives no switching-time limit"}
+        "TR": {"nominal": 1e-8, "bounds": [1e-9, 1e-7], "unit": "s", "basis": "reverse transit/storage proxy; BC546B sheet gives no switching-time limit"},
+        "IKF": {"nominal": 0.0962, "bounds": [0.03, 0.3], "unit": "A", "basis": "ngspice BC546B example high-current beta roll-off corner; assumed class spread, not original-part data"},
+        "RB": {"nominal": 100, "bounds": [10, 200], "unit": "ohm", "basis": "ngspice BC546B example zero-bias base resistance; assumed class spread"},
+        "VJE": {"nominal": 0.65, "bounds": [0.6, 0.8], "unit": "V", "basis": "ngspice BC546B example base-emitter built-in potential; assumed class spread"},
+        "MJE": {"nominal": 0.55, "bounds": [0.33, 0.6], "unit": "1", "basis": "ngspice BC546B example base-emitter grading exponent; assumed class spread"},
+        "VJC": {"nominal": 0.65, "bounds": [0.5, 0.8], "unit": "V", "basis": "ngspice BC546B example base-collector built-in potential; assumed class spread"},
+        "MJC": {"nominal": 0.33, "bounds": [0.3, 0.6], "unit": "1", "basis": "ngspice BC546B example base-collector grading exponent; assumed class spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "explicit ngspice silicon energy-gap default; provisional temperature spread"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "explicit ngspice saturation-current temperature-exponent default; provisional spread"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "explicit ngspice forward-bias capacitance-transition default; provisional spread"}
       },
       "comparison_targets": {
         "hFE_2ma": {"range": [200, 450], "conditions": "BC546B, IC=2 mA, VCE=5 V, 25 C"},
@@ -201,7 +224,7 @@
         "fT_hz": {"minimum": 1.5e8, "conditions": "BC546 family, IC=10 mA, VCE=5 V, f=100 MHz, 25 C"}
       },
       "model_response_report": "reference/k7222-11/small-transistor-class-check.json",
-      "remaining": ["Original 1SC60A ratings and printed-arrow reads are unresolved", "Connected current/voltage/thermal stress and joint parameter bounds are unqualified", "Unexamined BJT simulator defaults and switching storage remain"]
+      "remaining": ["Original 1SC60A ratings and printed-arrow reads are unresolved", "Connected current/voltage/thermal stress and joint parameter bounds are unqualified", "Optional BJT simulator defaults beyond the screened set and switching storage remain unexamined"]
     },
     {
       "id": "1AD50-signal-clamp-diode",
