@@ -118,8 +118,9 @@ def run(capture_path):
             'brightness_positions': list(BRIGHTNESS),
             'contrast_positions': list(CONTRAST),
             'incoming_intens_states': list(INCOMING_INTENS),
+            'logic_mapping_note': 'The provisional T200 gate model inverts the raw incoming INTENS input before V5; the manual discusses a regenerated intensity signal. Raw input state numbers are not a direct test of the manual signal polarity.',
             'rows': rows, 'dark_rows': dark_rows,
-            'interpretation': 'The detailed topology leaves the bright cathode near 0.34 V with no R2 response. The manual terminal swap at factory-list V4=9.1 V can put the bright cathode at 13.56–16.48 V and move it by about 2.92 V across R2 at the tested brightness endpoint, but the response occurs for incoming INTENS=0, while the manual discusses INTENS=1. The 15 V zener diagnostic shifts levels but does not resolve that polarity mismatch. The alternative is not selected as the active topology.'}
+            'interpretation': 'The detailed topology leaves the bright cathode near 0.34 V with no R2 response. The manual terminal swap at factory-list V4=9.1 V can put the bright cathode at 13.56–16.48 V and move it by about 2.92 V across R2 at the tested brightness endpoint. This occurs for raw incoming INTENS=0 in the provisional T200 model; its relation to the manual regenerated signal needs source qualification. The 15 V zener diagnostic shifts levels without establishing the original control transfer. The alternative is not selected as the active topology.'}
 
 
 if __name__ == '__main__':
