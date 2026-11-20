@@ -406,19 +406,16 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (updated 2026-11-20)
 
-**Tracked goal completion reason (2026-11-20):** Phase A cannot be marked
-fully implemented: only A4 meets its done condition. The remaining work is
-concrete and can continue under this plan's bounded `class-typical` and
-equivalent-stage fallbacks; it does not require human approval or a physical
-measurement.
-
-**Goal closure is blocked by missing Phase A evidence.** The current toolchain
-passes 306 tests, but A1 still lacks an independent complete source
-netlist and verified T3 terminal graph; A2 and A6 still lack qualified device
-bounds; A3 has no sustained native-grid score; and A5 therefore has no frozen
-tube/yoke design point. Conditional simulations and bounded substitutes cannot
-satisfy those done conditions. Complete the checks and commit the matching
-evidence before closing the tracked goal.
+**Tracked goal disposition (2026-11-20): completion blocked; implementation
+remains active.** Only A4 meets its done condition. The 306 passing tests verify
+the current toolchain and saved reports, but Phase A still lacks the independent
+source and T3 graph checks (A1), qualified device and class-typical bounds (A2
+and A6), a sustained native-grid score (A3), and a frozen tube/yoke design
+point (A5). Conditional simulations and bounded substitutes are useful
+intermediate evidence, not completion evidence. Finish the checks below, then
+document, commit and push their results before closing the tracked goal. The
+remaining work can proceed under this plan's bounded `class-typical` and
+equivalent-stage fallbacks without human approval or a physical measurement.
 
 | Item | Unmet done condition | Next resolution step |
 |---|---|---|
