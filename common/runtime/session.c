@@ -281,10 +281,11 @@ int dac_load(dac_session *s, unsigned slot, const void *p, size_t n) {
   } else if (slot == 1 && s->kind == 2 && n == 256) {
     memcpy(s->prom, p, n);
     s->prom_size = n;
-  } else if (slot == 2 && s->kind == 2 && (n == 2048 || n == 4096)) {
+  } else if (slot == 2 && ((s->kind == 2 && (n == 2048 || n == 4096)) || (s->kind == 3 && n == 4096))) {
     memset(s->glyphs, 0, sizeof(s->glyphs));
     memcpy(s->glyphs, p, n);
     s->glyph_size = n;
+    if (s->kind == 3) { s->width = 640; s->height = 288; }
   } else if (slot == 3 && s->kind == 2 && n == 2048) {
     memcpy(s->keyboard, p, n);
     s->keyboard_size = n;
@@ -383,6 +384,7 @@ int dac_power(dac_session *s, int on) {
     pc1715_init(s->plain);
     pc1715_load(s->plain, s->firmware, s->firmware_size);
     pc1715_attach(s->plain, &card);
+    if (s->glyph_size) pc1715_video_load(s->plain, s->glyphs, s->glyph_size);
   } else if (s->v) {
     vjuga_init(s->v, 0);
     vjuga_load_rom(s->v, s->firmware, s->firmware_size);
@@ -583,14 +585,16 @@ int dac_key(dac_session *s, unsigned key, int down) {
 unsigned dac_width(dac_session *s) { return s ? s->width : 0; }
 unsigned dac_height(dac_session *s) { return s ? s->height : 0; }
 const uint32_t *dac_video(dac_session *s) {
-  if (!s || s->plain)
+  if (!s || (s->plain && !s->glyph_size))
     return NULL;
   if (!s->on) {
     for (unsigned i = 0; i < s->width * s->height; i++)
       s->pixels[i] = 0xff000000;
     return s->pixels;
   }
-  if (s->r) {
+  if (s->plain) {
+    memcpy(s->pixels, s->plain->video.pixels, 640 * 288 * sizeof(uint32_t));
+  } else if (s->r) {
     robotron_video(s->r, s->pixels, &s->width, &s->height);
     if (s->r->disconnected & 2)
       for (unsigned i = 0; i < s->width * s->height; i++)

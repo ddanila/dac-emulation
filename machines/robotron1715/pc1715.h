@@ -5,6 +5,7 @@
 #include <stddef.h>
 
 #define PC1715_CLOCK_HZ 2458000u
+#include "video.h"
 
 /* Native external-card seam. Callbacks happen once per I/O bus cycle, not once
  * per held CPU tick. All addresses are full Z80 addresses. read returns 1 when
@@ -26,9 +27,8 @@ typedef struct {
   int (*wait)(void *, uint16_t address, int write);
 } pc1715_card;
 
-/* Headless ordinary PC1715 motherboard bring-up. No W/M devices or CAS PROM.
- * CTC/SIO register-level interrupt subset is opt-in; CRT and the original
- * PIO floppy board remain external/unmodelled. */
+/* Ordinary PC1715 motherboard. No W/M devices or CAS PROM.
+ * CTC/SIO and CRT are opt-in; original PIO floppy board is external. */
 typedef struct {
   uint16_t count, reload, divider;
   uint8_t control, waiting, running, pending, service, level;
@@ -38,6 +38,7 @@ typedef struct {
   uint8_t first, tx_busy, errors;
 } pc1715_sio;
 typedef struct {
+  pc1715_video video;
   dac_z80 cpu;
   dac_trace_sink trace;
   pc1715_card card;
@@ -55,6 +56,10 @@ typedef struct {
   uint64_t wait_ticks;
 } pc1715;
 
+int pc1715_video_load(pc1715 *, const void *, size_t);
+int pc1715_video_read(pc1715 *, uint16_t, uint8_t *);
+int pc1715_video_write(pc1715 *, uint16_t, uint8_t);
+void pc1715_video_tick(pc1715 *);
 void pc1715_init(pc1715 *);
 int pc1715_load(pc1715 *, const void *, size_t);
 void pc1715_reset(pc1715 *); /* CPU/reset latch; retains ROM, RAM and card. */

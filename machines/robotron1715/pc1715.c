@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <string.h>
 #include "peripherals.h"
+#include "video.inc"
 
 static void trace(pc1715 *m, const char *kind, uint16_t a, uint8_t data,
                   unsigned space, uint32_t offset) {
@@ -26,14 +27,15 @@ void pc1715_write(void *p, uint16_t a, uint8_t data) {
 static uint8_t input(void *p, uint16_t a) {
   pc1715 *m = p;
   if (!m->io_active) {
-    if (!m->card_offline && !(m->onboard && (a&255)>=8 && (a&255)<=15) && m->card.wait && m->card.wait(m->card.user, a, 0)) {
+    if (!m->card_offline && !(m->onboard && (a&255)>=8 && (a&255)<=15) &&
+        !(m->video.enabled && ((a&0xfc)==0x18 || (a&0xfc)==0x20)) && m->card.wait && m->card.wait(m->card.user, a, 0)) {
       m->io_waiting = 1;
       return 0xff;
     }
     m->io_active = 1;
     m->io_value = 0xff;
     uint8_t value = 0xff;
-    if (pc1715_onboard_read(m,a,&value) || (!m->card_offline && m->card.read && m->card.read(m->card.user, a, &value)))
+    if (pc1715_video_read(m,a,&value) || pc1715_onboard_read(m,a,&value) || (!m->card_offline && m->card.read && m->card.read(m->card.user, a, &value)))
       m->io_value = value;
     else
       m->unclaimed_reads++;
@@ -46,7 +48,8 @@ static void output(void *p, uint16_t a, uint8_t data) {
   pc1715 *m = p;
   if (m->io_active)
     return;
-  if (!m->card_offline && !(m->onboard && (a&255)>=8 && (a&255)<=15) && m->card.wait && m->card.wait(m->card.user, a, 1)) {
+  if (!m->card_offline && !(m->onboard && (a&255)>=8 && (a&255)<=15) &&
+        !(m->video.enabled && ((a&0xfc)==0x18 || (a&0xfc)==0x20)) && m->card.wait && m->card.wait(m->card.user, a, 1)) {
     m->io_waiting = 1;
     return;
   }
@@ -56,7 +59,7 @@ static void output(void *p, uint16_t a, uint8_t data) {
   /* A2..A7 decode MEMCS1, ignoring A0/A1 and the upper I/O address byte. */
   if ((a & 0xfc) == 0x28)
     m->rom_enabled = 0;
-  if (!pc1715_onboard_write(m,a,data) && !m->card_offline && m->card.write)
+  if (!pc1715_video_write(m,a,data) && !pc1715_onboard_write(m,a,data) && !m->card_offline && m->card.write)
     m->card.write(m->card.user, a, data);
 }
 static uint8_t acknowledge(void *p) {
@@ -69,6 +72,7 @@ static uint8_t acknowledge(void *p) {
   return m->io_value;
 }
 void pc1715_reset(pc1715 *m) {
+  video_reset(&m->video);
   m->card_service=m->card_offline=0;
   m->ctc_vector=0;memset(m->ctc,0,sizeof(m->ctc));memset(m->sio,0,sizeof(m->sio));
   for(unsigned n=0;n<2;n++)m->serial[n].due=0;
@@ -107,6 +111,7 @@ int pc1715_attach(pc1715 *m, const pc1715_card *card) {
 }
 void pc1715_run(pc1715 *m, unsigned ticks) {
   while (ticks--) {
+    pc1715_video_tick(m);
     peripheral_tick(m);
     if (!m->card_offline && m->card.tick)
       m->card.tick(m->card.user, m->cpu.cycles);
