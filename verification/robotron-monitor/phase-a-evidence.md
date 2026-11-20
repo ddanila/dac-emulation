@@ -2651,7 +2651,9 @@ the bright cathode with no R2 response. The swapped topology with 9.1 V V4
 gives 13.56–16.48 V and a 2.92 V span across R2 when incoming INTENS is low;
 all three compared topologies keep dark video near 33.69 V. With incoming
 INTENS high, however, the swap gives about 16.49 V at both R2 endpoints.
-The manual describes the V5/contrast action for INTENS = 1. Its logic
-polarity cannot be checked against the provisional T200 model here, so the
-terminal swap is a useful functional alternative but does not settle which
-document maps the K7222.11 board pins or justify changing the active sheet.
+The manual describes the V5/contrast action using a regenerated intensity
+signal. The provisional T200 model inverts the raw incoming INTENS line
+before V5, so the raw 0/1 labels in this sweep cannot establish a polarity
+conflict with the manual. The terminal swap is a useful functional
+alternative but does not settle which document maps the K7222.11 board pins
+or justify changing the active sheet.

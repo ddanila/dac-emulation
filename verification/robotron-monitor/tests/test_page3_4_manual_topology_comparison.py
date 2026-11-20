@@ -20,7 +20,7 @@ def row(report, topology, brightness, intensity, contrast):
 
 
 class ManualTopologyComparisonTests(unittest.TestCase):
-    def test_manual_terminal_swap_changes_output_but_misses_input_polarity(self):
+    def test_manual_terminal_swap_changes_output_for_one_raw_input_state(self):
         project = ROOT.parents[1]
         subprocess.run(['make', 'build/robotron-signal-pattern'], cwd=project,
                        check=True, capture_output=True)
@@ -44,6 +44,7 @@ class ManualTopologyComparisonTests(unittest.TestCase):
         other_low = row(live, alternate, 0, 1, .05)['voltages_v']['cathode']
         other_high = row(live, alternate, 0, 1, .95)['voltages_v']['cathode']
         self.assertLess(abs(other_high-other_low), .01)
+        self.assertIn('not a direct test', live['logic_mapping_note'])
         for dark in live['dark_rows']:
             self.assertAlmostEqual(dark['voltages_v']['cathode'], 33.68531, places=3)
 
