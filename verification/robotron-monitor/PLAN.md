@@ -406,10 +406,20 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (updated 2026-11-20)
 
-**Tracked goal blocked reason:** Phase A is not fully implemented: only A4
+**Tracked goal completion blocked (2026-11-20):** The goal requires all six
+Phase A items to be implemented, documented, committed and pushed. Only A4
 meets its done condition. A1 still lacks independent pin-to-pin source closure,
 including T3's return/tap graph and a qualified page-18 contrast/service-meter
-response. A renewed page-3/4 source read separates incoming X9:5 INTENS
+response; these unresolved connections prevent A5 from qualifying the winding
+design point. A2's frame-path device models remain provisional, A3 lacks a
+sustained connected native-grid score, and A6's class-typical register is
+incomplete. The conditional source reads and simulations below narrow these
+gaps but cannot establish the source-backed circuit or satisfy the remaining
+done conditions. The plan's bounded-equivalent fallback remains available,
+so this blocks declaring the goal complete, not further work or a need for
+human approval or measurements.
+
+A renewed page-3/4 source read separates incoming X9:5 INTENS
 (`rx_intens`), V5's IS output to neck X3:2 (`intens`), and the panel HRS wiper
 at V1's base (`v1_base`). It supersedes the earlier direct INTENS-to-neck
 passthrough claim and its contrast measurements. With those nets corrected,
