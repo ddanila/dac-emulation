@@ -1056,17 +1056,14 @@ T3's internal winding order.
 `page18_frame_compare.py` now compares all four board-to-board cables against
 freshly exported ideal-rail KiCad components and the neck pin map. The saved
 `reference/k7222-11/page18-frame-comparison.json` records all 18 printed pin
-pairs: 12 signal nets occur on both corresponding board exports. On the neck
-cables, `INTENS` is absent on the main-board export because its contrast path
-is assembled outside that sheet; `10.7P` is absent on the neck export because
-the held heater branch is assembled outside it. On the vertical cables,
-`41P`, `SYNCH`, `X1` and `X2` have no matching vertical-board export net. The
-first two belong to the excluded supply/converter path; the latter two are
-horizontal-yoke pass-through labels on page 18, while the ideal-rail model
-connects the horizontal yoke directly. These are model-scope explanations;
-the separate physical-pin comparison below checks the connector labels but
-does not fill the six functional gaps. Panel controls still need pin-level
-comparison; the yoke has a separate check below. The A1 page-18 gate stays open.
+pairs: 15 signal nets occur on both corresponding board exports. The V5
+collector now represents neck `IS`; `10.7P` remains outside the held-heater
+neck model. On the vertical cables, `41P` and `SYNCH` belong to the excluded
+supply/converter path. The page-9 centring bridge now represents X1/X2
+horizontal-yoke pass-throughs. These are model-scope explanations for the
+three remaining gaps, not functional qualification. The separate physical-pin,
+panel and yoke comparisons below check connector topology. The A1 page-18
+gate stays open because its contrast/service response is unresolved.
 
 The main-board X4 and vertical-board X3 sheets now expose audit-only six-pin
 connector symbols. `page18_vertical_cable_compare.py` checks their fresh
@@ -1162,8 +1159,9 @@ all 17 source nets have a DC route through their external inputs, resistors or
 possible diode conduction, and solves the isolated neck bench at its four
 settled input states. The report records exact source/model/deck hashes and
 node voltages. With video low, V1 collector is 34.34 V and base is near zero;
-with video high, collector is 0.72 V and base is 0.78 V. Raising the intensity
-input while video is high moves the cathode output from 0.27 V to 4.39 V. C1's
+with video high, collector is 0.72 V and base is 0.78 V. The source annotation
+says IS low is intensive and IS high is normal. Raising IS while video is high
+moves the cathode output from 0.27 V to 4.39 V, the expected direction. C1's
 source polarity puts its positive terminal on 41P and negative terminal on OO.
 All declared static/function checks pass; a disconnected source net is caught
 by the path test.
@@ -2571,3 +2569,23 @@ logic rail further shows why the transient cannot validate the original
 circuit. This isolates the model's dependence on an unqualified diode
 parameter; it does not identify a missing physical connection or license an
 unsourced pull-up in the source-addressed schematic.
+
+A renewed [page-16 source read](reference/k7222-11/page16-neck-source-netlist.json)
+checks the IS label in independent 300 and 600 dpi renders and corrects the
+render hashes in the saved source artifact. The printed note explicitly says
+`L = intensiv, H = normal`; V2:4 has its anode at IS and cathode at the SUK
+drive. The isolated neck check now labels its four input states by the
+actual IS polarity and asserts that low IS lowers the cathode during bright
+video. This corrects the earlier ambiguous `intensity_only` and
+`video_and_intensity` labels; it does not qualify the main board's high-state
+drive or the manual's 15 V normal-bright cathode level.
+
+The operating manual (`older-operation.pdf`, PDF pages 10–11, printed pages
+8–9) describes roughly 35 V at the cathode for dark video and 15 V for normal
+bright video. Its Fig. 6 shows a functional 15 V contrast reference and V1/V5
+control paths, but it is not a pin-level substitute for the page-3/4 board
+schematic. In the isolated neck report, an ideal 5 V IS input with bright video
+reaches only 4.39 V at the cathode. This does not validate a guessed 5 V
+pull-up as the missing board drive. The independent page-3/4 read still needs
+to identify the original steady IS bias before the contrast response can be
+qualified against the manual.

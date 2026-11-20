@@ -57,6 +57,8 @@ def run(source_pdf):
     if comparison!=json.loads(comparison_path.read_text()):
         raise ValueError('saved page-16 pin comparison is stale')
     source=json.loads(page16_neck_compare.SOURCE.read_text())
+    if source.get('signal_polarity')!={'IS_low':'intensive','IS_high':'normal'}:
+        raise ValueError('page-16 IS polarity read is missing or changed')
     paths=dc_paths(source)
     if paths['unreachable_nets']:raise ValueError('page-16 source node has no DC route')
     profile=reference.read_profile(PROFILE)
@@ -78,25 +80,31 @@ def run(source_pdf):
         if solver.returncode:raise ValueError('neck bench solve failed: '+(out/'solver.log').read_text()[-1000:])
         rows=reference.read_samples(out/'samples.txt',profile['probes'],0,.0004,2e-7)
     states={}
-    for name,time in (('dark_video',50e-6),('bright_video',150e-6),
-                      ('intensity_only',250e-6),('video_and_intensity',350e-6)):
+    input_states=(('dark_video',50e-6,0,0,'intensive'),
+                  ('bright_video',150e-6,1,0,'intensive'),
+                  ('dark_video_normal_is',250e-6,0,1,'normal'),
+                  ('bright_video_normal_is',350e-6,1,1,'normal'))
+    for name,time,video_logic,is_logic,mode in input_states:
         row=min(rows,key=lambda item:abs(item[0]-time))
-        states[name]=dict(time_s=row[0],volts=dict(zip(PROBES,row[1:])))
+        states[name]=dict(time_s=row[0],video_logic=video_logic,is_logic=is_logic,
+                          intensity_mode=mode,volts=dict(zip(PROBES,row[1:])))
     dark=states['dark_video']['volts'];bright=states['bright_video']['volts']
-    both=states['video_and_intensity']['volts']
+    normal_bright=states['bright_video_normal_is']['volts']
+    normal_dark=states['dark_video_normal_is']['volts']
     checks={
         'positive_electrolytic_rail':40<dark['p41']<42,
         'dark_transistor_off':30<dark['collector']<41 and abs(dark['base'])<.1,
         'bright_transistor_on':.5<bright['base']<1 and 0<bright['collector']<2,
         'video_moves_collector':dark['collector']-bright['collector']>30,
-        'intensity_moves_cathode':both['cathode']-bright['cathode']>3,
+        'normal_is_raises_bright_cathode':normal_bright['cathode']-bright['cathode']>3,
+        'is_state_does_not_brighten_dark_video':abs(normal_dark['cathode']-dark['cathode'])<.1,
         'grid_rails_plausible':(-30<dark['g1']<-20 and 300<dark['g2']<400
                                 and 0<dark['g4']<350),
         'source_c1_polarity':source['capacitor_polarity']=={
             'part':'C1','positive_net':'41P','negative_net':'OO'},
     }
-    return dict(format='dac-monitor-page16-neck-static-v1',
-                qualification='source topology, DC routes and isolated neck-stage function; no manual service-waveform claim',
+    return dict(format='dac-monitor-page16-neck-static-v2',
+                qualification='source topology, DC routes and isolated active-low IS function; manual cathode levels and service waveform remain unqualified',
                 source_comparison_sha256=sha(comparison_path),
                 source_netlist_sha256=sha(page16_neck_compare.SOURCE),
                 sheet_sha256=sha(page16_neck_compare.SHEET),

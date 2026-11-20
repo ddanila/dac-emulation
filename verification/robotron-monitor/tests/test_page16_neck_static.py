@@ -20,8 +20,16 @@ class Page16NeckStaticTests(unittest.TestCase):
         self.assertEqual(report['source_dc_paths']['unreachable_nets'],[])
         dark=report['state_voltages']['dark_video']['volts']
         bright=report['state_voltages']['bright_video']['volts']
+        normal=report['state_voltages']['bright_video_normal_is']['volts']
         self.assertGreater(dark['collector']-bright['collector'],30)
+        self.assertEqual(report['state_voltages']['bright_video']['intensity_mode'],
+                         'intensive')
+        self.assertEqual(report['state_voltages']['bright_video_normal_is']['intensity_mode'],
+                         'normal')
+        self.assertGreater(normal['cathode']-bright['cathode'],3)
         source=json.loads(page16_neck_compare.SOURCE.read_text())
+        self.assertEqual(source['signal_polarity'],
+                         {'IS_low':'intensive','IS_high':'normal'})
         meter=json.loads((ROOT/'reference/k7222-11/page16-meter-cable-source-read.json').read_text())
         self.assertIn('X3:1',source['nets']['SUK_DRIVE'])
         self.assertIn('R4:1',source['nets']['SUK_DRIVE'])
