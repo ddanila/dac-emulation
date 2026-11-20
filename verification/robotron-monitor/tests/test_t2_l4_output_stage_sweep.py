@@ -17,8 +17,8 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
         self.assertTrue(saved['analysis_valid'])
         self.assertEqual((saved['completed_cases'], saved['aborted_cases']), (24, 0))
         self.assertEqual((saved['strict_completed_cases'], saved['relaxed_completed_cases']),
-                         (9, 24))
-        self.assertEqual(saved['strict_relaxed_comparison_cases'], 9)
+                         (10, 24))
+        self.assertEqual(saved['strict_relaxed_comparison_cases'], 10)
         self.assertTrue(saved['strict_relaxed_within_2pct'])
         self.assertFalse(saved['conditional_tp15_matches'])
         self.assertFalse(saved['conditional_eht_matches'])
@@ -35,7 +35,7 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
         candidate = next(item for item in transformer_candidates.enumerate_candidates(graph)
                          if item['id'] in accepted)
         reference = saved['nominal_off_trace_case']
-        self.assertEqual(reference['solver']['strict_status'], 'complete')
+        self.assertEqual(reference['solver']['strict_status'], 'aborted')
         self.assertEqual(reference['solver']['relaxed_status'], 'complete')
         result = sweep.simulate(graph, parameters, candidate, output_parts,
                                 l3_r, l3_l, driver_parts, ratio=3, l4_h=5e-6,

@@ -1,0 +1,91 @@
+{
+  "format": "dac-monitor-v13-bjt-bounds-v1",
+  "qualification": "25 C selected SF128-family DC and 15 MHz AC corners; not an SF1280 group identification, all joint corners, inductive switching, temperature or connected-stage qualification",
+  "sources": [
+    "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
+    "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf"
+  ],
+  "source_hashes": {
+    "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
+    "reference/k7222-11/device-model-register.json": "75f32102fc8d047e1201ff234aa6c613e92497c2233c1694e64585b4fdb2942d",
+    "reference/k7222-11/class-typical-register.json": "000517ffa71658f952776815ad560a97260dfe6016d98dc01c72e263c4252ef9",
+    "horizontal_driver_bjt_bounds.py": "550a033d9ad53b5284a6800f731a7d581163cdbd2352eaee1c8144511b0593fd",
+    "horizontal_driver_transistor_check.py": "7a74f860978b698626bdf8f3c5cec15357434c34764f88a5002d645648d7d80d"
+  },
+  "active_parameters": {
+    "IS": 1e-12,
+    "BF": 60.0,
+    "VAF": 80.0,
+    "CJE": 2e-11,
+    "CJC": 8e-12,
+    "TF": 1e-09,
+    "TR": 1.0000000000000001e-07,
+    "IKF": 0.5,
+    "RB": 1.0,
+    "RC": 0.1,
+    "RE": 0.05,
+    "VJE": 0.75,
+    "MJE": 0.33,
+    "VJC": 0.75,
+    "MJC": 0.33,
+    "EG": 1.11,
+    "XTI": 3.0,
+    "FC": 0.5
+  },
+  "cases": [
+    {
+      "name": "nominal",
+      "overrides": {},
+      "hFE_50ma": 55.54948309710458,
+      "fT_proxy_hz": 144693720.0,
+      "VCEsat_v": 0.1008305
+    },
+    {
+      "name": "low_ikf",
+      "overrides": {
+        "IKF": 0.1
+      },
+      "hFE_50ma": 40.89567614123785,
+      "fT_proxy_hz": 143498190.0,
+      "VCEsat_v": 0.1255799
+    },
+    {
+      "name": "high_ikf",
+      "overrides": {
+        "IKF": 5
+      },
+      "hFE_50ma": 60.41999340630712,
+      "fT_proxy_hz": 144971895.0,
+      "VCEsat_v": 0.09298853
+    },
+    {
+      "name": "upper_series_resistance",
+      "overrides": {
+        "RB": 5,
+        "RC": 1,
+        "RE": 0.2
+      },
+      "hFE_50ma": 55.51029810168477,
+      "fT_proxy_hz": 144230715.0,
+      "VCEsat_v": 0.2605805
+    },
+    {
+      "name": "low_ikf_upper_series_resistance",
+      "overrides": {
+        "IKF": 0.1,
+        "RB": 5,
+        "RC": 1,
+        "RE": 0.2
+      },
+      "hFE_50ma": 40.860519304649834,
+      "fT_proxy_hz": 143043750.0,
+      "VCEsat_v": 0.2853299
+    }
+  ],
+  "selected_corners_pass": true,
+  "remaining": [
+    "Printed SF1280 gain group and original current/voltage ratings are unresolved.",
+    "The broad family BF range is not an independently qualified joint corner with IKF.",
+    "Capacitance, transit, temperature, inductive storage/fall and connected stress remain unqualified."
+  ]
+}

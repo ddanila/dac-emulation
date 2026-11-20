@@ -21,9 +21,9 @@ class HorizontalDriverTransistorCheckTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             altered = Path(directory)/'models.cir'
             original = check.MODELS.read_text()
-            self.assertIn('HOR_DRIVER_N NPN(IS=1e-12 BF=60 VAF=80 CJE=20p CJC=8p TF=1n TR=100n)', original)
-            altered.write_text(original.replace('CJE=20p CJC=8p TF=1n TR=100n)',
-                                                'CJE=150p CJC=80p TF=20n TR=100n)'))
+            self.assertIn('HOR_DRIVER_N NPN(IS=1e-12 BF=60 VAF=80 CJE=20p CJC=8p TF=1n TR=100n IKF=500m', original)
+            altered.write_text(original.replace('CJE=20p CJC=8p TF=1n TR=100n ',
+                                                'CJE=150p CJC=80p TF=20n TR=100n '))
             previous = check.MODELS
             try:
                 check.MODELS = altered
