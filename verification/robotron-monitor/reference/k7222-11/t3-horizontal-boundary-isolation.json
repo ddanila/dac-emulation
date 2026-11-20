@@ -1,0 +1,144 @@
+{
+  "format": "dac-monitor-t3-horizontal-boundary-isolation-v5",
+  "qualification": "one-factor solver diagnosis; no edit is a source-circuit correction or a sustained field",
+  "source_sha256": {
+    "producer": "748fa46d501b495cfd5f5c4fa2e16c4bbe99cdf8b6f9c7c18af1c95b57dca995",
+    "steady_supply.py": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b"
+  },
+  "baseline_deck_sha256": "5ba1538882e4788d2f2b059afc4ab7483f53e237bdc9db74ce0b572b33f7b7df",
+  "baseline_last_time_s": 0.03899999999999999,
+  "cases": [
+    {
+      "name": "feedback_open",
+      "change": "T3 feedback disconnected from the horizontal phase detector at C1012.",
+      "deck_sha256": "c0e4fe3f5aac6ec25e060ef54b94e1c3c0bda8c8547e5881eff4a656bf3a09ae",
+      "raw_sha256": "6aab2ff00af39737d4319e6b0ca7946c688f448bf3524066e98b1f2c7c302dd0",
+      "solver_log_sha256": "f9b134b3a77fbff423422522ee12171402dd9850599f01281c93e262bcc8c6a1",
+      "solve_status": "failed",
+      "solve_elapsed_s": 218.952257875,
+      "solve_timeout": false,
+      "raw_complete_rows": 1058829,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_warnings": [],
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_class_n-instance q201",
+        "run simulation(s) aborted"
+      ]
+    },
+    {
+      "name": "sync_open",
+      "change": "Input sync disconnected from the horizontal phase detector at C1008.",
+      "deck_sha256": "09165d28982dfb4fd97dafc5349462020ac8b82b130c9e94746a64d1d9601a46",
+      "raw_sha256": "11a6887a90e47e7afa411ac90b79de2c6871764bd1ae15f62d30e9535cf7b52d",
+      "solver_log_sha256": "35b2018008bd491dc413d973671d5eb657f38955c0e544e998e2b6f8c7db7856",
+      "solve_status": "failed",
+      "solve_elapsed_s": 217.21882775,
+      "solve_timeout": false,
+      "raw_complete_rows": 1041978,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_warnings": [],
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_class_n-instance q201",
+        "run simulation(s) aborted"
+      ]
+    },
+    {
+      "name": "q201_off",
+      "change": "Nearly off Q201 replaced by a 1 Gohm collector-to-emitter path.",
+      "deck_sha256": "3f1524f1a5e65e03f7b7d277ad909f29041e87e2742d1a6e3ad5cff2330d94e2",
+      "raw_sha256": "48dfba5006206ca8e3e340310f1143ad0214377f8a22e93922adbc01b3f50b3e",
+      "solver_log_sha256": "a390baafe895dfb7120ac05cc480396ea60120dcb207d481d58175ce30b08725",
+      "solve_status": "complete",
+      "solve_elapsed_s": 210.08947108299998,
+      "solve_timeout": false,
+      "raw_complete_rows": 1042909,
+      "last_time_s": 0.0391,
+      "crossed_39_ms": true,
+      "solver_warnings": [
+        "Warning: unrecognized variable - @q201[ic]",
+        "Warning: unrecognized variable - @q201[ib]"
+      ],
+      "solver_abort_messages": []
+    },
+    {
+      "name": "q201_linear_off",
+      "change": "Nearly off Q201 replaced by a 1 Gohm path and its stated 10 pF BE / 4 pF BC zero-bias capacitances as linear elements.",
+      "deck_sha256": "98c4d18ab99f395d5315d6613cfea7eb9a03e6c722663677f997272aae06d948",
+      "raw_sha256": "da13cb1b2706f6ab70b948ad009b233294bddf29a923b0f50d90d1273e5481ae",
+      "solver_log_sha256": "a18467920f8a85aafa1872edb07e1271a8cb302dbde9f9698bd573250c3c57ef",
+      "solve_status": "failed",
+      "solve_elapsed_s": 212.85205950000002,
+      "solve_timeout": false,
+      "raw_complete_rows": 1040704,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_warnings": [
+        "Warning: unrecognized variable - @q201[ic]",
+        "Warning: unrecognized variable - @q201[ib]"
+      ],
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_class_n-instance q202",
+        "run simulation(s) aborted"
+      ]
+    },
+    {
+      "name": "q201_be_only",
+      "change": "Nearly off Q201 replaced by a 1 Gohm path and 10 pF linear BE capacitance only.",
+      "deck_sha256": "4a0c67e4ef81e7ce6541fa81b396ea1e68dcb7cfce6f084ec775ee9bc047bdfe",
+      "raw_sha256": "59be57aa665c316d6faf68bc956e502bc2f4dc06f8a599e4a63453a1e89ae8d8",
+      "solver_log_sha256": "ce6f31f5fdbb6eace9c9f2aa09020f29a437630619fd930803d05d9d9fa7ec62",
+      "solve_status": "complete",
+      "solve_elapsed_s": 211.055308416,
+      "solve_timeout": false,
+      "raw_complete_rows": 1042910,
+      "last_time_s": 0.0391,
+      "crossed_39_ms": true,
+      "solver_warnings": [
+        "Warning: unrecognized variable - @q201[ic]",
+        "Warning: unrecognized variable - @q201[ib]"
+      ],
+      "solver_abort_messages": []
+    },
+    {
+      "name": "q201_bc_only",
+      "change": "Nearly off Q201 replaced by a 1 Gohm path and 4 pF linear BC capacitance only.",
+      "deck_sha256": "9e8094ae059e7645850c5ea5aa2b366a464b847281a9db5b5359062b03ecaaa3",
+      "raw_sha256": "ceac3e72527327ce1dc77000d34d3c988ec938b1fc5fa4540cb4a2fac5fbbab1",
+      "solver_log_sha256": "1a995372e8402a0f3df75a445f6a2b5a1b9eb57aa6115df5908a6a1689cdc3a2",
+      "solve_status": "failed",
+      "solve_elapsed_s": 211.307238375,
+      "solve_timeout": false,
+      "raw_complete_rows": 1040749,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_warnings": [
+        "Warning: unrecognized variable - @q201[ic]",
+        "Warning: unrecognized variable - @q201[ib]"
+      ],
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with node \"intensity_gate\"",
+        "run simulation(s) aborted"
+      ]
+    },
+    {
+      "name": "q201_cjc_low",
+      "change": "Q201 alone retains the BJT model with CJC reduced from 4 to its registered 1.7 pF lower bound.",
+      "deck_sha256": "9bbbedcf956c26745d38b59b8e2ec7cc642288cfb4e5cbddbfdc0a47a8029039",
+      "raw_sha256": "8998891c2c87bea10be045cf4797270c8fb36695e4f18ad1e361c0e782e7ad7d",
+      "solver_log_sha256": "1ad728edf82d29a1f7a88a702e0de0a4ad9cb81469e646101da78d3bbe1e6f99",
+      "solve_status": "failed",
+      "solve_elapsed_s": 205.733171417,
+      "solve_timeout": false,
+      "raw_complete_rows": 1040663,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_warnings": [],
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_q201_cjc_low_n-instance q201",
+        "run simulation(s) aborted"
+      ]
+    }
+  ]
+}
