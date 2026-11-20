@@ -13,10 +13,10 @@ import transformer_candidates
 
 
 class T2L4TopologySensitivityTests(unittest.TestCase):
-    def test_lowest_reverse_stress_case_still_exceeds_v18_class_limit(self):
+    def test_bridged_path_reduces_reverse_stress_but_misses_eht(self):
         saved = json.loads((ROOT/'reference/k7222-11/t2-l4-topology-sensitivity.json').read_text())
-        self.assertEqual(saved['completed_cases'], 8)
-        self.assertEqual(saved['reverse_base_safe_cases'], 0)
+        self.assertEqual(saved['completed_cases'], 7)
+        self.assertEqual(saved['reverse_base_safe_cases'], 1)
         self.assertEqual(saved['joint_eht_reverse_base_cases'], 0)
         for name, digest in saved['source_hashes'].items():
             self.assertEqual(sensitivity.stage.sha(ROOT/name), digest)
@@ -39,8 +39,9 @@ class T2L4TopologySensitivityTests(unittest.TestCase):
         self.assertAlmostEqual(actual['eht_final_v'], expected['eht_final_v'], delta=1)
         self.assertAlmostEqual(actual['output_base_range_v'][0],
                                expected['output_base_range_v'][0], delta=.1)
-        self.assertLess(actual['output_base_range_v'][0],
-                        -saved['v18_reverse_base_class_limit_v'])
+        self.assertGreater(actual['output_base_range_v'][0],
+                           -saved['v18_reverse_base_class_limit_v'])
+        self.assertLess(actual['eht_final_v'], saved['manual_eht_range_v'][0])
 
 
 if __name__ == '__main__':

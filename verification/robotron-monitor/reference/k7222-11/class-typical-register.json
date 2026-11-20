@@ -44,6 +44,7 @@
       "revision": "August 2007 Rev 2",
       "pages": [
         1,
+        3,
         4
       ],
       "use": "CRT horizontal-output NPN class: hFE 10..30 at 0.1 A and minimum 5 at 4.5 A; VCEsat <=1 V at 4.5 A/1.6 A base drive; typical inductive storage/fall times 2.5/0.2 us at 16 kHz"
@@ -474,17 +475,34 @@
       "stage": "horizontal-output",
       "value": 20,
       "bounds": [
-        5,
-        30
+        15,
+        28
       ],
       "unit": "1",
       "sources": [
-        "st_bu508af"
+        "st_bu508af", "ngspice_manual_bjt"
       ],
       "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.BF",
-      "basis": "ST BU508AF hFE at 0.1 A and 4.5 A, both at VCE=5 V",
+      "basis": "BF=15..28 with IKF=3..20 A satisfies BU508AF-class DC gain limits at 0.1 and 4.5 A in the 25 C fixture",
       "qualification": "bounded-class-candidate"
     },
+    {"id":"012-6921:V18.IS","stage":"horizontal-output","value":1e-10,"bounds":[1e-12,1e-8],"unit":"A","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.IS","basis":"Unfitted saturation-current proxy retained from the prior model; broad engineering bounds","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.VAF","stage":"horizontal-output","value":100,"bounds":[30,300],"unit":"V","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.VAF","basis":"Unfitted Early-voltage proxy retained from the prior model; connected sensitivity remains open","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.CJE","stage":"horizontal-output","value":1e-9,"bounds":[2e-10,2e-9],"unit":"F","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.CJE","basis":"Unfitted B-E depletion-capacitance proxy; broad engineering bounds","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.CJC","stage":"horizontal-output","value":2e-10,"bounds":[5e-11,5e-10],"unit":"F","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.CJC","basis":"Unfitted B-C depletion-capacitance proxy; broad engineering bounds","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.TF","stage":"horizontal-output","value":1e-7,"bounds":[5e-8,2e-7],"unit":"s","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.TF","basis":"Forward transit proxy; BU508AF inductive fall time is not SPICE TF","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.TR","stage":"horizontal-output","value":5e-7,"bounds":[1e-7,0.000002],"unit":"s","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.TR","basis":"Reverse transit proxy; BU508AF inductive storage time is not SPICE TR","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.IKF","stage":"horizontal-output","value":5,"bounds":[3,20],"unit":"A","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.IKF","basis":"High-current roll-off bound from the BU508AF-class 0.1/4.5 A gain fixture","qualification":"bounded-class-candidate"},
+    {"id":"012-6921:V18.RB","stage":"horizontal-output","value":0.05,"bounds":[0.005,0.1],"unit":"ohm","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.RB","basis":"Base-series resistance bounded against the 2 A saturated base-current headroom","qualification":"bounded-class-candidate"},
+    {"id":"012-6921:V18.RC","stage":"horizontal-output","value":0.02,"bounds":[0.005,0.08],"unit":"ohm","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.RC","basis":"Collector-series resistance bounded against 4.5 A saturation headroom","qualification":"bounded-class-candidate"},
+    {"id":"012-6921:V18.RE","stage":"horizontal-output","value":0.01,"bounds":[0.005,0.03],"unit":"ohm","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.RE","basis":"Emitter-series resistance bounded against collector and base saturation headroom","qualification":"bounded-class-candidate"},
+    {"id":"012-6921:V18.VJE","stage":"horizontal-output","value":0.75,"bounds":[0.6,0.9],"unit":"V","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.VJE","basis":"Explicit ngspice B-E junction-potential default with engineering spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.MJE","stage":"horizontal-output","value":0.33,"bounds":[0.2,0.5],"unit":"1","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.MJE","basis":"Explicit ngspice B-E grading default with engineering spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.VJC","stage":"horizontal-output","value":0.75,"bounds":[0.6,0.9],"unit":"V","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.VJC","basis":"Explicit ngspice B-C junction-potential default with engineering spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.MJC","stage":"horizontal-output","value":0.33,"bounds":[0.2,0.5],"unit":"1","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.MJC","basis":"Explicit ngspice B-C grading default with engineering spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.EG","stage":"horizontal-output","value":1.11,"bounds":[1.08,1.14],"unit":"eV","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.EG","basis":"Explicit ngspice silicon activation-energy default with untested temperature spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.XTI","stage":"horizontal-output","value":3,"bounds":[2,4],"unit":"1","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.XTI","basis":"Explicit ngspice saturation-current temperature-exponent default with untested spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V18.FC","stage":"horizontal-output","value":0.5,"bounds":[0.3,0.7],"unit":"1","sources":["st_bu508af","ngspice_manual_bjt"],"model_ref":"circuits/k7222-11-horizontal-models.cir#HOR_OUTPUT_N.FC","basis":"Explicit ngspice forward-bias capacitance default with engineering spread","qualification":"provisional-model-proxy"},
     {
       "id": "012-6921:V21.IS_a",
       "stage": "horizontal-output",

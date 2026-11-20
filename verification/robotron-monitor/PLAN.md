@@ -407,7 +407,7 @@ Phase C (speed) waits for B8.
 ## Phase A goal completion blocker (updated 2026-11-20)
 
 **Tracked goal disposition (2026-11-20): completion blocked; implementation
-remains active.** Only A4 meets its done condition. The 308 passing tests verify
+remains active.** Only A4 meets its done condition. The 309 passing tests verify
 the current toolchain and saved reports, but Phase A still lacks the independent
 source and T3 graph checks (A1), qualified device and class-typical bounds (A2
 and A6), a sustained native-grid score (A3), and a frozen tube/yoke design
@@ -420,18 +420,18 @@ equivalent-stage fallbacks without human approval or a physical measurement.
 | Item | Unmet done condition | Next resolution step |
 |---|---|---|
 | A1 | The independent page-3/4 and 9/10 netlists, page-18 contrast/service-meter response, and page-16 source-observation check are incomplete. The [T2/L4 seam reread](reference/k7222-11/page3-4-t2-l4-source-read.json) confirms local V18/R36 and T2-primary edges but cannot establish T2 secondary phase/return or the installed E2 setting. T3 return and tap order remain unverified. | Finish the pin-to-pin source comparisons; keep unresolved seam connections as bounded alternatives. |
-| A2 | All 64 assembled frame-path devices have provisional register rows, but none passes every parameter-qualification check. The [implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json) finds 14 semiconductor instances in 13 register entries still relying on screened simulator defaults. | Make those parameters explicit, qualify their bounds and connected operating stress, then finish the remaining device checks. |
-| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The refreshed 2 ms startup run ends at 5.876 kV EHT, below the sustained 11–12 kV target. All 36 ideal-TP15 fallback cases exceed the 9 V V18 reverse-base class limit, including the two apparent EHT matches; the [eight-case L4-path bound](reference/k7222-11/t2-l4-topology-sensitivity.json) cannot remove that violation. | Resolve or bound the T2 secondary/drive and L4 base path, then reach and score a stable connected operating state with the native grid stimulus. |
+| A2 | All 64 assembled frame-path devices have provisional register rows, but none passes every parameter-qualification check. The [implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json) finds 13 semiconductor instances in 12 register entries still relying on screened simulator defaults. The active V18 model now has explicit high-current roll-off and series resistances with passing 25 °C BU508AF-class DC corners; its identity, connected stress, switching, temperature and parasitic bounds remain unqualified. | Make the other defaults explicit, qualify their bounds and connected operating stress, then finish the remaining device checks. |
+| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The refreshed 2 ms startup run ends at 5.073 kV EHT, below the sustained 11–12 kV target. With the revised V18 model, 34 of 36 ideal-TP15 fallback cases complete, and all completed cases exceed the 9 V V18 reverse-base class limit, including the two apparent EHT matches. The prescribed-V13 T2/L4 sweep has no TP15 or EHT match among 24 completed cases; the [eight-case L4-path bound](reference/k7222-11/t2-l4-topology-sensitivity.json) remains conditional. | Resolve or bound the T2 secondary/drive and L4 base path, then reach and score a stable connected operating state with the native grid stimulus. |
 | A4 | Done. | No remaining Phase A action. |
 | A5 | T3's source return/tap graph, winding ratios and polarities are unresolved; the yoke/tube design point remains conditional. | Resolve the source graph or use the plan's labelled bounded equivalent, then verify the full design point. |
-| A6 | The 272-entry class-typical register is partial: exact B31G22 cold/thermal/emission and G4-dependent cut-off data, T3 parasitics, yoke sensitivity and other frame-path bounds are not qualified. | Complete sourced bounds and the affected stage checks. |
+| A6 | The 289-entry class-typical register is partial: V18's 18 active parameter rows are provisional, and exact B31G22 cold/thermal/emission and G4-dependent cut-off data, T3 parasitics, yoke sensitivity and other frame-path bounds are not qualified. | Complete sourced bounds and the affected stage checks. |
 
 The source reads and diagnostics below narrow these gaps but do not satisfy
 their done conditions. This is a blocker to **goal completion**, not to further
 implementation.
 
 The current monitor toolchain passes `make test-monitor` with a verified pinned
-runtime (308 tests, no skips, Python 3.9.6). This verifies the checks and
+runtime (309 tests, no skips, Python 3.9.6). This verifies the checks and
 saved-report consistency; it does not supply the missing A1, A2, A3, A5 or A6
 evidence in the table.
 
@@ -486,11 +486,11 @@ and bind this equivalent, so it cannot silently replace the source export or
 change between calibration and native rendering. A [native-input 200 µs
 startup screen](reference/k7222-11/page3-4-connected-contrast-transient.json)
 reaches its stop time with tighter KLU settings. With the revised CRT grid
-factor, the default sparse solves stop at 0.125 ns for detailed wiring and
-46.3 µs for the manual equivalent. This qualifies only bounded solver startup, not a
+factor, the detailed sparse solve reaches 200 µs, while the manual sparse
+equivalent stops at 46.3 µs. This qualifies only bounded solver startup, not a
 periodic connected A3 score or the factory topology.
 An [extended 2 ms startup solve](reference/k7222-11/page3-4-connected-contrast-2ms.json)
-also completes for that KLU setting, with final EHT at 5.876 kV;
+also completes for that KLU setting, with final EHT at 5.073 kV;
 it covers only about a tenth of one field and does not meet the sustained
 11–12 kV target.
 The short contrast bench shows effectively no cathode or provisional beam
@@ -503,7 +503,7 @@ unqualified junction capacitance: its median is 0.24 V at the lower bound,
 0.30 V. That does not establish a qualified logic high. The original IS drive,
 tube response and manual service-meter transfer remain open. Without the T3
 graph, A5 cannot qualify the winding design point. A2's 64 device rows are provisional, A3 has no sustained
-connected native-grid waveform score, and A6's 272 class-typical entries remain
+connected native-grid waveform score, and A6's 289 class-typical entries remain
 partial. The conditional simulations and source checks below narrow these
 gaps but do not satisfy the PLAN's completion criteria. Finish and verify the
 remaining A1, A2, A3, A5 and A6 work before marking the tracked goal complete.
@@ -529,25 +529,26 @@ connected native-grid A3 score or a qualified A5 design point.
 The follow-up [T2/L4 loaded-stage sweep](reference/k7222-11/t2-l4-output-stage-sweep.json)
 connects the transcribed V13 collector, T2 and selected E2/L4 base path while
 prescribing V13's base pulse. Because the page-3/4 seam does not establish
-T2 secondary polarity, the sweep tests both directions. Eleven of 24
+T2 secondary polarity, the sweep tests both directions. Nine of 24
 T2-ratio/L4-bound cases reach 5 ms at the original 0.001 Gear tolerance;
-retrying at 0.002 completes all 24. The eleven cases solved at both
-tolerances agree within 1.1% on final EHT and within 0.9% on collector peak.
+retrying at 0.002 completes all 24. The nine cases solved at both
+tolerances agree within 0.45% on final EHT and within 0.42% on collector peak.
 None of the 24 completed cases meets the
 manual's TP15 36–54 Vpp or EHT 11–12 kV ranges. The nominal off-trace case
-gives 24.55 Vpp at TP15 and 9.49 kV final EHT, with EHT still drifting.
+gives 24.63 Vpp at TP15 and 9.47 kV final EHT, with EHT still drifting.
 This narrows the A3/A5 gap but cannot identify a factory T3 winding or
 establish a sustained native-grid stage score: V13 phase, T2/L4 values, E2
 setting, T3 return graph and omitted feedback remain conditional.
 The same [T2/L4 sweep](reference/k7222-11/t2-l4-output-stage-sweep.json)
 now checks V18 emitter-base stress against the [BU508AF class 9 V reverse
-rating](https://www.st.com/resource/en/datasheet/bu508af.pdf): 17 of its 24
+rating](https://www.st.com/resource/en/datasheet/bu508af.pdf): 16 of its 24
 cases exceed it. A separate [36-case ideal TP15 boundary sweep](reference/k7222-11/tp15-equivalent-output-stage.json)
 prescribes 45 Vpp at V13's collector and compares three conditional T3 turn
 counts, both T2 polarities and drive phases, and three T2 ratios over
-19–20 ms. Two 2,035-turn cases reach about 11.35 kV EHT and 391 V collector
-peak, but their V18 base falls 62.6–62.7 V below its emitter. All 36 cases
-exceed the 9 V class limit; the active level-1 BJT model does not clamp
+19–20 ms. Thirty-four cases complete; two abort. Two 2,035-turn cases reach
+about 11.28 kV EHT and 388 V collector peak, but their V18 base falls
+54.0–54.1 V below its emitter. All 34 completed cases exceed the 9 V class
+limit; the active level-1 BJT model does not clamp
 reverse emitter-base avalanche. This rejects the apparent voltage match as a
 viable equivalent driver. Resolve or bound the T2 base path and T3 graph,
 then repeat the loaded stress and periodicity checks before adopting a
@@ -590,10 +591,10 @@ labelled as such. The remaining done-condition gaps are:
 | Item | Evidence still needed for completion |
 | --- | --- |
 | A1 | The page-16 neck-board pin list and static checks close that schematic review; the separate unvalued measuring-cable inset still needs a bounded transfer and qualified tube response before its service observations can be checked. Finish the independent page 3–4 and 9–10 pin comparisons beyond the checked local C27, V21/divider, page-9 centring and [V11/V12-to-A2 bridge](reference/k7222-11/page9-v12-bridge-comparison.json), including remaining transistor C/E assignments, L1's ambiguous hot-line crossing and page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle. Page 18 has three classified model-scope gaps. The [page-3/4 seam read](reference/k7222-11/page3-4-intens-seam-source-read.json) corrects the earlier input-to-neck INTENS claim: V5's IS output and V1's HRS bias are separate from incoming INTENS. The [short contrast check](reference/k7222-11/page18-contrast-stage-check.json) shows effectively no modeled cathode or provisional beam response across R2's range; the [DC diagnostic](reference/k7222-11/page18-contrast-dc-diagnostic.json) shows V1 current changing while IS remains low. The [IS drive sweep](reference/k7222-11/page3-4-is-drive-diagnostic.json) shows the apparent transient high is controlled by unqualified neck-diode capacitance, not a stable modeled high-state drive. The operating manual's normal-bright cathode target is about 15 V; the isolated neck reaches 4.39 V with ideal 5 V IS, so resolve the original IS bias and qualify the tube/service-meter response before judging contrast function. C30 placement/population and the installed E1–E4 pair are not identified. |
-| A2 | Qualify every frame-path device model and its bounds. All 64 instances have provisional register rows, including T3, but none closes every parameter check. V21 has explicit bounds for all twelve SPICE diode parameters, passes bounded Rectron/Semtech class fixtures, and has a 24-case one-at-a-time connected-stage sensitivity sweep. The slow TT endpoint moves final EHT by 4.4%; nominal late-window reverse voltage reaches 11.92 kV, near the 12 kV comparator rating. V21 identity, joint corners and sustained stage stress remain open. The two cross-revision ÜHA78 winding reports challenge T3's active 1,000-turn hypothesis without proving the K7222.11 construction; its other turns, parasitics and connected sensitivity remain unqualified. Original values and connected sensitivity also remain open for the page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes. |
+| A2 | Qualify every frame-path device model and its bounds. All 64 instances have provisional register rows, including T3, but none closes every parameter check. V21 has explicit bounds for all twelve SPICE diode parameters, passes bounded Rectron/Semtech class fixtures, and has a 24-case one-at-a-time connected-stage sensitivity sweep. The slow TT endpoint moves final EHT by 4.5%; nominal late-window reverse voltage reaches 11.94 kV, near the 12 kV comparator rating. V21 identity, joint corners and sustained stage stress remain open. The two cross-revision ÜHA78 winding reports challenge T3's active 1,000-turn hypothesis without proving the K7222.11 construction; its other turns, parasitics and connected sensitivity remain unqualified. Original values and connected sensitivity also remain open for the page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes. |
 | A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check passes in the synthetic-sync loaded bench; a dual-node probe shows the separate 10 V arrow remains sensitive to reset masking and node attribution. The prescribed-V13 T2/L4 loaded-stage sweep misses TP15 and EHT in all 24 cases across both T2 polarities after a bounded solver retry. Score connected stages with stable feature definitions, the required loaded probes, native grid stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. The loaded T2/L4 sweep does not establish a periodic EHT or identify the factory T3 winding. Optional C30 population changes the inferred 16 µs effective resonance inductance from 2.36 to 2.59 mH and loaded final EHT by 2.49–2.53% in the refreshed V21 model; its source population is still unverified. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
-| A6 | Complete cited bounds for the remaining tube, T3, yoke, measuring cable and other frame-path model values; the current register has 272 partial entries, including three explicitly assumed-bound T3 rows, 45 explicit diode-default rows across nine register entries, and 18 provisional BJT-default rows across two families. The [Tungsram M31-120 heater check](reference/k7222-11/tube-heater-class-check.json) supports the active 11 V/68 mA class operating point through the printed 15 Ω R22. The [cut-off class check](reference/k7222-11/tube-cutoff-class-check.json) moves the provisional grid factor into the catalog/manual overlap, but the installed B31G22 gun, G4 effect, cold resistance, thermal law and emission remain unqualified. The page-16 meter-cable capacitance, shunts and DVM loading remain unbounded. The older RFT B30G1 6.3 V/0.47 A comparator remains excluded: it would require 13.35 V ahead of R22, above the modeled 12 V rail. |
+| A6 | Complete cited bounds for the remaining tube, T3, yoke, measuring cable and other frame-path model values; the current register has 289 partial entries, including three explicitly assumed-bound T3 rows, 45 explicit diode-default rows across nine register entries, 18 provisional small-signal BJT-default rows across two families, and 18 provisional V18 BJT parameter rows. The [Tungsram M31-120 heater check](reference/k7222-11/tube-heater-class-check.json) supports the active 11 V/68 mA class operating point through the printed 15 Ω R22. The [cut-off class check](reference/k7222-11/tube-cutoff-class-check.json) moves the provisional grid factor into the catalog/manual overlap, but the installed B31G22 gun, G4 effect, cold resistance, thermal law and emission remain unqualified. The page-16 meter-cable capacitance, shunts and DVM loading remain unbounded. The older RFT B30G1 6.3 V/0.47 A comparator remains excluded: it would require 13.35 V ahead of R22, above the modeled 12 V rail. |
 
 The [local page-9 oscillator comparison](reference/k7222-11/page9-oscillator-comparison.json)
 now matches the source image's V5/V11 collector, base and emitter branches,
@@ -1073,7 +1074,7 @@ excursion is 7.59–7.74 V with a 2% fit-error allowance, but only 6.80–7.11 V
 or undefined with 1%. The manual does not prescribe this fit threshold, so
 the result remains diagnostic and TP8 stays `reference-incomplete`.
 The class-typical register collects
-272 cited bounded entries, but tube cold resistance, thermal and emission
+289 cited bounded entries, but tube cold resistance, thermal and emission
 parameters, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
 All three A4 controls are now bound in the ideal-rail

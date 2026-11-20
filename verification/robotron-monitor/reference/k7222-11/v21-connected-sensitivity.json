@@ -2,15 +2,15 @@
   "format": "dac-monitor-v21-connected-sensitivity-v1",
   "qualification": "one-at-a-time V21 bounds in a source-addressed but prescribed-V13, unverified-T3, nonperiodic 4-5 ms output-stage bench; not factory V21 identity or sustained monitor stress qualification",
   "source_hashes": {
-    "k7222-11-horizontal-models.cir": "cd489c027b4900aac120f8dea0ed9f5c2e6d48195c03343d7a8b30ef64bed8f3",
-    "device-model-register.json": "3f50895bb31f933cf56a13ad6c4d492d483afda0b7ca1fbde96e6e85e2e79e50",
+    "k7222-11-horizontal-models.cir": "a2441a3503533264b51bae8dbecaf173e34f9621ad82218e8799d1d613b891ca",
+    "device-model-register.json": "d8a561d15959a942e1d5e7cab037e5f1ce3dbba4b5fe38ebb9413db2c23a8448",
     "horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
     "horizontal-transcription.json": "1d2da969e6fea508b5fdec13e97b11647a3f9cc5deb1e41c72155cb411b12898",
     "t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
     "t3-ac-loss-parameters.json": "2ebb0fbd68134903504e58a99c2a0572d50bdec254cbf96ab74a5b6e6fa0f09e",
     "k7222-11-horizontal-oscillator.json": "20288f82c68b3b626c84c45713d3a88f281ec01aa8d2e5c8f4dc8f2142943d96",
     "t3-flyback-sign-filter.json": "906116f65305c37f9f941183ff14e6863a81937badd0f0e412b2c273ce7824c4",
-    "t2-l4-output-stage-sweep.json": "fa10921cc8d6f184bfa91b9b63f9a0b992aa53e745ee4b05433a81287196c92d"
+    "t2-l4-output-stage-sweep.json": "7bc2e0072fb1c9a6fd58e2e2bee69d2f70d579c3f9810b8cea301a7d8581b483"
   },
   "stage_case": {
     "t2_ratio": 3,
@@ -24,47 +24,47 @@
   "nominal": {
     "status": "complete",
     "stage": {
-      "sample_count": 12985,
+      "sample_count": 12995,
       "sample_window_s": [
-        0.00400004267,
+        0.00400005893,
         0.005
       ],
-      "collector_peak_v": 379.02137,
-      "collector_min_v": -1.1239666,
-      "eht_peak_v": 9490.55082,
-      "eht_final_v": 9490.37732,
-      "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-      "feedback_swing_v": 46.7651449,
-      "sync_swing_v": 17.16467172,
+      "collector_peak_v": 379.433782,
+      "collector_min_v": -1.13040648,
+      "eht_peak_v": 9507.78951,
+      "eht_final_v": 9507.60152,
+      "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+      "feedback_swing_v": 46.810433200000006,
+      "sync_swing_v": 17.18369923,
       "yoke_current_range_a": [
-        -0.447380108,
-        0.453735053
+        -0.446983148,
+        0.453249932
       ],
       "boost_range_v": [
-        63.9649037,
-        64.1272526
+        63.971179,
+        64.1312955
       ],
       "flyback_pulse_count": 15,
-      "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+      "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
       "output_base_range_v": [
-        -19.5647482,
-        0.617210535
+        -17.6425586,
+        0.66752397
       ],
-      "driver_collector_swing_v": 24.5502924527
+      "driver_collector_swing_v": 24.6302794757
     },
     "stress": {
-      "late_window_reverse_voltage_peak_v": 11922.800799999999,
-      "late_window_forward_voltage_peak_v": 1.996869999999035,
-      "late_window_forward_current_peak_a": 0.0128033584,
-      "late_window_reverse_current_peak_a": 0.00167236094,
-      "sample_count": 12985
+      "late_window_reverse_voltage_peak_v": 11940.40579,
+      "late_window_forward_voltage_peak_v": 1.994380000000092,
+      "late_window_forward_current_peak_a": 0.0127784307,
+      "late_window_reverse_current_peak_a": 0.00174607528,
+      "sample_count": 12995
     }
   },
   "sense_probe_relative_difference_from_unsensed_stage": {
-    "eht_final_v": 0.00032921011637456816,
-    "collector_peak_v": 0.00022495083920843204,
-    "driver_collector_swing_v": 3.244655218361405e-05,
-    "flyback_width_us_at_10pct_swing_median": -0.0003120990709112256
+    "eht_final_v": -6.275847273453042e-05,
+    "collector_peak_v": -0.00037115227675545284,
+    "driver_collector_swing_v": 3.3287997908715224e-05,
+    "flyback_width_us_at_10pct_swing_median": 0.0005879710043247362
   },
   "bounds": [
     {
@@ -74,47 +74,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12916,
+          "sample_count": 12976,
           "sample_window_s": [
-            0.00400003011,
+            0.00400005278,
             0.005
           ],
-          "collector_peak_v": 379.117649,
-          "collector_min_v": -1.12511432,
-          "eht_peak_v": 9493.87709,
-          "eht_final_v": 9493.70225,
-          "eht_same_phase_drift_v_over_16_lines": 114.62868999999955,
-          "feedback_swing_v": 46.777233800000005,
-          "sync_swing_v": 17.1877462,
+          "collector_peak_v": 379.483569,
+          "collector_min_v": -1.12993312,
+          "eht_peak_v": 9508.99732,
+          "eht_final_v": 9508.8093,
+          "eht_same_phase_drift_v_over_16_lines": 103.08193000000028,
+          "feedback_swing_v": 46.8171036,
+          "sync_swing_v": 17.21353904,
           "yoke_current_range_a": [
-            -0.447911968,
-            0.453959
+            -0.447132532,
+            0.453059431
           ],
           "boost_range_v": [
-            63.9641212,
-            64.1280049
+            63.9707475,
+            64.1319024
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.87655280642624,
+          "flyback_width_us_at_10pct_swing_median": 15.83311084652969,
           "output_base_range_v": [
-            -19.480371,
-            0.617243887
+            -17.6372138,
+            0.667577127
           ],
-          "driver_collector_swing_v": 24.549885978600003
+          "driver_collector_swing_v": 24.6299565437
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11923.290570000001,
-          "late_window_forward_voltage_peak_v": 2.3852200000001176,
-          "late_window_forward_current_peak_a": 0.0131242882,
-          "late_window_reverse_current_peak_a": 0.00164677442,
-          "sample_count": 12916
+          "late_window_reverse_voltage_peak_v": 11943.96195,
+          "late_window_forward_voltage_peak_v": 2.396049999999377,
+          "late_window_forward_current_peak_a": 0.0132504865,
+          "late_window_reverse_current_peak_a": 0.00172770785,
+          "sample_count": 12976
         }
       },
       "relative_change": {
-        "eht_final_v": 0.00035034750335940037,
-        "collector_peak_v": 0.0002540199778180881,
-        "driver_collector_swing_v": -1.6556792583210053e-05,
-        "flyback_width_us_at_10pct_swing_median": -0.0018781630555669798
+        "eht_final_v": 0.00012703309004484224,
+        "collector_peak_v": 0.00013121393603266645,
+        "driver_collector_swing_v": -1.3111178877127868e-05,
+        "flyback_width_us_at_10pct_swing_median": -0.0009132589296108935
       }
     },
     {
@@ -124,47 +124,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 13001,
+          "sample_count": 12990,
           "sample_window_s": [
-            0.00400007209,
+            0.00400006208,
             0.005
           ],
-          "collector_peak_v": 379.109143,
-          "collector_min_v": -1.12462839,
-          "eht_peak_v": 9494.36016,
-          "eht_final_v": 9494.18476,
-          "eht_same_phase_drift_v_over_16_lines": 111.51872999999978,
-          "feedback_swing_v": 46.774407599999996,
-          "sync_swing_v": 17.17473161,
+          "collector_peak_v": 379.695608,
+          "collector_min_v": -1.13054741,
+          "eht_peak_v": 9510.74034,
+          "eht_final_v": 9510.54137,
+          "eht_same_phase_drift_v_over_16_lines": 104.72342000000026,
+          "feedback_swing_v": 46.848247,
+          "sync_swing_v": 17.18912332,
           "yoke_current_range_a": [
-            -0.44682238,
-            0.453178563
+            -0.447061418,
+            0.453142303
           ],
           "boost_range_v": [
-            63.965498,
-            64.1282867
+            63.9704811,
+            64.1319869
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.892128273617413,
+          "flyback_width_us_at_10pct_swing_median": 15.8369194200687,
           "output_base_range_v": [
-            -19.5130497,
-            0.617216327
+            -17.577669,
+            0.667536321
           ],
-          "driver_collector_swing_v": 24.549997536400003
+          "driver_collector_swing_v": 24.629173326
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11925.01247,
-          "late_window_forward_voltage_peak_v": 1.8818500000015774,
-          "late_window_forward_current_peak_a": 0.0128386926,
-          "late_window_reverse_current_peak_a": 0.00175494117,
-          "sample_count": 13001
+          "late_window_reverse_voltage_peak_v": 11943.1779,
+          "late_window_forward_voltage_peak_v": 1.8810499999999593,
+          "late_window_forward_current_peak_a": 0.0128325239,
+          "late_window_reverse_current_peak_a": 0.00171860892,
+          "sample_count": 12990
         }
       },
       "relative_change": {
-        "eht_final_v": 0.0004011895282579236,
-        "collector_peak_v": 0.00023157797144796077,
-        "driver_collector_swing_v": -1.2012740808050255e-05,
-        "flyback_width_us_at_10pct_swing_median": -0.0008989697688587474
+        "eht_final_v": 0.00030921047688172994,
+        "collector_peak_v": 0.0006900439877016143,
+        "driver_collector_swing_v": -4.4910156260765126e-05,
+        "flyback_width_us_at_10pct_swing_median": -0.0006729337425962486
       }
     },
     {
@@ -174,47 +174,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12988,
+          "sample_count": 12906,
           "sample_window_s": [
-            0.00400001205,
+            0.00400008215,
             0.005
           ],
-          "collector_peak_v": 378.813223,
-          "collector_min_v": -1.12437911,
-          "eht_peak_v": 9490.0301,
-          "eht_final_v": 9489.85529,
-          "eht_same_phase_drift_v_over_16_lines": 111.41963000000032,
-          "feedback_swing_v": 46.73535679999999,
-          "sync_swing_v": 17.183160570000002,
+          "collector_peak_v": 379.396329,
+          "collector_min_v": -1.13046657,
+          "eht_peak_v": 9508.241,
+          "eht_final_v": 9508.03988,
+          "eht_same_phase_drift_v_over_16_lines": 99.47585000000072,
+          "feedback_swing_v": 46.804539399999996,
+          "sync_swing_v": 17.20659739,
           "yoke_current_range_a": [
-            -0.447102022,
-            0.453382693
+            -0.44628353,
+            0.453105517
           ],
           "boost_range_v": [
-            63.9641713,
-            64.1268732
+            63.971121,
+            64.1315508
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.898932611813597,
+          "flyback_width_us_at_10pct_swing_median": 15.842023114492378,
           "output_base_range_v": [
-            -19.6091478,
-            0.617249067
+            -17.6868962,
+            0.667490322
           ],
-          "driver_collector_swing_v": 24.550275279
+          "driver_collector_swing_v": 24.6303832958
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11920.99488,
-          "late_window_forward_voltage_peak_v": 1.592450000000099,
-          "late_window_forward_current_peak_a": 0.0129948779,
-          "late_window_reverse_current_peak_a": 0.00175657856,
-          "sample_count": 12988
+          "late_window_reverse_voltage_peak_v": 11944.253560000001,
+          "late_window_forward_voltage_peak_v": 1.566899999999805,
+          "late_window_forward_current_peak_a": 0.0127212773,
+          "late_window_reverse_current_peak_a": 0.00175964205,
+          "sample_count": 12906
         }
       },
       "relative_change": {
-        "eht_final_v": -5.50062428919408e-05,
-        "collector_peak_v": -0.000549169562655522,
-        "driver_collector_swing_v": -6.995313815989898e-07,
-        "flyback_width_us_at_10pct_swing_median": -0.00047119690012756944
+        "eht_final_v": 4.610626550534087e-05,
+        "collector_peak_v": -9.870760532341771e-05,
+        "driver_collector_swing_v": 4.215140965162665e-06,
+        "flyback_width_us_at_10pct_swing_median": -0.00035088500065309905
       }
     },
     {
@@ -224,40 +224,40 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12985,
+          "sample_count": 12995,
           "sample_window_s": [
-            0.00400004267,
+            0.00400005893,
             0.005
           ],
-          "collector_peak_v": 379.02137,
-          "collector_min_v": -1.1239666,
-          "eht_peak_v": 9490.55082,
-          "eht_final_v": 9490.37732,
-          "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-          "feedback_swing_v": 46.7651449,
-          "sync_swing_v": 17.16467172,
+          "collector_peak_v": 379.433782,
+          "collector_min_v": -1.13040648,
+          "eht_peak_v": 9507.78951,
+          "eht_final_v": 9507.60152,
+          "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+          "feedback_swing_v": 46.810433200000006,
+          "sync_swing_v": 17.18369923,
           "yoke_current_range_a": [
-            -0.447380108,
-            0.453735053
+            -0.446983148,
+            0.453249932
           ],
           "boost_range_v": [
-            63.9649037,
-            64.1272526
+            63.971179,
+            64.1312955
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+          "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
           "output_base_range_v": [
-            -19.5647482,
-            0.617210535
+            -17.6425586,
+            0.66752397
           ],
-          "driver_collector_swing_v": 24.5502924527
+          "driver_collector_swing_v": 24.6302794757
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11922.800799999999,
-          "late_window_forward_voltage_peak_v": 1.996869999999035,
-          "late_window_forward_current_peak_a": 0.0128033584,
-          "late_window_reverse_current_peak_a": 0.00167236094,
-          "sample_count": 12985
+          "late_window_reverse_voltage_peak_v": 11940.40579,
+          "late_window_forward_voltage_peak_v": 1.994380000000092,
+          "late_window_forward_current_peak_a": 0.0127784307,
+          "late_window_reverse_current_peak_a": 0.00174607528,
+          "sample_count": 12995
         }
       },
       "relative_change": {
@@ -274,47 +274,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12943,
+          "sample_count": 13019,
           "sample_window_s": [
-            0.00400006589,
+            0.00400007333,
             0.005
           ],
-          "collector_peak_v": 379.04501,
-          "collector_min_v": -1.12469217,
-          "eht_peak_v": 9491.20687,
-          "eht_final_v": 9491.03641,
-          "eht_same_phase_drift_v_over_16_lines": 111.36887999999999,
-          "feedback_swing_v": 46.77166570000001,
-          "sync_swing_v": 17.18541908,
+          "collector_peak_v": 379.362255,
+          "collector_min_v": -1.13057048,
+          "eht_peak_v": 9507.57907,
+          "eht_final_v": 9507.38794,
+          "eht_same_phase_drift_v_over_16_lines": 101.98819000000003,
+          "feedback_swing_v": 46.803554600000005,
+          "sync_swing_v": 17.20029994,
           "yoke_current_range_a": [
-            -0.446408713,
-            0.452663724
+            -0.44638083,
+            0.453126578
           ],
           "boost_range_v": [
-            63.9645548,
-            64.1273404
+            63.9700729,
+            64.1310118
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.892408131254477,
+          "flyback_width_us_at_10pct_swing_median": 15.836745643663976,
           "output_base_range_v": [
-            -19.5240369,
-            0.617219444
+            -17.6624462,
+            0.667478963
           ],
-          "driver_collector_swing_v": 24.549308224500002
+          "driver_collector_swing_v": 24.6296259254
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11924.3989,
-          "late_window_forward_voltage_peak_v": 0.8602600000012899,
-          "late_window_forward_current_peak_a": 0.013215964,
-          "late_window_reverse_current_peak_a": 0.00165625179,
-          "sample_count": 12943
+          "late_window_reverse_voltage_peak_v": 11943.627550000001,
+          "late_window_forward_voltage_peak_v": 0.8584199999986595,
+          "late_window_forward_current_peak_a": 0.0128211174,
+          "late_window_reverse_current_peak_a": 0.00175161857,
+          "sample_count": 13019
         }
       },
       "relative_change": {
-        "eht_final_v": 6.944823980939623e-05,
-        "collector_peak_v": 6.237115337322623e-05,
-        "driver_collector_swing_v": -4.0090284133796824e-05,
-        "flyback_width_us_at_10pct_swing_median": -0.0008813757720890847
+        "eht_final_v": -2.2464130364567273e-05,
+        "collector_peak_v": -0.0001885098359534134,
+        "driver_collector_swing_v": -2.6534424858869437e-05,
+        "flyback_width_us_at_10pct_swing_median": -0.0006838992252201834
       }
     },
     {
@@ -324,47 +324,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 13057,
+          "sample_count": 12970,
           "sample_window_s": [
-            0.00400005671,
+            0.00400000898,
             0.005
           ],
-          "collector_peak_v": 378.968838,
-          "collector_min_v": -1.12453483,
-          "eht_peak_v": 9490.59819,
-          "eht_final_v": 9490.43221,
-          "eht_same_phase_drift_v_over_16_lines": 111.53552000000127,
-          "feedback_swing_v": 46.758239,
-          "sync_swing_v": 17.15585355,
+          "collector_peak_v": 379.539163,
+          "collector_min_v": -1.13085219,
+          "eht_peak_v": 9510.05366,
+          "eht_final_v": 9509.85193,
+          "eht_same_phase_drift_v_over_16_lines": 101.67275000000154,
+          "feedback_swing_v": 46.82469819999999,
+          "sync_swing_v": 17.19622841,
           "yoke_current_range_a": [
-            -0.446758807,
-            0.452621421
+            -0.446810813,
+            0.453069936
           ],
           "boost_range_v": [
-            63.9637636,
-            64.1269229
+            63.9707673,
+            64.1322285
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.895762571266694,
+          "flyback_width_us_at_10pct_swing_median": 15.830853772610434,
           "output_base_range_v": [
-            -19.4359823,
-            0.617247458
+            -17.5532146,
+            0.667465661
           ],
-          "driver_collector_swing_v": 24.5504030353
+          "driver_collector_swing_v": 24.6293578421
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11924.40447,
-          "late_window_forward_voltage_peak_v": 2.114769999998316,
-          "late_window_forward_current_peak_a": 0.0133465958,
-          "late_window_reverse_current_peak_a": 0.00171627176,
-          "sample_count": 13057
+          "late_window_reverse_voltage_peak_v": 11945.006309999999,
+          "late_window_forward_voltage_peak_v": 2.041960000000472,
+          "late_window_forward_current_peak_a": 0.0126151218,
+          "late_window_reverse_current_peak_a": 0.00173616033,
+          "sample_count": 12970
         }
       },
       "relative_change": {
-        "eht_final_v": 5.783753179715607e-06,
-        "collector_peak_v": -0.00013859904522002322,
-        "driver_collector_swing_v": 4.504329234140995e-06,
-        "flyback_width_us_at_10pct_swing_median": -0.000670489954006555
+        "eht_final_v": 0.00023669586859174094,
+        "collector_peak_v": 0.0002777322552686301,
+        "driver_collector_swing_v": -3.7418722792412266e-05,
+        "flyback_width_us_at_10pct_swing_median": -0.0010556827810070562
       }
     },
     {
@@ -374,47 +374,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12372,
+          "sample_count": 12370,
           "sample_window_s": [
-            0.00400008599,
+            0.00400007771,
             0.005
           ],
-          "collector_peak_v": 379.163924,
-          "collector_min_v": -1.12478795,
-          "eht_peak_v": 9497.42815,
-          "eht_final_v": 9497.27648,
-          "eht_same_phase_drift_v_over_16_lines": 105.43886999999995,
-          "feedback_swing_v": 46.78045410000001,
-          "sync_swing_v": 17.16658221,
+          "collector_peak_v": 379.625029,
+          "collector_min_v": -1.13067928,
+          "eht_peak_v": 9512.61417,
+          "eht_final_v": 9512.43844,
+          "eht_same_phase_drift_v_over_16_lines": 101.42759999999907,
+          "feedback_swing_v": 46.8345548,
+          "sync_swing_v": 17.21482309,
           "yoke_current_range_a": [
-            -0.446069477,
-            0.452796386
+            -0.446982061,
+            0.453177346
           ],
           "boost_range_v": [
-            63.9685208,
-            64.1304041
+            63.9707222,
+            64.1321434
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.893625930028625,
+          "flyback_width_us_at_10pct_swing_median": 15.832799794807118,
           "output_base_range_v": [
-            -19.4267063,
-            0.617235395
+            -17.4850198,
+            0.667463895
           ],
-          "driver_collector_swing_v": 24.5500672363
+          "driver_collector_swing_v": 24.6297550882
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11928.268,
-          "late_window_forward_voltage_peak_v": 2.0081500000014785,
-          "late_window_forward_current_peak_a": 0.0129261891,
-          "late_window_reverse_current_peak_a": 0.0017215882,
-          "sample_count": 12372
+          "late_window_reverse_voltage_peak_v": 11946.20324,
+          "late_window_forward_voltage_peak_v": 1.9512400000003254,
+          "late_window_forward_current_peak_a": 0.0123126655,
+          "late_window_reverse_current_peak_a": 0.00166031893,
+          "sample_count": 12370
         }
       },
       "relative_change": {
-        "eht_final_v": 0.0007269637199209745,
-        "collector_peak_v": 0.0003761107190341755,
-        "driver_collector_swing_v": -9.173674832363813e-06,
-        "flyback_width_us_at_10pct_swing_median": -0.000804815604129386
+        "eht_final_v": 0.0005087423983667057,
+        "collector_peak_v": 0.0005040326114135397,
+        "driver_collector_swing_v": -2.1290359312319465e-05,
+        "flyback_width_us_at_10pct_swing_median": -0.0009328866360560704
       }
     },
     {
@@ -424,47 +424,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12532,
+          "sample_count": 12690,
           "sample_window_s": [
-            0.00400000021,
+            0.00400009424,
             0.005
           ],
-          "collector_peak_v": 378.938707,
-          "collector_min_v": -1.12487521,
-          "eht_peak_v": 9488.18794,
-          "eht_final_v": 9487.96694,
-          "eht_same_phase_drift_v_over_16_lines": 111.6570499999998,
-          "feedback_swing_v": 46.7555311,
-          "sync_swing_v": 17.17174095,
+          "collector_peak_v": 379.254289,
+          "collector_min_v": -1.13061909,
+          "eht_peak_v": 9503.33268,
+          "eht_final_v": 9503.08639,
+          "eht_same_phase_drift_v_over_16_lines": 100.28438000000097,
+          "feedback_swing_v": 46.786601999999995,
+          "sync_swing_v": 17.18225278,
           "yoke_current_range_a": [
-            -0.447489387,
-            0.453026284
+            -0.446234528,
+            0.453115639
           ],
           "boost_range_v": [
-            63.9658685,
-            64.1284181
+            63.9716322,
+            64.132173
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.89025425905756,
+          "flyback_width_us_at_10pct_swing_median": 15.843137565480468,
           "output_base_range_v": [
-            -19.5023007,
-            0.617281759
+            -17.6182857,
+            0.667499069
           ],
-          "driver_collector_swing_v": 24.550428958999998
+          "driver_collector_swing_v": 24.6301378155
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11921.41628,
-          "late_window_forward_voltage_peak_v": 2.038510000000315,
-          "late_window_forward_current_peak_a": 0.0132450119,
-          "late_window_reverse_current_peak_a": 0.00171657416,
-          "sample_count": 12532
+          "late_window_reverse_voltage_peak_v": 11936.02392,
+          "late_window_forward_voltage_peak_v": 1.977679999999964,
+          "late_window_forward_current_peak_a": 0.0125970804,
+          "late_window_reverse_current_peak_a": 0.00171910186,
+          "sample_count": 12690
         }
       },
       "relative_change": {
-        "eht_final_v": -0.00025398147183460456,
-        "collector_peak_v": -0.00021809588203421928,
-        "driver_collector_swing_v": 5.560271848562685e-06,
-        "flyback_width_us_at_10pct_swing_median": -0.001016784692397048
+        "eht_final_v": -0.00047489684864282907,
+        "collector_peak_v": -0.0004730548741703222,
+        "driver_collector_swing_v": -5.751465392034049e-06,
+        "flyback_width_us_at_10pct_swing_median": -0.0002805619152805069
       }
     },
     {
@@ -474,40 +474,40 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12985,
+          "sample_count": 12995,
           "sample_window_s": [
-            0.00400004267,
+            0.00400005893,
             0.005
           ],
-          "collector_peak_v": 379.02137,
-          "collector_min_v": -1.1239666,
-          "eht_peak_v": 9490.55082,
-          "eht_final_v": 9490.37732,
-          "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-          "feedback_swing_v": 46.7651449,
-          "sync_swing_v": 17.16467172,
+          "collector_peak_v": 379.433782,
+          "collector_min_v": -1.13040648,
+          "eht_peak_v": 9507.78951,
+          "eht_final_v": 9507.60152,
+          "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+          "feedback_swing_v": 46.810433200000006,
+          "sync_swing_v": 17.18369923,
           "yoke_current_range_a": [
-            -0.447380108,
-            0.453735053
+            -0.446983148,
+            0.453249932
           ],
           "boost_range_v": [
-            63.9649037,
-            64.1272526
+            63.971179,
+            64.1312955
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+          "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
           "output_base_range_v": [
-            -19.5647482,
-            0.617210535
+            -17.6425586,
+            0.66752397
           ],
-          "driver_collector_swing_v": 24.5502924527
+          "driver_collector_swing_v": 24.6302794757
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11922.800799999999,
-          "late_window_forward_voltage_peak_v": 1.996869999999035,
-          "late_window_forward_current_peak_a": 0.0128033584,
-          "late_window_reverse_current_peak_a": 0.00167236094,
-          "sample_count": 12985
+          "late_window_reverse_voltage_peak_v": 11940.40579,
+          "late_window_forward_voltage_peak_v": 1.994380000000092,
+          "late_window_forward_current_peak_a": 0.0127784307,
+          "late_window_reverse_current_peak_a": 0.00174607528,
+          "sample_count": 12995
         }
       },
       "relative_change": {
@@ -524,47 +524,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 13159,
+          "sample_count": 12868,
           "sample_window_s": [
-            0.0040000349,
+            0.00400003926,
             0.005
           ],
-          "collector_peak_v": 367.340569,
-          "collector_min_v": -1.12021505,
-          "eht_peak_v": 9077.8336,
-          "eht_final_v": 9068.34791,
-          "eht_same_phase_drift_v_over_16_lines": 164.3130000000001,
-          "feedback_swing_v": 45.3830969,
-          "sync_swing_v": 16.63466379,
+          "collector_peak_v": 367.74686,
+          "collector_min_v": -1.12500447,
+          "eht_peak_v": 9090.49139,
+          "eht_final_v": 9080.94233,
+          "eht_same_phase_drift_v_over_16_lines": 167.99719000000005,
+          "feedback_swing_v": 45.4343245,
+          "sync_swing_v": 16.67741558,
           "yoke_current_range_a": [
-            -0.446398381,
-            0.451457904
+            -0.445374415,
+            0.45129447
           ],
           "boost_range_v": [
-            63.9584009,
-            64.1091659
+            63.9574972,
+            64.1097337
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 16.05454018072626,
+          "flyback_width_us_at_10pct_swing_median": 15.986786424723904,
           "output_base_range_v": [
-            -19.6144497,
-            0.61729104
+            -17.6007142,
+            0.667708982
           ],
-          "driver_collector_swing_v": 24.5450907474
+          "driver_collector_swing_v": 24.627031331599998
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11493.25048,
-          "late_window_forward_voltage_peak_v": 2.6987499999995634,
-          "late_window_forward_current_peak_a": 0.0212857987,
-          "late_window_reverse_current_peak_a": 0.0153414011,
-          "sample_count": 13159
+          "late_window_reverse_voltage_peak_v": 11505.11983,
+          "late_window_forward_voltage_peak_v": 2.7000700000007782,
+          "late_window_forward_current_peak_a": 0.0212984732,
+          "late_window_reverse_current_peak_a": 0.0152913099,
+          "sample_count": 12868
         }
       },
       "relative_change": {
-        "eht_final_v": -0.044469191874027536,
-        "collector_peak_v": -0.030818317711215,
-        "driver_collector_swing_v": -0.000211879565590561,
-        "flyback_width_us_at_10pct_swing_median": 0.009311487944576147
+        "eht_final_v": -0.04487558603528856,
+        "collector_peak_v": -0.0308009527733616,
+        "driver_collector_swing_v": -0.00013187605537350402,
+        "flyback_width_us_at_10pct_swing_median": 0.0087838393910149
       }
     },
     {
@@ -574,40 +574,40 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12985,
+          "sample_count": 12995,
           "sample_window_s": [
-            0.00400004267,
+            0.00400005893,
             0.005
           ],
-          "collector_peak_v": 379.02137,
-          "collector_min_v": -1.1239666,
-          "eht_peak_v": 9490.55082,
-          "eht_final_v": 9490.37732,
-          "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-          "feedback_swing_v": 46.7651449,
-          "sync_swing_v": 17.16467172,
+          "collector_peak_v": 379.433782,
+          "collector_min_v": -1.13040648,
+          "eht_peak_v": 9507.78951,
+          "eht_final_v": 9507.60152,
+          "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+          "feedback_swing_v": 46.810433200000006,
+          "sync_swing_v": 17.18369923,
           "yoke_current_range_a": [
-            -0.447380108,
-            0.453735053
+            -0.446983148,
+            0.453249932
           ],
           "boost_range_v": [
-            63.9649037,
-            64.1272526
+            63.971179,
+            64.1312955
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+          "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
           "output_base_range_v": [
-            -19.5647482,
-            0.617210535
+            -17.6425586,
+            0.66752397
           ],
-          "driver_collector_swing_v": 24.5502924527
+          "driver_collector_swing_v": 24.6302794757
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11922.800799999999,
-          "late_window_forward_voltage_peak_v": 1.996869999999035,
-          "late_window_forward_current_peak_a": 0.0128033584,
-          "late_window_reverse_current_peak_a": 0.00167236094,
-          "sample_count": 12985
+          "late_window_reverse_voltage_peak_v": 11940.40579,
+          "late_window_forward_voltage_peak_v": 1.994380000000092,
+          "late_window_forward_current_peak_a": 0.0127784307,
+          "late_window_reverse_current_peak_a": 0.00174607528,
+          "sample_count": 12995
         }
       },
       "relative_change": {
@@ -624,40 +624,40 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12985,
+          "sample_count": 12995,
           "sample_window_s": [
-            0.00400004267,
+            0.00400005893,
             0.005
           ],
-          "collector_peak_v": 379.02137,
-          "collector_min_v": -1.1239666,
-          "eht_peak_v": 9490.55082,
-          "eht_final_v": 9490.37732,
-          "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-          "feedback_swing_v": 46.7651449,
-          "sync_swing_v": 17.16467172,
+          "collector_peak_v": 379.433782,
+          "collector_min_v": -1.13040648,
+          "eht_peak_v": 9507.78951,
+          "eht_final_v": 9507.60152,
+          "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+          "feedback_swing_v": 46.810433200000006,
+          "sync_swing_v": 17.18369923,
           "yoke_current_range_a": [
-            -0.447380108,
-            0.453735053
+            -0.446983148,
+            0.453249932
           ],
           "boost_range_v": [
-            63.9649037,
-            64.1272526
+            63.971179,
+            64.1312955
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+          "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
           "output_base_range_v": [
-            -19.5647482,
-            0.617210535
+            -17.6425586,
+            0.66752397
           ],
-          "driver_collector_swing_v": 24.5502924527
+          "driver_collector_swing_v": 24.6302794757
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11922.800799999999,
-          "late_window_forward_voltage_peak_v": 1.996869999999035,
-          "late_window_forward_current_peak_a": 0.0128033584,
-          "late_window_reverse_current_peak_a": 0.00167236094,
-          "sample_count": 12985
+          "late_window_reverse_voltage_peak_v": 11940.40579,
+          "late_window_forward_voltage_peak_v": 1.994380000000092,
+          "late_window_forward_current_peak_a": 0.0127784307,
+          "late_window_reverse_current_peak_a": 0.00174607528,
+          "sample_count": 12995
         }
       },
       "relative_change": {
@@ -674,40 +674,40 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12985,
+          "sample_count": 12995,
           "sample_window_s": [
-            0.00400004267,
+            0.00400005893,
             0.005
           ],
-          "collector_peak_v": 379.02137,
-          "collector_min_v": -1.1239666,
-          "eht_peak_v": 9490.55082,
-          "eht_final_v": 9490.37732,
-          "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-          "feedback_swing_v": 46.7651449,
-          "sync_swing_v": 17.16467172,
+          "collector_peak_v": 379.433782,
+          "collector_min_v": -1.13040648,
+          "eht_peak_v": 9507.78951,
+          "eht_final_v": 9507.60152,
+          "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+          "feedback_swing_v": 46.810433200000006,
+          "sync_swing_v": 17.18369923,
           "yoke_current_range_a": [
-            -0.447380108,
-            0.453735053
+            -0.446983148,
+            0.453249932
           ],
           "boost_range_v": [
-            63.9649037,
-            64.1272526
+            63.971179,
+            64.1312955
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+          "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
           "output_base_range_v": [
-            -19.5647482,
-            0.617210535
+            -17.6425586,
+            0.66752397
           ],
-          "driver_collector_swing_v": 24.5502924527
+          "driver_collector_swing_v": 24.6302794757
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11922.800799999999,
-          "late_window_forward_voltage_peak_v": 1.996869999999035,
-          "late_window_forward_current_peak_a": 0.0128033584,
-          "late_window_reverse_current_peak_a": 0.00167236094,
-          "sample_count": 12985
+          "late_window_reverse_voltage_peak_v": 11940.40579,
+          "late_window_forward_voltage_peak_v": 1.994380000000092,
+          "late_window_forward_current_peak_a": 0.0127784307,
+          "late_window_reverse_current_peak_a": 0.00174607528,
+          "sample_count": 12995
         }
       },
       "relative_change": {
@@ -724,40 +724,40 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12985,
+          "sample_count": 12995,
           "sample_window_s": [
-            0.00400004267,
+            0.00400005893,
             0.005
           ],
-          "collector_peak_v": 379.02137,
-          "collector_min_v": -1.1239666,
-          "eht_peak_v": 9490.55082,
-          "eht_final_v": 9490.37732,
-          "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-          "feedback_swing_v": 46.7651449,
-          "sync_swing_v": 17.16467172,
+          "collector_peak_v": 379.433782,
+          "collector_min_v": -1.13040648,
+          "eht_peak_v": 9507.78951,
+          "eht_final_v": 9507.60152,
+          "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+          "feedback_swing_v": 46.810433200000006,
+          "sync_swing_v": 17.18369923,
           "yoke_current_range_a": [
-            -0.447380108,
-            0.453735053
+            -0.446983148,
+            0.453249932
           ],
           "boost_range_v": [
-            63.9649037,
-            64.1272526
+            63.971179,
+            64.1312955
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+          "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
           "output_base_range_v": [
-            -19.5647482,
-            0.617210535
+            -17.6425586,
+            0.66752397
           ],
-          "driver_collector_swing_v": 24.5502924527
+          "driver_collector_swing_v": 24.6302794757
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11922.800799999999,
-          "late_window_forward_voltage_peak_v": 1.996869999999035,
-          "late_window_forward_current_peak_a": 0.0128033584,
-          "late_window_reverse_current_peak_a": 0.00167236094,
-          "sample_count": 12985
+          "late_window_reverse_voltage_peak_v": 11940.40579,
+          "late_window_forward_voltage_peak_v": 1.994380000000092,
+          "late_window_forward_current_peak_a": 0.0127784307,
+          "late_window_reverse_current_peak_a": 0.00174607528,
+          "sample_count": 12995
         }
       },
       "relative_change": {
@@ -774,47 +774,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12788,
+          "sample_count": 12677,
           "sample_window_s": [
-            0.00400004832,
+            0.00400007413,
             0.005
           ],
-          "collector_peak_v": 379.204707,
-          "collector_min_v": -1.12459515,
-          "eht_peak_v": 9494.69976,
-          "eht_final_v": 9494.52595,
-          "eht_same_phase_drift_v_over_16_lines": 111.14293999999973,
-          "feedback_swing_v": 46.789052600000005,
-          "sync_swing_v": 17.18127738,
+          "collector_peak_v": 379.709892,
+          "collector_min_v": -1.13093658,
+          "eht_peak_v": 9513.23538,
+          "eht_final_v": 9513.04123,
+          "eht_same_phase_drift_v_over_16_lines": 103.94810000000143,
+          "feedback_swing_v": 46.850117499999996,
+          "sync_swing_v": 17.2098885,
           "yoke_current_range_a": [
-            -0.447370843,
-            0.453046312
+            -0.447638322,
+            0.453661273
           ],
           "boost_range_v": [
-            63.9663555,
-            64.1290574
+            63.9710837,
+            64.1328841
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.892670416559064,
+          "flyback_width_us_at_10pct_swing_median": 15.814084693258762,
           "output_base_range_v": [
-            -19.3904769,
-            0.617272034
+            -17.550238,
+            0.667470617
           ],
-          "driver_collector_swing_v": 24.549868246899997
+          "driver_collector_swing_v": 24.6295835233
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11926.76772,
-          "late_window_forward_voltage_peak_v": 2.0459000000009837,
-          "late_window_forward_current_peak_a": 0.0133276742,
-          "late_window_reverse_current_peak_a": 0.00174780439,
-          "sample_count": 12788
+          "late_window_reverse_voltage_peak_v": 11945.35138,
+          "late_window_forward_voltage_peak_v": 1.996530000000348,
+          "late_window_forward_current_peak_a": 0.0127988518,
+          "late_window_reverse_current_peak_a": 0.0017405763,
+          "sample_count": 12677
         }
       },
       "relative_change": {
-        "eht_final_v": 0.0004371406805140267,
-        "collector_peak_v": 0.00048371151209757523,
-        "driver_collector_swing_v": -1.727905281857583e-05,
-        "flyback_width_us_at_10pct_swing_median": -0.0008648865068682788
+        "eht_final_v": 0.0005721432464915251,
+        "collector_peak_v": 0.0007276895550644907,
+        "driver_collector_swing_v": -2.8255968458969232e-05,
+        "flyback_width_us_at_10pct_swing_median": -0.002113830166104456
       }
     },
     {
@@ -824,47 +824,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 13003,
+          "sample_count": 12914,
           "sample_window_s": [
-            0.0040000697,
+            0.00400007919,
             0.005
           ],
-          "collector_peak_v": 379.164746,
-          "collector_min_v": -1.12488565,
-          "eht_peak_v": 9494.22855,
-          "eht_final_v": 9494.04448,
-          "eht_same_phase_drift_v_over_16_lines": 111.61852999999974,
-          "feedback_swing_v": 46.7847144,
-          "sync_swing_v": 17.17126757,
+          "collector_peak_v": 379.578426,
+          "collector_min_v": -1.1300504,
+          "eht_peak_v": 9509.30137,
+          "eht_final_v": 9509.09378,
+          "eht_same_phase_drift_v_over_16_lines": 104.31886999999915,
+          "feedback_swing_v": 46.830618900000005,
+          "sync_swing_v": 17.17915405,
           "yoke_current_range_a": [
-            -0.446941774,
-            0.452778302
+            -0.447040198,
+            0.453223262
           ],
           "boost_range_v": [
-            63.9654159,
-            64.128904
+            63.9702308,
+            64.1315902
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.890834864530113,
+          "flyback_width_us_at_10pct_swing_median": 15.829304018107754,
           "output_base_range_v": [
-            -19.4493356,
-            0.617211467
+            -17.5871827,
+            0.667463334
           ],
-          "driver_collector_swing_v": 24.550055551299998
+          "driver_collector_swing_v": 24.6296498688
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11927.13601,
-          "late_window_forward_voltage_peak_v": 2.005110000000059,
-          "late_window_forward_current_peak_a": 0.012884101,
-          "late_window_reverse_current_peak_a": 0.00170044225,
-          "sample_count": 13003
+          "late_window_reverse_voltage_peak_v": 11941.46937,
+          "late_window_forward_voltage_peak_v": 1.9697899999991932,
+          "late_window_forward_current_peak_a": 0.0125175248,
+          "late_window_reverse_current_peak_a": 0.00174828052,
+          "sample_count": 12914
         }
       },
       "relative_change": {
-        "eht_final_v": 0.0003864082402996467,
-        "collector_peak_v": 0.00037827946218438633,
-        "driver_collector_swing_v": -9.649636575915182e-06,
-        "flyback_width_us_at_10pct_swing_median": -0.0009802833808169767
+        "eht_final_v": 0.00015695441135811064,
+        "collector_peak_v": 0.0003812101264087527,
+        "driver_collector_swing_v": -2.5562312462587183e-05,
+        "flyback_width_us_at_10pct_swing_median": -0.0011534739978152665
       }
     },
     {
@@ -874,47 +874,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12061,
+          "sample_count": 12090,
           "sample_window_s": [
-            0.00400003869,
+            0.0040000755,
             0.005
           ],
-          "collector_peak_v": 378.523544,
-          "collector_min_v": -1.12480206,
-          "eht_peak_v": 9475.28549,
-          "eht_final_v": 9475.05473,
-          "eht_same_phase_drift_v_over_16_lines": 106.74045999999908,
-          "feedback_swing_v": 46.7039079,
-          "sync_swing_v": 17.14203496,
+          "collector_peak_v": 379.159765,
+          "collector_min_v": -1.13085537,
+          "eht_peak_v": 9494.8268,
+          "eht_final_v": 9494.56239,
+          "eht_same_phase_drift_v_over_16_lines": 102.0737199999985,
+          "feedback_swing_v": 46.781196400000006,
+          "sync_swing_v": 17.19639192,
           "yoke_current_range_a": [
-            -0.446135635,
-            0.452705755
+            -0.446872092,
+            0.453074275
           ],
           "boost_range_v": [
-            63.9665432,
-            64.1288847
+            63.9712931,
+            64.1325222
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.924082261573048,
+          "flyback_width_us_at_10pct_swing_median": 15.860746589776467,
           "output_base_range_v": [
-            -19.4541615,
-            0.617195271
+            -17.6315505,
+            0.667437386
           ],
-          "driver_collector_swing_v": 24.549449042
+          "driver_collector_swing_v": 24.6294150672
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11907.69509,
-          "late_window_forward_voltage_peak_v": 1.9846900000011374,
-          "late_window_forward_current_peak_a": 0.0127523441,
-          "late_window_reverse_current_peak_a": 0.00173295838,
-          "sample_count": 12061
+          "late_window_reverse_voltage_peak_v": 11928.01169,
+          "late_window_forward_voltage_peak_v": 1.959820000000036,
+          "late_window_forward_current_peak_a": 0.0126621527,
+          "late_window_reverse_current_peak_a": 0.00168901434,
+          "sample_count": 12090
         }
       },
       "relative_change": {
-        "eht_final_v": -0.0016145395997806085,
-        "collector_peak_v": -0.0013134510067334066,
-        "driver_collector_swing_v": -3.435440541593951e-05,
-        "flyback_width_us_at_10pct_swing_median": 0.0011099029092876947
+        "eht_final_v": -0.001371442626468113,
+        "collector_peak_v": -0.0007221734410564815,
+        "driver_collector_swing_v": -3.509535898091785e-05,
+        "flyback_width_us_at_10pct_swing_median": 0.0008305869213471533
       }
     },
     {
@@ -924,47 +924,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12192,
+          "sample_count": 12171,
           "sample_window_s": [
-            0.00400007262,
+            0.00400009077,
             0.005
           ],
-          "collector_peak_v": 379.338214,
-          "collector_min_v": -1.12519234,
-          "eht_peak_v": 9502.31768,
-          "eht_final_v": 9502.16338,
-          "eht_same_phase_drift_v_over_16_lines": 110.46426000000065,
-          "feedback_swing_v": 46.802789399999995,
-          "sync_swing_v": 17.20312375,
+          "collector_peak_v": 379.848688,
+          "collector_min_v": -1.13040389,
+          "eht_peak_v": 9516.83656,
+          "eht_final_v": 9516.66522,
+          "eht_same_phase_drift_v_over_16_lines": 104.38666999999987,
+          "feedback_swing_v": 46.8657364,
+          "sync_swing_v": 17.20950912,
           "yoke_current_range_a": [
-            -0.446994529,
-            0.452788354
+            -0.447608689,
+            0.453356918
           ],
           "boost_range_v": [
-            63.9680156,
-            64.1307645
+            63.971214,
+            64.133037
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.871685998052401,
+          "flyback_width_us_at_10pct_swing_median": 15.813308189085301,
           "output_base_range_v": [
-            -19.1529266,
-            0.61719457
+            -17.6537848,
+            0.667434778
           ],
-          "driver_collector_swing_v": 24.5505165218
+          "driver_collector_swing_v": 24.6293447403
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11936.04608,
-          "late_window_forward_voltage_peak_v": 1.9925600000005943,
-          "late_window_forward_current_peak_a": 0.0127508237,
-          "late_window_reverse_current_peak_a": 0.00174685851,
-          "sample_count": 12192
+          "late_window_reverse_voltage_peak_v": 11952.54513,
+          "late_window_forward_voltage_peak_v": 1.9465000000000146,
+          "late_window_forward_current_peak_a": 0.0122831737,
+          "late_window_reverse_current_peak_a": 0.00174575422,
+          "sample_count": 12171
         }
       },
       "relative_change": {
-        "eht_final_v": 0.001241895828015441,
-        "collector_peak_v": 0.0008359528646102546,
-        "driver_collector_swing_v": 9.126942191480143e-06,
-        "flyback_width_us_at_10pct_swing_median": -0.0021841279443800174
+        "eht_final_v": 0.0009533108829744694,
+        "collector_peak_v": 0.0010934872425248988,
+        "driver_collector_swing_v": -3.7950661539327266e-05,
+        "flyback_width_us_at_10pct_swing_median": -0.0021628284350870904
       }
     },
     {
@@ -974,47 +974,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 13001,
+          "sample_count": 12909,
           "sample_window_s": [
-            0.0040000029,
+            0.00400009596,
             0.005
           ],
-          "collector_peak_v": 378.891743,
-          "collector_min_v": -1.12457344,
-          "eht_peak_v": 9491.5673,
-          "eht_final_v": 9491.39585,
-          "eht_same_phase_drift_v_over_16_lines": 102.88724000000002,
-          "feedback_swing_v": 46.7448754,
-          "sync_swing_v": 17.17533236,
+          "collector_peak_v": 379.567977,
+          "collector_min_v": -1.13037881,
+          "eht_peak_v": 9509.66,
+          "eht_final_v": 9509.46903,
+          "eht_same_phase_drift_v_over_16_lines": 102.13584000000083,
+          "feedback_swing_v": 46.8297009,
+          "sync_swing_v": 17.21119778,
           "yoke_current_range_a": [
-            -0.44632573,
-            0.452779996
+            -0.447366426,
+            0.45320856
           ],
           "boost_range_v": [
-            63.9681734,
-            64.1291538
+            63.970216,
+            64.1314943
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.9079817748679,
+          "flyback_width_us_at_10pct_swing_median": 15.836281251909758,
           "output_base_range_v": [
-            -19.5288511,
-            0.617220543
+            -17.6556651,
+            0.667418664
           ],
-          "driver_collector_swing_v": 24.5507081931
+          "driver_collector_swing_v": 24.6303783731
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11924.43831,
-          "late_window_forward_voltage_peak_v": 2.026110000000699,
-          "late_window_forward_current_peak_a": 0.013106951,
-          "late_window_reverse_current_peak_a": 0.00173843375,
-          "sample_count": 13001
+          "late_window_reverse_voltage_peak_v": 11943.89859,
+          "late_window_forward_voltage_peak_v": 1.9509799999996176,
+          "late_window_forward_current_peak_a": 0.0123177143,
+          "late_window_reverse_current_peak_a": 0.00174897822,
+          "sample_count": 12909
         }
       },
       "relative_change": {
-        "eht_final_v": 0.00010732239253066833,
-        "collector_peak_v": -0.00034200446270343766,
-        "driver_collector_swing_v": 1.6934234115627354e-05,
-        "flyback_width_us_at_10pct_swing_median": 9.770287054022924e-05
+        "eht_final_v": 0.0001964228303081047,
+        "collector_peak_v": 0.00035367172446436774,
+        "driver_collector_swing_v": 4.015277215935743e-06,
+        "flyback_width_us_at_10pct_swing_median": -0.0007132028566289691
       }
     },
     {
@@ -1024,47 +1024,47 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 13117,
+          "sample_count": 12903,
           "sample_window_s": [
-            0.00400006351,
+            0.00400000427,
             0.005
           ],
-          "collector_peak_v": 379.029979,
-          "collector_min_v": -1.12517424,
-          "eht_peak_v": 9492.53841,
-          "eht_final_v": 9492.37058,
-          "eht_same_phase_drift_v_over_16_lines": 110.08618000000024,
-          "feedback_swing_v": 46.76348049999999,
-          "sync_swing_v": 17.16672535,
+          "collector_peak_v": 379.479574,
+          "collector_min_v": -1.13046288,
+          "eht_peak_v": 9508.90689,
+          "eht_final_v": 9508.70879,
+          "eht_same_phase_drift_v_over_16_lines": 100.45017000000007,
+          "feedback_swing_v": 46.814999099999994,
+          "sync_swing_v": 17.2170709,
           "yoke_current_range_a": [
-            -0.446178575,
-            0.452996727
+            -0.447128929,
+            0.453307697
           ],
           "boost_range_v": [
-            63.9653529,
-            64.1285229
+            63.9710549,
+            64.1316939
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.896927221765132,
+          "flyback_width_us_at_10pct_swing_median": 15.837846239017544,
           "output_base_range_v": [
-            -19.3746454,
-            0.617224198
+            -17.6187126,
+            0.6675374
           ],
-          "driver_collector_swing_v": 24.5498111138
+          "driver_collector_swing_v": 24.6296137091
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11926.80562,
-          "late_window_forward_voltage_peak_v": 2.002889999999752,
-          "late_window_forward_current_peak_a": 0.0128663172,
-          "late_window_reverse_current_peak_a": 0.00174371672,
-          "sample_count": 13117
+          "late_window_reverse_voltage_peak_v": 11943.635610000001,
+          "late_window_forward_voltage_peak_v": 2.001110000001063,
+          "late_window_forward_current_peak_a": 0.0128526723,
+          "late_window_reverse_current_peak_a": 0.00175107172,
+          "sample_count": 12903
         }
       },
       "relative_change": {
-        "eht_final_v": 0.00021002958394504602,
-        "collector_peak_v": 2.2713758857542503e-05,
-        "driver_collector_swing_v": -1.9606238945048723e-05,
-        "flyback_width_us_at_10pct_swing_median": -0.0005972710941524779
+        "eht_final_v": 0.00011646154896912697,
+        "collector_peak_v": 0.00012068508965816288,
+        "driver_collector_swing_v": -2.7030411922763156e-05,
+        "flyback_width_us_at_10pct_swing_median": -0.0006144504456536083
       }
     },
     {
@@ -1074,40 +1074,40 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12985,
+          "sample_count": 12995,
           "sample_window_s": [
-            0.00400004267,
+            0.00400005893,
             0.005
           ],
-          "collector_peak_v": 379.02137,
-          "collector_min_v": -1.1239666,
-          "eht_peak_v": 9490.55082,
-          "eht_final_v": 9490.37732,
-          "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-          "feedback_swing_v": 46.7651449,
-          "sync_swing_v": 17.16467172,
+          "collector_peak_v": 379.433782,
+          "collector_min_v": -1.13040648,
+          "eht_peak_v": 9507.78951,
+          "eht_final_v": 9507.60152,
+          "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+          "feedback_swing_v": 46.810433200000006,
+          "sync_swing_v": 17.18369923,
           "yoke_current_range_a": [
-            -0.447380108,
-            0.453735053
+            -0.446983148,
+            0.453249932
           ],
           "boost_range_v": [
-            63.9649037,
-            64.1272526
+            63.971179,
+            64.1312955
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+          "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
           "output_base_range_v": [
-            -19.5647482,
-            0.617210535
+            -17.6425586,
+            0.66752397
           ],
-          "driver_collector_swing_v": 24.5502924527
+          "driver_collector_swing_v": 24.6302794757
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11922.800799999999,
-          "late_window_forward_voltage_peak_v": 1.996869999999035,
-          "late_window_forward_current_peak_a": 0.0128033584,
-          "late_window_reverse_current_peak_a": 0.00167236094,
-          "sample_count": 12985
+          "late_window_reverse_voltage_peak_v": 11940.40579,
+          "late_window_forward_voltage_peak_v": 1.994380000000092,
+          "late_window_forward_current_peak_a": 0.0127784307,
+          "late_window_reverse_current_peak_a": 0.00174607528,
+          "sample_count": 12995
         }
       },
       "relative_change": {
@@ -1124,40 +1124,40 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12985,
+          "sample_count": 12995,
           "sample_window_s": [
-            0.00400004267,
+            0.00400005893,
             0.005
           ],
-          "collector_peak_v": 379.02137,
-          "collector_min_v": -1.1239666,
-          "eht_peak_v": 9490.55082,
-          "eht_final_v": 9490.37732,
-          "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-          "feedback_swing_v": 46.7651449,
-          "sync_swing_v": 17.16467172,
+          "collector_peak_v": 379.433782,
+          "collector_min_v": -1.13040648,
+          "eht_peak_v": 9507.78951,
+          "eht_final_v": 9507.60152,
+          "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+          "feedback_swing_v": 46.810433200000006,
+          "sync_swing_v": 17.18369923,
           "yoke_current_range_a": [
-            -0.447380108,
-            0.453735053
+            -0.446983148,
+            0.453249932
           ],
           "boost_range_v": [
-            63.9649037,
-            64.1272526
+            63.971179,
+            64.1312955
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+          "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
           "output_base_range_v": [
-            -19.5647482,
-            0.617210535
+            -17.6425586,
+            0.66752397
           ],
-          "driver_collector_swing_v": 24.5502924527
+          "driver_collector_swing_v": 24.6302794757
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11922.800799999999,
-          "late_window_forward_voltage_peak_v": 1.996869999999035,
-          "late_window_forward_current_peak_a": 0.0128033584,
-          "late_window_reverse_current_peak_a": 0.00167236094,
-          "sample_count": 12985
+          "late_window_reverse_voltage_peak_v": 11940.40579,
+          "late_window_forward_voltage_peak_v": 1.994380000000092,
+          "late_window_forward_current_peak_a": 0.0127784307,
+          "late_window_reverse_current_peak_a": 0.00174607528,
+          "sample_count": 12995
         }
       },
       "relative_change": {
@@ -1174,40 +1174,40 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12985,
+          "sample_count": 12995,
           "sample_window_s": [
-            0.00400004267,
+            0.00400005893,
             0.005
           ],
-          "collector_peak_v": 379.02137,
-          "collector_min_v": -1.1239666,
-          "eht_peak_v": 9490.55082,
-          "eht_final_v": 9490.37732,
-          "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-          "feedback_swing_v": 46.7651449,
-          "sync_swing_v": 17.16467172,
+          "collector_peak_v": 379.433782,
+          "collector_min_v": -1.13040648,
+          "eht_peak_v": 9507.78951,
+          "eht_final_v": 9507.60152,
+          "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+          "feedback_swing_v": 46.810433200000006,
+          "sync_swing_v": 17.18369923,
           "yoke_current_range_a": [
-            -0.447380108,
-            0.453735053
+            -0.446983148,
+            0.453249932
           ],
           "boost_range_v": [
-            63.9649037,
-            64.1272526
+            63.971179,
+            64.1312955
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+          "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
           "output_base_range_v": [
-            -19.5647482,
-            0.617210535
+            -17.6425586,
+            0.66752397
           ],
-          "driver_collector_swing_v": 24.5502924527
+          "driver_collector_swing_v": 24.6302794757
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11922.800799999999,
-          "late_window_forward_voltage_peak_v": 1.996869999999035,
-          "late_window_forward_current_peak_a": 0.0128033584,
-          "late_window_reverse_current_peak_a": 0.00167236094,
-          "sample_count": 12985
+          "late_window_reverse_voltage_peak_v": 11940.40579,
+          "late_window_forward_voltage_peak_v": 1.994380000000092,
+          "late_window_forward_current_peak_a": 0.0127784307,
+          "late_window_reverse_current_peak_a": 0.00174607528,
+          "sample_count": 12995
         }
       },
       "relative_change": {
@@ -1224,40 +1224,40 @@
       "result": {
         "status": "complete",
         "stage": {
-          "sample_count": 12985,
+          "sample_count": 12995,
           "sample_window_s": [
-            0.00400004267,
+            0.00400005893,
             0.005
           ],
-          "collector_peak_v": 379.02137,
-          "collector_min_v": -1.1239666,
-          "eht_peak_v": 9490.55082,
-          "eht_final_v": 9490.37732,
-          "eht_same_phase_drift_v_over_16_lines": 108.32610000000022,
-          "feedback_swing_v": 46.7651449,
-          "sync_swing_v": 17.16467172,
+          "collector_peak_v": 379.433782,
+          "collector_min_v": -1.13040648,
+          "eht_peak_v": 9507.78951,
+          "eht_final_v": 9507.60152,
+          "eht_same_phase_drift_v_over_16_lines": 99.11932999999954,
+          "feedback_swing_v": 46.810433200000006,
+          "sync_swing_v": 17.18369923,
           "yoke_current_range_a": [
-            -0.447380108,
-            0.453735053
+            -0.446983148,
+            0.453249932
           ],
           "boost_range_v": [
-            63.9649037,
-            64.1272526
+            63.971179,
+            64.1312955
           ],
           "flyback_pulse_count": 15,
-          "flyback_width_us_at_10pct_swing_median": 15.906427671224382,
+          "flyback_width_us_at_10pct_swing_median": 15.847583793942265,
           "output_base_range_v": [
-            -19.5647482,
-            0.617210535
+            -17.6425586,
+            0.66752397
           ],
-          "driver_collector_swing_v": 24.5502924527
+          "driver_collector_swing_v": 24.6302794757
         },
         "stress": {
-          "late_window_reverse_voltage_peak_v": 11922.800799999999,
-          "late_window_forward_voltage_peak_v": 1.996869999999035,
-          "late_window_forward_current_peak_a": 0.0128033584,
-          "late_window_reverse_current_peak_a": 0.00167236094,
-          "sample_count": 12985
+          "late_window_reverse_voltage_peak_v": 11940.40579,
+          "late_window_forward_voltage_peak_v": 1.994380000000092,
+          "late_window_forward_current_peak_a": 0.0127784307,
+          "late_window_reverse_current_peak_a": 0.00174607528,
+          "sample_count": 12995
         }
       },
       "relative_change": {
@@ -1271,10 +1271,10 @@
   "completed_bounds": 24,
   "total_bounds": 24,
   "max_absolute_relative_change": {
-    "eht_final_v": 0.044469191874027536,
-    "collector_peak_v": 0.030818317711215,
-    "driver_collector_swing_v": 0.000211879565590561,
-    "flyback_width_us_at_10pct_swing_median": 0.009311487944576147
+    "eht_final_v": 0.04487558603528856,
+    "collector_peak_v": 0.0308009527733616,
+    "driver_collector_swing_v": 0.00013187605537350402,
+    "flyback_width_us_at_10pct_swing_median": 0.0087838393910149
   },
   "status": "partial",
   "remaining": [

@@ -17,13 +17,13 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
         self.assertTrue(saved['analysis_valid'])
         self.assertEqual((saved['completed_cases'], saved['aborted_cases']), (24, 0))
         self.assertEqual((saved['strict_completed_cases'], saved['relaxed_completed_cases']),
-                         (11, 24))
-        self.assertEqual(saved['strict_relaxed_comparison_cases'], 11)
+                         (9, 24))
+        self.assertEqual(saved['strict_relaxed_comparison_cases'], 9)
         self.assertTrue(saved['strict_relaxed_within_2pct'])
         self.assertFalse(saved['conditional_tp15_matches'])
         self.assertFalse(saved['conditional_eht_matches'])
         self.assertEqual(saved['v18_emitter_base_reverse_class_limit_v'], 9)
-        self.assertEqual(len(saved['reverse_base_class_rating_violations']), 17)
+        self.assertEqual(len(saved['reverse_base_class_rating_violations']), 16)
         self.assertFalse(saved['joint_tp15_eht_reverse_base_matches'])
 
         graph = json.loads(sweep.stage.GRAPH.read_text())
@@ -35,7 +35,7 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
         candidate = next(item for item in transformer_candidates.enumerate_candidates(graph)
                          if item['id'] in accepted)
         reference = saved['nominal_off_trace_case']
-        self.assertEqual(reference['solver']['strict_status'], 'aborted')
+        self.assertEqual(reference['solver']['strict_status'], 'complete')
         self.assertEqual(reference['solver']['relaxed_status'], 'complete')
         result = sweep.simulate(graph, parameters, candidate, output_parts,
                                 l3_r, l3_l, driver_parts, ratio=3, l4_h=5e-6,

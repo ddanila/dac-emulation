@@ -2,8 +2,8 @@
   "format": "dac-monitor-v18-model-dc-check-v1",
   "qualification": "BU508AF-class DC proxy only; inductive switching and connected-stage SOA remain open",
   "source": "https://www.st.com/resource/en/datasheet/bu508af.pdf",
-  "model_file_sha256": "cd489c027b4900aac120f8dea0ed9f5c2e6d48195c03343d7a8b30ef64bed8f3",
-  "register_sha256": "3f50895bb31f933cf56a13ad6c4d492d483afda0b7ca1fbde96e6e85e2e79e50",
+  "model_file_sha256": "a2441a3503533264b51bae8dbecaf173e34f9621ad82218e8799d1d613b891ca",
+  "register_sha256": "d8a561d15959a942e1d5e7cab037e5f1ce3dbba4b5fe38ebb9413db2c23a8448",
   "sheet_sha256": "54a21db8a705d33cebea7c00aa6605a8e27a77557696804132323f1d19f2ae9b",
   "assembly_source_id": "012-6921:V18",
   "assembly_reference": "Q1133",
@@ -24,6 +24,11 @@
       "conditions": "IC=4.5 A, IB=1.6 A",
       "source": "ST BU508AF page 4"
     },
+    "VBEsat_v": {
+      "maximum": 1.1,
+      "conditions": "IC=4.5 A, IB=2 A",
+      "source": "ST BU508AF page 4"
+    },
     "VEBO_v": {
       "maximum": 9,
       "conditions": "absolute maximum emitter-base voltage at IC=0; class stress limit, not an original V18 rating",
@@ -42,23 +47,23 @@
   },
   "low_current_gain": {
     "collector_current_a": 0.1,
-    "base_current_a": 0.004786503131896257,
+    "base_current_a": 0.004878294193059206,
     "collector_emitter_voltage_v": 5,
-    "base_emitter_voltage_v": 0.5392247,
-    "hFE": 20.892078672971277
+    "base_emitter_voltage_v": 0.5410055,
+    "hFE": 20.498968705552677
   },
   "operating_current_gain": {
-    "collector_current_a": 4.5,
-    "base_current_a": 0.21559397340789438,
+    "collector_current_a": 4.50001,
+    "base_current_a": 0.4023915842899977,
     "collector_emitter_voltage_v": 5,
-    "base_emitter_voltage_v": 0.6370515,
-    "hFE": 20.87256860137828
+    "base_emitter_voltage_v": 0.7222278,
+    "hFE": 11.183161317700193
   },
   "saturation_dc_proxy": {
     "collector_current_a": 4.5,
     "base_current_a": 1.6,
-    "collector_emitter_voltage_v": 0.04441156,
-    "base_emitter_voltage_v": 0.6496169
+    "collector_emitter_voltage_v": 0.2180081,
+    "base_emitter_voltage_v": 0.8062803
   },
   "checks": {
     "hFE_0p1a": true,

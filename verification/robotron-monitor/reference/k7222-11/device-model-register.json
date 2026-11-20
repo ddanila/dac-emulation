@@ -40,7 +40,7 @@
     "st_bu508af": {
       "url": "https://www.st.com/resource/en/datasheet/bu508af.pdf",
       "revision": "August 2007 Rev 2",
-      "pages": [1, 4],
+      "pages": [1, 3, 4],
       "use": "CRT horizontal-output NPN class: hFE 10..30 at 0.1 A and minimum 5 at 4.5 A; VCEsat <=1 V at 4.5 A/1.6 A base drive; VEBO maximum 9 V at zero collector current; typical inductive storage/fall times 2.5/0.2 us at 16 kHz"
     },
     "rectron_r12000h": {
@@ -75,7 +75,7 @@
     "ngspice_manual_bjt": {
       "url": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf",
       "section": "BJT model parameter table and BC546B example",
-      "use": "Defines screened BJT model parameters and defaults; its BC546B example supplies provisional IKF, RB, VJE, MJE, VJC and MJC class proxies, not original 1SA20C or 1SC60A limits. Bounds are engineering exploration ranges."
+      "use": "Defines screened BJT model parameters and defaults; its BC546B example supplies provisional small-signal proxies, while the defaults made explicit for V18 are simulator-model choices. Bounds are engineering exploration ranges, not original-device limits."
     },
     "page9_centering_design": {
       "file": "reference/k7222-11/page9-centering-source-netlist.json",
@@ -1167,20 +1167,39 @@
       "identity_tier": "class-typical; handwritten SU165 not adopted as factory identity",
       "model": "HOR_OUTPUT_N",
       "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "sources": ["st_bu508af", "ngspice_manual_bjt"],
       "parameters": {
-        "BF": {"spice_parameter": "BF", "nominal": 20, "bounds": [5, 30], "basis": "ST BU508AF hFE at 0.1 A and 4.5 A, both at VCE=5 V"}
+        "IS": {"nominal": 1e-10, "bounds": [1e-12, 1e-8], "unit": "A", "basis": "Unfitted saturation-current proxy retained from the prior model; engineering bounds, not a BU508AF extraction"},
+        "BF": {"nominal": 20, "bounds": [15, 28], "unit": "1", "basis": "With IKF=3..20 A, the independent BF=15..28 range keeps effective gain inside BU508AF-class 10..30 at 0.1 A and above 5 at 4.5 A in the 25 C DC fixture"},
+        "VAF": {"nominal": 100, "bounds": [30, 300], "unit": "V", "basis": "Unfitted Early-voltage proxy retained from the prior model; class response needs connected sensitivity"},
+        "CJE": {"nominal": 1e-9, "bounds": [2e-10, 2e-9], "unit": "F", "basis": "Unfitted base-emitter depletion-capacitance proxy; wide engineering range around the prior nominal"},
+        "CJC": {"nominal": 2e-10, "bounds": [5e-11, 5e-10], "unit": "F", "basis": "Unfitted base-collector depletion-capacitance proxy; wide engineering range around the prior nominal"},
+        "TF": {"nominal": 1e-7, "bounds": [5e-8, 2e-7], "unit": "s", "basis": "Forward transit proxy inherited from the prior model; the BU508AF sheet gives inductive fall time, not SPICE TF"},
+        "TR": {"nominal": 5e-7, "bounds": [1e-7, 2e-6], "unit": "s", "basis": "Reverse transit/storage proxy inherited from the prior model; the BU508AF 2.5 us storage guideline is not a direct SPICE TR specification"},
+        "IKF": {"nominal": 5, "bounds": [3, 20], "unit": "A", "basis": "Finite high-current beta roll-off corner fitted by the 0.1 A and 4.5 A BU508AF-class gain fixture; independent BF=15..28 corners retain the gain limits"},
+        "RB": {"nominal": 0.05, "bounds": [0.005, 0.1], "unit": "ohm", "basis": "Base-series resistance operating bound; 0.1 ohm contributes 0.2 V at the class 2 A saturated base-current test"},
+        "RC": {"nominal": 0.02, "bounds": [0.005, 0.08], "unit": "ohm", "basis": "Collector-series resistance operating bound within the BU508AF-class 1 V saturation headroom at 4.5 A"},
+        "RE": {"nominal": 0.01, "bounds": [0.005, 0.03], "unit": "ohm", "basis": "Emitter-series resistance operating bound within the BU508AF-class 1 V collector and 1.1 V base saturation headroom at 4.5 A"},
+        "VJE": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-emitter junction-potential default; engineering spread, not measured V18 data"},
+        "MJE": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-emitter grading default; engineering spread"},
+        "VJC": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-collector junction-potential default; engineering spread"},
+        "MJC": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-collector grading default; engineering spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon activation-energy default; temperature-law spread is untested"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default; spread is untested"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default; engineering spread"}
       },
       "comparison_targets": {
         "hFE_0p1a": {"minimum": 10, "maximum": 30, "conditions": "IC=0.1 A, VCE=5 V, Tcase=25 C", "source": "ST BU508AF page 4"},
         "hFE_4p5a": {"minimum": 5, "conditions": "IC=4.5 A, VCE=5 V, Tcase=25 C", "source": "ST BU508AF page 4"},
         "VCEsat_v": {"maximum": 1, "conditions": "IC=4.5 A, IB=1.6 A", "source": "ST BU508AF page 4"},
+        "VBEsat_v": {"maximum": 1.1, "conditions": "IC=4.5 A, IB=2 A", "source": "ST BU508AF page 4"},
         "VEBO_v": {"maximum": 9, "conditions": "absolute maximum emitter-base voltage at IC=0; class stress limit, not an original V18 rating", "source": "ST BU508AF page 3"},
         "storage_time_s": {"typical": 2.5e-6, "conditions": "inductive 4.5 A, IB(on)=0.5 A, VBE(off)=-2.7 V, 16 kHz", "source": "ST BU508AF page 4"},
         "fall_time_s": {"typical": 2e-7, "conditions": "same inductive switching test", "source": "ST BU508AF page 4"}
       },
       "model_response_report": "reference/k7222-11/horizontal-output-transistor-dc-check.json",
       "switching_proxy_report": "reference/k7222-11/horizontal-output-switching-proxy.json",
-      "remaining": ["Measure storage and fall time at the BU508AF inductive switching conditions; the DC comparison does not establish them", "Bound fixed IS, VAF, CJE, CJC, TF and TR and sweep stage sensitivity", "Check collector and emitter-base reverse stress after T2/T3 topology correction; the active BJT model lacks an emitter-base breakdown mechanism"]
+      "remaining": ["Measure storage and fall time at the BU508AF inductive switching conditions; the DC comparison does not establish them", "Validate joint CJE/CJC/TF/TR, temperature and current corners in connected-stage sensitivity; the registered bounds are engineering proxies", "Check collector and emitter-base reverse stress after T2/T3 topology correction; the active BJT model lacks an emitter-base breakdown mechanism"]
     },
     {
       "id": "012-6921:V21",
