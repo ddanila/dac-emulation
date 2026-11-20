@@ -33,7 +33,7 @@ def source_parts():
 
 
 def deck(graph, parameters, candidate, output_parts, l3_r, l3_l,
-         driver_parts, *, ratio, l4_h, on_trace, trace):
+         driver_parts, *, ratio, l4_h, on_trace, secondary_reversed, trace):
     text = stage.deck(graph, parameters, candidate, output_parts, l3_r, l3_l, trace)
     old = ('Vbase drive 0 PULSE(-2.7 1.3 1u 20n 20n 46.5u 62.5u)\n'
            'Rbase drive h_outbase 1')
@@ -53,20 +53,27 @@ def deck(graph, parameters, candidate, output_parts, l3_r, l3_l,
     lines += [' '.join([part['reference'], *part['nodes'], part['value']])
               for part in driver_parts]
     text = text.replace(old, '\n'.join(lines))
+    if secondary_reversed:
+        original = 'Ls ground s {horizontal_driver_l/horizontal_driver_ratio^2}'
+        if text.count(original) != 1:
+            raise ValueError('T2 secondary model changed')
+        text = text.replace(original,
+                            'Ls s ground {horizontal_driver_l/horizontal_driver_ratio^2}')
     text = text.replace('i(Lhorizontal) v(h_boost)',
                         'i(Lhorizontal) v(h_boost) v(h_outbase) v(h_drivecol)')
     return text
 
 
 def simulate(graph, parameters, candidate, output_parts, l3_r, l3_l,
-             driver_parts, *, ratio, l4_h, on_trace):
+             driver_parts, *, ratio, l4_h, on_trace, secondary_reversed=False):
     with tempfile.TemporaryDirectory() as directory:
         folder = Path(directory)
         trace = folder/'late.dat'
         circuit = folder/'stage.cir'
         circuit.write_text(deck(graph, parameters, candidate, output_parts,
                                 l3_r, l3_l, driver_parts, ratio=ratio,
-                                l4_h=l4_h, on_trace=on_trace, trace=trace))
+                                l4_h=l4_h, on_trace=on_trace,
+                                secondary_reversed=secondary_reversed, trace=trace))
         process = subprocess.run(['ngspice', '-b', str(circuit)],
                                  capture_output=True, text=True)
         log = process.stdout + process.stderr
@@ -89,26 +96,31 @@ def run():
     tp15_range = json.loads(T2_DESIGN.read_text())['documented']['tp15_range_vpp']
     manual_eht = json.loads(stage.DESIGN.read_text())['high_voltage_ratio']['eht_target_v']
     rows = []
-    for phase in ('on_trace', 'off_trace'):
-        for ratio in (1, 3, 10):
-            for l4_h in (5e-6, 50e-6):
-                result = simulate(graph, parameters, candidate, output_parts,
-                                  l3_r, l3_l, driver_parts, ratio=ratio,
-                                  l4_h=l4_h, on_trace=phase == 'on_trace')
-                row = {'v13_drive_phase': phase, 't2_primary_secondary_ratio': ratio,
-                       'l4_inductance_per_coil_h': l4_h, 'result': result}
-                if result['status'] == 'complete':
-                    row['conditional_checks'] = {
-                        'tp15_driver_swing_in_manual_range': tp15_range[0] <= result['driver_collector_swing_v'] <= tp15_range[1],
-                        'eht_final_in_manual_range': manual_eht['minimum'] <= result['eht_final_v'] <= manual_eht['maximum'],
-                    }
-                rows.append(row)
+    for polarity in ('model', 'reversed'):
+        for phase in ('on_trace', 'off_trace'):
+            for ratio in (1, 3, 10):
+                for l4_h in (5e-6, 50e-6):
+                    result = simulate(graph, parameters, candidate, output_parts,
+                                      l3_r, l3_l, driver_parts, ratio=ratio,
+                                      l4_h=l4_h, on_trace=phase == 'on_trace',
+                                      secondary_reversed=polarity == 'reversed')
+                    row = {'t2_secondary_polarity': polarity,
+                           'v13_drive_phase': phase,
+                           't2_primary_secondary_ratio': ratio,
+                           'l4_inductance_per_coil_h': l4_h, 'result': result}
+                    if result['status'] == 'complete':
+                        row['conditional_checks'] = {
+                            'tp15_driver_swing_in_manual_range': tp15_range[0] <= result['driver_collector_swing_v'] <= tp15_range[1],
+                            'eht_final_in_manual_range': manual_eht['minimum'] <= result['eht_final_v'] <= manual_eht['maximum'],
+                        }
+                    rows.append(row)
     complete = [row for row in rows if row['result']['status'] == 'complete']
-    nominal = next(row for row in rows if row['v13_drive_phase'] == 'off_trace'
+    nominal = next(row for row in rows if row['t2_secondary_polarity'] == 'model'
+                   and row['v13_drive_phase'] == 'off_trace'
                    and row['t2_primary_secondary_ratio'] == 3
                    and row['l4_inductance_per_coil_h'] == 5e-6)
     return {
-        'format': 'dac-monitor-t2-l4-output-stage-sweep-v1',
+        'format': 'dac-monitor-t2-l4-output-stage-sweep-v2',
         'qualification': 'source-addressed T2/L4/V13-to-V18 output-stage sensitivity with prescribed V13 drive; not connected oscillator, native sync, source-validated page-3/4 seam, periodic monitor or A3/A5 pass',
         'source_hashes': {path.name: stage.sha(path) for path in
             (OSC, OUTPUT, T2_DESIGN, L4_DESIGN, stage.GRAPH, stage.AC_LOSS,
@@ -119,6 +131,7 @@ def run():
             'T2 primary and V13 collector use source-transcribed R23/C23/R33/C24/V13/T2 branches; two L4 sections connect its secondary to V18 base in the selected E2 configuration.',
             'V13 base is forced by either on-trace or off-trace 1.3 V/0 V pulses through 10 ohms; oscillator, V12 and exact native phase are absent.',
             'T2 ratio and L4 inductance use declared parameter endpoints; primary coupling, resistance and L4 resistance stay at their provisional nominal values.',
+            'T2 secondary terminal polarity is not resolved by the source page-3/4 seam; both the active model direction and its reversal are simulated without claiming either is factory wiring.',
             'The T3/yoke/EHT bench retains its ideal 41 V feed, 65 V boost initialization, unverified T3 graph, 1 nF/200 Mohm EHT load and optional AC winding loss.',
             'The 4–5 ms window is not proved periodic; solver aborts are retained as failures of the candidate bench, not evidence about factory wiring.',
         ],
@@ -127,13 +140,13 @@ def run():
         'cases': rows, 'completed_cases': len(complete), 'aborted_cases': len(rows)-len(complete),
         'nominal_off_trace_case': nominal,
         'conditional_tp15_matches': [
-            {key: row[key] for key in ('v13_drive_phase', 't2_primary_secondary_ratio', 'l4_inductance_per_coil_h')}
+            {key: row[key] for key in ('t2_secondary_polarity', 'v13_drive_phase', 't2_primary_secondary_ratio', 'l4_inductance_per_coil_h')}
             for row in complete if row['conditional_checks']['tp15_driver_swing_in_manual_range']],
         'conditional_eht_matches': [
-            {key: row[key] for key in ('v13_drive_phase', 't2_primary_secondary_ratio', 'l4_inductance_per_coil_h')}
+            {key: row[key] for key in ('t2_secondary_polarity', 'v13_drive_phase', 't2_primary_secondary_ratio', 'l4_inductance_per_coil_h')}
             for row in complete if row['conditional_checks']['eht_final_in_manual_range']],
         'status': 'partial' if len(complete) < len(rows) else 'complete',
-        'analysis_valid': nominal['result']['status'] == 'complete' and len(rows) == 12,
+        'analysis_valid': nominal['result']['status'] == 'complete' and len(rows) == 24,
     }
 
 

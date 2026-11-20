@@ -2302,13 +2302,18 @@ phase and feedback loads are absent. The benchmark keeps the earlier ideal
 41 V feed, 65 V initial boost, 1,768-turn T3 hypothesis, unverified winding
 graph, yoke/EHT loads and optional AC winding loss.
 
-Five of twelve combinations of V13 drive phase, declared T2 ratio and L4
-inductance bounds reach 5 ms; seven abort on solver timesteps. None of the
-five completed cases reaches the manual's TP15 36–54 Vpp or EHT 11–12 kV
+The page-3/4 source seam does not resolve T2 secondary polarity, so the
+sweep tests the current model direction and its reversal. Eleven of 24
+combinations of polarity, V13 drive phase, declared T2 ratio and L4
+inductance bounds reach 5 ms; thirteen abort on solver timesteps. None of the
+eleven completed cases reaches the manual's TP15 36–54 Vpp or EHT 11–12 kV
 ranges. With the nominal T2 ratio of 3 and 5 µH per L4 coil, off-trace V13
 drive gives 24.55 Vpp at TP15, 377.47 V collector peak and 9.44 kV final
 EHT. Its EHT changes by about 117 V over the last sixteen line periods, so
 the window is not a periodic score. Solver aborts do not reject physical
-parameter combinations. The source-connected oscillator, T3 return
+parameter combinations. The reversed-polarity, on-trace nominal-ratio case
+also completes but gives 29.84 Vpp at TP15 and 9.44 kV EHT; reversing the
+unverified secondary alone does not close either gap. The source-connected
+oscillator, T3 return
 alternatives, complete feedback and periodicity remain open before A3/A5
 qualification.

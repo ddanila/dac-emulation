@@ -15,7 +15,7 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
     def test_nominal_drive_misses_tp15_and_eht(self):
         saved = json.loads((ROOT/'reference/k7222-11/t2-l4-output-stage-sweep.json').read_text())
         self.assertTrue(saved['analysis_valid'])
-        self.assertEqual((saved['completed_cases'], saved['aborted_cases']), (5, 7))
+        self.assertEqual((saved['completed_cases'], saved['aborted_cases']), (11, 13))
         self.assertFalse(saved['conditional_tp15_matches'])
         self.assertFalse(saved['conditional_eht_matches'])
 
@@ -37,6 +37,21 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
         self.assertAlmostEqual(result['driver_collector_swing_v'],
                                reference['driver_collector_swing_v'], delta=.1)
         self.assertAlmostEqual(result['eht_final_v'], reference['eht_final_v'], delta=1)
+
+        reversed_result = sweep.simulate(graph, parameters, candidate, output_parts,
+                                         l3_r, l3_l, driver_parts, ratio=3,
+                                         l4_h=5e-6, on_trace=True,
+                                         secondary_reversed=True)
+        self.assertEqual(reversed_result['status'], 'complete')
+        self.assertLess(reversed_result['driver_collector_swing_v'], 36)
+        self.assertLess(reversed_result['eht_final_v'], 11000)
+        reversed_reference = next(row['result'] for row in saved['cases']
+                                  if row['t2_secondary_polarity'] == 'reversed'
+                                  and row['v13_drive_phase'] == 'on_trace'
+                                  and row['t2_primary_secondary_ratio'] == 3
+                                  and row['l4_inductance_per_coil_h'] == 5e-6)
+        self.assertAlmostEqual(reversed_result['eht_final_v'],
+                               reversed_reference['eht_final_v'], delta=1)
 
 
 if __name__ == '__main__':
