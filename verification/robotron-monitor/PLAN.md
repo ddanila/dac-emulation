@@ -472,6 +472,10 @@ startup screen](reference/k7222-11/page3-4-connected-contrast-transient.json)
 reaches its stop time with tighter KLU settings, while the default sparse
 solve aborts at 1 ns. This qualifies only bounded solver startup, not a
 periodic connected A3 score or the factory topology.
+An [extended 2 ms startup solve](reference/k7222-11/page3-4-connected-contrast-2ms.json)
+also completes for that KLU setting, with EHT at 3.704 kV and still rising;
+it covers only about a tenth of one field and does not meet the sustained
+11–12 kV target.
 The short contrast bench shows effectively no cathode or provisional beam
 change across R2's range. The fixed-logic diagnostic shows V1 current changes,
 but the modeled IS output stays low and the neck cathode does not respond to R2.

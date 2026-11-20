@@ -2693,3 +2693,8 @@ and 10⁻⁸ A absolute tolerance, it reaches 200 µs (9,453 rows). This only
 establishes short-startup solver feasibility for that one candidate. It
 does not score a field, show lock or periodic settling, prove the manual
 terminal assignment, or qualify the native frame.
+The [same variant extended to 2 ms](reference/k7222-11/page3-4-connected-contrast-2ms.json)
+also completes with 261,527 data rows. Its final EHT is 3.704 kV, still
+rising from startup and far below the 11–12 kV sustained target. This
+extends the solver feasibility bound, but remains only about one tenth of
+the 19.5 ms native field and cannot establish an A3 or A5 pass.

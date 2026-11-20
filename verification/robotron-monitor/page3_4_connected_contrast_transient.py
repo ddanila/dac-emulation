@@ -1,7 +1,8 @@
 """Bounded startup solver screen for the conditional manual contrast equivalent.
 
 This uses native logical input and the complete ideal-rail assembly, but stops
-after 200 us. It tests numerical feasibility, not a sustained monitor state.
+at a bounded short duration. It tests numerical feasibility, not a sustained
+monitor state.
 """
 import argparse
 import gzip
@@ -19,7 +20,7 @@ import transformer_candidates
 ROOT = Path(__file__).resolve().parent
 ARCHIVE = ROOT/'examples/phase-a-native-full-text'
 CANDIDATE_ID = 't3-fc941ad61c50ce31'
-END_S = 200e-6
+DEFAULT_END_S = 200e-6
 CASES = (
     ('detailed_sparse', 'detailed-page3-4', {}),
     ('manual_sparse', 'manual-fig6-equivalent', {}),
@@ -33,7 +34,12 @@ def sha(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
-def run():
+def run(*, duration_s=DEFAULT_END_S, case_names=None):
+    if not 1e-6 <= duration_s <= 2e-3:
+        raise ValueError('startup screen duration must be 1 us to 2 ms')
+    names={item[0] for item in CASES}
+    if case_names is not None and (not case_names or set(case_names)-names):
+        raise ValueError('unknown startup screen case')
     manifest = json.loads((ARCHIVE/'manifest.json').read_text())
     compressed = (ARCHIVE/'capture.json.gz').read_bytes()
     raw = gzip.decompress(compressed)
@@ -44,6 +50,7 @@ def run():
     if selection['status'] != 'complete':
         raise ValueError('native capture lacks a repeated complete field')
     rows = []
+    timeout_s = 30 if duration_s <= DEFAULT_END_S else 120
     with tempfile.TemporaryDirectory() as temporary:
         folder = Path(temporary)
         assembly = steady_supply.assemble(folder/'assembly')
@@ -53,12 +60,15 @@ def run():
         if candidate is None:
             raise ValueError('screened T3 sign candidate changed')
         for label, topology, solver in CASES:
+            if case_names is not None and label not in case_names:
+                continue
             assembly['contrast_topology'] = topology
             deck, metadata = steady_supply.deck(assembly, selection, candidate, **solver)
             if metadata['contrast_topology'] != topology:
                 raise ValueError('deck topology metadata differs from selection')
             short_deck, count = re.subn(r'^\.tran .*$',
-                '.tran 100n 200u 0 100n', deck, flags=re.MULTILINE)
+                f'.tran 100n {duration_s:.15g} 0 100n', deck,
+                flags=re.MULTILINE)
             if count != 1:
                 raise ValueError('connected deck lacks a unique transient command')
             trial = folder/label
@@ -67,7 +77,7 @@ def run():
             try:
                 result = subprocess.run(['ngspice', '-b', '-r', 'trace.raw', 'run.cir'],
                                         cwd=trial, text=True, capture_output=True,
-                                        timeout=30)
+                                        timeout=timeout_s)
                 log = result.stdout+'\n'+result.stderr
                 match = re.search(r'No\. of Data Rows\s*:\s*(\d+)', log)
                 error = next((line.strip() for line in log.splitlines()
@@ -86,7 +96,7 @@ def run():
                                  returncode=result.returncode,
                                  completed=(result.returncode == 0 and error is None
                                             and match is not None and last_time is not None
-                                            and last_time >= END_S-1e-12),
+                                            and last_time >= duration_s-1e-12),
                                  data_rows=int(match.group(1)) if match else None,
                                  last_time_s=last_time,
                                  last_cathode_v=None if last is None else last.get('v(cathode)'),
@@ -101,10 +111,10 @@ def run():
                                  returncode=None, completed=False,
                                  data_rows=None, last_time_s=None,
                                  last_cathode_v=None, last_eht_v=None,
-                                 timestep_failure='30 s timeout'))
+                                 timestep_failure=f'{timeout_s} s timeout'))
         hashes = assembly['hashes']
     return dict(format='dac-monitor-page3-4-connected-contrast-transient-v1',
-                qualification='200 us startup solver screen with native logical input; not a complete field, sustained-state score, calibration or factory topology proof',
+                qualification='bounded startup solver screen with native logical input; not a complete field, sustained-state score, calibration or factory topology proof',
                 archive_capture_sha256=sha(raw),
                 selected_field_content_sha256=selection['source_content_sha256'],
                 selection_period_s=selection['period_ticks']/selection['clock_hz'],
@@ -112,15 +122,17 @@ def run():
                 candidate_qualification='unverified T3 winding graph and sign candidate',
                 steady_supply_sha256=sha((ROOT/'steady_supply.py').read_bytes()),
                 assembly_hashes=hashes,
-                tested_duration_s=END_S,
+                tested_duration_s=duration_s,
                 rows=rows)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--duration-us', type=float, default=DEFAULT_END_S*1e6)
+    parser.add_argument('--case', action='append', choices=[item[0] for item in CASES])
     args = parser.parse_args()
-    report = run()
+    report = run(duration_s=args.duration_us*1e-6, case_names=args.case)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2)+'\n')
     print('short connected trials:', [(row['case'], row['completed'])
