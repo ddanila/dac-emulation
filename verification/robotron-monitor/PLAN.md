@@ -407,7 +407,7 @@ Phase C (speed) waits for B8.
 ## Phase A goal completion blocker (updated 2026-11-20)
 
 **Tracked goal disposition (2026-11-20): completion blocked; implementation
-remains active.** Only A4 meets its done condition. The 307 passing tests verify
+remains active.** Only A4 meets its done condition. The 308 passing tests verify
 the current toolchain and saved reports, but Phase A still lacks the independent
 source and T3 graph checks (A1), qualified device and class-typical bounds (A2
 and A6), a sustained native-grid score (A3), and a frozen tube/yoke design
@@ -419,9 +419,9 @@ equivalent-stage fallbacks without human approval or a physical measurement.
 
 | Item | Unmet done condition | Next resolution step |
 |---|---|---|
-| A1 | The independent page-3/4 and 9/10 netlists, page-18 contrast/service-meter response, and page-16 source-observation check are incomplete. T3 return and tap order remain unverified. | Finish the pin-to-pin source comparisons; record bounded alternatives where the scans cannot resolve a connection. |
+| A1 | The independent page-3/4 and 9/10 netlists, page-18 contrast/service-meter response, and page-16 source-observation check are incomplete. The [T2/L4 seam reread](reference/k7222-11/page3-4-t2-l4-source-read.json) confirms local V18/R36 and T2-primary edges but cannot establish T2 secondary phase/return or the installed E2 setting. T3 return and tap order remain unverified. | Finish the pin-to-pin source comparisons; keep unresolved seam connections as bounded alternatives. |
 | A2 | All 64 assembled frame-path devices have provisional register rows, but none passes every parameter-qualification check. The [implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json) finds 14 semiconductor instances in 13 register entries still relying on screened simulator defaults. | Make those parameters explicit, qualify their bounds and connected operating stress, then finish the remaining device checks. |
-| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The refreshed 2 ms startup run ends at 5.876 kV EHT, below the sustained 11–12 kV target. All 36 ideal-TP15 fallback cases exceed the 9 V V18 reverse-base class limit, including the two apparent EHT matches. | Resolve or bound the T2/L4 base path, then reach and score a stable connected operating state with the native grid stimulus. |
+| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The refreshed 2 ms startup run ends at 5.876 kV EHT, below the sustained 11–12 kV target. All 36 ideal-TP15 fallback cases exceed the 9 V V18 reverse-base class limit, including the two apparent EHT matches; the [eight-case L4-path bound](reference/k7222-11/t2-l4-topology-sensitivity.json) cannot remove that violation. | Resolve or bound the T2 secondary/drive and L4 base path, then reach and score a stable connected operating state with the native grid stimulus. |
 | A4 | Done. | No remaining Phase A action. |
 | A5 | T3's source return/tap graph, winding ratios and polarities are unresolved; the yoke/tube design point remains conditional. | Resolve the source graph or use the plan's labelled bounded equivalent, then verify the full design point. |
 | A6 | The 272-entry class-typical register is partial: exact B31G22 cold/thermal/emission and G4-dependent cut-off data, T3 parasitics, yoke sensitivity and other frame-path bounds are not qualified. | Complete sourced bounds and the affected stage checks. |
@@ -431,7 +431,7 @@ their done conditions. This is a blocker to **goal completion**, not to further
 implementation.
 
 The current monitor toolchain passes `make test-monitor` with a verified pinned
-runtime (307 tests, no skips, Python 3.9.6). This verifies the checks and
+runtime (308 tests, no skips, Python 3.9.6). This verifies the checks and
 saved-report consistency; it does not supply the missing A1, A2, A3, A5 or A6
 evidence in the table.
 

@@ -2934,3 +2934,34 @@ stage loading must be resolved or bounded before A3/A5 can close.
 With the verified pinned runtime, `make test-monitor` passes 307 tests with no
 skips after the stress audit and dependent receipt refresh. This verifies the
 diagnostic and saved reports, not a source-validated or stress-safe stage.
+
+### A1: page-3/4 T2/L4/V18 seam reread (2026-11-20)
+
+The [scoped source comparison](reference/k7222-11/page3-4-t2-l4-source-read.json)
+uses 300/600 dpi full-page views and a different 1200 dpi page-4 view.
+The visible page-3 T2 primary ends agree with the selected driver model.
+On page 4, V18's base meets R36 and the L4:3 right side; R36 and V18's
+emitter return to 00. The drawing has an upper E2 branch around L4:3, so
+the working bridged branch is one possible jumper setting. The installed
+setting is not known. The scans cut through the T2/L4 seam, so they do not
+establish T2 secondary terminal order, phase or return, or independently
+prove the parallel L4:1/L4:2 model path. The earlier T2/L4 and ideal-TP15
+sweeps therefore remain conditional. This is a scoped comparison after model
+exposure, not the independent whole-page A1 netlist.
+
+The [eight-case L4-path sensitivity](reference/k7222-11/t2-l4-topology-sensitivity.json)
+holds the conditional 2,035-turn T3 and ideal 45 Vpp TP15 boundary fixed,
+then tries the selected parallel L4:1/L4:2 path, a single coil, two series
+coils, and a near-short bridge at T2 ratios 1 and 10. All eight 19–20 ms
+cases complete. The ratio-1 base minimum stays between −60.60 and −62.65 V;
+the ratio-10 minimum stays between −11.63 and −18.80 V, so none meets the
+9 V V18 reverse-base class comparator. Even the near-short bridge at ratio
+10 gives −11.63 V and 9.91 kV EHT. The selected parallel ratio-1 case
+reproduces the earlier 11.351 kV, 391 V, −62.57 V result. These branch
+changes alone do not rescue the apparent TP15 voltage match. The alternate
+L4 paths are exploratory impedance bounds, not source-read jumper settings;
+T2 secondary and T3 graph uncertainty still governs the next stage check.
+With `MONITOR_RUNTIME=build/monitor/runtime-phase-a-gcc16-verified`, the
+complete `make test-monitor` suite passes 308 tests with no skips on Python
+3.9.6. This validates the saved sensitivity receipt and other tool checks;
+it does not meet the remaining Phase A done conditions.
