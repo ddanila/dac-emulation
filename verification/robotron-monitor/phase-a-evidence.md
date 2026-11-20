@@ -2499,11 +2499,19 @@ still matches all 18 cable pairs at both ends. The page-18 comparison now
 hashes the actual assembled component set, so a later source-sheet change
 cannot leave its saved semantic result silently unchanged.
 
-The four remaining gaps have distinct boundaries: the vertical-board 41P
-and SYNCH paths belong to the excluded converter, INTENS is an external
-input represented without a main-board sheet component, and the neck 10.7P
-heater branch is replaced by a held thermal state. These are model-scope
-dispositions, not evidence that the electrical paths have been restored.
+The four component-only comparison gaps have distinct boundaries: the
+vertical-board 41P and SYNCH paths belong to the excluded converter, INTENS
+is a connector-only input trace, and the neck 10.7P heater branch is replaced
+by a held thermal state. A separate
+[page-3/4 source read](reference/k7222-11/page3-4-intens-passthrough-source-read.json)
+now follows incoming X9:5 INTENS across the page seam to X3:2; page 18 maps
+that pin to neck X1:7. Both the short signal-path and full assembled decks
+therefore include an ideal zero-volt INTENS passthrough. The component-only
+semantic checker still reports four gaps because the source path contains no
+main-board component. A fresh DC operating point of the full assembled synthetic-grid
+deck converges with both `rx_intens` and neck `intens` at 3.592664 V. This
+checks the assembled connection at one initial logic state, not sustained
+native-grid behavior. The converter and heater branches remain excluded.
 The refreshed [panel topology](reference/k7222-11/page18-panel-topology-comparison.json)
 still matches its source read. The functional contrast response and remaining
 page-3/4 source review are open, so page 18 is not marked complete in the A1
@@ -2524,7 +2532,7 @@ uses the generated highlight pattern, which toggles both video and intensity
 within 0.2 ms, and solves the source-addressed input and neck circuits at
 R2 positions 0.05, 0.50 and 0.95. All three ngspice runs complete. The
 cathode spans about 0.34–33.70 V at each setting; the largest pointwise
-low-versus-high difference is 0.0464 V, or 0.14% of the nominal swing.
+low-versus-high difference is 0.0149 V, or 0.045% of the nominal swing.
 That voltage is not the service contrast observable: the short bench fixes
 beam current at 20 µA, while the manual's page-30 procedure uses a meter
 across neck-board R4 to set maximum beam current.
@@ -2532,11 +2540,11 @@ across neck-board R4 to set maximum beam current.
 The same check now also replaces that fixed load with the repository's
 held-warm CRT proxy at its provisional 894/669 K heater/cathode temperature
 rises, ideal 11.5 kV anode and fixed −25/350 V grid supplies. Its peak launch
-current is 28.99 µA at all three settings. The largest pointwise
-low-versus-high difference is 0.110 µA, or 0.38% of the nominal peak. This
+current is 28.97 µA at all three settings. The largest pointwise
+low-versus-high difference is 0.0943 µA, or 0.326% of the nominal peak. This
 suggests a weak modeled contrast path even when the provisional emission
 response is included, but it does not establish the original tube's response
-or the measuring-cable transfer. The page-3/4 R4/V1/V3/intensity wiring and
+or the measuring-cable transfer. The page-3/4 R4/V1/V3 video/contrast wiring and
 the manual's full-bright trim sequence must be revisited. The
 [panel pin/topology comparison](reference/k7222-11/page18-panel-topology-comparison.json)
 still passes; page 18 remains open because topology agreement and this
@@ -2546,8 +2554,12 @@ synthetic-pattern check is not a native-grid sustained A3 score.
 A follow-up [16-point DC diagnostic](reference/k7222-11/page18-contrast-dc-diagnostic.json)
 holds each video/intensity logic pair fixed, sweeps the two contrast endpoints,
 and repeats with an illustrative 100 Ω source impedance ahead of 35P. With
-the ideal feed and intensity high, V1 collector current falls by 28.21 mA
-from low to high contrast while its base changes by only 0.028 V. With the
+the corrected passthrough, neck `intens` follows `rx_intens` in every case;
+switching intensity high with video high changes the cathode DC level from
+0.34 to 2.92 V. This closes the missing electrical input path, not the
+manual's intensity or service-meter target. With the ideal feed and intensity
+high, V1 collector current falls by 28.21 mA from low to high contrast while
+its base changes by only 0.028 V. With the
 illustrative impedance, the 35P rail changes by 2.329 V and V1's base by
 1.466 V, yet the modeled `vid` input to the neck board and cathode DC level
 do not change at either video level. This narrows the bench issue: the

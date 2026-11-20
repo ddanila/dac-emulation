@@ -368,6 +368,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
                       f'Cwire_{signal}_{j} {node} 0 {p["cable_c"]/4}']
             previous=node
     lines += [f'Rreturn computer_return 0 {p["return_r"]}',
+        'Vintens_passthrough intens rx_intens 0',
         'Vp12 p12 0 12',f'Vp22 p22 0 {22*rail_scale:.15g}',
         f'Vp41 p41 0 {41*rail_scale:.15g}',f'Vn16 n16 0 {-16*rail_scale:.15g}',
         'Rcontrast reference9 contrast_low {contrast_r*contrast_position}',
@@ -383,6 +384,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         *(['.ic '+' '.join(f'v({n})={v:.15g}' for n,v in sorted(initial_voltages.items()))] if initial_voltages else []),
         f'.tran {max_step_s} {period*fields:.17g} {period*(fields-4):.17g} {max_step_s}', '.end']
     assumptions=['Ideal 12 V converter input and R5-scaled 22/41/-16 V outputs; actual 5 V regulator retained.',
+        'Page-3/4 X9:5-to-X3:2 INTENS board trace is an ideal zero-volt passthrough to neck X1:7.',
         'Page-9 R4/R2/L1/L2 centring bridge uses one conditional opposite-polarity E-link pair; installed pair and choke construction are unverified.',
         'External brightness R1 has page-3/page-18 terminal mapping and a handwritten 5–10 kohm class-typical value; A1 netlist comparison remains open.',
         'External contrast R2 is a two-wire rheostat from KRA to KRS. Its page-3/4 board-side mapping and X1 pin export match; the connected stage score remains open.',

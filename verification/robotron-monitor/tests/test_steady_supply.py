@@ -120,6 +120,7 @@ class SteadySupplyTests(unittest.TestCase):
         candidate=tc.enumerate_candidates(graph)[0]
         text,meta=steady.deck(assembly,selection,candidate,linear_solver='klu',reltol=.001,abstol=1e-8)
         self.assertIn('.options klu reltol=0.001 abstol=1e-08',text)
+        self.assertIn('Vintens_passthrough intens rx_intens 0',text)
         self.assertEqual(meta['linear_solver'],'klu')
         grid_deck,grid_meta=steady.deck(dict(assembly,source_kind='synthetic-test-pattern'),
                                        selection,candidate)

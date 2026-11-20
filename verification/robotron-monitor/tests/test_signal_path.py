@@ -101,8 +101,11 @@ class SignalElectricalTests(unittest.TestCase):
             report=json.loads((root/'base/report.json').read_text())
             deck=(root/'base/run.cir').read_text()
             self.assertIn('Vp35 p35 mreturn 35', deck)
+            self.assertIn('Vintens_passthrough intens rx_intens 0', deck)
             self.assertIn('Rbrightness_top p35 collector_i 5000', deck)
             self.assertIn('Rbrightness_bottom collector_i contrast_adjust 5000', deck)
+            self.assertAlmostEqual(base['metrics']['receiver_intens']['mean'],
+                                   base['metrics']['monitor_intens']['mean'], places=6)
             self.assertFalse(report['coverage']['full_monitor_qualified'])
             self.assertIn('012-6931:C12',{c.get('source_id') for c in report['components']})
             diode=next(c for c in report['components'] if c.get('source_id')=='012-6931:V6')
