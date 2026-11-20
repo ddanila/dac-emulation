@@ -3432,11 +3432,32 @@ is a clue, not proof of coupling. Replacing only the constant INTENS PWL
 with DC 1 moves the connected failure to the first 19.5 ms boundary.
 Moving the final BSYN falling edge 1 µs earlier, while retaining the
 19.5 ms endpoint knot, still fails at 39 ms. Neither input timing variant
-is a remedy. The next bounded diagnosis should compare the horizontal
-feedback/sync connection at the boundary, or use a labelled input-stage
-equivalent if that interaction cannot be stabilized without an unsupported
-source correction. No connected periodic field or T3 freeze follows from
-the isolated pass.
+is a remedy. No connected periodic field or T3 freeze follows from the
+isolated pass.
+
+### A5: Q201 loading at the connected field boundary (2026-11-20)
+
+The [one-factor connected screen](reference/k7222-11/t3-horizontal-boundary-isolation.json)
+starts from the archived 39.1 ms KLU deck with added input and Q201 probes.
+Its baseline stops at exactly 39 ms. Disconnecting T3 feedback from the
+horizontal phase detector at C1012 or input sync from that detector at C1008
+one at a time does not move the stop. Replacing the nearly off Q201 with a
+1 GΩ collector-emitter path lets the connected solve reach 39.1 ms. Adding
+Q201's stated 10 pF BE capacitance as a linear element also crosses; adding
+its 4 pF BC capacitance alone, or both capacitances together, recreates the
+39 ms stop. The solver names `intensity_gate` with BC alone and Q202 with
+both capacitances, showing that its reported trouble location is not a
+unique failing component. Keeping Q201 as a BJT and changing only its CJC
+from nominal 4 pF to the register's 1.7 pF lower bound still stops at 39 ms.
+
+This implicates Q201's collector-base loading in this particular connected
+solver failure, not a demonstrated wrong factory connection or a valid reason
+to remove Q201. The resistor and linear-capacitor substitutions are
+diagnostics; the 39.1 ms endpoint is only 0.1 ms beyond the failing boundary,
+not a periodic field. The next check is the page-3/4 Q201 collector/base path
+and the source-supported capacitance bounds, followed by a connected solve
+with a qualified model or a clearly labelled input-stage equivalent. A3 and
+A5 remain open.
 
 ### A2: explicit SSY20A neck BJT parameters (2026-11-20)
 
