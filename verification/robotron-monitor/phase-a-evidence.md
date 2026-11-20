@@ -3264,3 +3264,32 @@ That apparent hit is not numerically invariant: at 50 ns it becomes
 class-qualified physical loss parameter, and none of these 4–5 ms snapshots
 is a periodic connected result. This rules out adopting the apparent 3 MΩ
 match; A5 remains open pending a source-bounded graph and stable loss model.
+
+### A1/A5: loaded T3 return variants (2026-11-20)
+
+The earlier [cold-return matrix](reference/k7222-11/t3-cold-return-matrix.json)
+showed that grounding the HV cold end can charge the isolated EHT capacitor
+whether X1:3 is tied to X2:3 or left open. The new [loaded-stage return
+screen](reference/k7222-11/t3-loaded-return-screen.json) carries those same
+labelled alternatives into the source-addressed TP17 stage with the
+source-informed 1,768-turn/440-ohm/7.5-pF/k=0.92 overwind. It changes only
+the external T3 return nets; the prescribed drive, rectifier, yoke and other
+provisional winding parameters stay fixed. The original .11 return graph is
+still not established by the page-4 scan.
+
+Grounding both X1:16 and X1:7 exceeds the 90 s diagnostic budget with either
+X1:3/X2:3 tie. Grounding only X1:16 completes at 100 ns with either tie:
+the tied case gives 63.05 Vpp TP17-mapped swing, 11.434 kV EHT and a 460 V
+collector peak; the open case differs by only 0.02 Vpp and 0.001 kV. Removing
+the non-driving flux probe from the tied case at 100 ns changes TP17 to
+63.25 Vpp and EHT to 11.456 kV. Although this is much less probe-sensitive
+than the floating-cold candidate, TP17 remains below its 64–96 Vpp guideline
+and the conditional cross-revision collector comparator is 370–420 V.
+
+The 50 ns probe-free tied case completes only with a 300 s solve budget; it
+gives 1,028.5 Vpp TP17, 12.095 kV EHT and a 1,003 V collector peak. Thus
+the near-target 100 ns result is not step-invariant. The two 90 s timeouts are
+solver-budget observations, not proof of an impossible graph, and the
+completed 4–5 ms windows are not periodic native-grid fields. No return
+alternative is selected or frozen; the next A5 candidate must survive both
+source-graph review and numerical refinement.
