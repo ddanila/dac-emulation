@@ -3239,3 +3239,28 @@ yoke peak-to-peak current is 0.546044 A, changing by less than 0.00001% from
 the prior model; the largest one-at-a-time diode-bound yoke-span change is
 5.51%. This checks the retained vertical bench, not the native connected
 monitor or KFY18 joint bounds.
+
+### A5: overwind loss and numerical invariance diagnostic (2026-11-20)
+
+A [firsthand CRT LOPT study](https://www.worldphaco.com/uploads/BUSH_TV22.pdf)
+attributes the overwind's apparent scan-time resonance to its self-capacitance
+and leakage inductance rather than its full magnetizing inductance. In the
+current 1,768-turn, k=0.92 equivalent, the origin-slope calculation gives
+1.172 H overwind magnetizing inductance. The two-winding approximation
+`Lmag*(1-k²) + Lseries` gives 0.183 H leakage including the separately
+declared 3 mH series leakage; with the candidate's 7.5 pF capacitance, this
+suggests a 136 kHz resonance. This estimate does not describe all modes of
+the switched, 14-section stage and is not a measurement of the .11 T3.
+
+The [overwind damping diagnostic](reference/k7222-11/t3-overwind-damping-diagnostic.json)
+adds an *artificial* parallel resistor across only the HV winding, leaving
+its graph, coupling, turns and other stage loads fixed. At a 100 ns maximum
+step with the flux probe, 100 kΩ aborts; 300 kΩ gives 83.8 Vpp at the
+TP17-mapped node but 12.947 kV EHT; 1 MΩ gives 1,473 Vpp and 5.475 kV EHT.
+The 3 MΩ case appears to hit both guidelines at 65.2 Vpp and 11.733 kV.
+That apparent hit is not numerically invariant: at 50 ns it becomes
+789.6 Vpp, and at 100 ns without the non-driving flux probe it becomes
+640.2 Vpp. Both retain roughly 11.5 kV EHT. The shunt value is not a
+class-qualified physical loss parameter, and none of these 4–5 ms snapshots
+is a periodic connected result. This rules out adopting the apparent 3 MΩ
+match; A5 remains open pending a source-bounded graph and stable loss model.

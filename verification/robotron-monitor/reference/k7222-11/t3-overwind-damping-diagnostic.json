@@ -1,0 +1,207 @@
+{
+  "format": "dac-monitor-t3-overwind-damping-diagnostic-v1",
+  "qualification": "artificial overwind shunt in a prescribed-drive 4\u20135 ms stage; no physical loss value, periodic operating point, or A5 freeze is claimed",
+  "source_hashes": {
+    "reference/k7222-11/t3-coupled-source-overwind-parameters.json": "125fb6c737da4d305196c39de7f999d9e60d920c830635f0ef77166c173af681",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
+    "magnetics.py": "722c379dcc2730ea4f5a4464102e28fe8af95f5d009aaef94faefdf3835978e7",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_tp17_path_sweep.py": "90f13dd629d010f0b9ef37e4f32ef12c3568abb9f1ffffc79b876d4ced196b2d",
+    "t3_overwind_damping_diagnostic.py": "d78806091d194ff76306591c86a683c88f725ff19fb0c2fd957b2810e9716ba4"
+  },
+  "ngspice_sha256": "3e14f93f378ffcb37ec55e797b3da6099ce9ee6293a4fe7f203619299a5f9da9",
+  "candidate_id": "t3-fc941ad61c50ce31",
+  "source_context": {
+    "url": "https://www.worldphaco.com/uploads/BUSH_TV22.pdf",
+    "observation": "Firsthand CRT LOPT study attributes apparent overwind resonance during scan to self-capacitance and leakage inductance, not the full magnetizing inductance; not a K7222.11 measurement."
+  },
+  "lumped_two_winding_estimate": {
+    "magnetizing_inductance_h": 1.172184,
+    "coupling_coefficient": 0.92,
+    "coupling_leakage_h_approx": 0.18004746239999994,
+    "explicit_series_leakage_h": 0.003,
+    "combined_leakage_h_approx": 0.18304746239999994,
+    "overwind_capacitance_f": 7.5e-12,
+    "leakage_capacitance_resonance_hz_approx": 135833.73533055108,
+    "limit": "Two-winding estimate only; the actual 14-section, switched, rectified stage has multiple resonances."
+  },
+  "cases": [
+    {
+      "overwind_shunt_ohm": 100000,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "normalized_deck_sha256": "780f95714380c2a614d5a35ee1f2bea663dd24938cde142efd6d27a0484a86a8",
+      "status": "aborted",
+      "timestep_too_small": true
+    },
+    {
+      "overwind_shunt_ohm": 300000,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "normalized_deck_sha256": "e2c244f22c291ca0a4faeb587cd4b4b8899aaee11178dc89cc60a0921fb4f0a2",
+      "status": "complete",
+      "result": {
+        "sample_count": 28238,
+        "sample_window_s": [
+          0.00400006426,
+          0.005
+        ],
+        "collector_peak_v": 569.156796,
+        "collector_min_v": 0.0150119705,
+        "eht_peak_v": 12947.9622,
+        "eht_final_v": 12947.0645,
+        "eht_same_phase_drift_v_over_16_lines": 86.14880000000085,
+        "feedback_swing_v": 75.2759357,
+        "sync_swing_v": 83.7577897,
+        "yoke_current_range_a": [
+          -0.623790169,
+          0.546802924
+        ],
+        "boost_range_v": [
+          75.0568082,
+          80.9190794
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 14.924664835288745
+      },
+      "snapshot_target_overlap": false
+    },
+    {
+      "overwind_shunt_ohm": 1000000,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "normalized_deck_sha256": "35c3cd9baf14c52fc764e75acd9cd8dcb5236953f4d48978d6cdf26627bbc33f",
+      "status": "complete",
+      "result": {
+        "sample_count": 470449,
+        "sample_window_s": [
+          0.00400000512,
+          0.005
+        ],
+        "collector_peak_v": 1004.74138,
+        "collector_min_v": -3.27719407,
+        "eht_peak_v": 12994.4655,
+        "eht_final_v": 5474.53521,
+        "eht_same_phase_drift_v_over_16_lines": -6408.016589999999,
+        "feedback_swing_v": 424.75348970000005,
+        "sync_swing_v": 1472.948649,
+        "yoke_current_range_a": [
+          -1.28305177,
+          1.30709498
+        ],
+        "boost_range_v": [
+          63.4210669,
+          74.7712749
+        ],
+        "flyback_pulse_count": 32,
+        "flyback_width_us_at_10pct_swing_median": 4.093980862617842
+      },
+      "snapshot_target_overlap": false
+    },
+    {
+      "overwind_shunt_ohm": 3000000,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "normalized_deck_sha256": "d7c75716caa20001d84d281187841d19a99b2cd6564309e95a0ddca1b9ea7689",
+      "status": "complete",
+      "result": {
+        "sample_count": 37128,
+        "sample_window_s": [
+          0.00400000016,
+          0.005
+        ],
+        "collector_peak_v": 467.460078,
+        "collector_min_v": -0.999532649,
+        "eht_peak_v": 11745.8333,
+        "eht_final_v": 11732.5124,
+        "eht_same_phase_drift_v_over_16_lines": 9.411399999999048,
+        "feedback_swing_v": 58.4097909,
+        "sync_swing_v": 65.235731,
+        "yoke_current_range_a": [
+          -0.480474201,
+          0.476697302
+        ],
+        "boost_range_v": [
+          64.6611784,
+          65.6617413
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.283829695417623
+      },
+      "snapshot_target_overlap": true
+    },
+    {
+      "overwind_shunt_ohm": 3000000,
+      "max_step_ns": 50,
+      "flux_probe_in_deck": true,
+      "normalized_deck_sha256": "5a2ad57359f1cf7b5aafa4ecfed1dbe84f37fed0c058104cbb081a2569c11847",
+      "status": "complete",
+      "result": {
+        "sample_count": 63838,
+        "sample_window_s": [
+          0.0040000066,
+          0.005
+        ],
+        "collector_peak_v": 458.714567,
+        "collector_min_v": -1.02402119,
+        "eht_peak_v": 11564.474,
+        "eht_final_v": 11554.4934,
+        "eht_same_phase_drift_v_over_16_lines": 73.28439999999864,
+        "feedback_swing_v": 224.4817413,
+        "sync_swing_v": 789.6339701,
+        "yoke_current_range_a": [
+          -0.498067118,
+          0.489789784
+        ],
+        "boost_range_v": [
+          63.6531575,
+          63.7853646
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.240395830397407
+      },
+      "snapshot_target_overlap": false
+    },
+    {
+      "overwind_shunt_ohm": 3000000,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": false,
+      "normalized_deck_sha256": "06c3d18c51f39b7c3b033a9d8d4860a306dd9b713e8d0d3a777a00a1cf15689b",
+      "status": "complete",
+      "result": {
+        "sample_count": 60895,
+        "sample_window_s": [
+          0.00400000289,
+          0.005
+        ],
+        "collector_peak_v": 457.21023,
+        "collector_min_v": -1.00538502,
+        "eht_peak_v": 11518.2394,
+        "eht_final_v": 11508.828,
+        "eht_same_phase_drift_v_over_16_lines": 87.79449999999997,
+        "feedback_swing_v": 278.6584858,
+        "sync_swing_v": 640.2389923,
+        "yoke_current_range_a": [
+          -0.469642045,
+          0.46592911
+        ],
+        "boost_range_v": [
+          63.6665947,
+          63.7830282
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.24063390386286
+      },
+      "snapshot_target_overlap": false
+    }
+  ],
+  "max_fractional_tp17_change_from_step_or_probe": 11.104317036012059,
+  "numerical_qualification": "failed: the apparent joint-target snapshot changes by more than a factor of nine under half timestep or removal of a non-driving probe",
+  "remaining": [
+    "Resolve or bound the original T3 tap/return graph and its loss mechanism.",
+    "Find a step- and probe-invariant stage candidate before a connected native-grid run."
+  ]
+}
