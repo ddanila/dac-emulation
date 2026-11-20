@@ -28,9 +28,9 @@ class TransformerCandidateTests(unittest.TestCase):
         params=dict(format='dac-monitor-magnetic-parameters-v1',rationale='Synthetic tapped transformer test only',groups=dict(drive=[section(20),section(20)],high_voltage=[section(80)]),core=dict(area_m2=bound(1e-4),length_m=bound(.05),loss_ohm=bound(10000),h_a_per_m=[-100000,-1000,-200,0,200,1000,100000],b_t=[-.5,-.3,-.2,0,.2,.3,.5]))
         candidates=tc.enumerate_candidates(graph)
         with tempfile.TemporaryDirectory() as tmp:
-            def solve(name,candidate,load=1000):
+            def solve(name,candidate,load=1000,backend='xspice'):
                 out=Path(tmp)/name;out.mkdir()
-                model,report=tc.compile_model(graph,candidate,params)
+                model,report=tc.compile_model(graph,candidate,params,backend=backend)
                 self.assertFalse(report['full_monitor_qualified'])
                 profile=dict(name='Tapped magnetic test',probes=[dict(expression=e) for e in ('v(pri)','v(tap)','v(sec)','i(Vsource)')])
                 bench=f'Vsource source 0 SIN(0 1 1000)\nRsource source pri 1\nXcore pri tap 0 sec 0 T3_CANDIDATE\nRload sec 0 {load}\n'
@@ -44,6 +44,15 @@ class TransformerCandidateTests(unittest.TestCase):
             self.assertAlmostEqual(gain(selected,3),2,delta=.03)
             self.assertLess(gain(opposite,3),-1.9)
             self.assertGreater(sum(r[4]**2 for r in loaded),sum(r[4]**2 for r in normal)*2)
+            coupled=solve('coupled',candidates[0],backend='coupled')
+            coupled_opposite=solve('coupled_opposite',candidates[1],backend='coupled')
+            coupled_loaded=solve('coupled_loaded',candidates[0],10,backend='coupled')
+            coupled_selected=[r for r in coupled if r[0]>.003]
+            self.assertAlmostEqual(gain(coupled_selected,2),.5,delta=.02)
+            self.assertAlmostEqual(gain(coupled_selected,3),2,delta=.03)
+            self.assertLess(gain(coupled_opposite,3),-1.9)
+            self.assertGreater(sum(r[4]**2 for r in coupled_loaded),
+                               sum(r[4]**2 for r in coupled)*2)
         broken=copy.deepcopy(params);broken['groups']['drive'][0]['turns']['value']=0
         with self.assertRaises(ValueError):tc.compile_model(graph,candidates[0],broken)
 

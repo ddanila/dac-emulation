@@ -1,0 +1,107 @@
+{
+  "format": "dac-monitor-native-coupled-equivalent-bounded-attempt-v1",
+  "qualification": "partial native-grid diagnostic only; no completed four-field solve, three-field lock, service score, or A5 freeze",
+  "run": {
+    "directory": "build/monitor/phase-a/native-coupled-eq-20261120",
+    "status": "blocked",
+    "receipt_sha256": "6f4baeb8267f35a56da170625f3cadfdd020c3cbc4ad940833463bc5bb1480bf",
+    "capture_sha256": "86184b30371f08b5e7d6060c8ee34690c3778ed9a701d523ae705da594162621",
+    "candidate_id": "t3-fc941ad61c50ce31",
+    "magnetic_backend": "coupled",
+    "equivalent_stages": [
+      "T3_PASSIVE_COUPLED_EQUIVALENT",
+      "manual-fig6-contrast-control"
+    ],
+    "magnetic_parameters": "reference/k7222-11/t3-coupled-equivalent-parameters.json",
+    "magnetic_parameters_sha256": "a647e39da0dfc606a63dfd633a4a49802ae8ca285031610b631bab42c9833f6c",
+    "flux_probe_variant": "historical probe-only Bflux integrator in this saved deck; current coupled backend uses an algebraic flux probe"
+  },
+  "trial": {
+    "fields_requested": 4,
+    "max_step_ns": 200,
+    "linear_solver": "klu",
+    "reltol": 0.002,
+    "abstol_a": 1e-08,
+    "wall_budget_hours": 0.25,
+    "solve_elapsed_s": 596.191316958,
+    "timed_out": true,
+    "solve_receipt_sha256": "d7db69da21ce2ca5dd4fb9c8f13104b537bd17c23272a804db2c66356d056b12",
+    "deck_sha256": "382ceb9c8da2f639d8ef313dbccbb561b2fbf58e41e2d631870807a6f45d67ce",
+    "metadata_sha256": "2f8db1095b264134151007304a021e4fc3427db92fa919bb0aacbebe3763908d",
+    "raw_sha256": "3921c4cf6550ac6b85939cb36031e53fb54c8689975379ef57787f6723c2546d",
+    "complete_rows": 1882692,
+    "last_time_s": 0.026113969432888313
+  },
+  "diagnostics": {
+    "partial": "reference/k7222-11/native-coupled-equivalent-partial-diagnostic.json",
+    "partial_sha256": "87609ae40d0387f9a2bea00b32121478608f43a19f9168856c80272f05af4e51",
+    "horizontal_chain": "reference/k7222-11/native-coupled-equivalent-horizontal-chain.json",
+    "horizontal_chain_sha256": "1733aa120d1278be5cb9b6a6cecfc867a408dbf864819a064652b173edd49a4b",
+    "selected_1ms_bins": [
+      {
+        "bin_ms": 2,
+        "eht_time_mean_v": 6425.6281271264625,
+        "tp17_h_sync_swing_vpp": 37.555610498789186,
+        "v13_drivecol_upcross_10v": 16,
+        "v18_hot_upcross_100v": 15,
+        "v18_hot_peak_v": 306.0296654528265
+      },
+      {
+        "bin_ms": 5,
+        "eht_time_mean_v": 8170.488667411679,
+        "tp17_h_sync_swing_vpp": 44.93173996677111,
+        "v13_drivecol_upcross_10v": 16,
+        "v18_hot_upcross_100v": 16,
+        "v18_hot_peak_v": 342.675026151258
+      },
+      {
+        "bin_ms": 10,
+        "eht_time_mean_v": 8858.877184413152,
+        "tp17_h_sync_swing_vpp": 48.06067877629747,
+        "v13_drivecol_upcross_10v": 16,
+        "v18_hot_upcross_100v": 17,
+        "v18_hot_peak_v": 359.4339328696954
+      },
+      {
+        "bin_ms": 15,
+        "eht_time_mean_v": 12385.582422355303,
+        "tp17_h_sync_swing_vpp": 67.34501961848196,
+        "v13_drivecol_upcross_10v": 16,
+        "v18_hot_upcross_100v": 17,
+        "v18_hot_peak_v": 469.956956935329
+      },
+      {
+        "bin_ms": 20,
+        "eht_time_mean_v": 12329.669470396711,
+        "tp17_h_sync_swing_vpp": 87.01367254150331,
+        "v13_drivecol_upcross_10v": 41,
+        "v18_hot_upcross_100v": 16,
+        "v18_hot_peak_v": 425.6335059058559
+      },
+      {
+        "bin_ms": 24,
+        "eht_time_mean_v": 12259.88911123663,
+        "tp17_h_sync_swing_vpp": 59.56390545248638,
+        "v13_drivecol_upcross_10v": 16,
+        "v18_hot_upcross_100v": 17,
+        "v18_hot_peak_v": 422.12722143888317
+      }
+    ]
+  },
+  "manual_comparators": {
+    "tp17_guideline_vpp": [
+      64,
+      96
+    ],
+    "eht_v": [
+      11000,
+      12000
+    ]
+  },
+  "outcome": "unqualified historical probe-integrator variant; partial TP17 reaches the manual range in some bins while EHT remains above 12 kV and pulse amplitude varies; no periodicity, step-size convergence or current-code equivalence shown",
+  "remaining": [
+    "Resolve source-bounded T3 graph, ratios, leakage, capacitance, core loss and V18 stress.",
+    "Complete at least four connected native-grid fields and compare the last three for lock and periodicity.",
+    "Recheck TP17, EHT and remaining service points with electrical refinement before A3/A5 closure."
+  ]
+}

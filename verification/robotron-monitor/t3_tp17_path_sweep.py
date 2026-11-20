@@ -22,9 +22,16 @@ def sha256(path):
 
 
 def run_case(ngspice, graph, parameters, candidate, parts, l3_r, l3_l,
-             turns, capacitor_esr_ohm):
+             turns, capacitor_esr_ohm, *, backend='flux', hv_turns=None,
+             max_step_ns=100, flux_probe=True):
+    if max_step_ns not in (50, 100):
+        raise ValueError('stage diagnostic supports only 50 or 100 ns steps')
+    if backend != 'coupled' and not flux_probe:
+        raise ValueError('flux probe variation only applies to coupled backend')
     winding = copy.deepcopy(parameters)
     winding['groups']['auxiliary'][0]['turns']['value'] = turns
+    if hv_turns is not None:
+        winding['groups']['high_voltage'][0]['turns']['value'] = hv_turns
     selected = copy.deepcopy(parts)
     if capacitor_esr_ohm:
         capacitor = next(part for part in selected if part['source_id'] == '012-6921:C18')
@@ -33,6 +40,22 @@ def run_case(ngspice, graph, parameters, candidate, parts, l3_r, l3_l,
         trace = Path(directory)/'trace.dat'
         circuit = Path(directory)/'stage.cir'
         deck = stage.deck(graph, winding, candidate, selected, l3_r, l3_l, trace)
+        if max_step_ns != 100:
+            anchor = 'tran 100n 5m 4m'
+            if deck.count(anchor) != 1:
+                raise ValueError('stage deck timestep anchor changed')
+            deck = deck.replace(anchor, f'tran {max_step_ns}n 5m 4m')
+        if backend != 'flux':
+            flux, _ = transformer_candidates.compile_model(graph, candidate, winding,
+                                                            backend='flux')
+            substitute, _ = transformer_candidates.compile_model(graph, candidate,
+                                                                  winding, backend=backend)
+            if not flux_probe:
+                substitute = '\n'.join(line for line in substitute.splitlines()
+                                       if not line.startswith('Bflux '))+'\n'
+            if deck.count(flux) != 1:
+                raise ValueError('stage deck magnetic model changed')
+            deck = deck.replace(flux, substitute)
         extra = '.param horizontal_brightness_fraction=0.5\nRug1 ug1 0 1G\n'
         if capacitor_esr_ohm:
             extra += f'Resr h_g1raw h_g1cap {capacitor_esr_ohm:g}\n'
@@ -41,13 +64,21 @@ def run_case(ngspice, graph, parameters, candidate, parts, l3_r, l3_l,
             raise ValueError('stage deck initial-condition anchor changed')
         deck = deck.replace(anchor, extra+anchor)
         circuit.write_text(deck)
-        result = subprocess.run([str(ngspice), '-b', str(circuit)],
-                                capture_output=True, text=True, timeout=90)
-        log = result.stdout+result.stderr
         outcome = {'auxiliary_x2_5_to_x2_6_turns': turns,
+                   'high_voltage_turns': winding['groups']['high_voltage'][0]['turns']['value'],
+                   'max_step_ns': max_step_ns,
+                   'flux_probe_in_deck': flux_probe,
                    'c18_series_resistance_ohm': capacitor_esr_ohm,
+                   'magnetic_backend': backend,
                    'normalized_deck_sha256': hashlib.sha256(
                        deck.replace(str(trace), '<trace>').encode()).hexdigest()}
+        try:
+            result = subprocess.run([str(ngspice), '-b', str(circuit)],
+                                    capture_output=True, text=True, timeout=90)
+        except subprocess.TimeoutExpired:
+            outcome['status'] = 'timeout'
+            return outcome
+        log = result.stdout+result.stderr
         if result.returncode or 'tran simulation(s) aborted' in log or not trace.is_file():
             outcome['status'] = 'aborted'
             outcome['timestep_too_small'] = 'Timestep too small' in log
@@ -78,6 +109,8 @@ def run(ngspice):
                           for path in (stage.GRAPH, stage.PARAMETERS,
                                        stage.TRANSCRIPTION, stage.MODELS,
                                        ROOT/'reference/k7222-11/service-observations.json',
+                                       ROOT/'magnetics.py',
+                                       ROOT/'transformer_candidates.py',
                                        ROOT/'t3_output_stage_sweep.py',
                                        ROOT/'t3_tp17_path_sweep.py')},
         'ngspice_sha256': sha256(ngspice),

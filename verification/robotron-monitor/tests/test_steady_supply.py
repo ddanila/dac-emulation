@@ -223,6 +223,27 @@ class SteadySupplyTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'no longer matches source export'):
                 steady.contrast_stage_components(malformed,'manual-fig6-equivalent')
 
+    def test_passive_t3_equivalent_is_explicit_and_keeps_flux_probe(self):
+        selection=steady.select(capture())
+        graph=json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
+        candidate=tc.enumerate_candidates(graph)[0]
+        parameters={k:v[0] for k,v in steady.signal_path.BOUNDS.items()}
+        assembly=dict(parameters=parameters,components=[],models=[])
+        original,original_meta=steady.deck(assembly,selection,candidate)
+        coupled,coupled_meta=steady.deck(assembly,selection,candidate,
+                                        magnetic_backend='coupled')
+        self.assertEqual(original_meta['equivalent_stages'],[])
+        self.assertEqual(coupled_meta['equivalent_stages'],
+                         [steady.T3_EQUIVALENT_LABEL])
+        self.assertEqual(coupled_meta['candidate']['backend'],'coupled')
+        self.assertIn('Kcore0_1 Lmag0 Lmag1 0.999',coupled)
+        self.assertIn('Bflux flux_b 0 V=',coupled)
+        self.assertIn('v(x1136.xshared.flux_b)',coupled)
+        self.assertNotEqual(original_meta['experiment']['deck_sha256'],
+                            coupled_meta['experiment']['deck_sha256'])
+        with self.assertRaisesRegex(ValueError,'unknown T3 magnetic backend'):
+            steady.deck(assembly,selection,candidate,magnetic_backend='unknown')
+
     def test_raw_parser_rejects_partial_or_nonfinite_runs(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)/'raw'

@@ -3088,3 +3088,59 @@ the numerical stiffness of the conditional T3 pulse path. The next A5 move
 is a source-informed, labelled T3 equivalent from the PLAN fallback if the
 source cannot resolve this winding and its return; any such candidate still
 needs a converged connected-grid check before A3 or A5 can close.
+
+### A5: labelled passive T3 equivalent screen (2026-11-20)
+
+The [passive-coupled sweep](reference/k7222-11/t3-coupled-equivalent-sweep.json)
+and its [parameter candidate](reference/k7222-11/t3-coupled-equivalent-parameters.json)
+implement the PLAN fallback as a *candidate*, leaving the existing flux
+model as the default. Each provisional winding section retains its declared
+series resistance, leakage and capacitance. Coupled inductors use 0.999
+mutual coupling and the provisional B/H origin slope, which gives 486 µH
+primary magnetizing inductance. The model exposes an algebraic flux probe for
+the existing periodicity check and is labelled
+`T3_PASSIVE_COUPLED_EQUIVALENT` in connected-run metadata. The coupling,
+core slope and section parasitics are not yet source-qualified `class-typical`
+bounds, and the graph remains conditional.
+
+All eight sampled 4–5 ms prescribed-drive stage cases complete with the
+pinned runtime. With the algebraic probe and 100 ns maximum step, 7.5 auxiliary
+turns and the 1,000-turn HV hypothesis give 86.91 Vpp TP17 but 13.162 kV
+final EHT; 7.5 turns and the 1,768-turn cross-revision comparator give
+56.78 Vpp and 10.657 kV; 7.5 turns and the conditional 2,035-turn A5 scale
+give 72.32 Vpp and 10.188 kV. None of the sampled cases jointly reaches
+TP17's 64–96 Vpp guideline and 11–12 kV EHT. The 7.5/1,768 case changes to
+57.97 Vpp and 10.519 kV at 50 ns. Removing only the non-driving flux probe
+at 100 ns changes it to 63.52 Vpp and 11.842 kV. That roughly 10% probe
+sensitivity and the remaining step-size difference forbid a T3 freeze or
+stage-level waveform qualification.
+
+The first [bounded connected attempt](reference/k7222-11/native-coupled-equivalent-bounded-attempt.json)
+used a temporary probe-integrator version of this equivalent and the same
+7.5/1,768 parameter file. The saved deck hash identifies that variant; it is
+not the current algebraic-probe implementation. Its 200 ns, four-field solve
+times out after 596 s with 1,882,692 complete raw rows through 26.114 ms.
+The [partial EHT/TP17 bins](reference/k7222-11/native-coupled-equivalent-partial-diagnostic.json)
+and [horizontal-chain bins](reference/k7222-11/native-coupled-equivalent-horizontal-chain.json)
+show ongoing flyback pulses. The 15–16 ms bin has 12.386 kV mean EHT and
+67.3 Vpp TP17; the 20–21 ms bin has 12.330 kV and 87.0 Vpp but 41 V13
+collector threshold crossings; the 24–25 ms bin has 12.260 kV and 59.6 Vpp.
+These are startup diagnostics from one incomplete field history, not a
+periodic joint TP17/EHT result or a connected A3 score. This variant cannot
+establish the behavior of the current algebraic-probe implementation.
+
+The separate [current-code bounded attempt](reference/k7222-11/native-coupled-algebraic-bounded-attempt.json)
+uses that algebraic flux probe and the same native capture, parameter file,
+candidate, solver settings and 200 ns maximum step. It also times out after
+596 s, with 1,722,140 complete rows through 21.140 ms. Its
+[EHT/TP17 bins](reference/k7222-11/native-coupled-algebraic-partial-diagnostic.json)
+and [horizontal-chain bins](reference/k7222-11/native-coupled-algebraic-horizontal-chain.json)
+show an unstable connected response: the 5–6 ms bin has 12.504 kV mean EHT,
+570.6 Vpp `h_sync`, 112 V13 drive threshold crossings and 31 V18 flyback
+crossings instead of about 16 each, with a 1.004 kV V18 collector peak.
+The 18–19 ms bin has 12.167 kV EHT and 62.5 Vpp `h_sync`; the 20–21 ms bin
+again has 631.4 Vpp, 126 drive crossings and 41 flyback crossings with a
+1.007 kV collector peak. These bursts are not a stable TP17 waveform.
+The changed partial behavior between two probe-only formulations, together
+with the stage sensitivity above, makes this equivalent numerically
+unqualified. No connected service score or A5 design point is claimed.

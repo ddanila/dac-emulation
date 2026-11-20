@@ -8,6 +8,8 @@ aggregate core loss; hysteresis and distributed winding resonances are excluded.
 import math
 import re
 
+EQUIVALENT_COUPLING = 0.999
+
 
 def winding_network(i,w,a,z):
     """Optional passive one-pole AC copper-loss approximation.
@@ -73,6 +75,49 @@ def transformer_flux(name, windings, core, shorted_turns=None, *, smoothing_t=1e
               f'Rloss l0 w0n {core["loss_ohm"]:.15g}']
     if shorted_turns: lines.append('Rshortref shorted 0 1e12')
     return '\n'.join([f'.subckt {name} '+' '.join(ports),*lines,'.ends '+name])+'\n'
+
+
+def transformer_coupled(name, windings, core, shorted_turns=None):
+    """Passive linear multi-winding equivalent with explicit shared coupling.
+
+    The coupling is a provisional bounded equivalent assumption. Its
+    small residual leakage adds to each declared section's series leakage.
+    """
+    transformer(name, windings, core, shorted_turns)
+    ws = list(windings)
+    if shorted_turns:
+        ws.append(dict(turns=shorted_turns['turns'],
+                       resistance_ohm=shorted_turns['resistance_ohm'],
+                       leakage_h=shorted_turns['leakage_h'],
+                       capacitance_f=1e-15, polarity=1))
+    ports = []
+    lines = []
+    magnetizing_inductances = []
+    center = core['h_a_per_m'].index(0)
+    mu = ((core['b_t'][center+1]-core['b_t'][center]) /
+          (core['h_a_per_m'][center+1]-core['h_a_per_m'][center]))
+    for i, winding in enumerate(ws):
+        a, z = (f'w{i}p', f'w{i}n') if i < len(windings) else ('shorted', 'shorted')
+        if i < len(windings):
+            ports += [a, z]
+        lines += winding_network(i, winding, a, z)
+        inductance = winding['turns']**2*core['area_m2']*mu/core['length_m']
+        magnetizing_inductances.append(inductance)
+        first, last = ((f'l{i}', z) if winding.get('polarity', 1) == 1
+                       else (z, f'l{i}'))
+        lines.append(f'Lmag{i} {first} {last} {inductance:.15g}')
+    for i in range(len(ws)):
+        for j in range(i+1, len(ws)):
+            lines.append(f'Kcore{i}_{j} Lmag{i} Lmag{j} {EQUIVALENT_COUPLING:.15g}')
+    flux_terms = [f'{magnetizing_inductances[0]:.15g}*i(Lmag0)']
+    flux_terms += [f'{EQUIVALENT_COUPLING*math.sqrt(magnetizing_inductances[0]*inductance):.15g}*i(Lmag{i})'
+                   for i, inductance in enumerate(magnetizing_inductances[1:], 1)]
+    lines += [f'Rloss l0 w0n {core["loss_ohm"]:.15g}',
+              f'Bflux flux_b 0 V={{({"+".join(flux_terms)})/{ws[0]["turns"]*core["area_m2"]:.15g}}}']
+    if shorted_turns:
+        lines.append('Rshortref shorted 0 1e12')
+    return '\n'.join([f'.subckt {name} '+' '.join(ports), *lines,
+                      '.ends '+name])+'\n'
 
 
 def transformer(name,windings,core,shorted_turns=None):

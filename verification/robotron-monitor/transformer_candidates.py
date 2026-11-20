@@ -100,8 +100,10 @@ def compile_model(graph,candidate,parameters,name='T3_CANDIDATE',shorted_turns=N
             descriptions.append(dict(group=gid,terminals=[a,b],parameters=copy.deepcopy(values[i]),polarity=section['polarity']))
     core=copy.deepcopy(parameters['core'])
     for key in ('area_m2','length_m','loss_ohm'):core[key]=bounded(core[key])
-    if backend not in ('xspice','flux'):raise ValueError('unknown magnetic backend')
-    build=magnetics.transformer if backend=='xspice' else magnetics.transformer_flux
+    if backend not in ('xspice','flux','coupled'):raise ValueError('unknown magnetic backend')
+    build={'xspice': magnetics.transformer,
+           'flux': magnetics.transformer_flux,
+           'coupled': magnetics.transformer_coupled}[backend]
     model=build(name+'_CORE',windings,core,shorted_turns)
     model+='\n'.join(['.subckt '+name+' '+' '.join(ports),
                      'Xshared '+' '.join(pins)+' '+name+'_CORE','.ends '+name])+'\n'
