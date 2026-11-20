@@ -1,0 +1,638 @@
+{
+  "format": "dac-monitor-page3-4-manual-topology-comparison-v1",
+  "qualification": "fixed-logic ideal-rail input/neck bench; alternative terminal wiring is from manual functional Fig. 6 and is not a source-validated page-3/4 replacement or connected-frame score",
+  "capture_sha256": "746189f3e092e1eaa0b56507bd5548f7a12d7801dd0adc2df2bc546ee37af3e9",
+  "signal_path_sha256": "fb1229e6b81e9a06877f3c1863fa86b5a4d8d05027e8ee135fe11481fc22c80c",
+  "seam_source_sha256": "6bcbf333c7f71676b8ff2919cee0da617e2928758b3b55c38ac6a43df24d45a0",
+  "page3_source_sha256": "084bd02a2b778817e3b632adb6d972a97f7109ed8d677716989824488fa667dc",
+  "source_pdfs": {
+    "older.pdf": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "older-operation.pdf": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21"
+  },
+  "source_pages": {
+    "detailed_schematic": [
+      3,
+      4
+    ],
+    "parts_list": 8,
+    "manual_functional_figure": 11
+  },
+  "factory_v4_description": "9.1 ZC",
+  "topology_changes": [
+    "V5 upper lead from IS to the external contrast wiper/low contact",
+    "V1 lower lead from that contact to IS",
+    "the 5100 ohm V1 emitter shunt from that contact to IS"
+  ],
+  "unchanged": "V3 diode, T200 logic, class transistor models, ideal rails, external R1/R2 bounds and neck board",
+  "brightness_positions": [
+    0,
+    0.5
+  ],
+  "contrast_positions": [
+    0.05,
+    0.95
+  ],
+  "incoming_intens_states": [
+    0,
+    1
+  ],
+  "rows": [
+    {
+      "topology": "detailed_page3_4",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.34243,
+        "v1_base": 18.052,
+        "contrast_low": 17.32046,
+        "rx_intens": 0.2802062,
+        "intens": 0.485055,
+        "vid": 3.932942,
+        "clamp_i": 1.104392,
+        "cathode": 0.341102
+      },
+      "v1_collector_current_a": 0.01929098,
+      "deck_sha256": "acdfb64297ce707638c09531126e55b13f9023646270c0d2439d88ef3d94ef74"
+    },
+    {
+      "topology": "detailed_page3_4",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.228664,
+        "v1_base": 18.01172,
+        "contrast_low": 17.32318,
+        "rx_intens": 0.2802062,
+        "intens": 0.485055,
+        "vid": 3.932942,
+        "clamp_i": 1.104392,
+        "cathode": 0.341102
+      },
+      "v1_collector_current_a": 0.004235321,
+      "deck_sha256": "f8f348c8ab1ad5def159c64bce1c773301b54279d0941c4180057aa3ce3a2822"
+    },
+    {
+      "topology": "detailed_page3_4",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.34243,
+        "v1_base": 18.052,
+        "contrast_low": 17.32046,
+        "rx_intens": 3.583027,
+        "intens": 0.288003,
+        "vid": 3.932942,
+        "clamp_i": 0.292647,
+        "cathode": 0.3410905
+      },
+      "v1_collector_current_a": 0.01929098,
+      "deck_sha256": "8888214ec6ddd3739810414a46febb9dda73a27c476590e3062a4b39a764296d"
+    },
+    {
+      "topology": "detailed_page3_4",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.228664,
+        "v1_base": 18.01172,
+        "contrast_low": 17.32318,
+        "rx_intens": 3.583027,
+        "intens": 0.288003,
+        "vid": 3.932942,
+        "clamp_i": 0.292647,
+        "cathode": 0.3410905
+      },
+      "v1_collector_current_a": 0.004235321,
+      "deck_sha256": "8a7df9410a57906b43fb043a0dbaf3375967df1c0fc9eb2c4d85931a3e564e10"
+    },
+    {
+      "topology": "detailed_page3_4",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.415638,
+        "v1_base": 25.13383,
+        "contrast_low": 24.38138,
+        "rx_intens": 0.2802062,
+        "intens": 0.485055,
+        "vid": 3.932942,
+        "clamp_i": 1.104392,
+        "cathode": 0.341102
+      },
+      "v1_collector_current_a": 0.03459365,
+      "deck_sha256": "44678d070d792701eebfb143d3137ff0e63745eaafe84b35e8306af0e6cb4708"
+    },
+    {
+      "topology": "detailed_page3_4",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.212547,
+        "v1_base": 25.16148,
+        "contrast_low": 24.45983,
+        "rx_intens": 0.2802062,
+        "intens": 0.485055,
+        "vid": 3.932942,
+        "clamp_i": 1.104392,
+        "cathode": 0.341102
+      },
+      "v1_collector_current_a": 0.006379173,
+      "deck_sha256": "25e76349680c26422cdc0dc91c047326f6c117ed56b938050c1ff26eb48e7ce7"
+    },
+    {
+      "topology": "detailed_page3_4",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.415638,
+        "v1_base": 25.13383,
+        "contrast_low": 24.38138,
+        "rx_intens": 3.583027,
+        "intens": 0.288003,
+        "vid": 3.932942,
+        "clamp_i": 0.292647,
+        "cathode": 0.3410905
+      },
+      "v1_collector_current_a": 0.03459365,
+      "deck_sha256": "53ebce93a1c85efe3438e44dfdb043cea9da9600251938394d80b66acf2dc103"
+    },
+    {
+      "topology": "detailed_page3_4",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.212547,
+        "v1_base": 25.16148,
+        "contrast_low": 24.45983,
+        "rx_intens": 3.583027,
+        "intens": 0.288003,
+        "vid": 3.932942,
+        "clamp_i": 0.292647,
+        "cathode": 0.3410905
+      },
+      "v1_collector_current_a": 0.006379173,
+      "deck_sha256": "109cbc4a109665d41b28cfc20559ebe97be6021c8b7a52db6437e74b8cd64503"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 4.70993,
+        "v1_base": 14.9813,
+        "contrast_low": 0.04536575,
+        "rx_intens": 0.2802062,
+        "intens": 14.23839,
+        "vid": 3.934926,
+        "clamp_i": 1.35548,
+        "cathode": 13.55881
+      },
+      "v1_collector_current_a": 0.02829655,
+      "deck_sha256": "b6bade76795fd1851c54b59cdc61b9fd4f36d0e54dc92837ff416ac84c3d9f8d"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.21,
+        "v1_base": 17.92862,
+        "contrast_low": 0.02275218,
+        "rx_intens": 0.2802062,
+        "intens": 17.17774,
+        "vid": 3.935366,
+        "clamp_i": 1.341683,
+        "cathode": 16.4836
+      },
+      "v1_collector_current_a": 0.0350198,
+      "deck_sha256": "7cb9f81df70c566a611466ef6e65fad7051f8a92597a690d9675514cb7a21a61"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.219858,
+        "v1_base": 17.93508,
+        "contrast_low": 9.219857,
+        "rx_intens": 3.583027,
+        "intens": 17.18418,
+        "vid": 3.935367,
+        "clamp_i": 0.2926475,
+        "cathode": 16.49001
+      },
+      "v1_collector_current_a": 0.03503453,
+      "deck_sha256": "dd145730480407048be8d24765b6de8fbc4fa9592867833b4744572976c00824"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.219858,
+        "v1_base": 17.93508,
+        "contrast_low": 9.219849,
+        "rx_intens": 3.583027,
+        "intens": 17.18418,
+        "vid": 3.935367,
+        "clamp_i": 0.2926475,
+        "cathode": 16.49001
+      },
+      "v1_collector_current_a": 0.03503453,
+      "deck_sha256": "2e2194b2983ac21d97c54f8805f3c85d42e4a81363ec2cefbe8f0e6e6ec9d533"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 3.43576,
+        "v1_base": 22.81905,
+        "contrast_low": 0.03905272,
+        "rx_intens": 0.2802062,
+        "intens": 22.05687,
+        "vid": 3.936058,
+        "clamp_i": 1.351828,
+        "cathode": 21.34162
+      },
+      "v1_collector_current_a": 0.04618494,
+      "deck_sha256": "01bc696fd2529e2393243cb870f6633fc04645655dc0d1f25d939326c36e27fd"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.181871,
+        "v1_base": 24.98364,
+        "contrast_low": 0.02274303,
+        "rx_intens": 0.2802062,
+        "intens": 24.21698,
+        "vid": 3.93635,
+        "clamp_i": 1.341677,
+        "cathode": 23.49321
+      },
+      "v1_collector_current_a": 0.05112657,
+      "deck_sha256": "7700b575f12e5b336dc2d479cf6503eddb0f2dec7108c6ce1b971bd8078958d2"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.19408,
+        "v1_base": 24.98824,
+        "contrast_low": 9.194079,
+        "rx_intens": 3.583027,
+        "intens": 24.22157,
+        "vid": 3.936351,
+        "clamp_i": 0.2926475,
+        "cathode": 23.49779
+      },
+      "v1_collector_current_a": 0.05113707,
+      "deck_sha256": "936f5df253ee219a049746e28cb52d517c40cb44d1464272d34879fb4c632e43"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.19408,
+        "v1_base": 24.98824,
+        "contrast_low": 9.194071,
+        "rx_intens": 3.583027,
+        "intens": 24.22157,
+        "vid": 3.936351,
+        "clamp_i": 0.2926475,
+        "cathode": 23.49779
+      },
+      "v1_collector_current_a": 0.05113707,
+      "deck_sha256": "03be9ac6212147f9382d6e5ad4cce0cedc4a73f247299d489d8d92687ea95c46"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap_v4_15_diagnostic",
+      "v4_breakdown_v": 15,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 4.70993,
+        "v1_base": 14.9813,
+        "contrast_low": 0.04536575,
+        "rx_intens": 0.2802062,
+        "intens": 14.23839,
+        "vid": 3.934926,
+        "clamp_i": 1.35548,
+        "cathode": 13.55881
+      },
+      "v1_collector_current_a": 0.02829655,
+      "deck_sha256": "f0fe5847d93a156e433a34a17e38b0f4191237b8db7c23748e60355a7a4a8738"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap_v4_15_diagnostic",
+      "v4_breakdown_v": 15,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 15.08078,
+        "v1_base": 21.77204,
+        "contrast_low": 0.02463747,
+        "rx_intens": 0.2802062,
+        "intens": 21.01212,
+        "vid": 3.935914,
+        "clamp_i": 1.342912,
+        "cathode": 20.30115
+      },
+      "v1_collector_current_a": 0.0437943,
+      "deck_sha256": "72131691fb4e5f0c6f00d19a238fbdae325467332e261297a0a390fe9b887805"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap_v4_15_diagnostic",
+      "v4_breakdown_v": 15,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 15.10035,
+        "v1_base": 21.78484,
+        "contrast_low": 15.10035,
+        "rx_intens": 3.583027,
+        "intens": 21.0249,
+        "vid": 3.935915,
+        "clamp_i": 0.2926475,
+        "cathode": 20.31388
+      },
+      "v1_collector_current_a": 0.04382355,
+      "deck_sha256": "56e846489aebf0deb9c76582961bad7701198ce594a704867905abccc616a971"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap_v4_15_diagnostic",
+      "v4_breakdown_v": 15,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 15.10035,
+        "v1_base": 21.78484,
+        "contrast_low": 15.10034,
+        "rx_intens": 3.583027,
+        "intens": 21.0249,
+        "vid": 3.935915,
+        "clamp_i": 0.2926475,
+        "cathode": 20.31388
+      },
+      "v1_collector_current_a": 0.04382355,
+      "deck_sha256": "474f4889b0f56f760bbcefd4642db702462683c2f3f305c1f5a7292a84e8454d"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap_v4_15_diagnostic",
+      "v4_breakdown_v": 15,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 3.43576,
+        "v1_base": 22.81905,
+        "contrast_low": 0.03905272,
+        "rx_intens": 0.2802062,
+        "intens": 22.05687,
+        "vid": 3.936058,
+        "clamp_i": 1.351828,
+        "cathode": 21.34162
+      },
+      "v1_collector_current_a": 0.04618494,
+      "deck_sha256": "50c95ddd25ca71d0638c48e81e9c563d13cfabcdb262b1f44db5fcd045088736"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap_v4_15_diagnostic",
+      "v4_breakdown_v": 15,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 15.05155,
+        "v1_base": 27.19367,
+        "contrast_low": 0.0246282,
+        "rx_intens": 0.2802062,
+        "intens": 26.42266,
+        "vid": 3.936639,
+        "clamp_i": 1.342906,
+        "cathode": 25.69058
+      },
+      "v1_collector_current_a": 0.05616923,
+      "deck_sha256": "c649fa0ba177017ca23c298d121d5a30a53d19b623dde18284e9de74be82901d"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap_v4_15_diagnostic",
+      "v4_breakdown_v": 15,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.05,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 15.07741,
+        "v1_base": 27.2034,
+        "contrast_low": 15.07741,
+        "rx_intens": 3.583027,
+        "intens": 26.43237,
+        "vid": 3.936641,
+        "clamp_i": 0.2926475,
+        "cathode": 25.70026
+      },
+      "v1_collector_current_a": 0.05619143,
+      "deck_sha256": "0b36763dce773b65d9ae3389d7c062bd7dcbfb1fb41881ceb53f99b327c6b1fb"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap_v4_15_diagnostic",
+      "v4_breakdown_v": 15,
+      "brightness_position": 0.5,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.95,
+      "logic_video": 1,
+      "logic_intensity": 1,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 15.07741,
+        "v1_base": 27.2034,
+        "contrast_low": 15.0774,
+        "rx_intens": 3.583027,
+        "intens": 26.43237,
+        "vid": 3.936641,
+        "clamp_i": 0.2926475,
+        "cathode": 25.70026
+      },
+      "v1_collector_current_a": 0.05619143,
+      "deck_sha256": "305c1bea3616819df02819a5c104b805d0055bc653493340190d5e0a7813274c"
+    }
+  ],
+  "dark_rows": [
+    {
+      "topology": "detailed_page3_4",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.5,
+      "logic_video": 0,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.23568,
+        "v1_base": 18.01459,
+        "contrast_low": 17.32158,
+        "rx_intens": 0.2863383,
+        "intens": 0.4850555,
+        "vid": 0.2926471,
+        "clamp_i": 1.104393,
+        "cathode": 33.68531
+      },
+      "v1_collector_current_a": 0.004997711,
+      "deck_sha256": "6ff0ed3583c8c5ce4a45672b01466db8d410ec7b273a5e28c880248d57b64b33"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap",
+      "v4_breakdown_v": 9.1,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.5,
+      "logic_video": 0,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 9.201264,
+        "v1_base": 17.99563,
+        "contrast_low": 0.02538853,
+        "rx_intens": 0.2863383,
+        "intens": 17.31312,
+        "vid": 0.2926471,
+        "clamp_i": 1.343398,
+        "cathode": 33.68531
+      },
+      "v1_collector_current_a": 0.003383994,
+      "deck_sha256": "c2bd83e8def2f3639ba9c7054e8c84a8b1f12b83d0d5261b72c1e666965d5f52"
+    },
+    {
+      "topology": "manual_fig6_terminal_swap_v4_15_diagnostic",
+      "v4_breakdown_v": 15,
+      "brightness_position": 0,
+      "feed_resistance_ohm": 0,
+      "contrast_position": 0.5,
+      "logic_video": 0,
+      "logic_intensity": 0,
+      "voltages_v": {
+        "p35": 35.0,
+        "reference9": 15.06052,
+        "v1_base": 21.85367,
+        "contrast_low": 0.02881242,
+        "rx_intens": 0.2863383,
+        "intens": 21.16473,
+        "vid": 0.2926471,
+        "clamp_i": 1.345581,
+        "cathode": 33.68531
+      },
+      "v1_collector_current_a": 0.004136282,
+      "deck_sha256": "c27db350b5e22c6866565f77ecf9df2b03f8a7fe37037c9ac32bada7ee352feb"
+    }
+  ],
+  "interpretation": "The detailed topology leaves the bright cathode near 0.34 V with no R2 response. The manual terminal swap at factory-list V4=9.1 V can put the bright cathode at 13.56\u201316.48 V and move it by about 2.92 V across R2 at the tested brightness endpoint, but the response occurs for incoming INTENS=0, while the manual discusses INTENS=1. The 15 V zener diagnostic shifts levels but does not resolve that polarity mismatch. The alternative is not selected as the active topology."
+}

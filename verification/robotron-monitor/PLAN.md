@@ -437,6 +437,12 @@ shows what a labelled fallback would need: with V5 replaced only for the
 diagnostic, 15.7 V at IS yields 15.01 V at the normal-bright cathode and
 supplies 28.7 mA; 100 Ω source resistance drops the cathode to 12.66 V.
 No source-backed driver or contrast transfer has yet met that boundary.
+A [fixed-logic comparison of the manual Fig. 6 terminal assignments](reference/k7222-11/page3-4-manual-topology-comparison.json)
+puts the bright cathode at 13.56–16.48 V and moves it by 2.92 V across R2
+at one bounded brightness endpoint with the factory-list 9.1 V V4. That
+response occurs for incoming INTENS low; the manual discusses INTENS = 1,
+and the T200 model remains provisional. The manual arrangement is therefore
+a conditional alternative, not an adopted correction to the detailed netlist.
 The short contrast bench shows effectively no cathode or provisional beam
 change across R2's range. The fixed-logic diagnostic shows V1 current changes,
 but the modeled IS output stays low and the neck cathode does not respond to R2.
