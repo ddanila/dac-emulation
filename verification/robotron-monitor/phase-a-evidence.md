@@ -3409,3 +3409,25 @@ or evidence that T3 has reached a sustained operating point. The next
 diagnostic should reproduce the input/contrast boundary in an isolated
 bench and inspect its node currents and device bounds before another
 four-field connected solve.
+
+The [boundary isolation receipt](reference/k7222-11/t3-input-boundary-isolation.json)
+performs that check. An input/contrast bench retaining the captured repeated
+PWL sources, S37 drivers, cable, T200 gates and page-3/4 contrast devices,
+with fixed rails and surrogate loads for the rest of the monitor, crosses
+39.1 ms (969,198 rows). It does not reproduce the connected failure. A
+full-circuit run with added Q201 probes reproduces the exact 39 ms abort.
+Q201's base stays near 0.257 V, collector near 9.194 V, and collector and
+base currents near 0.22 and 0.18 nA at both 19.5 and 39 ms. Thus the named
+Q201 device is not visibly switching or overstressed in the saved prefix;
+the solver message does not locate the physical cause. At the successful
+19.5 ms input boundary the horizontal output collector is near −0.7 V,
+but at the failing 39 ms boundary it is near 152 V. This phase difference
+is a clue, not proof of coupling. Replacing only the constant INTENS PWL
+with DC 1 moves the connected failure to the first 19.5 ms boundary.
+Moving the final BSYN falling edge 1 µs earlier, while retaining the
+19.5 ms endpoint knot, still fails at 39 ms. Neither input timing variant
+is a remedy. The next bounded diagnosis should compare the horizontal
+feedback/sync connection at the boundary, or use a labelled input-stage
+equivalent if that interaction cannot be stabilized without an unsupported
+source correction. No connected periodic field or T3 freeze follows from
+the isolated pass.
