@@ -1,0 +1,40 @@
+{
+  "format": "dac-monitor-t3-g1-rectifier-source-read-v1",
+  "qualification": "scoped page-4 agent read and cross-revision functional comparator; internal T3 graph and X2:5 return remain unverified",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "source_views": [
+    {
+      "file": "older.pdf",
+      "page": 4,
+      "render": "240 dpi full page",
+      "render_sha256": "554a8d530055eb1dbab743da3b7342330df13fb2c4fe9b7a48517cbe7816661c",
+      "reading": "V14 cathode is at T3 X2:6 and manual TP17; its anode enters the C18/R28 negative-G1 brightness branch."
+    },
+    {
+      "file": "older.pdf",
+      "page": 4,
+      "render": "600 dpi crop of T3 lower terminals, V14 and C18",
+      "render_sha256": "1d53e9ec13583fa75dc4089c79032610d7adc60b83aa5d44cc263e7e7849fdac",
+      "reading": "V14 cathode is at T3 X2:6 and manual TP17; its anode enters the C18/R28 negative-G1 brightness branch."
+    }
+  ],
+  "cross_revision": {
+    "file": "k7222_61.pdf",
+    "url": "https://www.sax.de/~zander/zubehoer/k7222/k7222_61.pdf",
+    "pdf_sha256": "887787a48f36e84ce92edbd39acf2469e6a64f755e22d12d80f687f376f492a6",
+    "revision": "K7222.13/23, August 1984, section 5.8",
+    "reading": "Robotron states that C18 and V14 rectify the line-transformer output to produce UG1 for CRT cutoff adjustment.",
+    "scope": "Functional corroboration only; this is not a K7222.11 pin drawing."
+  },
+  "source_edges": {
+    "v14_anode_net": "h_g1raw",
+    "v14_cathode_t3_terminal": "X2:6",
+    "c18_other_terminal": "00",
+    "manual_tp17_terminal": "V14:K"
+  },
+  "functional_inference": "With the current X2:5-to-00 assembly hypothesis, a positive X2:7-to-X2:4 collector flyback pulse needs X2:6 negative relative to X2:5 so V14 can pull the G1 branch negative during retrace.",
+  "unresolved": [
+    "The X2:5-to-00 return and X2:5-X2:6-X2:3 continuity are hypotheses in the current magnetic wrapper.",
+    "Rectifier loading and the G1 divider determine TP17 amplitude; the sign check does not bound auxiliary turns or prove a connected operating point."
+  ]
+}

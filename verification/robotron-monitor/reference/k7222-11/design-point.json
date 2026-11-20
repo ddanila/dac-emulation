@@ -144,6 +144,21 @@
     "rejection_reason": "The other eight reverse the high-voltage winding voltage for the positive collector pulse and would charge V21 on the wrong primary phase.",
     "limitation": "The isolated 1 V pulse checks sign, not EHT amplitude or a settled field. Tap order and X1:3-to-X2:3 continuity remain hypotheses; the accepted list must be recalculated if either changes."
   },
+  "conditional_t3_g1_polarity_screen": {
+    "status": "4 of the original 16 relative-polarity candidates remain after HV and negative-G1 function filters; no winding freeze",
+    "report": "reference/k7222-11/t3-g1-polarity-filter.json",
+    "source_read": "reference/k7222-11/t3-g1-rectifier-source-read.json",
+    "functional_rule": "Within the current X2:5-to-00 return hypothesis, a positive collector flyback pulse must make X2:6 negative relative to X2:5 so V14 can pull the G1 brightness branch negative during retrace.",
+    "accepted_auxiliary_relative_polarity": 1,
+    "accepted_candidate_ids": [
+      "t3-fc941ad61c50ce31",
+      "t3-21efe89f625e0b51",
+      "t3-38c71242ffd040b3",
+      "t3-5727c601bf8a59ed"
+    ],
+    "rejection_reason": "The four HV-compatible candidates with opposite auxiliary sign make X2:6 positive under the prescribed positive collector pulse, the wrong phase for V14 to generate negative UG1 through the current return path.",
+    "limitation": "Page 4 establishes V14's external rectifier path and the cross-revision Robotron description corroborates its purpose, but X2:5 grounding and auxiliary internal continuity remain hypotheses. The 1 V isolated check establishes sign only, not TP17 amplitude or a source-verified T3 graph."
+  },
   "manual_test_points": {
     "14": {"node": "X12:2", "swing_vpp": 70, "role": "feedback waveform; path to T3 needs source review"},
     "15": {"node": "V13 collector", "swing_vpp": 45, "role": "driver collector; cannot directly specify an auxiliary winding ratio"},
@@ -191,7 +206,7 @@
     "conclusion": "The default 40 mm yoke field clips before the 210 mm documented width. A 12 mm internal neck radius is excluded by the family outline drawing. Shortening the assumed active field to 34.7 mm reaches 105 mm half-width in the reduced model, but does not establish the real tube inner aperture, yoke extent or installed geometry; no peak current is frozen."
   },
   "remaining_design_work": [
-    "Resolve the remaining T3 tap/return map and boost supply from the source before fixing turns or the other winding polarities; only the HV relative sign is conditionally screened within the current graph.",
+    "Resolve the remaining T3 tap/return map and boost supply from the source before fixing turns or the other winding polarities; HV and G1 auxiliary relative signs are conditionally screened within the current graph, leaving four candidates with upper/lower tap signs unresolved.",
     "Bound the inner neck aperture and yoke axial extent before selecting the narrow 34.7 mm trial: a class-bounded 475 uH/0.8 ohm winding still clips before 210 mm in the default 40 mm field, while the short-field trial has only 0.46% current margin to assumed neck clipping. The active 4.007 mH/2 ohm winding is outside the cited 31 cm/20 mm-neck class, and a 12 mm internal aperture exceeds the family outside-neck diameter.",
     "Validate the conditional vertical operating point against sourced tube/yoke bounds and a connected TP7/TP8 differential waveform; test points 1–6 constrain upstream stage waveforms rather than yoke current directly.",
     "Check each derived quantity against the source and replace placeholder T3 parameters only after the constraints are mutually consistent."
