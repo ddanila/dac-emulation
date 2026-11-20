@@ -3714,3 +3714,30 @@ The [class register](reference/k7222-11/class-typical-register.json) now carries
 the electrical and current comparators. The next A5 check must bound the
 actual inner neck aperture and axial field extent, then confront a viable
 geometry with the documented retrace and picture size.
+
+### A1/A5: negative-G1 rectifier prunes the T3 auxiliary sign (2026-11-21)
+
+Two different page-4 views in the
+[scoped source read](reference/k7222-11/t3-g1-rectifier-source-read.json)
+put V14's cathode at T3 X2:6, which is manual TP17, and its anode at the
+C18/R28 G1 branch. The [Robotron K7222.13/23 technical description](https://www.sax.de/~zander/zubehoer/k7222/k7222_61.pdf)
+(section 5.8; SHA-256
+`887787a48f36e84ce92edbd39acf2469e6a64f755e22d12d80f687f376f492a6`)
+independently states that C18 and V14 rectify the line-transformer output to
+make UG1 for cut-off adjustment. It corroborates the function, not a .11
+pin connection. The local [KiCad export check](reference/k7222-11/t3-g1-polarity-filter.json)
+confirms the current transcription places V14 cathode at X2:6, anode at
+C18's top and X2:5 at 00.
+
+Within that *conditional* X2:5 return and the existing winding graph, a
+positive collector flyback pulse needs a negative X2:6-to-X2:5 pulse to
+pull G1 negative through V14. The
+[isolated sign filter](t3_g1_polarity_filter.py) drives the same 1 V primary
+pulse as the earlier HV filter and checks both magnetic backends. All four
+HV-compatible candidates with auxiliary relative sign +1 give about
+−40 mV at X2:6; the other four give about +40 mV and are rejected. The
+[report](reference/k7222-11/t3-g1-polarity-filter.json) therefore leaves
+four of the original 16 sign candidates, differing only in upper/lower tap
+signs. This is a polarity constraint, not a TP17 amplitude match or a
+historical winding diagram. If X2:5's return or the internal tap order
+changes, the filter must be recomputed.

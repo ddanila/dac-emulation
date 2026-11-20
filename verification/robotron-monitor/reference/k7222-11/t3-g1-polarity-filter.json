@@ -1,0 +1,158 @@
+{
+  "format": "dac-monitor-t3-g1-polarity-filter-v1",
+  "qualification": "conditional function/sign filter within an unverified auxiliary winding and X2:5 return; no A1/A5 graph closure or TP17 amplitude claim",
+  "source_read_sha256": "df462f26bd60da523a83b81580f927dbd4596a5e94c8a4ea0e639c029e746d9c",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "cross_revision_pdf_sha256": "887787a48f36e84ce92edbd39acf2469e6a64f755e22d12d80f687f376f492a6",
+  "graph_sha256": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+  "parameters_sha256": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+  "transcription_sha256": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+  "targets_sha256": "4268a1b1f5f3eb5ae6721476cfc5f0a22e73528e992183bebd69a3260e0927a9",
+  "sheet_sha256": "54a21db8a705d33cebea7c00aa6605a8e27a77557696804132323f1d19f2ae9b",
+  "previous_hv_filter_sha256": "906116f65305c37f9f941183ff14e6863a81937badd0f0e412b2c273ce7824c4",
+  "source_edges": {
+    "v14_anode_net": "h_g1raw",
+    "v14_cathode_t3_terminal": "X2:6",
+    "c18_other_terminal": "00",
+    "manual_tp17_terminal": "V14:K"
+  },
+  "path_comparison": {
+    "v14_pins": {
+      "1": "h_g1raw",
+      "2": "h_sync"
+    },
+    "c18_pins": {
+      "2": "0",
+      "1": "h_g1raw"
+    },
+    "x2_5_net": "0",
+    "x2_6_net": "h_sync",
+    "checks": {
+      "v14_cathode_at_x2_6": true,
+      "v14_anode_at_c18": true,
+      "c18_other_end_at_zero": true,
+      "auxiliary_cold_at_zero_in_current_assembly": true
+    }
+  },
+  "functional_rule": "With the current X2:5-to-00 assembly hypothesis, a positive X2:7-to-X2:4 collector flyback pulse needs X2:6 negative relative to X2:5 so V14 can pull the G1 branch negative during retrace.",
+  "pulse_setup": "1 V positive pulse across X2:7-to-X2:4; other ports have 1 Gohm shunts; V(X2:6)-V(X2:5) sampled near 80 ns in xspice and flux backends",
+  "candidate_results": [
+    {
+      "id": "t3-fc941ad61c50ce31",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "xspice_aux_v_at_80ns": -0.0401943971,
+      "flux_aux_v_at_80ns": -0.0390309955,
+      "compatible": true
+    },
+    {
+      "id": "t3-21efe89f625e0b51",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "xspice_aux_v_at_80ns": -0.0401943971,
+      "flux_aux_v_at_80ns": -0.0390309955,
+      "compatible": true
+    },
+    {
+      "id": "t3-38c71242ffd040b3",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "xspice_aux_v_at_80ns": -0.0401943971,
+      "flux_aux_v_at_80ns": -0.0390309955,
+      "compatible": true
+    },
+    {
+      "id": "t3-5727c601bf8a59ed",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "xspice_aux_v_at_80ns": -0.0401943971,
+      "flux_aux_v_at_80ns": -0.0390309955,
+      "compatible": true
+    },
+    {
+      "id": "t3-6913b1596c2ffb91",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "xspice_aux_v_at_80ns": 0.0401943971,
+      "flux_aux_v_at_80ns": 0.0390309955,
+      "compatible": false
+    },
+    {
+      "id": "t3-32b662942545b363",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "xspice_aux_v_at_80ns": 0.0401943971,
+      "flux_aux_v_at_80ns": 0.0390309955,
+      "compatible": false
+    },
+    {
+      "id": "t3-261c9dcc23bf007c",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "xspice_aux_v_at_80ns": 0.0401943971,
+      "flux_aux_v_at_80ns": 0.0390309955,
+      "compatible": false
+    },
+    {
+      "id": "t3-af505506129d6f57",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "xspice_aux_v_at_80ns": 0.0401943971,
+      "flux_aux_v_at_80ns": 0.0390309955,
+      "compatible": false
+    }
+  ],
+  "accepted_candidate_ids": [
+    "t3-fc941ad61c50ce31",
+    "t3-21efe89f625e0b51",
+    "t3-38c71242ffd040b3",
+    "t3-5727c601bf8a59ed"
+  ],
+  "rejected_candidate_count": 4,
+  "historical_polarity_verified": false,
+  "unresolved": [
+    "The X2:5-to-00 return and X2:5-X2:6-X2:3 continuity are hypotheses in the current magnetic wrapper.",
+    "Rectifier loading and the G1 divider determine TP17 amplitude; the sign check does not bound auxiliary turns or prove a connected operating point."
+  ],
+  "passed": true
+}
