@@ -1,10 +1,10 @@
 {
   "format": "dac-monitor-regulator5-transistor-class-check-v1",
-  "qualification": "SF126 base-family DC and 15 MHz AC proxies; SF1260 suffix, connected stress and implicit SPICE defaults remain open",
+  "qualification": "SF126 base-family DC and 15 MHz AC proxies; SF1260 suffix, joint bounds and connected stress remain open",
   "source": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
-  "model_file_sha256": "6fc59510f3160bc4643fda92fb60a5f8725de99e2adab78d7eaf2595c634d72e",
+  "model_file_sha256": "e5ddc1f23f6dfb0ba6278780186b959cfa895a9e0c408e33cc1a51d5d9f4a5a0",
   "profile_sha256": "da7b0ef9b5169b8444c07ae308afe9c0b776fea99d9730e69af268a1db398b7b",
-  "register_sha256": "67f76c6f4de267b738288683b52192e6a87eefe2d1d6193a0fd61863a03ca916",
+  "register_sha256": "8676123942f0bfe0bd58c8ff927cfaf2ac94ff5a75ec7888a2be4437ba2536f0",
   "sheet_sha256": "595f78745ed367ac140681ca01eccd69045d0012b9b14ec022b7357693b5a189",
   "assembly_source_id": "012-6931:V4",
   "assembly_reference": "Q504",
@@ -15,7 +15,18 @@
     "CJE": "20p",
     "CJC": "8p",
     "TF": "1n",
-    "TR": "100n"
+    "TR": "100n",
+    "IKF": "0.5",
+    "RB": "1",
+    "RC": "0.1",
+    "RE": "0.05",
+    "VJE": "0.75",
+    "MJE": "0.33",
+    "VJC": "0.75",
+    "MJC": "0.33",
+    "EG": "1.11",
+    "XTI": "3",
+    "FC": "0.5"
   },
   "resolved_bf": 60,
   "data_book_targets": {
@@ -36,27 +47,27 @@
     }
   },
   "gain_at_50ma": {
-    "collector_current_a": 0.0500001,
-    "base_current_a": 0.0008164427234782279,
+    "collector_current_a": 0.05,
+    "base_current_a": 0.0008965906650479138,
     "collector_emitter_voltage_v": 2,
-    "base_emitter_voltage_v": 0.7586524,
-    "hFE": 61.24140562731509
+    "base_emitter_voltage_v": 0.7644954,
+    "hFE": 55.76680858854135
   },
   "saturation_dc_proxy": {
     "collector_current_a": 0.15,
     "base_current_a": 0.015,
-    "collector_emitter_voltage_v": 0.06887619,
-    "base_emitter_voltage_v": 0.7915227
+    "collector_emitter_voltage_v": 0.1010061,
+    "base_emitter_voltage_v": 0.8216565
   },
   "ac_bias_at_10ma": {
     "collector_current_a": 0.0100001,
-    "base_current_a": 0.00014433035621121528,
+    "base_current_a": 0.00014683434608623387,
     "collector_emitter_voltage_v": 10,
-    "base_emitter_voltage_v": 0.7141266,
-    "hFE": 69.28618665200062
+    "base_emitter_voltage_v": 0.7152227,
+    "hFE": 68.10463809418998
   },
-  "ac_current_gain_at_15mhz": 9.619662,
-  "transition_frequency_proxy_hz": 144294930.0,
+  "ac_current_gain_at_15mhz": 9.594983,
+  "transition_frequency_proxy_hz": 143924745.0,
   "checks": {
     "broad_family_gain": true,
     "saturation_dc_proxy": true,

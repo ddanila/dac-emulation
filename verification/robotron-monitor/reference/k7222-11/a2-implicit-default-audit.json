@@ -2,15 +2,15 @@
   "format": "dac-monitor-a2-implicit-default-audit-v1",
   "qualification": "first critical-default inventory from declared model text; not an A2 completion check",
   "ngspice_manual": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf",
-  "register_sha256": "67f76c6f4de267b738288683b52192e6a87eefe2d1d6193a0fd61863a03ca916",
+  "register_sha256": "8676123942f0bfe0bd58c8ff927cfaf2ac94ff5a75ec7888a2be4437ba2536f0",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
   "model_file_sha256": {
     "circuits/k7222-11-small-transistor-models.cir": "3a20130fbb779cf47db557f5e3e6910772cdc0bcc9157e7c1cdbb5fae6e368df",
     "circuits/k7222-11-neck-models.cir": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20",
-    "circuits/k7222-11-vertical-integrator-models.cir": "867d2daaf7eb9a48cee06ed00c0eb67391d9a6c7791bf14a3b817ed78bd9e3ff",
-    "circuits/k7222-11-horizontal-models.cir": "d7aff15d8d6917a6059106c8799aa45dcf9e31fcc23149df15cbd93aa07f3e10",
-    "circuits/k7222-11-regulator5-models.cir": "6fc59510f3160bc4643fda92fb60a5f8725de99e2adab78d7eaf2595c634d72e",
-    "circuits/k7222-11-vertical-output-models.cir": "2479f53f5813b9129decc7d02b5426f8cfc70b2d5a70a95c9fa6984907a6e6ea",
+    "circuits/k7222-11-vertical-integrator-models.cir": "d52776482832f1979d6c770cb09852d6c320943bd96b5fa26d725c86238b68c3",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "circuits/k7222-11-regulator5-models.cir": "e5ddc1f23f6dfb0ba6278780186b959cfa895a9e0c408e33cc1a51d5d9f4a5a0",
+    "circuits/k7222-11-vertical-output-models.cir": "707af9030fb2e2978949981f68b4441a578e3ce8ecd16cf2bf1791ca07318443",
     "circuits/signal-path-models.cir": "cba15c8a071a064015018f87c74642de095783504075bbeef45672cf7d60a422"
   },
   "screened_parameters": {
@@ -70,8 +70,8 @@
     ]
   },
   "registered_semiconductor_entries": 24,
-  "entries_with_critical_defaults": 5,
-  "affected_instances": 5,
+  "entries_with_critical_defaults": 0,
+  "affected_instances": 0,
   "rows": [
     {
       "id": "1SA20C-small-npn-class",
@@ -754,37 +754,47 @@
         "BF",
         "CJC",
         "CJE",
-        "IS",
-        "TF",
-        "TR",
-        "VAF"
-      ],
-      "registered_parameters": [
-        "BF",
-        "TF_s"
-      ],
-      "critical_implicit_defaults": [
         "EG",
         "FC",
         "IKF",
+        "IS",
         "MJC",
         "MJE",
         "RB",
         "RC",
         "RE",
+        "TF",
+        "TR",
+        "VAF",
         "VJC",
         "VJE",
         "XTI"
       ],
-      "explicit_keys_without_same_named_register_field": [
+      "registered_parameters": [
+        "BF",
         "CJC",
         "CJE",
+        "EG",
+        "FC",
+        "IKF",
         "IS",
-        "TF",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "TF_s",
         "TR",
-        "VAF"
+        "VAF",
+        "VJC",
+        "VJE",
+        "XTI"
       ],
-      "status": "critical-defaults-open"
+      "critical_implicit_defaults": [],
+      "explicit_keys_without_same_named_register_field": [
+        "TF"
+      ],
+      "status": "critical-defaults-explicit; other qualification still required"
     },
     {
       "id": "012-6931:V28",
@@ -799,37 +809,47 @@
         "BF",
         "CJC",
         "CJE",
-        "IS",
-        "TF",
-        "TR",
-        "VAF"
-      ],
-      "registered_parameters": [
-        "BF",
-        "TF_s"
-      ],
-      "critical_implicit_defaults": [
         "EG",
         "FC",
         "IKF",
+        "IS",
         "MJC",
         "MJE",
         "RB",
         "RC",
         "RE",
+        "TF",
+        "TR",
+        "VAF",
         "VJC",
         "VJE",
         "XTI"
       ],
-      "explicit_keys_without_same_named_register_field": [
+      "registered_parameters": [
+        "BF",
         "CJC",
         "CJE",
+        "EG",
+        "FC",
+        "IKF",
         "IS",
-        "TF",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "TF_s",
         "TR",
-        "VAF"
+        "VAF",
+        "VJC",
+        "VJE",
+        "XTI"
       ],
-      "status": "critical-defaults-open"
+      "critical_implicit_defaults": [],
+      "explicit_keys_without_same_named_register_field": [
+        "TF"
+      ],
+      "status": "critical-defaults-explicit; other qualification still required"
     },
     {
       "id": "012-6921:V4",
@@ -1073,35 +1093,45 @@
         "BF",
         "CJC",
         "CJE",
-        "IS",
-        "TF",
-        "TR",
-        "VAF"
-      ],
-      "registered_parameters": [
-        "BF",
-        "CJC",
-        "CJE",
-        "IS",
-        "TF",
-        "TR",
-        "VAF"
-      ],
-      "critical_implicit_defaults": [
         "EG",
         "FC",
         "IKF",
+        "IS",
         "MJC",
         "MJE",
         "RB",
         "RC",
         "RE",
+        "TF",
+        "TR",
+        "VAF",
         "VJC",
         "VJE",
         "XTI"
       ],
+      "registered_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "EG",
+        "FC",
+        "IKF",
+        "IS",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "critical_implicit_defaults": [],
       "explicit_keys_without_same_named_register_field": [],
-      "status": "critical-defaults-open"
+      "status": "critical-defaults-explicit; other qualification still required"
     },
     {
       "id": "012-6931:V4",
@@ -1116,35 +1146,45 @@
         "BF",
         "CJC",
         "CJE",
-        "IS",
-        "TF",
-        "TR",
-        "VAF"
-      ],
-      "registered_parameters": [
-        "BF",
-        "CJC",
-        "CJE",
-        "IS",
-        "TF",
-        "TR",
-        "VAF"
-      ],
-      "critical_implicit_defaults": [
         "EG",
         "FC",
         "IKF",
+        "IS",
         "MJC",
         "MJE",
         "RB",
         "RC",
         "RE",
+        "TF",
+        "TR",
+        "VAF",
         "VJC",
         "VJE",
         "XTI"
       ],
+      "registered_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "EG",
+        "FC",
+        "IKF",
+        "IS",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "critical_implicit_defaults": [],
       "explicit_keys_without_same_named_register_field": [],
-      "status": "critical-defaults-open"
+      "status": "critical-defaults-explicit; other qualification still required"
     },
     {
       "id": "012-6931:V18",
@@ -1159,38 +1199,46 @@
         "BF",
         "CJC",
         "CJE",
+        "EG",
+        "FC",
+        "IKF",
         "IS",
+        "MJC",
+        "MJE",
+        "RB",
         "RC",
         "RE",
         "TF",
         "TR",
-        "VAF"
+        "VAF",
+        "VJC",
+        "VJE",
+        "XTI"
       ],
       "registered_parameters": [
         "BF",
         "CJC",
         "CJE",
+        "EG",
+        "FC",
+        "IKF",
         "IS",
+        "MJC",
+        "MJE",
+        "RB",
         "RC",
         "RE",
         "TF",
         "TR",
-        "VAF"
-      ],
-      "critical_implicit_defaults": [
-        "EG",
-        "FC",
-        "IKF",
-        "MJC",
-        "MJE",
-        "RB",
+        "VAF",
         "VJC",
         "VJE",
         "XTI"
       ],
+      "critical_implicit_defaults": [],
       "explicit_keys_without_same_named_register_field": [],
-      "status": "critical-defaults-open"
+      "status": "critical-defaults-explicit; other qualification still required"
     }
   ],
-  "remaining": "Source-bound or explicitly examined behavior is needed for each listed default, including joint corners and connected stress. Same-name register comparison is diagnostic only: some entries use transformed parameter names. This screen does not cover internal subcircuit transistors or every ngspice optional parameter."
+  "remaining": "Each listed default needs source-bound or explicitly examined behavior. Zero listed defaults does not qualify joint corners, connected stress, internal subcircuit transistors or every ngspice optional parameter. Same-name register comparison is diagnostic only: some entries use transformed parameter names."
 }

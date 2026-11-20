@@ -89,7 +89,7 @@ def run():
                 entries_with_critical_defaults=len(open_rows),
                 affected_instances=sum(len(row['member_ids']) for row in open_rows),
                 rows=rows,
-                remaining='Source-bound or explicitly examined behavior is needed for each listed default, including joint corners and connected stress. Same-name register comparison is diagnostic only: some entries use transformed parameter names. This screen does not cover internal subcircuit transistors or every ngspice optional parameter.')
+                remaining='Each listed default needs source-bound or explicitly examined behavior. Zero listed defaults does not qualify joint corners, connected stress, internal subcircuit transistors or every ngspice optional parameter. Same-name register comparison is diagnostic only: some entries use transformed parameter names.')
 
 
 if __name__ == '__main__':
