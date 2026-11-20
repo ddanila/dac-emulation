@@ -1,0 +1,32 @@
+{
+  "format": "dac-monitor-source-netlist-v1",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 4,
+    "views": [
+      {"render": "300 dpi full page", "sha256": "9cf05ec38847ff1849cac84b28c4ff8fb9e32d7a540ae9e56a4d3631292a82fe"},
+      {"render": "600 dpi crop 2000x2200+900+1200", "sha256": "9870c053297c2d35de31de25143cfa44b3c25ca39e2bded5088fe5d8984953d9"},
+      {"render": "1200 dpi crop 1300x1600+4050+2850", "sha256": "5e91ea6a09fc18658a7debb622fd8b8ae0974659f36754e19a834ec6717bdd71"}
+    ]
+  },
+  "method": "Scoped page-4 divider transcription. The first 300/600 dpi read preceded KiCad inspection; after a model discrepancy, a 1200 dpi crop corrected the resistor label and separated the adjacent EHT trace. This is not a whole-page independent second netlist.",
+  "nets": {
+    "hv_ac": ["X1:1", "V21.A"],
+    "eht": ["V21.K", "X1:2"],
+    "divider_input": ["R29.1"],
+    "divider_top": ["R29.2", "R30.1", "R32.1"],
+    "ug2": ["R30.2", "R31.1", "X6:2"],
+    "ground": ["R31.2", "R32.2", "X3:6"],
+    "ug4": ["R32.wiper", "X6:3"]
+  },
+  "reread_after_diff": {
+    "initial_error": "The first read called the upper resistor R28 and joined its top to EHT. The KiCad comparison disagreed: R28 is the brightness potentiometer and the upper screen-divider resistor is R29.",
+    "source_resolution": "The 1200 dpi crop shows R29's input line below the V21/EHT line, with no junction between them. R29/R30/R31 and the parallel R32 focus potentiometer are visible in order.",
+    "outcome": "Corrected the scoped source netlist; no KiCad branch edit warranted."
+  },
+  "unresolved": [
+    "The crop does not establish the T3 internal connection feeding the divider_input node.",
+    "The scan does not resolve the T3 X1:3-to-X2:3 return or internal winding polarities."
+  ]
+}

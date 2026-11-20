@@ -54,6 +54,20 @@ class SteadySupplyTests(unittest.TestCase):
             canonical=lambda ps:sorted((p['source_id'],p['reference'],tuple(p['nodes']),p['value']) for p in ps)
             self.assertEqual(canonical(parts),canonical(table['components']))
             by_id={p['source_id']:p for p in parts}
+            divider=json.loads((ROOT/'reference/k7222-11/page4-hv-divider-comparison.json').read_text())
+            source=json.loads((ROOT/divider['source_read']).read_text())
+            self.assertEqual(hashlib.sha256((ROOT/divider['kicad_sheet']).read_bytes()).hexdigest(),
+                             divider['kicad_sheet_sha256'])
+            self.assertEqual(len(divider['pin_comparisons']),5)
+            for comparison in divider['pin_comparisons']:
+                source_nets=comparison['source_nets']
+                self.assertEqual(len(source_nets),len(comparison['source_pins']))
+                self.assertEqual(comparison['export_nets'],
+                                 [divider['net_mapping'][net] for net in source_nets])
+                for pin,net in zip(comparison['source_pins'],source_nets):
+                    self.assertIn(pin,source['nets'][net])
+                self.assertEqual(by_id[comparison['source_id']]['nodes'],
+                                 comparison['export_nets'])
             self.assertEqual(len(parts),37)
             self.assertEqual(by_id['012-6921:R29']['nodes'],['h_g2raw','h_divtop'])
             self.assertEqual(float(by_id['012-6921:R29']['value']),2700)
