@@ -3465,6 +3465,32 @@ field. The next check is the page-3/4 V5 collector/base path and the
 source-supported BJT model, followed by a connected solve with a qualified
 model or a clearly labelled input-stage equivalent. A3 and A5 remain open.
 
+### A5: four-field horizon with Q201 removed for diagnosis (2026-11-20)
+
+The [extended connected diagnostic](reference/k7222-11/t3-q201-off-four-fields.json)
+changes only the `q201_off` screen's transient endpoint from 39.1 to 78 ms.
+The pinned ngspice solve completes all four 19.5 ms periods in about 390 s.
+Its raw trace has 2,059,715 declared and complete rows, no trailing bytes,
+five equal-time event rows and no backward or nonfinite samples. The
+equal-time rows are zero-duration solver events; the diagnostic reader keeps
+both states but gives them no elapsed weight. A focused synthetic test checks
+that behavior and backward-time rejection.
+
+Completing the solve does not establish the required sustained operating
+point. Mean EHT by field is 10.916, 10.858, 10.541 and 10.447 kV, falling
+well outside a 1% last-three-field variation; the fourth field stays at
+10.420–10.482 kV, below the manual's 11–12 kV. The horizontal output
+collector has 316, 316, 317 and 318 upward 100 V crossings by field, rather
+than an established one-per-line match to the 312 native lines. TP17-mapped
+swing remains around 78 Vpp, but that one amplitude cannot qualify lock or
+T3. The run still uses the conditional T3 return and manual-Fig.-6 contrast
+wiring, and it removes a printed transistor. It locates the later connected
+drift after a diagnostic solver bypass; it is not a source-circuit
+correction, A3 score or A5 design point. The remaining work is to qualify
+the source input stage or its labelled equivalent, then correct the
+connected T3/drive operating point and demonstrate periodicity and
+refinement.
+
 ### A2: explicit SSY20A neck BJT parameters (2026-11-20)
 
 The printed SSY20A V1 neck model previously inherited eleven screened
