@@ -1,0 +1,112 @@
+{
+  "format": "dac-monitor-native-coupled-algebraic-bounded-attempt-v1",
+  "qualification": "partial native-grid diagnostic only; no completed four-field solve, three-field lock, service score, or A5 freeze",
+  "run": {
+    "directory": "build/monitor/phase-a/native-coupled-algebraic-20261120",
+    "status": "blocked",
+    "receipt_sha256": "ba55f0ad5131abb269cd71eb1faf4f038cc6c78f116bbb6b3d2187b84f803eaf",
+    "capture_sha256": "86184b30371f08b5e7d6060c8ee34690c3778ed9a701d523ae705da594162621",
+    "candidate_id": "t3-fc941ad61c50ce31",
+    "magnetic_backend": "coupled",
+    "equivalent_stages": [
+      "T3_PASSIVE_COUPLED_EQUIVALENT",
+      "manual-fig6-contrast-control"
+    ],
+    "flux_probe_variant": "algebraic Bflux from coupled inductor currents",
+    "model_source_hashes": {
+      "magnetics.py": "f00b83ef8df0456532b9123ed7b559a8edbe4118924b58545dd6a233fd701535",
+      "transformer_candidates.py": "44044ecca95fa46a8da52b22505a63dd685692f286f46005ac5e14efa7e31d5a",
+      "steady_supply.py": "96ce17cbf688769a4cd3e9d31f13037bf9b55694ede8a1efff7c2a226b31e7d7"
+    },
+    "magnetic_parameters": "reference/k7222-11/t3-coupled-equivalent-parameters.json",
+    "magnetic_parameters_sha256": "a647e39da0dfc606a63dfd633a4a49802ae8ca285031610b631bab42c9833f6c"
+  },
+  "trial": {
+    "fields_requested": 4,
+    "max_step_ns": 200,
+    "linear_solver": "klu",
+    "reltol": 0.002,
+    "abstol_a": 1e-08,
+    "wall_budget_hours": 0.25,
+    "solve_elapsed_s": 596.483505,
+    "timed_out": true,
+    "solve_receipt_sha256": "a97c8b49c8512713b33ec98e82ab60b164187ea2bb9384586e320292d388ac67",
+    "deck_sha256": "c34b74c1fcbc9cf66b94e39428edbdc3413b7287987a053a841b5cd78cc06f98",
+    "metadata_sha256": "f75abdf7e8a2259aaa8cb552c7f0dca0b7d2bf101a6e4981232e2de6af374888",
+    "raw_sha256": "213209b7156b1b9bcc129af042cc5b40a189b6f7391ea29c0ddec2bea067f678",
+    "complete_rows": 1722140,
+    "last_time_s": 0.021140497190325486
+  },
+  "diagnostics": {
+    "partial": "reference/k7222-11/native-coupled-algebraic-partial-diagnostic.json",
+    "partial_sha256": "d71f2f3495237e7f7d89ad1832e9dd899d91145af4b2e1d692959c950393b9a2",
+    "horizontal_chain": "reference/k7222-11/native-coupled-algebraic-horizontal-chain.json",
+    "horizontal_chain_sha256": "f65baa8f93d9d7abe03dfa44e58e2611e6110c0c0fc3141f908702d80213e0aa",
+    "selected_1ms_bins": [
+      {
+        "bin_ms": 2,
+        "eht_time_mean_v": 7717.304107596878,
+        "tp17_h_sync_swing_vpp": 42.95820691633757,
+        "v13_drivecol_upcross_10v": 16,
+        "v18_hot_upcross_100v": 16,
+        "v18_hot_peak_v": 320.5452934408609
+      },
+      {
+        "bin_ms": 5,
+        "eht_time_mean_v": 12503.80994904072,
+        "tp17_h_sync_swing_vpp": 570.580334739631,
+        "v13_drivecol_upcross_10v": 112,
+        "v18_hot_upcross_100v": 31,
+        "v18_hot_peak_v": 1004.2689954257236
+      },
+      {
+        "bin_ms": 10,
+        "eht_time_mean_v": 12157.799693965359,
+        "tp17_h_sync_swing_vpp": 423.12098435437815,
+        "v13_drivecol_upcross_10v": 99,
+        "v18_hot_upcross_100v": 32,
+        "v18_hot_peak_v": 1008.3536107596997
+      },
+      {
+        "bin_ms": 15,
+        "eht_time_mean_v": 12486.438803791556,
+        "tp17_h_sync_swing_vpp": 687.0846689899128,
+        "v13_drivecol_upcross_10v": 75,
+        "v18_hot_upcross_100v": 42,
+        "v18_hot_peak_v": 1009.5048591467659
+      },
+      {
+        "bin_ms": 18,
+        "eht_time_mean_v": 12167.060976002103,
+        "tp17_h_sync_swing_vpp": 62.52087994498774,
+        "v13_drivecol_upcross_10v": 16,
+        "v18_hot_upcross_100v": 16,
+        "v18_hot_peak_v": 443.2579717720393
+      },
+      {
+        "bin_ms": 20,
+        "eht_time_mean_v": 12615.949597387924,
+        "tp17_h_sync_swing_vpp": 631.3567724132264,
+        "v13_drivecol_upcross_10v": 126,
+        "v18_hot_upcross_100v": 41,
+        "v18_hot_peak_v": 1007.4270683211674
+      }
+    ]
+  },
+  "manual_comparators": {
+    "tp17_guideline_vpp": [
+      64,
+      96
+    ],
+    "eht_v": [
+      11000,
+      12000
+    ]
+  },
+  "outcome": "unqualified; large nonperiodic TP17 and collector bursts, extra drive/flyback threshold crossings, EHT above 12 kV in late complete bins, and timeout before one four-field endpoint",
+  "remaining": [
+    "Resolve source-bounded T3 graph, ratios, leakage, capacitance, core loss and V18 stress.",
+    "Complete at least four connected native-grid fields and compare the last three for lock and periodicity.",
+    "Recheck TP17, EHT and remaining service points with electrical refinement before A3/A5 closure."
+  ]
+}

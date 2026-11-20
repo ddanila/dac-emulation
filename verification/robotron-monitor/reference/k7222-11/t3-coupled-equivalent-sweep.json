@@ -1,0 +1,317 @@
+{
+  "format": "dac-monitor-t3-coupled-equivalent-sweep-v1",
+  "qualification": "labelled passive T3 equivalent, prescribed-drive 4\u20135 ms stage screen only; not a native-grid score, sourced T3 winding, or A5 freeze",
+  "source_hashes": {
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/t3-initial-parameters.json": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
+    "reference/k7222-11/service-observations.json": "4268a1b1f5f3eb5ae6721476cfc5f0a22e73528e992183bebd69a3260e0927a9",
+    "reference/k7222-11/design-point.json": "78c520ec3eadc113379903d1e88264e44e5c51071201fbccbe649ff482fd49f5",
+    "reference/k7222-11/t3-hv-winding-comparator.json": "18c4a5634b6180a235222f4a5db40dfcc594fb5d3659b0af8a22449e63b02499",
+    "reference/k7222-11/t3-coupled-equivalent-parameters.json": "a647e39da0dfc606a63dfd633a4a49802ae8ca285031610b631bab42c9833f6c",
+    "magnetics.py": "f00b83ef8df0456532b9123ed7b559a8edbe4118924b58545dd6a233fd701535",
+    "transformer_candidates.py": "44044ecca95fa46a8da52b22505a63dd685692f286f46005ac5e14efa7e31d5a",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_tp17_path_sweep.py": "90f13dd629d010f0b9ef37e4f32ef12c3568abb9f1ffffc79b876d4ced196b2d",
+    "t3_coupled_equivalent_sweep.py": "4f448d858d4757202018e7bc68bc8fe0cdfeee6a5da41b5c7285eda62db8846f"
+  },
+  "ngspice_sha256": "3e14f93f378ffcb37ec55e797b3da6099ce9ee6293a4fe7f203619299a5f9da9",
+  "candidate_id": "t3-fc941ad61c50ce31",
+  "equivalent_stage_label": "T3_PASSIVE_COUPLED_EQUIVALENT",
+  "coupling_coefficient": 0.999,
+  "primary_magnetizing_inductance_h": 0.000486,
+  "magnetizing_source": "linear slope at origin of the provisional T3 B/H hypothesis",
+  "winding_series_loss_leakage_and_capacitance": "unchanged provisional bounded T3 section parameters",
+  "flux_probe_variation": "The Bflux source only reads coupled-inductor currents; removing it from a stage deck tests numerical sensitivity and does not change the physical winding connections.",
+  "source_path_parts": [
+    "012-6921:C18",
+    "012-6921:V14",
+    "012-6921:R28"
+  ],
+  "manual_tp17_guideline_range_vpp": [
+    64,
+    96
+  ],
+  "high_voltage_turn_cases": "1000 active hypothesis; 1768 cross-revision comparator; 2035 conditional A5 design-point turn scale",
+  "connected_candidate_parameters": "reference/k7222-11/t3-coupled-equivalent-parameters.json",
+  "cases": [
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 2.5,
+      "high_voltage_turns": 1000,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "55c8a043c4de8fbd2485602803f0e1c267b3b6b09433cb7155f3e2377354a2d7",
+      "status": "complete",
+      "result": {
+        "sample_count": 103422,
+        "sample_window_s": [
+          0.00400005507,
+          0.005
+        ],
+        "collector_peak_v": 518.764833,
+        "collector_min_v": -1.22138709,
+        "eht_peak_v": 8057.12738,
+        "eht_final_v": 8016.93554,
+        "eht_same_phase_drift_v_over_16_lines": -40.1918399999995,
+        "feedback_swing_v": 64.28881670000001,
+        "sync_swing_v": 23.92575227,
+        "yoke_current_range_a": [
+          -0.513872803,
+          0.514399504
+        ],
+        "boost_range_v": [
+          64.1922308,
+          64.3342896
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.903443782420709
+      }
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 5,
+      "high_voltage_turns": 1000,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "36b5396c1e3f513c0c66a8496c9608cb75fbff46f3a0ad4914672c7bbf94bab6",
+      "status": "complete",
+      "result": {
+        "sample_count": 89350,
+        "sample_window_s": [
+          0.00400000738,
+          0.005
+        ],
+        "collector_peak_v": 538.255233,
+        "collector_min_v": -1.2431719,
+        "eht_peak_v": 9863.04178,
+        "eht_final_v": 9813.83875,
+        "eht_same_phase_drift_v_over_16_lines": -49.20302999999876,
+        "feedback_swing_v": 66.7411768,
+        "sync_swing_v": 48.242987580000005,
+        "yoke_current_range_a": [
+          -0.568199668,
+          0.560779207
+        ],
+        "boost_range_v": [
+          64.3269646,
+          64.5073694
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.875983765645934
+      }
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1000,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "520cda18f7ab5baebe216d7f9d2b9fcb78bddb6d916c522b1149dca170459738",
+      "status": "complete",
+      "result": {
+        "sample_count": 30447,
+        "sample_window_s": [
+          0.00400000248,
+          0.005
+        ],
+        "collector_peak_v": 597.459381,
+        "collector_min_v": -1.28956929,
+        "eht_peak_v": 13234.8732,
+        "eht_final_v": 13162.3752,
+        "eht_same_phase_drift_v_over_16_lines": -72.49799999999959,
+        "feedback_swing_v": 74.7324964,
+        "sync_swing_v": 86.9053962,
+        "yoke_current_range_a": [
+          -0.69657452,
+          0.672678901
+        ],
+        "boost_range_v": [
+          67.3478827,
+          67.6241223
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.815529293585179
+      }
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 10,
+      "high_voltage_turns": 1000,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "3562e640336c3827d3a6aa8aa5c036ffcf083c1b17c35776b0be29c34c6bc494",
+      "status": "complete",
+      "result": {
+        "sample_count": 47539,
+        "sample_window_s": [
+          0.00400003,
+          0.005
+        ],
+        "collector_peak_v": 566.356481,
+        "collector_min_v": -1.27403313,
+        "eht_peak_v": 10511.4221,
+        "eht_final_v": 10458.9864,
+        "eht_same_phase_drift_v_over_16_lines": -52.4357,
+        "feedback_swing_v": 70.3341377,
+        "sync_swing_v": 101.85519670000001,
+        "yoke_current_range_a": [
+          -0.634110255,
+          0.654876621
+        ],
+        "boost_range_v": [
+          65.3598688,
+          65.6048685
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.839274769002724
+      }
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "48412d7c725c07e2a928f82afb828b0595efdce38d0c5405b2c1afd097b87174",
+      "status": "complete",
+      "result": {
+        "sample_count": 89306,
+        "sample_window_s": [
+          0.00400006197,
+          0.005
+        ],
+        "collector_peak_v": 397.066665,
+        "collector_min_v": -0.785671158,
+        "eht_peak_v": 10710.9252,
+        "eht_final_v": 10657.4974,
+        "eht_same_phase_drift_v_over_16_lines": -53.42779999999948,
+        "feedback_swing_v": 49.827183000000005,
+        "sync_swing_v": 56.7754115,
+        "yoke_current_range_a": [
+          -0.463954813,
+          0.470922631
+        ],
+        "boost_range_v": [
+          64.4263283,
+          64.634499
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.719572310772534
+      }
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 2035,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "be5f1d6a9346701e7b8767f159074907de1ac02fdd3298ed53909cff38476a65",
+      "status": "complete",
+      "result": {
+        "sample_count": 126430,
+        "sample_window_s": [
+          0.00400003057,
+          0.005
+        ],
+        "collector_peak_v": 369.450456,
+        "collector_min_v": -1.0632214,
+        "eht_peak_v": 10188.1923,
+        "eht_final_v": 10187.4935,
+        "eht_same_phase_drift_v_over_16_lines": 18.158400000000256,
+        "feedback_swing_v": 48.292733999999996,
+        "sync_swing_v": 72.32373630000001,
+        "yoke_current_range_a": [
+          -0.443154816,
+          0.461756779
+        ],
+        "boost_range_v": [
+          64.6219318,
+          64.8532345
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 16.18780072600197
+      }
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 50,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "272941b384cfd4a02dc7df0b22dafc35df86fec08656414ed2630ac9484babb3",
+      "status": "complete",
+      "result": {
+        "sample_count": 117555,
+        "sample_window_s": [
+          0.00400002719,
+          0.005
+        ],
+        "collector_peak_v": 401.221474,
+        "collector_min_v": -0.831261698,
+        "eht_peak_v": 10571.2781,
+        "eht_final_v": 10518.5445,
+        "eht_same_phase_drift_v_over_16_lines": -52.73359999999957,
+        "feedback_swing_v": 50.6363846,
+        "sync_swing_v": 57.9714171,
+        "yoke_current_range_a": [
+          -0.463499474,
+          0.471326381
+        ],
+        "boost_range_v": [
+          64.538806,
+          64.7800862
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.664289761565739
+      }
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": false,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "7de755046a365b77b4bc5c9ffde9e1ff247d12002f1eefab44f9538df033881f",
+      "status": "complete",
+      "result": {
+        "sample_count": 92824,
+        "sample_window_s": [
+          0.00400009268,
+          0.005
+        ],
+        "collector_peak_v": 397.089018,
+        "collector_min_v": -0.784044739,
+        "eht_peak_v": 11907.5385,
+        "eht_final_v": 11841.9645,
+        "eht_same_phase_drift_v_over_16_lines": -65.57400000000052,
+        "feedback_swing_v": 50.0137911,
+        "sync_swing_v": 63.515335300000004,
+        "yoke_current_range_a": [
+          -0.466005315,
+          0.472588172
+        ],
+        "boost_range_v": [
+          64.3600504,
+          64.5724766
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.720080858787865
+      }
+    }
+  ],
+  "remaining": [
+    "Qualify source-informed T3 ratios and parasitic bounds",
+    "Repeat with connected native-grid drive and three locked fields",
+    "Check EHT, TP14/TP15/TP17, V18 stress and step-size convergence together"
+  ]
+}

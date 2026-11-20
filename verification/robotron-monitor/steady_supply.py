@@ -30,6 +30,8 @@ OUTPUT_CONTRACTS = dict(HORIZONTAL_CHOKE=2, HORIZONTAL_LINEARITY=2,
     HORIZONTAL_COMPENSATION=2, HORIZONTAL_BRIGHTNESS=3, HORIZONTAL_FOCUS=3,
     T3_CANDIDATE=19)
 CONTRAST_TOPOLOGIES = ('detailed-page3-4', 'manual-fig6-equivalent')
+MAGNETIC_BACKENDS = ('flux', 'coupled')
+T3_EQUIVALENT_LABEL = 'T3_PASSIVE_COUPLED_EQUIVALENT'
 PROBES = ('v(eht)', 'v(g2)', 'v(g4)', 'v(cathode)', 'i(Lhorizontal)',
           'i(Lvertical)', '@b.xcrt.bbeam[i]', 'v(p10_7)', 'i(v.xcrt.vheater)',
           'v(h_hot)', 'v(h_feedback)', 'v(vertical_trigger)', 'v(vertical_pulse)',
@@ -357,11 +359,14 @@ def contrast_topology_from_deck(text):
 
 
 def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=.005,
-         linear_solver='sparse', abstol=1e-6, initial_voltages=None):
+         linear_solver='sparse', abstol=1e-6, initial_voltages=None,
+         magnetic_backend='flux'):
     if type(fields) is not int or not 4<=fields<=64:raise ValueError('expected 4..64 continuous settling fields')
     if not 1e-9<=max_step_s<=200e-9 or not 1e-5<=reltol<=.005:raise ValueError('invalid integration resolution')
     if linear_solver not in ('sparse','klu') or not math.isfinite(abstol) or not 1e-12<=abstol<=1e-6:
         raise ValueError('invalid linear solver/current tolerance')
+    if magnetic_backend not in MAGNETIC_BACKENDS:
+        raise ValueError('unknown T3 magnetic backend')
     initial_voltages=dict(initial_voltages or {})
     for node,value in initial_voltages.items():
         if node not in INITIAL_VOLTAGE_BOUNDS or type(value) not in (int,float) or not math.isfinite(value) or not INITIAL_VOLTAGE_BOUNDS[node][0]<=value<=INITIAL_VOLTAGE_BOUNDS[node][1]:
@@ -369,7 +374,8 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     if selection['status']!='complete':raise ValueError('no static source field')
     graph=assembly.get('magnetic_graph') or json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
     parameters=assembly.get('magnetic_parameters') or json.loads((ROOT/'reference/k7222-11/t3-initial-parameters.json').read_text())
-    magnetic,meta=transformer_candidates.compile_model(graph,candidate,parameters,backend='flux')
+    magnetic,meta=transformer_candidates.compile_model(graph,candidate,parameters,
+                                                        backend=magnetic_backend)
     thermal=heater_equilibrium(); period=selection['period_ticks']/selection['clock_hz']
     p={k:v[0] for k,v in ASSEMBLY_BOUNDS.items()} | assembly['parameters']
     rail_scale=r5_rail_scale(p['width_r5_position'])
@@ -393,6 +399,8 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     contrast_topology = assembly.get('contrast_topology', 'detailed-page3-4')
     components = contrast_stage_components(assembly['components'], contrast_topology)
     title = f'Experimental steady-supply K7222 {label}; unqualified hypothesis'
+    if magnetic_backend == 'coupled':
+        title += '; T3 passive coupled equivalent'
     if contrast_topology == 'manual-fig6-equivalent':
         title += '; manual Fig. 6 contrast equivalent'
     lines=[title]
@@ -450,10 +458,15 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         'L4 uses a passive three-winding same-terminal-polarity hypothesis; coupling defaults to zero. Factory coupling/polarity remain unresolved.',
         'Exploratory solver tolerances require independent refinement; completion is not acceptance.']
     text='\n'.join(lines)+'\n'
+    equivalent_stages = []
+    if magnetic_backend == 'coupled':
+        equivalent_stages.append(T3_EQUIVALENT_LABEL)
+        assumptions.append('T3 passive coupled equivalent uses provisional section resistance, leakage, capacitance and core slope with coupling 0.999; original graph and bounds are unqualified.')
+    if contrast_topology == 'manual-fig6-equivalent':
+        equivalent_stages.append('manual-fig6-contrast-control')
     metadata=dict(candidate=meta,thermal=thermal,period_s=period,source_kind=source_kind,
         contrast_topology=contrast_topology,
-        equivalent_stages=(['manual-fig6-contrast-control']
-                           if contrast_topology == 'manual-fig6-equivalent' else []),
+        magnetic_backend=magnetic_backend,equivalent_stages=equivalent_stages,
         simulated_fields=fields,retained_fields=4,assumptions=assumptions,
         yoke=yoke,initial_voltage_guesses=initial_voltages,initialization='DC operating point with optional voltage guesses; not a periodic-state checkpoint',
         r5_equivalent=dict(source_ids=['012-6931:R5','012-6931:R6','012-6931:R7'],
@@ -646,7 +659,7 @@ def score_trial(trial, metadata):
                 point_statuses={str(point['test_point']):point['status'] for point in result['points']})
 
 
-def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None, calibration_freeze=None, contrast_topology='detailed-page3-4'):
+def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None, calibration_freeze=None, contrast_topology='detailed-page3-4', magnetic_backend='flux'):
     """Archive and screen the assembled hypotheses under a single wall budget.
 
     No successful solve or plausible picture is promoted to a verified frame.
@@ -656,14 +669,19 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         raise ValueError('wall budget must be positive and at most 12 hours')
     if contrast_topology not in CONTRAST_TOPOLOGIES:
         raise ValueError('unknown contrast topology')
+    if magnetic_backend not in MAGNETIC_BACKENDS:
+        raise ValueError('unknown T3 magnetic backend')
+    if calibration_freeze is not None and magnetic_backend != 'flux':
+        raise ValueError('current calibration freeze does not bind an equivalent T3 backend')
     out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     begin=time.monotonic();deadline=begin+wall_budget_hours*3600
     search_deadline=begin+wall_budget_hours*3600*2/3
     report=dict(format='dac-steady-supply-frame-run-v1',status='incomplete',
         qualification='experimental-connected-electrical-screen',full_monitor_qualified=False,
         specimen_validated=False,validation_reserved_s=wall_budget_hours*1200,mode='steady-supply-frame',outputs={},candidates=[],blockers=[],
-        contrast_topology=contrast_topology,
-        equivalent_stages=(['manual-fig6-contrast-control']
+        contrast_topology=contrast_topology,magnetic_backend=magnetic_backend,
+        equivalent_stages=([T3_EQUIVALENT_LABEL] if magnetic_backend == 'coupled' else [])+
+                          (['manual-fig6-contrast-control']
                            if contrast_topology == 'manual-fig6-equivalent' else []))
     def save():
         report['elapsed_s']=time.monotonic()-begin
@@ -741,7 +759,8 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
                 remaining=search_deadline-time.monotonic()
                 if remaining<=0:
                     report['blockers'].append('candidate search budget exhausted; final third reserved for validation');break
-                text,metadata=deck(assembly,selection,c,fields=field_count,**(solver or {}))
+                text,metadata=deck(assembly,selection,c,fields=field_count,
+                                   magnetic_backend=magnetic_backend,**(solver or {}))
                 trial=out/c['id']/str(field_count)
                 import electrical_cache as trace_cache
                 result=trace_cache.solve(text,trial,runtime,timeout_s=min(remaining,1800*field_count/4),cache=electrical_cache)
