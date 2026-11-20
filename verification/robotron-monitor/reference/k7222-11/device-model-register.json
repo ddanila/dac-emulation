@@ -863,7 +863,7 @@
       "profile": "profiles/k7222-11-vertical-integrator.json",
       "other_live_profile": "profiles/k7222-11-vertical-output.json",
       "member_ids": ["012-6931:V13", "012-6931:V26"],
-      "sources": ["tesla_kfy18_1987"],
+      "sources": ["tesla_kfy18_1987", "ngspice_manual_bjt"],
       "parameters": {
         "IS": {"nominal": 1e-14, "bounds": [1e-16, 1e-12], "unit": "A", "basis": "bounded silicon saturation-current proxy; catalog leakage and gain do not uniquely fit IS"},
         "BF": {"profile_key": "retrace_bf", "nominal": 100, "bounds": [50, 300], "unit": "1", "basis": "bounded BF proxy spanning historical 50..250 h21e at 1 mA and 90..300 h21E at 10 mA; effective gain checked at both biases"},
@@ -873,7 +873,16 @@
         "CJE": {"nominal": 6.5e-11, "bounds": [4e-11, 1e-10], "unit": "F", "basis": "zero-bias proxy chosen for historical Cebo 55 pF typical and <=80 pF at 0.5 V reverse bias"},
         "CJC": {"nominal": 4.5e-11, "bounds": [2.5e-11, 7e-11], "unit": "F", "basis": "zero-bias proxy chosen for historical Ccbo 19 pF typical and <=30 pF at 10 V reverse bias"},
         "TF": {"nominal": 1.5e-9, "bounds": [8e-10, 3e-9], "unit": "s", "basis": "transit-time proxy chosen with junction capacitances to pass historical fT >=60 MHz at 50 mA/10 V/f=30 MHz; TF itself is not specified"},
-        "TR": {"nominal": 5e-8, "bounds": [5e-9, 5e-7], "unit": "s", "basis": "bounded reverse transit-time proxy; catalog gives no storage/fall-time test"}
+        "TR": {"nominal": 5e-8, "bounds": [5e-9, 5e-7], "unit": "s", "basis": "bounded reverse transit-time proxy; catalog gives no storage/fall-time test"},
+        "EG": {"nominal": 1.11, "bounds": [1.05, 1.2], "unit": "eV", "basis": "explicit ngspice silicon energy-gap default; exploratory temperature spread, not KFY18 data"},
+        "FC": {"nominal": 0.5, "bounds": [0.4, 0.6], "unit": "1", "basis": "explicit ngspice forward-bias depletion-capacitance default; exploratory spread"},
+        "IKF": {"nominal": 0.3, "bounds": [0.1, 0.6], "unit": "A", "basis": "finite high-current gain-rolloff proxy; original 10 mA gain and 150 mA saturation checks constrain response, but no catalog knee current is given"},
+        "MJC": {"nominal": 0.33, "bounds": [0.25, 0.5], "unit": "1", "basis": "explicit ngspice B-C grading default; exploratory spread with Ccbo check"},
+        "MJE": {"nominal": 0.33, "bounds": [0.25, 0.5], "unit": "1", "basis": "explicit ngspice B-E grading default; exploratory spread with Cebo check"},
+        "RB": {"nominal": 2, "bounds": [0, 20], "unit": "ohm", "basis": "finite base-resistance proxy replacing ngspice zero default; exploratory spread, not separately specified for KFY18"},
+        "VJC": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "explicit ngspice B-C built-in-potential default; exploratory spread"},
+        "VJE": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "explicit ngspice B-E built-in-potential default; exploratory spread"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "explicit ngspice saturation-current temperature-exponent default; exploratory spread"}
       },
       "comparison_targets": {
         "hFE_1ma": {"range": [50, 250], "conditions": "IC=1 mA, VCE=5 V, f=1 kHz, 25 C; model check uses a DC low-frequency proxy"},
@@ -884,7 +893,7 @@
         "Cebo_f": {"typical": 5.5e-11, "maximum": 8e-11, "conditions": "VEB=0.5 V, IC=0, f=2 MHz, 25 C"}
       },
       "model_response_report": "reference/k7222-11/kfy18-model-check.json",
-      "remaining": ["Measure V13 and V26 connected-stage current, voltage and thermal stress against 45 V/600 mA/0.8 W ratings", "Qualify joint parameter bounds and implicit simulator defaults; no original switching-time curve is available"]
+      "remaining": ["Measure V13 and V26 connected-stage current, voltage and thermal stress against 45 V/600 mA/0.8 W ratings", "Qualify joint parameter bounds, including the new finite IKF and RB proxies; no original switching-time curve is available"]
     }
   ],
   "devices": [

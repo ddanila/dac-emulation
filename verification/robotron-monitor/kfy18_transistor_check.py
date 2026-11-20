@@ -161,7 +161,7 @@ def run():
         capacitance_biases=math.isclose(caps['vbe'], -.5) and math.isclose(caps['vbc'], -10),
     )
     return dict(format='dac-monitor-kfy18-model-check-v1',
-                qualification='isolated original-type catalog response; connected stress, joint bounds and implicit SPICE defaults remain open',
+                qualification='isolated original-type catalog response; connected stress and joint bounds remain open',
                 source=register['sources']['tesla_kfy18_1987'],
                 register_sha256=sha(REGISTER), model_file_sha256=sha(MODELS),
                 sheet_sha256={key: sha(path) for key, path in SHEETS.items()},
