@@ -96,7 +96,7 @@ test-wasm: test-clock-wasm
 
 RUNTIME_BUILD_ID := $(shell git describe --always --dirty --abbrev=40 --exclude='*' 2>/dev/null || echo unversioned)
 RUNTIME_SOURCES = machines/robotron1715/pc1715.c common/runtime/session.c $(CORE) common/cpu/z80.c machines/vjuga/vjuga.c $(ROBOTRON_OBJECTS:build/%.o=%.c)
-RUNTIME_HEADERS = $(wildcard machines/robotron1715m/generated/keyboard_cpu/*.h common/*/*.h machines/*/*.h third_party/cpu/i8080/*.h third_party/cpu/chips/*.h)
+RUNTIME_HEADERS = machines/robotron1715/video.inc $(wildcard machines/robotron1715m/generated/keyboard_cpu/*.h common/*/*.h machines/*/*.h third_party/cpu/i8080/*.h third_party/cpu/chips/*.h)
 
 build/libdac-runtime.so: $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
 	@mkdir -p build
@@ -317,3 +317,16 @@ test-robotron-video-output: build/robotron-video-output-test
 
 build/robotron-signal-pattern: runners/native/robotron_signal_pattern.c build/machines/robotron1715m/video_output.o $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
+build/pc1715-crt-capture: runners/native/pc1715_crt_capture.c $(PC1715_OBJECTS) build/common/cpu/z80.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+build/pc1715-video-test: tests/integration/pc1715_video_test.c common/runtime/session.c build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS) $(PC1715_OBJECTS)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+.PHONY: test-pc1715-video
+test: test-pc1715-video
+test-pc1715-video: build/pc1715-video-test
+	./build/pc1715-video-test
+
+build/pc1715-video-sanitize: tests/integration/pc1715_video_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
+	@mkdir -p build
+	$(CC) $(CPPFLAGS) -std=c11 -O1 -g -fsanitize=address,undefined tests/integration/pc1715_video_test.c $(RUNTIME_SOURCES) -o $@

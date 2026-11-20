@@ -1,4 +1,4 @@
-# Ordinary Robotron PC 1715 — headless motherboard bring-up
+# Ordinary Robotron PC 1715 — motherboard bring-up and optional CRT
 
 This is a distinct machine from `robotron1715m` (the W/M profile). Runtime kind
 **3**, verification name **robotron1715**, nominal clock **2,458,000 Hz**.
@@ -17,7 +17,7 @@ Implemented:
   acknowledge, RETI and reset. No W/M CAS PROM or DMA controller is present.
 - Shared session creation, slot-0 ROM loading, run/reset, observation and peek.
 
-**Not implemented:** full serial waveforms, keyboard, display/CRT, the two PIOs and
+**Not implemented:** full serial waveforms, keyboard, the two PIOs and
 custom floppy controller, external memory inhibition or bus mastering.
 An opt-in [CTC/SIO interrupt-chain subset](interrupts.md) now supports priority,
 nesting, acknowledge and RETI. The native card seam supports transaction waits
@@ -27,8 +27,8 @@ without operational peripherals, not a bootable SCP machine. Callbacks are an
 emulator seam, not an electrical simulation of every X2 wire. Opt-in onboard CTC/SIO decoding owns 08h–0Fh ahead of the external callback;
 legacy mode leaves these ports to external fixtures.
 
-No video or misleading screen is returned: runtime dimensions are zero and
-`dac_video` returns NULL. Mounted disks and snapshots return `-ENOTSUP`; keyboard
+Without a glyph image, runtime dimensions are zero and `dac_video` returns NULL.
+Loading a 4096-byte glyph pair into slot 2 enables the optional CRT described below. Mounted disks and snapshots return `-ENOTSUP`; keyboard
 input is unsupported. Existing W/M snapshot layouts and runtime kind 2 are
 unchanged. This profile is not yet exposed as a museum UI exhibit.
 
@@ -102,3 +102,55 @@ half-clock /WAIT setup/hold constraints. Use the Z80 timing diagrams and physica
 measurements to qualify a real frontend's assertion and release deadlines.
 The new callback is appended to the native C structure; external clients must
 rebuild and initialize it (NULL preserves the earlier behavior).
+
+
+## Optional ordinary-PC1715 CRT
+
+Load exactly 4096 bytes into runtime slot 2 (A25.2 standard, then A25.1 alternate)
+or call `pc1715_video_load` before native execution. Slot 0 remains the 2048-byte
+boot ROM. Reset retains the installed glyph pair/configuration. `dac_video`,
+`dac_width`, and `dac_height` expose a 640×288 capture canvas. No browser UI was
+added. The raster is updated during scanout, not by interpreting program IDs or
+re-reading screen RAM on a host video call.
+
+The opt-in device owns 18h/1Ah parameters, 19h/1Bh commands/status and the
+20h–23h screen/glyph latch aliases. The latch's low five bits select a 2 KiB
+main-RAM block; its DB6 XOR GPA0 selects the character generator. Glyph addresses
+are `scanline*128+code`, D7 first. Frame prefetch resets the low 11-bit display
+address counter, independent of CPU ROM overlay. Fetches take available CPU
+refresh slots; without refresh, the 8275 row buffer underruns. Burst spacing,
+invisible-attribute FIFO, field attributes, cursor and status read/clear are
+modelled. There is no W/M CAS map, private video RAM or DMA controller.
+
+The independent 13.824 MHz video oscillator is advanced against the existing
+nominal 2.458 MHz CPU clock with an integer fractional accumulator. The optional
+native `video.signal` observer receives dot-indexed VIDEO, INTENS, BSYN, HRTC and
+VRTC. BSYN uses a nominal 83-dot (approximately 6 us) horizontal monostable and
+vertical inversion released by the next blanking-period display fetch. STOP
+blanks VIDEO while scan timing continues. This is digital functional timing,
+not a transistor/half-clock bus or analog monostable/CRT simulation.
+
+The supported capture configuration is 80×24 with 8×12 cells. Smaller register
+settings use the fixed canvas; interlace/double-spaced modes, the optional
+quasi-graphics wiring modification and a light pen are outside qualification.
+The diagnostic uses ordinary characters and invisible field attributes; early
+end-of-row/screen codes have functional blank/stop behavior, without a claim of
+complete electrical DMA handshake equivalence for every control-code sequence.
+
+```sh
+make test-pc1715-video build/pc1715-crt-capture
+mkdir -p build/crt-capture
+build/pc1715-crt-capture boot.bin glyphs.bin build/crt-capture 242 clean
+```
+
+The runner executes actual Z80 firmware, initializes RAM with deterministic
+pseudorandom data and captures PPM frames plus JSON counters/transitions. Its
+optional `screen`, `work`, `alias`, `dead` and `reset` cases support the companion
+[ravi ROM kit](https://github.com/ddanila/ravi/tree/main/firmware/robotron1715-crt).
+The runner observes that kit's documented IX/IY allocation convention; the
+emulator itself has no knowledge of diagnostic screens or firmware addresses.
+Device hand vectors are in `tests/integration/pc1715_video_test.c`.
+
+Sources: [ZRE schematic sheet 2](https://www.sax.de/~zander/pc1715/pc_zres.pdf),
+[service manual](https://www.sax.de/~zander/pc1715/doku/pc_serv.pdf), and
+[Intel 8275](https://bitsavers.org/components/intel/8275/1981_8275.pdf).
