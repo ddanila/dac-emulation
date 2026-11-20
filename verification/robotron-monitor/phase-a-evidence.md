@@ -3338,3 +3338,31 @@ A coarser 100 ns phase grid would miss the narrow collector difference.
 The median accepted solver step is 5.74 ns across the 4–5 ms window, below
 the plan's 20 ns budget. This stage remains short of both prerequisites for
 a connected run despite the TP17/EHT snapshot match.
+
+### A5: conditional stage tolerance and drive-edge refinement (2026-11-20)
+
+The [stage refinement screen](reference/k7222-11/t3-stage-refinement-screen.json)
+keeps the same provisional AC-loss T3, grounded-HV-cold return, prescribed
+base voltage, source-addressed loads and 4–5 ms observation. It uses
+`reltol=.005`, the connected-run tolerance allowed by the plan, and adds
+the internal T3 core flux to the trace. The original 20 ns rise/fall of the
+ideal V18 base source is an unqualified bench assumption. A 200 ns rise/fall
+is an exploratory sensitivity setting; the 0.2 µs output-transistor
+fall-time class comparator does **not** establish the .11 base-drive edge.
+
+At 50 ns maximum step with the 20 ns edge, the final-two-line collector
+difference is 0.127% of its swing and misses the 0.1% limit. With the
+200 ns edge, the 100 ns step still misses at 0.202%; the 50 and 25 ns steps
+give 0.0508% and 0.0610%. Their yoke-current differences are 0.0118% and
+0.0085%, and core-flux differences are 0.0189% and 0.0184%. The median
+accepted steps are 50 and 25 ns, both above the 20 ns solver budget. The
+two refined cases give 79.695/79.663 Vpp TP17, 11.481/11.484 kV final EHT,
+and 13.10/13.10 µs retrace width at 10% swing. Halving the maximum step
+changes TP17 by 0.040%, EHT by 0.030% and collector peak by 0.027%.
+
+This establishes a repeatable *conditional prescribed-drive stage* at the
+50/25 ns pair, not an original-circuit design point. The 100 ns result warns
+against treating one coarse run as stage qualification. The 200 ns base edge
+has not been derived from V13/T2/L4, the return graph and AC-loss values lack
+source-qualified bounds, and neither the connected oscillator nor the native
+grid has produced a sustained field with this candidate. A5 remains open.
