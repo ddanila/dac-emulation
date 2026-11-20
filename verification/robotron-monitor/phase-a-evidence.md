@@ -2337,3 +2337,14 @@ Because the source population choice moves the stage above the Phase A 2%
 sensitivity threshold, the [design point](reference/k7222-11/design-point.json)
 now carries both alternatives. Neither result identifies the installed C30
 or establishes periodic operation; A5 remains partial.
+
+### A1/A5: source-visible C27 collector branch (2026-11-20)
+
+A scoped 600/1200 dpi [page-4 source read](reference/k7222-11/page4-c27-source-netlist.json)
+places C27 between V18's collector/T3 X2:7/V17 cathode and the shared 00
+return at V18 emitter/V17 anode. A fresh KiCad export passes all six
+[terminal comparisons](reference/k7222-11/page4-c27-comparison.json).
+The export also puts C30 across the same two nodes, but this scoped source
+read does not confirm C30's terminals or physical population. It is a check
+of C27, not an independent whole-page netlist or a reason to select the
+C27+C30 design-point alternative.
