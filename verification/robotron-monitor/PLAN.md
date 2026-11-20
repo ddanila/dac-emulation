@@ -395,12 +395,18 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-20)
 
-**Phase A is not closed. Only A4 meets its done condition.** The Phase A
-completion goal is blocked by the open A1, A2, A3, A5 and A6 conditions below.
-The immediate connected-run obstacle is the unresolved T3 source graph and
-unqualified TP17/EHT operating point, compounded by solver non-convergence
-and step-size sensitivity. This blocks closing Phase A, not the work: nothing
-below needs a human or a measurement, and the fallbacks above apply.
+**Phase A is not closed. Only A4 meets its done condition.** The goal of fully
+implementing Phase A is blocked at A5: T3's return, tap order and HV cold end
+are not established by the source reads, and the passive coupled-winding
+fallback still uses provisional parasitics. Its prescribed-drive results
+change with a non-driving probe and solver step size; both bounded connected
+native-grid attempts developed irregular TP17/collector bursts and timed out
+before four fields. There is therefore no converged joint TP17/EHT operating
+point to freeze or sustained field to score for A3. A1, A2 and A6 also remain
+open as listed below. The run evidence is in [phase-a-evidence.md](phase-a-evidence.md)
+and the `native-coupled-*-bounded-attempt.json` reports. This blocks *closure*,
+not further work: no human or measurement is needed, and the fallbacks above
+still apply.
 
 **Keep this section short.** It holds one row per item: what is still unmet
 and the next step. Results, numbers and source reads go in
