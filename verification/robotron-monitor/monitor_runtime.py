@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Build and verify an isolated, pinned monitor solver. No system installation."""
 import argparse
-import hashlib
+from file_hash import digest
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import shlex
 import shutil
 import subprocess
@@ -16,12 +16,12 @@ SOURCE_URL='https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47
 FLAGS=['--enable-xspice','--with-x=no','--with-readline=no','CFLAGS=-O2 -fno-fast-math']
 
 
-def digest(path):
-    with Path(path).open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
 
 
 def inputs():
-    names=('monitor_runtime.py','runtime/ngspice-47-monitor.patch','runtime/crt_schmitt/cfunc.mod','runtime/crt_schmitt/ifspec.ifs')
+    names=('monitor_runtime.py','file_hash.py','lab.py',
+           'runtime/ngspice-47-monitor.patch','runtime/crt_schmitt/cfunc.mod',
+           'runtime/crt_schmitt/ifspec.ifs')
     return {name:digest(ROOT/name) for name in names}
 
 
@@ -64,13 +64,24 @@ def verify(directory):
     return directory/'install/bin/ngspice',data
 
 
+def extract_source(source, directory):
+    """Extract the pinned source without links or paths outside its root."""
+    members = source.getmembers()
+    for member in members:
+        name = PurePosixPath(member.name)
+        if (name.is_absolute() or not name.parts or name.parts[0] != 'ngspice-47'
+                or '..' in name.parts or not (member.isfile() or member.isdir())):
+            raise ValueError('unsafe ngspice source archive member: '+member.name)
+    source.extractall(directory, members=members)
+
+
 def build(archive,directory,*,jobs=4):
     archive=Path(archive).resolve();directory=Path(directory).resolve()
     if digest(archive)!=ARCHIVE_SHA256:raise ValueError('wrong ngspice source archive')
     if type(jobs) is not int or not 1<=jobs<=32:raise ValueError('invalid build parallelism')
     build_inputs=inputs()
     directory.mkdir(parents=True,exist_ok=False)
-    with tarfile.open(archive) as source:source.extractall(directory,filter='data')
+    with tarfile.open(archive) as source:extract_source(source,directory)
     source=directory/'ngspice-47'
     # Exact context, no fuzz; changing source revision requires a new pinned build.
     lab.run_command(['patch','--batch','--fuzz=0','-p1','-i',str(ROOT/'runtime/ngspice-47-monitor.patch')],source,directory/'patch.log')

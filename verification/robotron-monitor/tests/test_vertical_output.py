@@ -29,11 +29,11 @@ class VerticalOutputTests(unittest.TestCase):
                 a,b=at(base,t),at(fine,t)
                 self.assertAlmostEqual(a[13],b[13],delta=.001)
                 self.assertAlmostEqual(a[14],b[14],delta=.01)
-                self.assertAlmostEqual(a[17],a[18],delta=.001)
-                self.assertTrue(16<a[16]<17.5)
+                self.assertAlmostEqual(a[18],a[19],delta=.001)
+                self.assertTrue(16<a[17]<17.5)
                 # Independently check solved series R/L winding equation.
                 derivative=(at(base,t+1e-5)[13]-at(base,t-1e-5)[13])/2e-5
-                self.assertAlmostEqual(a[14]-a[15],10*a[13]+.02*derivative,delta=.015)
+                self.assertAlmostEqual(a[14]-a[16],10*a[13]+.02*derivative,delta=.015)
             self.assertGreater(at(shift,.119)[13],at(base,.119)[13]+.02)
             span=lambda rows:at(rows,.107)[13]-at(rows,.123)[13]
             self.assertLess(span(trim),span(base)*.95)

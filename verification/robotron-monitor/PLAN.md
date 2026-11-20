@@ -425,6 +425,11 @@ The source reads and diagnostics below narrow these gaps but do not satisfy
 their done conditions. This is a blocker to **goal completion**, not to further
 implementation.
 
+The current monitor toolchain passes `make test-monitor` with a verified pinned
+runtime (304 tests, no skips, Python 3.9.6). This verifies the checks and
+saved-report consistency; it does not supply the missing A1, A2, A3, A5 or A6
+evidence in the table.
+
 A renewed page-3/4 source read separates incoming X9:5 INTENS
 (`rx_intens`), V5's IS output to neck X3:2 (`intens`), and the panel HRS wiper
 at V1's base (`v1_base`). It supersedes the earlier direct INTENS-to-neck

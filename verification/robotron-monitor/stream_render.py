@@ -6,7 +6,7 @@ thermal equilibrium, or turn a partial solver run into a complete recording.
 """
 import argparse
 import array
-import hashlib
+from file_hash import digest as file_digest
 import json
 from pathlib import Path
 import shutil
@@ -16,8 +16,6 @@ import beam_render as beam
 import phosphor
 
 
-def file_digest(path):
-    with Path(path).open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
 
 
 def run(trace,output,frame_times,*,surface=None,backend='compiled',row_budget=100000000,

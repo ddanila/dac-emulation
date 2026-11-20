@@ -4,7 +4,7 @@ This preserves voltages and solved winding/current samples. It cannot establish
 warm settling or promote a diagnostic image to an accepted steady-state frame.
 """
 import csv
-import hashlib
+from file_hash import digest_stream
 import json
 import math
 from pathlib import Path
@@ -19,7 +19,7 @@ def export(raw, output, *, start_s, end_s):
     if not all(math.isfinite(t) for t in (start_s,end_s)) or not 0<=start_s<end_s:
         raise ValueError('invalid requested field')
     raw=Path(raw);out=Path(output)
-    with raw.open('rb') as stream:before=hashlib.file_digest(stream,'sha256').hexdigest()
+    with raw.open('rb') as stream:before=digest_stream(stream)
     previous=None;count=0;first=last=None;probes=None
     with out.open('x',newline='') as stream:
         writer=csv.writer(stream);writer.writerow(beam_render.FIELDS)
@@ -48,8 +48,8 @@ def export(raw, output, *, start_s, end_s):
             previous=t,v
         if first!=start_s or last!=end_s or count<2:raise ValueError('raw trace does not contain complete requested field')
     with raw.open('rb') as stream:
-        if hashlib.file_digest(stream,'sha256').hexdigest()!=before:raise ValueError('raw circuit trace changed during export')
-    with out.open('rb') as stream:result_hash=hashlib.file_digest(stream,'sha256').hexdigest()
+        if digest_stream(stream)!=before:raise ValueError('raw circuit trace changed during export')
+    with out.open('rb') as stream:result_hash=digest_stream(stream)
     report=dict(format='dac-steady-field-trace-v1',status='complete',
         qualification='diagnostic-connected-circuit-field',raw_sha256=before,
         trace_sha256=result_hash,original_start_s=start_s,original_end_s=end_s,

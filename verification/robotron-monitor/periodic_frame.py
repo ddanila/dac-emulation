@@ -7,6 +7,7 @@ settling, thermal equilibrium, or that an electrical trace came from a monitor.
 import argparse
 import array
 import hashlib
+from file_hash import digest
 import json
 import math
 from pathlib import Path
@@ -17,9 +18,6 @@ import beam_render
 import phosphor
 
 
-def digest(path):
-    with Path(path).open('rb') as stream:
-        return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
 def equilibrium(renderer, start_s, end_s):

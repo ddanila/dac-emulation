@@ -1,5 +1,6 @@
 """Pinned runtime provenance and rollback-sensitive experimental comparator checks."""
 import json
+import io
 import os
 from pathlib import Path
 import re
@@ -7,6 +8,7 @@ import struct
 import subprocess
 import sys
 import tempfile
+import tarfile
 import threading
 import unittest
 from unittest.mock import patch
@@ -21,6 +23,30 @@ import test_controller
 
 
 class RuntimeProvenanceTests(unittest.TestCase):
+    def test_source_extraction_rejects_traversal_and_links(self):
+        for name, link in (('ngspice-47/safe.txt', False),
+                           ('ngspice-47/../outside.txt', False),
+                           ('ngspice-47/link', True)):
+            with tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                archive = root/'fixture.tar'
+                with tarfile.open(archive, 'w') as stream:
+                    member = tarfile.TarInfo(name)
+                    if link:
+                        member.type = tarfile.SYMTYPE
+                        member.linkname = '../outside.txt'
+                    else:
+                        member.size = 4
+                    stream.addfile(member, None if link else io.BytesIO(b'data'))
+                with tarfile.open(archive) as stream:
+                    if name == 'ngspice-47/safe.txt':
+                        runtime.extract_source(stream, root/'output')
+                        self.assertEqual((root/'output/ngspice-47/safe.txt').read_bytes(), b'data')
+                    else:
+                        with self.assertRaisesRegex(ValueError, 'unsafe'):
+                            runtime.extract_source(stream, root/'output')
+                self.assertFalse((root/'outside.txt').exists())
+
     def test_receipt_names_the_configured_compiler(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
@@ -49,6 +75,8 @@ class RuntimeProvenanceTests(unittest.TestCase):
                 files['install/'+name]=runtime.digest(p)
             data=dict(format='dac-monitor-runtime-v1',archive_sha256=runtime.ARCHIVE_SHA256,
                 install_prefix=str(root/'install'),inputs=runtime.inputs(),configure_flags=runtime.FLAGS,files=files)
+            self.assertIn('file_hash.py', data['inputs'])
+            self.assertIn('lab.py', data['inputs'])
             def save(d): (root/'runtime.json').write_text(json.dumps(d))
             save(data);self.assertEqual(runtime.verify(root)[0],root/'install/bin/ngspice')
             for change in ({'inputs':{}},{'configure_flags':[]},{'files':{'install/bin/ngspice':files['install/bin/ngspice']}}):

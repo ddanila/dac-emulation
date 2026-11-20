@@ -7,12 +7,9 @@ import re
 import shutil
 import tempfile
 import time
+from file_hash import digest
 import monitor_runtime
 import steady_supply
-
-
-def digest(path):
-    with Path(path).open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
 
 
 def validate(entry,text,deadline=None):

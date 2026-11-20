@@ -4,16 +4,11 @@ The affine transform is determined by the two images' intensity moments. It is
 used only to sample the rendered image for scoring, never to modify the render.
 """
 import array
-import hashlib
+from file_hash import digest as _digest
 import json
 import math
 from pathlib import Path
 import sys
-
-
-def _digest(path):
-    with Path(path).open('rb') as stream:
-        return hashlib.file_digest(stream,'sha256').hexdigest()
 
 
 def read_archive(directory):

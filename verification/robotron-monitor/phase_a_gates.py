@@ -6,6 +6,7 @@ nonblocking accounting observations cannot compensate for a failed gate.
 import argparse
 import gzip
 import hashlib
+from file_hash import digest_stream
 import json
 import math
 from pathlib import Path
@@ -207,7 +208,7 @@ def _completed_variant(path):
     metadata=json.loads((directory/'metadata.json').read_text())
     solved=json.loads((directory/'solve.json').read_text())
     with (directory/'run.cir').open('rb') as stream:
-        deck_sha=hashlib.file_digest(stream,'sha256').hexdigest()
+        deck_sha=digest_stream(stream)
     if (solved.get('status')!='complete' or solved.get('deck_sha256')!=deck_sha
             or metadata.get('experiment',{}).get('deck_sha256')!=deck_sha):
         raise ValueError('G6 variant deck or solve receipt mismatch')
@@ -284,7 +285,7 @@ def verify_optical_refinement(evidence,score,metadata):
         field=Path(temporary)/'field.csv'
         export=steady_trace.export(score['input'],field,start_s=end-period,end_s=end)
         with field.open('rb') as stream:
-            field_sha=hashlib.file_digest(stream,'sha256').hexdigest()
+            field_sha=digest_stream(stream)
         if (export.get('raw_sha256')!=score.get('input_sha256')
                 or export.get('trace_sha256')!=field_sha):
             raise ValueError('G7 field export does not match the scored electrical trace')
