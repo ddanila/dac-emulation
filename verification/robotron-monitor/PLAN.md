@@ -406,18 +406,24 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (updated 2026-11-20)
 
-**Tracked goal completion blocked (2026-11-20):** The goal requires all six
-Phase A items to be implemented, documented, committed and pushed. Only A4
-meets its done condition. A1 still lacks independent pin-to-pin source closure,
-including T3's return/tap graph and a qualified page-18 contrast/service-meter
-response; these unresolved connections prevent A5 from qualifying the winding
-design point. A2's frame-path device models remain provisional, A3 lacks a
-sustained connected native-grid score, and A6's class-typical register is
-incomplete. The conditional source reads and simulations below narrow these
-gaps but cannot establish the source-backed circuit or satisfy the remaining
-done conditions. The plan's bounded-equivalent fallback remains available,
-so this blocks declaring the goal complete, not further work or a need for
-human approval or measurements.
+**Tracked goal completion reason (2026-11-20):** Phase A cannot be marked
+fully implemented: only A4 meets its done condition. The remaining work is
+concrete and can continue under this plan's bounded `class-typical` and
+equivalent-stage fallbacks; it does not require human approval or a physical
+measurement.
+
+| Item | Unmet done condition | Next resolution step |
+|---|---|---|
+| A1 | The independent page-3/4 and 9/10 netlists, page-18 contrast/service-meter response, and page-16 source-observation check are incomplete. T3 return and tap order remain unverified. | Finish the pin-to-pin source comparisons; record bounded alternatives where the scans cannot resolve a connection. |
+| A2 | All 64 assembled frame-path devices have provisional register rows, but none passes every parameter-qualification check. | Qualify the device models and connected operating stress within documented or bounded ranges. |
+| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The 2 ms startup run still has rising EHT. | Reach and score a stable connected operating state with the native grid stimulus. |
+| A4 | Done. | No remaining Phase A action. |
+| A5 | T3's source return/tap graph, winding ratios and polarities are unresolved; the yoke/tube design point remains conditional. | Resolve the source graph or use the plan's labelled bounded equivalent, then verify the full design point. |
+| A6 | The 208-entry class-typical register is partial: exact B31G22 cold/thermal/emission data, T3 parasitics, yoke sensitivity and other frame-path bounds are not qualified. | Complete sourced bounds and the affected stage checks. |
+
+The source reads and diagnostics below narrow these gaps but do not satisfy
+their done conditions. This is a blocker to **goal completion**, not to further
+implementation.
 
 A renewed page-3/4 source read separates incoming X9:5 INTENS
 (`rx_intens`), V5's IS output to neck X3:2 (`intens`), and the panel HRS wiper
