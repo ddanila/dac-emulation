@@ -98,7 +98,7 @@ def compare(source, interconnect, deck, metadata, components, export, *, pdf_sha
                           f'({krs_candidate}); assembled contrast has '
                           f'{len(contrast)} elements and nodes {contrast_nodes}')
     return dict(format='dac-monitor-page18-panel-topology-comparison-v1',
-                qualification='six main-board X1 pins and panel topology compared; full page-3/4 netlist and connected stage score remain open',
+                qualification='six main-board X1 pins and panel topology compared; full page-3/4 netlist and connected contrast functional closure remain open',
                 source_read_sha256=sha(READ), interconnect_sha256=sha(INTERCONNECT),
                 source_pdf_sha256=pdf_sha256, model_sha256=sha(ROOT/'steady_supply.py'),
                 sheet_sha256=sha(SHEET),
@@ -123,7 +123,7 @@ def compare(source, interconnect, deck, metadata, components, export, *, pdf_sha
                 open_checks=['complete the page-3/4 second netlist',
                              *(['replace the three-node contrast divider with the source-connected rheostat']
                                if not r2_match else []),
-                             'check the corrected contrast control in an assembled stage'],
+                             'resolve the negligible cathode response in the loaded input/neck contrast check'],
                 page18_gate_closed=False)
 
 

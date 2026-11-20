@@ -1,0 +1,136 @@
+{
+  "format": "dac-monitor-page18-contrast-stage-check-v1",
+  "qualification": "source-addressed input/neck stage with ideal 5/12/35/41 V rails and bounded synthetic highlight stimulus; not a complete page-3/4 netlist, calibrated contrast, native grid or sustained monitor score",
+  "input_sha256": "746189f3e092e1eaa0b56507bd5548f7a12d7801dd0adc2df2bc546ee37af3e9",
+  "input_qualification": "synthetic-test-pattern",
+  "signal_path_sha256": "27765c639c128c635571b4b45d8db2cf3d78b6e6e4f3427a15970d9bdddb560f",
+  "stimulus": {
+    "duration_s": 0.0002,
+    "step_s": 5e-09,
+    "reason": "highlight pattern toggles both video and intensity in the retained window"
+  },
+  "rows": [
+    {
+      "contrast_position": 0.05,
+      "contrast_resistance_ohm": 500.0,
+      "cathode": {
+        "minimum": 0.341090692349984,
+        "maximum": 33.69601055161957,
+        "peak_to_peak": 33.354919859269586,
+        "mean": 9.607106988684041,
+        "rising_edges": 3,
+        "falling_edges": 3,
+        "period_s": 6.481482409213774e-05,
+        "high_width_s": 1.852349264011143e-05,
+        "rise_10_90_s": 3.410660093401945e-08
+      },
+      "receiver_video": {
+        "minimum": 0.2925988698920288,
+        "maximum": 3.932953868703078,
+        "peak_to_peak": 3.640354998811049,
+        "mean": 2.921664147710474,
+        "rising_edges": 3,
+        "falling_edges": 3,
+        "period_s": 6.481480901083556e-05,
+        "high_width_s": 4.629665888172699e-05,
+        "rise_10_90_s": 2.2362532887140827e-08
+      },
+      "receiver_intens": {
+        "minimum": 0.3332897436905787,
+        "maximum": 33.82267526950454,
+        "peak_to_peak": 33.489385525813965,
+        "mean": 9.599381027619154,
+        "rising_edges": 3,
+        "falling_edges": 3,
+        "period_s": 6.481473729435469e-05,
+        "high_width_s": 1.8524036526676324e-05,
+        "rise_10_90_s": 2.6702796614500035e-08
+      },
+      "deck_sha256": "771081a5e8f372c09bea01c2adf993c9582867062f5b69a65d0ae9174fe8c2c3"
+    },
+    {
+      "contrast_position": 0.5,
+      "contrast_resistance_ohm": 5000.0,
+      "cathode": {
+        "minimum": 0.3410906923493241,
+        "maximum": 33.69601055068324,
+        "peak_to_peak": 33.354919858333915,
+        "mean": 9.607096272377449,
+        "rising_edges": 3,
+        "falling_edges": 3,
+        "period_s": 6.48148282870286e-05,
+        "high_width_s": 1.8523464160724883e-05,
+        "rise_10_90_s": 3.411435992525e-08
+      },
+      "receiver_video": {
+        "minimum": 0.2925970080058912,
+        "maximum": 3.932953868714239,
+        "peak_to_peak": 3.640356860708348,
+        "mean": 2.9216652284201166,
+        "rising_edges": 3,
+        "falling_edges": 3,
+        "period_s": 6.481480901074455e-05,
+        "high_width_s": 4.629668240083561e-05,
+        "rise_10_90_s": 2.2362534669325253e-08
+      },
+      "receiver_intens": {
+        "minimum": 0.3332897442501565,
+        "maximum": 33.82267528893499,
+        "peak_to_peak": 33.48938554468483,
+        "mean": 9.599369234358186,
+        "rising_edges": 3,
+        "falling_edges": 3,
+        "period_s": 6.481472322186198e-05,
+        "high_width_s": 1.852401469485654e-05,
+        "rise_10_90_s": 2.6695320833289055e-08
+      },
+      "deck_sha256": "b0eec9d7d5a2994f74623f609a86daef832209b1bc84e5dd5079c50f7346807b"
+    },
+    {
+      "contrast_position": 0.95,
+      "contrast_resistance_ohm": 9500.0,
+      "cathode": {
+        "minimum": 0.3410906923494436,
+        "maximum": 33.69601054955638,
+        "peak_to_peak": 33.35491985720693,
+        "mean": 9.607093498884717,
+        "rising_edges": 3,
+        "falling_edges": 3,
+        "period_s": 6.48148248932235e-05,
+        "high_width_s": 1.852345828003191e-05,
+        "rise_10_90_s": 3.4128463864024254e-08
+      },
+      "receiver_video": {
+        "minimum": 0.2925966157488221,
+        "maximum": 3.932953868699957,
+        "peak_to_peak": 3.6403572529511345,
+        "mean": 2.9216652131106144,
+        "rising_edges": 3,
+        "falling_edges": 3,
+        "period_s": 6.481480901073778e-05,
+        "high_width_s": 4.629668011486112e-05,
+        "rise_10_90_s": 2.2362536034579734e-08
+      },
+      "receiver_intens": {
+        "minimum": 0.3332897436192748,
+        "maximum": 33.82267526715077,
+        "peak_to_peak": 33.489385523531496,
+        "mean": 9.599366455667326,
+        "rising_edges": 3,
+        "falling_edges": 3,
+        "period_s": 6.481472251036922e-05,
+        "high_width_s": 1.8524017014649103e-05,
+        "rise_10_90_s": 2.669656207171078e-08
+      },
+      "deck_sha256": "a4913e65d149f74394896ea7d47f87cf6cf9e2bc19d7d6c3968fd22b75c7e0ca"
+    }
+  ],
+  "sample_count": 40001,
+  "low_high_cathode_max_absolute_difference_v": 0.046415980701567605,
+  "low_high_cathode_relative_to_mid_swing": 0.0013915782408924094,
+  "functional_result": "contrast control has negligible cathode effect in this bounded stage; do not close page-18 functional review",
+  "remaining": [
+    "Re-read page-3/4 R4/V1/V3/intensity connectivity and test the corrected stage against the manual bright/dark cathode procedure",
+    "Qualify the 35 V feed, tube emission and native-grid connected operating point"
+  ]
+}

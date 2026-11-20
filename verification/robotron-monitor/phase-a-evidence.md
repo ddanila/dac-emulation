@@ -2505,6 +2505,31 @@ input represented without a main-board sheet component, and the neck 10.7P
 heater branch is replaced by a held thermal state. These are model-scope
 dispositions, not evidence that the electrical paths have been restored.
 The refreshed [panel topology](reference/k7222-11/page18-panel-topology-comparison.json)
-still matches its source read. A connected contrast-stage score and the
-remaining page-3/4 source review are open, so page 18 is not marked complete
-in the A1 gate.
+still matches its source read. The functional contrast response and remaining
+page-3/4 source review are open, so page 18 is not marked complete in the A1
+gate.
+
+### A1: powered page-18 contrast stage fails functional response (2026-11-20)
+
+The short input/neck bench previously left `p35` floating and omitted the
+source-read external R1 brightness segments, so it could not test the R2/V1
+contrast path. The maintained [signal-path bench](signal_path.py) now supplies
+an explicitly ideal 35 V `p35` feed and includes R1's two segments using the
+same bounded resistance/position rule as the assembled frame model. This is a
+bench correction, not a claim that the unverified flyback-derived 35 V feed
+has been qualified.
+
+The [contrast stage check](reference/k7222-11/page18-contrast-stage-check.json)
+uses the generated highlight pattern, which toggles both video and intensity
+within 0.2 ms, and solves the source-addressed input and neck circuits at
+R2 positions 0.05, 0.50 and 0.95. All three ngspice runs complete. The
+cathode spans about 0.34–33.70 V at each setting; the largest pointwise
+low-versus-high difference is 0.0464 V, or 0.14% of the nominal swing.
+This cannot substantiate a functioning contrast control. The current
+digital intensity path appears insensitive to the R2/V1 bias across this
+stimulus, but the source cause is not yet established. The page-3/4
+R4/V1/V3/intensity wiring and the manual's bright/dark cathode procedure
+must be revisited. The [panel pin/topology comparison](reference/k7222-11/page18-panel-topology-comparison.json)
+still passes; page 18 remains open because topology agreement alone does not
+show the required function. This short synthetic-pattern check is not a
+native-grid sustained A3 score.
