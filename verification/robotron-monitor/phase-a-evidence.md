@@ -613,7 +613,8 @@ voltage found no primary B31G22 data sheet. The [RFT tube archive](https://frank
 and [Toshiba CRT catalog](https://frank.pocnet.net/other/Toshiba/Toshiba_CathodeRayTubes%281974%29.pdf)
 cover other tubes, so their heater, deflection and cutoff numbers are not
 transferred to B31G22. The .11/.21 assembly drawing names B31G22; the manual
-itself supplies the focus criterion above. Tube parameters remain assumed.
+itself supplies the focus criterion above. Its exact tube parameters remain
+unverified.
 
 A further 2026-11-20 manufacturer-source check found the [RFT B 30 G 1 entry,
 printed page 29](https://frank.pocnet.net/other/RFT/RFT_Spezialroehren_1959.pdf):
@@ -629,8 +630,25 @@ records this rejected comparator; the B31G22 heater and emission bounds remain
 open. The numerical model check is reproducible with `steady_supply.heater_equilibrium()`
 and `electrothermal.parameters()`.
 
-The A6 register now also carries T3's active HV turns, HV resistance and
-summed drive turns as three explicitly `assumed-bound` rows (204 total).
+A later [Tungsram 1976 M31-120 manufacturer page](https://frank.pocnet.net/other/Tungsram/Tungsram_ElectronTubes_Semiconductors_1976.pdf)
+(PDF page 96, printed II-46; SHA-256 recorded in the
+[heater class check](reference/k7222-11/tube-heater-class-check.json)) provides
+a much closer 31 cm, 110° monitor-tube comparator. It prints an 11 V, 68 mA
+heater, 11 kV typical anode, 250 V G2 and 35–69 V grid-control cut-off.
+This is primary data for the **M31-120**, not proof that the installed
+B31G22 has the same gun. The independent page-image and text reads agree.
+Its hot heater resistance is 161.765 Ω; with source R22 at 15 Ω, that exact
+point needs 12.02 V ahead of R22. The active 12 V branch's 163.036 Ω
+equilibrium resistance gives 10.989 V and 67.402 mA, 0.10% and 0.88% below
+the comparator. A declared ±20% hot-resistance sensitivity produces
+57.384–83.096 mA and 10.754–11.139 V in the same ideal-rail branch; this
+spread is an engineering bound, not a Tungsram or B31G22 limit. The A6
+register now records that operating point, while cold resistance,
+temperature coefficient, thermal transfer and emission still need evidence.
+
+The A6 register also carries T3's active HV turns, HV resistance and
+summed drive turns as three explicitly `assumed-bound` rows (204 total at
+that update; 208 after later additions).
 The register test checks those rows against the live winding hypothesis; their
 presence records the gap and does not qualify the transformer.
 

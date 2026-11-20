@@ -1,11 +1,15 @@
 import json
 import math
 import re
+import sys
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 REF = ROOT/'reference/k7222-11'
+import electrothermal
+import steady_supply
 
 
 class ClassTypicalRegisterTests(unittest.TestCase):
@@ -101,6 +105,20 @@ class ClassTypicalRegisterTests(unittest.TestCase):
         self.assertEqual(row['value'], sum(item['value'] for item in turns))
         self.assertEqual(row['bounds'], [sum(item['minimum'] for item in turns),
                                           sum(item['maximum'] for item in turns)])
+
+    def test_tube_heater_class_point_matches_live_equilibrium(self):
+        check=json.loads((REF/'tube-heater-class-check.json').read_text())
+        source=self.register['sources']['tungsram_m31_120_1976']
+        self.assertEqual(source['sha256'],check['source']['pdf_sha256'])
+        self.assertFalse(check['comparator']['exact_installed_type'])
+        row=self.by_id['B31G22.heater_effective_hot_resistance']
+        nominal=electrothermal.parameters()
+        rise=steady_supply.heater_equilibrium()['temperature_rise_k'][0]
+        hot=nominal['heater_cold_ohm']*(1+nominal['heater_alpha']*rise)
+        self.assertAlmostEqual(row['value'],hot,places=9)
+        self.assertEqual(row['bounds'],[check['assumed_class_spread']['scenarios'][0]['hot_resistance_ohm'],
+                                        check['assumed_class_spread']['scenarios'][-1]['hot_resistance_ohm']])
+        self.assertLess(abs(check['comparison']['heater_current_relative_error']),.02)
 
 
 if __name__ == '__main__':

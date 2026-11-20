@@ -88,6 +88,12 @@
       "edition": "RFT Spezialröhren 1959, printed page 29, B 30 G 1",
       "use": "Manufacturer data for an older 30 cm monochrome CRT, used only as a rejected heater comparator; not B31G22 limits."
     },
+    "tungsram_m31_120_1976": {
+      "url": "https://frank.pocnet.net/other/Tungsram/Tungsram_ElectronTubes_Semiconductors_1976.pdf",
+      "sha256": "3358775dc8165afc7036235d2887264820017453e13d3d0dd8dd52a40583ac15",
+      "edition": "Tungsram Electron Tubes, Semiconductors 1976, PDF page 96, printed page II-46",
+      "use": "Manufacturer M31-120 31 cm/110-degree monitor-tube heater 11 V/68 mA, 11 kV typical anode and 35–69 V grid-control cut-off; same-class comparator, not an installed B31G22 specification."
+    },
     "t3_hv_winding_comparator": {
       "file": "reference/k7222-11/t3-hv-winding-comparator.json",
       "use": "Cross-revision ÜHA78 winding and copper-geometry comparisons; they do not qualify the active .11 winding values."
@@ -2185,7 +2191,8 @@
     {"id": "012-6931:A3.quiescent_current", "stage": "vertical-output-amplifier", "value": 0.0026, "bounds": [0.001, 0.0066], "unit": "A", "sources": ["ti_lm709c"], "model_ref": "devices/p09a-equivalent.cir#P09A_EQUIV.quiescent_current", "basis": "LM709C 2.6 mA typical and 6.6 mA maximum at +/-15 V; lower limit is broad class uncertainty", "qualification": "provisional-equivalent"},
     {"id": "012-6931:A3.input_bias_current", "stage": "vertical-output-amplifier", "value": 3e-7, "bounds": [0, 1.5e-6], "unit": "A", "sources": ["ti_lm709c"], "model_ref": "devices/p09a-equivalent.cir#P09A_EQUIV.input_bias_current", "basis": "LM709C 300 nA typical and 1.5 uA maximum at 25 C", "qualification": "provisional-equivalent"},
     {"id": "012-6931:A3.input_resistance", "stage": "vertical-output-amplifier", "value": 250000, "bounds": [50000, 1000000], "unit": "ohm", "sources": ["ti_lm709c"], "model_ref": "devices/p09a-equivalent.cir#P09A_EQUIV.input_resistance", "basis": "LM709C 50 kohm minimum and 250 kohm typical differential input resistance; upper class bound assumed", "qualification": "provisional-equivalent"},
-    {"id": "012-6931:A3.smooth_current", "stage": "vertical-output-amplifier", "value": 1e-6, "bounds": [1e-8, 1e-5], "unit": "A", "sources": ["ti_lm709c"], "model_ref": "devices/p09a-equivalent.cir#P09A_EQUIV.smooth_current", "basis": "numerical output-drive smoothing scale, not a physical device current", "qualification": "provisional-equivalent"}
+    {"id": "012-6931:A3.smooth_current", "stage": "vertical-output-amplifier", "value": 1e-6, "bounds": [1e-8, 1e-5], "unit": "A", "sources": ["ti_lm709c"], "model_ref": "devices/p09a-equivalent.cir#P09A_EQUIV.smooth_current", "basis": "numerical output-drive smoothing scale, not a physical device current", "qualification": "provisional-equivalent"},
+    {"id": "B31G22.heater_effective_hot_resistance", "stage": "tube-heater", "value": 163.03649575518247, "bounds": [129.41176470588235, 194.1176470588235], "unit": "ohm", "sources": ["tungsram_m31_120_1976", "robotron_schematic"], "model_ref": "electrothermal.py#heater_cold_ohm*(1+heater_alpha*equilibrium_rise)", "basis": "Active 12 V/15 ohm branch settles at 10.989 V/67.402 mA; Tungsram M31-120's 11 V/68 mA gives 161.765 ohm hot. Bounds are a declared +/-20% class sensitivity around that manufacturer comparator, not a B31G22 limit. The active cold resistance and thermal law remain unqualified.", "qualification": "class-typical-operating-point-only"}
   ],
   "rejected_comparators": [
     {
@@ -2200,7 +2207,7 @@
   "open_families": [
     {
       "file": "electrothermal.py",
-      "reason": "heater, emission and tube thermal/electrode bounds are engineering assumptions without B31G22 sources; the RFT B30G1 heater comparator is incompatible with the assembled 12 V/R22 branch and is excluded"
+      "reason": "the heater operating point matches the Tungsram M31-120 11 V/68 mA same-class manufacturer comparator, but the installed B31G22 heater limits, cold resistance, thermal law, emission and electrode bounds remain unqualified; the older RFT B30G1 comparator is incompatible with the 12 V/R22 branch"
     },
     {
       "file": "reference/k7222-11/page16-meter-cable-source-read.json",
