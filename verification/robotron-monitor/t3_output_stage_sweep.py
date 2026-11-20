@@ -84,12 +84,13 @@ def summarize(trace):
         columns = next(stream).split()
         expected = ['time', 'v(h_hot)', 'v(eht)', 'v(h_feedback)',
                     'v(h_sync)', 'i(Lhorizontal)', 'v(h_boost)']
-        if columns != expected:
+        driver_columns = ['v(h_outbase)', 'v(h_drivecol)']
+        if columns[:len(expected)] != expected or columns[len(expected):] not in ([], driver_columns):
             raise ValueError('unexpected output-stage trace columns')
         rows = [list(map(float, line.split())) for line in stream if line.strip()]
     if len(rows) < 1000 or abs(rows[-1][0] - .005) > 1e-9:
         raise ValueError('output-stage solve did not reach 5 ms')
-    if any(len(row) != len(expected) or not all(math.isfinite(v) for v in row)
+    if any(len(row) != len(columns) or not all(math.isfinite(v) for v in row)
            for row in rows):
         raise ValueError('incomplete or nonfinite output-stage samples')
     hot = [row[1] for row in rows]
@@ -104,7 +105,7 @@ def summarize(trace):
     if not widths:
         raise ValueError('no collector flyback pulse')
     eht = [row[2] for row in rows]
-    return {
+    result = {
         'sample_count': len(rows), 'sample_window_s': [rows[0][0], rows[-1][0]],
         'collector_peak_v': max(hot), 'collector_min_v': min(hot),
         'eht_peak_v': max(eht), 'eht_final_v': eht[-1],
@@ -116,6 +117,10 @@ def summarize(trace):
         'flyback_pulse_count': len(widths),
         'flyback_width_us_at_10pct_swing_median': statistics.median(widths),
     }
+    if columns[len(expected):] == driver_columns:
+        result['output_base_range_v'] = [min(row[7] for row in rows), max(row[7] for row in rows)]
+        result['driver_collector_swing_v'] = max(row[8] for row in rows)-min(row[8] for row in rows)
+    return result
 
 
 def simulate(graph, parameters, candidate, parts, l3_r, l3_l, *, tube_c_f=1e-9):

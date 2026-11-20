@@ -2291,3 +2291,24 @@ This result identifies a concrete connected-stage mismatch under the stated
 ideal-drive assumptions. The next sweep must add the source-connected T2/L4
 drive and feedback loads, test explicit T3 return alternatives and validate
 periodicity before using collector, EHT or retrace as an A3/A5 score.
+
+### A3/A5: T2/L4 loaded output-stage sensitivity (2026-11-20)
+
+The [T2/L4 output-stage sweep](reference/k7222-11/t2-l4-output-stage-sweep.json)
+replaces the prescribed V18 base source with the transcribed R23/C23/R33/C24,
+V13 collector, T2 and two parallel L4 sections in the selected E2 path. V13's
+base still receives a prescribed pulse; its native oscillator, V12, exact
+phase and feedback loads are absent. The benchmark keeps the earlier ideal
+41 V feed, 65 V initial boost, 1,768-turn T3 hypothesis, unverified winding
+graph, yoke/EHT loads and optional AC winding loss.
+
+Five of twelve combinations of V13 drive phase, declared T2 ratio and L4
+inductance bounds reach 5 ms; seven abort on solver timesteps. None of the
+five completed cases reaches the manual's TP15 36–54 Vpp or EHT 11–12 kV
+ranges. With the nominal T2 ratio of 3 and 5 µH per L4 coil, off-trace V13
+drive gives 24.55 Vpp at TP15, 377.47 V collector peak and 9.44 kV final
+EHT. Its EHT changes by about 117 V over the last sixteen line periods, so
+the window is not a periodic score. Solver aborts do not reject physical
+parameter combinations. The source-connected oscillator, T3 return
+alternatives, complete feedback and periodicity remain open before A3/A5
+qualification.

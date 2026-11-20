@@ -424,6 +424,15 @@ graph. The active T3 model therefore cannot be frozen from these reports.
 A prescribed-drive output-stage sweep adds a loaded T3/yoke comparison, but
 its ideal feed/base drive and unverified transformer topology do not give a
 connected native-grid A3 score or a qualified A5 design point.
+The follow-up [T2/L4 loaded-stage sweep](reference/k7222-11/t2-l4-output-stage-sweep.json)
+connects the transcribed V13 collector, T2 and selected E2/L4 base path while
+prescribing V13's base pulse. Only five of twelve T2-ratio/L4-bound cases reach
+5 ms; seven abort on solver timesteps. None of the completed cases meets the
+manual's TP15 36–54 Vpp or EHT 11–12 kV ranges. The nominal off-trace case
+gives 24.55 Vpp at TP15 and 9.44 kV final EHT, with EHT still drifting.
+This narrows the A3/A5 gap but cannot identify a factory T3 winding or
+establish a sustained native-grid stage score: V13 phase, T2/L4 values, E2
+setting, T3 return graph and omitted feedback remain conditional.
 A fresh loaded A3 vertical-stage run with the current device
 models passes TP7 at 2.1599 Vpp and gives TP8 a 25.7855 Vpp full swing. The
 prior TP8 comparison to 17 Vpp was a source-reading error: the manual's 17 V
@@ -463,8 +472,8 @@ labelled as such. The remaining done-condition gaps are:
 | --- | --- |
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed local branches and page-9 centring bridge, including transistor C/E polarity, L1's ambiguous hot-line crossing and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. The installed E1–E4 pair is not identified. |
 | A2 | Qualify every frame-path device model and its bounds. All 64 instances have provisional register rows, including T3, but none closes every parameter check. The two cross-revision ÜHA78 winding reports challenge T3's active 1,000-turn hypothesis without proving the K7222.11 construction; its other turns, parasitics and connected sensitivity remain unqualified. Original values and connected sensitivity also remain open for the page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes. |
-| A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check passes in the synthetic-sync loaded bench; a dual-node probe shows the separate 10 V arrow remains sensitive to reset masking and node attribution. Score connected stages with stable feature definitions, the required loaded probes, native grid stimulus and recorded trims. |
-| A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
+| A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check passes in the synthetic-sync loaded bench; a dual-node probe shows the separate 10 V arrow remains sensitive to reset masking and node attribution. The prescribed-V13 T2/L4 loaded-stage sweep misses TP15 and EHT in all five completed cases; seven more abort. Score connected stages with stable feature definitions, the required loaded probes, native grid stimulus and recorded trims. |
+| A5 | A conditional vertical current/voltage calculation exists. The loaded T2/L4 sweep does not establish a periodic EHT or identify the factory T3 winding. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
 | A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 201 partial entries. |
 
 All five printed `1SA20C` instances and both `1SC60A` instances now use
