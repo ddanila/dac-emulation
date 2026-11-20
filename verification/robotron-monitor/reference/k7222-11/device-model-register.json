@@ -402,7 +402,8 @@
         "012-6921:V9"
       ],
       "sources": [
-        "nexperia_1n4148"
+        "nexperia_1n4148",
+        "ngspice_manual_diode"
       ],
       "parameters": {
         "IS": {
@@ -467,7 +468,12 @@
           ],
           "unit": "A",
           "basis": "explicit breakdown-knee proxy; 1N4148 data sheet does not specify SPICE IBV"
-        }
+        },
+        "VJ": {"nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "Explicit ngspice junction-potential default with assumed original-device spread"},
+        "M": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice grading-coefficient default with assumed original-device spread"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default with assumed spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon activation-energy default with assumed temperature-law spread"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default with assumed spread"}
       },
       "comparison_targets": {
         "VF_v_at_10ma": {
@@ -504,7 +510,8 @@
         "012-6921:V14"
       ],
       "sources": [
-        "vishay_uf4007"
+        "vishay_uf4007",
+        "ngspice_manual_diode"
       ],
       "parameters": {
         "IS": {
@@ -569,7 +576,12 @@
           ],
           "unit": "A",
           "basis": "bounded breakdown knee proxy; UF4007 IR <=10 uA at 1000 V/25 C is not a SPICE IBV specification"
-        }
+        },
+        "VJ": {"nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "Explicit ngspice junction-potential default with assumed original-device spread"},
+        "M": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice grading-coefficient default with assumed original-device spread"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default with assumed spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon activation-energy default with assumed temperature-law spread"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default with assumed spread"}
       },
       "comparison_targets": {
         "VF_v_at_1a": {
@@ -608,7 +620,8 @@
         "012-6921:V16"
       ],
       "sources": [
-        "vishay_uf4007"
+        "vishay_uf4007",
+        "ngspice_manual_diode"
       ],
       "parameters": {
         "IS": {
@@ -673,7 +686,12 @@
           ],
           "unit": "A",
           "basis": "bounded breakdown knee proxy; UF4007 IR <=10 uA at 1000 V/25 C is not a SPICE IBV specification"
-        }
+        },
+        "VJ": {"nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "Explicit ngspice junction-potential default with assumed original-device spread"},
+        "M": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice grading-coefficient default with assumed original-device spread"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default with assumed spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon activation-energy default with assumed temperature-law spread"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default with assumed spread"}
       },
       "comparison_targets": {
         "VF_v_at_1a": {
@@ -713,7 +731,8 @@
         "012-6921:V17"
       ],
       "sources": [
-        "vishay_uf4007"
+        "vishay_uf4007",
+        "ngspice_manual_diode"
       ],
       "parameters": {
         "IS": {
@@ -778,7 +797,12 @@
           ],
           "unit": "A",
           "basis": "bounded breakdown knee proxy; UF4007 IR <=10 uA at 1000 V/25 C is not a SPICE IBV specification"
-        }
+        },
+        "VJ": {"nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "Explicit ngspice junction-potential default with assumed original-device spread"},
+        "M": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice grading-coefficient default with assumed original-device spread"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default with assumed spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon activation-energy default with assumed temperature-law spread"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default with assumed spread"}
       },
       "comparison_targets": {
         "VF_v_at_1a": {
@@ -1140,6 +1164,7 @@
       "identity_tier": "class-typical; assembly part type not printed",
       "model": "HOR_HV_RECT",
       "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "sources": ["rectron_r12000h", "semtech_sdh15k", "ngspice_manual_diode"],
       "source_connection": "older.pdf page 4 shows anode at T3 X1:1 and cathode at X1:2/EHT; the corrected KiCad transcription now uses that path. Remaining T3 tap continuity and polarity are unverified.",
       "parameters": {
         "IS_a": {"spice_parameter": "IS", "nominal": 1e-9, "bounds": [1e-12, 1e-8], "basis": "Explicit junction-scale proxy for the unprinted rectifier assembly; neither comparator specifies SPICE IS, so the range remains assumed-bound"},
@@ -1148,11 +1173,16 @@
         "BV_v": {"spice_parameter": "BV", "nominal": 15000, "bounds": [12000, 16000], "basis": "Semtech SDH15K 15 kV and Rectron R12000H 12 kV reverse ratings; 16 kV is an adjacent rectifier class, not a source assertion for V21"},
         "IBV_a": {"spice_parameter": "IBV", "nominal": 2e-6, "bounds": [1e-6, 5e-6], "basis": "Semtech 2 uA maximum reverse leakage at 15 kV/25 C; Rectron 2 uA at 12 kV"},
         "CJO_f": {"spice_parameter": "CJO", "nominal": 9.5e-13, "bounds": [5e-13, 2e-12], "basis": "0.95 pF nominal leaves margin under Rectron R12000H's 1 pF zero-bias/1 MHz maximum after small-signal SPICE response; wider bounds span unverified assembly capacitance"},
-        "TT_s": {"spice_parameter": "TT", "nominal": 1e-7, "bounds": [1e-7, 2.5e-6], "basis": "Provisional transit-time proxy; a long-held model fixture measures about 43 ns at Rectron's 2/4 mA currents and 41 ns at Semtech's 50/100 mA currents. SPICE TT is not t_rr, and Rectron's return threshold is not specified."}
+        "TT_s": {"spice_parameter": "TT", "nominal": 1e-7, "bounds": [1e-7, 2.5e-6], "basis": "Provisional transit-time proxy; a long-held model fixture measures about 43 ns at Rectron's 2/4 mA currents and 41 ns at Semtech's 50/100 mA currents. SPICE TT is not t_rr, and Rectron's return threshold is not specified."},
+        "VJ": {"spice_parameter": "VJ", "nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "Explicit ngspice junction-potential default with assumed original-device spread"},
+        "M": {"spice_parameter": "M", "nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice grading-coefficient default with assumed original-device spread"},
+        "FC": {"spice_parameter": "FC", "nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default with assumed spread"},
+        "EG": {"spice_parameter": "EG", "nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon activation-energy default with assumed temperature-law spread"},
+        "XTI": {"spice_parameter": "XTI", "nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default with assumed spread"}
       },
       "model_response_report": "reference/k7222-11/hv-rectifier-class-check.json",
       "connected_sensitivity_report": "reference/k7222-11/v21-connected-sensitivity.json",
-      "remaining": ["Resolve the remaining T3 tap/return map against an independent page-4 netlist", "The 14 one-at-a-time connected-stage bound cases complete, but TT's high endpoint moves final EHT by 4.4%; examine joint parameter corners after V21 identity or class is narrowed", "Qualify reverse voltage/current stress and rectifier assembly behavior at the sustained native grid operating point; the conditional late-window 11.92 kV reverse peak is too close to the 12 kV comparator rating for a factory safety conclusion"]
+      "remaining": ["Resolve the remaining T3 tap/return map against an independent page-4 netlist", "The 24 one-at-a-time connected-stage bound cases complete, but TT's high endpoint moves final EHT by 4.4%; examine joint parameter corners after V21 identity or class is narrowed", "Qualify reverse voltage/current stress and rectifier assembly behavior at the sustained native grid operating point; the conditional late-window 11.92 kV reverse peak is too close to the 12 kV comparator rating for a factory safety conclusion"]
     },
     {
       "id": "012-6921:T3",
@@ -1357,7 +1387,8 @@
       "model": "HOR_Z6",
       "model_file": "circuits/k7222-11-horizontal-models.cir",
       "sources": [
-        "nexperia_bzx84_series"
+        "nexperia_bzx84_series",
+        "ngspice_manual_diode"
       ],
       "parameters": {
         "IS": {
@@ -1422,7 +1453,12 @@
           ],
           "unit": "s",
           "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required"
-        }
+        },
+        "VJ": {"nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "Explicit ngspice junction-potential default with assumed original-device spread"},
+        "M": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice grading-coefficient default with assumed original-device spread"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default with assumed spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon activation-energy default with assumed temperature-law spread"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default with assumed spread"}
       },
       "comparison_targets": {
         "VZ_v_at_5ma": {

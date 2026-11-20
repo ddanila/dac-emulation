@@ -2847,3 +2847,27 @@ skips after these model and receipt changes. The rerun includes atlas nominal
 publication, the continuous neck thermal lifecycle, saved-report equality and
 the connected V21 sensitivity check; it does not close the remaining Phase A
 done conditions.
+
+The horizontal `HOR_D`, `HOR_RECT`, `HOR_Z6` and `HOR_HV_RECT` aliases now state
+`VJ=1`, `M=0.5`, `FC=0.5`, `EG=1.11` and `XTI=3`, the previously implicit
+nominal values in the [ngspice diode model](https://ngspice.sourceforge.io/docs/ngspice-manual.pdf).
+These four declarations serve eight additional frame-path diodes in six A2
+register entries: two 1AL25 signal diodes, four 1YL1 flyback rectifiers, V11's
+zener and V21's EHT rectifier. All five new bounds are explicitly provisional
+engineering spreads; neither the signal-diode nor the rectifier comparators
+establish original-part values. The [A2 audit](reference/k7222-11/a2-implicit-default-audit.json)
+now records 21 affected instances in 15 entries, and the A6 register has 254
+partial rows. Isolated class fixtures still pass with unchanged measured
+values. The refreshed 32-case T3 and 24-case T2/L4 prescribed-drive sweeps
+retain their prior values and still find no joint manual TP15/EHT match.
+The [V21 connected-stage sweep](reference/k7222-11/v21-connected-sensitivity.json)
+now completes all 24 one-at-a-time bounds: the new `VJ`, `M` and `FC` cases
+move final EHT by at most 0.17%, `EG` and `XTI` make no difference at nominal
+temperature, and the slow `TT` endpoint still changes it by 4.4%. These
+conditional tests do not establish original diode identity, joint corners,
+temperature behavior or sustained native-grid stress.
+The refreshed non-V21 receipts differ from the preceding commit only in
+source/model/deck hashes; V21's nominal and prior 14 bound results are
+unchanged, with ten new complete cases. With the verified pinned runtime,
+`make test-monitor` passes 306 tests with no skips. This validates the current
+checks and receipts, not the outstanding A1, A2, A3, A5 or A6 done conditions.

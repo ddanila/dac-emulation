@@ -1,5 +1,5 @@
 * Bounded engineering families, NOT measured SC237E/SF1260/SF1280 curves.
-.model HOR_D D(IS=1n N=1.5 RS=2 CJO=2p TT=5n BV=100 IBV=100u)
+.model HOR_D D(IS=1n N=1.5 RS=2 CJO=2p TT=5n BV=100 IBV=100u VJ=1 M=0.5 FC=0.5 EG=1.11 XTI=3)
 .model SC237E_N NPN(IS=1e-14 BF=300 VAF=80 RC=1 RE=0.25 CJE=7.7p CJC=3.8p TF=0.9n TR=10n)
 .model HOR_N NPN(IS=1e-14 BF=100 VAF=80 CJE=20p CJC=8p TF=2n TR=10n)
 .model HOR_DRIVER_N NPN(IS=1e-12 BF=60 VAF=80 CJE=20p CJC=8p TF=1n TR=100n)
@@ -24,9 +24,9 @@ Ls ground s {horizontal_driver_l/horizontal_driver_ratio^2}
 Kcore Lp Ls {horizontal_driver_coupling}
 .ends HORIZONTAL_DRIVER
 * Output families and normal-operation ancillary components; no SOA claim.
-.model HOR_Z6 D(IS=1n N=1.5 RS=2 BV=6.2 IBV=1m CJO=100p TT=100n)
-.model HOR_RECT D(IS=10n N=1.5 RS=.2 CJO=40p TT=20n BV=1000 IBV=10u)
-.model HOR_HV_RECT D(IS=1n N=2 RS=90 CJO=0.95p TT=100n BV=15k IBV=2u)
+.model HOR_Z6 D(IS=1n N=1.5 RS=2 BV=6.2 IBV=1m CJO=100p TT=100n VJ=1 M=0.5 FC=0.5 EG=1.11 XTI=3)
+.model HOR_RECT D(IS=10n N=1.5 RS=.2 CJO=40p TT=20n BV=1000 IBV=10u VJ=1 M=0.5 FC=0.5 EG=1.11 XTI=3)
+.model HOR_HV_RECT D(IS=1n N=2 RS=90 CJO=0.95p TT=100n BV=15k IBV=2u VJ=1 M=0.5 FC=0.5 EG=1.11 XTI=3)
 .model HOR_OUTPUT_N NPN(IS=1e-10 BF=20 VAF=100 CJE=1n CJC=200p TF=100n TR=500n)
 .subckt HORIZONTAL_CHOKE a b
 Rloss a n {horizontal_choke_r}

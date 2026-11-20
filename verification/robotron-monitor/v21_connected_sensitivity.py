@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent
 REGISTER = ROOT/'reference/k7222-11/device-model-register.json'
 STAGE_REPORT = ROOT/'reference/k7222-11/t2-l4-output-stage-sweep.json'
 MODEL_LINE = re.compile(r'^\.model HOR_HV_RECT D\([^\n]+\)$', re.MULTILINE)
-PARAMETERS = ('IS', 'N', 'RS', 'CJO', 'TT', 'BV', 'IBV')
+PARAMETERS = ('IS', 'N', 'RS', 'CJO', 'TT', 'BV', 'IBV', 'VJ', 'M', 'FC', 'EG', 'XTI')
 
 
 def setup():
@@ -32,7 +32,7 @@ def setup():
                   if row['id'] == '012-6921:V21')
     values = {row['spice_parameter']: row for row in device['parameters'].values()}
     if set(values) != set(PARAMETERS):
-        raise ValueError('V21 register no longer covers seven explicit diode parameters')
+        raise ValueError('V21 register no longer covers the twelve explicit diode parameters')
     live = MODEL_LINE.search(stage.MODELS.read_text())
     if live is None:
         raise ValueError('active V21 model line is missing')

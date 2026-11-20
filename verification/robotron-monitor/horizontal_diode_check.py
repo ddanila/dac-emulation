@@ -33,7 +33,7 @@ CASES = (
          recovery_reverse_target_a=1., recovery_return_a=.25,
          recovery_limit_s=75e-9),
 )
-REQUIRED_PARAMETERS = {'IS','N','RS','CJO','TT','BV','IBV'}
+REQUIRED_PARAMETERS = {'IS','N','RS','CJO','TT','BV','IBV','VJ','M','FC','EG','XTI'}
 
 
 def model_line(name, text=None):
