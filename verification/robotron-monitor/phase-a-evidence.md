@@ -3822,3 +3822,28 @@ filter within the hypothetical full graph. Thirteen other T3 assembly
 terminals remain unassigned, including the upper/lower output taps; this
 six-terminal core is a starting point for the function-only fallback,
 not a full winding candidate or a numerical T3 design point.
+
+### A5: inner neck clearance changes the axial geometry result (2026-11-21)
+
+The [B31-G family outline](https://elektroncso.hu/cikkek/crt_m31.gif)
+marks an outside neck diameter near 20 mm. The active reduced model uses a
+10 mm *inner* neck radius, equal to the outline's approximate outside
+radius and thus leaving no glass wall in that nominal comparison. The
+[neck-clearance screen](reference/k7222-11/yoke-neck-clearance-screen.json)
+varies hypothetical inner radii of 10, 9.5, 9 and 8.5 mm while holding the
+same sourced B31-G overall-length bound and Philips 90° yoke electrical
+comparator as the prior axial screen. None is an installed B31G22 or AE9VT
+measurement.
+
+At a 230 mm gun-to-screen proxy and 25 mm active field, the ray model
+needs at least **9.365 mm** inner radius to reach the documented 210 mm
+picture width before neck clipping. That leaves at most **0.635 mm** of
+wall in the nominal 20 mm outside-neck comparison. With a 9 mm inner
+radius, it reaches only 202.24 mm width. A shorter 20 mm field restores
+width at the 230 mm path and 9 mm radius, but needs **5.84 A peak-to-peak**,
+slightly above the broad 90° yoke current proxy's 5.73 A upper edge. At
+the 250 mm upper-edge path and 20 mm field, an 8.5 mm inner radius reaches
+width at 5.33 A peak-to-peak. The model therefore has viable conditional
+combinations, but the current 280 mm path and 10 mm inner aperture should
+not be frozen as physical geometry. A5 still needs bounds on the installed
+gun location, glass wall and AE9VT field/current relation.
