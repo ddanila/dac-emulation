@@ -590,6 +590,17 @@ integration window. The inset also omits the lower-terminal connection and
 both shunt values. These limits rule out using direct X3 DC voltage as the
 0.1/3.6 mV service observation; they do not assign a cable value or close A6.
 
+The [A2 implicit-default inventory](reference/k7222-11/a2-implicit-default-audit.json)
+now screens every registered frame-path discrete semiconductor against a
+specified gain, switching, capacitance, breakdown and temperature parameter
+set. All 51 semiconductor instances in 24 register entries still depend on
+at least one screened ngspice default. For example, the diode models leave
+the junction potential, grading coefficient and temperature terms implicit;
+the BJT models leave high-current gain rolloff and junction-capacitance shape
+implicit. The screen does not qualify those defaults or cover internal IC
+subcircuits. A2 remains open despite provisional model names and register
+rows for all 64 frame-path devices.
+
 All five printed `1SA20C` instances and both `1SC60A` instances now use
 separate [BC546B-class NPN model aliases](circuits/k7222-11-small-transistor-models.cir)
 with cited parameter bounds in the A2 and A6 registers. The

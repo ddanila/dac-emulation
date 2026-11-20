@@ -1,0 +1,1087 @@
+{
+  "format": "dac-monitor-a2-implicit-default-audit-v1",
+  "qualification": "first critical-default inventory from declared model text; not an A2 completion check",
+  "ngspice_manual": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf",
+  "register_sha256": "11a24b427e6a4f0bc618da73ac40d3c5d656aefc66e8d128ba7aaadbb3233928",
+  "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
+  "model_file_sha256": {
+    "circuits/k7222-11-small-transistor-models.cir": "6e3323dc2dd13b6c3127f5d8e5788a10084095692b93897045128263d7f7553b",
+    "circuits/k7222-11-neck-models.cir": "17e54caf30fcc182d2350ab37b66323255d9b1ab2ee840a786aead80b055f46d",
+    "circuits/k7222-11-vertical-integrator-models.cir": "c841bb30de84564cf8715e0886196f6b20df611dc114fdd320784697bc0f5a0a",
+    "circuits/k7222-11-horizontal-models.cir": "2c1f1cdb868b31706fc78adc044ebccad2e918056b8385d02b24fe7a5981e578",
+    "circuits/k7222-11-regulator5-models.cir": "e257cc0488337e34f87e5e998a6a4941df07af681e9247f2aba4af2e918d5a5f",
+    "circuits/k7222-11-vertical-output-models.cir": "aeaa5490bc98cde0c088825fec00b7ae5958e45fb66cb02fd62fd4cd05c80eb1",
+    "circuits/signal-path-models.cir": "3532cc2defe6e1bdbd83f5d728e61416f3384b313323e8aefacaf32ee2710b62"
+  },
+  "screened_parameters": {
+    "D": [
+      "BV",
+      "CJO",
+      "EG",
+      "FC",
+      "IBV",
+      "IS",
+      "M",
+      "N",
+      "RS",
+      "TT",
+      "VJ",
+      "XTI"
+    ],
+    "NPN": [
+      "BF",
+      "CJC",
+      "CJE",
+      "EG",
+      "FC",
+      "IKF",
+      "IS",
+      "MJC",
+      "MJE",
+      "RB",
+      "RC",
+      "RE",
+      "TF",
+      "TR",
+      "VAF",
+      "VJC",
+      "VJE",
+      "XTI"
+    ],
+    "PNP": [
+      "BF",
+      "CJC",
+      "CJE",
+      "EG",
+      "FC",
+      "IKF",
+      "IS",
+      "MJC",
+      "MJE",
+      "RB",
+      "RC",
+      "RE",
+      "TF",
+      "TR",
+      "VAF",
+      "VJC",
+      "VJE",
+      "XTI"
+    ]
+  },
+  "registered_semiconductor_entries": 24,
+  "entries_with_critical_defaults": 24,
+  "affected_instances": 51,
+  "rows": [
+    {
+      "id": "1SA20C-small-npn-class",
+      "member_ids": [
+        "012-6921:V6",
+        "012-6921:V19",
+        "012-6921:V20",
+        "012-6931:V5",
+        "012-6931:V11"
+      ],
+      "kind": "bjt",
+      "model": "SA20C_CLASS_N",
+      "model_file": "circuits/k7222-11-small-transistor-models.cir",
+      "model_type": "NPN",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "1SC60A-small-npn-class",
+      "member_ids": [
+        "012-6921:V1",
+        "012-6921:V5"
+      ],
+      "kind": "bjt",
+      "model": "SC60A_CLASS_N",
+      "model_file": "circuits/k7222-11-small-transistor-models.cir",
+      "model_type": "NPN",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "1AD50-signal-clamp-diode",
+      "member_ids": [
+        "012-6891:V2:1",
+        "012-6891:V2:2",
+        "012-6891:V2:3",
+        "012-6891:V2:4",
+        "012-6891:V2:5",
+        "012-6891:V2:6",
+        "012-6921:V2",
+        "012-6921:V3"
+      ],
+      "kind": "diode",
+      "model": "1AD50_BOUND",
+      "model_file": "circuits/k7222-11-neck-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode",
+      "member_ids": [
+        "012-6931:V12",
+        "012-6931:V14",
+        "012-6931:V16",
+        "012-6931:V17",
+        "012-6931:V19",
+        "012-6931:V20",
+        "012-6931:V21",
+        "012-6931:V23",
+        "012-6931:V24",
+        "012-6931:V25"
+      ],
+      "kind": "diode",
+      "model": "VERTICAL_DIODE",
+      "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "1AE15-input-and-sync-diode",
+      "member_ids": [
+        "012-6921:V7:1",
+        "012-6921:V7:2",
+        "012-6921:V7:3",
+        "012-6931:V6"
+      ],
+      "kind": "diode",
+      "model": "1AD50_BOUND",
+      "model_file": "circuits/k7222-11-neck-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "1AL25-horizontal-signal-diode",
+      "member_ids": [
+        "012-6921:V8",
+        "012-6921:V9"
+      ],
+      "kind": "diode",
+      "model": "HOR_D",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "1YL1-2-flyback-rectifier",
+      "member_ids": [
+        "012-6921:V14"
+      ],
+      "kind": "diode",
+      "model": "HOR_RECT",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "1YL1-4-flyback-rectifier",
+      "member_ids": [
+        "012-6921:V16"
+      ],
+      "kind": "diode",
+      "model": "HOR_RECT",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "1YL1-8-flyback-rectifier",
+      "member_ids": [
+        "012-6921:V15",
+        "012-6921:V17"
+      ],
+      "kind": "diode",
+      "model": "HOR_RECT",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "KFY18-vertical-pnp",
+      "member_ids": [
+        "012-6931:V13",
+        "012-6931:V26"
+      ],
+      "kind": "bjt",
+      "model": "VERTICAL_PNP_BOUND",
+      "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
+      "model_type": "PNP",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6891:V1",
+      "member_ids": [
+        "012-6891:V1"
+      ],
+      "kind": "bjt",
+      "model": "SSY20A_BOUND",
+      "model_file": "circuits/k7222-11-neck-models.cir",
+      "model_type": "NPN",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6921:V18",
+      "member_ids": [
+        "012-6921:V18"
+      ],
+      "kind": "bjt",
+      "model": "HOR_OUTPUT_N",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_type": "NPN",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6921:V21",
+      "member_ids": [
+        "012-6921:V21"
+      ],
+      "kind": "diode",
+      "model": "HOR_HV_RECT",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV_v",
+        "CJO_f",
+        "IBV_a",
+        "IS_a",
+        "N",
+        "RS_ohm",
+        "TT_s"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "RS",
+        "TT"
+      ],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6931:V3",
+      "member_ids": [
+        "012-6931:V3"
+      ],
+      "kind": "zener",
+      "model": "REG5_ZENER",
+      "model_file": "circuits/k7222-11-regulator5-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "TT",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6931:V27",
+      "member_ids": [
+        "012-6931:V27"
+      ],
+      "kind": "bjt",
+      "model": "VERT_POWER_N",
+      "model_file": "circuits/k7222-11-vertical-output-models.cir",
+      "model_type": "NPN",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF",
+        "TF_s"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6931:V28",
+      "member_ids": [
+        "012-6931:V28"
+      ],
+      "kind": "bjt",
+      "model": "VERT_POWER_P",
+      "model_file": "circuits/k7222-11-vertical-output-models.cir",
+      "model_type": "PNP",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF",
+        "TF_s"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6921:V4",
+      "member_ids": [
+        "012-6921:V4"
+      ],
+      "kind": "zener",
+      "model": "Z9_BOUND",
+      "model_file": "circuits/signal-path-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6921:V11",
+      "member_ids": [
+        "012-6921:V11"
+      ],
+      "kind": "zener",
+      "model": "HOR_Z6",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6931:V15",
+      "member_ids": [
+        "012-6931:V15"
+      ],
+      "kind": "zener",
+      "model": "VERT_Z16",
+      "model_file": "circuits/k7222-11-vertical-output-models.cir",
+      "model_type": "D",
+      "explicit_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "M",
+        "VJ",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6921:V13",
+      "member_ids": [
+        "012-6921:V13"
+      ],
+      "kind": "bjt",
+      "model": "HOR_DRIVER_N",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_type": "NPN",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6921:V10",
+      "member_ids": [
+        "012-6921:V10"
+      ],
+      "kind": "bjt",
+      "model": "SC237E_N",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_type": "NPN",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6921:V12",
+      "member_ids": [
+        "012-6921:V12"
+      ],
+      "kind": "bjt",
+      "model": "HOR_N",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_type": "NPN",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6931:V4",
+      "member_ids": [
+        "012-6931:V4"
+      ],
+      "kind": "bjt",
+      "model": "REG5_NPN",
+      "model_file": "circuits/k7222-11-regulator5-models.cir",
+      "model_type": "NPN",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    },
+    {
+      "id": "012-6931:V18",
+      "member_ids": [
+        "012-6931:V18"
+      ],
+      "kind": "bjt",
+      "model": "SF127C_N",
+      "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
+      "model_type": "NPN",
+      "explicit_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "registered_parameters": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ],
+      "critical_implicit_defaults": [
+        "EG",
+        "FC",
+        "IKF",
+        "MJC",
+        "MJE",
+        "RB",
+        "VJC",
+        "VJE",
+        "XTI"
+      ],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-open"
+    }
+  ],
+  "remaining": "Source-bound or explicitly examined behavior is needed for each listed default, including joint corners and connected stress. Same-name register comparison is diagnostic only: some entries use transformed parameter names. This screen does not cover internal subcircuit transistors or every ngspice optional parameter."
+}
