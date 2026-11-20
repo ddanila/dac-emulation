@@ -3439,7 +3439,10 @@ isolated pass.
 
 The [one-factor connected screen](reference/k7222-11/t3-horizontal-boundary-isolation.json)
 starts from the archived 39.1 ms KLU deck with added input and Q201 probes.
-Its baseline stops at exactly 39 ms. Disconnecting T3 feedback from the
+This is the conditional manual-Fig.-6 contrast equivalent, with Q201's
+collector at `contrast_low`; the [page-3 source read](reference/k7222-11/page3-4-intens-seam-source-read.json)
+places V5's upper lead at IS. Its baseline stops at exactly 39 ms.
+Disconnecting T3 feedback from the
 horizontal phase detector at C1012 or input sync from that detector at C1008
 one at a time does not move the stop. Replacing the nearly off Q201 with a
 1 GΩ collector-emitter path lets the connected solve reach 39.1 ms. Adding
@@ -3449,15 +3452,18 @@ its 4 pF BC capacitance alone, or both capacitances together, recreates the
 both capacitances, showing that its reported trouble location is not a
 unique failing component. Keeping Q201 as a BJT and changing only its CJC
 from nominal 4 pF to the register's 1.7 pF lower bound still stops at 39 ms.
+Setting CJC to zero also stops there; so does zeroing all of Q201's CJE,
+CJC, TF and TR while keeping its DC BJT junctions. Those zero-value tests
+are outside the registered bounds and are diagnostics only.
 
-This implicates Q201's collector-base loading in this particular connected
-solver failure, not a demonstrated wrong factory connection or a valid reason
-to remove Q201. The resistor and linear-capacitor substitutions are
-diagnostics; the 39.1 ms endpoint is only 0.1 ms beyond the failing boundary,
-not a periodic field. The next check is the page-3/4 Q201 collector/base path
-and the source-supported capacitance bounds, followed by a connected solve
-with a qualified model or a clearly labelled input-stage equivalent. A3 and
-A5 remain open.
+The connected stop is sensitive to the Q201 branch, but these results do
+not establish BC capacitance as a necessary cause: a linear BC capacitor
+recreates the stop in one substitute, whereas a zero-CJC BJT still fails.
+They do not justify removing Q201 or changing a source connection. The
+39.1 ms endpoint is only 0.1 ms beyond the failing boundary, not a periodic
+field. The next check is the page-3/4 V5 collector/base path and the
+source-supported BJT model, followed by a connected solve with a qualified
+model or a clearly labelled input-stage equivalent. A3 and A5 remain open.
 
 ### A2: explicit SSY20A neck BJT parameters (2026-11-20)
 
