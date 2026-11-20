@@ -1,0 +1,281 @@
+{
+  "format": "dac-monitor-t3-ac-loss-candidate-screen-v1",
+  "qualification": "conditional prescribed-drive 4\u20135 ms stage screen; not a source-validated T3, connected native-grid field, A3 score or A5 freeze",
+  "source_hashes": {
+    "reference/k7222-11/t3-coupled-source-overwind-parameters.json": "125fb6c737da4d305196c39de7f999d9e60d920c830635f0ef77166c173af681",
+    "reference/k7222-11/t3-ac-loss-parameters.json": "2ebb0fbd68134903504e58a99c2a0572d50bdec254cbf96ab74a5b6e6fa0f09e",
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/t3-cold-return-matrix.json": "8c2154decbcc8da9ce172686a0d73488031afe188b59308eac0aa071e0504bd2",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
+    "magnetics.py": "722c379dcc2730ea4f5a4464102e28fe8af95f5d009aaef94faefdf3835978e7",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_tp17_path_sweep.py": "90f13dd629d010f0b9ef37e4f32ef12c3568abb9f1ffffc79b876d4ced196b2d",
+    "t3_loaded_return_screen.py": "d699fecb27e8a8157b94fa8e56fc867a8250a83628d66c8a1a41a4013d519c66",
+    "t3_ac_loss_candidate_screen.py": "ba161486020a45f9b82a7ea4cd424357753800f664c5494b7353a48337c19c59"
+  },
+  "ngspice_sha256": "3e14f93f378ffcb37ec55e797b3da6099ce9ee6293a4fe7f203619299a5f9da9",
+  "candidate_id": "t3-fc941ad61c50ce31",
+  "equivalent_stage_label": "T3_PASSIVE_COUPLED_AC_LOSS_HV_COLD_GROUNDED_EQUIVALENT",
+  "conditional_return_pins": {
+    "X1_3": "h_upper2",
+    "X2_3": "h_upper2",
+    "X1_7": "h_hvcold",
+    "X1_16": "0"
+  },
+  "manual_tp17_guideline_range_vpp": [
+    64,
+    96
+  ],
+  "manual_eht_range_v": [
+    11000,
+    12000
+  ],
+  "manual_retrace_us": 16,
+  "cases": [
+    {
+      "auxiliary_turns": 7.5,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": false,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "4619f2245d2b9619e0c48bdfa537d1990f392c05859e15a7365e0532f98bb638",
+      "status": "complete",
+      "result": {
+        "sample_count": 23251,
+        "sample_window_s": [
+          0.00400002002,
+          0.005
+        ],
+        "collector_peak_v": 459.551864,
+        "collector_min_v": -1.0286572,
+        "eht_peak_v": 11465.5308,
+        "eht_final_v": 11456.6489,
+        "eht_same_phase_drift_v_over_16_lines": 10.733099999999467,
+        "feedback_swing_v": 56.572137600000005,
+        "sync_swing_v": 59.95477649,
+        "yoke_current_range_a": [
+          -0.468399198,
+          0.469324726
+        ],
+        "boost_range_v": [
+          63.8674701,
+          64.0093874
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.116933915424678
+      },
+      "snapshot_target_overlap": false
+    },
+    {
+      "auxiliary_turns": 7.5,
+      "max_step_ns": 50,
+      "flux_probe_in_deck": false,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "1c2a3a3cf9519b67c7384e1abd75e5384a06e8a16bfd663bb0fda518b62dd5e2",
+      "status": "complete",
+      "result": {
+        "sample_count": 33068,
+        "sample_window_s": [
+          0.00400000056,
+          0.005
+        ],
+        "collector_peak_v": 458.873876,
+        "collector_min_v": -1.02732582,
+        "eht_peak_v": 11476.9005,
+        "eht_final_v": 11467.8116,
+        "eht_same_phase_drift_v_over_16_lines": 10.116500000000087,
+        "feedback_swing_v": 56.486927699999995,
+        "sync_swing_v": 59.88116721,
+        "yoke_current_range_a": [
+          -0.468497999,
+          0.469307088
+        ],
+        "boost_range_v": [
+          63.8629579,
+          64.0047272
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.10763324316672
+      },
+      "snapshot_target_overlap": false
+    },
+    {
+      "auxiliary_turns": 8.0,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": false,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "1e067b5bfa7b9ca57f10d7624c5e0bf5c00173d149ed2ba2921b99974042039f",
+      "status": "complete",
+      "result": {
+        "sample_count": 23213,
+        "sample_window_s": [
+          0.0040000254,
+          0.005
+        ],
+        "collector_peak_v": 459.609783,
+        "collector_min_v": -1.02826136,
+        "eht_peak_v": 11468.439,
+        "eht_final_v": 11459.5515,
+        "eht_same_phase_drift_v_over_16_lines": 9.133200000000215,
+        "feedback_swing_v": 56.58441979999999,
+        "sync_swing_v": 63.93969688,
+        "yoke_current_range_a": [
+          -0.468390668,
+          0.469313139
+        ],
+        "boost_range_v": [
+          63.8595264,
+          64.0056017
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.116007149112981
+      },
+      "snapshot_target_overlap": false
+    },
+    {
+      "auxiliary_turns": 8.0,
+      "max_step_ns": 50,
+      "flux_probe_in_deck": false,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "16d01113501770b4ecd4b173ab2cc0498f9b2a5b3f7ccc1c526cc68dc1842d52",
+      "status": "complete",
+      "result": {
+        "sample_count": 33118,
+        "sample_window_s": [
+          0.00400000381,
+          0.005
+        ],
+        "collector_peak_v": 458.962776,
+        "collector_min_v": -1.02691597,
+        "eht_peak_v": 11479.3315,
+        "eht_final_v": 11470.2265,
+        "eht_same_phase_drift_v_over_16_lines": 8.50630000000092,
+        "feedback_swing_v": 56.50266140000001,
+        "sync_swing_v": 63.864319460000004,
+        "yoke_current_range_a": [
+          -0.468477763,
+          0.469294536
+        ],
+        "boost_range_v": [
+          63.8558369,
+          64.0013096
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.106683892357818
+      },
+      "snapshot_target_overlap": false
+    },
+    {
+      "auxiliary_turns": 10.0,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": false,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "6b42d57dee19c43796a693209824bb4a041f4f1913d6b3c9ae1a366afc6bebbe",
+      "status": "complete",
+      "result": {
+        "sample_count": 23259,
+        "sample_window_s": [
+          0.00400000053,
+          0.005
+        ],
+        "collector_peak_v": 459.78712,
+        "collector_min_v": -1.02536394,
+        "eht_peak_v": 11476.9992,
+        "eht_final_v": 11468.1688,
+        "eht_same_phase_drift_v_over_16_lines": 6.9768999999996595,
+        "feedback_swing_v": 56.6295296,
+        "sync_swing_v": 79.7836333,
+        "yoke_current_range_a": [
+          -0.468289836,
+          0.469211114
+        ],
+        "boost_range_v": [
+          63.822092,
+          63.9850394
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.109550173697695
+      },
+      "snapshot_target_overlap": true
+    },
+    {
+      "auxiliary_turns": 10.0,
+      "max_step_ns": 50,
+      "flux_probe_in_deck": false,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "e11af3106d7d6ef5ae45d495b00feaf826c5ac01f522a9271c5775a3531e0aad",
+      "status": "complete",
+      "result": {
+        "sample_count": 33293,
+        "sample_window_s": [
+          0.00400000277,
+          0.005
+        ],
+        "collector_peak_v": 459.119992,
+        "collector_min_v": -1.02405473,
+        "eht_peak_v": 11487.2165,
+        "eht_final_v": 11478.1754,
+        "eht_same_phase_drift_v_over_16_lines": 6.876500000000306,
+        "feedback_swing_v": 56.5441469,
+        "sync_swing_v": 79.6906424,
+        "yoke_current_range_a": [
+          -0.468383345,
+          0.469200899
+        ],
+        "boost_range_v": [
+          63.8194958,
+          63.9813939
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.099734077958498
+      },
+      "snapshot_target_overlap": true
+    },
+    {
+      "auxiliary_turns": 10.0,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "19e7f149b7ad288eefe8e02e647e0c1bcd65afe6c7ff1e226b19aa0cbfbd68ed",
+      "status": "complete",
+      "result": {
+        "sample_count": 23359,
+        "sample_window_s": [
+          0.00400002876,
+          0.005
+        ],
+        "collector_peak_v": 459.786561,
+        "collector_min_v": -1.0253749,
+        "eht_peak_v": 11476.8327,
+        "eht_final_v": 11468.0051,
+        "eht_same_phase_drift_v_over_16_lines": 7.436799999999494,
+        "feedback_swing_v": 56.6291565,
+        "sync_swing_v": 79.78244839999999,
+        "yoke_current_range_a": [
+          -0.468290471,
+          0.469217192
+        ],
+        "boost_range_v": [
+          63.8221357,
+          63.9850455
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.109599447501918
+      },
+      "snapshot_target_overlap": true
+    }
+  ],
+  "ten_turn_refinement": {
+    "tp17_fractional_step_change": 0.0011655385466132157,
+    "eht_fractional_step_change": 0.0008725543000379117,
+    "tp17_fractional_probe_change": 1.4851416900972216e-05,
+    "one_pulse_per_line_in_window": true,
+    "snapshot_tp17_eht_retrace_in_guideline": true
+  },
+  "remaining": [
+    "Source-qualify or bound the return graph and AC-loss model.",
+    "Check joint parameter bounds, collector stress and connected native-grid periodicity before any A5 freeze."
+  ]
+}

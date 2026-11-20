@@ -3293,3 +3293,37 @@ solver-budget observations, not proof of an impossible graph, and the
 completed 4–5 ms windows are not periodic native-grid fields. No return
 alternative is selected or frozen; the next A5 candidate must survive both
 source-graph review and numerical refinement.
+
+### A5: provisional AC-loss T3 stage candidate (2026-11-20)
+
+The [candidate parameters](reference/k7222-11/t3-coupled-source-ac-loss-parameters.json)
+combine the source-informed 1,768-turn, 440-ohm, 7.5-pF, k=0.92 overwind
+with the existing [one-pole AC-loss proxy](reference/k7222-11/t3-ac-loss-parameters.json).
+Each low-turn section has a provisional 10-ohm skin-loss branch and the HV
+section has 5 kohm; the loss fraction is 0.9. These are `assumed-bound`
+impedance hypotheses, not .11 transformer measurements or sourced class
+bounds. The candidate uses the labelled HV-only grounded cold-end return;
+the .11 source graph remains ambiguous. Its auxiliary winding is set to
+10 turns, the upper endpoint of the existing assumed interval. That choice
+was made by the stage response to approach the manual's 80 Vpp TP17 nominal,
+not by an original winding read.
+
+The [reproducible stage screen](reference/k7222-11/t3-ac-loss-candidate-screen.json)
+runs the same 4–5 ms prescribed-drive loaded TP17 bench at 100 and 50 ns
+maximum steps. With 7.5 turns, TP17 is 59.95/59.88 Vpp; with 8 turns it is
+63.94/63.86 Vpp. At 10 turns it is 79.78/79.69 Vpp, while final EHT is
+11.468/11.478 kV. The 10-turn case gives 16 flyback pulses in the 16-line
+window and a 13.10–13.11 µs width at 10% swing, within the manual's 16 µs
+retrace guideline at ±20%. TP17 and EHT change by 0.12% and 0.09% when the
+step is halved; adding the non-driving flux probe changes TP17 by 0.0015%.
+This is a useful numerically stable *isolated-stage snapshot*, not a
+connected operating point or A5 freeze.
+
+The same stage still has a roughly 459 V collector peak, above the
+370–420 V [cross-revision repair comparator](reference/k7222-11/t3-collector-eht-comparator.json),
+which is not a factory .11 limit. The AC-loss branch values, other T3
+sections, core, return graph, joint parameter bounds, and connected
+native-grid behavior remain unqualified. The stage has an ideal 41 V feed,
+prescribed V18 base drive and simplified yoke, and has not demonstrated
+line-to-line flux agreement or a sustained field. It cannot yet support a
+connected service score or selection of the original T3 graph.
