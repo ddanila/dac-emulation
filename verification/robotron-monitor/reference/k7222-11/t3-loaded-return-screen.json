@@ -1,0 +1,224 @@
+{
+  "format": "dac-monitor-t3-loaded-return-screen-v1",
+  "qualification": "conditional return-graph sensitivity on a prescribed-drive 4\u20135 ms stage; not a source-confirmed winding, periodic field, connected score or A5 freeze",
+  "source_hashes": {
+    "reference/k7222-11/t3-coupled-source-overwind-parameters.json": "125fb6c737da4d305196c39de7f999d9e60d920c830635f0ef77166c173af681",
+    "reference/k7222-11/t3-cold-return-matrix.json": "8c2154decbcc8da9ce172686a0d73488031afe188b59308eac0aa071e0504bd2",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
+    "magnetics.py": "722c379dcc2730ea4f5a4464102e28fe8af95f5d009aaef94faefdf3835978e7",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_tp17_path_sweep.py": "90f13dd629d010f0b9ef37e4f32ef12c3568abb9f1ffffc79b876d4ced196b2d",
+    "t3_loaded_return_screen.py": "d699fecb27e8a8157b94fa8e56fc867a8250a83628d66c8a1a41a4013d519c66"
+  },
+  "ngspice_sha256": "3e14f93f378ffcb37ec55e797b3da6099ce9ee6293a4fe7f203619299a5f9da9",
+  "candidate_id": "t3-fc941ad61c50ce31",
+  "fixed_parameters": "source-informed 1768-turn, 440-ohm, 7.5-pF, k=0.92 overwind; other T3 sections and stage loads retain their provisional values",
+  "manual_tp17_guideline_range_vpp": [
+    64,
+    96
+  ],
+  "manual_eht_range_v": [
+    11000,
+    12000
+  ],
+  "cases": [
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "0",
+        "X1_16": "0"
+      },
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "09ffaa6c6a2cff8f283dd617f35418ef4138dbd0715aa01a80aaa7b801118002",
+      "status": "timeout"
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "hv_only_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "0"
+      },
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "86d1647321d77ce7fb1ed56fb6715e3d150cd8bb002ffb2a37b643b559e60aca",
+      "status": "complete",
+      "result": {
+        "sample_count": 40539,
+        "sample_window_s": [
+          0.00400000228,
+          0.005
+        ],
+        "collector_peak_v": 460.165495,
+        "collector_min_v": -1.03375396,
+        "eht_peak_v": 11442.0667,
+        "eht_final_v": 11433.632,
+        "eht_same_phase_drift_v_over_16_lines": 13.253699999999299,
+        "feedback_swing_v": 56.6390834,
+        "sync_swing_v": 63.0534231,
+        "yoke_current_range_a": [
+          -0.468737207,
+          0.469958873
+        ],
+        "boost_range_v": [
+          63.9203406,
+          64.0537836
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.10274194845024
+      },
+      "snapshot_target_overlap": false
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "0",
+        "X1_16": "0"
+      },
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "82778b0cc162c9403c99f7cf5deb11bb375434543fde26a6845dcc20d9daf9e3",
+      "status": "timeout"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "hv_only_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "0"
+      },
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "a2c54ceb97f239380d73666b41fd0d6ac9d8e86a337c6b79a2ce2fd0127a48ec",
+      "status": "complete",
+      "result": {
+        "sample_count": 40341,
+        "sample_window_s": [
+          0.00400000009,
+          0.005
+        ],
+        "collector_peak_v": 460.121893,
+        "collector_min_v": -1.03376294,
+        "eht_peak_v": 11441.521,
+        "eht_final_v": 11433.0897,
+        "eht_same_phase_drift_v_over_16_lines": 13.64890000000014,
+        "feedback_swing_v": 56.6358743,
+        "sync_swing_v": 63.0702856,
+        "yoke_current_range_a": [
+          -0.468718924,
+          0.469957203
+        ],
+        "boost_range_v": [
+          63.9176434,
+          64.0528693
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.102530062712551
+      },
+      "snapshot_target_overlap": false
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "hv_only_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "0"
+      },
+      "max_step_ns": 100,
+      "flux_probe_in_deck": false,
+      "timeout_s": 90,
+      "normalized_deck_sha256": "601e7aa4b98658d76c36b9ee8d2b0959929a386e8538496d6af8cb6a97b41e4a",
+      "status": "complete",
+      "result": {
+        "sample_count": 44099,
+        "sample_window_s": [
+          0.00400000021,
+          0.005
+        ],
+        "collector_peak_v": 461.778932,
+        "collector_min_v": -1.03392072,
+        "eht_peak_v": 11477.6596,
+        "eht_final_v": 11456.2071,
+        "eht_same_phase_drift_v_over_16_lines": -13.503700000001118,
+        "feedback_swing_v": 56.82776,
+        "sync_swing_v": 63.254775699999996,
+        "yoke_current_range_a": [
+          -0.468750051,
+          0.46993622
+        ],
+        "boost_range_v": [
+          63.9122047,
+          64.0529066
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.106886493159838
+      },
+      "snapshot_target_overlap": false
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "hv_only_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "0"
+      },
+      "max_step_ns": 50,
+      "flux_probe_in_deck": false,
+      "timeout_s": 300,
+      "normalized_deck_sha256": "e5580291757ff23b3804bbc16fa798609d1c3d169e917795a1aeaa4031af3c5a",
+      "status": "complete",
+      "result": {
+        "sample_count": 512708,
+        "sample_window_s": [
+          0.0040000004,
+          0.005
+        ],
+        "collector_peak_v": 1003.27353,
+        "collector_min_v": -2.95504817,
+        "eht_peak_v": 14091.5377,
+        "eht_final_v": 12094.8979,
+        "eht_same_phase_drift_v_over_16_lines": -1107.4084000000003,
+        "feedback_swing_v": 385.9695426,
+        "sync_swing_v": 1028.478828,
+        "yoke_current_range_a": [
+          -1.19154994,
+          1.11358804
+        ],
+        "boost_range_v": [
+          89.3709823,
+          97.3069451
+        ],
+        "flyback_pulse_count": 34,
+        "flyback_width_us_at_10pct_swing_median": 5.976118579890683
+      },
+      "snapshot_target_overlap": false
+    }
+  ],
+  "interpretation": "Grounding only X1:16 makes the short-stage tied/open X1:3 return results nearly equal and the 100 ns result probe-insensitive, but the 50 ns probe-free result greatly exceeds TP17, EHT and collector expectations. Grounding both X1:16 and X1:7 does not finish within 90 s. No variant establishes a numerically qualified stage or the factory graph.",
+  "remaining": [
+    "Resolve the source graph or carry labelled alternatives.",
+    "Find a timestep-invariant loaded stage before a connected native-grid score."
+  ]
+}
