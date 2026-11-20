@@ -56,4 +56,23 @@ class TransformerCandidateTests(unittest.TestCase):
         broken=copy.deepcopy(params);broken['groups']['drive'][0]['turns']['value']=0
         with self.assertRaises(ValueError):tc.compile_model(graph,candidates[0],broken)
 
+    def test_class_typical_overwind_coupling_is_local_and_bounded(self):
+        parameters=json.loads((ROOT/'reference/k7222-11/t3-coupled-source-overwind-parameters.json').read_text())
+        candidate=tc.enumerate_candidates(self.graph)[0]
+        model,metadata=tc.compile_model(self.graph,candidate,parameters,backend='coupled')
+        sections=metadata['sections']
+        hv=[i for i,item in enumerate(sections) if item['group']=='high_voltage']
+        self.assertEqual(len(hv),1)
+        index=hv[0]
+        pairs=[line.split() for line in model.splitlines() if line.startswith('Kcore')]
+        self.assertEqual(len(pairs),len(sections)*(len(sections)-1)//2)
+        for name,_,_,coefficient in pairs:
+            a,b=map(int,name.removeprefix('Kcore').split('_'))
+            self.assertEqual(float(coefficient),.92 if index in (a,b) else .999)
+        self.assertEqual(parameters['groups']['high_voltage'][0]['resistance_ohm']['value'],440)
+        self.assertEqual(parameters['groups']['high_voltage'][0]['capacitance_f']['value'],7.5e-12)
+        broken=copy.deepcopy(parameters)
+        broken['high_voltage_coupling']['maximum']=.999
+        with self.assertRaises(ValueError):tc.compile_model(self.graph,candidate,broken,backend='coupled')
+
 if __name__=='__main__':unittest.main()

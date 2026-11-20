@@ -1,0 +1,352 @@
+{
+  "format": "dac-monitor-t3-source-overwind-sweep-v1",
+  "qualification": "conditional class-typical overwind screen on a prescribed-drive 4\u20135 ms stage; not original K7222.11 winding data, a converged connected monitor, or an A5 freeze",
+  "source_hashes": {
+    "reference/k7222-11/t3-coupled-source-overwind-parameters.json": "125fb6c737da4d305196c39de7f999d9e60d920c830635f0ef77166c173af681",
+    "reference/k7222-11/t3-coupled-equivalent-parameters.json": "a647e39da0dfc606a63dfd633a4a49802ae8ca285031610b631bab42c9833f6c",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
+    "reference/k7222-11/t3-hv-winding-comparator.json": "18c4a5634b6180a235222f4a5db40dfcc594fb5d3659b0af8a22449e63b02499",
+    "reference/k7222-11/design-point.json": "78c520ec3eadc113379903d1e88264e44e5c51071201fbccbe649ff482fd49f5",
+    "magnetics.py": "722c379dcc2730ea4f5a4464102e28fe8af95f5d009aaef94faefdf3835978e7",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_tp17_path_sweep.py": "90f13dd629d010f0b9ef37e4f32ef12c3568abb9f1ffffc79b876d4ced196b2d",
+    "t3_source_overwind_sweep.py": "ceb556b12bb628dd102dcf15cf1c7249c915062203c18be5d740ce198a195c4c"
+  },
+  "ngspice_sha256": "3e14f93f378ffcb37ec55e797b3da6099ce9ee6293a4fe7f203619299a5f9da9",
+  "candidate_id": "t3-fc941ad61c50ce31",
+  "model": "14 individually wound sections; 0.999 coupling except each HV-overwind pair, which uses the selected class-typical k; prior series leakage remains separately provisional",
+  "source_limits": {
+    "uha78_replacement": "https://www.sax.de/~zander/zubehoer/k7222/uha78rep.pdf",
+    "cross_revision_comparator": "reference/k7222-11/t3-hv-winding-comparator.json",
+    "crt_lopt_class": "https://www.worldphaco.com/uploads/RESTORING%20THE%20%20PET%20COMPUTER%209.pdf",
+    "limit": "The 1768-turn/440-ohm winding is a K7222.25 repair; 0.92 coupling and 7\u20138 pF capacitance come from a different CRT LOPT. The original K7222.11 values are not measured."
+  },
+  "manual_tp17_guideline_range_vpp": [
+    64,
+    96
+  ],
+  "manual_eht_range_v": [
+    11000,
+    12000
+  ],
+  "cases": [
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "0a816abb0d540492ac196f11a5ab748ec17d7631e2645d5f0d4292976c9a66a6",
+      "status": "aborted",
+      "timestep_too_small": true,
+      "stage_guideline_overlap": false,
+      "primary_to_overwind_coupling": 0.5
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "f9a3adffd6c81ce1cb61d6168c4aadc01f55da0177ecacdd619eecc092cb726a",
+      "status": "aborted",
+      "timestep_too_small": true,
+      "stage_guideline_overlap": false,
+      "primary_to_overwind_coupling": 0.92
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "f7f562482b151beb92c9d0aa6ca60c7a85b9b7ee751857acc99f8b3cb4652ba4",
+      "status": "complete",
+      "result": {
+        "sample_count": 97340,
+        "sample_window_s": [
+          0.00400000272,
+          0.005
+        ],
+        "collector_peak_v": 519.662693,
+        "collector_min_v": -0.997627435,
+        "eht_peak_v": 11828.9034,
+        "eht_final_v": 11825.2504,
+        "eht_same_phase_drift_v_over_16_lines": 122.95080000000053,
+        "feedback_swing_v": 200.6243538,
+        "sync_swing_v": 787.8828504,
+        "yoke_current_range_a": [
+          -0.470727351,
+          0.47490277
+        ],
+        "boost_range_v": [
+          63.7884917,
+          63.9361999
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 12.584222107848552
+      },
+      "stage_guideline_overlap": false,
+      "primary_to_overwind_coupling": 0.95
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "fee34fd3422240f95007a215b4529cb44fc0b918f258cd05d29c3fa8b0299fb2",
+      "status": "complete",
+      "result": {
+        "sample_count": 78781,
+        "sample_window_s": [
+          0.00400000242,
+          0.005
+        ],
+        "collector_peak_v": 468.73321,
+        "collector_min_v": -1.05099477,
+        "eht_peak_v": 12669.2915,
+        "eht_final_v": 12665.5523,
+        "eht_same_phase_drift_v_over_16_lines": 173.84099999999853,
+        "feedback_swing_v": 140.0439575,
+        "sync_swing_v": 719.1323669,
+        "yoke_current_range_a": [
+          -0.468473348,
+          0.471499345
+        ],
+        "boost_range_v": [
+          63.8423311,
+          63.9925976
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.135064389424404
+      },
+      "stage_guideline_overlap": false,
+      "primary_to_overwind_coupling": 0.97
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 50,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "834f10f83969f8f0be25acbde940a482d7f4d0153383ff0164b793ebc0b9f3f5",
+      "status": "complete",
+      "result": {
+        "sample_count": 89275,
+        "sample_window_s": [
+          0.00400000153,
+          0.005
+        ],
+        "collector_peak_v": 503.50072,
+        "collector_min_v": -1.07177685,
+        "eht_peak_v": 12651.1437,
+        "eht_final_v": 12647.487,
+        "eht_same_phase_drift_v_over_16_lines": 115.95739999999932,
+        "feedback_swing_v": 352.2106323,
+        "sync_swing_v": 686.1686258,
+        "yoke_current_range_a": [
+          -0.565029405,
+          0.554386302
+        ],
+        "boost_range_v": [
+          63.8190389,
+          63.9846281
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.072206035024802
+      },
+      "stage_guideline_overlap": false,
+      "primary_to_overwind_coupling": 0.97
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": false,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "af490b6ca323d4f60099cd0014136dd66c99dfaeb7d7e9ae556ade57d95dfa81",
+      "status": "complete",
+      "result": {
+        "sample_count": 587564,
+        "sample_window_s": [
+          0.00400000143,
+          0.005
+        ],
+        "collector_peak_v": 1004.67363,
+        "collector_min_v": -3.87783725,
+        "eht_peak_v": 12328.7306,
+        "eht_final_v": 12315.5607,
+        "eht_same_phase_drift_v_over_16_lines": 3646.1609599999992,
+        "feedback_swing_v": 453.55704959999997,
+        "sync_swing_v": 1027.6202990000002,
+        "yoke_current_range_a": [
+          -1.11485599,
+          1.16583073
+        ],
+        "boost_range_v": [
+          82.7296732,
+          94.53654
+        ],
+        "flyback_pulse_count": 78,
+        "flyback_width_us_at_10pct_swing_median": 2.241447290848072
+      },
+      "stage_guideline_overlap": false,
+      "primary_to_overwind_coupling": 0.97
+    }
+  ],
+  "factor_isolation": [
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "48412d7c725c07e2a928f82afb828b0595efdce38d0c5405b2c1afd097b87174",
+      "status": "complete",
+      "result": {
+        "sample_count": 89306,
+        "sample_window_s": [
+          0.00400006197,
+          0.005
+        ],
+        "collector_peak_v": 397.066665,
+        "collector_min_v": -0.785671158,
+        "eht_peak_v": 10710.9252,
+        "eht_final_v": 10657.4974,
+        "eht_same_phase_drift_v_over_16_lines": -53.42779999999948,
+        "feedback_swing_v": 49.827183000000005,
+        "sync_swing_v": 56.7754115,
+        "yoke_current_range_a": [
+          -0.463954813,
+          0.470922631
+        ],
+        "boost_range_v": [
+          64.4263283,
+          64.634499
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.719572310772534
+      },
+      "stage_guideline_overlap": false,
+      "factor_case": "legacy",
+      "primary_to_overwind_coupling": 0.999
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "274e6afca8c5ef62d947a822e86c958b120066c8df7e5848199f54ed68388572",
+      "status": "aborted",
+      "timestep_too_small": true,
+      "stage_guideline_overlap": false,
+      "factor_case": "resistance_only",
+      "primary_to_overwind_coupling": 0.999
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "7058a11c8891f451af59e346c20b62f78d0ffe130b8f804b8b214c67489fb3db",
+      "status": "complete",
+      "result": {
+        "sample_count": 91394,
+        "sample_window_s": [
+          0.00400000252,
+          0.005
+        ],
+        "collector_peak_v": 465.988227,
+        "collector_min_v": -1.17068252,
+        "eht_peak_v": 12616.7021,
+        "eht_final_v": 12516.2075,
+        "eht_same_phase_drift_v_over_16_lines": -100.49459999999999,
+        "feedback_swing_v": 57.9294421,
+        "sync_swing_v": 66.34797259999999,
+        "yoke_current_range_a": [
+          -0.473485584,
+          0.4782759
+        ],
+        "boost_range_v": [
+          64.1579921,
+          64.2873822
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.045466644151862
+      },
+      "stage_guideline_overlap": false,
+      "factor_case": "capacitance_only",
+      "primary_to_overwind_coupling": 0.999
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "d5bead7570a82680bbdc0ab858a99fc83c58848881a6bce57258c16a4221fea7",
+      "status": "complete",
+      "result": {
+        "sample_count": 78044,
+        "sample_window_s": [
+          0.00400000332,
+          0.005
+        ],
+        "collector_peak_v": 411.965815,
+        "collector_min_v": -0.702481183,
+        "eht_peak_v": 10679.7021,
+        "eht_final_v": 10678.9249,
+        "eht_same_phase_drift_v_over_16_lines": 117.51319999999942,
+        "feedback_swing_v": 128.8817458,
+        "sync_swing_v": 225.8441145,
+        "yoke_current_range_a": [
+          -0.450561116,
+          0.453179954
+        ],
+        "boost_range_v": [
+          64.0129261,
+          64.1964357
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.63517709021571
+      },
+      "stage_guideline_overlap": false,
+      "factor_case": "coupling_only",
+      "primary_to_overwind_coupling": 0.97
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 7.5,
+      "high_voltage_turns": 1768,
+      "max_step_ns": 100,
+      "flux_probe_in_deck": true,
+      "c18_series_resistance_ohm": 0,
+      "magnetic_backend": "coupled",
+      "normalized_deck_sha256": "ec5779f2db721bb54b1ebd7eec145848de2cc9aebbcb3f728494009d42752864",
+      "status": "aborted",
+      "timestep_too_small": true,
+      "stage_guideline_overlap": false,
+      "factor_case": "resistance_and_capacitance",
+      "primary_to_overwind_coupling": 0.999
+    }
+  ],
+  "remaining": [
+    "Qualify original .11 T3 graph, section parasitics and core",
+    "Resolve numerical sensitivity before any connected native-grid score"
+  ]
+}

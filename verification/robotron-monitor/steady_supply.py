@@ -32,6 +32,12 @@ OUTPUT_CONTRACTS = dict(HORIZONTAL_CHOKE=2, HORIZONTAL_LINEARITY=2,
 CONTRAST_TOPOLOGIES = ('detailed-page3-4', 'manual-fig6-equivalent')
 MAGNETIC_BACKENDS = ('flux', 'coupled')
 T3_EQUIVALENT_LABEL = 'T3_PASSIVE_COUPLED_EQUIVALENT'
+T3_SOURCE_OVERWIND_LABEL = 'T3_CLASS_TYPICAL_OVERWIND_EQUIVALENT'
+
+
+def t3_equivalent_label(parameters):
+    return (T3_SOURCE_OVERWIND_LABEL if 'high_voltage_coupling' in parameters
+            else T3_EQUIVALENT_LABEL)
 PROBES = ('v(eht)', 'v(g2)', 'v(g4)', 'v(cathode)', 'i(Lhorizontal)',
           'i(Lvertical)', '@b.xcrt.bbeam[i]', 'v(p10_7)', 'i(v.xcrt.vheater)',
           'v(h_hot)', 'v(h_feedback)', 'v(vertical_trigger)', 'v(vertical_pulse)',
@@ -400,7 +406,9 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     components = contrast_stage_components(assembly['components'], contrast_topology)
     title = f'Experimental steady-supply K7222 {label}; unqualified hypothesis'
     if magnetic_backend == 'coupled':
-        title += '; T3 passive coupled equivalent'
+        title += ('; T3 class-typical overwind equivalent'
+                  if 'high_voltage_coupling' in parameters else
+                  '; T3 passive coupled equivalent')
     if contrast_topology == 'manual-fig6-equivalent':
         title += '; manual Fig. 6 contrast equivalent'
     lines=[title]
@@ -460,8 +468,11 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     text='\n'.join(lines)+'\n'
     equivalent_stages = []
     if magnetic_backend == 'coupled':
-        equivalent_stages.append(T3_EQUIVALENT_LABEL)
-        assumptions.append('T3 passive coupled equivalent uses provisional section resistance, leakage, capacitance and core slope with coupling 0.999; original graph and bounds are unqualified.')
+        equivalent_stages.append(t3_equivalent_label(parameters))
+        assumptions.append(
+            'T3 overwind uses cross-revision/class-typical turns, resistance, capacitance and primary coupling; other sections, core and original .11 graph remain provisional.'
+            if 'high_voltage_coupling' in parameters else
+            'T3 passive coupled equivalent uses provisional section resistance, leakage, capacitance and core slope with coupling 0.999; original graph and bounds are unqualified.')
     if contrast_topology == 'manual-fig6-equivalent':
         equivalent_stages.append('manual-fig6-contrast-control')
     metadata=dict(candidate=meta,thermal=thermal,period_s=period,source_kind=source_kind,
@@ -726,6 +737,9 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
             (out/'assembly/magnetic-override.json').write_bytes(raw_parameters)
             assembly['magnetic_parameters']=json.loads(raw_parameters)
             assembly['hashes']['magnetic-override.json']=lab.digest(raw_parameters)
+        if magnetic_backend == 'coupled':
+            report['equivalent_stages'][0] = t3_equivalent_label(
+                assembly.get('magnetic_parameters') or {})
         report['hashes']=assembly['hashes'];report['coverage']=assembly['coverage']
         report['outputs']['assembly']='assembly'
         report['tuning']=tune(assembly,selection,changes)

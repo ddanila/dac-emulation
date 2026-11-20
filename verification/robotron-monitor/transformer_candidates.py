@@ -65,7 +65,7 @@ def bounded(parameter):
     if not isinstance(parameter,dict) or set(parameter)!={'value','minimum','maximum','evidence','rationale'}:
         raise ValueError('parameter needs value, bounds, evidence and rationale')
     lo,value,hi=(parameter[k] for k in ('minimum','value','maximum'))
-    if not all(finite(v) for v in (lo,value,hi)) or not 0<lo<=value<=hi or parameter['evidence'] not in ('assumed-bound','documented-bound') or not parameter['rationale']:
+    if not all(finite(v) for v in (lo,value,hi)) or not 0<lo<=value<=hi or parameter['evidence'] not in ('assumed-bound','documented-bound','class-typical') or not parameter['rationale']:
         raise ValueError('invalid magnetic parameter bound')
     return value
 
@@ -83,9 +83,10 @@ def compile_model(graph,candidate,parameters,name='T3_CANDIDATE',shorted_turns=N
         raise ValueError('magnetic parameters need independent provenance')
     expected={g['id'] for g in graph['groups']}
     if set(parameters.get('groups',{}))!=expected:raise ValueError('missing or extra numerical winding groups')
-    windings=[];pins=[];ports=[];descriptions=[]
+    windings=[];pins=[];ports=[];descriptions=[];high_voltage_index=None
     for group in graph['groups']:
         gid=group['id'];taps=group['taps'];values=parameters['groups'][gid]
+        if gid == 'high_voltage':high_voltage_index=len(windings)
         if len(values)!=len(taps)-1:raise ValueError('wrong section count')
         ports+=taps
         for i,(a,b) in enumerate(zip(taps,taps[1:])):
@@ -104,7 +105,17 @@ def compile_model(graph,candidate,parameters,name='T3_CANDIDATE',shorted_turns=N
     build={'xspice': magnetics.transformer,
            'flux': magnetics.transformer_flux,
            'coupled': magnetics.transformer_coupled}[backend]
-    model=build(name+'_CORE',windings,core,shorted_turns)
+    hv_coupling = (bounded(parameters['high_voltage_coupling'])
+                   if 'high_voltage_coupling' in parameters else None)
+    if hv_coupling is not None and (high_voltage_index is None or
+                                   len(parameters['groups']['high_voltage']) != 1 or
+                                   parameters['high_voltage_coupling']['maximum']>=magnetics.EQUIVALENT_COUPLING):
+        raise ValueError('HV coupling bound requires an overwind below background coupling')
+    model=(build(name+'_CORE',windings,core,shorted_turns,
+                 high_voltage_index=high_voltage_index,
+                 high_voltage_coupling=hv_coupling)
+           if hv_coupling is not None and backend == 'coupled' else
+           build(name+'_CORE',windings,core,shorted_turns))
     model+='\n'.join(['.subckt '+name+' '+' '.join(ports),
                      'Xshared '+' '.join(pins)+' '+name+'_CORE','.ends '+name])+'\n'
     return model,dict(candidate=candidate,ports=ports,sections=descriptions,backend=backend,
