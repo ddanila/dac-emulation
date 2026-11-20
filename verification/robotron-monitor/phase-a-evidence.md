@@ -2613,3 +2613,22 @@ rises by 5.85–5.88 V and V1 collector current changes, but steady IS and
 cathode voltages do not move in any of the four cases. The result rules out
 that single substitution as a repair for this bench; it does not resolve the
 manual's reference topology or qualify the complete page-3/4 source graph.
+
+### A1 fallback boundary: required steady IS drive (2026-11-20)
+
+The [IS boundary requirement](reference/k7222-11/page3-4-is-boundary-requirement.json)
+uses the same source-addressed input/neck deck, holds incoming INTENS low,
+and replaces only V5 with a fixed Thevenin source at IS for each
+DC solve. It is a diagnostic for a possible labelled fallback, not a change
+to the active source model. The bench retains neck diode V2:4, the 20 µA
+fixed cathode load, ideal rails and the provisional silicon models.
+
+With dark video, the cathode stays at 33.69 V across the tested 0–16 V IS
+sources. With bright video, an ideal 15.7 V IS source gives 15.01 V at the
+cathode, close to the manual's approximate 15 V normal-bright level, and
+delivers 28.7 mA. At the same source voltage, 10, 100 and 1,000 Ω series
+resistance give cathode levels of 14.73, 12.66 and 5.81 V. A simple 5 V
+pull-up cannot reach the manual level, and a future equivalent needs both
+sufficient voltage and current drive. This sweep does not identify the
+original V5 drive, establish the manual contrast transfer, or qualify CRT
+emission and service-meter observations.
