@@ -205,9 +205,19 @@
     "shorter_field_trial": {"field_length_m": 0.0347, "field_start_m": 0.075, "assumed_internal_neck_radius_m": 0.010, "horizontal_turns": 357, "horizontal_fill_fraction": 0.6482219511767212, "horizontal_inductance_h": 0.003995096090415071, "horizontal_tesla_per_amp": 0.008554574637571935, "current_for_105mm_half_width_a": 0.6324536409, "maximum_current_before_neck_clip_a": 0.6353833294, "maximum_half_width_m": 0.1055749955, "method": "Recompute the cosine-sheet yoke at 34.7 mm active length; binary-search the trajectory current and neck-clip boundary at 11.5 kV, 350 V G2 and 4 kV focus. 0.2, 0.1 and 0.05 mm integration steps agree to sub-nanometre half-width.", "qualification": "mathematically feasible only for the unverified 10 mm internal neck aperture and assumed 280 mm beam-origin-to-screen distance; margin to neck clipping and winding fill limit is small"},
     "conclusion": "The default 40 mm yoke field clips before the 210 mm documented width. A 12 mm internal neck radius is excluded by the family outline drawing. Shortening the assumed active field to 34.7 mm reaches 105 mm half-width in the reduced model, but does not establish the real tube inner aperture, yoke extent or installed geometry; no peak current is frozen."
   },
+  "conditional_axial_geometry_screen": {
+    "status": "110-degree tube-class sensitivity only; installed B31G22/AE9VT dimensions and current remain unqualified",
+    "report": "reference/k7222-11/yoke-axial-geometry-screen.json",
+    "source_context": "Robotron K7222.13/23 describes AE9VT with a 110-degree tube; Philips A31-410W is a 31 cm/110-degree/20 mm-neck class tube with 233 mm maximum overall length. Neither identifies the K7222.11 tube or its gun location.",
+    "active_model_gun_to_screen_m": 0.28,
+    "class_tube_maximum_overall_length_m": 0.233,
+    "conditional_maximum_field_length_m_at_230mm_path": 0.026553515625000003,
+    "conditional_maximum_field_length_m_at_200mm_path": 0.021643066406249994,
+    "limitation": "The 230 and 200 mm paths are sensitivity choices, not B31G22 measurements. Field start, internal neck radius, winding sensitivity and screen shape remain assumptions; the 90-degree Philips yoke electrical/current class is not an installed AE9VT limit."
+  },
   "remaining_design_work": [
     "Resolve the remaining T3 tap/return map and boost supply from the source before fixing turns or the other winding polarities; HV and G1 auxiliary relative signs are conditionally screened within the current graph, leaving four candidates with upper/lower tap signs unresolved.",
-    "Bound the inner neck aperture and yoke axial extent before selecting the narrow 34.7 mm trial: a class-bounded 475 uH/0.8 ohm winding still clips before 210 mm in the default 40 mm field, while the short-field trial has only 0.46% current margin to assumed neck clipping. The active 4.007 mH/2 ohm winding is outside the cited 31 cm/20 mm-neck class, and a 12 mm internal aperture exceeds the family outside-neck diameter.",
+    "Bound B31G22 gun-to-screen distance, inner neck aperture and AE9VT axial field extent before choosing geometry: the current 280 mm beam path exceeds a comparable 110-degree tube's 233 mm maximum overall length. At 230 mm the conditional model needs at most 26.55 mm active field, and at 200 mm at most 21.64 mm; the installed values remain unknown. The active 4.007 mH/2 ohm winding is outside the cited 31 cm/90-degree yoke class, which is only a sensitivity comparator.",
     "Validate the conditional vertical operating point against sourced tube/yoke bounds and a connected TP7/TP8 differential waveform; test points 1–6 constrain upstream stage waveforms rather than yoke current directly.",
     "Check each derived quantity against the source and replace placeholder T3 parameters only after the constraints are mutually consistent."
   ]
