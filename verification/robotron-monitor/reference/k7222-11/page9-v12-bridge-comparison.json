@@ -1,0 +1,27 @@
+{
+  "format": "dac-monitor-page9-v12-bridge-comparison-v1",
+  "qualification": "local V11 collector/V12/A2 plus-input source bridge only; page-9 netlist and connected function remain open",
+  "source_read_sha256": "3f88abc46c0b5438887f44571e755004ce40e0691cc447116cac870c49fc299d",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "oscillator_sheet_sha256": "fd88c461fa263880ca4aa9f156995f539da9c61a33987459feed16563df7205c",
+  "integrator_sheet_sha256": "fcc4105a85343558459544a6a0e19538b2b82691860eb9517956c0992e9c65ea",
+  "exported_pin_nets": {
+    "V11": {
+      "3": "0",
+      "2": "vertical_base",
+      "1": "vertical_pulse"
+    },
+    "V12": {
+      "1": "ramp_noninv",
+      "2": "vertical_pulse"
+    },
+    "A2_positive_input": "ramp_noninv"
+  },
+  "checks": {
+    "v12_two_distinct_terminals": true,
+    "cathode_to_oscillator_pulse": true,
+    "anode_to_a2_positive_input": true,
+    "v11_base_and_emitter": true
+  },
+  "passed": true
+}
