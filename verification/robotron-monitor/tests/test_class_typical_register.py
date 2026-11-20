@@ -1,4 +1,5 @@
 import json
+import hashlib
 import math
 import re
 import sys
@@ -119,6 +120,28 @@ class ClassTypicalRegisterTests(unittest.TestCase):
         self.assertEqual(row['bounds'],[check['assumed_class_spread']['scenarios'][0]['hot_resistance_ohm'],
                                         check['assumed_class_spread']['scenarios'][-1]['hot_resistance_ohm']])
         self.assertLess(abs(check['comparison']['heater_current_relative_error']),.02)
+
+    def test_tube_cutoff_comparator_matches_live_nominal_and_manual_states(self):
+        check=json.loads((REF/'tube-cutoff-class-check.json').read_text())
+        row=self.by_id['B31G22.grid2_mu']
+        nominal=electrothermal.parameters()['grid2_mu']
+        self.assertEqual(row['value'],nominal)
+        self.assertEqual(row['bounds'],list(electrothermal.BOUNDS['grid2_mu'][1:3]))
+        self.assertEqual(check['active_model']['nominal_grid2_mu'],nominal)
+        self.assertEqual(check['active_model']['sha256'],hashlib.sha256(
+            (ROOT/'electrothermal.py').read_bytes()).hexdigest())
+        self.assertEqual(check['sources']['tungsram']['pdf_sha256'],
+                         self.register['sources']['tungsram_m31_120_1976']['sha256'])
+        manual=next(row for row in json.loads((ROOT/'sources.json').read_text())['sources']
+                    if row['file']=='older-operation.pdf')
+        self.assertEqual(check['sources']['robotron_manual']['pdf_sha256'],
+                         manual['sha256'])
+        self.assertFalse(check['sources']['tungsram']['exact_installed_type'])
+        self.assertFalse(check['active_model']['g4_modeled'])
+        self.assertGreater(check['comparison']['nominal_catalog_grid_cutoff_v'],35)
+        self.assertLess(check['comparison']['nominal_catalog_grid_cutoff_v'],69)
+        self.assertLessEqual(check['comparison']['nominal_dark_drive_v'],0)
+        self.assertGreater(check['comparison']['nominal_bright_drive_v'],0)
 
 
 if __name__ == '__main__':

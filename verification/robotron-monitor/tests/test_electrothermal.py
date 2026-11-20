@@ -149,6 +149,40 @@ quit
         self.assertLess(max(abs(r[6]) for r in rows),1e-12)
         self.assertLess(max(abs(r[1])+abs(r[2]) for r in rows),1e-6)
 
+    def test_held_warm_manual_bright_and_dark_cutoff(self):
+        # The manual's approximate cathode levels are checked at the isolated
+        # page-16 neck rails. This is not a connected or installed-gun claim.
+        with tempfile.TemporaryDirectory() as tmp:
+            folder=Path(tmp)
+            deck=f'''CRT class cut-off at isolated neck rails
+Vheater hp 0 10.7
+Vcathode cath 0 15
+Vg1 g1 0 -25
+Vg2 g2 0 350
+Vanode anode 0 11500
+Xcrt hp 0 cath g1 g2 anode th tc CRT_THERMAL
+{et.model(initial_rise_k=(900,670),hold_temperature=True)}
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=15
+dc Vcathode 15 35 20
+wrdata cutoff.txt v(xcrt.launch_current_ua)
+quit
+.endc
+.end
+'''
+            (folder/'run.cir').write_text(deck)
+            log=lab.run_command(['ngspice','-b','run.cir'],folder,folder/'solver.log')
+            self.assertNotIn('Error:',log)
+            rows=[list(map(float,line.split())) for line in
+                  (folder/'cutoff.txt').read_text().splitlines()[1:]]
+        self.assertEqual(len(rows),2)
+        self.assertAlmostEqual(rows[0][0],15,places=9)
+        self.assertAlmostEqual(rows[1][0],35,places=9)
+        self.assertGreater(rows[0][1],1)
+        self.assertLess(abs(rows[1][1]),1e-9)
+
     def test_connected_neck_continuous_lifecycle_and_failure_manifest(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
