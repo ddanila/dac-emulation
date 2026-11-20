@@ -160,6 +160,26 @@ def verify_native_capture(evidence, score):
     return selected,metadata
 
 
+def verify_native_contrast_topology(score, metadata, freeze):
+    """Keep the native trial on the same contrast wiring as its grid freeze."""
+    deck=Path(score['input']).with_name('run.cir')
+    if not deck.is_file():
+        raise ValueError('native trial lacks its connected deck')
+    raw=deck.read_bytes()
+    if metadata.get('experiment',{}).get('deck_sha256')!=hashlib.sha256(raw).hexdigest():
+        raise ValueError('native contrast deck differs from its metadata hash')
+    actual=steady_supply.contrast_topology_from_deck(raw.decode())
+    expected=freeze.get('assumptions',{}).get('contrast_topology')
+    stages=(['manual-fig6-contrast-control']
+            if actual=='manual-fig6-equivalent' else [])
+    if (expected not in steady_supply.CONTRAST_TOPOLOGIES
+            or metadata.get('contrast_topology')!=actual
+            or metadata.get('equivalent_stages')!=stages
+            or actual!=expected):
+        raise ValueError('native contrast topology differs from calibration freeze or stage label')
+    return True
+
+
 def verify_settling_evidence(evidence,score,selection,metadata):
     """Recompute G1, G1b and G2 from the final connected electrical trace."""
     actual=steady_supply.assess(Path(score['input']),metadata,selection)
@@ -450,14 +470,15 @@ def main():
     verify_source_review(evidence,ocr_root=args.source_review_ocr_root,
                          source_pdf=args.source_review_pdf,
                          marks_path=args.source_review_marks)
+    freeze=json.loads(args.calibration_freeze.read_text())
     selection,metadata=verify_native_capture(evidence,score)
+    verify_native_contrast_topology(score,metadata,freeze)
     verify_settling_evidence(evidence,score,selection,metadata)
     verify_calibration_measurements(evidence,score)
     verify_electrical_refinement(evidence,score,metadata)
     verify_optical_refinement(evidence,score,metadata)
     verify_readability(evidence,selection)
-    result=evaluate(evidence,score,
-                    json.loads(args.calibration_freeze.read_text()))
+    result=evaluate(evidence,score,freeze)
     args.output.write_text(json.dumps(result,indent=2)+'\n')
     print('A1','PASS' if result['prerequisite_a1']['passed'] else 'FAIL')
     for gate in result['blocking']:print(gate['gate'],'PASS' if gate['passed'] else 'FAIL')

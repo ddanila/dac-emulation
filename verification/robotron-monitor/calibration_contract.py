@@ -22,7 +22,7 @@ import grid_geometry
 CALIBRATION_POINTS=frozenset((14,15,17))
 HELD_OUT_POINTS=frozenset(range(1,18))-CALIBRATION_POINTS
 ASSUMPTION_KEYS=frozenset(('t3_candidate','t3_winding_parameters','yoke_profile',
-                           'l4_coupling','horizontal_tank_l'))
+                           'l4_coupling','horizontal_tank_l','contrast_topology'))
 TRIM_KEYS=frozenset(('regulated_5v_r9','vertical_sync_r22','oscillator_t1',
                      'horizontal_hold_r24','dark_raster_r28',
                      'max_beam_r4_0126921','horizontal_linearity_l3',
@@ -211,6 +211,10 @@ def _validate_calibration_trial(proposal, score, source):
     actual_candidate=metadata.get('candidate',{}).get('candidate',{}).get('id')
     if actual_candidate!=proposal['candidate_id']:
         raise ValueError('calibration trial used a different T3 candidate')
+    topology=proposal['assumptions']['contrast_topology']
+    if (metadata.get('contrast_topology')!=topology
+            or steady_supply.contrast_topology_from_deck(deck.read_text())!=topology):
+        raise ValueError('calibration trial used different contrast topology')
     actual_parameters=metadata.get('parameters',{})
     _validate_trim_bindings(proposal['trims'],actual_parameters,deck.read_text())
     for key in ('l4_coupling','horizontal_tank_l'):
@@ -266,6 +270,8 @@ def freeze(proposal, score):
         raise ValueError('missing T3 candidate identity')
     if proposal['assumptions']['t3_candidate']!=proposal['candidate_id']:
         raise ValueError('T3 candidate mismatch')
+    if proposal['assumptions']['contrast_topology'] not in steady_supply.CONTRAST_TOPOLOGIES:
+        raise ValueError('unknown calibration contrast topology')
     for key in ('l4_coupling','horizontal_tank_l'):
         value=proposal['assumptions'][key]
         if type(value) not in (int,float) or not math.isfinite(value):raise ValueError('invalid '+key)
@@ -348,6 +354,8 @@ def verify(record):
     _validate_trim_record(check['trims'])
     if check['assumptions']['t3_candidate']!=check.get('candidate_id'):
         raise ValueError('frozen candidate mismatch')
+    if check['assumptions']['contrast_topology'] not in steady_supply.CONTRAST_TOPOLOGIES:
+        raise ValueError('unknown frozen contrast topology')
     if any(not isinstance(check.get(key),str) or len(check[key])!=64
            for key in ('source_capture_sha256','calibration_score_sha256')):
         raise ValueError('missing frozen evidence identity')
@@ -406,13 +414,15 @@ def verify(record):
     return True
 
 
-def verify_run(record, *, candidate_id, parameters, magnetic_sha256, yoke_sha256):
+def verify_run(record, *, candidate_id, parameters, magnetic_sha256, yoke_sha256, contrast_topology):
     """Bind a connected solve to the assumptions chosen on the synthetic grid."""
     verify(record)
     _validate_trim_bindings(record['trims'],parameters)
     assumptions=record['assumptions']
     if candidate_id!=record['candidate_id']:
         raise ValueError('connected T3 candidate differs from calibration freeze')
+    if contrast_topology!=assumptions['contrast_topology']:
+        raise ValueError('connected contrast topology differs from calibration freeze')
     for name, actual in (('t3_winding_parameters',magnetic_sha256),
                          ('yoke_profile',yoke_sha256)):
         source=assumptions[name]

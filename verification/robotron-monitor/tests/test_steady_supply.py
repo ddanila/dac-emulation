@@ -194,6 +194,35 @@ class SteadySupplyTests(unittest.TestCase):
         for position,total_r in ((-.01,10000),(.5,4999),(.5,10001),(float('nan'),10000)):
             with self.assertRaises(ValueError):steady.brightness_resistances(position,total_r)
 
+    def test_manual_contrast_equivalent_keeps_source_export_and_is_identified(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            assembly=steady.assemble(Path(tmp)/'assembly')
+            original=copy.deepcopy(assembly['components'])
+            candidate=tc.enumerate_candidates(assembly['magnetic_graph'])[0]
+            selection={'status':'complete','period_ticks':3600000,
+                       'clock_hz':179712000,
+                       'events':[[0,0,1,1],[1800000,1,0,1]]}
+            detailed, detailed_meta=steady.deck(assembly,selection,candidate)
+            assembly['contrast_topology']='manual-fig6-equivalent'
+            manual, manual_meta=steady.deck(assembly,selection,candidate)
+            self.assertEqual(assembly['components'],original)
+            self.assertEqual(steady.contrast_topology_from_deck(detailed),'detailed-page3-4')
+            self.assertEqual(steady.contrast_topology_from_deck(manual),'manual-fig6-equivalent')
+            self.assertEqual(detailed_meta['equivalent_stages'],[])
+            self.assertEqual(manual_meta['equivalent_stages'],['manual-fig6-contrast-control'])
+            self.assertNotEqual(detailed_meta['experiment']['deck_sha256'],
+                                manual_meta['experiment']['deck_sha256'])
+            changed={line for line in manual.splitlines() if line not in detailed.splitlines()}
+            self.assertEqual({line.split()[0] for line in changed},
+                             {'Experimental','Q201','Q202','R213'})
+            assembly['contrast_topology']='unknown'
+            with self.assertRaisesRegex(ValueError,'unknown contrast topology'):
+                steady.deck(assembly,selection,candidate)
+            malformed=copy.deepcopy(original)
+            next(row for row in malformed if row['reference']=='Q201')['nodes'][0]='invented'
+            with self.assertRaisesRegex(ValueError,'no longer matches source export'):
+                steady.contrast_stage_components(malformed,'manual-fig6-equivalent')
+
     def test_raw_parser_rejects_partial_or_nonfinite_runs(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)/'raw'

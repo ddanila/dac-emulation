@@ -96,7 +96,14 @@ class CalibrationContractTests(unittest.TestCase):
                 [str(ROOT.parents[1]/'build/robotron-signal-pattern'),'grid',
                  '--fields','4','--line-characters','108']))
             trial=Path(directory)/'trial';trial.mkdir()
-            deck=trial/'run.cir';deck.write_text('* connected grid fixture\n.tran 1u .078\n.end\n')
+            deck=trial/'run.cir';deck.write_text(
+                '* connected grid fixture\n'
+                'D205 clamp_i intens 1AD50_BOUND\n'
+                'Rcontrast reference9 contrast_low {contrast_r*contrast_position}\n'
+                'Q201 intens base_i 0 SC60A_CLASS_N\n'
+                'Q202 p35 v1_base contrast_low SC60A_CLASS_N\n'
+                'R213 contrast_low 0 5100.0\n'
+                '.tran 1u .078\n.end\n')
             deck_hash=hashlib.sha256(deck.read_bytes()).hexdigest()
             selected=contract.steady_supply.select(contract.lab.parse_capture(capture))
             graph=json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
@@ -105,6 +112,7 @@ class CalibrationContractTests(unittest.TestCase):
             yoke_path=ROOT/'profiles/k7222-11-yoke-geometry.json'
             metadata={'period_s':.0195,'simulated_fields':4,
                       'source_kind':'synthetic-test-pattern',
+                      'contrast_topology':'detailed-page3-4',
                       'candidate':{'candidate':{'id':candidate}},
                       'parameters':{'l4_coupling':.5,'horizontal_tank_l':.0015},
                       'experiment':{'source_kind':'synthetic-test-pattern',
@@ -142,7 +150,8 @@ class CalibrationContractTests(unittest.TestCase):
                       'assumptions':{'t3_candidate':candidate,
                                      't3_winding_parameters':identified(ROOT/'reference/k7222-11/t3-initial-parameters.json'),
                                      'yoke_profile':identified(ROOT/'profiles/k7222-11-yoke-geometry.json'),
-                                     'l4_coupling':.5,'horizontal_tank_l':.0015},
+                                     'l4_coupling':.5,'horizontal_tank_l':.0015,
+                                     'contrast_topology':'detailed-page3-4'},
                       'trims':contract.trim_record_template(),
                       'targets':{'eht_v':11500,'horizontal_retrace_us':16,
                                  'picture_width_mm':210,'picture_height_mm':145}}
@@ -176,7 +185,8 @@ class CalibrationContractTests(unittest.TestCase):
             binding=dict(candidate_id=candidate,
                          parameters={'l4_coupling':.5,'horizontal_tank_l':.0015},
                          magnetic_sha256=proposal['assumptions']['t3_winding_parameters']['sha256'],
-                         yoke_sha256=proposal['assumptions']['yoke_profile']['sha256'])
+                         yoke_sha256=proposal['assumptions']['yoke_profile']['sha256'],
+                         contrast_topology='detailed-page3-4')
             self.assertTrue(contract.verify_run(frozen,**binding))
             self.assertIn('dark_raster_r28',frozen['trims'])
             self.assertIn('max_beam_r4_0126921',frozen['trims'])
@@ -212,6 +222,7 @@ class CalibrationContractTests(unittest.TestCase):
                 contract.freeze(unobserved,score)
             for change in ({'candidate_id':'different'}, {'magnetic_sha256':'0'*64},
                            {'yoke_sha256':'0'*64},
+                           {'contrast_topology':'manual-fig6-equivalent'},
                            {'parameters':{'l4_coupling':.4,'horizontal_tank_l':.0015}},
                            {'parameters':{'l4_coupling':.5,'horizontal_tank_l':.0014}}):
                 with self.subTest(change=change),self.assertRaisesRegex(ValueError,'differs from calibration freeze'):

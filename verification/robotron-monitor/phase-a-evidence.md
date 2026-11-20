@@ -2674,3 +2674,22 @@ This is a DC operating point: EHT is approximately zero, scan is not
 periodic, and the tube response and regenerated INTENS polarity are still
 unqualified. The manual alternative remains conditional and is not the
 active KiCad topology or a connected native-grid A3 score.
+
+The connected runner now exposes the terminal swap as the labelled
+`manual-fig6-equivalent` contrast topology. It changes only V5's upper
+terminal, V1's lower terminal and the printed 5.1 kΩ shunt terminal in the
+assembled deck; the KiCad export stays unchanged. Run metadata and the
+calibration proposal/freeze bind the topology, and both the native runner and
+final gate reject a different deck topology from its grid freeze. The default
+remains the detailed page-3/4 wiring. The stage label is
+`manual-fig6-contrast-control`.
+
+A [200 µs connected startup screen](reference/k7222-11/page3-4-connected-contrast-transient.json)
+uses the archived native logical capture and one unverified T3 sign candidate.
+The detailed topology completes at the default sparse settings (3,597 data
+rows). The manual equivalent fails at 1 ns with a timestep error at `sync_c`
+under those settings. With KLU, 50 ns maximum step, 0.002 relative tolerance
+and 10⁻⁸ A absolute tolerance, it reaches 200 µs (9,453 rows). This only
+establishes short-startup solver feasibility for that one candidate. It
+does not score a field, show lock or periodic settling, prove the manual
+terminal assignment, or qualify the native frame.

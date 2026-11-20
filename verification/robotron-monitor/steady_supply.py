@@ -29,6 +29,7 @@ ROOT = Path(__file__).resolve().parent
 OUTPUT_CONTRACTS = dict(HORIZONTAL_CHOKE=2, HORIZONTAL_LINEARITY=2,
     HORIZONTAL_COMPENSATION=2, HORIZONTAL_BRIGHTNESS=3, HORIZONTAL_FOCUS=3,
     T3_CANDIDATE=19)
+CONTRAST_TOPOLOGIES = ('detailed-page3-4', 'manual-fig6-equivalent')
 PROBES = ('v(eht)', 'v(g2)', 'v(g4)', 'v(cathode)', 'i(Lhorizontal)',
           'i(Lvertical)', '@b.xcrt.bbeam[i]', 'v(p10_7)', 'i(v.xcrt.vheater)',
           'v(h_hot)', 'v(h_feedback)', 'v(vertical_trigger)', 'v(vertical_pulse)',
@@ -305,6 +306,56 @@ def compensation_network(components, coupling):
     return lines,{p['reference'] for p in parts.values()}
 
 
+def contrast_stage_components(components, topology):
+    """Keep the source export intact while selecting a labelled Fig. 6 fallback."""
+    if topology not in CONTRAST_TOPOLOGIES:
+        raise ValueError('unknown contrast topology')
+    if topology == 'detailed-page3-4':
+        return components
+    changes = {
+        '012-6921:V5': ('Q201', ['intens', 'base_i', '0'],
+                        ['contrast_low', 'base_i', '0']),
+        '012-6921:V1': ('Q202', ['p35', 'v1_base', 'contrast_low'],
+                        ['p35', 'v1_base', 'intens']),
+        '012-6921:R2': ('R213', ['contrast_low', '0'], ['intens', '0']),
+    }
+    found = set()
+    result = []
+    for component in components:
+        source_id = component['source_id']
+        if source_id not in changes:
+            result.append(component)
+            continue
+        reference, expected, replacement = changes[source_id]
+        if source_id in found or component['reference'] != reference or component['nodes'] != expected:
+            raise ValueError('manual contrast fallback no longer matches source export: '+source_id)
+        found.add(source_id)
+        result.append(dict(component, nodes=replacement))
+    if found != set(changes):
+        raise ValueError('manual contrast fallback is missing source components')
+    return result
+
+
+def contrast_topology_from_deck(text):
+    """Identify the actual three-terminal wiring, for calibration provenance."""
+    lines = set(text.splitlines())
+    common = {'D205 clamp_i intens 1AD50_BOUND',
+              'Rcontrast reference9 contrast_low {contrast_r*contrast_position}'}
+    if not common <= lines:
+        raise ValueError('contrast deck lacks neck diode or external R2')
+    detailed = {'Q201 intens base_i 0 SC60A_CLASS_N',
+                'Q202 p35 v1_base contrast_low SC60A_CLASS_N',
+                'R213 contrast_low 0 5100.0'}
+    manual = {'Q201 contrast_low base_i 0 SC60A_CLASS_N',
+              'Q202 p35 v1_base intens SC60A_CLASS_N',
+              'R213 intens 0 5100.0'}
+    if detailed <= lines and not lines & manual:
+        return 'detailed-page3-4'
+    if manual <= lines and not lines & detailed:
+        return 'manual-fig6-equivalent'
+    raise ValueError('contrast deck has mixed or unknown terminal wiring')
+
+
 def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=.005,
          linear_solver='sparse', abstol=1e-6, initial_voltages=None):
     if type(fields) is not int or not 4<=fields<=64:raise ValueError('expected 4..64 continuous settling fields')
@@ -339,12 +390,17 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     source_kind=assembly.get('source_kind','schematic-derived-logical')
     label=('synthetic calibration pattern' if source_kind=='synthetic-test-pattern'
            else 'native capture')
-    lines=[f'Experimental steady-supply K7222 {label}; unqualified hypothesis']
+    contrast_topology = assembly.get('contrast_topology', 'detailed-page3-4')
+    components = contrast_stage_components(assembly['components'], contrast_topology)
+    title = f'Experimental steady-supply K7222 {label}; unqualified hypothesis'
+    if contrast_topology == 'manual-fig6-equivalent':
+        title += '; manual Fig. 6 contrast equivalent'
+    lines=[title]
     lines += [f'.param {k}={v:.15g}' for k,v in p.items()]
-    l4,expanded=compensation_network(assembly['components'],p['l4_coupling'])
+    l4,expanded=compensation_network(components,p['l4_coupling'])
     lines += [f'.param centering_r4_a_ohm={centering_r4_a:.15g}',
               f'.param centering_r4_b_ohm={centering_r4_b:.15g}']
-    lines += [' '.join([c['reference'],*c['nodes'],c['value']]) for c in assembly['components'] if c['reference'] not in expanded]
+    lines += [' '.join([c['reference'],*c['nodes'],c['value']]) for c in components if c['reference'] not in expanded]
     lines += l4
     links=([('E1','centering_a','0'),('E2','centering_c','p12')] if strap==0
            else [('E3','centering_c','0'),('E4','centering_a','p12')])
@@ -385,7 +441,9 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     assumptions=['Ideal 12 V converter input and R5-scaled 22/41/-16 V outputs; actual 5 V regulator retained.',
         'Page-9 R4/R2/L1/L2 centring bridge uses one conditional opposite-polarity E-link pair; installed pair and choke construction are unverified.',
         'External brightness R1 has page-3/page-18 terminal mapping and a handwritten 5–10 kohm class-typical value; A1 netlist comparison remains open.',
-        'External contrast R2 is a two-wire rheostat from KRA to KRS. Its page-3/4 board-side mapping and X1 pin export match; the connected stage score remains open.',
+        ('External contrast R2 is a two-wire rheostat from KRA to KRS. The manual Fig. 6 V1/V5/R2-shunt terminal arrangement is a conditional equivalent, not a verified page-3/4 factory correction.'
+         if contrast_topology == 'manual-fig6-equivalent' else
+         'External contrast R2 is a two-wire rheostat from KRA to KRS. Its page-3/4 board-side mapping and X1 pin export match; the connected stage score remains open.'),
         'Periodic repetition of a captured static field initializes the circuit; no cold thermal timeline.',
         'Unmeasured yoke geometry and tube capacitance/leakage. The selected yoke profile declares whether R/L and field are jointly derived or independent.',
         'Finite 1 Gohm DC leakage at isolated C19 midpoint and horizontal yoke; not a source component.',
@@ -393,6 +451,9 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         'Exploratory solver tolerances require independent refinement; completion is not acceptance.']
     text='\n'.join(lines)+'\n'
     metadata=dict(candidate=meta,thermal=thermal,period_s=period,source_kind=source_kind,
+        contrast_topology=contrast_topology,
+        equivalent_stages=(['manual-fig6-contrast-control']
+                           if contrast_topology == 'manual-fig6-equivalent' else []),
         simulated_fields=fields,retained_fields=4,assumptions=assumptions,
         yoke=yoke,initial_voltage_guesses=initial_voltages,initialization='DC operating point with optional voltage guesses; not a periodic-state checkpoint',
         r5_equivalent=dict(source_ids=['012-6931:R5','012-6931:R6','012-6931:R7'],
@@ -423,6 +484,8 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     metadata['collection']=dict(profile=collection.PROFILE,feedback_enabled=collection_report is not None,
         load_sha256=None if collection_report is None else lab.digest(json.dumps(collection_report,sort_keys=True,allow_nan=False).encode()),
         probe_amperes_per_volt=1e-6,launch_probe='v(xcrt.launch_current_ua)',emission_probe='v(xcrt.emitted_current_ua)',anode_probe='i(@b.xcrt.bbeam[i])')
+    if components and contrast_topology_from_deck(text) != contrast_topology:
+        raise ValueError('assembled contrast deck differs from selected topology')
     inputs=dict(deck_sha256=lab.digest(text.encode()),source_content_sha256=selection.get('source_content_sha256'),
                 capture_sha256=assembly.get('capture_sha256'),assembly_hashes=assembly.get('hashes',{}),resolved=metadata)
     fingerprint=lab.digest(json.dumps(inputs,sort_keys=True,allow_nan=False).encode())
@@ -583,7 +646,7 @@ def score_trial(trial, metadata):
                 point_statuses={str(point['test_point']):point['status'] for point in result['points']})
 
 
-def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None, calibration_freeze=None):
+def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None, calibration_freeze=None, contrast_topology='detailed-page3-4'):
     """Archive and screen the assembled hypotheses under a single wall budget.
 
     No successful solve or plausible picture is promoted to a verified frame.
@@ -591,12 +654,17 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
     """
     if not math.isfinite(wall_budget_hours) or not 0<wall_budget_hours<=12:
         raise ValueError('wall budget must be positive and at most 12 hours')
+    if contrast_topology not in CONTRAST_TOPOLOGIES:
+        raise ValueError('unknown contrast topology')
     out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     begin=time.monotonic();deadline=begin+wall_budget_hours*3600
     search_deadline=begin+wall_budget_hours*3600*2/3
     report=dict(format='dac-steady-supply-frame-run-v1',status='incomplete',
         qualification='experimental-connected-electrical-screen',full_monitor_qualified=False,
-        specimen_validated=False,validation_reserved_s=wall_budget_hours*1200,mode='steady-supply-frame',outputs={},candidates=[],blockers=[])
+        specimen_validated=False,validation_reserved_s=wall_budget_hours*1200,mode='steady-supply-frame',outputs={},candidates=[],blockers=[],
+        contrast_topology=contrast_topology,
+        equivalent_stages=(['manual-fig6-contrast-control']
+                           if contrast_topology == 'manual-fig6-equivalent' else []))
     def save():
         report['elapsed_s']=time.monotonic()-begin
         (out/'run.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
@@ -632,6 +700,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         if not any(e[1] for e in selection['events']):
             raise ValueError('selected capture has no active VIDEO; check boot ROM and character generator provenance')
         assembly=assemble(out/'assembly',yoke_path=yoke_path)
+        assembly['contrast_topology']=contrast_topology
         assembly['capture_sha256']=report['capture_sha256']
         assembly['source_kind']=source_kind
         if magnetic_parameters is not None:
@@ -648,12 +717,14 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
             magnetic_key='magnetic-override.json' if magnetic_parameters is not None else 'reference/k7222-11/t3-initial-parameters.json'
             calibration_contract.verify_run(frozen,candidate_id=selected_candidate,
                 parameters=assembly['parameters'],magnetic_sha256=assembly['hashes'][magnetic_key],
-                yoke_sha256=assembly['hashes']['profiles/yoke.json'])
+                yoke_sha256=assembly['hashes']['profiles/yoke.json'],
+                contrast_topology=contrast_topology)
             report['calibration_binding']=dict(candidate_id=selected_candidate,
                 magnetic_sha256=assembly['hashes'][magnetic_key],
                 yoke_sha256=assembly['hashes']['profiles/yoke.json'],
                 l4_coupling=assembly['parameters']['l4_coupling'],
-                horizontal_tank_l=assembly['parameters']['horizontal_tank_l'])
+                horizontal_tank_l=assembly['parameters']['horizontal_tank_l'],
+                contrast_topology=contrast_topology)
             candidate=selected_candidate
         graph=json.loads((out/'assembly/reference/k7222-11/t3-winding-hypothesis.json').read_text())
         candidates=sorted(transformer_candidates.enumerate_candidates(graph),key=lambda c:c['id'])

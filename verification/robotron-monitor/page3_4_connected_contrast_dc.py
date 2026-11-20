@@ -28,26 +28,6 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def replace_exact(deck, old, new):
-    lines = deck.splitlines()
-    if lines.count(old) != 1:
-        raise ValueError('expected one assembled element: '+old)
-    return '\n'.join(new if line == old else line for line in lines)+'\n'
-
-
-def manual_terminal_variant(deck):
-    """The three Fig. 6 terminal differences, with all other parts unchanged."""
-    for old, new in (
-        ('Q201 intens base_i 0 SC60A_CLASS_N',
-         'Q201 contrast_low base_i 0 SC60A_CLASS_N'),
-        ('Q202 p35 v1_base contrast_low SC60A_CLASS_N',
-         'Q202 p35 v1_base intens SC60A_CLASS_N'),
-        ('R213 contrast_low 0 5100.0', 'R213 intens 0 5100.0'),
-    ):
-        deck = replace_exact(deck, old, new)
-    return deck
-
-
 def dc_variant(deck, video, incoming_intens):
     lines = []
     replaced = set()
@@ -108,11 +88,10 @@ def run():
         assembly['parameters']['brightness_position'] = 0
         for contrast in CONTRAST_POSITIONS:
             assembly['parameters']['contrast_position'] = contrast
-            detailed, _ = steady_supply.deck(assembly, selection, candidate)
-            if detailed.count('Rcontrast reference9 contrast_low ') != 1 or detailed.count('D205 clamp_i intens ') != 1:
-                raise ValueError('contrast or neck topology differs from fixture')
-            for topology, deck in (('detailed_page3_4', detailed),
-                                   ('manual_fig6_terminal_swap', manual_terminal_variant(detailed))):
+            for topology, selected in (('detailed_page3_4', 'detailed-page3-4'),
+                                       ('manual_fig6_terminal_swap', 'manual-fig6-equivalent')):
+                assembly['contrast_topology'] = selected
+                deck, _ = steady_supply.deck(assembly, selection, candidate)
                 for incoming in INCOMING_INTENS_STATES:
                     static = dc_variant(deck, 1, incoming)
                     values = operating_point(static, folder/f'{topology}-{contrast}-{incoming}')
@@ -124,9 +103,10 @@ def run():
                                      dc_deck_sha256=sha(static.encode()),
                                      **values))
         assembly['parameters']['contrast_position'] = .5
-        detailed, _ = steady_supply.deck(assembly, selection, candidate)
-        for topology, deck in (('detailed_page3_4', detailed),
-                               ('manual_fig6_terminal_swap', manual_terminal_variant(detailed))):
+        for topology, selected in (('detailed_page3_4', 'detailed-page3-4'),
+                                   ('manual_fig6_terminal_swap', 'manual-fig6-equivalent')):
+            assembly['contrast_topology'] = selected
+            deck, _ = steady_supply.deck(assembly, selection, candidate)
             for incoming in INCOMING_INTENS_STATES:
                 static = dc_variant(deck, 0, incoming)
                 values = operating_point(static, folder/f'dark-{topology}-{incoming}')
