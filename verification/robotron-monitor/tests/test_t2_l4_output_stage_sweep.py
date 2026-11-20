@@ -15,7 +15,11 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
     def test_nominal_drive_misses_tp15_and_eht(self):
         saved = json.loads((ROOT/'reference/k7222-11/t2-l4-output-stage-sweep.json').read_text())
         self.assertTrue(saved['analysis_valid'])
-        self.assertEqual((saved['completed_cases'], saved['aborted_cases']), (11, 13))
+        self.assertEqual((saved['completed_cases'], saved['aborted_cases']), (24, 0))
+        self.assertEqual((saved['strict_completed_cases'], saved['relaxed_completed_cases']),
+                         (11, 24))
+        self.assertEqual(saved['strict_relaxed_comparison_cases'], 11)
+        self.assertTrue(saved['strict_relaxed_within_2pct'])
         self.assertFalse(saved['conditional_tp15_matches'])
         self.assertFalse(saved['conditional_eht_matches'])
 
@@ -52,6 +56,20 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
                                   and row['l4_inductance_per_coil_h'] == 5e-6)
         self.assertAlmostEqual(reversed_result['eht_final_v'],
                                reversed_reference['eht_final_v'], delta=1)
+
+        recovered = sweep.simulate(graph, parameters, candidate, output_parts,
+                                   l3_r, l3_l, driver_parts, ratio=1,
+                                   l4_h=5e-6, on_trace=True, reltol=.002)
+        self.assertEqual(recovered['status'], 'complete')
+        self.assertLess(recovered['driver_collector_swing_v'], 36)
+        self.assertLess(recovered['eht_final_v'], 11000)
+        recovered_reference = next(row['result'] for row in saved['cases']
+                                   if row['t2_secondary_polarity'] == 'model'
+                                   and row['v13_drive_phase'] == 'on_trace'
+                                   and row['t2_primary_secondary_ratio'] == 1
+                                   and row['l4_inductance_per_coil_h'] == 5e-6)
+        self.assertAlmostEqual(recovered['eht_final_v'],
+                               recovered_reference['eht_final_v'], delta=1)
 
 
 if __name__ == '__main__':

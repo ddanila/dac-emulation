@@ -33,7 +33,8 @@ def source_parts():
 
 
 def deck(graph, parameters, candidate, output_parts, l3_r, l3_l,
-         driver_parts, *, ratio, l4_h, on_trace, secondary_reversed, trace):
+         driver_parts, *, ratio, l4_h, on_trace, secondary_reversed, trace,
+         reltol=.001):
     text = stage.deck(graph, parameters, candidate, output_parts, l3_r, l3_l, trace)
     old = ('Vbase drive 0 PULSE(-2.7 1.3 1u 20n 20n 46.5u 62.5u)\n'
            'Rbase drive h_outbase 1')
@@ -61,11 +62,17 @@ def deck(graph, parameters, candidate, output_parts, l3_r, l3_l,
                             'Ls s ground {horizontal_driver_l/horizontal_driver_ratio^2}')
     text = text.replace('i(Lhorizontal) v(h_boost)',
                         'i(Lhorizontal) v(h_boost) v(h_outbase) v(h_drivecol)')
+    original_options = '.options reltol=.001 abstol=1e-9 method=gear'
+    if text.count(original_options) != 1 or reltol not in (.001, .002):
+        raise ValueError('output-stage solver contract changed')
+    text = text.replace(original_options,
+                        f'.options reltol={reltol:.3g} abstol=1e-9 method=gear')
     return text
 
 
 def simulate(graph, parameters, candidate, output_parts, l3_r, l3_l,
-             driver_parts, *, ratio, l4_h, on_trace, secondary_reversed=False):
+             driver_parts, *, ratio, l4_h, on_trace, secondary_reversed=False,
+             reltol=.001):
     with tempfile.TemporaryDirectory() as directory:
         folder = Path(directory)
         trace = folder/'late.dat'
@@ -73,7 +80,8 @@ def simulate(graph, parameters, candidate, output_parts, l3_r, l3_l,
         circuit.write_text(deck(graph, parameters, candidate, output_parts,
                                 l3_r, l3_l, driver_parts, ratio=ratio,
                                 l4_h=l4_h, on_trace=on_trace,
-                                secondary_reversed=secondary_reversed, trace=trace))
+                                secondary_reversed=secondary_reversed, trace=trace,
+                                reltol=reltol))
         process = subprocess.run(['ngspice', '-b', str(circuit)],
                                  capture_output=True, text=True)
         log = process.stdout + process.stderr
@@ -100,14 +108,30 @@ def run():
         for phase in ('on_trace', 'off_trace'):
             for ratio in (1, 3, 10):
                 for l4_h in (5e-6, 50e-6):
-                    result = simulate(graph, parameters, candidate, output_parts,
-                                      l3_r, l3_l, driver_parts, ratio=ratio,
-                                      l4_h=l4_h, on_trace=phase == 'on_trace',
-                                      secondary_reversed=polarity == 'reversed')
+                    common = dict(ratio=ratio, l4_h=l4_h,
+                                  on_trace=phase == 'on_trace',
+                                  secondary_reversed=polarity == 'reversed')
+                    strict = simulate(graph, parameters, candidate, output_parts,
+                                      l3_r, l3_l, driver_parts, **common)
+                    relaxed = simulate(graph, parameters, candidate, output_parts,
+                                       l3_r, l3_l, driver_parts, **common,
+                                       reltol=.002)
+                    result = strict if strict['status'] == 'complete' else relaxed
                     row = {'t2_secondary_polarity': polarity,
                            'v13_drive_phase': phase,
                            't2_primary_secondary_ratio': ratio,
-                           'l4_inductance_per_coil_h': l4_h, 'result': result}
+                           'l4_inductance_per_coil_h': l4_h,
+                           'solver': {'strict_reltol': .001,
+                                      'strict_status': strict['status'],
+                                      'relaxed_reltol': .002,
+                                      'relaxed_status': relaxed['status'],
+                                      'selected_reltol': .001 if strict['status'] == 'complete' else .002},
+                           'result': result}
+                    if strict['status'] == relaxed['status'] == 'complete':
+                        row['solver']['strict_relaxed_relative_difference'] = {
+                            key: abs(strict[key]-relaxed[key])/max(abs(strict[key]), 1e-12)
+                            for key in ('driver_collector_swing_v', 'eht_final_v',
+                                        'collector_peak_v')}
                     if result['status'] == 'complete':
                         row['conditional_checks'] = {
                             'tp15_driver_swing_in_manual_range': tp15_range[0] <= result['driver_collector_swing_v'] <= tp15_range[1],
@@ -115,6 +139,10 @@ def run():
                         }
                     rows.append(row)
     complete = [row for row in rows if row['result']['status'] == 'complete']
+    compared = [row['solver']['strict_relaxed_relative_difference'] for row in rows
+                if 'strict_relaxed_relative_difference' in row['solver']]
+    agreement = {key: max(case[key] for case in compared) for key in
+                 ('driver_collector_swing_v', 'eht_final_v', 'collector_peak_v')}
     nominal = next(row for row in rows if row['t2_secondary_polarity'] == 'model'
                    and row['v13_drive_phase'] == 'off_trace'
                    and row['t2_primary_secondary_ratio'] == 3
@@ -133,11 +161,16 @@ def run():
             'T2 ratio and L4 inductance use declared parameter endpoints; primary coupling, resistance and L4 resistance stay at their provisional nominal values.',
             'T2 secondary terminal polarity is not resolved by the source page-3/4 seam; both the active model direction and its reversal are simulated without claiming either is factory wiring.',
             'The T3/yoke/EHT bench retains its ideal 41 V feed, 65 V boost initialization, unverified T3 graph, 1 nF/200 Mohm EHT load and optional AC winding loss.',
-            'The 4–5 ms window is not proved periodic; solver aborts are retained as failures of the candidate bench, not evidence about factory wiring.',
+            'The 4–5 ms window is not proved periodic. Cases that abort at reltol 0.001 are retried at 0.002 with the same Gear method; strict/relaxed agreement is checked where both complete.',
         ],
         'manual_tp15_range_vpp': tp15_range,
         'manual_eht_range_v': [manual_eht['minimum'], manual_eht['maximum']],
         'cases': rows, 'completed_cases': len(complete), 'aborted_cases': len(rows)-len(complete),
+        'strict_completed_cases': sum(row['solver']['strict_status'] == 'complete' for row in rows),
+        'relaxed_completed_cases': sum(row['solver']['relaxed_status'] == 'complete' for row in rows),
+        'strict_relaxed_comparison_cases': len(compared),
+        'strict_relaxed_max_relative_difference': agreement,
+        'strict_relaxed_within_2pct': all(value <= .02 for value in agreement.values()),
         'nominal_off_trace_case': nominal,
         'conditional_tp15_matches': [
             {key: row[key] for key in ('t2_secondary_polarity', 'v13_drive_phase', 't2_primary_secondary_ratio', 'l4_inductance_per_coil_h')}
@@ -146,7 +179,8 @@ def run():
             {key: row[key] for key in ('t2_secondary_polarity', 'v13_drive_phase', 't2_primary_secondary_ratio', 'l4_inductance_per_coil_h')}
             for row in complete if row['conditional_checks']['eht_final_in_manual_range']],
         'status': 'partial' if len(complete) < len(rows) else 'complete',
-        'analysis_valid': nominal['result']['status'] == 'complete' and len(rows) == 24,
+        'analysis_valid': nominal['result']['status'] == 'complete' and len(rows) == 24
+                          and len(compared) > 0 and all(value <= .02 for value in agreement.values()),
     }
 
 

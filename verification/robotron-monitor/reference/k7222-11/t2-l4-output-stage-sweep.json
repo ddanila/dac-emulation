@@ -32,7 +32,7 @@
     "T2 ratio and L4 inductance use declared parameter endpoints; primary coupling, resistance and L4 resistance stay at their provisional nominal values.",
     "T2 secondary terminal polarity is not resolved by the source page-3/4 seam; both the active model direction and its reversal are simulated without claiming either is factory wiring.",
     "The T3/yoke/EHT bench retains its ideal 41 V feed, 65 V boost initialization, unverified T3 graph, 1 nF/200 Mohm EHT load and optional AC winding loss.",
-    "The 4\u20135 ms window is not proved periodic; solver aborts are retained as failures of the candidate bench, not evidence about factory wiring."
+    "The 4\u20135 ms window is not proved periodic. Cases that abort at reltol 0.001 are retried at 0.002 with the same Gear method; strict/relaxed agreement is checked where both complete."
   ],
   "manual_tp15_range_vpp": [
     36.0,
@@ -48,9 +48,46 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 1,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 14698,
+        "sample_window_s": [
+          0.00400008526,
+          0.005
+        ],
+        "collector_peak_v": 345.778234,
+        "collector_min_v": -1.06116418,
+        "eht_peak_v": 8392.05858,
+        "eht_final_v": 8389.78215,
+        "eht_same_phase_drift_v_over_16_lines": 418.31416999999874,
+        "feedback_swing_v": 42.7820242,
+        "sync_swing_v": 15.53012367,
+        "yoke_current_range_a": [
+          -0.413948217,
+          0.422599796
+        ],
+        "boost_range_v": [
+          63.6285043,
+          63.8401348
+        ],
+        "flyback_pulse_count": 32,
+        "flyback_width_us_at_10pct_swing_median": 9.2306023848957,
+        "output_base_range_v": [
+          -34.584334,
+          0.617807415
+        ],
+        "driver_collector_swing_v": 27.3274771265
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -58,9 +95,46 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 1,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 12767,
+        "sample_window_s": [
+          0.00400004301,
+          0.005
+        ],
+        "collector_peak_v": 375.684509,
+        "collector_min_v": -1.09116452,
+        "eht_peak_v": 9369.26957,
+        "eht_final_v": 9366.89507,
+        "eht_same_phase_drift_v_over_16_lines": 310.90824000000066,
+        "feedback_swing_v": 46.327801199999996,
+        "sync_swing_v": 17.066077280000002,
+        "yoke_current_range_a": [
+          -0.448505763,
+          0.456708331
+        ],
+        "boost_range_v": [
+          63.7446223,
+          63.8661471
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 15.535696242993495,
+        "output_base_range_v": [
+          -45.217619,
+          0.620710102
+        ],
+        "driver_collector_swing_v": 28.8007391674
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -68,6 +142,18 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 3,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 3.6660938030674536e-05,
+          "eht_final_v": 0.010605193649329254,
+          "collector_peak_v": 0.008115848540013255
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 25802,
@@ -108,9 +194,46 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 3,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 12445,
+        "sample_window_s": [
+          0.00400009183,
+          0.005
+        ],
+        "collector_peak_v": 370.41018,
+        "collector_min_v": -1.1144913,
+        "eht_peak_v": 9194.20181,
+        "eht_final_v": 9192.34202,
+        "eht_same_phase_drift_v_over_16_lines": 160.6241599999994,
+        "feedback_swing_v": 45.7443356,
+        "sync_swing_v": 16.71620228,
+        "yoke_current_range_a": [
+          -0.443056605,
+          0.450459486
+        ],
+        "boost_range_v": [
+          63.9312111,
+          64.0920916
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 16.2173541611698,
+        "output_base_range_v": [
+          -26.5185615,
+          0.623211912
+        ],
+        "driver_collector_swing_v": 33.0046957336
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -118,6 +241,18 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 10,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 0.00015464085729622402,
+          "eht_final_v": 0.007232626931224031,
+          "collector_peak_v": 0.005089283473674222
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 30512,
@@ -158,9 +293,46 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 10,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 15549,
+        "sample_window_s": [
+          0.00400003127,
+          0.005
+        ],
+        "collector_peak_v": 223.646009,
+        "collector_min_v": -0.884737297,
+        "eht_peak_v": 4779.51525,
+        "eht_final_v": 4778.43858,
+        "eht_same_phase_drift_v_over_16_lines": 162.57876000000033,
+        "feedback_swing_v": 27.587949099999996,
+        "sync_swing_v": 10.14259286,
+        "yoke_current_range_a": [
+          -0.223693647,
+          0.239088612
+        ],
+        "boost_range_v": [
+          63.8076051,
+          63.8565824
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 17.84139517388948,
+        "output_base_range_v": [
+          -6.40171389,
+          0.598964084
+        ],
+        "driver_collector_swing_v": 32.951189972899996
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -168,6 +340,18 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 1,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 0.0002247603567522851,
+          "eht_final_v": 0.00041742340838030905,
+          "collector_peak_v": 0.00010759508714851013
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 21060,
@@ -208,9 +392,46 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 1,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 13707,
+        "sample_window_s": [
+          0.00400002892,
+          0.005
+        ],
+        "collector_peak_v": 383.950095,
+        "collector_min_v": -1.09960746,
+        "eht_peak_v": 9650.83332,
+        "eht_final_v": 9650.83332,
+        "eht_same_phase_drift_v_over_16_lines": 112.92989999999918,
+        "feedback_swing_v": 47.3479319,
+        "sync_swing_v": 17.78211623,
+        "yoke_current_range_a": [
+          -0.445094919,
+          0.462419348
+        ],
+        "boost_range_v": [
+          63.777651,
+          63.9119155
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.091403912876299,
+        "output_base_range_v": [
+          -37.2022335,
+          0.614772024
+        ],
+        "driver_collector_swing_v": 27.3550134529
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -218,6 +439,18 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 3,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 0.00015963399234560985,
+          "eht_final_v": 0.005159643737349693,
+          "collector_peak_v": 0.0040123288090172585
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 21586,
@@ -258,6 +491,18 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 3,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 0.00023973644861328386,
+          "eht_final_v": 0.00117718427462855,
+          "collector_peak_v": 0.0006500879355163953
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 19943,
@@ -298,9 +543,46 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 10,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 16094,
+        "sample_window_s": [
+          0.00400007002,
+          0.005
+        ],
+        "collector_peak_v": 211.775646,
+        "collector_min_v": -0.852989653,
+        "eht_peak_v": 4687.48337,
+        "eht_final_v": 4664.06507,
+        "eht_same_phase_drift_v_over_16_lines": -23.418300000000272,
+        "feedback_swing_v": 26.038091799999997,
+        "sync_swing_v": 9.56346021,
+        "yoke_current_range_a": [
+          -0.311533063,
+          0.295536145
+        ],
+        "boost_range_v": [
+          63.633405,
+          63.8261621
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 18.241734729567554,
+        "output_base_range_v": [
+          -10.0788767,
+          0.597316605
+        ],
+        "driver_collector_swing_v": 29.722172047300003
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -308,9 +590,46 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 10,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 12454,
+        "sample_window_s": [
+          0.0040000519,
+          0.005
+        ],
+        "collector_peak_v": 183.767985,
+        "collector_min_v": -0.797428185,
+        "eht_peak_v": 3656.49425,
+        "eht_final_v": 3646.98596,
+        "eht_same_phase_drift_v_over_16_lines": -7.008490000000165,
+        "feedback_swing_v": 22.955021000000002,
+        "sync_swing_v": 8.273898370000001,
+        "yoke_current_range_a": [
+          -0.22466652,
+          0.23287669
+        ],
+        "boost_range_v": [
+          62.0066621,
+          62.6455065
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 19.783765334998282,
+        "output_base_range_v": [
+          -7.87288336,
+          0.597387252
+        ],
+        "driver_collector_swing_v": 30.003027502600002
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -318,6 +637,18 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 1,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 1.8737012406499602e-05,
+          "eht_final_v": 0.0007164086179452149,
+          "collector_peak_v": 0.0007680047862929886
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 22198,
@@ -358,6 +689,18 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 1,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 6.6371537032349145e-06,
+          "eht_final_v": 5.0114898929009966e-05,
+          "collector_peak_v": 0.0002107668057636282
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 23224,
@@ -398,6 +741,18 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 3,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 0.00030739955802503105,
+          "eht_final_v": 0.00500894382093051,
+          "collector_peak_v": 0.003727696565102771
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 21628,
@@ -438,6 +793,18 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 3,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 0.00025026251561687337,
+          "eht_final_v": 0.0026179087470329125,
+          "collector_peak_v": 0.002191100130201482
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 19402,
@@ -478,6 +845,18 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 10,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 4.887562686607151e-05,
+          "eht_final_v": 0.002993440710881823,
+          "collector_peak_v": 0.00015645710150749236
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 13449,
@@ -518,6 +897,18 @@
       "v13_drive_phase": "on_trace",
       "t2_primary_secondary_ratio": 10,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "complete",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.001,
+        "strict_relaxed_relative_difference": {
+          "driver_collector_swing_v": 5.6884257336597086e-05,
+          "eht_final_v": 0.0029343430523250972,
+          "collector_peak_v": 0.0006083126209474638
+        }
+      },
       "result": {
         "status": "complete",
         "sample_count": 11146,
@@ -558,9 +949,46 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 1,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 12722,
+        "sample_window_s": [
+          0.00400001256,
+          0.005
+        ],
+        "collector_peak_v": 374.719553,
+        "collector_min_v": -1.10134577,
+        "eht_peak_v": 9331.79717,
+        "eht_final_v": 9329.32755,
+        "eht_same_phase_drift_v_over_16_lines": 273.0314099999996,
+        "feedback_swing_v": 46.2528041,
+        "sync_swing_v": 17.079672199999997,
+        "yoke_current_range_a": [
+          -0.44723226,
+          0.45723133
+        ],
+        "boost_range_v": [
+          63.7672156,
+          63.9450756
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 15.754033894577885,
+        "output_base_range_v": [
+          -36.1390029,
+          0.61750043
+        ],
+        "driver_collector_swing_v": 26.0903031919
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -568,9 +996,46 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 1,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 12869,
+        "sample_window_s": [
+          0.00400002851,
+          0.005
+        ],
+        "collector_peak_v": 388.582345,
+        "collector_min_v": -1.09277701,
+        "eht_peak_v": 9764.66575,
+        "eht_final_v": 9762.18007,
+        "eht_same_phase_drift_v_over_16_lines": 264.8526500000007,
+        "feedback_swing_v": 47.940835400000005,
+        "sync_swing_v": 17.78866017,
+        "yoke_current_range_a": [
+          -0.451087643,
+          0.46224421
+        ],
+        "boost_range_v": [
+          63.6128006,
+          63.7676172
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 14.851126829563531,
+        "output_base_range_v": [
+          -49.0833643,
+          0.620965241
+        ],
+        "driver_collector_swing_v": 28.540543254899998
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -578,9 +1043,46 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 3,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 14132,
+        "sample_window_s": [
+          0.00400007724,
+          0.005
+        ],
+        "collector_peak_v": 371.42798,
+        "collector_min_v": -1.11316871,
+        "eht_peak_v": 9210.17402,
+        "eht_final_v": 9207.82545,
+        "eht_same_phase_drift_v_over_16_lines": 313.3653200000008,
+        "feedback_swing_v": 45.9236583,
+        "sync_swing_v": 16.80160142,
+        "yoke_current_range_a": [
+          -0.442554386,
+          0.44872579
+        ],
+        "boost_range_v": [
+          63.9255883,
+          64.1460217
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 16.12239463931117,
+        "output_base_range_v": [
+          -20.6417967,
+          0.627491655
+        ],
+        "driver_collector_swing_v": 25.163196132899998
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -588,9 +1090,46 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 3,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 12464,
+        "sample_window_s": [
+          0.00400006618,
+          0.005
+        ],
+        "collector_peak_v": 371.08258,
+        "collector_min_v": -1.11756602,
+        "eht_peak_v": 9236.22245,
+        "eht_final_v": 9234.40402,
+        "eht_same_phase_drift_v_over_16_lines": 144.36037000000033,
+        "feedback_swing_v": 45.79535030000001,
+        "sync_swing_v": 16.79755642,
+        "yoke_current_range_a": [
+          -0.443915711,
+          0.451442575
+        ],
+        "boost_range_v": [
+          63.9348891,
+          64.0984342
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 16.16768031179267,
+        "output_base_range_v": [
+          -27.8160719,
+          0.621375776
+        ],
+        "driver_collector_swing_v": 28.5812078907
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -598,9 +1137,46 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 10,
       "l4_inductance_per_coil_h": 5e-06,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 16267,
+        "sample_window_s": [
+          0.0040000053,
+          0.005
+        ],
+        "collector_peak_v": 190.650851,
+        "collector_min_v": -0.824157568,
+        "eht_peak_v": 3803.26614,
+        "eht_final_v": 3802.29891,
+        "eht_same_phase_drift_v_over_16_lines": 46.83062999999993,
+        "feedback_swing_v": 23.536656599999993,
+        "sync_swing_v": 8.7055951,
+        "yoke_current_range_a": [
+          -0.198463507,
+          0.205683578
+        ],
+        "boost_range_v": [
+          64.1445191,
+          64.1914503
+        ],
+        "flyback_pulse_count": 32,
+        "flyback_width_us_at_10pct_swing_median": 18.74750523761775,
+        "output_base_range_v": [
+          -2.57111888,
+          0.596796848
+        ],
+        "driver_collector_swing_v": 29.6408366846
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     },
     {
@@ -608,19 +1184,77 @@
       "v13_drive_phase": "off_trace",
       "t2_primary_secondary_ratio": 10,
       "l4_inductance_per_coil_h": 5e-05,
+      "solver": {
+        "strict_reltol": 0.001,
+        "strict_status": "aborted",
+        "relaxed_reltol": 0.002,
+        "relaxed_status": "complete",
+        "selected_reltol": 0.002
+      },
       "result": {
-        "status": "aborted",
-        "timestep_failure": true
+        "status": "complete",
+        "sample_count": 15003,
+        "sample_window_s": [
+          0.00400002047,
+          0.005
+        ],
+        "collector_peak_v": 207.606333,
+        "collector_min_v": -0.859350921,
+        "eht_peak_v": 4305.44951,
+        "eht_final_v": 4304.51046,
+        "eht_same_phase_drift_v_over_16_lines": 94.87955000000056,
+        "feedback_swing_v": 25.643178,
+        "sync_swing_v": 9.33986955,
+        "yoke_current_range_a": [
+          -0.2487784,
+          0.264164229
+        ],
+        "boost_range_v": [
+          63.6857427,
+          63.7729581
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 18.18401950612423,
+        "output_base_range_v": [
+          -3.92212268,
+          0.589715969
+        ],
+        "driver_collector_swing_v": 29.9507117368
+      },
+      "conditional_checks": {
+        "tp15_driver_swing_in_manual_range": false,
+        "eht_final_in_manual_range": false
       }
     }
   ],
-  "completed_cases": 11,
-  "aborted_cases": 13,
+  "completed_cases": 24,
+  "aborted_cases": 0,
+  "strict_completed_cases": 11,
+  "relaxed_completed_cases": 24,
+  "strict_relaxed_comparison_cases": 11,
+  "strict_relaxed_max_relative_difference": {
+    "driver_collector_swing_v": 0.00030739955802503105,
+    "eht_final_v": 0.010605193649329254,
+    "collector_peak_v": 0.008115848540013255
+  },
+  "strict_relaxed_within_2pct": true,
   "nominal_off_trace_case": {
     "t2_secondary_polarity": "model",
     "v13_drive_phase": "off_trace",
     "t2_primary_secondary_ratio": 3,
     "l4_inductance_per_coil_h": 5e-06,
+    "solver": {
+      "strict_reltol": 0.001,
+      "strict_status": "complete",
+      "relaxed_reltol": 0.002,
+      "relaxed_status": "complete",
+      "selected_reltol": 0.001,
+      "strict_relaxed_relative_difference": {
+        "driver_collector_swing_v": 0.00015963399234560985,
+        "eht_final_v": 0.005159643737349693,
+        "collector_peak_v": 0.0040123288090172585
+      }
+    },
     "result": {
       "status": "complete",
       "sample_count": 21586,
@@ -658,6 +1292,6 @@
   },
   "conditional_tp15_matches": [],
   "conditional_eht_matches": [],
-  "status": "partial",
+  "status": "complete",
   "analysis_valid": true
 }
