@@ -3066,3 +3066,25 @@ The 200 ns EHT exceeds 12 kV in late bins, but that crossing is not a
 converged steady state. The conditional T3 pulse-winding/rectifier path,
 numerical stiffness and TP17 under-amplitude block a native-grid A3 score;
 the unfinished traces cannot qualify A5.
+
+### A3/A5: source-loaded TP17 winding sensitivity (2026-11-20)
+
+The [TP17 stage sweep](reference/k7222-11/t3-tp17-path-sweep.json) adds
+source-connected V14, C18 and R28 to the prescribed-drive T3/output bench.
+Page 4 places V14's cathode at the X2:6/TP17 pulse node and its anode at the
+C18/R28 brightness node; this local read agrees with the live transcription,
+but does not settle the internal T3 winding graph. The sweep varies the
+provisional X2:5–X2:6 section from 2.5 to 5 and 10 turns, its existing bound.
+It also varies C18 series resistance as an explicit *numerical diagnostic*,
+not a sourced capacitor specification.
+
+With 2.5 turns and ideal C18 or 1 Ω series resistance, ngspice aborts at a
+tiny timestep. At 10 Ω it completes the 4–5 ms prescribed-drive window and
+gives 24.94 Vpp at `h_sync`, below TP17's 64–96 Vpp manual guideline. The
+5- and 10-turn cases at 10 Ω also abort at tiny timesteps. Thus the sweep
+does not establish a turns-ratio remedy, a physical C18 loss value or an A3
+service score. It independently reproduces both the TP17 amplitude gap and
+the numerical stiffness of the conditional T3 pulse path. The next A5 move
+is a source-informed, labelled T3 equivalent from the PLAN fallback if the
+source cannot resolve this winding and its return; any such candidate still
+needs a converged connected-grid check before A3 or A5 can close.
