@@ -3169,3 +3169,44 @@ passes. All three DC measurements match their pre-explicitation results;
 they do not constrain TT or connected temperature and transient stress.
 The other eight audit rows and the zeners' joint-bound sensitivity remain
 open; A2 is not complete.
+
+### A5/A6: class-informed T3 overwind screen (2026-11-20)
+
+The [source-informed overwind candidate](reference/k7222-11/t3-coupled-source-overwind-parameters.json)
+and [loaded TP17 stage sweep](reference/k7222-11/t3-source-overwind-sweep.json)
+separate the high-voltage winding from the older all-0.999-coupled fallback.
+A [firsthand ÜHA78 replacement account](https://www.sax.de/~zander/zubehoer/k7222/uha78rep.pdf)
+for K7222.25 reports 1,768 turns and about 440 ohm, and says moving the
+overwind axially changes EHT. The earlier
+[cross-revision comparator](reference/k7222-11/t3-hv-winding-comparator.json)
+also records a 2,409-turn original-winding account and a conditional
+649–1,298 ohm copper estimate. A separate
+[monochrome CRT LOPT study](https://www.worldphaco.com/uploads/RESTORING%20THE%20%20PET%20COMPUTER%209.pdf)
+gives a typical primary-to-overwind coupling range 0.5–0.97, a measured
+example at 0.92, and roughly 7–8 pF overwind self-capacitance. These are
+class comparators, not measurements or factory limits for the .11 unit.
+The [class-typical register](reference/k7222-11/class-typical-register.json)
+records the candidate's 1,768–2,409 turn, 400–1,300 ohm, 5–20 pF and
+0.5–0.97 coupling envelopes; its other winding and core assumptions remain
+provisional. The equivalent applies the reduced coupling only to pairs
+containing the HV winding. It retains the existing explicit series leakage,
+so the combined leakage is still an unqualified model assumption.
+
+With the pinned runtime and the same 4–5 ms prescribed drive, k=0.5 and
+k=0.92 abort with a timestep-too-small error. At k=0.95 the completed case
+gives 787.9 Vpp on the TP17-mapped `h_sync` node and 11.825 kV final EHT;
+at k=0.97 it gives 719.1 Vpp and 12.666 kV. Both swings far exceed the
+manual's 64–96 Vpp guideline. The k=0.97 swing moves to 686.2 Vpp at 50 ns
+and 1,027.6 Vpp when only the non-driving flux probe is removed at 100 ns.
+These results cannot qualify a periodic connected operating point.
+
+The one-factor cases show why the variant cannot simply replace the old
+candidate. The old 0.999 coupling/1,000 ohm/15 pF case gives 56.8 Vpp and
+10.657 kV. Changing only resistance to 440 ohm aborts; changing only
+capacitance to 7.5 pF gives 66.3 Vpp and 12.516 kV; changing only the HV
+coupling to 0.97 gives 225.8 Vpp and 10.679 kV. Changing resistance and
+capacitance together also aborts. These outcomes identify separate loss,
+resonance and coupling sensitivities of the *current equivalent*, not
+original-transformer properties. No case jointly establishes TP17 and EHT,
+and no connected native-grid run of this variant has been scored. A5 and
+A6 remain open.

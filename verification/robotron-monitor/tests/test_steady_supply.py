@@ -241,6 +241,14 @@ class SteadySupplyTests(unittest.TestCase):
         self.assertIn('v(x1136.xshared.flux_b)',coupled)
         self.assertNotEqual(original_meta['experiment']['deck_sha256'],
                             coupled_meta['experiment']['deck_sha256'])
+        source_parameters=json.loads((ROOT/'reference/k7222-11/t3-coupled-source-overwind-parameters.json').read_text())
+        source_assembly=dict(assembly,magnetic_parameters=source_parameters)
+        sourced,sourced_meta=steady.deck(source_assembly,selection,candidate,
+                                         magnetic_backend='coupled')
+        self.assertEqual(sourced_meta['equivalent_stages'],
+                         [steady.T3_SOURCE_OVERWIND_LABEL])
+        self.assertIn('Kcore0_7 Lmag0 Lmag7 0.92',sourced)
+        self.assertIn('Kcore0_1 Lmag0 Lmag1 0.999',sourced)
         with self.assertRaisesRegex(ValueError,'unknown T3 magnetic backend'):
             steady.deck(assembly,selection,candidate,magnetic_backend='unknown')
 
