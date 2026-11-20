@@ -2462,3 +2462,25 @@ milliamperes of transient reverse current in this probe include capacitive
 current and are not a data-sheet DC leakage measurement. These readings
 prioritize V21 identity, recovery bounds, joint corners and sustained stress;
 they do not qualify the factory rectifier or its safety margin.
+
+### A1: page-16 neck-board schematic review closure (2026-11-20)
+
+The independent [page-16 neck-board pin list](reference/k7222-11/page16-neck-source-netlist.json)
+covers 17 source nets, 39 component pins, 17 connector pins, six diode
+directions, V1 C/B/E and C1 polarity. Its [fresh KiCad comparison](reference/k7222-11/page16-neck-comparison.json)
+has no missing, changed or extra board pins. The [static and isolated
+checks](reference/k7222-11/page16-neck-static.json) find DC paths to all
+listed nets, the expected electrolytic polarity, plausible V1 states and
+functional video/intensity response. No winding appears on page 16, so
+winding polarity has no applicable check. The real
+[A1 source-review gate](reference/k7222-11/source-review-gate.json) now marks
+the neck-board schematic reviewed, with zero open frame-path part decisions
+and five schematic pages still open: 3, 4, 9, 10 and 18.
+
+This board closure does not assign values or DC behavior to the separate
+[measuring-cable inset](reference/k7222-11/page16-meter-cable-source-read.json).
+Its transfer, the service voltmeter's response, and a qualified tube-emission
+model are still needed before the 0.1/3.6 mV service observations can be
+compared. The page-16 decision in
+[source-review-decisions.json](reference/k7222-11/source-review-decisions.json)
+states that boundary explicitly.

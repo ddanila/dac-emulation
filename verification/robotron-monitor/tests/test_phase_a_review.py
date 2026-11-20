@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 import sys
 import unittest
@@ -97,6 +98,19 @@ class PhaseAReviewTests(unittest.TestCase):
         marks['parts'].append(copy.deepcopy(marks['parts'][0]))
         with self.assertRaisesRegex(ValueError, 'duplicate'):
             phase_a_review.evaluate(self.inventory, self.audit, marks)
+
+    def test_page16_real_schematic_mark_tracks_checked_board_evidence(self):
+        ref = ROOT/'reference/k7222-11'
+        marks = json.loads((ref/'source-review-decisions.json').read_text())
+        self.assertEqual([row['source_page'] for row in marks['schematics']], [16])
+        mark = marks['schematics'][0]
+        source = ref/'page16-neck-source-netlist.json'
+        self.assertEqual(mark['independent_netlist_sha256'],
+                         hashlib.sha256(source.read_bytes()).hexdigest())
+        self.assertEqual(mark['kicad_tree_sha256'], phase_a_review.kicad_tree_hash())
+        self.assertTrue(json.loads((ref/'page16-neck-comparison.json').read_text())['passed'])
+        self.assertTrue(json.loads((ref/'page16-neck-static.json').read_text())['passed'])
+        self.assertIn('measuring-cable inset', mark['argument'])
 
 
 if __name__ == '__main__':
