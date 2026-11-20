@@ -1,0 +1,101 @@
+{
+  "format": "dac-monitor-t3-input-boundary-isolation-v1",
+  "qualification": "bounded solver diagnosis; isolated loads are surrogates, no connected field or service score",
+  "source_sha256": {
+    "producer": "67cd2c75a2f6c41ae63b70004a1cd53dc92b18897b12882031036295f0bf6b92",
+    "boundary_screen": "f60d7324ae7ccb22f23291e362a5eea5813c62b2811aa5931012c2375be786c8"
+  },
+  "baseline_deck_sha256": "6f393cba7c289477a9568a6674f979e0535ff284f62899aa9621806348cef2f8",
+  "connected_probes": {
+    "solver": {
+      "returncode": 1,
+      "deck_sha256": "5ba1538882e4788d2f2b059afc4ab7483f53e237bdc9db74ce0b572b33f7b7df",
+      "raw_sha256": "a0f7f70beb12360fef6cf5161dfe203649e0b7f1ecea9f595d1b966b5ce2a286",
+      "log_sha256": "0616963f40f7a700b643651d604e43d6e273eda6085e6953ec8bf61653d897c0",
+      "timestep_errors": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_class_n-instance q201"
+      ]
+    },
+    "last_time_s": 0.03899999999999999,
+    "samples": {
+      "first_boundary": {
+        "time_s": 0.019499999999999997,
+        "v(base_i)": 0.2571917818112517,
+        "v(contrast_low)": 9.19398981848686,
+        "v(intensity_gate)": 0.29295156095458663,
+        "v(rx_bsyn)": 3.588701110892989,
+        "v(h_hot)": -0.7063698336607765,
+        "v(eht)": 10843.436392054526,
+        "i(@q201[ic])": 2.1916346264361527e-10,
+        "i(@q201[ib])": 1.8401722698229853e-10
+      },
+      "second_boundary": {
+        "time_s": 0.03899999999999999,
+        "v(base_i)": 0.2572069363130786,
+        "v(contrast_low)": 9.19398981780828,
+        "v(intensity_gate)": 0.2929515924904241,
+        "v(rx_bsyn)": 3.588701729194974,
+        "v(h_hot)": 151.73283995909,
+        "v(eht)": 10682.528623432394,
+        "i(@q201[ic])": 2.1902268940664207e-10,
+        "i(@q201[ib])": 1.8383003114759327e-10
+      }
+    }
+  },
+  "isolated_input_contrast": {
+    "scope": "captured PWL sources, S37 drivers, cable, T200, page-3/4 contrast devices; fixed rails and surrogate external loads",
+    "solver": {
+      "returncode": 0,
+      "deck_sha256": "78e64ffc4402116451af831cc535a23db0981c22107c7f614f98272bf0cede15",
+      "raw_sha256": "78d702bed0241b686a10cf07320f812788f5e590b9099c93cae1763058177bbf",
+      "log_sha256": "6361086d141a3e467405566648af5a4eade6992d5f4253c4e943e44c8e248e30",
+      "timestep_errors": []
+    },
+    "last_time_s": 0.0391,
+    "samples": {
+      "after_boundary": {
+        "time_s": 0.0391,
+        "v(base_i)": 0.2928553934418569,
+        "v(contrast_low)": 9.099995322392207,
+        "v(intensity_gate)": 0.2926470688277514,
+        "v(rx_intens)": 3.5928558326532873
+      }
+    }
+  },
+  "dc_intens_connected": {
+    "change": "constant captured INTENS PWL replaced by DC 1; same physical input level",
+    "solver": {
+      "returncode": 1,
+      "deck_sha256": "09872d69923ad6024efc3dbb80e2d951aa4ab466196cf12b0eb2a2b986764498",
+      "raw_sha256": "efbbbb49ac8fa1c468c810509c1df1776d66f260d8bb4ae1bc8d982e107ebc21",
+      "log_sha256": "32e043e4ee7d27d58d519dff0474e0c6ed71c819e4fd51297818b7473ac98ac3",
+      "timestep_errors": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.0195, timestep = 6.25e-20: trouble with sc60a_class_n-instance q201"
+      ]
+    },
+    "last_time_s": 0.019499999999999997,
+    "samples": {
+      "first_boundary": {
+        "time_s": 0.019499999999999997,
+        "v(base_i)": 0.2571917818112517,
+        "v(contrast_low)": 9.19398981848686,
+        "v(intensity_gate)": 0.29295156095458663
+      }
+    }
+  },
+  "bsyn_early_connected": {
+    "change": "final BSYN falling edge moved 1 us earlier in every field; terminal 19.5 ms knot retained",
+    "solver": {
+      "returncode": 1,
+      "deck_sha256": "2ffd0f0c75f93f57533241ee32b99f1aa90151496ee9f6ecf01be8672c532bf0",
+      "raw_sha256": "5e3ce5eb105bc3b38da637170a6a590c7fd5b1cbcc7a391a2d5e9a4ab6fd2258",
+      "log_sha256": "0e9033acc2b84d4f49b5fadd152f4ee1c489c1121c849331f2ee8c783cb87ed9",
+      "timestep_errors": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_class_n-instance q201"
+      ]
+    },
+    "raw_complete_rows": 1040770,
+    "last_time_s": 0.039
+  },
+  "inference": "The input/contrast subset crosses 39 ms with the captured repeated inputs and source drivers. The full circuit fails with Q201 nearly static and off; this does not identify Q201 as the physical cause. The DC INTENS variant fails earlier at the first field boundary and moving the final BSYN edge 1 us earlier still fails at 39 ms; neither is a solver remedy."
+}
