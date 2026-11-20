@@ -1,0 +1,40 @@
+{
+  "format": "dac-monitor-page4-t3-x2-return-source-netlist-v1",
+  "qualification": "scoped page-4 external X2:4/C31/C32 read after model exposure; not an independent full-page netlist or internal T3 winding proof",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 4,
+    "views": [
+      {
+        "description": "600 dpi complete page",
+        "sha256": "ef325eb44040c7d493c88e10c85a50d276583ce39bd5579929b4c53a2de7d4dc"
+      },
+      {
+        "description": "1200 dpi complete page",
+        "sha256": "c9ea38f47f977ed24e2b1be074858ef6fd9edb3b14f98aa00de83542b35c52cd"
+      },
+      {
+        "description": "1200 dpi lower X2 and C31/C32 crop",
+        "crop_px": [900, 4300, 4700, 7000],
+        "sha256": "091711ec431eb28543524c2d7040ccaa5643dabc251112c2546c9f7e8b6d0b04"
+      }
+    ]
+  },
+  "scope": {
+    "parts": ["T3", "C31", "C32"],
+    "nets": {
+      "X2_4_RETURN": ["T3:X2:4", "C31:one_plate", "C32:one_plate"],
+      "COMMON_OTHER_PLATE": ["C31:other_plate", "C32:other_plate"]
+    }
+  },
+  "reading_notes": [
+    "The printed X2:4 terminal leaves the lower T3 drive section and shares a line with one plate of each parallel C31/C32 capacitor.",
+    "The other C31/C32 plates join each other. This local read does not assign a voltage or ground to either node and does not establish other T3 tap continuities.",
+    "T3 X2:4 on the horizontal-output sheet is distinct from vertical-board connector X2:4 on the yoke assembly."
+  ],
+  "unresolved": [
+    "The full page-4 pin netlist, T3 internal drive tap graph and HV cold-end return remain unqualified.",
+    "C31/C32 loading and X2:4 flyback voltage still need a source-bounded operating point."
+  ]
+}

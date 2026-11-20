@@ -2313,16 +2313,20 @@ why this proxy cannot qualify a turns ratio.
 
 The [source-read page-4 drive path](reference/k7222-11/t3-drive-polarity-source-read.json)
 puts V18's collector at T3 X2:7 and names X2:4 as the other drive-winding
-terminal. The [drive-voltage audit](reference/k7222-11/t3-drive-voltage-audit.json)
-checks the current assembly candidate: X2:7 maps to `h_hot`, while X2:4 maps
-to a separate `h_return` node coupled to the yoke return through C31 and C32.
-That assembly is not yet an independent full-page source netlist, and no
-bounded X2:4 flyback waveform is available. The actual drive reference is
+terminal. A new [scoped X2:4 source read](reference/k7222-11/page4-t3-x2-return-source-netlist.json)
+places X2:4 on the same external branch as one plate of C31 and C32; their
+opposite plates join. This T3 terminal is distinct from vertical-board X2:4
+on the yoke connector. Its [fresh KiCad comparison](reference/k7222-11/page4-t3-x2-return-comparison.json)
+passes all seven local checks, and moving C31 off the branch fails the
+regression test. The [drive-voltage audit](reference/k7222-11/t3-drive-voltage-audit.json)
+checks the assembly candidate's `h_hot`/`h_return` mapping. This scoped read
+is not an independent full-page source netlist, and no bounded X2:4 flyback
+waveform is available. The actual drive reference is
 **V(X2:7) − V(X2:4)**, not the collector-to-ground peak alone. Therefore
 the existing 28.24–35.94 EHT/collector proxy and its 1808–2300-turn scale
-are isolated sensitivities, not A5 winding bounds. Source-qualifying X2:4
-and bounding this differential pulse are prerequisites to deriving the
-HV/drive ratio from EHT.
+are isolated sensitivities, not A5 winding bounds. Completing the X2:4
+return path and bounding this differential pulse are prerequisites to
+deriving the HV/drive ratio from EHT.
 
 The [two-step drive-pulse screen](reference/k7222-11/t3-drive-pulse-screen.json)
 adds X2:4 and the differential voltage to the conditional 4–5 ms
