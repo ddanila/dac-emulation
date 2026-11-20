@@ -2766,3 +2766,13 @@ instruction names no meter model or AC/DC mode. The cable's lower-terminal
 connection and shunt values are also absent from the inset. The 0.1 mV rise
 and 3.6 mV target therefore remain unscorable until the transfer and native
 grid/tube response are bounded.
+
+The [A2 implicit-default inventory](reference/k7222-11/a2-implicit-default-audit.json)
+compares every registered discrete semiconductor model declaration with a
+first critical parameter set based on the [ngspice device-model manual](https://ngspice.sourceforge.io/docs/ngspice-manual.pdf).
+The 51 frame-path transistor, diode and zener instances map to 24 register
+entries; every one of those entries leaves a screened default implicit. The
+inventory checks current model text and cross-checks all instance IDs against
+the A2 coverage report. It is a worklist, not a model-response pass: source
+bounds, joint sensitivities, connected stress, subcircuit internals and any
+other material defaults remain to be examined before A2 can close.
