@@ -3677,3 +3677,40 @@ frame-path discrete models. Its scope excludes internal subcircuit devices
 and optional ngspice terms outside the screen. Source identity, parameter
 joint corners, temperature response and connected stress remain open, so
 this is an A2 worklist reduction rather than A2 completion.
+
+### A5/A6: 31 cm yoke-class electrical and current comparator (2026-11-21)
+
+The [Philips 1987 T16 catalog](https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf)
+(selection guide printed page 6; AT1077/05 sheet pages 449–450; SHA-256
+`60ac727815c7493e8df4530fb909bc74c35b9120f3eddbdefe7a758bf536e417`)
+provides eleven 31 cm, 90-degree, 20 mm-neck monochrome yokes specified at
+12 kV. This is a much closer electrical class than the previous unconstrained
+4 mH/2 ohm horizontal assumption: the cited family spans 112–480 µH and
+0.20–0.90 ohm horizontally, versus the active geometry model's 4007 µH and
+2 ohm. Its vertical family spans 6.6–72 mH and 4.10–40 ohm; the active
+19.987 mH/10 ohm is inside that range. The comparison is reproduced by
+[yoke_class_comparator.py](yoke_class_comparator.py) and its
+[source-hashed report](reference/k7222-11/yoke-class-comparator.json).
+
+AT1077/05 gives 2.9 A p-p for a 257 mm line scan and 0.485 A p-p for a
+195 mm field scan at 12 kV. Scaling current by picture dimension and
+`sqrt(EHT/12 kV)` yields conditional Robotron 210 × 145 mm, 11.5 kV proxies
+of 2.320 A p-p horizontally and 0.353 A p-p vertically. Sweeping the
+eleven-yoke current spread, the manual's ±20/±15 mm picture tolerances and
+11–12 kV EHT range, with the AT1077/05 ±5% current tolerance, gives broad
+class envelopes of 1.950–5.732 A p-p and 0.146–0.732 A p-p respectively.
+These are first-order comparisons, not installed AE9VT limits: the Philips
+yokes use reference tubes and a 90-degree deflection family, and the actual
+B31G22 geometry and AE9VT winding remain unidentified. The live horizontal
+geometry model also clips the beam before the required width. With a
+conditional 475 µH/0.8 ohm winding, the 40 mm field still reaches only
+90.87 mm half-width before assumed neck clipping. Shortening the field to
+34.7 mm reaches the required 105 mm at 1.836 A peak, but only 0.0085 A
+(0.46%) below its assumed 1.844 A neck-clip current. The reduced field
+model's arbitrary inner-aperture and axial placement therefore dominate
+the result; neither the class current proxy nor the narrow trial is a valid
+geometry freeze.
+The [class register](reference/k7222-11/class-typical-register.json) now carries
+the electrical and current comparators. The next A5 check must bound the
+actual inner neck aperture and axial field extent, then confront a viable
+geometry with the documented retrace and picture size.

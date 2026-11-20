@@ -150,6 +150,18 @@
     "17": {"node": "V14 cathode", "swing_vpp": 80, "role": "rectified flyback-derived pulse; source polarity and loading need review"},
     "source": {"file": "older-operation.pdf", "page": 21}
   },
+  "yoke_class_comparator": {
+    "report": "reference/k7222-11/yoke-class-comparator.json",
+    "tier": "class-typical",
+    "scope": "Philips 1987 31 cm, 90-degree, 20 mm-neck, 12 kV monochrome yokes; not an identification of AE9VT",
+    "line_inductance_class_h": [0.000112, 0.000480],
+    "line_resistance_class_ohm": [0.2, 0.9],
+    "field_inductance_class_h": [0.0066, 0.072],
+    "field_resistance_class_ohm": [4.1, 40],
+    "conditional_line_current_class_app_at_robotron_picture": [1.9500592200585802, 5.732101167315175],
+    "conditional_field_current_class_app_at_robotron_picture": [0.1455289203789634, 0.7323076923076922],
+    "argument": "The Philips AT1077/05 sheet gives 257 x 195 mm full scan at 12 kV and the selection guide supplies a same-size 20 mm-neck family. A first-order scan-size and square-root-EHT transfer spans the printed Robotron picture tolerances and 11-12 kV target. The active 4.007 mH/2 ohm horizontal yoke lies outside the comparable family; the 19.987 mH/10 ohm vertical yoke lies inside. A conditional 475 uH/0.8 ohm winding still clips at 90.87 mm half-width with the 40 mm field; at 34.7 mm it reaches 105 mm at 1.836 A peak, only 0.46% below the assumed neck-clip current. These are class comparison bounds, not installed AE9VT values or a geometry freeze."
+  },
   "vertical_yoke_conditional": {
     "status": "conditional reduced-geometry design point; not a yoke calibration or connected-stage score",
     "report": "reference/k7222-11/vertical-design-point.json",
@@ -180,7 +192,7 @@
   },
   "remaining_design_work": [
     "Resolve the remaining T3 tap/return map and boost supply from the source before fixing turns or the other winding polarities; only the HV relative sign is conditionally screened within the current graph.",
-    "Bound the actual inner neck aperture and yoke axial extent before selecting the narrow 34.7 mm trial; the default geometry clips before 210 mm and a 12 mm internal aperture exceeds the family outside-neck diameter.",
+    "Bound the inner neck aperture and yoke axial extent before selecting the narrow 34.7 mm trial: a class-bounded 475 uH/0.8 ohm winding still clips before 210 mm in the default 40 mm field, while the short-field trial has only 0.46% current margin to assumed neck clipping. The active 4.007 mH/2 ohm winding is outside the cited 31 cm/20 mm-neck class, and a 12 mm internal aperture exceeds the family outside-neck diameter.",
     "Validate the conditional vertical operating point against sourced tube/yoke bounds and a connected TP7/TP8 differential waveform; test points 1–6 constrain upstream stage waveforms rather than yoke current directly.",
     "Check each derived quantity against the source and replace placeholder T3 parameters only after the constraints are mutually consistent."
   ]

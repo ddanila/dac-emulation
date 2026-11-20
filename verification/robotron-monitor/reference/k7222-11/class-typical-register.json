@@ -152,9 +152,21 @@
     "horizontal_l4_design": {
       "file": "reference/k7222-11/horizontal-l4-design.json",
       "use": "Conditional 1 V/15.5 us turn-on operating budget for two parallel L4 chokes against the BU508AF-class 0.5 A switching comparator; E2 setting and actual loaded driver are unknown."
+    },
+    "philips_t16_yoke_class": {
+      "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf",
+      "sha256": "60ac727815c7493e8df4530fb909bc74c35b9120f3eddbdefe7a758bf536e417",
+      "edition": "Philips Data Handbook T16, 1987, selection guide printed page 6 and AT1077/05 data printed pages 449-450",
+      "use": "Eleven 31 cm, 90-degree, 20 mm-neck, 12 kV monochrome yokes bound a comparable electrical/current class; not an AE9VT identification."
     }
   },
   "entries": [
+    {"id":"AE9VT.class_line_inductance","stage":"tube-yoke-geometry","value":0.000475,"bounds":[0.000112,0.000480],"unit":"H","sources":["philips_t16_yoke_class"],"model_ref":"reference/k7222-11/yoke-class-comparator.json#class_envelope_si.line_inductance_h","basis":"AT1077/05 475 uH typical; eleven same-size 90-degree/20 mm-neck/12 kV Philips yokes span 112-480 uH. Active 4.007 mH is outside this class; installed AE9VT winding unknown.","qualification":"class-typical-comparator-only"},
+    {"id":"AE9VT.class_line_resistance","stage":"tube-yoke-geometry","value":0.8,"bounds":[0.2,0.9],"unit":"ohm","sources":["philips_t16_yoke_class"],"model_ref":"reference/k7222-11/yoke-class-comparator.json#class_envelope_si.line_resistance_ohm","basis":"AT1077/05 0.8 ohm; eleven same-size Philips yokes span 0.20-0.90 ohm. Active 2 ohm is outside this class; installed AE9VT copper unknown.","qualification":"class-typical-comparator-only"},
+    {"id":"AE9VT.class_field_inductance","stage":"tube-yoke-geometry","value":0.018,"bounds":[0.0066,0.072],"unit":"H","sources":["philips_t16_yoke_class"],"model_ref":"reference/k7222-11/yoke-class-comparator.json#class_envelope_si.field_inductance_h","basis":"AT1077/05 18 mH; eleven same-size Philips yokes span 6.6-72 mH. Active 19.987 mH is inside this class; installed AE9VT winding unknown.","qualification":"class-typical-comparator-only"},
+    {"id":"AE9VT.class_field_resistance","stage":"tube-yoke-geometry","value":10,"bounds":[4.1,40],"unit":"ohm","sources":["philips_t16_yoke_class"],"model_ref":"reference/k7222-11/yoke-class-comparator.json#class_envelope_si.field_resistance_ohm","basis":"AT1077/05 10 ohm; eleven same-size Philips yokes span 4.10-40 ohm. Active 10 ohm is inside this class; installed AE9VT copper unknown.","qualification":"class-typical-comparator-only"},
+    {"id":"AE9VT.class_line_current_proxy","stage":"tube-yoke-geometry","value":2.319756853373111,"bounds":[1.9500592200585802,5.732101167315175],"unit":"A(p-p)","sources":["philips_t16_yoke_class","robotron_manual"],"model_ref":"reference/k7222-11/yoke-class-comparator.json#conditional_current_proxy","basis":"Scale AT1077/05's 2.9 App at 257 mm/12 kV to 210 mm/11.5 kV by scan size and sqrt(EHT). Bounds use the eleven-yoke family 2.9-6.1 App, the Robotron 190-230 mm width/11-12 kV, and a +/-5% comparator tolerance. This linearized class transfer is not an AE9VT current limit.","qualification":"conditional-class-typical"},
+    {"id":"AE9VT.class_field_current_proxy","stage":"tube-yoke-geometry","value":0.3530477325869249,"bounds":[0.1455289203789634,0.7323076923076922],"unit":"A(p-p)","sources":["philips_t16_yoke_class","robotron_manual"],"model_ref":"reference/k7222-11/yoke-class-comparator.json#conditional_current_proxy","basis":"Scale AT1077/05's 0.485 App at 195 mm/12 kV to 145 mm/11.5 kV by scan size and sqrt(EHT). Bounds use the eleven-yoke family 0.24-0.85 App, the Robotron 130-160 mm height/11-12 kV, and a +/-5% comparator tolerance. This linearized class transfer is not an AE9VT current limit.","qualification":"conditional-class-typical"},
     {"id":"012-6921:T3.high_voltage_turns","stage":"horizontal-flyback","value":1000,"bounds":[250,4000],"unit":"turn","sources":["t3_hv_winding_comparator"],"model_ref":"reference/k7222-11/t3-initial-parameters.json#groups.high_voltage[0].turns","basis":"Active 1000-turn hypothesis is below the 1768- and 2409-turn cross-revision comparisons; no .11 identity or source-qualified bound","qualification":"assumed-bound"},
     {"id":"012-6921:T3.high_voltage_resistance_ohm","stage":"horizontal-flyback","value":1000,"bounds":[250,4000],"unit":"ohm","sources":["t3_hv_winding_comparator"],"model_ref":"reference/k7222-11/t3-initial-parameters.json#groups.high_voltage[0].resistance_ohm","basis":"Active 1 kohm hypothesis falls within the conditional 649–1298 ohm cross-revision copper-geometry estimate; .11 winding unverified","qualification":"assumed-bound"},
     {"id":"012-6921:T3.drive_total_turns","stage":"horizontal-flyback","value":64,"bounds":[16,256],"unit":"turn","sources":["t3_hv_winding_comparator"],"model_ref":"reference/k7222-11/t3-initial-parameters.json#groups.drive[*].turns.sum","basis":"Sum of active drive-section turns; conditional 67–85-turn range follows only from 2409-turn comparison and unverified boost/ratio assumptions","qualification":"assumed-bound"},
@@ -2496,7 +2508,7 @@
     },
     {
       "file": "profiles/k7222-11-yoke-geometry.json",
-      "reason": "inner neck clearance, actual axial field length, sensitivity and packing geometry are not sourced to AE9VT"
+      "reason": "a cited Philips 31 cm/20 mm-neck family now bounds a class electrical/current proxy, but the active horizontal winding is outside that class and inner neck clearance, axial field length and sensitivity are not sourced to AE9VT"
     },
     {
       "file": "steady_supply.py#ASSEMBLY_BOUNDS",
