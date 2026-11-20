@@ -120,7 +120,7 @@ def run():
     parameters = dict(re.findall(r'([A-Z]+)=([^\s]+)', line.group(1)))
     if set(parameters) != set(entry['parameters']):
         raise ValueError('V13 register does not cover every explicit model parameter')
-    scales = {'p': 1e-12, 'n': 1e-9, 'u': 1e-6}
+    scales = {'p': 1e-12, 'n': 1e-9, 'u': 1e-6, 'm': 1e-3}
     for key, token in parameters.items():
         scale = scales.get(token[-1], 1)
         numeric = float(token[:-1] if scale != 1 else token)*scale

@@ -2505,9 +2505,9 @@ largest final-EHT change is **−4.45%** at the 2.5 µs upper transit-time proxy
 collector peak changes by up to 3.08%. Thus the broad recovery bound is
 material to the connected stage and cannot be silently frozen at nominal.
 
-The probed nominal 4–5 ms window reaches 11.940 kV reverse across V21 and
+The probed nominal 4–5 ms window reaches 11.939 kV reverse across V21 and
 about 12.8 mA forward peak. The largest one-at-a-time reverse peak is
-11.953 kV, only about 0.4% below the 12 kV repetitive reverse rating of the
+11.948 kV, only about 0.4% below the 12 kV repetitive reverse rating of the
 [Rectron comparator](https://www.rectron.com/public/product_datasheets/r12000h.pdf).
 This is a conditional, nonperiodic stage window with prescribed V13 drive,
 ideal feed, an unverified T3 return graph and no beam-current load. The
@@ -2741,16 +2741,16 @@ remains the detailed page-3/4 wiring. The stage label is
 
 A [200 µs connected startup screen](reference/k7222-11/page3-4-connected-contrast-transient.json)
 uses the archived native logical capture and one unverified T3 sign candidate.
-With the revised V18 model, the detailed topology reaches 200 µs (2,386
-rows) under default sparse settings. The manual
-equivalent stops at 46.3 µs with a timestep error at `h_boosttap`. With KLU,
+With the revised V13/V18 models, the detailed topology reaches 200 µs
+(2,425 rows) under default sparse settings. The manual sparse equivalent
+also reaches 200 µs (2,396 rows). With KLU,
 50 ns maximum step, 0.002 relative tolerance and 10⁻⁸ A absolute tolerance,
-the manual equivalent reaches 200 µs (6,034 rows). This only
+the manual equivalent reaches 200 µs (5,166 rows). This only
 establishes short-startup solver feasibility for that one candidate. It
 does not score a field, show lock or periodic settling, prove the manual
 terminal assignment, or qualify the native frame.
 The [same variant extended to 2 ms](reference/k7222-11/page3-4-connected-contrast-2ms.json)
-also completes with 81,434 data rows. Its final EHT is 5.073 kV, below
+also completes with 82,724 data rows. Its final EHT is 5.143 kV, below
 the 11–12 kV sustained target. This
 extends the solver feasibility bound, but remains only about one tenth of
 the 19.5 ms native field and cannot establish an A3 or A5 pass.
@@ -2989,12 +2989,45 @@ and temperature bounds, and connected switching stress remain open.
 The refreshed [prescribed-V13 T2/L4 stage](reference/k7222-11/t2-l4-output-stage-sweep.json)
 completes all 24 cases with a bounded solver retry, but none meets the
 manual TP15 or EHT window. Sixteen cases exceed the 9 V BU508AF-class
-reverse emitter-base limit; the nominal off-trace case reaches 9.468 kV EHT,
-378 V collector peak and −20.39 V at V18's base. Explicit DC gain and
+reverse emitter-base limit; with the revised V13 model, the nominal off-trace
+case reaches 9.509 kV EHT, 380 V collector peak and −17.60 V at V18's base.
+Explicit DC gain and
 series resistance therefore narrow A2's model inventory without closing
 the A3 connected waveform score or A5 design point. The level-1 BJT model
 has no reverse emitter-base breakdown or full safe-operating-area behavior.
 With `MONITOR_RUNTIME=build/monitor/runtime-phase-a-gcc16-verified`, the
-refreshed `make test-monitor` suite passes 309 tests with no skips on Python
+refreshed `make test-monitor` suite passed 309 tests with no skips on Python
 3.9.6. This checks the saved receipts and tool contracts, not the missing
 source, safe connected-stage or full design-point evidence.
+
+### A2/A6: V13 driver model assumptions (2026-11-20)
+
+The active V13 `HOR_DRIVER_N` model now states `IKF`, `RB`, `RC`, `RE`,
+junction-shape and temperature assumptions explicitly. The source remains
+the historical SF128 base-family table; the printed `SF1280` suffix does not
+identify a gain group or an exact model. The [five-case class-corner
+receipt](reference/k7222-11/horizontal-driver-bjt-bounds.json) checks nominal,
+low/high `IKF`, maximum series resistance, and combined low-`IKF`/maximum
+resistance at 25 °C. All five meet the broad family comparison at 50 mA/2 V,
+the 0.5 V saturation comparator at 150/15 mA, and the 60 MHz transition-
+frequency floor. Nominal gain is 55.55, the 15 MHz gain-product proxy is
+144.69 MHz, and saturation is 0.101 V. The combined corner saturates at
+0.285 V. These are selected checks, not a qualification of the unknown
+family group or the broad `BF` range jointly with every other bound.
+
+The [A2 default audit](reference/k7222-11/a2-implicit-default-audit.json)
+now counts 12 affected semiconductor instances in 11 register entries;
+the [A6 register](reference/k7222-11/class-typical-register.json) has 300
+partial entries. Original V13 storage/fall behavior, package/rating,
+temperature and connected current/voltage stress remain open. The selected
+corner results do not close A2 or A6. The refreshed
+[prescribed-V13 T2/L4 sweep](reference/k7222-11/t2-l4-output-stage-sweep.json)
+completes 24 cases after bounded solver retry; none reaches the manual TP15
+or EHT window. Its nominal off-trace case gives 24.58 Vpp TP15, 9.509 kV
+final EHT, 380 V collector peak and −17.60 V at V18's base. Sixteen of the
+24 cases exceed the 9 V V18 reverse-base class comparator, so the driver
+model update alone does not establish a viable A3 operating point.
+With `MONITOR_RUNTIME=build/monitor/runtime-phase-a-gcc16-verified`, the
+full `make test-monitor` suite passes 310 tests with no skips on Python
+3.9.6. This verifies the refreshed receipts and tool contracts; the A1,
+A2, A3, A5 and A6 completion evidence is still missing.

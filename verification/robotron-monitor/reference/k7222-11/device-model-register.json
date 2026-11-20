@@ -1625,7 +1625,8 @@
       "model": "HOR_DRIVER_N",
       "model_file": "circuits/k7222-11-horizontal-models.cir",
       "sources": [
-        "ddr_sf126_129"
+        "ddr_sf126_129",
+        "ngspice_manual_bjt"
       ],
       "parameters": {
         "IS": {
@@ -1690,7 +1691,18 @@
           ],
           "unit": "s",
           "basis": "reverse transit-time/storage proxy; historical family sheet has no inductive storage/fall test, so this range remains unqualified"
-        }
+        },
+        "IKF": {"nominal": 0.5, "bounds": [0.1, 5], "unit": "A", "basis": "Finite high-current gain roll-off proxy; nominal and one-at-a-time bounds retain the SF128-family 50 mA gain comparison, but the printed SF1280 group is unknown"},
+        "RB": {"nominal": 1, "bounds": [0.1, 5], "unit": "ohm", "basis": "Base-series resistance engineering proxy; 5 ohm endpoint adds 0.075 V at the 15 mA class saturation fixture"},
+        "RC": {"nominal": 0.1, "bounds": [0.01, 1], "unit": "ohm", "basis": "Collector-series resistance engineering proxy checked with the 0.5 V class saturation fixture"},
+        "RE": {"nominal": 0.05, "bounds": [0.01, 0.2], "unit": "ohm", "basis": "Emitter-series resistance engineering proxy checked with the 0.5 V class saturation fixture"},
+        "VJE": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-emitter junction-potential default; engineering spread, not SF1280 data"},
+        "MJE": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-emitter grading default; engineering spread"},
+        "VJC": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-collector junction-potential default; engineering spread"},
+        "MJC": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-collector grading default; engineering spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon activation-energy default; temperature-law spread remains untested"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default; spread remains untested"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default; engineering spread"}
       },
       "comparison_targets": {
         "hFE_50ma": {
@@ -1714,7 +1726,7 @@
         "Verify SF1280 suffix/group and original package/rating",
         "Measure inductive driver storage and fall with documented comparable test conditions",
         "Measure connected-stage current/voltage stress and joint-bound sensitivity",
-        "Examine remaining implicit BJT simulator defaults"
+        "Validate joint gain, series-resistance, capacitance and temperature bounds; the explicit parameters are engineering proxies"
       ]
     },
     {
