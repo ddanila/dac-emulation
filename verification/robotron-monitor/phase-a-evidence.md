@@ -2657,3 +2657,17 @@ before V5, so the raw 0/1 labels in this sweep cannot establish a polarity
 conflict with the manual. The terminal swap is a useful functional
 alternative but does not settle which document maps the K7222.11 board pins
 or justify changing the active sheet.
+
+The [connected ideal-rail DC comparison](reference/k7222-11/page3-4-connected-contrast-dc.json)
+repeats the same three-terminal swap in the 222-component assembled deck,
+with V4 kept at its listed 9.1 V, brightness position 0, fixed bright video,
+and both raw incoming INTENS and R2 endpoint states. The active detailed
+wiring gives a 0.328 V cathode and no measurable R2 span in either input
+state. The manual alternative gives 13.375–16.329 V at the cathode, a
+2.954 V R2 span, for raw incoming INTENS low; with that input high it gives
+16.336 V at both R2 endpoints. The result is consistent with the isolated
+fixed-logic comparison after the rest of the ideal-rail circuit is attached.
+This is a DC operating point: EHT is approximately zero, scan is not
+periodic, and the tube response and regenerated INTENS polarity are still
+unqualified. The manual alternative remains conditional and is not the
+active KiCad topology or a connected native-grid A3 score.

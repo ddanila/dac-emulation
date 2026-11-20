@@ -455,6 +455,13 @@ inverts that input, while the manual discusses a regenerated intensity
 signal, so those state numbers cannot be compared directly. The manual
 arrangement remains a conditional alternative, not an adopted correction
 to the detailed netlist.
+The [full-assembly DC comparison](reference/k7222-11/page3-4-connected-contrast-dc.json)
+confirms the contrast difference with the remaining ideal-rail circuitry
+attached: the detailed wiring holds the bright cathode near 0.328 V with
+zero R2 span, while the manual terminal swap gives 13.375–16.329 V and a
+2.954 V span for raw incoming INTENS low at brightness position 0. This is
+still a conditional DC result with EHT approximately zero; it does not
+qualify a sustained frame, tube emission or the factory terminal map.
 The short contrast bench shows effectively no cathode or provisional beam
 change across R2's range. The fixed-logic diagnostic shows V1 current changes,
 but the modeled IS output stays low and the neck cathode does not respond to R2.
