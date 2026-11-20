@@ -2665,8 +2665,11 @@ and both raw incoming INTENS and R2 endpoint states. The active detailed
 wiring gives a 0.328 V cathode and no measurable R2 span in either input
 state. The manual alternative gives 13.375–16.329 V at the cathode, a
 2.954 V R2 span, for raw incoming INTENS low; with that input high it gives
-16.336 V at both R2 endpoints. The result is consistent with the isolated
-fixed-logic comparison after the rest of the ideal-rail circuit is attached.
+16.336 V at both R2 endpoints. With dark video and R2 centred, both
+topologies give 33.671 V at the cathode for either raw intensity state,
+near the manual's approximate 35 V dark level. The result is consistent with
+the isolated fixed-logic comparison after the rest of the ideal-rail circuit
+is attached.
 This is a DC operating point: EHT is approximately zero, scan is not
 periodic, and the tube response and regenerated INTENS polarity are still
 unqualified. The manual alternative remains conditional and is not the

@@ -460,8 +460,9 @@ confirms the contrast difference with the remaining ideal-rail circuitry
 attached: the detailed wiring holds the bright cathode near 0.328 V with
 zero R2 span, while the manual terminal swap gives 13.375–16.329 V and a
 2.954 V span for raw incoming INTENS low at brightness position 0. This is
-still a conditional DC result with EHT approximately zero; it does not
-qualify a sustained frame, tube emission or the factory terminal map.
+still a conditional DC result with EHT approximately zero; both topologies
+retain a 33.671 V dark cathode. It does not qualify a sustained frame, tube
+emission or the factory terminal map.
 The short contrast bench shows effectively no cathode or provisional beam
 change across R2's range. The fixed-logic diagnostic shows V1 current changes,
 but the modeled IS output stays low and the neck cathode does not respond to R2.
