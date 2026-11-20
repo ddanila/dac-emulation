@@ -3848,7 +3848,7 @@ combinations, but the current 280 mm path and 10 mm inner aperture should
 not be frozen as physical geometry. A5 still needs bounds on the installed
 gun location, glass wall and AE9VT field/current relation.
 
-### A5: common-field yoke geometry meets broad current proxies (2026-11-21)
+### A5: broad yoke-family matches fail winding-specific current checks (2026-11-21)
 
 The [joint geometry screen](reference/k7222-11/yoke-joint-geometry-screen.json)
 extends the neck-clearance comparison to the 145 mm picture height. It uses
@@ -3865,9 +3865,13 @@ and **1.00 A peak-to-peak** with the /05 field winding. The latter exceeds
 the broad 90° family proxy's 0.732 A upper edge. Substituting the /06 field
 winding gives **0.501 A peak-to-peak** vertically and a conditional joint
 match. Three of the 18 sampled combinations meet both broad family current
-envelopes; the /06 case at 235 mm is still more than twice that variant's
-listed 0.24 A full-scan field current. Thus a broad family-envelope match
-does not qualify the specific winding as the installed part or calibrate its
-current. The gun location, inner glass clearance, axis-specific AE9VT field
-profile and winding remain unknown, so the active design point cannot be
-frozen from this screen.
+envelopes. Transferring each variant's own catalog currents to the target
+picture with the same first-order scaling gives /06 bounds of **1.95–2.73 A**
+horizontally and **0.146–0.207 A** vertically. The 235 mm case exceeds both;
+**zero of 18** sampled combinations meets both axes against its own winding's
+transferred bounds. The transfer uses the /05 sheet's 257 × 195 mm reference
+picture and ±5% tolerance for /06, so it is a conditional sensitivity check,
+not a /06 factory limit. A broad family-envelope match cannot qualify the
+specific winding as the installed part or calibrate its current. The gun
+location, inner glass clearance, axis-specific AE9VT field profile and winding
+remain unknown, so the active design point cannot be frozen from this screen.

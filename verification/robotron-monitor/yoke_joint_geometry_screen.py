@@ -7,6 +7,7 @@ from pathlib import Path
 
 import trajectory
 import yoke_axial_geometry_screen as axial
+import yoke_class_comparator as comparator
 import yoke_geometry
 import yoke_neck_clearance_screen as neck
 
@@ -46,6 +47,28 @@ def vertical_current(field, anode_v=11500):
     return (low + high) / 2
 
 
+def reference_current_bounds(reference, yoke_class):
+    """Transfer one catalog yoke's two full-scan currents to target dimensions."""
+    target = yoke_class['target']
+    scan = yoke_class['reference_scan_at1077_05']
+    tolerance = scan['current_tolerance_fraction']
+    bounds = {}
+    for axis, current_key, dimension_key, reference_key in (
+            ('horizontal', 'line_full_scan_app', 'width_mm', 'width_mm'),
+            ('vertical', 'field_full_scan_app', 'height_mm', 'height_mm')):
+        dimension = target[dimension_key]
+        spread = target[dimension_key.replace('_mm', '_tolerance_mm')]
+        reference_current = reference[current_key]
+        bounds[axis] = [
+            comparator.current_proxy(reference_current * (1-tolerance),
+                                     dimension-spread, scan[reference_key],
+                                     target['eht_v'][0]),
+            comparator.current_proxy(reference_current * (1+tolerance),
+                                     dimension+spread, scan[reference_key],
+                                     target['eht_v'][1])]
+    return bounds
+
+
 def run(older_pdf, outline_gif):
     if sha(older_pdf) != axial.OLDER_SHA or sha(outline_gif) != axial.OUTLINE_SHA:
         raise ValueError('source scan or B31-G outline changed')
@@ -64,6 +87,8 @@ def run(older_pdf, outline_gif):
     profile['horizontal']['target_inductance_h'] = .000475
     profile['horizontal']['target_resistance_ohm'] = .8
     rows = []
+    winding_proxy = {row['type']: reference_current_bounds(row, yoke_class)
+                     for row in references}
     for reference in references:
         profile['vertical']['target_inductance_h'] = reference['field_inductance_mh'] * 1e-3
         profile['vertical']['target_resistance_ohm'] = reference['field_resistance_ohm']
@@ -77,6 +102,10 @@ def run(older_pdf, outline_gif):
                 line_in_proxy = (line['reaches_210mm_width'] and
                                  line_proxy[0] <= line['target_current_pp_a'] <= line_proxy[1])
                 field_in_proxy = field_proxy[0] <= 2*vertical_peak <= field_proxy[1]
+                own = winding_proxy[reference['type']]
+                line_own = (line['reaches_210mm_width'] and
+                            own['horizontal'][0] <= line['target_current_pp_a'] <= own['horizontal'][1])
+                field_own = own['vertical'][0] <= 2*vertical_peak <= own['vertical'][1]
                 rows.append(dict(reference_yoke=reference['type'],
                                  screen_z_m=screen_m, common_field_length_m=field_m,
                                  inner_neck_radius_m=INNER_NECK_RADIUS_M,
@@ -87,12 +116,17 @@ def run(older_pdf, outline_gif):
                                  vertical_peak_current_a=vertical_peak,
                                  vertical_current_pp_a=2*vertical_peak,
                                  vertical_in_class_proxy=field_in_proxy,
-                                 joint_proxy_match=line_in_proxy and field_in_proxy))
+                                 joint_proxy_match=line_in_proxy and field_in_proxy,
+                                 horizontal_in_own_winding_proxy=line_own,
+                                 vertical_in_own_winding_proxy=field_own,
+                                 joint_own_winding_proxy_match=line_own and field_own))
     index = {(row['reference_yoke'], row['screen_z_m'], row['common_field_length_m']): row for row in rows}
     if (not index[('AT1077/05', .235, .020)]['horizontal_in_class_proxy']
             or index[('AT1077/05', .235, .020)]['vertical_in_class_proxy']
             or not index[('AT1077/06', .235, .020)]['joint_proxy_match']
-            or index[('AT1077/06', .23, .025)]['horizontal_width_reached']):
+            or index[('AT1077/06', .235, .020)]['joint_own_winding_proxy_match']
+            or index[('AT1077/06', .23, .025)]['horizontal_width_reached']
+            or any(row['joint_own_winding_proxy_match'] for row in rows)):
         raise ValueError('joint yoke comparison changed')
     return dict(
         format='dac-monitor-yoke-joint-geometry-screen-v1',
@@ -119,8 +153,11 @@ def run(older_pdf, outline_gif):
                          anode_v=11500, grid2_v=350, focus_v=4000,
                          reference_windings=references),
         conditional_current_proxies_app=dict(horizontal=line_proxy, vertical=field_proxy),
+        conditional_own_winding_current_proxies_app=winding_proxy,
+        own_winding_proxy_assumption='Transfer AT1077/05 257 x 195 mm reference scan and +/-5% tolerance to /06; a sensitivity comparison, not a /06 data-sheet limit or AE9VT specification',
         cases=rows, joint_proxy_matches=sum(row['joint_proxy_match'] for row in rows),
-        interpretation='At 235 mm path, 9 mm inner radius and 20 mm common field, horizontal full width needs about 5.71 A peak-to-peak inside the 90-degree proxy. The AT1077/05 18 mH/10 ohm field winding needs about 1.00 A peak-to-peak above its 0.73 A family proxy, while the AT1077/06 72 mH/40 ohm variant needs about 0.50 A and gives a conditional joint match. These class variants are not AE9VT; they demonstrate that field winding choice changes whether a common-field fallback is feasible.',
+        joint_own_winding_proxy_matches=sum(row['joint_own_winding_proxy_match'] for row in rows),
+        interpretation='At 235 mm path, 9 mm inner radius and 20 mm common field, horizontal full width needs about 5.71 A peak-to-peak. The AT1077/06 72 mH/40 ohm field winding needs about 0.50 A peak-to-peak. This is within the broad family current envelope but both currents exceed the /06-specific transferred bounds. None of the sampled geometries matches both axes against its own reference winding. No catalog yoke or current is qualified as AE9VT.',
         unresolved=['An AE9VT winding and axis-specific axial field profile are not sourced',
                     'The installed B31G22 gun location and inner neck radius remain unknown',
                     'The active common 40 mm field, 280 mm path and 10 mm aperture cannot be frozen as physical geometry'])
