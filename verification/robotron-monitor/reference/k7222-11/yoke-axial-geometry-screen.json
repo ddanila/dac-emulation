@@ -1,0 +1,143 @@
+{
+  "format": "dac-monitor-yoke-axial-geometry-screen-v1",
+  "qualification": "110-degree tube-class and reduced-ray sensitivity only; not installed B31G22/AE9VT geometry or a calibrated current",
+  "sources": {
+    "philips_t16": {
+      "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf",
+      "sha256": "60ac727815c7493e8df4530fb909bc74c35b9120f3eddbdefe7a758bf536e417",
+      "type": "A31-410W",
+      "printed_pages": [
+        43,
+        45
+      ],
+      "reading": "31 cm, 110-degree, 20 mm neck; maximum overall tube length 233 mm"
+    },
+    "robotron_cross_revision": {
+      "url": "https://www.sax.de/~zander/zubehoer/k7222/k7222_61.pdf",
+      "sha256": "887787a48f36e84ce92edbd39acf2469e6a64f755e22d12d80f687f376f492a6",
+      "revision": "K7222.13/23, August 1984, section 5.7",
+      "reading": "Horizontal stage with AE9VT is designed for a 110-degree tube",
+      "limitation": "Not a K7222.11 mechanical drawing"
+    }
+  },
+  "source_hashes": {
+    "profiles/k7222-11-yoke-geometry.json": "4553f3d817ed5d094cea2df8d49343bed890c1b70dc9911b998c6f10e5b98f78",
+    "reference/k7222-11/yoke-class-comparator.json": "e1472f7d9fc0be5e4a84e40a99a8da262c818eae26c377e95ab08d3693f3aabf",
+    "trajectory.py": "713713d2d4ecee9c82a702deda7c362d63b2b3c55d3c91e7a685ed4153c36c4c",
+    "yoke_geometry.py": "29cc799c4516b5ba764c7f9388658db299fe1cbfe4aeb3833b67eb1a662fbb50",
+    "yoke_axial_geometry_screen.py": "9cbe421ee9997c705fe328c67c93c6cdd41fc963217f9601dc7ac63ef0db72c2"
+  },
+  "class_comparison": {
+    "maximum_overall_length_m": 0.233,
+    "active_gun_to_screen_m": 0.28,
+    "nominal_screen_proxy_m": 0.23,
+    "argument": "Any gun-to-screen distance in the A31-410W must be shorter than its 233 mm maximum overall length; this does not bound the B31G22 or locate its gun, so 230 mm is an upper-edge sensitivity case rather than a nominal tube dimension."
+  },
+  "held_assumptions": {
+    "yoke_start_m": 0.075,
+    "neck_radius_m": 0.01,
+    "line_winding": "Philips AT1077/05 class 475 uH, 0.8 ohm",
+    "anode_v": 11500,
+    "grid2_v": 350,
+    "focus_v": 4000,
+    "picture_half_width_m": 0.105
+  },
+  "line_current_comparator_app": [
+    1.9500592200585802,
+    5.732101167315175
+  ],
+  "cases": [
+    {
+      "screen_z_m": 0.28,
+      "field_length_m": 0.04,
+      "maximum_half_width_m": 0.09087109155251605,
+      "neck_clip_current_a": 1.5217815525829792,
+      "reaches_210mm_width": false,
+      "horizontal_tesla_per_amp": 0.0027556753034195312,
+      "horizontal_inductance_h": 0.00047787795274736953,
+      "horizontal_resistance_ohm": 0.8
+    },
+    {
+      "screen_z_m": 0.28,
+      "field_length_m": 0.0347,
+      "maximum_half_width_m": 0.10557499536027874,
+      "neck_clip_current_a": 1.844161368906498,
+      "reaches_210mm_width": true,
+      "horizontal_tesla_per_amp": 0.0029473744549617592,
+      "horizontal_inductance_h": 0.00047424309921529094,
+      "horizontal_resistance_ohm": 0.8,
+      "target_current_peak_a": 1.8356581281296358,
+      "target_current_pp_a": 3.6713162562592716,
+      "neck_clip_margin_fraction": 0.004610898438841163,
+      "inside_90_degree_yoke_current_proxy": true
+    },
+    {
+      "screen_z_m": 0.23,
+      "field_length_m": 0.0347,
+      "maximum_half_width_m": 0.07868899696488851,
+      "neck_clip_current_a": 1.844161368906498,
+      "reaches_210mm_width": false,
+      "horizontal_tesla_per_amp": 0.0029473744549617592,
+      "horizontal_inductance_h": 0.00047424309921529094,
+      "horizontal_resistance_ohm": 0.8
+    },
+    {
+      "screen_z_m": 0.23,
+      "field_length_m": 0.025,
+      "maximum_half_width_m": 0.11181458431786749,
+      "neck_clip_current_a": 2.765567272901535,
+      "reaches_210mm_width": true,
+      "horizontal_tesla_per_amp": 0.0034745471217028866,
+      "horizontal_inductance_h": 0.0004748291094760607,
+      "horizontal_resistance_ohm": 0.8,
+      "target_current_peak_a": 2.644031232918942,
+      "target_current_pp_a": 5.288062465837884,
+      "neck_clip_margin_fraction": 0.04394615208730099,
+      "inside_90_degree_yoke_current_proxy": true
+    },
+    {
+      "screen_z_m": 0.2,
+      "field_length_m": 0.025,
+      "maximum_half_width_m": 0.08988887364870002,
+      "neck_clip_current_a": 2.765567272901535,
+      "reaches_210mm_width": false,
+      "horizontal_tesla_per_amp": 0.0034745471217028866,
+      "horizontal_inductance_h": 0.0004748291094760607,
+      "horizontal_resistance_ohm": 0.8
+    },
+    {
+      "screen_z_m": 0.2,
+      "field_length_m": 0.02,
+      "maximum_half_width_m": 0.11407119312434813,
+      "neck_clip_current_a": 3.5408839769661427,
+      "reaches_210mm_width": true,
+      "horizontal_tesla_per_amp": 0.003881907818730122,
+      "horizontal_inductance_h": 0.00047415610555394963,
+      "horizontal_resistance_ohm": 0.8,
+      "target_current_peak_a": 3.371610832580357,
+      "target_current_pp_a": 6.743221665160714,
+      "neck_clip_margin_fraction": 0.04780533490702515,
+      "inside_90_degree_yoke_current_proxy": false
+    }
+  ],
+  "conditional_field_length_thresholds": [
+    {
+      "screen_z_m": 0.23,
+      "maximum_field_length_m": 0.026553515625000003,
+      "first_failing_field_length_m": 0.0265558837890625,
+      "method": "bisection of maximum width before neck clipping"
+    },
+    {
+      "screen_z_m": 0.2,
+      "maximum_field_length_m": 0.021643066406249994,
+      "first_failing_field_length_m": 0.021644287109374993,
+      "method": "bisection of maximum width before neck clipping"
+    }
+  ],
+  "interpretation": "At 230 mm gun-to-screen, the earlier 34.7 mm field fails before 210 mm width; a 25 mm field reaches the width at about 2.64 A peak with 4.4% neck-current margin, within the broad 90-degree yoke current proxy. At 200 mm, a 25 mm field fails and a 20 mm field reaches at 3.37 A peak, above that proxy. These are coupled geometry sensitivities, not a sourced field length or installed current.",
+  "unresolved": [
+    "B31G22 gun location, inside neck aperture and screen curvature",
+    "AE9VT axial field profile, electrical winding and sensitivity",
+    "Whether the 110-degree K7222.13/23 tube class transfers to K7222.11"
+  ]
+}

@@ -3741,3 +3741,36 @@ four of the original 16 sign candidates, differing only in upper/lower tap
 signs. This is a polarity constraint, not a TP17 amplitude match or a
 historical winding diagram. If X2:5's return or the internal tap order
 changes, the filter must be recomputed.
+
+### A5/A6: shorter 110-degree tube-class axial screen (2026-11-21)
+
+The [Robotron K7222.13/23 technical description](https://www.sax.de/~zander/zubehoer/k7222/k7222_61.pdf)
+(section 5.7) says its horizontal stage uses the AE9VT for a 110° tube.
+The [Philips T16 A31-410W sheet](https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf)
+(printed pages 43 and 45) gives a 31 cm, 110°, 20 mm-neck tube with
+233 mm *maximum overall length*. The current ray model's 280 mm
+gun-to-screen path exceeds even that class tube's overall length. This is
+a warning about the geometry assumption, not a measured B31G22 dimension:
+neither source locates the .11 tube's gun or identifies its exact glass.
+The earlier Philips yoke comparator is a 90° family, so it remains an
+electrical/current sensitivity comparator, not a direct AE9VT match.
+
+The [axial screen](reference/k7222-11/yoke-axial-geometry-screen.json)
+holds the reduced model's 10 mm inner neck aperture, 75 mm yoke start,
+475 µH/0.8 Ω class winding and 11.5 kV anode fixed. At a 230 mm
+gun-to-screen *upper-edge proxy*, the previous 34.7 mm field reaches
+only 78.69 mm half-width before neck clipping, below the manual's
+105 mm target. A 25 mm field reaches 105 mm at 2.644 A peak, 4.4%
+below its assumed neck-clip current; its 5.288 A peak-to-peak lies within
+the broad 90° yoke current proxy. At 200 mm, a 25 mm field reaches only
+89.89 mm; a 20 mm field reaches the target at 3.372 A peak, above that
+proxy's 5.732 A peak-to-peak upper end. These coupled changes show why
+the old 34.7 mm trial cannot freeze geometry or yoke current. A5 needs
+the installed tube's axial/neck geometry and AE9VT field profile before
+choosing a class-bounded physical design point.
+
+Bisecting the neck-clip boundary gives conditional *maximum* active field
+lengths of 26.55 mm at the 230 mm proxy and 21.64 mm at 200 mm. These
+limits depend on the still-assumed 75 mm yoke start and 10 mm inner neck
+radius; they are model constraints to check against hardware geometry,
+not measured AE9VT dimensions.
