@@ -3800,3 +3800,25 @@ The bisection threshold is **29.87 mm**. The 230 and 200 mm results still
 show the sensitivity to unknown gun placement. None of these field lengths
 is an AE9VT measurement; they bound what the current reduced model would
 need at each declared path length.
+
+### A5: regenerate the source-constrained T3 functional core (2026-11-21)
+
+The [functional-core report](reference/k7222-11/t3-functional-core.json)
+uses the independent .11 [drive](reference/k7222-11/t3-drive-polarity-source-read.json),
+[HV](reference/k7222-11/t3-hv-terminal-read.json) and
+[G1](reference/k7222-11/t3-g1-rectifier-source-read.json) reads. It names
+only three terminal pairs: X2:7–X2:4 for the collector drive, X1:1–X1:16
+for the V21/EHT winding, and X2:6–X2:5 for the V14/G1 winding. No
+scan-order tap continuity or X1:3/X2:3 bridge enters this core. The
+[generator](t3_functional_core.py) checks the source hashes and all six
+terminals against the current assembly transcription.
+
+Of four relative sign assignments to the HV and G1 pairs, one permits a
+positive collector flyback to charge positive EHT and negative G1. The G1
+part still assumes X2:5 returns to 00 and has winding continuity with X2:6.
+After accounting for the reversed pair orientation, the result agrees with
+the earlier four-of-sixteen
+filter within the hypothetical full graph. Thirteen other T3 assembly
+terminals remain unassigned, including the upper/lower output taps; this
+six-terminal core is a starting point for the function-only fallback,
+not a full winding candidate or a numerical T3 design point.
