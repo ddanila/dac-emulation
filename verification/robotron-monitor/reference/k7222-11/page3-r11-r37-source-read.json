@@ -184,7 +184,7 @@
   },
   "current_assembly": {
     "input_sheet": "circuits/k7222-11-input.kicad_sch",
-    "input_sheet_sha256": "5dccb8b3a53c3690e94ae9124135807ce50e8be2438731caf5eb362c4852d366",
+    "input_sheet_sha256": "5679f1f4c55efde1027bcfe7e98916c7aaef2085102c223170a649d74947cf67",
     "horizontal_sheet": "circuits/k7222-11-horizontal-oscillator.kicad_sch",
     "horizontal_sheet_sha256": "f84a73d359edfbf7610b791a1d0dc99087fb3fcd8993d346ce670935e20aa6af",
     "R11.2_nodes": [
@@ -205,7 +205,7 @@
     ],
     "V1_nodes": [
       "p35",
-      "collector_i",
+      "v1_base",
       "contrast_low"
     ],
     "V6_nodes": [
@@ -248,7 +248,16 @@
     ],
     "R3_nodes": [
       "p35",
-      "collector_i"
+      "v1_base"
+    ],
+    "V5_nodes": [
+      "intens",
+      "base_i",
+      "0"
+    ],
+    "V3_nodes": [
+      "clamp_i",
+      "intens"
     ]
   },
   "model_status": "V20 uses the same provisional SSY20A_BOUND NPN alias as printed-type peer V6; original 1SA20C electrical parameters and connected stress are not qualified.",

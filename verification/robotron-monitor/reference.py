@@ -127,7 +127,7 @@ def source_connectivity(path, inventory, board, subcircuits=None, *, allow_float
                    '41P':'p41','SYNCH':'h_sync','X2':'hy2','X1':'hy1',
                    'UG2':'ug2','UG4':'ug4','VID':'vid','INTENS':'intens',
                    '10.7P':'p10_7','UG1':'ug1','Y1':'y1','Y2':'y2',
-                   'HRA':'contrast_adjust','HRS':'collector_i','35P':'p35',
+                   'HRA':'contrast_adjust','HRS':'v1_base','35P':'p35',
                    'KRS':'contrast_low','KRA':'reference9'}
             expected={connector:{pin:names[label] for pin,label in source['connectors'][source_id].items()}
                       for source_id in (source_ids[ref] for ref in audit_refs)

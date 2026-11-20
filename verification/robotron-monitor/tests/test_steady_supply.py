@@ -120,7 +120,6 @@ class SteadySupplyTests(unittest.TestCase):
         candidate=tc.enumerate_candidates(graph)[0]
         text,meta=steady.deck(assembly,selection,candidate,linear_solver='klu',reltol=.001,abstol=1e-8)
         self.assertIn('.options klu reltol=0.001 abstol=1e-08',text)
-        self.assertIn('Vintens_passthrough intens rx_intens 0',text)
         self.assertEqual(meta['linear_solver'],'klu')
         grid_deck,grid_meta=steady.deck(dict(assembly,source_kind='synthetic-test-pattern'),
                                        selection,candidate)
@@ -187,8 +186,8 @@ class SteadySupplyTests(unittest.TestCase):
             deck,metadata=steady.deck(dict(parameters=base|{'brightness_position':position},
                                           components=[],models=[]),selection,candidate)
             self.assertIn(f'.param brightness_position={position:g}',deck)
-            self.assertIn(f'Rbrightness_top p35 collector_i {top:g}',deck)
-            self.assertIn(f'Rbrightness_bottom collector_i contrast_adjust {bottom:g}',deck)
+            self.assertIn(f'Rbrightness_top p35 v1_base {top:g}',deck)
+            self.assertIn(f'Rbrightness_bottom v1_base contrast_adjust {bottom:g}',deck)
             self.assertEqual(metadata['external_brightness']['total_r_ohm'],10000.)
             self.assertEqual(metadata['external_brightness']['position'],position)
         self.assertEqual(steady.brightness_resistances(.5,5000),(2500.,2500.))

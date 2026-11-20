@@ -168,13 +168,12 @@ def run(capture_path,output,*,case='nominal',duration=.0002,step=2e-9,sections=4
                           f'Cwire_{signal}_{j} {node} mreturn {total_c/sections}']
                 previous=node
         lines += [f'Rreturn 0 mreturn {params["return_r"]*(50 if case=="return-resistance" else 1)}',
-            'Vintens_passthrough intens rx_intens 0',
             'Vp5 p5 mreturn 5','Vp12 p12 mreturn 12','Vp35 p35 mreturn 35',
             'Vrail p41 mreturn 41',
             'Vg1 ug1 mreturn -25','Vg2 ug2 mreturn 350','Vg4 ug4 mreturn 175',
             'Rcontrast reference9 contrast_low {contrast_r*contrast_position}',
-            f'Rbrightness_top p35 collector_i {brightness_top:.15g}',
-            f'Rbrightness_bottom collector_i contrast_adjust {brightness_bottom:.15g}',
+            f'Rbrightness_top p35 v1_base {brightness_top:.15g}',
+            f'Rbrightness_bottom v1_base contrast_adjust {brightness_bottom:.15g}',
             'Rdownstream sync_c mreturn {sync_load}','Rvertical_load vertical_trigger mreturn {vertical_load}',
             'Ibeam mreturn cathode 20u','Csocket cathode mreturn {tube_cathode_c}']
         probes=[]

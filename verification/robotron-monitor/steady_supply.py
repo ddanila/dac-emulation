@@ -368,12 +368,11 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
                       f'Cwire_{signal}_{j} {node} 0 {p["cable_c"]/4}']
             previous=node
     lines += [f'Rreturn computer_return 0 {p["return_r"]}',
-        'Vintens_passthrough intens rx_intens 0',
         'Vp12 p12 0 12',f'Vp22 p22 0 {22*rail_scale:.15g}',
         f'Vp41 p41 0 {41*rail_scale:.15g}',f'Vn16 n16 0 {-16*rail_scale:.15g}',
         'Rcontrast reference9 contrast_low {contrast_r*contrast_position}',
-        f'Rbrightness_top p35 collector_i {brightness_top:.15g}',
-        f'Rbrightness_bottom collector_i contrast_adjust {brightness_bottom:.15g}',
+        f'Rbrightness_top p35 v1_base {brightness_top:.15g}',
+        f'Rbrightness_bottom v1_base contrast_adjust {brightness_bottom:.15g}',
         'Xcrt p10_7 0 cathode g1 g2 eht heater_rise cathode_rise CRT_THERMAL',
         'Ctube eht 0 {tube_anode_c}', 'Rhvleak eht 0 {tube_hv_leakage}',
         'Rhorizontal hy1 h_winding {yoke_horizontal_r}','Lhorizontal h_winding hy2 {yoke_horizontal_l}',
@@ -384,7 +383,6 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         *(['.ic '+' '.join(f'v({n})={v:.15g}' for n,v in sorted(initial_voltages.items()))] if initial_voltages else []),
         f'.tran {max_step_s} {period*fields:.17g} {period*(fields-4):.17g} {max_step_s}', '.end']
     assumptions=['Ideal 12 V converter input and R5-scaled 22/41/-16 V outputs; actual 5 V regulator retained.',
-        'Page-3/4 X9:5-to-X3:2 INTENS board trace is an ideal zero-volt passthrough to neck X1:7.',
         'Page-9 R4/R2/L1/L2 centring bridge uses one conditional opposite-polarity E-link pair; installed pair and choke construction are unverified.',
         'External brightness R1 has page-3/page-18 terminal mapping and a handwritten 5–10 kohm class-typical value; A1 netlist comparison remains open.',
         'External contrast R2 is a two-wire rheostat from KRA to KRS. Its page-3/4 board-side mapping and X1 pin export match; the connected stage score remains open.',
@@ -413,7 +411,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         external_brightness=dict(source_pdf_pages=[3,4,18],source_id='external:R1',tier='class-typical',
             position=p['brightness_position'],total_r_ohm=p['brightness_pot_r'],
             top_r_ohm=brightness_top,bottom_r_ohm=brightness_bottom,
-            terminal_nodes={'E_35P':'p35','S_HRS':'collector_i','A_HRA':'contrast_adjust'},
+            terminal_nodes={'E_35P':'p35','S_HRS':'v1_base','A_HRA':'contrast_adjust'},
             contact_floor_ohm=1.,source_value_note='handwritten 10 kohm with 5 kohm alternative'),
         external_contrast=dict(source_pdf_pages=[3,4,18],source_id='external:R2',tier='class-typical',
             position=p['contrast_position'],total_r_ohm=p['contrast_r'],

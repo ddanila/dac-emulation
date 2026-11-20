@@ -1,4 +1,4 @@
-"""Keep the source INTENS passthrough and contrast-path limit reproducible."""
+"""Check the source-corrected intensity/contrast DC diagnostic."""
 import json
 from pathlib import Path
 import subprocess
@@ -12,7 +12,7 @@ import page18_contrast_dc_diagnostic as diagnostic
 
 
 class Page18ContrastDCDiagnosticTests(unittest.TestCase):
-    def test_intensity_reaches_neck_while_contrast_dc_effect_remains_open(self):
+    def test_intensity_seam_and_unqualified_output(self):
         project = ROOT.parents[1]
         subprocess.run(['make', 'build/robotron-signal-pattern'], cwd=project,
                        check=True, capture_output=True)
@@ -24,20 +24,16 @@ class Page18ContrastDCDiagnosticTests(unittest.TestCase):
         saved = json.loads((ROOT/'reference/k7222-11/page18-contrast-dc-diagnostic.json').read_text())
         self.assertEqual(live, saved)
         self.assertEqual(len(live['rows']), 16)
-        for row in live['rows']:
-            self.assertAlmostEqual(row['voltages_v']['rx_intens'],
-                                   row['voltages_v']['intens'], places=8)
-        at_low_contrast = [row for row in live['rows']
-                           if row['feed_resistance_ohm'] == 0 and
-                           row['contrast_position'] == .05 and row['logic_video'] == 1]
-        dark_intensity, bright_intensity = at_low_contrast
-        self.assertGreater(bright_intensity['voltages_v']['cathode']-
-                           dark_intensity['voltages_v']['cathode'], 2)
-        comparison = next(row for row in live['comparisons']
+        high_input = next(row for row in live['rows']
                           if row['feed_resistance_ohm'] == 0 and
-                          row['logic_video'] == row['logic_intensity'] == 1)
-        self.assertGreater(abs(comparison['high_minus_low_v1_collector_current_a']), .02)
-        self.assertLess(abs(comparison['high_minus_low_voltage_v']['cathode']), .001)
+                          row['logic_video'] == 0 and row['logic_intensity'] == 1 and
+                          row['contrast_position'] == .05)
+        self.assertGreater(high_input['voltages_v']['rx_intens'], 3)
+        self.assertLess(high_input['voltages_v']['intens'], 1)
+        self.assertGreater(high_input['voltages_v']['v1_base'], 20)
+        for comparison in live['comparisons']:
+            self.assertLess(comparison['high_minus_low_v1_collector_current_a'], -.02)
+            self.assertLess(abs(comparison['high_minus_low_voltage_v']['cathode']), 1e-3)
 
 
 if __name__ == '__main__':

@@ -981,7 +981,7 @@ B6 must still measure the grid and select a setting.
 The page-18 interconnection drawing assigns panel R1 terminals E, S and A to
 35P, HRS and HRA on main-board connector X1; page 3 draws the same pot and
 page 4 continues HRS/HRA into the V1 bias network. The current deck maps them
-to `p35`, `collector_i` and `contrast_adjust`, respectively; all six physical
+to `p35`, `v1_base` and `contrast_adjust`, respectively; all six physical
 X1 pins now match a fresh KiCad export. The panel pot's
 bottom-to-wiper segment is in parallel with the board's R1 (2.7 kΩ). The
 handwritten page-18 10 kΩ value, with 5 kΩ alternative, is carried as a
@@ -993,13 +993,13 @@ preset.
 
 Neck-board X3:1 and X3:2 are the service-meter terminals across its 390 Ω
 cathode resistor, not the panel pot; page 16 and the manual's beam-current
-procedure confirm that role. Three DC operating-point trials of the assembled
-deck with the 10 kΩ pot at positions 0, 0.5 and 1 change `v(collector_i)`
-from 11.70 V to 12.68 V to 12.88 V. This proves the trim reaches the modeled
-V1 bias node. At the top endpoint the provisional 35P source falls to about
-20 V under load, a stage-model limitation to recheck in Phase B. Neither
-these DC trials nor the terminal reading close A1's independent page-3/4/18
-netlist review or demonstrate calibrated brightness on a sustained grid.
+procedure confirm that role. The earlier DC voltage sequence attributed to
+`collector_i` is superseded: that model net incorrectly joined V5's IS output
+to the panel HRS wiper. The corrected wiper is `v1_base`; a fresh
+source-addressed DC diagnostic confirms V1 responds to its controls, while
+the tube response and service-meter transfer remain unqualified. This does
+not close A1's independent page-3/4/18 netlist review or demonstrate
+calibrated brightness on a sustained grid.
 
 ### V4 source identity and R41 discrepancy (2026-11-19)
 
@@ -1374,7 +1374,7 @@ upper oscillator with its distinct emitter network.
 The fresh ideal-rail export now has V19 provisionally on
 `[v19_out, sync_c, 0]`, with `v19_out` feeding R39 lower and parallel
 R40/C34 left. R38/R39 upper are on `p12`, not `0`, and page-4 V1 is
-`[p35, collector_i, contrast_low]` with R3 from `p35` to its base node.
+`[p35, v1_base, contrast_low]` with R3 from `p35` to its base node.
 R2 still shunts the KRS/`contrast_low` line to `0`. All five printed
 `1SA20C` and both `1SC60A` instances are assembled; their C/E
 assignment and connected stress remain provisional. An
@@ -2499,25 +2499,17 @@ still matches all 18 cable pairs at both ends. The page-18 comparison now
 hashes the actual assembled component set, so a later source-sheet change
 cannot leave its saved semantic result silently unchanged.
 
-The four component-only comparison gaps have distinct boundaries: the
-vertical-board 41P and SYNCH paths belong to the excluded converter, INTENS
-is a connector-only input trace, and the neck 10.7P heater branch is replaced
-by a held thermal state. A separate
-[page-3/4 source read](reference/k7222-11/page3-4-intens-passthrough-source-read.json)
-now follows incoming X9:5 INTENS across the page seam to X3:2; page 18 maps
-that pin to neck X1:7. Both the short signal-path and full assembled decks
-therefore include an ideal zero-volt INTENS passthrough. The component-only
-semantic checker still reports four gaps because the source path contains no
-main-board component. A fresh DC operating point of the full assembled synthetic-grid
-deck converges with both `rx_intens` and neck `intens` at 3.592664 V. This
-checks the assembled connection at one initial logic state, not sustained
-native-grid behavior. The converter and heater branches remain excluded.
+The three remaining gaps have distinct boundaries: the vertical-board 41P
+and SYNCH paths belong to the excluded converter, and the neck 10.7P
+heater branch is replaced by a held thermal state. The V5 collector now
+connects to the represented IS neck output. These are model-scope
+dispositions, not evidence that the electrical paths have been restored.
 The refreshed [panel topology](reference/k7222-11/page18-panel-topology-comparison.json)
 still matches its source read. The functional contrast response and remaining
 page-3/4 source review are open, so page 18 is not marked complete in the A1
 gate.
 
-### A1: weak conditional page-18 contrast response (2026-11-20)
+### A1: corrected page-3/4 intensity seam and unresolved contrast response (2026-11-20)
 
 The short input/neck bench previously left `p35` floating and omitted the
 source-read external R1 brightness segments, so it could not test the R2/V1
@@ -2527,44 +2519,38 @@ same bounded resistance/position rule as the assembled frame model. This is a
 bench correction, not a claim that the unverified flyback-derived 35 V feed
 has been qualified.
 
-The [contrast stage check](reference/k7222-11/page18-contrast-stage-check.json)
-uses the generated highlight pattern, which toggles both video and intensity
-within 0.2 ms, and solves the source-addressed input and neck circuits at
-R2 positions 0.05, 0.50 and 0.95. All three ngspice runs complete. The
-cathode spans about 0.34–33.70 V at each setting; the largest pointwise
-low-versus-high difference is 0.0149 V, or 0.045% of the nominal swing.
-That voltage is not the service contrast observable: the short bench fixes
-beam current at 20 µA, while the manual's page-30 procedure uses a meter
-across neck-board R4 to set maximum beam current.
+The [page-3/4 seam read](reference/k7222-11/page3-4-intens-seam-source-read.json)
+uses registered 300 and 600 dpi views to separate three page-edge lines:
+incoming X9:5 INTENS goes to T200's input (`rx_intens`), V5's collector and
+V3's cathode form the IS output to neck X3:2 (`intens`), and the panel HRS
+wiper goes to V1's base (`v1_base`). The earlier direct input-to-neck
+passthrough claim was wrong; the associated cathode and beam-current
+differences must not be used as evidence. The source read does not establish
+all junctions or the IS high-state bias, so the full page-3/4 netlist remains
+open.
 
-The same check now also replaces that fixed load with the repository's
-held-warm CRT proxy at its provisional 894/669 K heater/cathode temperature
-rises, ideal 11.5 kV anode and fixed −25/350 V grid supplies. Its peak launch
-current is 28.97 µA at all three settings. The largest pointwise
-low-versus-high difference is 0.0943 µA, or 0.326% of the nominal peak. This
-suggests a weak modeled contrast path even when the provisional emission
-response is included, but it does not establish the original tube's response
-or the measuring-cable transfer. The page-3/4 R4/V1/V3 video/contrast wiring and
-the manual's full-bright trim sequence must be revisited. The
+The corrected [contrast stage check](reference/k7222-11/page18-contrast-stage-check.json)
+uses the generated highlight pattern and R2 positions 0.05, 0.50 and 0.95.
+All three ngspice runs complete. The cathode spans about 0.34–33.70 V at
+each setting, but the largest low-versus-high pointwise difference is only
+0.11 µV. The held-warm CRT proxy likewise changes by at most 0.00000133 µA
+across settings. These are numerical-level changes in this conditional bench,
+not a qualified service contrast response. The short bench fixes beam
+current at 20 µA for its voltage probe; the manual's page-30 procedure uses
+a meter across neck-board R4 to set maximum beam current. The proxy uses
+provisional 894/669 K heater/cathode temperature rises, ideal 11.5 kV anode
+and fixed −25/350 V grid supplies. The
 [panel pin/topology comparison](reference/k7222-11/page18-panel-topology-comparison.json)
-still passes; page 18 remains open because topology agreement and this
-conditional response do not prove the required function. This short
-synthetic-pattern check is not a native-grid sustained A3 score.
+still passes, but page 18 remains open. This synthetic-pattern check is not
+a native-grid sustained A3 score.
 
-A follow-up [16-point DC diagnostic](reference/k7222-11/page18-contrast-dc-diagnostic.json)
+The [16-point DC diagnostic](reference/k7222-11/page18-contrast-dc-diagnostic.json)
 holds each video/intensity logic pair fixed, sweeps the two contrast endpoints,
 and repeats with an illustrative 100 Ω source impedance ahead of 35P. With
-the corrected passthrough, neck `intens` follows `rx_intens` in every case;
-switching intensity high with video high changes the cathode DC level from
-0.34 to 2.92 V. This closes the missing electrical input path, not the
-manual's intensity or service-meter target. With the ideal feed and intensity
-high, V1 collector current falls by 28.21 mA from low to high contrast while
-its base changes by only 0.028 V. With the
-illustrative impedance, the 35P rail changes by 2.329 V and V1's base by
-1.466 V, yet the modeled `vid` input to the neck board and cathode DC level
-do not change at either video level. This narrows the bench issue: the
-control affects V1 and can load the 35 V feed, but these tested operating
-points do not carry that change to the tube input. The 100 Ω value is a
-sensitivity probe, not a source-derived rail model. The page-3/4 V1/V3/video
-path, T200 functional model, and service trim conditions need independent
-qualification before attributing the weak response to the physical monitor.
+the ideal feed and intensity high, V1 collector current falls by 28.21 mA
+from low to high contrast while the modeled IS output remains below 1 V.
+The neck cathode DC level does not change at either video level. The
+100 Ω value is a sensitivity probe, not a source-derived rail model. The
+source graph and IS high-state bias, T200 functional model, original tube
+response and service-meter transfer require qualification before judging the
+physical monitor's contrast function.
