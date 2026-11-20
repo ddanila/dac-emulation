@@ -398,29 +398,21 @@ failure, restore the component-level stage and re-run the gates from there.
 **Phase A is not closed; only A4 meets its done condition. The immediate
 goal-closure blocker is A5: there is no original-graph-verified or
 fallback-qualified T3 design point, and no sustained connected operating
-point to freeze.** The .11 scans do not settle T3's return, tap order or
-high-voltage cold end. The [source-informed overwind screen](reference/k7222-11/t3-source-overwind-sweep.json)
-either aborts or gives 719–788 Vpp at the TP17-mapped node against the
-manual's 64–96 Vpp guideline. The [loaded return screen](reference/k7222-11/t3-loaded-return-screen.json)
-gets near TP17 and 11–12 kV EHT at a 100 ns maximum step, but changing only
-that step to 50 ns raises TP17 from 63.25 to 1,028.5 Vpp in the probe-free
-cases. The earlier passive fallback also changes with a non-driving probe,
-and two bounded connected native-grid attempts time out with irregular pulses
-before four fields. A newer [provisional AC-loss candidate](reference/k7222-11/t3-ac-loss-candidate-screen.json)
-does meet TP17/EHT and timestep refinement on the isolated prescribed-drive
-stage, but a final-two-line collector comparison misses 0.1% periodicity,
-its 5.74 ns median step misses the solver budget, its return graph and loss
-values are unqualified, and it has no connected field result. Thus
-freezing T3 or scoring the connected A3 result
-would still be unsupported.
+point to freeze.** The .11 scans do not settle T3's return, tap order or HV
+cold end. Earlier [overwind](reference/k7222-11/t3-source-overwind-sweep.json)
+and [return](reference/k7222-11/t3-loaded-return-screen.json) screens fail
+the TP17/EHT or refinement checks, and two connected native-grid attempts
+time out with irregular pulses. The newer [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json)
+meets TP17/EHT, final-two-line periodicity and solver budget at 50/25 ns
+with a prescribed 200 ns base-drive edge. Its return graph, losses and drive
+edge are unqualified, and no sustained connected field has been scored.
+Freezing T3 or scoring A3 from that stage alone would be unsupported.
 
-The way past this blocker is already authorized by the fallbacks above: carry
-the unresolved return graph as labelled alternatives, bound the winding losses,
-and qualify the smallest equivalent that gives a refined joint TP17/EHT stage
-result and a sustained connected field. A1, A2 and A6 have separate unfinished
-conditions in the table below, so clearing A5 alone will not finish Phase A.
-This is a work/evidence blocker, not a request for a human measurement or
-approval. Detailed run receipts are in [phase-a-evidence.md](phase-a-evidence.md).
+The authorized path is to carry the unresolved graph as labelled
+alternatives, bound the losses and drive, then qualify a connected periodic
+field. A1, A2 and A6 have separate unfinished conditions below. This is a
+work/evidence blocker, not a request for a human measurement or approval;
+run receipts are in [phase-a-evidence.md](phase-a-evidence.md).
 
 **Keep this section short.** It holds one row per item: what is still unmet
 and the next step. Results, numbers and source reads go in
@@ -435,7 +427,7 @@ next step changes. The narrative that used to follow is in
 | A2 | All 64 frame-path instances have provisional register rows; none passes every qualification check. Seven instances still rely on screened simulator defaults ([audit](reference/k7222-11/a2-implicit-default-audit.json)). T3 turns, resistance and parasitics are assumed-bound. | Make the remaining defaults explicit with bounds. Check connected operating stress per stage. |
 | A3 | All 17 shape descriptors are registered and scored. No sustained connected run on the native grid has been scored. The original flux model under-drives TP17; the older passive equivalent develops irregular bursts and times out. The newer AC-loss equivalent meets TP17/EHT only on a prescribed-drive stage. TP8 is `reference-incomplete`: 17 V is crest-to-zero, and the 10 V arrow has no settled node. | Resolve or bound the T3 pulse-winding/rectifier and T2/L4 source paths. Qualify TP17 and EHT together with converged, refined native-grid fields, then score. |
 | A4 | Done. | None. |
-| A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. T3 graph, ratios and polarities are not frozen. The [provisional AC-loss candidate](reference/k7222-11/t3-ac-loss-candidate-screen.json) meets joint TP17/EHT and step/probe refinement on the prescribed-drive stage, but final-two-line collector agreement misses 0.1% and its 5.74 ns median step misses the 20 ns solver budget. Its grounded HV cold end, loss and 10-turn auxiliary remain unqualified; no connected periodic result exists. Other T3 sections, vertical current and tube/yoke geometry remain conditional. | Bound the return graph and loss model, resolve the stage periodicity and solver-budget misses, check joint bounds and collector stress, then establish a converged connected operating point before freezing a candidate. |
+| A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. T3 graph, ratios and polarities are not frozen. The [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json) meets joint TP17/EHT, 0.1% final-two-line agreement, solver budget and 50/25 ns refinement only with a prescribed 200 ns base edge at `reltol=.005`; the 100 ns run fails collector agreement. Its grounded HV cold end, loss, 10-turn auxiliary and drive edge are unqualified, and no connected periodic result exists. Other T3 sections, vertical current and tube/yoke geometry remain conditional. | Bound the return graph, loss and drive; check joint bounds and collector stress; establish a converged connected operating point before freezing a candidate. |
 | A6 | The [register](reference/k7222-11/class-typical-register.json) is partial: tube data (B31G22 cold resistance, thermal law, emission, G4 effect on cut-off), T3 parasitics, yoke sensitivity and the measuring cable lack qualified bounds. | Add cited bounds and re-run the stage checks they affect. |
 
 Order: A5 (T3 graph or its fallback), A2, A1, A3, A6, then B1. Phase C waits
@@ -462,10 +454,10 @@ are in the evidence log.
 - **T3 equivalent.** The older passive coupled-winding candidate changes
   with a non-driving flux probe and develops irregular pulses in two bounded
   connected runs. The newer AC-loss, grounded-HV-cold equivalent gives about
-  79.7 Vpp TP17 and 11.47 kV EHT on a refined prescribed-drive stage, but
-  its graph and loss remain provisional, its final-two-line collector differs
-  by 0.158%, its 5.74 ns median step misses the solver budget, and it has no
-  sustained connected result. Neither is a frozen design point.
+  79.7 Vpp TP17 and 11.48 kV EHT on a refined prescribed-drive stage. At
+  50/25 ns with a 200 ns base edge it meets stage periodicity and solver
+  budget, but its graph, loss and drive edge remain provisional and it has
+  no sustained connected result. Neither is a frozen design point.
 - **Horizontal drive.** No prescribed-drive sweep reaches TP15 (36–54 Vpp)
   and 11–12 kV together. With an ideal 45 Vpp TP15 source, the cases that
   reach about 11.3 kV put more than 50 V of reverse bias on V18's base
