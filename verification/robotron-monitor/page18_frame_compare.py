@@ -17,6 +17,12 @@ ASSEMBLY = ROOT/'reference/k7222-11/assembly.json'
 
 FRAME_CABLES = {'1.11.017307.0', '1.11.017308.0',
                 '1.11.017293.0', '1.11.017294.0'}
+SCOPE_GAPS = {
+    '41P': 'vertical-board converter supply path is excluded by ideal rails',
+    'SYNCH': 'vertical-board converter synchronizing path is excluded with that converter',
+    'INTENS': 'external intensity drive reaches the neck board without a main-board sheet component; connected stimulus remains unqualified',
+    '10.7P': 'neck heater electrical branch is replaced by a held thermal state; sustained heater balance remains unqualified',
+}
 SIGNAL_NETS = {
     'UG1': 'ug1', 'UG2': 'ug2', 'UG4': 'ug4',
     'VID': 'vid', 'INTENS': 'intens', '10.7P': 'p10_7',
@@ -69,18 +75,24 @@ def compare(source, assembly, components):
                              destination_board_net_present=model_net in by_board[destination_board]))
     if len(rows) != 18:
         raise ValueError('expected eighteen frame-path cable pairs')
+    gaps = [r for r in rows if not
+            (r['horizontal_board_net_present'] and r['destination_board_net_present'])]
+    if {row['source_signal'] for row in gaps} != set(SCOPE_GAPS):
+        raise ValueError('board-net scope gaps changed; review their model disposition')
     return dict(format='dac-monitor-page18-frame-comparison-v2',
-                qualification='partial semantic comparison; A1 page-18 pin-level gate remains open',
+                qualification='semantic comparison with four explicitly classified functional model-scope gaps; physical pins checked in a separate receipt, connected contrast stage open',
                 source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
                 assembly_sha256=hashlib.sha256(ASSEMBLY.read_bytes()).hexdigest(),
+                assembled_components_sha256=hashlib.sha256(
+                    json.dumps(components, sort_keys=True).encode()).hexdigest(),
                 cable_pairs=rows,
                 both_board_nets=sum(r['horizontal_board_net_present'] and
                                     r['destination_board_net_present'] for r in rows),
-                missing_board_nets=[r for r in rows if not
-                                    (r['horizontal_board_net_present'] and r['destination_board_net_present'])],
-                mapping_limits=['X1/X2 to hy1/hy2 uses the current yoke-net naming; physical pin direction is not established here',
-                                'SYNCH to h_sync uses the horizontal-output label; the vertical-board converter path is outside the ideal-rail frame'],
-                open_checks=['six cable signals have functional model-scope gaps despite matching source-labelled physical pins',
+                missing_board_nets=gaps,
+                scope_gap_dispositions=SCOPE_GAPS,
+                mapping_limits=['X1/X2 map to the current hy1/hy2 centring-choke and yoke nets; the separate yoke-pin comparison checks terminal labels, not winding polarity',
+                                'SYNCH maps to the horizontal-output h_sync label; the vertical-board converter path is outside the ideal-rail frame'],
+                open_checks=['four cable signals have classified functional model-scope gaps despite matching physical pins',
                              'panel topology and X1 physical pins are checked separately; connected contrast stage remains open'])
 
 

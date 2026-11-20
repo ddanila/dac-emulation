@@ -2484,3 +2484,27 @@ model are still needed before the 0.1/3.6 mV service observations can be
 compared. The page-16 decision in
 [source-review-decisions.json](reference/k7222-11/source-review-decisions.json)
 states that boundary explicitly.
+
+### A1: refreshed page-18 cable semantics (2026-11-20)
+
+The earlier page-18 receipt recorded six functional board-net gaps before
+the centring-choke model was connected. Reassembling the current KiCad sheets
+and comparing them with all 18 source-labelled cable pairs changes the
+[semantic receipt](reference/k7222-11/page18-frame-comparison.json) to 14
+board-net matches and four explicitly classified model-scope gaps. X1/X2 now
+reach the vertical board through its L1/L2 centring chokes; their physical
+connector and yoke endpoints remain checked separately. The refreshed
+[physical-pin receipt](reference/k7222-11/page18-board-cable-pin-comparison.json)
+still matches all 18 cable pairs at both ends. The page-18 comparison now
+hashes the actual assembled component set, so a later source-sheet change
+cannot leave its saved semantic result silently unchanged.
+
+The four remaining gaps have distinct boundaries: the vertical-board 41P
+and SYNCH paths belong to the excluded converter, INTENS is an external
+input represented without a main-board sheet component, and the neck 10.7P
+heater branch is replaced by a held thermal state. These are model-scope
+dispositions, not evidence that the electrical paths have been restored.
+The refreshed [panel topology](reference/k7222-11/page18-panel-topology-comparison.json)
+still matches its source read. A connected contrast-stage score and the
+remaining page-3/4 source review are open, so page 18 is not marked complete
+in the A1 gate.
