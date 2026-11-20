@@ -1,7 +1,21 @@
 {
   "format": "dac-monitor-yoke-axial-geometry-screen-v1",
-  "qualification": "110-degree tube-class and reduced-ray sensitivity only; not installed B31G22/AE9VT geometry or a calibrated current",
+  "qualification": "B31-G family outline and reduced-ray sensitivity only; not measured B31G22/AE9VT geometry or a calibrated current",
   "sources": {
+    "k7222_11_page18": {
+      "file": "older.pdf",
+      "sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "page": 18,
+      "reading": "Installed picture-tube label B31G22 and yoke label AE9VT 6802.01"
+    },
+    "b31_g_family_outline": {
+      "url": "https://elektroncso.hu/cikkek/crt_m31.gif",
+      "retrieved_via": "https://wsrv.nl/?url=elektroncso.hu/cikkek/crt_m31.gif",
+      "retrieved_copy_sha256": "c8a87c1cdaf9512faefaff3b51d0eb5c972cefad11c79d31c5ae54d7e2b93c7c",
+      "earlier_direct_source_sha256": "edf8c17c807b174e3f90e2a24946fd7e5342fcd9c3448e4788d9c7f0848ea35d",
+      "reading": "Scanned M31-120/B31-G outline lists maximum overall length 233/253 mm respectively; B31-G neck outside diameter is marked near 20 mm",
+      "limitation": "The proxy-fetched GIF bytes differ from the earlier direct source digest; the visible dimension agrees. The archival host does not establish the drawing edition or B31G22 gun location."
+    },
     "philips_t16": {
       "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf",
       "sha256": "60ac727815c7493e8df4530fb909bc74c35b9120f3eddbdefe7a758bf536e417",
@@ -22,16 +36,17 @@
   },
   "source_hashes": {
     "profiles/k7222-11-yoke-geometry.json": "4553f3d817ed5d094cea2df8d49343bed890c1b70dc9911b998c6f10e5b98f78",
-    "reference/k7222-11/yoke-class-comparator.json": "e1472f7d9fc0be5e4a84e40a99a8da262c818eae26c377e95ab08d3693f3aabf",
+    "reference/k7222-11/yoke-class-comparator.json": "8e25e47949c55870840fc8245ec36b29abdf3f5e98d23cdcf449c54314fb0ffe",
     "trajectory.py": "713713d2d4ecee9c82a702deda7c362d63b2b3c55d3c91e7a685ed4153c36c4c",
     "yoke_geometry.py": "29cc799c4516b5ba764c7f9388658db299fe1cbfe4aeb3833b67eb1a662fbb50",
-    "yoke_axial_geometry_screen.py": "9cbe421ee9997c705fe328c67c93c6cdd41fc963217f9601dc7ac63ef0db72c2"
+    "yoke_axial_geometry_screen.py": "2ef1f2e760e69696424cd02002b680ba4473b391573241a7843af6142b7494d4"
   },
   "class_comparison": {
-    "maximum_overall_length_m": 0.233,
+    "b31_g_family_maximum_overall_length_m": 0.253,
+    "philips_110_degree_comparator_maximum_overall_length_m": 0.233,
     "active_gun_to_screen_m": 0.28,
-    "nominal_screen_proxy_m": 0.23,
-    "argument": "Any gun-to-screen distance in the A31-410W must be shorter than its 233 mm maximum overall length; this does not bound the B31G22 or locate its gun, so 230 mm is an upper-edge sensitivity case rather than a nominal tube dimension."
+    "upper_edge_screen_proxy_m": 0.25,
+    "argument": "A gun-to-screen path must be shorter than the tube overall length. The B31-G family outline gives 253 mm maximum overall; 250 mm is an upper-edge sensitivity case, not a B31G22 nominal dimension. The earlier Philips 233 mm value belongs to a different 110-degree tube."
   },
   "held_assumptions": {
     "yoke_start_m": 0.075,
@@ -69,6 +84,44 @@
       "target_current_peak_a": 1.8356581281296358,
       "target_current_pp_a": 3.6713162562592716,
       "neck_clip_margin_fraction": 0.004610898438841163,
+      "inside_90_degree_yoke_current_proxy": true
+    },
+    {
+      "screen_z_m": 0.25,
+      "field_length_m": 0.03,
+      "maximum_half_width_m": 0.10451612661636978,
+      "neck_clip_current_a": 2.225284855812788,
+      "reaches_210mm_width": false,
+      "horizontal_tesla_per_amp": 0.003163036000446766,
+      "horizontal_inductance_h": 0.0004722048458603119,
+      "horizontal_resistance_ohm": 0.8
+    },
+    {
+      "screen_z_m": 0.25,
+      "field_length_m": 0.0275,
+      "maximum_half_width_m": 0.11437460063407365,
+      "neck_clip_current_a": 2.474140528589487,
+      "reaches_210mm_width": true,
+      "horizontal_tesla_per_amp": 0.003306810364103437,
+      "horizontal_inductance_h": 0.0004730991732198959,
+      "horizontal_resistance_ohm": 0.8,
+      "target_current_peak_a": 2.3164014745024595,
+      "target_current_pp_a": 4.632802949004919,
+      "neck_clip_margin_fraction": 0.06375509081408362,
+      "inside_90_degree_yoke_current_proxy": true
+    },
+    {
+      "screen_z_m": 0.25,
+      "field_length_m": 0.025,
+      "maximum_half_width_m": 0.12597685263754793,
+      "neck_clip_current_a": 2.765567272901535,
+      "reaches_210mm_width": true,
+      "horizontal_tesla_per_amp": 0.0034745471217028866,
+      "horizontal_inductance_h": 0.0004748291094760607,
+      "horizontal_resistance_ohm": 0.8,
+      "target_current_peak_a": 2.410477114183143,
+      "target_current_pp_a": 4.820954228366286,
+      "neck_clip_margin_fraction": 0.1283968617208302,
       "inside_90_degree_yoke_current_proxy": true
     },
     {
@@ -122,6 +175,12 @@
   ],
   "conditional_field_length_thresholds": [
     {
+      "screen_z_m": 0.25,
+      "maximum_field_length_m": 0.0298675537109375,
+      "first_failing_field_length_m": 0.0298681640625,
+      "method": "bisection of maximum width before neck clipping"
+    },
+    {
       "screen_z_m": 0.23,
       "maximum_field_length_m": 0.026553515625000003,
       "first_failing_field_length_m": 0.0265558837890625,
@@ -134,7 +193,7 @@
       "method": "bisection of maximum width before neck clipping"
     }
   ],
-  "interpretation": "At 230 mm gun-to-screen, the earlier 34.7 mm field fails before 210 mm width; a 25 mm field reaches the width at about 2.64 A peak with 4.4% neck-current margin, within the broad 90-degree yoke current proxy. At 200 mm, a 25 mm field fails and a 20 mm field reaches at 3.37 A peak, above that proxy. These are coupled geometry sensitivities, not a sourced field length or installed current.",
+  "interpretation": "At 250 mm gun-to-screen, a 30 mm field misses 210 mm width while a 27.5 mm field reaches it at 2.32 A peak with 6.4% neck-current margin. At 230 mm, the earlier 34.7 mm field fails while a 25 mm field reaches at 2.64 A peak with 4.4% margin. At 200 mm, a 20 mm field reaches at 3.37 A peak, above the broad 90-degree yoke current proxy. These are coupled geometry sensitivities, not sourced field lengths or installed currents.",
   "unresolved": [
     "B31G22 gun location, inside neck aperture and screen curvature",
     "AE9VT axial field profile, electrical winding and sensitivity",
