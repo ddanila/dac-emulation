@@ -431,7 +431,7 @@ their done conditions. This is a blocker to **goal completion**, not to further
 implementation.
 
 The current monitor toolchain passes `make test-monitor` with a verified pinned
-runtime (306 tests, no skips, Python 3.9.6). This verifies the checks and
+runtime (307 tests, no skips, Python 3.9.6). This verifies the checks and
 saved-report consistency; it does not supply the missing A1, A2, A3, A5 or A6
 evidence in the table.
 
@@ -539,6 +539,19 @@ gives 24.55 Vpp at TP15 and 9.49 kV final EHT, with EHT still drifting.
 This narrows the A3/A5 gap but cannot identify a factory T3 winding or
 establish a sustained native-grid stage score: V13 phase, T2/L4 values, E2
 setting, T3 return graph and omitted feedback remain conditional.
+The same [T2/L4 sweep](reference/k7222-11/t2-l4-output-stage-sweep.json)
+now checks V18 emitter-base stress against the [BU508AF class 9 V reverse
+rating](https://www.st.com/resource/en/datasheet/bu508af.pdf): 17 of its 24
+cases exceed it. A separate [36-case ideal TP15 boundary sweep](reference/k7222-11/tp15-equivalent-output-stage.json)
+prescribes 45 Vpp at V13's collector and compares three conditional T3 turn
+counts, both T2 polarities and drive phases, and three T2 ratios over
+19–20 ms. Two 2,035-turn cases reach about 11.35 kV EHT and 391 V collector
+peak, but their V18 base falls 62.6–62.7 V below its emitter. All 36 cases
+exceed the 9 V class limit; the active level-1 BJT model does not clamp
+reverse emitter-base avalanche. This rejects the apparent voltage match as a
+viable equivalent driver. Resolve or bound the T2 base path and T3 graph,
+then repeat the loaded stress and periodicity checks before adopting a
+fallback or freezing A5.
 A fresh loaded A3 vertical-stage run with the current device
 models passes TP7 at 2.1599 Vpp and gives TP8 a 25.7855 Vpp full swing. The
 prior TP8 comparison to 17 Vpp was a source-reading error: the manual's 17 V

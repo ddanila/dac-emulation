@@ -22,6 +22,9 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
         self.assertTrue(saved['strict_relaxed_within_2pct'])
         self.assertFalse(saved['conditional_tp15_matches'])
         self.assertFalse(saved['conditional_eht_matches'])
+        self.assertEqual(saved['v18_emitter_base_reverse_class_limit_v'], 9)
+        self.assertEqual(len(saved['reverse_base_class_rating_violations']), 17)
+        self.assertFalse(saved['joint_tp15_eht_reverse_base_matches'])
 
         graph = json.loads(sweep.stage.GRAPH.read_text())
         parameters = copy.deepcopy(json.loads(sweep.stage.AC_LOSS.read_text()))

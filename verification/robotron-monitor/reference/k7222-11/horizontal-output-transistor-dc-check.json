@@ -3,7 +3,7 @@
   "qualification": "BU508AF-class DC proxy only; inductive switching and connected-stage SOA remain open",
   "source": "https://www.st.com/resource/en/datasheet/bu508af.pdf",
   "model_file_sha256": "cd489c027b4900aac120f8dea0ed9f5c2e6d48195c03343d7a8b30ef64bed8f3",
-  "register_sha256": "f5b0371f4e076b3e4eadc65c19007936f56b887ff679152d5bbeebba7f1d7073",
+  "register_sha256": "3f50895bb31f933cf56a13ad6c4d492d483afda0b7ca1fbde96e6e85e2e79e50",
   "sheet_sha256": "54a21db8a705d33cebea7c00aa6605a8e27a77557696804132323f1d19f2ae9b",
   "assembly_source_id": "012-6921:V18",
   "assembly_reference": "Q1133",
@@ -23,6 +23,11 @@
       "maximum": 1,
       "conditions": "IC=4.5 A, IB=1.6 A",
       "source": "ST BU508AF page 4"
+    },
+    "VEBO_v": {
+      "maximum": 9,
+      "conditions": "absolute maximum emitter-base voltage at IC=0; class stress limit, not an original V18 rating",
+      "source": "ST BU508AF page 3"
     },
     "storage_time_s": {
       "typical": 2.5e-06,
