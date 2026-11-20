@@ -108,6 +108,32 @@ class ClassTypicalRegisterTests(unittest.TestCase):
         self.assertEqual(row['bounds'], [sum(item['minimum'] for item in turns),
                                           sum(item['maximum'] for item in turns)])
 
+    def test_yoke_class_report_tracks_active_design_and_source(self):
+        report = json.loads((REF/'yoke-class-comparator.json').read_text())
+        self.assertEqual(report['source']['sha256'],
+                         self.register['sources']['philips_t16_yoke_class']['sha256'])
+        for key, path in (('profile', ROOT/'profiles/k7222-11-yoke-geometry.json'),
+                          ('targets', REF/'service-observations.json'),
+                          ('design', REF/'design-point.json')):
+            self.assertEqual(report['inputs_sha256'][key],
+                             hashlib.sha256(path.read_bytes()).hexdigest())
+        class_bounds = report['class_envelope_si']
+        for id_suffix, key in (('line_inductance', 'line_inductance_h'),
+                               ('line_resistance', 'line_resistance_ohm'),
+                               ('field_inductance', 'field_inductance_h'),
+                               ('field_resistance', 'field_resistance_ohm')):
+            self.assertEqual(self.by_id['AE9VT.class_'+id_suffix]['bounds'],
+                             class_bounds[key])
+        current = report['conditional_current_proxy']
+        for axis in ('line', 'field'):
+            row = self.by_id['AE9VT.class_'+axis+'_current_proxy']
+            self.assertEqual(row['value'], current[axis+'_nominal_at1077_05_app'])
+            self.assertEqual(row['bounds'], current[axis+'_family_envelope_app'])
+        trials = report['class_winding_geometry_trials']
+        self.assertFalse(trials[0]['reaches_target'])
+        self.assertTrue(trials[1]['reaches_target'])
+        self.assertLess(trials[1]['neck_clip_current_margin_fraction'], .01)
+
     def test_tube_heater_class_point_matches_live_equilibrium(self):
         check=json.loads((REF/'tube-heater-class-check.json').read_text())
         self.assertEqual(check['format'],'dac-monitor-tube-heater-class-check-v2')
