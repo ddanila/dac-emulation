@@ -3847,3 +3847,27 @@ width at 5.33 A peak-to-peak. The model therefore has viable conditional
 combinations, but the current 280 mm path and 10 mm inner aperture should
 not be frozen as physical geometry. A5 still needs bounds on the installed
 gun location, glass wall and AE9VT field/current relation.
+
+### A5: common-field yoke geometry meets broad current proxies (2026-11-21)
+
+The [joint geometry screen](reference/k7222-11/yoke-joint-geometry-screen.json)
+extends the neck-clearance comparison to the 145 mm picture height. It uses
+the same reduced ray model and the [Philips 1987 T16 catalog](https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf)
+as a **90° class comparator**, not an AE9VT measurement. The catalog's
+AT1077/05 and /06 variants share a 475 µH, 0.8 Ω line winding, but their
+field windings are 18 mH/10 Ω and 72 mH/40 Ω respectively (selection guide
+page 6; data sheets pages 449–450 and 453–454). Their listed full-scan field
+currents are 0.485 and 0.24 A peak-to-peak for a different reference picture.
+
+At a hypothetical 235 mm gun-to-screen path, 9 mm inner neck radius and
+20 mm common axial field, the model needs **5.71 A peak-to-peak** horizontally
+and **1.00 A peak-to-peak** with the /05 field winding. The latter exceeds
+the broad 90° family proxy's 0.732 A upper edge. Substituting the /06 field
+winding gives **0.501 A peak-to-peak** vertically and a conditional joint
+match. Three of the 18 sampled combinations meet both broad family current
+envelopes; the /06 case at 235 mm is still more than twice that variant's
+listed 0.24 A full-scan field current. Thus a broad family-envelope match
+does not qualify the specific winding as the installed part or calibrate its
+current. The gun location, inner glass clearance, axis-specific AE9VT field
+profile and winding remain unknown, so the active design point cannot be
+frozen from this screen.
