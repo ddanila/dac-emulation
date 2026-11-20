@@ -1,0 +1,29 @@
+{
+  "format": "dac-monitor-neck-sparse-startup-isolation-v1",
+  "qualification": "one-declaration solver diagnostic, no connected field or model qualification",
+  "source_sha256": {
+    "producer": "33731b244e2ce2337ef0719908f972fd7be1117e495f244b55bd36127dc18c6e",
+    "steady_supply": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b",
+    "neck_model": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20",
+    "current_startup_receipt": "5e9135fd88bdecc8b075ab8279c3d608e93e8251fc10f2278eda8dada2ac3df5"
+  },
+  "old_model_declaration": ".model SSY20A_BOUND NPN(IS={q_is} BF={q_bf} VAF={q_vaf}\n+ TF={q_tf} TR={q_tr} CJE={q_cje} CJC={q_cjc})",
+  "current_model_declaration": ".model SSY20A_BOUND NPN(IS={q_is} BF={q_bf} VAF={q_vaf}\n+ TF={q_tf} TR={q_tr} CJE={q_cje} CJC={q_cjc}\n+ IKF={q_ikf} RB={q_rb} RC={q_rc} RE={q_re}\n+ VJE={q_vje} MJE={q_mje} VJC={q_vjc} MJC={q_mjc}\n+ EG={q_eg} XTI={q_xti} FC={q_fc})",
+  "new_model": {
+    "deck_sha256": "7f23b52d3007ab130571f133cacec32d411c6267db9648ca78c4bd5b0e42240a",
+    "raw_sha256": "e557965b3a6e362fe8efb3a17e8de596a58c1e249505e3aca51fa05efe20b5fa",
+    "log_sha256": "d7bacc4cfc6491a89f0ca1c462c0f2726a9419787751376dbac96db31d0e06c5",
+    "complete_rows": 473,
+    "last_time_s": 4.6296196296601476e-05,
+    "solver_error": "doAnalyses: TRAN:  Timestep too small; time = 4.62962e-05, timestep = 1.25e-19: trouble with node \"vp41#branch\""
+  },
+  "previous_model_declaration": {
+    "deck_sha256": "e3239a01c71f478846b13438877cea757e30a085add850fd7379a7a79ec8da4f",
+    "raw_sha256": "bd6725c9ef28a64f77b590dcc81565be9a15ee7923e70dceb600a3e4f75b1887",
+    "log_sha256": "280dd6d04b54dd21fd754f86f2b63378947c7b7e7b7823414af3e2075fb44c63",
+    "complete_rows": 474,
+    "last_time_s": 4.6296206296372595e-05,
+    "solver_error": "doAnalyses: TRAN:  Timestep too small; time = 4.62962e-05, timestep = 1.25e-19: trouble with node \"h_sync\""
+  },
+  "inference": "Both otherwise identical current connected decks stop at the first BSYN event. The SSY20A additions are not necessary for this sparse-solver failure; the earlier completed receipt came from a different runner revision."
+}

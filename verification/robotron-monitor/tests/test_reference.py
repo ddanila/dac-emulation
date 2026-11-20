@@ -29,7 +29,7 @@ class InventoryTests(unittest.TestCase):
     def test_uncertainty_requires_finite_in_range_values(self):
         for name,value in [('q_bf',0),('q_bf',float('nan')),('unknown',1),('neck_c2',2)]:
             with self.assertRaises(ValueError): reference.parameter_values(self.profile,{name:value})
-        self.assertEqual(reference.parameter_values(self.profile,{'q_bf':18})['q_bf'],18)
+        self.assertEqual(reference.parameter_values(self.profile,{'q_bf':20})['q_bf'],20)
 
     def test_reconciled_power_parts_do_not_invent_missing_values(self):
         parts={p['id']:p for p in self.inventory['parts']}
@@ -96,10 +96,10 @@ class NeckBenchTests(unittest.TestCase):
         self.assertEqual(meta['solver']['simulated_from_s'],0)
 
     def test_gain_bound_still_switches_and_provenance_records_override(self):
-        report=reference.run(self.profile_path,self.directory/'low-gain',step=2e-7,changes={'q_bf':18})
+        report=reference.run(self.profile_path,self.directory/'low-gain',step=2e-7,changes={'q_bf':20})
         rows=reference.read_samples(self.directory/'low-gain/samples.txt',self.profile['probes'],0,.0004,2e-7)
         self.assertLess(self.at(rows,150e-6)[4],self.at(rows,50e-6)[4]-20)
-        self.assertEqual(report['parameters']['q_bf'],18)
+        self.assertEqual(report['parameters']['q_bf'],20)
         self.assertEqual(report['uncertainty']['q_bf']['nominal'],26)
         with self.assertRaises(FileExistsError): reference.run(self.profile_path,self.directory/'low-gain')
 

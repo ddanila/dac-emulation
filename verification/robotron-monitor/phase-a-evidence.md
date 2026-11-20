@@ -2584,9 +2584,9 @@ open.
 
 The corrected [contrast stage check](reference/k7222-11/page18-contrast-stage-check.json)
 uses the generated highlight pattern and R2 positions 0.05, 0.50 and 0.95.
-All three ngspice runs complete. The cathode spans about 0.34–33.70 V at
+All three ngspice runs complete. The cathode spans about 0.32–33.70 V at
 each setting, but the largest low-versus-high pointwise difference is only
-0.11 µV. The held-warm CRT proxy likewise changes by at most 0.00000133 µA
+0.92 µV. The held-warm CRT proxy likewise changes by at most 0.00000070 µA
 across settings. These are numerical-level changes in this conditional bench,
 not a qualified service contrast response. The short bench fixes beam
 current at 20 µA for its voltage probe; the manual's page-30 procedure uses
@@ -2682,7 +2682,7 @@ With dark video, the cathode stays at 33.69 V across the tested 0–16 V IS
 sources. With bright video, an ideal 15.7 V IS source gives 15.01 V at the
 cathode, close to the manual's approximate 15 V normal-bright level, and
 delivers 28.7 mA. At the same source voltage, 10, 100 and 1,000 Ω series
-resistance give cathode levels of 14.73, 12.66 and 5.81 V. A simple 5 V
+resistance give cathode levels of 14.73, 12.66 and 5.82 V. A simple 5 V
 pull-up cannot reach the manual level, and a future equivalent needs both
 sufficient voltage and current drive. This sweep does not identify the
 original V5 drive, establish the manual contrast transfer, or qualify CRT
@@ -2701,11 +2701,11 @@ V4 and a separate hypothetical 15 V V4, two R2 positions and two bounded
 brightness positions. The 15 V variant tests the manual's reference label;
 it does not replace the factory-list zener value.
 
-At brightness position 0, the detailed topology gives about 0.341 V at
+At brightness position 0, the detailed topology gives about 0.352 V at
 the bright cathode with no R2 response. The swapped topology with 9.1 V V4
-gives 13.56–16.48 V and a 2.92 V span across R2 when incoming INTENS is low;
+gives 13.53–16.44 V and a 2.91 V span across R2 when incoming INTENS is low;
 all three compared topologies keep dark video near 33.69 V. With incoming
-INTENS high, however, the swap gives about 16.49 V at both R2 endpoints.
+INTENS high, however, the swap gives about 16.45 V at both R2 endpoints.
 The manual describes the V5/contrast action using a regenerated intensity
 signal. The provisional T200 model inverts the raw incoming INTENS line
 before V5, so the raw 0/1 labels in this sweep cannot establish a polarity
@@ -2717,10 +2717,10 @@ The [connected ideal-rail DC comparison](reference/k7222-11/page3-4-connected-co
 repeats the same three-terminal swap in the 222-component assembled deck,
 with V4 kept at its listed 9.1 V, brightness position 0, fixed bright video,
 and both raw incoming INTENS and R2 endpoint states. The active detailed
-wiring gives a 0.328 V cathode and no measurable R2 span in either input
-state. The manual alternative gives 13.375–16.329 V at the cathode, a
-2.954 V R2 span, for raw incoming INTENS low; with that input high it gives
-16.336 V at both R2 endpoints. With dark video and R2 centred, both
+wiring gives a 0.339 V cathode and no measurable R2 span in either input
+state. The manual alternative gives 13.345–16.286 V at the cathode, a
+2.941 V R2 span, for raw incoming INTENS low; with that input high it gives
+16.292 V at both R2 endpoints. With dark video and R2 centred, both
 topologies give 33.671 V at the cathode for either raw intensity state,
 near the manual's approximate 35 V dark level. The result is consistent with
 the isolated fixed-logic comparison after the rest of the ideal-rail circuit
@@ -2741,16 +2741,22 @@ remains the detailed page-3/4 wiring. The stage label is
 
 A [200 µs connected startup screen](reference/k7222-11/page3-4-connected-contrast-transient.json)
 uses the archived native logical capture and one unverified T3 sign candidate.
-With the revised V13/V18 models, the detailed topology reaches 200 µs
-(2,425 rows) under default sparse settings. The manual sparse equivalent
-also reaches 200 µs (2,396 rows). With KLU,
+With the current runner, the detailed topology's default sparse solve stops
+at the first BSYN event, 46.3 µs, while the manual sparse equivalent reaches
+200 µs (2,387 rows). With KLU,
 50 ns maximum step, 0.002 relative tolerance and 10⁻⁸ A absolute tolerance,
-the manual equivalent reaches 200 µs (5,166 rows). This only
-establishes short-startup solver feasibility for that one candidate. It
+the manual equivalent reaches 200 µs (5,141 rows). A
+[one-declaration control](reference/k7222-11/neck-sparse-startup-isolation.json)
+replaces the current SSY20A declaration with its previous committed form
+in the same detailed deck; it still stops at 46.3 µs. The neck parameter
+additions are therefore not necessary for this sparse failure. The older
+receipt's complete detailed run used a different runner revision and cannot
+be treated as current feasibility evidence. The completed manual trials
+only establish short-startup solver feasibility for that one candidate. This
 does not score a field, show lock or periodic settling, prove the manual
 terminal assignment, or qualify the native frame.
 The [same variant extended to 2 ms](reference/k7222-11/page3-4-connected-contrast-2ms.json)
-also completes with 82,724 data rows. Its final EHT is 5.143 kV, below
+also completes with 81,973 data rows. Its final EHT is 5.140 kV, below
 the 11–12 kV sustained target. This
 extends the solver feasibility bound, but remains only about one tenth of
 the 19.5 ms native field and cannot establish an A3 or A5 pass.
@@ -3431,3 +3437,34 @@ feedback/sync connection at the boundary, or use a labelled input-stage
 equivalent if that interaction cannot be stabilized without an unsupported
 source correction. No connected periodic field or T3 freeze follows from
 the isolated pass.
+
+### A2: explicit SSY20A neck BJT parameters (2026-11-20)
+
+The printed SSY20A V1 neck model previously inherited eleven screened
+ngspice BJT defaults. Its live profile and model now state finite IKF,
+RB/RC/RE and the junction/temperature parameters explicitly, each with
+exploratory bounds in the [device](reference/k7222-11/device-model-register.json)
+and [class-typical](reference/k7222-11/class-typical-register.json) registers.
+The [ngspice BJT table](https://ngspice.sourceforge.io/docs/ngspice-manual.pdf)
+defines these parameters and the former defaults; it does not identify the
+factory transistor. The SSY20 section of the archived DDR semiconductor
+book supplies the group-A 18–35 h21E at 0.5 A/1.3 V and ≤1 V saturation
+at 0.5 A/50 mA, with the A-to-group-A mapping still inferred.
+
+The [live DC comparison](reference/k7222-11/ssy20-model-dc-check.json)
+gives 18.32–34.38 h21E across all four BF/IKF corners and 0.443 V at the
+high RB/RC/RE saturation corner. These tests bound a DC proxy only; the
+source switching and comparison fT tests, connected neck stress, and joint
+transient sensitivity remain open. The [implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json)
+now lists six affected frame-path instances instead of seven. No A2
+completion or connected waveform claim follows from this isolated check.
+
+The [six-case neck sensitivity screen](reference/k7222-11/neck-bjt-sensitivity.json)
+uses the verified ngspice runtime and the synthetic neck bench. Low/high
+BF–IKF and high RB/RC/RE corners change the late cathode by at most 0.001 V
+sample-aligned from nominal. The combined high CJE/CJC/TF/TR corner changes
+late samples by up to 2.64 V at the cathode and 6.16 V at the collector,
+while their late extrema stay nearly the same. This points to edge timing
+sensitivity, not a newly established voltage amplitude limit. The corner
+is exploratory and must be checked in a connected operating point before
+the bounds can be frozen.

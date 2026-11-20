@@ -2,24 +2,24 @@
   "format": "dac-monitor-ssy20-model-dc-check-v1",
   "qualification": "DC bias comparison only; group-A suffix mapping and fT/switching remain unverified",
   "source": "https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
-  "profile_sha256": "c1b031c4fd94191114128b465a0f969efac36f1fc5affa0c4e1b29208856e76a",
-  "models_sha256": "772dce498e92b419f6a7117185b27d14552dd407fe4ee80c14d21db59504c99f",
+  "profile_sha256": "7641047d5ce292dfb93e5dd2bb42841d56471fdec7fb10031b65c7b29dd1fd7d",
+  "models_sha256": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20",
   "data_sheet_conditions": {
     "gain": "IC=500 mA, VCE=1.3 V, h21E group A 18..35",
     "saturation": "IC=500 mA, IB=50 mA, VCEsat <=1 V"
   },
   "cases": {
     "minimum": {
-      "spice_BF": 18,
+      "spice_BF": 20,
       "gain_bias": {
         "collector_voltage_v": 1.3,
         "collector_current_a": 0.500001,
-        "base_current_a": 0.02755649402737617,
-        "h21E": 18.144579622620746
+        "base_current_a": 0.02729995414614677,
+        "h21E": 18.315085707591646
       },
       "saturation_bias": {
-        "collector_voltage_v": 0.08525463,
-        "collector_current_a": 0.498934,
+        "collector_voltage_v": 0.164697,
+        "collector_current_a": 0.497941,
         "base_current_a": 0.05
       },
       "gain_in_group_A_range": true,
@@ -29,33 +29,67 @@
       "spice_BF": 26,
       "gain_bias": {
         "collector_voltage_v": 1.3,
-        "collector_current_a": 0.500001,
-        "base_current_a": 0.01907757267355919,
-        "h21E": 26.208837390145707
+        "collector_current_a": 0.5,
+        "base_current_a": 0.020999844819307327,
+        "h21E": 23.809699752652378
       },
       "saturation_bias": {
-        "collector_voltage_v": 0.07674185,
-        "collector_current_a": 0.499041,
+        "collector_voltage_v": 0.1582288,
+        "collector_current_a": 0.498022,
         "base_current_a": 0.05
       },
       "gain_in_group_A_range": true,
       "saturation_below_1_v": true
     },
     "maximum": {
-      "spice_BF": 34.7,
+      "spice_BF": 35,
       "gain_bias": {
         "collector_voltage_v": 1.3,
         "collector_current_a": 0.500001,
-        "base_current_a": 0.014294434934854506,
-        "h21E": 34.978717401471684
+        "base_current_a": 0.015599809736013414,
+        "h21E": 32.05173706995333
       },
       "saturation_bias": {
-        "collector_voltage_v": 0.07294681,
-        "collector_current_a": 0.499088,
+        "collector_voltage_v": 0.153744,
+        "collector_current_a": 0.498078,
         "base_current_a": 0.05
       },
       "gain_in_group_A_range": true,
       "saturation_below_1_v": true
     }
+  },
+  "joint_bf_ikf_gain_corners": [
+    {
+      "BF": 20,
+      "IKF_a": 5,
+      "h21E": 18.315085707591646,
+      "within_group_A": true
+    },
+    {
+      "BF": 20,
+      "IKF_a": 20,
+      "h21E": 19.647115159315597,
+      "within_group_A": true
+    },
+    {
+      "BF": 35,
+      "IKF_a": 5,
+      "h21E": 32.05173706995333,
+      "within_group_A": true
+    },
+    {
+      "BF": 35,
+      "IKF_a": 20,
+      "h21E": 34.382702712672604,
+      "within_group_A": true
+    }
+  ],
+  "high_series_resistance_saturation": {
+    "q_rb_ohm": 10,
+    "q_rc_ohm": 0.5,
+    "q_re_ohm": 0.2,
+    "collector_voltage_v": 0.4432183,
+    "collector_current_a": 0.49446,
+    "below_1_v": true
   }
 }

@@ -2,11 +2,11 @@
   "format": "dac-monitor-a2-implicit-default-audit-v1",
   "qualification": "first critical-default inventory from declared model text; not an A2 completion check",
   "ngspice_manual": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf",
-  "register_sha256": "796e7fe5c3057de65064958f65203faf769192e5de5f7b7d332e58618f8486cf",
+  "register_sha256": "48d6661998a62efceedde3f7c6153b12f79f545de4f69de219a644120a4e7293",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
   "model_file_sha256": {
     "circuits/k7222-11-small-transistor-models.cir": "3a20130fbb779cf47db557f5e3e6910772cdc0bcc9157e7c1cdbb5fae6e368df",
-    "circuits/k7222-11-neck-models.cir": "772dce498e92b419f6a7117185b27d14552dd407fe4ee80c14d21db59504c99f",
+    "circuits/k7222-11-neck-models.cir": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20",
     "circuits/k7222-11-vertical-integrator-models.cir": "867d2daaf7eb9a48cee06ed00c0eb67391d9a6c7791bf14a3b817ed78bd9e3ff",
     "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
     "circuits/k7222-11-regulator5-models.cir": "6fc59510f3160bc4643fda92fb60a5f8725de99e2adab78d7eaf2595c634d72e",
@@ -70,8 +70,8 @@
     ]
   },
   "registered_semiconductor_entries": 24,
-  "entries_with_critical_defaults": 7,
-  "affected_instances": 7,
+  "entries_with_critical_defaults": 6,
+  "affected_instances": 6,
   "rows": [
     {
       "id": "1SA20C-small-npn-class",
@@ -559,36 +559,45 @@
         "BF",
         "CJC",
         "CJE",
-        "IS",
-        "TF",
-        "TR",
-        "VAF"
-      ],
-      "registered_parameters": [
-        "BF"
-      ],
-      "critical_implicit_defaults": [
         "EG",
         "FC",
         "IKF",
+        "IS",
         "MJC",
         "MJE",
         "RB",
         "RC",
         "RE",
+        "TF",
+        "TR",
+        "VAF",
         "VJC",
         "VJE",
         "XTI"
       ],
-      "explicit_keys_without_same_named_register_field": [
+      "registered_parameters": [
+        "BF",
         "CJC",
         "CJE",
+        "EG",
+        "FC",
+        "IKF",
         "IS",
+        "MJC",
+        "MJE",
+        "RB",
+        "RC",
+        "RE",
         "TF",
         "TR",
-        "VAF"
+        "VAF",
+        "VJC",
+        "VJE",
+        "XTI"
       ],
-      "status": "critical-defaults-open"
+      "critical_implicit_defaults": [],
+      "explicit_keys_without_same_named_register_field": [],
+      "status": "critical-defaults-explicit; other qualification still required"
     },
     {
       "id": "012-6921:V18",

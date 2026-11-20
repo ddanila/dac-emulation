@@ -1,0 +1,276 @@
+{
+  "format": "dac-monitor-neck-bjt-sensitivity-v1",
+  "qualification": "isolated synthetic neck stage; exploratory joint corners, no connected stress or A2 completion",
+  "source_hashes": {
+    "producer": "e9ec9736bfbed414e4e71cd9c453d853fde3c8cac491fc57e813ae4dd54b7109",
+    "reference": "db063d9fe73fe3c635631a39d922c9fd87a84160fd952a9fdcc180cf594bf12e",
+    "profile": "7641047d5ce292dfb93e5dd2bb42841d56471fdec7fb10031b65c7b29dd1fd7d",
+    "model": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20"
+  },
+  "runtime_path": "build/monitor/runtime-phase-a-gcc16-verified",
+  "run_directory": "build/monitor/phase-a/neck-bjt-sensitivity-v3-20261120",
+  "time_step_s": 2e-07,
+  "stop_s": 0.0004,
+  "cases": [
+    {
+      "case": "nominal",
+      "changes": {},
+      "deck_sha256": "082bdd8723419c0b38e20a4662d37437eae65587f2b91ae73589a4aca690852a",
+      "runtime_receipt_sha256": "82aca1ae153d04d101e502c431305435ccad5bd993bfabbf52de33f72d3fb2f9",
+      "samples_sha256": "7662dc3bc82248abbecba39643c53bd1928504a46af4b57b43a9b6f6bd323090",
+      "late_window_s": [
+        0.0003,
+        0.0004
+      ],
+      "late_extrema": {
+        "collector": {
+          "min_v": 0.7851718999465905,
+          "max_v": 34.34067931023007
+        },
+        "cathode": {
+          "min_v": 4.393733882562378,
+          "max_v": 33.68530613230944
+        },
+        "intensity": {
+          "min_v": 4.999999999991869,
+          "max_v": 5.000000002071791
+        },
+        "grid1": {
+          "min_v": -25.00000000004307,
+          "max_v": -24.9999999846489
+        },
+        "grid2": {
+          "min_v": 349.9999999993234,
+          "max_v": 350.0000002059924
+        }
+      },
+      "late_max_abs_delta_from_nominal_v": {
+        "collector": 0.0,
+        "cathode": 0.0,
+        "intensity": 0.0,
+        "grid1": 0.0,
+        "grid2": 0.0
+      }
+    },
+    {
+      "case": "low_gain",
+      "changes": {
+        "q_bf": 20,
+        "q_ikf": 5
+      },
+      "deck_sha256": "5af2fd892b06191b04bba6fd16d8c9838ff3d9148bac0ea7720c470f1d600333",
+      "runtime_receipt_sha256": "82aca1ae153d04d101e502c431305435ccad5bd993bfabbf52de33f72d3fb2f9",
+      "samples_sha256": "95c58c8c060cbf37c14e9888eab840bef6e038c0a608cd860d269ea526e05ba2",
+      "late_window_s": [
+        0.0003,
+        0.0004
+      ],
+      "late_extrema": {
+        "collector": {
+          "min_v": 0.8104355314484232,
+          "max_v": 34.34067933949335
+        },
+        "cathode": {
+          "min_v": 4.394103352529696,
+          "max_v": 33.68530615637503
+        },
+        "intensity": {
+          "min_v": 4.999999999994579,
+          "max_v": 5.000000002943773
+        },
+        "grid1": {
+          "min_v": -25.00000000004231,
+          "max_v": -24.99999999175281
+        },
+        "grid2": {
+          "min_v": 349.9999999993073,
+          "max_v": 350.0000002926911
+        }
+      },
+      "late_max_abs_delta_from_nominal_v": {
+        "collector": 0.02526363150183264,
+        "cathode": 0.0003694699775467214,
+        "intensity": 8.719824862168934e-10,
+        "grid1": 7.103910348860154e-09,
+        "grid2": 8.669866247146274e-08
+      }
+    },
+    {
+      "case": "high_gain",
+      "changes": {
+        "q_bf": 35,
+        "q_ikf": 20
+      },
+      "deck_sha256": "38df4a5172bb76b1e4a8a4d9d2b4962f1cfe78d6ab68830f477a23e336fa0d0c",
+      "runtime_receipt_sha256": "82aca1ae153d04d101e502c431305435ccad5bd993bfabbf52de33f72d3fb2f9",
+      "samples_sha256": "3f5def09e19ef5addcfe6f2706c9347022d8e172d17afad7e0631b9ac8c21d51",
+      "late_window_s": [
+        0.0003,
+        0.0004
+      ],
+      "late_extrema": {
+        "collector": {
+          "min_v": 0.7611815334398674,
+          "max_v": 34.34067929266826
+        },
+        "cathode": {
+          "min_v": 4.393385305958175,
+          "max_v": 33.68530610528946
+        },
+        "intensity": {
+          "min_v": 4.999999999991869,
+          "max_v": 5.000000002996727
+        },
+        "grid1": {
+          "min_v": -25.00000001032306,
+          "max_v": -24.9999999999565
+        },
+        "grid2": {
+          "min_v": 349.9999999993075,
+          "max_v": 350.0000002979561
+        }
+      },
+      "late_max_abs_delta_from_nominal_v": {
+        "collector": 0.02399037100208523,
+        "cathode": 0.0003488949976926392,
+        "intensity": 9.249365717778346e-10,
+        "grid1": 2.567416146348478e-08,
+        "grid2": 9.196367045660736e-08
+      }
+    },
+    {
+      "case": "high_series",
+      "changes": {
+        "q_rb": 10,
+        "q_rc": 0.5,
+        "q_re": 0.2
+      },
+      "deck_sha256": "1f8c394c7085b8c3635b3f581a7517e7e84fa9e8da547ee2797270af8ffb1a9b",
+      "runtime_receipt_sha256": "82aca1ae153d04d101e502c431305435ccad5bd993bfabbf52de33f72d3fb2f9",
+      "samples_sha256": "9556f7d86038757fa07d50e6e0e174e9e85fd3e9aa699d7fc7e9bffaa03da62a",
+      "late_window_s": [
+        0.0003,
+        0.0004
+      ],
+      "late_extrema": {
+        "collector": {
+          "min_v": 0.843640275725257,
+          "max_v": 34.34067929845847
+        },
+        "cathode": {
+          "min_v": 4.394592753232316,
+          "max_v": 33.68530615401716
+        },
+        "intensity": {
+          "min_v": 4.999999999994579,
+          "max_v": 5.000000001913118
+        },
+        "grid1": {
+          "min_v": -25.00000000659023,
+          "max_v": -24.99999999995672
+        },
+        "grid2": {
+          "min_v": 349.9999999993074,
+          "max_v": 350.0000001902159
+        }
+      },
+      "late_max_abs_delta_from_nominal_v": {
+        "collector": 0.05846837872067556,
+        "cathode": 0.0008597823689600048,
+        "intensity": 1.5867307467942737e-10,
+        "grid1": 2.194133230659645e-08,
+        "grid2": 1.577649300088524e-08
+      }
+    },
+    {
+      "case": "high_cap_slow_transit",
+      "changes": {
+        "q_cje": 6e-11,
+        "q_cjc": 3e-11,
+        "q_tf": 2e-08,
+        "q_tr": 1e-07
+      },
+      "deck_sha256": "8ebb68dfd1212d49c7c6e9dd1cf4f2a30e69c571762235d36678eaa608887f93",
+      "runtime_receipt_sha256": "82aca1ae153d04d101e502c431305435ccad5bd993bfabbf52de33f72d3fb2f9",
+      "samples_sha256": "c1f987198e9f3998983da5e0dd62fdbbb517111233b29b49f760428253bbf94b",
+      "late_window_s": [
+        0.0003,
+        0.0004
+      ],
+      "late_extrema": {
+        "collector": {
+          "min_v": 0.7851717273959676,
+          "max_v": 34.33975659739507
+        },
+        "cathode": {
+          "min_v": 4.393733877926254,
+          "max_v": 33.684384870783
+        },
+        "intensity": {
+          "min_v": 4.999999999988449,
+          "max_v": 5.000000001202511
+        },
+        "grid1": {
+          "min_v": -25.00000000137174,
+          "max_v": -24.99999999995698
+        },
+        "grid2": {
+          "min_v": 349.9999999993306,
+          "max_v": 350.0000001195622
+        }
+      },
+      "late_max_abs_delta_from_nominal_v": {
+        "collector": 6.163045335801677,
+        "cathode": 2.635303015712293,
+        "intensity": 8.69279759285746e-10,
+        "grid1": 1.6722840001648365e-08,
+        "grid2": 8.6430247847602e-08
+      }
+    },
+    {
+      "case": "low_cap_fast_transit",
+      "changes": {
+        "q_cje": 5e-12,
+        "q_cjc": 2e-12,
+        "q_tf": 2e-10,
+        "q_tr": 1e-09
+      },
+      "deck_sha256": "03a2fa8da07025a629a28000d3a50d59e20056a76a181ac43554d37c14cb398b",
+      "runtime_receipt_sha256": "82aca1ae153d04d101e502c431305435ccad5bd993bfabbf52de33f72d3fb2f9",
+      "samples_sha256": "3be973157857613c4b2e0dc63d68b5416218da41145430b7f2d02d9b8629a5c3",
+      "late_window_s": [
+        0.0003,
+        0.0004
+      ],
+      "late_extrema": {
+        "collector": {
+          "min_v": 0.7851719044394091,
+          "max_v": 34.34067910055152
+        },
+        "cathode": {
+          "min_v": 4.3937338825101,
+          "max_v": 33.68530593085342
+        },
+        "intensity": {
+          "min_v": 4.999999999991869,
+          "max_v": 5.000000002100185
+        },
+        "grid1": {
+          "min_v": -25.00000000004345,
+          "max_v": -24.99999999895505
+        },
+        "grid2": {
+          "min_v": 349.9999999993065,
+          "max_v": 350.0000002088155
+        }
+      },
+      "late_max_abs_delta_from_nominal_v": {
+        "collector": 2.0967855363096533e-07,
+        "cathode": 6.073075168977482e-06,
+        "intensity": 2.8394175899393304e-11,
+        "grid1": 1.4306152706922148e-08,
+        "grid2": 2.8230715543031693e-09
+      }
+    }
+  ]
+}

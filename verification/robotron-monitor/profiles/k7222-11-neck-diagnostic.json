@@ -73,6 +73,17 @@
       "evidence": "assumed-bound",
       "rationale": "Unmeasured collector junction capacitance."
     },
+    "q_ikf": {"nominal": 5, "minimum": 5, "maximum": 20, "unit": "A", "evidence": "class-typical", "rationale": "Same provisional SSY20A high-current gain-rolloff proxy as the normal neck profile; this diagnostic profile retains its separate broad BF."},
+    "q_rb": {"nominal": 1, "minimum": 0.1, "maximum": 10, "unit": "ohm", "evidence": "class-typical", "rationale": "Same finite base-resistance proxy as the normal neck profile."},
+    "q_rc": {"nominal": 0.1, "minimum": 0.01, "maximum": 0.5, "unit": "ohm", "evidence": "class-typical", "rationale": "Same finite collector-resistance proxy as the normal neck profile."},
+    "q_re": {"nominal": 0.05, "minimum": 0.01, "maximum": 0.2, "unit": "ohm", "evidence": "class-typical", "rationale": "Same finite emitter-resistance proxy as the normal neck profile."},
+    "q_vje": {"nominal": 0.75, "minimum": 0.6, "maximum": 0.9, "unit": "V", "evidence": "class-typical", "rationale": "Same explicit silicon junction-potential proxy as the normal neck profile."},
+    "q_mje": {"nominal": 0.33, "minimum": 0.25, "maximum": 0.5, "unit": "1", "evidence": "class-typical", "rationale": "Same emitter-junction grading proxy as the normal neck profile."},
+    "q_vjc": {"nominal": 0.75, "minimum": 0.6, "maximum": 0.9, "unit": "V", "evidence": "class-typical", "rationale": "Same collector-junction potential proxy as the normal neck profile."},
+    "q_mjc": {"nominal": 0.33, "minimum": 0.25, "maximum": 0.5, "unit": "1", "evidence": "class-typical", "rationale": "Same collector-junction grading proxy as the normal neck profile."},
+    "q_eg": {"nominal": 1.11, "minimum": 1.08, "maximum": 1.14, "unit": "eV", "evidence": "class-typical", "rationale": "Same silicon energy-gap proxy as the normal neck profile."},
+    "q_xti": {"nominal": 3, "minimum": 2, "maximum": 4, "unit": "1", "evidence": "class-typical", "rationale": "Same saturation-current temperature-exponent proxy as the normal neck profile."},
+    "q_fc": {"nominal": 0.5, "minimum": 0.3, "maximum": 0.7, "unit": "1", "evidence": "class-typical", "rationale": "Same forward-bias depletion-capacitance proxy as the normal neck profile."},
     "d_is": {
       "nominal": 1e-09,
       "minimum": 1e-12,
