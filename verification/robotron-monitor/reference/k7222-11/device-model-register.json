@@ -1132,7 +1132,8 @@
         "TT_s": {"spice_parameter": "TT", "nominal": 1e-7, "bounds": [1e-7, 2.5e-6], "basis": "Provisional transit-time proxy; a long-held model fixture measures about 43 ns at Rectron's 2/4 mA currents and 41 ns at Semtech's 50/100 mA currents. SPICE TT is not t_rr, and Rectron's return threshold is not specified."}
       },
       "model_response_report": "reference/k7222-11/hv-rectifier-class-check.json",
-      "remaining": ["Resolve the remaining T3 tap/return map against an independent page-4 netlist", "Sweep the now-explicit IS, N, RS, capacitance and recovery bounds through a connected EHT stage; the comparator fixture does not identify V21", "Qualify reverse voltage/current stress and rectifier assembly behavior at the sustained native grid operating point"]
+      "connected_sensitivity_report": "reference/k7222-11/v21-connected-sensitivity.json",
+      "remaining": ["Resolve the remaining T3 tap/return map against an independent page-4 netlist", "The 14 one-at-a-time connected-stage bound cases complete, but TT's high endpoint moves final EHT by 4.4%; examine joint parameter corners after V21 identity or class is narrowed", "Qualify reverse voltage/current stress and rectifier assembly behavior at the sustained native grid operating point; the conditional late-window 11.92 kV reverse peak is too close to the 12 kV comparator rating for a factory safety conclusion"]
     },
     {
       "id": "012-6921:T3",

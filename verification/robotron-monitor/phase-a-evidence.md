@@ -2436,6 +2436,29 @@ change moves final EHT by at most 0.97%; it does not close the target gap.
 The refreshed [C30 comparison](reference/k7222-11/horizontal-retrace-c30-sensitivity.json)
 shows a 2.49–2.53% loaded final-EHT effect across its two polarity cases,
 still above the Phase A 2% sensitivity threshold. The earlier stage numbers
-in this evidence log record prior model revisions. V21 identity, connected
-parameter sensitivity, stage stress, T3 tap/return mapping, and sustained
+in this evidence log record prior model revisions. V21 identity, joint
+parameter corners, stage stress, T3 tap/return mapping, and sustained
 native-grid operation remain open.
+
+### A2: V21 connected-stage bound sensitivity (2026-11-20)
+
+The [V21 connected sweep](reference/k7222-11/v21-connected-sensitivity.json)
+inserts an ideal zero-volt current probe in series with V21 in the nominal
+T2/L4/T3 loaded bench, then varies each of the seven explicit diode parameters
+to its low and high bound one at a time. The probed nominal result differs
+from the unprobed saved stage by at most 0.033% across final EHT, collector
+peak, TP15 swing and flyback width. All 14 bound cases complete. Their
+largest final-EHT change is **−4.45%** at the 2.5 µs upper transit-time proxy;
+collector peak changes by up to 3.08%. Thus the broad recovery bound is
+material to the connected stage and cannot be silently frozen at nominal.
+
+The probed nominal 4–5 ms window reaches 11.923 kV reverse across V21 and
+about 12.8 mA forward peak. The largest one-at-a-time reverse peak is
+11.928 kV, only about 0.6% below the 12 kV repetitive reverse rating of the
+[Rectron comparator](https://www.rectron.com/public/product_datasheets/r12000h.pdf).
+This is a conditional, nonperiodic stage window with prescribed V13 drive,
+ideal feed, an unverified T3 return graph and no beam-current load. The
+milliamperes of transient reverse current in this probe include capacitive
+current and are not a data-sheet DC leakage measurement. These readings
+prioritize V21 identity, recovery bounds, joint corners and sustained stress;
+they do not qualify the factory rectifier or its safety margin.
