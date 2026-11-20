@@ -1,9 +1,9 @@
 {
   "format": "dac-monitor-v10-v12-model-class-check-v1",
-  "qualification": "historical transistor-family DC/AC proxies; SF1260 suffix, connected stress and V12 implicit SPICE defaults remain open",
+  "qualification": "historical transistor-family DC/AC proxies; SF1260 suffix, joint bounds and connected stress remain open",
   "source": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
-  "model_file_sha256": "d7aff15d8d6917a6059106c8799aa45dcf9e31fcc23149df15cbd93aa07f3e10",
-  "register_sha256": "67f76c6f4de267b738288683b52192e6a87eefe2d1d6193a0fd61863a03ca916",
+  "model_file_sha256": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+  "register_sha256": "8676123942f0bfe0bd58c8ff927cfaf2ac94ff5a75ec7888a2be4437ba2536f0",
   "sheet_sha256": "f84a73d359edfbf7610b791a1d0dc99087fb3fcd8993d346ce670935e20aa6af",
   "devices": [
     {
@@ -196,7 +196,18 @@
         "CJE": "20p",
         "CJC": "8p",
         "TF": "2n",
-        "TR": "10n"
+        "TR": "10n",
+        "IKF": "0.5",
+        "RB": "1",
+        "RC": "0.1",
+        "RE": "0.05",
+        "VJE": "0.75",
+        "MJE": "0.33",
+        "VJC": "0.75",
+        "MJC": "0.33",
+        "EG": "1.11",
+        "XTI": "3",
+        "FC": "0.5"
       },
       "data_book_targets": {
         "hFE": {
@@ -217,27 +228,27 @@
       },
       "gain_bias": {
         "collector_current_a": 0.05,
-        "base_current_a": 0.000492361106992811,
+        "base_current_a": 0.0005409174105344715,
         "collector_emitter_voltage_v": 2,
-        "base_emitter_voltage_v": 0.7587834,
-        "hFE": 101.55148180851349
+        "base_emitter_voltage_v": 0.7642631,
+        "hFE": 92.43555305530994
       },
       "saturation_dc_proxy": {
         "collector_current_a": 0.15,
         "base_current_a": 0.015,
-        "collector_emitter_voltage_v": 0.06679123,
-        "base_emitter_voltage_v": 0.7917881
+        "collector_emitter_voltage_v": 0.0981639,
+        "base_emitter_voltage_v": 0.8220518
       },
       "ac_bias": {
         "collector_current_a": 0.0100001,
-        "base_current_a": 8.960139874294399e-05,
+        "base_current_a": 9.120893520876764e-05,
         "collector_emitter_voltage_v": 10,
-        "base_emitter_voltage_v": 0.7150025,
-        "hFE": 111.60651664254847
+        "base_emitter_voltage_v": 0.7160552,
+        "hFE": 109.63947750415926
       },
       "ac_test_frequency_hz": 15000000.0,
-      "ac_current_gain": 5.065819,
-      "transition_frequency_proxy_hz": 75987285.0,
+      "ac_current_gain": 5.06023,
+      "transition_frequency_proxy_hz": 75903450.0,
       "checks": {
         "broad_family_gain": true,
         "saturation_dc_proxy": true,

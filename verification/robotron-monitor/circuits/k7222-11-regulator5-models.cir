@@ -1,5 +1,6 @@
 * Generic bounded models; not specimen-calibrated SF1260/ZC5.1.
-.model REG5_NPN NPN(IS=1e-14 BF={reg5_bf} VAF=60 CJE=20p CJC=8p TF=1n TR=100n)
+* Printed SF1260 V4: explicit SF128-family V13 class terms; suffix unknown.
+.model REG5_NPN NPN(IS=1e-14 BF={reg5_bf} VAF=60 CJE=20p CJC=8p TF=1n TR=100n IKF=0.5 RB=1 RC=0.1 RE=0.05 VJE=0.75 MJE=0.33 VJC=0.75 MJC=0.33 EG=1.11 XTI=3 FC=0.5)
 .model REG5_ZENER D(IS=1n RS=5 N=1.5 BV=5.1 IBV=.005 CJO=100p TT=0 VJ=1 M=0.5 FC=0.5 EG=1.11 XTI=3)
 .subckt REG5_POT top wiper bottom
 Rtop top wiper {100*reg5_position}

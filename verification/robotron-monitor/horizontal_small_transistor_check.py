@@ -170,7 +170,7 @@ def run():
             for source_id, spec in SPECS.items()]
     return dict(format='dac-monitor-v10-v12-model-class-check-v1',
                 qualification='historical transistor-family DC/AC proxies; SF1260 suffix, '
-                              'connected stress and V12 implicit SPICE defaults remain open',
+                              'joint bounds and connected stress remain open',
                 source=SOURCE, model_file_sha256=sha(MODELS),
                 register_sha256=sha(REGISTER), sheet_sha256=sha(SHEET),
                 devices=rows, passed=all(row['passed'] for row in rows))

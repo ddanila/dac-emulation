@@ -1,7 +1,9 @@
 * Engineering bounds, not fitted factory transistor curves.
 .model VERT_Z16 D(IS=1n N=1.5 RS=2 BV=16 IBV=1m CJO=40p TT=100n VJ=1 M=0.5 FC=0.5 EG=1.11 XTI=3)
-.model VERT_POWER_N NPN(IS=1e-12 BF={output_bf} VAF=80 CJE=200p CJC=80p TF={output_n_tf} TR=200n)
-.model VERT_POWER_P PNP(IS=1e-12 BF={output_bf} VAF=80 CJE=200p CJC=80p TF={output_p_tf} TR=200n)
+* BD139/BD140-class proxies for the printed NPN/PNP pair. The page-10
+* handwritten device names conflict with the printed transistor arrows.
+.model VERT_POWER_N NPN(IS=1e-12 BF={output_bf} VAF=80 CJE=200p CJC=80p TF={output_n_tf} TR=200n IKF=1 RB=2 RC=0.1 RE=0.05 VJE=0.75 MJE=0.33 VJC=0.75 MJC=0.33 EG=1.11 XTI=3 FC=0.5)
+.model VERT_POWER_P PNP(IS=1e-12 BF={output_bf} VAF=80 CJE=200p CJC=80p TF={output_p_tf} TR=200n IKF=1 RB=2 RC=0.1 RE=0.05 VJE=0.75 MJE=0.33 VJC=0.75 MJC=0.33 EG=1.11 XTI=3 FC=0.5)
 * Source R58 remains one inventoried device; no duplicate source identities.
 .subckt VERT_POT top wiper bottom
 Ra top wiper {470*symmetry_fraction}

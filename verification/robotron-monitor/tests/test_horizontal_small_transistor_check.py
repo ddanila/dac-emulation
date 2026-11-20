@@ -28,8 +28,8 @@ class HorizontalSmallTransistorCheckTests(unittest.TestCase):
             self.assertIn('HOR_N NPN(IS=1e-14 BF=100 VAF=80 CJE=20p CJC=8p TF=2n', original)
             slow.write_text(original.replace('SC237E_N NPN(IS=1e-14 BF=300 ',
                                              'SC237E_N NPN(IS=1e-14 BF=100 ')
-                            .replace('CJE=20p CJC=8p TF=2n TR=10n)',
-                                     'CJE=20p CJC=8p TF=20n TR=10n)'))
+                            .replace('CJE=20p CJC=8p TF=2n TR=10n ',
+                                     'CJE=20p CJC=8p TF=20n TR=10n '))
             previous = check.bench.MODELS
             try:
                 check.bench.MODELS = slow

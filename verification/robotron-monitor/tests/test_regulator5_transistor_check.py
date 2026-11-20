@@ -18,11 +18,11 @@ class Regulator5TransistorCheckTests(unittest.TestCase):
         self.assertEqual(report['assembly_source_id'], '012-6931:V4')
 
         original = check.MODELS.read_text()
-        self.assertIn('CJE=20p CJC=8p TF=1n TR=100n)', original)
+        self.assertIn('CJE=20p CJC=8p TF=1n TR=100n ', original)
         with tempfile.TemporaryDirectory() as directory:
             slow = Path(directory)/'models.cir'
-            slow.write_text(original.replace('CJE=20p CJC=8p TF=1n TR=100n)',
-                                             'CJE=40p CJC=15p TF=20n TR=100n)')
+            slow.write_text(original.replace('CJE=20p CJC=8p TF=1n TR=100n ',
+                                             'CJE=40p CJC=15p TF=20n TR=100n ')
                             .replace('{reg5_bf}', '60'))
             bias = check.bench.gain_at(.01, 10, check.MODEL, slow)
             ft = 15e6*check.bench.ac_gain_at(bias['base_current_a'], 10, 15e6,

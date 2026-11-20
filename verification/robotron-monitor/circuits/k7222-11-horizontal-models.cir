@@ -3,7 +3,8 @@
 * SC237E group-E DC/AC targets; added junction and high-current terms are
 * bounded BC546B-class proxies, not extracted SC237E device parameters.
 .model SC237E_N NPN(IS=1e-14 BF=300 VAF=80 RC=1 RE=0.25 CJE=7.7p CJC=3.8p TF=0.9n TR=10n IKF=0.0962 RB=100 VJE=0.65 MJE=0.55 VJC=0.65 MJC=0.33 EG=1.11 XTI=3 FC=0.5)
-.model HOR_N NPN(IS=1e-14 BF=100 VAF=80 CJE=20p CJC=8p TF=2n TR=10n)
+* Printed SF1260 V12: explicit SF128-family V13 class terms; suffix unknown.
+.model HOR_N NPN(IS=1e-14 BF=100 VAF=80 CJE=20p CJC=8p TF=2n TR=10n IKF=0.5 RB=1 RC=0.1 RE=0.05 VJE=0.75 MJE=0.33 VJC=0.75 MJC=0.33 EG=1.11 XTI=3 FC=0.5)
 * SF128-family V13 candidate: explicit high-current and junction assumptions.
 * SF1280 suffix and inductive storage/fall behavior remain unverified.
 .model HOR_DRIVER_N NPN(IS=1e-12 BF=60 VAF=80 CJE=20p CJC=8p TF=1n TR=100n IKF=500m RB=1 RC=100m RE=50m VJE=0.75 MJE=0.33 VJC=0.75 MJC=0.33 EG=1.11 XTI=3 FC=0.5)

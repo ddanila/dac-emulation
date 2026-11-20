@@ -1,0 +1,133 @@
+{
+  "format": "dac-monitor-vertical-output-bjt-class-check-v1",
+  "qualification": "BD139/BD140 class DC checks and typical fT comparison; factory polarity/identity, joint bounds and connected stress remain open",
+  "sources": {
+    "st": {
+      "url": "https://www.st.com/resource/en/datasheet/bd139.pdf",
+      "revision": "May 2008 Rev 5",
+      "pages": [
+        1,
+        4
+      ],
+      "use": "BD139 NPN / BD140 PNP, hFE 40..250 at 150 mA and minimum 25 at 5 mA and 500 mA; |VCEsat| <= 0.5 V at 0.5 A with 50 mA base drive"
+    },
+    "philips": {
+      "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1986_S04a_Philips_Low-Frequency_Power_Transistors_and_Hybrid_Modules.pdf",
+      "edition": "October 1985 data pages 60 and 70",
+      "use": "typical fT 250 MHz NPN and 75 MHz PNP at 50 mA and 5 V"
+    }
+  },
+  "model_file_sha256": "707af9030fb2e2978949981f68b4441a578e3ce8ecd16cf2bf1791ca07318443",
+  "profile_sha256": "4af447b79a9d09ecf8e6484398ba43b42d425ae635693a688c6d5dcd3cf7d75c",
+  "register_sha256": "8676123942f0bfe0bd58c8ff927cfaf2ac94ff5a75ec7888a2be4437ba2536f0",
+  "sheet_sha256": "f4a82dde10cd54fc63b980397d4ea194126d373a9749ee07795df0e3b99989d1",
+  "devices": [
+    {
+      "source_id": "012-6931:V27",
+      "assembly_reference": "Q724",
+      "active_model": "VERT_POWER_N",
+      "explicit_model_parameters": {
+        "IS": "1e-12",
+        "BF": "{output_bf}",
+        "VAF": "80",
+        "CJE": "200p",
+        "CJC": "80p",
+        "TF": "{output_n_tf}",
+        "TR": "200n",
+        "IKF": "1",
+        "RB": "2",
+        "RC": "0.1",
+        "RE": "0.05",
+        "VJE": "0.75",
+        "MJE": "0.33",
+        "VJC": "0.75",
+        "MJC": "0.33",
+        "EG": "1.11",
+        "XTI": "3",
+        "FC": "0.5"
+      },
+      "gain_at_150ma": {
+        "collector_current_a": 0.15,
+        "base_current_a": 0.0028229358220345415,
+        "collector_emitter_voltage_v": 2,
+        "hFE": 53.13617080103941
+      },
+      "gain_at_500ma": {
+        "collector_current_a": 0.500001,
+        "base_current_a": 0.01225170065459424,
+        "collector_emitter_voltage_v": 2,
+        "hFE": 40.81074245088625
+      },
+      "saturation_500ma_v": 0.1600374,
+      "ac_bias_at_50ma": {
+        "collector_current_a": 0.0500001,
+        "base_current_a": 0.000827820849881973,
+        "collector_emitter_voltage_v": 5,
+        "hFE": 60.3996625684516
+      },
+      "transition_frequency_proxy_hz": 169918400.0,
+      "philips_typical_transition_frequency_hz": 250000000.0,
+      "checks": {
+        "gain_150ma": true,
+        "gain_500ma": true,
+        "saturation_500ma": true,
+        "bias_reached": true
+      },
+      "passed": true
+    },
+    {
+      "source_id": "012-6931:V28",
+      "assembly_reference": "Q726",
+      "active_model": "VERT_POWER_P",
+      "explicit_model_parameters": {
+        "IS": "1e-12",
+        "BF": "{output_bf}",
+        "VAF": "80",
+        "CJE": "200p",
+        "CJC": "80p",
+        "TF": "{output_p_tf}",
+        "TR": "200n",
+        "IKF": "1",
+        "RB": "2",
+        "RC": "0.1",
+        "RE": "0.05",
+        "VJE": "0.75",
+        "MJE": "0.33",
+        "VJC": "0.75",
+        "MJC": "0.33",
+        "EG": "1.11",
+        "XTI": "3",
+        "FC": "0.5"
+      },
+      "gain_at_150ma": {
+        "collector_current_a": 0.1500001,
+        "base_current_a": 0.0028229268813378698,
+        "collector_emitter_voltage_v": 2,
+        "hFE": 53.13637451668973
+      },
+      "gain_at_500ma": {
+        "collector_current_a": 0.5000001,
+        "base_current_a": 0.01225168575343312,
+        "collector_emitter_voltage_v": 2,
+        "hFE": 40.81071862783388
+      },
+      "saturation_500ma_v": 0.160037,
+      "ac_bias_at_50ma": {
+        "collector_current_a": 0.05,
+        "base_current_a": 0.0008278193597658611,
+        "collector_emitter_voltage_v": 5,
+        "hFE": 60.39965049155399
+      },
+      "transition_frequency_proxy_hz": 71937750.0,
+      "philips_typical_transition_frequency_hz": 75000000.0,
+      "checks": {
+        "gain_150ma": true,
+        "gain_500ma": true,
+        "saturation_500ma": true,
+        "bias_reached": true
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

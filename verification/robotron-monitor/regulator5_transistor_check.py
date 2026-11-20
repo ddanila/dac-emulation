@@ -90,7 +90,7 @@ def run():
                   and abs(ac_bias['collector_current_a']-.01) < .0001)
     return dict(format='dac-monitor-regulator5-transistor-class-check-v1',
                 qualification='SF126 base-family DC and 15 MHz AC proxies; SF1260 suffix, '
-                              'connected stress and implicit SPICE defaults remain open',
+                              'joint bounds and connected stress remain open',
                 source=SOURCE, model_file_sha256=sha(MODELS),
                 profile_sha256=sha(PROFILE), register_sha256=sha(REGISTER),
                 sheet_sha256=sha(SHEET), assembly_source_id=SOURCE_ID,

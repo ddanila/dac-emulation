@@ -3564,3 +3564,58 @@ range, and its 0.5 µs refinement still passes. This is not a connected
 horizontal-lock or transistor switching qualification. The full joint
 parameter space, temperature response, and connected V10 stress remain
 open; no A2 completion or T1 freeze follows from the isolated checks.
+
+### A2: remaining declared BJT defaults made explicit (2026-11-20)
+
+The remaining five affected instances in the [screened-default audit](reference/k7222-11/a2-implicit-default-audit.json)
+were horizontal SF1260 V12, regulator SF1260 V4, vertical SF127C V18 and
+the complementary vertical output pair V27/V28. Their live models and the
+[device](reference/k7222-11/device-model-register.json) and
+[class-typical](reference/k7222-11/class-typical-register.json) registers now
+state the screened high-current, series-resistance, junction-shape and
+temperature terms with exploratory bounds. V12, V4 and vertical V18 borrow
+the already bounded SF128-family V13 proxy terms; this is a family transfer,
+not a factory parameter extraction. The [ngspice BJT table](https://ngspice.sourceforge.io/docs/ngspice-manual.pdf)
+defines the model terms, while the [DDR SF126–129 table](https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf)
+supplies the catalog-bias comparisons. Horizontal V12 and regulator V4
+retain distinct gain, transit-time and stage models despite the shared
+printed SF1260 name.
+
+The refreshed [V12 comparison](reference/k7222-11/horizontal-small-transistor-class-check.json)
+gives hFE 92.4, 0.098 V DC saturation and 75.9 MHz fT proxy at its SF126
+family biases. [Regulator V4](reference/k7222-11/regulator5-transistor-class-check.json)
+gives 55.8, 0.101 V and 143.9 MHz; [vertical SF127C V18](reference/k7222-11/sf127c-vertical-model-check.json)
+gives 83.6, 0.267 V and 75.8 MHz at its group-C biases. All pass their
+selected historical gain, saturation and fT comparisons. The
+[autonomous T1 design check](reference/k7222-11/horizontal-t1-design.json)
+still passes after V12 changes, with 15,879.2 Hz nominal frequency. These
+are isolated 25 °C comparisons, not switching, joint-bound or connected
+stress qualifications.
+
+For V27/V28, the [new complementary class check](reference/k7222-11/vertical-output-transistor-class-check.json)
+binds both KiCad instances to the live NPN/PNP models. Each gives hFE 53.1
+at 150 mA, 40.8 at 500 mA and a 0.160 V saturation proxy at 500 mA with
+50 mA base drive, within the [ST BD139/BD140 comparator](https://www.st.com/resource/en/datasheet/bd139.pdf).
+The 50 mA/5 V AC gain-product proxies are 169.9 MHz for NPN and 71.9 MHz
+for PNP versus the registered Philips typical 250 and 75 MHz. A typical is
+not a minimum limit; the NPN shortfall remains an open model-fit question.
+The page-10 handwritten BD139/BD140 labels conflict with the printed
+transistor polarities, so neither comparator identifies an installed part.
+The source-connected vertical output, integrator, oscillator and connected
+stage regressions pass after the change, but they do not resolve that
+source conflict or establish device stress under a sustained field.
+
+The refreshed [24-case vertical-diode stage sensitivity](reference/k7222-11/vertical-diode-stage-sensitivity.json)
+also includes the changed V18/V27/V28 models. Its nominal yoke span moves
+from 0.546044 to 0.545597 in the report's current units (−0.082%); the
+largest one-factor diode-bound span change moves from 5.507% to 5.519%.
+The [page-10 output-pair comparison](reference/k7222-11/page10-output-pair-comparison.json)
+and the prescribed-drive T2/L4 and TP15 stage screens retain their prior
+measurements after fresh runs; only their source hashes change. None of these
+isolated results establishes a sustained native-grid field.
+
+The audit now reports zero *screened* implicit defaults in declared
+frame-path discrete models. Its scope excludes internal subcircuit devices
+and optional ngspice terms outside the screen. Source identity, parameter
+joint corners, temperature response and connected stress remain open, so
+this is an A2 worklist reduction rather than A2 completion.

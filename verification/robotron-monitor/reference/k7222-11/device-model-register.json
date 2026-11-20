@@ -76,7 +76,7 @@
     "ngspice_manual_bjt": {
       "url": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf",
       "section": "BJT model parameter table and BC546B example",
-      "use": "Defines screened BJT model parameters and defaults; its BC546B example supplies provisional small-signal proxies, while the defaults made explicit for V18 are simulator-model choices. Bounds are engineering exploration ranges, not original-device limits."
+      "use": "Defines screened BJT model parameters and defaults; its BC546B example supplies provisional small-signal proxies. Explicit silicon junction and temperature terms are simulator-model choices with engineering exploration bounds, not original-device limits."
     },
     "page9_centering_design": {
       "file": "reference/k7222-11/page9-centering-source-netlist.json",
@@ -1343,12 +1343,30 @@
       "model": "VERT_POWER_N",
       "model_file": "circuits/k7222-11-vertical-output-models.cir",
       "profile": "profiles/k7222-11-vertical-output.json",
+      "sources": ["st_bd139_bd140", "philips_bd139_bd140", "ngspice_manual_bjt"],
       "parameters": {
         "BF": {"profile_key": "output_bf", "nominal": 60, "bounds": [25, 250], "basis": "ST hFE spread"},
-        "TF_s": {"profile_key": "output_n_tf", "nominal": 7e-10, "bounds": [3e-10, 5e-9], "basis": "bounded 1/(2 pi fT) estimate from Philips NPN typical; junction capacitances alter actual model fT"}
+        "TF_s": {"profile_key": "output_n_tf", "nominal": 7e-10, "bounds": [3e-10, 5e-9], "basis": "bounded 1/(2 pi fT) estimate from Philips NPN typical; junction capacitances alter actual model fT"},
+        "IS": {"nominal": 1e-12, "bounds": [1e-14, 1e-10], "unit": "A", "basis": "Silicon saturation-current proxy; BD139/BD140 catalog gain does not uniquely determine IS."},
+        "VAF": {"nominal": 80, "bounds": [20, 200], "unit": "V", "basis": "Early-voltage proxy; comparator sheet gives no unique extraction."},
+        "CJE": {"nominal": 2e-10, "bounds": [5e-11, 5e-10], "unit": "F", "basis": "Base-emitter zero-bias capacitance proxy; catalog fT does not uniquely determine this junction term."},
+        "CJC": {"nominal": 8e-11, "bounds": [2e-11, 2e-10], "unit": "F", "basis": "Base-collector zero-bias capacitance proxy; catalog fT does not uniquely determine this junction term."},
+        "TR": {"nominal": 2e-07, "bounds": [2e-08, 2e-06], "unit": "s", "basis": "Reverse transit-time proxy; no comparator inductive switching test is available."},
+        "IKF": {"nominal": 1, "bounds": [0.3, 3], "unit": "A", "basis": "Finite high-current gain-rolloff proxy; nominal is checked at 150 and 500 mA ST gain biases, not extracted from a device curve."},
+        "RB": {"nominal": 2, "bounds": [0.1, 20], "unit": "ohm", "basis": "Finite base-series resistance proxy; no individual BD139/BD140 value specified."},
+        "RC": {"nominal": 0.1, "bounds": [0.01, 0.5], "unit": "ohm", "basis": "Collector-series resistance proxy checked in the 0.5 A/50 mA base-drive saturation fixture."},
+        "RE": {"nominal": 0.05, "bounds": [0.01, 0.2], "unit": "ohm", "basis": "Emitter-series resistance proxy checked in the 0.5 A/50 mA base-drive saturation fixture."},
+        "VJE": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-emitter built-in potential default; engineering spread."},
+        "MJE": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-emitter grading default; engineering spread."},
+        "VJC": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-collector built-in potential default; engineering spread."},
+        "MJC": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-collector grading default; engineering spread."},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon energy-gap default; engineering temperature-law spread."},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default; engineering spread."},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default; engineering spread."}
       },
       "source_conflict": "Handwritten page-10 BD140 at upper V27 is PNP according to ST, opposite the printed-stage NPN model. The handwriting is not adopted as a factory identity.",
-      "remaining": ["Confirm printed transistor arrow and pin mapping in A1 page-10 netlist", "Measure model fT and 0.5-A saturation at specified bias", "Bound IS, VAF, CJE, CJC and TR; assess yoke-stage sensitivity"]
+      "model_response_report": "reference/k7222-11/vertical-output-transistor-class-check.json",
+      "remaining": ["Confirm printed transistor arrow and pin mapping in A1 page-10 netlist", "Qualify the explicit junction, current-gain and temperature bounds jointly", "Assess connected yoke-stage current, voltage, dissipation and sensitivity; NPN fT proxy is below the Philips typical"]
     },
     {
       "id": "012-6931:V28",
@@ -1357,12 +1375,30 @@
       "model": "VERT_POWER_P",
       "model_file": "circuits/k7222-11-vertical-output-models.cir",
       "profile": "profiles/k7222-11-vertical-output.json",
+      "sources": ["st_bd139_bd140", "philips_bd139_bd140", "ngspice_manual_bjt"],
       "parameters": {
         "BF": {"profile_key": "output_bf", "nominal": 60, "bounds": [25, 250], "basis": "ST hFE spread"},
-        "TF_s": {"profile_key": "output_p_tf", "nominal": 2e-9, "bounds": [8e-10, 1e-8], "basis": "bounded 1/(2 pi fT) estimate from Philips PNP typical; junction capacitances alter actual model fT"}
+        "TF_s": {"profile_key": "output_p_tf", "nominal": 2e-9, "bounds": [8e-10, 1e-8], "basis": "bounded 1/(2 pi fT) estimate from Philips PNP typical; junction capacitances alter actual model fT"},
+        "IS": {"nominal": 1e-12, "bounds": [1e-14, 1e-10], "unit": "A", "basis": "Silicon saturation-current proxy; BD139/BD140 catalog gain does not uniquely determine IS."},
+        "VAF": {"nominal": 80, "bounds": [20, 200], "unit": "V", "basis": "Early-voltage proxy; comparator sheet gives no unique extraction."},
+        "CJE": {"nominal": 2e-10, "bounds": [5e-11, 5e-10], "unit": "F", "basis": "Base-emitter zero-bias capacitance proxy; catalog fT does not uniquely determine this junction term."},
+        "CJC": {"nominal": 8e-11, "bounds": [2e-11, 2e-10], "unit": "F", "basis": "Base-collector zero-bias capacitance proxy; catalog fT does not uniquely determine this junction term."},
+        "TR": {"nominal": 2e-07, "bounds": [2e-08, 2e-06], "unit": "s", "basis": "Reverse transit-time proxy; no comparator inductive switching test is available."},
+        "IKF": {"nominal": 1, "bounds": [0.3, 3], "unit": "A", "basis": "Finite high-current gain-rolloff proxy; nominal is checked at 150 and 500 mA ST gain biases, not extracted from a device curve."},
+        "RB": {"nominal": 2, "bounds": [0.1, 20], "unit": "ohm", "basis": "Finite base-series resistance proxy; no individual BD139/BD140 value specified."},
+        "RC": {"nominal": 0.1, "bounds": [0.01, 0.5], "unit": "ohm", "basis": "Collector-series resistance proxy checked in the 0.5 A/50 mA base-drive saturation fixture."},
+        "RE": {"nominal": 0.05, "bounds": [0.01, 0.2], "unit": "ohm", "basis": "Emitter-series resistance proxy checked in the 0.5 A/50 mA base-drive saturation fixture."},
+        "VJE": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-emitter built-in potential default; engineering spread."},
+        "MJE": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-emitter grading default; engineering spread."},
+        "VJC": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-collector built-in potential default; engineering spread."},
+        "MJC": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-collector grading default; engineering spread."},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon energy-gap default; engineering temperature-law spread."},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default; engineering spread."},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default; engineering spread."}
       },
       "source_conflict": "Handwritten page-10 BD139 at lower V28 is NPN according to ST, opposite the printed-stage PNP model. The handwriting is not adopted as a factory identity.",
-      "remaining": ["Confirm printed transistor arrow and pin mapping in A1 page-10 netlist", "Measure model fT and 0.5-A saturation at specified bias", "Bound IS, VAF, CJE, CJC and TR; assess yoke-stage sensitivity"]
+      "model_response_report": "reference/k7222-11/vertical-output-transistor-class-check.json",
+      "remaining": ["Confirm printed transistor arrow and pin mapping in A1 page-10 netlist", "Qualify the explicit junction, current-gain and temperature bounds jointly", "Assess connected yoke-stage current, voltage, dissipation and sensitivity"]
     },
     {
       "id": "012-6921:V4",
@@ -1954,7 +1990,8 @@
       "model": "HOR_N",
       "model_file": "circuits/k7222-11-horizontal-models.cir",
       "sources": [
-        "ddr_sf126_129"
+        "ddr_sf126_129",
+        "ngspice_manual_bjt"
       ],
       "parameters": {
         "IS": {
@@ -2019,7 +2056,18 @@
           ],
           "unit": "s",
           "basis": "reverse transit-time proxy; family sheet has no storage/fall test, so range is unqualified"
-        }
+        },
+        "IKF": {"nominal": 0.5, "bounds": [0.1, 5], "unit": "A", "basis": "Finite high-current gain-rolloff proxy transferred from the SF128-family V13; catalog gain checks constrain the combined response, not the knee."},
+        "RB": {"nominal": 1, "bounds": [0.1, 5], "unit": "ohm", "basis": "Finite base-series resistance proxy transferred from the SF128-family V13; no original-part RB measurement."},
+        "RC": {"nominal": 0.1, "bounds": [0.01, 1], "unit": "ohm", "basis": "Collector-series resistance proxy transferred from V13 and checked against the 0.5 V family saturation limit."},
+        "RE": {"nominal": 0.05, "bounds": [0.01, 0.2], "unit": "ohm", "basis": "Emitter-series resistance proxy transferred from V13 and checked against the 0.5 V family saturation limit."},
+        "VJE": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-emitter junction-potential default; engineering spread, not original-part data."},
+        "MJE": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-emitter grading default; engineering spread."},
+        "VJC": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-collector junction-potential default; engineering spread."},
+        "MJC": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-collector grading default; engineering spread."},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon energy-gap default; engineering temperature-law spread."},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default; engineering spread."},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default; engineering spread."}
       },
       "comparison_targets": {
         "hFE": {
@@ -2042,7 +2090,7 @@
       "remaining": [
         "Verify printed SF1260 suffix/group and original package/rating",
         "Measure connected-stage current/voltage stress and joint-bound sensitivity",
-        "Examine remaining implicit BJT simulator defaults",
+        "Qualify the explicit SF126-family high-current, junction and thermal bounds",
         "Qualify the separate REG5_NPN alias used by the other SF1260 instance"
       ]
     },
@@ -2054,7 +2102,8 @@
       "model_file": "circuits/k7222-11-regulator5-models.cir",
       "profile": "profiles/k7222-11-regulator5.json",
       "sources": [
-        "ddr_sf126_129"
+        "ddr_sf126_129",
+        "ngspice_manual_bjt"
       ],
       "parameters": {
         "IS": {
@@ -2120,7 +2169,18 @@
           ],
           "unit": "s",
           "basis": "reverse transit-time/storage proxy; family sheet has no storage/fall test, so range is unqualified"
-        }
+        },
+        "IKF": {"nominal": 0.5, "bounds": [0.1, 5], "unit": "A", "basis": "Finite high-current gain-rolloff proxy transferred from the SF128-family V13; catalog gain checks constrain the combined response, not the knee."},
+        "RB": {"nominal": 1, "bounds": [0.1, 5], "unit": "ohm", "basis": "Finite base-series resistance proxy transferred from the SF128-family V13; no original-part RB measurement."},
+        "RC": {"nominal": 0.1, "bounds": [0.01, 1], "unit": "ohm", "basis": "Collector-series resistance proxy transferred from V13 and checked against the 0.5 V family saturation limit."},
+        "RE": {"nominal": 0.05, "bounds": [0.01, 0.2], "unit": "ohm", "basis": "Emitter-series resistance proxy transferred from V13 and checked against the 0.5 V family saturation limit."},
+        "VJE": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-emitter junction-potential default; engineering spread, not original-part data."},
+        "MJE": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-emitter grading default; engineering spread."},
+        "VJC": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-collector junction-potential default; engineering spread."},
+        "MJC": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-collector grading default; engineering spread."},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon energy-gap default; engineering temperature-law spread."},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default; engineering spread."},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default; engineering spread."}
       },
       "comparison_targets": {
         "hFE_50ma": {
@@ -2143,7 +2203,7 @@
       "remaining": [
         "Verify printed SF1260 suffix/group and original package/rating",
         "Measure V4 current/voltage stress and joint-bound sensitivity in the connected reference stage",
-        "Examine implicit BJT simulator defaults and part-specific thermal behavior"
+        "Qualify the explicit SF126-family high-current, junction and thermal bounds"
       ]
     },
     {
@@ -2153,7 +2213,7 @@
       "identity_tier": "printed type and historical group data; SPICE curve provisional",
       "model": "SF127C_N",
       "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
-      "sources": ["ddr_sf126_129"],
+      "sources": ["ddr_sf126_129", "ngspice_manual_bjt"],
       "parameters": {
         "IS": {"nominal": 1e-14, "bounds": [1e-16, 1e-12], "unit": "A", "basis": "silicon saturation-current proxy; historical gain and leakage do not uniquely fit IS"},
         "BF": {"nominal": 90, "bounds": [56, 140], "unit": "1", "basis": "BF proxy around group-C h21E 56..140 at 50 mA/2 V; model effective gain checked there"},
@@ -2163,7 +2223,16 @@
         "CJE": {"nominal": 2e-11, "bounds": [5e-12, 6e-11], "unit": "F", "basis": "bounded depletion-capacitance proxy; family sheet does not specify CJE"},
         "CJC": {"nominal": 8e-12, "bounds": [1e-12, 3e-11], "unit": "F", "basis": "bounded depletion-capacitance proxy; family sheet does not specify CJC"},
         "TF": {"nominal": 2e-9, "bounds": [5e-10, 3e-9], "unit": "s", "basis": "transit-time proxy chosen with capacitances to pass family fT >=60 MHz at 10 mA/10 V/f=15 MHz"},
-        "TR": {"nominal": 2e-8, "bounds": [2e-9, 2e-7], "unit": "s", "basis": "bounded reverse transit-time proxy; family sheet has no switching-time test"}
+        "TR": {"nominal": 2e-8, "bounds": [2e-9, 2e-7], "unit": "s", "basis": "bounded reverse transit-time proxy; family sheet has no switching-time test"},
+        "IKF": {"nominal": 0.5, "bounds": [0.1, 5], "unit": "A", "basis": "Finite high-current gain-rolloff proxy transferred from the SF128-family V13; catalog gain checks constrain the combined response, not the knee."},
+        "RB": {"nominal": 1, "bounds": [0.1, 5], "unit": "ohm", "basis": "Finite base-series resistance proxy transferred from the SF128-family V13; no original-part RB measurement."},
+        "VJE": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-emitter junction-potential default; engineering spread, not original-part data."},
+        "MJE": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-emitter grading default; engineering spread."},
+        "VJC": {"nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Explicit ngspice base-collector junction-potential default; engineering spread."},
+        "MJC": {"nominal": 0.33, "bounds": [0.2, 0.5], "unit": "1", "basis": "Explicit ngspice base-collector grading default; engineering spread."},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice silicon energy-gap default; engineering temperature-law spread."},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice saturation-current temperature-exponent default; engineering spread."},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice forward-bias depletion-capacitance default; engineering spread."}
       },
       "comparison_targets": {
         "hFE_50ma": {"range": [56, 140], "conditions": "VCE=2 V, IC=50 mA, 20-25 C, SF127 group C"},
@@ -2171,7 +2240,7 @@
         "fT_hz": {"minimum": 6e7, "conditions": "VCE=10 V, IC=10 mA, f=15 MHz, 20-25 C; gain-frequency product proxy"}
       },
       "model_response_report": "reference/k7222-11/sf127c-vertical-model-check.json",
-      "remaining": ["Confirm source pin and transistor arrow in page-10 independent netlist", "Measure connected V18 current, voltage and thermal stress against 30 V/500 mA/600 mW SF127 ratings", "Qualify joint parameter bounds and implicit simulator defaults"]
+      "remaining": ["Confirm source pin and transistor arrow in page-10 independent netlist", "Measure connected V18 current, voltage and thermal stress against 30 V/500 mA/600 mW SF127 ratings", "Qualify the explicit SF127 family bounds jointly, including temperature response"]
     },
     {
       "id": "012-6931:A2",

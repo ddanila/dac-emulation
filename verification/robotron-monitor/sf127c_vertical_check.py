@@ -82,7 +82,7 @@ def run():
             and abs(ac_bias['collector_current_a']-.01) < .0001,
     )
     return dict(format='dac-monitor-sf127c-vertical-class-check-v1',
-                qualification='original SF127 group-C class response at catalog points; connected stress, joint bounds and implicit defaults remain open',
+                qualification='original SF127 group-C class response at catalog points; connected stress and joint bounds remain open',
                 source=register['sources']['ddr_sf126_129'],
                 register_sha256=sha(REGISTER), model_file_sha256=sha(MODELS),
                 sheet_sha256=sha(SHEET), assembly_source_id=SOURCE_ID,
