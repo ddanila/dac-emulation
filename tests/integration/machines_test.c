@@ -31,6 +31,7 @@ static void floppy(void) {
   uint8_t *data = calloc(1, 819200);
   assert(m && data);
   robotron_init(m);
+  robotron_output(m, 0x28, 0x11); /* S550 unit-0 motor on; A120 latch is active high. */
   m->drive[0].speed = ROBOTRON_SPINUP_TICKS;
   m->drive[0].ready = m->drive[0].loaded = 1;
   m->drive[0].ready_indexes = 2;
