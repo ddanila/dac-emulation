@@ -1,0 +1,25 @@
+{
+  "format": "dac-monitor-source-netlist-comparison-v1",
+  "source_read": "reference/k7222-11/page4-hv-divider-source-netlist.json",
+  "kicad_sheet": "circuits/k7222-11-horizontal-output.kicad_sch",
+  "kicad_sheet_sha256": "54a21db8a705d33cebea7c00aa6605a8e27a77557696804132323f1d19f2ae9b",
+  "method": "Fresh kicad-cli XML netlist exported and decoded with reference.source_connectivity; five scoped components compared against the corrected page-4 source read.",
+  "net_mapping": {
+    "hv_ac": "h_hvac",
+    "eht": "eht",
+    "divider_input": "h_g2raw",
+    "divider_top": "h_divtop",
+    "ug2": "ug2",
+    "ground": "0",
+    "ug4": "ug4"
+  },
+  "pin_comparisons": [
+    {"source_id": "012-6921:V21", "source_pins": ["V21.A", "V21.K"], "source_nets": ["hv_ac", "eht"], "export_nets": ["h_hvac", "eht"], "result": "match"},
+    {"source_id": "012-6921:R29", "source_pins": ["R29.1", "R29.2"], "source_nets": ["divider_input", "divider_top"], "export_nets": ["h_g2raw", "h_divtop"], "result": "match"},
+    {"source_id": "012-6921:R30", "source_pins": ["R30.1", "R30.2"], "source_nets": ["divider_top", "ug2"], "export_nets": ["h_divtop", "ug2"], "result": "match"},
+    {"source_id": "012-6921:R31", "source_pins": ["R31.1", "R31.2"], "source_nets": ["ug2", "ground"], "export_nets": ["ug2", "0"], "result": "match"},
+    {"source_id": "012-6921:R32", "source_pins": ["R32.1", "R32.wiper", "R32.2"], "source_nets": ["divider_top", "ug4", "ground"], "export_nets": ["h_divtop", "ug4", "0"], "result": "match"}
+  ],
+  "source_correction": "Initial 300/600 dpi read conflated the adjacent EHT and R29 input lines and mislabelled R29 as R28. A distinct 1200 dpi crop resolved the difference; the corrected read matches the fresh export.",
+  "qualification": "scoped external branch agreement only; no T3 internal tap/return proof and no whole-page A1 closure"
+}

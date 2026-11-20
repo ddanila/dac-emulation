@@ -2367,3 +2367,21 @@ The export also puts C30 across the same two nodes, but this scoped source
 read does not confirm C30's terminals or physical population. It is a check
 of C27, not an independent whole-page netlist or a reason to select the
 C27+C30 design-point alternative.
+
+### A1: page-4 screen/focus divider source reread (2026-11-20)
+
+The scoped [page-4 divider read](reference/k7222-11/page4-hv-divider-source-netlist.json)
+first conflated two adjacent lines at 300/600 dpi: it called the screen-feed
+resistor R28 and joined its input to the V21/EHT output. The model comparison
+exposed that conflict. A distinct 1200 dpi crop resolves the resistor as R29
+and shows its feed line below, separate from the EHT line; R28 is the brightness
+control elsewhere on the page. R29 feeds the R30/R31 screen ladder and the R32
+focus potentiometer. The corrected source read assigns R30/R31's junction to
+X6:2 (UG2), R32's wiper to X6:3 (UG4), and the lower ends to the 00 return.
+
+A fresh KiCad XML export agrees with all eleven pins of V21 and R29–R32 in the
+[comparison](reference/k7222-11/page4-hv-divider-comparison.json). The
+regression check ties the source pin list to the live KiCad export. This
+closes that *external branch comparison* only. It does not identify which T3
+internal tap feeds R29, resolve the X1:3/X2:3 return or complete A1's
+independent page-3/4 netlist.
