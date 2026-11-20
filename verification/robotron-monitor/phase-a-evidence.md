@@ -2871,3 +2871,38 @@ source/model/deck hashes; V21's nominal and prior 14 bound results are
 unchanged, with ten new complete cases. With the verified pinned runtime,
 `make test-monitor` passes 306 tests with no skips. This validates the current
 checks and receipts, not the outstanding A1, A2, A3, A5 or A6 done conditions.
+
+The five printed `1SA20C` and two `1SC60A` instances now have all nine
+screened formerly implicit BJT parameters explicit in their separate
+[class models](circuits/k7222-11-small-transistor-models.cir). The
+[ngspice manual's BC546B example](https://ngspice.sourceforge.io/docs/ngspice-manual.pdf)
+provides provisional finite `IKF`, `RB` and junction-shape values; `EG`,
+`XTI` and `FC` state the former simulator defaults. The assumed engineering
+spreads are recorded in both A2 and A6 registers and are not original-part
+limits. The [A2 audit](reference/k7222-11/a2-implicit-default-audit.json)
+falls from 21 affected instances in 15 register entries to 14 in 13; A6 grows
+from 254 to 272 partial entries. The [isolated BC546B-class comparison](reference/k7222-11/small-transistor-class-check.json)
+still passes, now at hFE 268.7, 0.097 V saturation and a 181.7 MHz
+transition-frequency proxy. Seven other device class-check receipts
+changed only in the shared register hash; their measured results are unchanged.
+
+The revised models do move some conditional stage results. The
+[IS-drive diagnostic](reference/k7222-11/page3-4-is-drive-diagnostic.json)
+now has a 4.15 V nominal median in its transient high interval, versus 4.41 V
+before; its lower and upper neck-diode-capacitance cases give 0.24 and
+25.22 V, respectively. Fixed input still settles near 0.30 V, so this is not
+a qualified high-state drive. The [page-18 loaded contrast check](reference/k7222-11/page18-contrast-stage-check.json)
+still has only 0.98 µV maximum low/high cathode difference and 0.00000223 µA
+provisional beam difference. The [manual terminal-swap comparison](reference/k7222-11/page3-4-manual-topology-comparison.json)
+now gives 13.53–16.44 V and a 2.91 V R2 span at the tested brightness
+endpoint; that topology remains a source-unverified alternative. The
+[vertical diode stage sweep](reference/k7222-11/vertical-diode-stage-sensitivity.json)
+baseline yoke span moves from 0.545973 to 0.546044 A, and its maximum
+one-at-a-time bound change is now 5.50%. The refreshed
+[V21 sweep](reference/k7222-11/v21-connected-sensitivity.json) changes only
+its register hash; all 24 electrical results are identical. These connected
+diagnostics do not qualify the original transistor identities, joint corners,
+temperature behavior, switching storage or sustained native-grid stress.
+With the verified pinned runtime, the refreshed receipts pass all 18 focused
+checks and `make test-monitor` passes 306 tests with no skips. This verifies
+model/report consistency, not completion of the remaining Phase A conditions.

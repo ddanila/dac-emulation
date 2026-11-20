@@ -99,6 +99,12 @@ def run(capture_path):
                                    folder/f'dark-{label}', .5, 0, 0, 0)
             dark_rows.append({'topology': label, 'v4_breakdown_v': breakdown,
                               'brightness_position': 0, **case})
+    swapped_cathodes = [next(row['voltages_v']['cathode'] for row in rows
+                             if row['topology'] == 'manual_fig6_terminal_swap'
+                             and row['brightness_position'] == 0
+                             and row['logic_intensity'] == 0
+                             and row['contrast_position'] == position)
+                        for position in CONTRAST]
     return {'format': 'dac-monitor-page3-4-manual-topology-comparison-v1',
             'qualification': 'fixed-logic ideal-rail input/neck bench; alternative terminal wiring is from manual functional Fig. 6 and is not a source-validated page-3/4 replacement or connected-frame score',
             'capture_sha256': hashlib.sha256(capture_path.read_bytes()).hexdigest(),
@@ -120,7 +126,10 @@ def run(capture_path):
             'incoming_intens_states': list(INCOMING_INTENS),
             'logic_mapping_note': 'The provisional T200 gate model inverts the raw incoming INTENS input before V5; the manual discusses a regenerated intensity signal. Raw input state numbers are not a direct test of the manual signal polarity.',
             'rows': rows, 'dark_rows': dark_rows,
-            'interpretation': 'The detailed topology leaves the bright cathode near 0.34 V with no R2 response. The manual terminal swap at factory-list V4=9.1 V can put the bright cathode at 13.56–16.48 V and move it by about 2.92 V across R2 at the tested brightness endpoint. This occurs for raw incoming INTENS=0 in the provisional T200 model; its relation to the manual regenerated signal needs source qualification. The 15 V zener diagnostic shifts levels without establishing the original control transfer. The alternative is not selected as the active topology.'}
+            'interpretation': 'The detailed topology leaves the bright cathode near 0.34 V with no R2 response. The manual terminal swap at factory-list V4=9.1 V can put the bright cathode at '
+            f'{swapped_cathodes[0]:.2f}–{swapped_cathodes[1]:.2f} V and move it by about '
+            f'{swapped_cathodes[1]-swapped_cathodes[0]:.2f} V across R2 at the tested brightness endpoint. '
+            'This occurs for raw incoming INTENS=0 in the provisional T200 model; its relation to the manual regenerated signal needs source qualification. The 15 V zener diagnostic shifts levels without establishing the original control transfer. The alternative is not selected as the active topology.'}
 
 
 if __name__ == '__main__':
