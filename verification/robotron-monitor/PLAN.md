@@ -396,8 +396,8 @@ failure, restore the component-level stage and re-run the gates from there.
 ## Status (2026-11-20)
 
 **Goal blocked reason (2026-11-20): Phase A cannot be marked complete. A5
-has no source-verified T3 graph or qualified bounded equivalent; A1, A2, A3
-and A6 also have unmet conditions below. Only A4 is done.** The .11 scans
+has no source-verified T3 graph or bounded design-derived fallback; A1, A2
+and A6 also have unmet conditions below. A3 and A4 are done.** The .11 scans
 leave T3's return, tap order and high-voltage cold end unresolved. The
 [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json)
 meets TP17/EHT, final-two-line periodicity and the solver budget at 50/25 ns,
@@ -417,15 +417,17 @@ shows sensitivity to the Q201 branch without establishing its cause. The
 78 ms only after removing a printed transistor. Its EHT falls to about
 10.45 kV, flyback count drifts, and V18's base reaches −19.19 V against a
 9 V reverse-bias class comparator. Neither run establishes a sustained,
-source-circuit operating point. Freezing T3 or scoring A3 from these runs
-would be unsupported.
+source-circuit operating point. They cannot select A5 winding values or
+serve as Phase B connected-stage scores.
 
-To unblock A5, carry the unreadable graph as labelled bounded alternatives,
-qualify the loss, source T2/L4 drive and V18 stress, then qualify Q201 or the
-smallest labelled input-stage equivalent and demonstrate periodic connected
-fields. The other open items still need their own closeout. This is an
-evidence and implementation blocker under the no-human fallback rule, not a
-request for a measurement or approval; the detailed receipts are in
+To close A5, carry the unreadable graph as labelled bounded alternatives,
+derive every T3 ratio and yoke value with a tier and argument, bound loss and
+parasitics, and list candidates retained by rectifier function. Connected
+T2/L4, Q201 and field-periodicity validation belongs to Phase B; the source
+connections and device bounds still belong to A1 and A2. A6 also needs its
+own closeout. This is an evidence and
+implementation blocker under the no-human fallback rule, not a request for a
+measurement or approval; the detailed receipts are in
 [phase-a-evidence.md](phase-a-evidence.md).
 
 **Keep this section short.** It holds one row per item: what is still unmet
@@ -439,12 +441,12 @@ next step changes. The narrative that used to follow is in
 |---|---|---|
 | A1 | Second netlists for pages 3–4 and 9–10 are partial: local branches match, the full pages are not compared. Page 16 schematic is closed; its service-observation check is open. Page 18 has three model-scope gaps and no working contrast path. Not settled by the scans: T3 return (X1:3 to X2:3), tap order and HV cold end; T2 secondary phase and return; installed E2 and E1–E4 links; C30 population; L1's crossing with the flyback line. | Finish the pin-to-pin comparisons. Carry each connection the scan cannot settle as a labelled, bounded alternative. |
 | A2 | All 64 frame-path instances have provisional register rows; none passes every qualification check. The [screened-default audit](reference/k7222-11/a2-implicit-default-audit.json) now finds zero implicit critical parameters in declared discrete frame-path models. V12, regulator V4, vertical V18 and V27/V28 have explicit class-bounded proxies and pass selected catalog DC checks; the V27 NPN fT proxy remains below a Philips typical. Internal subcircuit devices, joint bounds, temperature and connected stress are not covered by that zero count. T3 turns, resistance and parasitics remain assumed-bound; horizontal V18 exceeds its reverse-base class comparator in the connected diagnostic. | Qualify the open device identities and model bounds, including page-10 V27/V28 polarity, vertical output stress and source T2/L4/horizontal-V18 drive. Audit internal subcircuit devices separately. |
-| A3 | All 17 shape descriptors are registered and scored. No sustained connected native-grid run has been scored. The original flux model under-drives TP17; the older passive equivalent develops irregular bursts. The [labelled AC-loss equivalent](reference/k7222-11/t3-connected-ac-loss-39ms-diagnostic.json) gives about 77–78 Vpp TP17 but 10.76–10.92 kV EHT in unfinished bins, then aborts at 39 ms. The [Q201-off diagnostic](reference/k7222-11/t3-q201-off-four-fields.json) completes 78 ms but has low, drifting EHT and flyback counts; it cannot score the source circuit. TP8 is `reference-incomplete`: 17 V is crest-to-zero, and the 10 V arrow has no settled node. | Qualify V5's source connection and model or label an input-stage equivalent; correct connected drift, then score refined native-grid fields. |
+| A3 | Done: all 17 source-hashed shapes, 2 kByte timing, bounded EO2-equivalent bandwidth/probe loading and the declared grid stimulus are machine-checkable. TP8's 17 V crest is checkable; its separate 10 V annotation stays `reference-incomplete` with an explicit G4 explanation if it remains unresolved. A sustained connected score belongs to Phase B. | None for the Phase A method. |
 | A4 | Done. | None. |
-| A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. T3 graph, ratios and polarities are not frozen. The [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json) meets joint TP17/EHT, 0.1% final-two-line agreement, solver budget and 50/25 ns refinement only with a prescribed 200 ns base edge at `reltol=.005`; the 100 ns run fails collector agreement. Its grounded HV cold end, loss, 10-turn auxiliary and drive edge are unqualified. The Q201-retaining connected variant aborts at 39 ms; the Q201-off diagnostic completes four fields but has low and nonperiodic EHT and V18 reverse-base stress. Other T3 sections, vertical current and tube/yoke geometry remain conditional. | Bound the return graph and loss; qualify the source T2/L4 drive and V18 stress, qualify the input-stage boundary or labelled equivalent, then establish connected EHT/lock and joint bounds before freezing a candidate. |
+| A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. The T3 return/tap alternatives, all winding ratios and polarities, and tube/yoke geometry do not yet have complete design-derived or class-typical bounds with arguments. The conditional AC-loss stage and connected diagnostics cannot supply those missing design values. | Bound the return graph, loss and yoke geometry; derive the ratios and currents from documented values, list functionally retained candidates and check the documents for contradictions. Preserve connected EHT/lock and operating-point stress as Phase B validation. |
 | A6 | The [register](reference/k7222-11/class-typical-register.json) is partial: tube data (B31G22 cold resistance, thermal law, emission, G4 effect on cut-off), T3 parasitics, yoke sensitivity and the measuring cable lack qualified bounds. | Add cited bounds and re-run the stage checks they affect. |
 
-Order: A5 (T3 graph or its fallback), A2, A1, A3, A6, then B1. Phase C waits
+Order: A5 (T3 graph or its fallback), A2, A1, A6, then B1. Phase C waits
 for B8.
 
 ### Findings that stand

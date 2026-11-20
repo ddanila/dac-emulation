@@ -38,13 +38,12 @@ register preserves these targets and steps with page addresses.
 
 Every printed point has a proposed named circuit node. The mapping comes from
 the .11/.21 schematic pages 3–4 and 9–10 plus the current KiCad transcription;
-the A1 human connectivity review is still needed before treating a mapping as
+the A1 independent agent netlist review is still needed before treating a mapping as
 historically confirmed. `service_score.py` reads a stage `samples.txt`, CSV or
 connected `trace.raw` and measures available points. A missing required probe
 fails the requested point set. It reports approximate amplitude, inferred
-period, numeric pulse width where printed, measured DC and a polarity hint;
-drawn waveform shape still requires visual review. The scorer never fits model
-parameters.
+period, numeric pulse width where printed, measured DC and source-hashed shape
+checks. The scorer never fits model parameters.
 
 The first operating-manual vision pass exposed a TP17 transcription error:
 page 21 shows **80 Vpp** at V14's cathode, not the earlier register's 90 Vpp.
@@ -74,13 +73,15 @@ The exploratory post-step descent estimates span 6.49–6.83 V at X2:3 and
 the ±25% lower bound of the 10 V annotation as resolution changes; 64 bins
 also merge the reset into the descent. This does not identify the annotation
 or justify a numeric pass. A qualified reset-excluding feature and source
-attribution remain A3 work.
+attribution remain optional source refinements, not A3 method prerequisites.
 The [long-line fit check](reference/k7222-11/tp8-ramp-feature-sensitivity.json)
 adds a reproducible reset-excluding diagnostic and synthetic tests. It is
 stable across 64–256 bins at a 2% fit-error allowance, but R48/V20 crosses
 the 7.5 V lower target when that allowance is tightened to 1%. No source
 defines the allowance; picking the passing value would turn the check into a
-fit. The score therefore still treats the 10 V arrow as unresolved.
+fit. The score therefore still treats the 10 V arrow as unresolved. This is a
+recorded held-out reference limitation under G4, not a reason to require a
+human read or a connected Phase B score before closing A3's method.
 The point-7 figure marks a 1 ms rise interval; it is retained as a rise-time
 annotation rather than misclassified as pulse width.
 The fourth text pass reads point 13 as 6.4 Vpp but moves decimal points on
@@ -127,6 +128,24 @@ S550 line frequency and from a measured converter result.
 Page 32 prints two 2 kByte vertical grid-spacing ranges, 25–30 mm and
 28–33.5 mm, without labelling them as upper or lower screen positions. The
 register preserves their printed order and leaves that spatial mapping open.
+
+An A3 method audit on 2026-11-20 confirmed that all 17 numbered waveforms have
+source-hashed `agent-read` shape descriptors, named assembled nodes and
+condition IDs. The descriptor families are pulse, rising sawtooth, falling
+sawtooth and bipolar ramp, all implemented by `service_score.py`; the 2 kByte
+mode and grid scoring stimulus are explicit. `service-instrument.json` bounds
+the EO2-comparable EO 203 bandwidth at 5–10 MHz and direct probe input at
+1–10 MΩ and 20–48 pF. `service_probe.py` independently re-solves each requested
+node with that load before the scorer applies bandwidth filtering, and the
+scorer labels an unprobed or non-grid comparison as diagnostic. The manual PDF
+hash in all 17 descriptors matches the local source PDF. The seven focused
+`test_service_score.py` tests and two `test_service_probe.py` tests pass,
+including pulse direction, ramp direction, missing probes and loaded high-
+impedance response. TP8's printed 17 V crest is checkable; its separate 10 V
+arrow remains `reference-incomplete` because the figure does not assign a
+unique node. Under G4 it can be one of at most three explained held-out misses.
+This closes A3's machine-checkability work. A sustained native-grid score and
+the unresolved source connectivity are Phase B and A1 work, respectively.
 
 Stage runs on the vertical and horizontal profiles write `service-score.json`
 automatically. Every completed connected candidate now writes the same score
