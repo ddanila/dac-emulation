@@ -395,10 +395,12 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-21)
 
-**Goal blocked reason (2026-11-21): Phase A cannot be marked complete. A5
-has no source-verified T3 graph or bounded design-derived fallback; A1, A2
-and A6 also have unmet conditions below. A3 and A4 are done.** The .11 scans
-leave T3's return, tap order and high-voltage cold end unresolved. The
+**Goal completion blocker (2026-11-21): Phase A cannot be marked complete
+because A5 still lacks a qualified, bounded T3 design point.** The .11 scans
+leave T3's return, tap order and high-voltage cold end unresolved; the
+function-derived or equivalent-transformer fallback allowed by this plan has
+not yet replaced the assumed winding values. The remaining A1, A2 and A6
+conditions are listed below; A3 and A4 are done. The
 [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json)
 meets TP17/EHT, final-two-line periodicity and the solver budget at 50/25 ns,
 but its return graph, loss and prescribed 200 ns base-drive edge are
@@ -423,11 +425,12 @@ serve as Phase B connected-stage scores.
 To close A5, carry the unreadable graph as labelled bounded alternatives,
 derive every T3 ratio and yoke value with a tier and argument, bound loss and
 parasitics, and list candidates retained by rectifier function. Connected
-T2/L4, Q201 and field-periodicity validation belongs to Phase B; the source
-connections and device bounds still belong to A1 and A2. A6 also needs its
-own closeout. This is an evidence and
-implementation blocker under the no-human fallback rule, not a request for a
-measurement or approval; the detailed receipts are in
+T2/L4, Q201 and field-periodicity validation belongs to Phase B; those failed
+runs do not make the Phase A design point valid or create a measurement gate.
+The source connections and device bounds still belong to A1 and A2; A6 also
+needs its own closeout. This is an unmet evidence and implementation condition,
+not an external wait or a request for approval. The fallback above permits
+continued work; the detailed receipts are in
 [phase-a-evidence.md](phase-a-evidence.md).
 
 **Keep this section short.** It holds one row per item: what is still unmet
