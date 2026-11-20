@@ -3210,3 +3210,32 @@ resonance and coupling sensitivities of the *current equivalent*, not
 original-transformer properties. No case jointly establishes TP17 and EHT,
 and no connected native-grid run of this variant has been scored. A5 and
 A6 remain open.
+
+### A2: KFY18 high-current and base-resistance bounds (2026-11-20)
+
+The original-type KFY18 PNP proxy used at page-9 V13 and page-10 V26 now
+explicitly declares all nine parameters in the [critical-default audit](reference/k7222-11/a2-implicit-default-audit.json)
+that had been left to ngspice. The [ngspice 45 BJT parameter table](https://ngspice.sourceforge.io/docs/ngspice-45-manual.pdf)
+supplies the prior EG, FC, MJC, MJE, VJC, VJE and XTI nominal defaults. A
+finite 0.3 A IKF (0.1–0.6 A exploratory bound) replaces unlimited default
+high-current gain, and 2 ohm RB (0–20 ohm bound) replaces the zero-ohm base
+resistance default. These two choices are provisional model proxies, not
+factory KFY18 parameter limits. The [device-model register](reference/k7222-11/device-model-register.json)
+and [class-typical register](reference/k7222-11/class-typical-register.json)
+record each nominal, bound, source and affected stage.
+
+The refreshed [isolated KFY18 check](reference/k7222-11/kfy18-model-check.json)
+passes all seven original-catalog response tests: hFE 106.9 at 1 mA and 112.2
+at 10 mA, 97.2 MHz transition-frequency proxy, 0.571 V saturation proxy at
+150 mA/15 mA, and both reverse-bias capacitance limits. Relative to the old
+model, 10 mA gain falls 2.8% and saturation voltage magnitude rises 2.3%.
+The audit now lists seven affected instances in seven other model rows, down
+from nine instances in eight rows. Connected V13/V26 operating stress and
+joint parameter corners remain unqualified; A2 is still open.
+
+The refreshed [vertical-stage sensitivity report](reference/k7222-11/vertical-diode-stage-sensitivity.json)
+completes all 24 diode-bound cases with the revised KFY18 model. Its baseline
+yoke peak-to-peak current is 0.546044 A, changing by less than 0.00001% from
+the prior model; the largest one-at-a-time diode-bound yoke-span change is
+5.51%. This checks the retained vertical bench, not the native connected
+monitor or KFY18 joint bounds.
