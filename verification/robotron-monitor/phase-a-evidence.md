@@ -3052,10 +3052,17 @@ four-field endpoint, so the runner reported no accepted three-field lock or
 service score.
 
 At the shared 15–16 ms interval, the 50 ns trace averages 7.936 kV EHT and
-the 200 ns trace 9.668 kV, a 21.8% resolution difference. The finer trace
-shows four 100 V horizontal-sync upcrossings in its 13–14 ms bin and none
-in the following bins through 16.126 ms. The coarser trace shows seven in
-29–30 ms and none in its subsequent complete bins. Its EHT exceeds 12 kV
-in late bins, but that crossing is not a converged steady state. The current
-source graph, numerical stiffness, and absent sustained horizontal train
-block a native-grid A3 score; the unfinished traces cannot qualify A5.
+the 200 ns trace 9.668 kV, a 21.8% resolution difference. The new
+[50 ns](reference/k7222-11/native-grid-50ns-horizontal-chain.json) and
+[200 ns](reference/k7222-11/native-grid-200ns-horizontal-chain.json)
+horizontal-chain diagnostics show that V13's collector keeps about 16 pulses
+per millisecond and V18's collector keeps 15–17 across the 2–12 ms bins.
+The pulse train is present; the earlier inference from a 100 V `h_sync`
+threshold was too broad. The TP17-mapped `h_sync` node instead swings only
+15.3–20.5 Vpp at 50 ns and 18.7–20.8 Vpp at 200 ns over 1–12 ms, well below
+the manual's 80 Vpp ±20% guideline. Rare large `h_sync` bursts coincide with
+large V18 collector peaks and do not establish a stable TP17 waveform.
+The 200 ns EHT exceeds 12 kV in late bins, but that crossing is not a
+converged steady state. The conditional T3 pulse-winding/rectifier path,
+numerical stiffness and TP17 under-amplitude block a native-grid A3 score;
+the unfinished traces cannot qualify A5.
