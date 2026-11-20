@@ -45,7 +45,9 @@ class PhaseAGateTests(unittest.TestCase):
                                               'stripe_rows':5,'horizontal_marker_rows':9,'marker_count':54,
                                               'method':'source-grid-markers-through-connected-electrodes-yoke-and-central-ray'}},
                      'candidate_id':'t3-test',
-                     'assumptions':{key:('t3-test' if key=='t3_candidate' else {}) for key in contract.ASSUMPTION_KEYS},
+                     'assumptions':{key:('t3-test' if key=='t3_candidate' else
+                                         'detailed-page3-4' if key=='contrast_topology' else {})
+                                    for key in contract.ASSUMPTION_KEYS},
                      'trims':contract.trim_record_template(),
                      'targets':{'eht_v':11500,'horizontal_retrace_us':16,
                                 'picture_width_mm':210,'picture_height_mm':145}}
@@ -90,6 +92,39 @@ class PhaseAGateTests(unittest.TestCase):
                                       'logical_capture_sha256':'d'*64,
                                       'one_global_affine_fit':True,'fit_applied_to_render':False,
                                       'correlation':.8}}
+
+    def test_native_contrast_wiring_must_match_grid_freeze(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            trial=Path(temporary)
+            deck=trial/'run.cir'
+            detailed=('D205 clamp_i intens 1AD50_BOUND\n'
+                      'Rcontrast reference9 contrast_low {contrast_r*contrast_position}\n'
+                      'Q201 intens base_i 0 SC60A_CLASS_N\n'
+                      'Q202 p35 v1_base contrast_low SC60A_CLASS_N\n'
+                      'R213 contrast_low 0 5100.0\n')
+            deck.write_text(detailed)
+            score={'input':str(trial/'trace.raw')}
+            metadata={'contrast_topology':'detailed-page3-4','equivalent_stages':[],
+                      'experiment':{'deck_sha256':hashlib.sha256(deck.read_bytes()).hexdigest()}}
+            self.assertTrue(phase_a_gates.verify_native_contrast_topology(
+                score,metadata,self.freeze))
+            wrong=copy.deepcopy(metadata)
+            wrong['contrast_topology']='manual-fig6-equivalent'
+            with self.assertRaisesRegex(ValueError,'differs from calibration freeze'):
+                phase_a_gates.verify_native_contrast_topology(score,wrong,self.freeze)
+            manual=(detailed.replace('Q201 intens base_i 0', 'Q201 contrast_low base_i 0')
+                    .replace('Q202 p35 v1_base contrast_low', 'Q202 p35 v1_base intens')
+                    .replace('R213 contrast_low 0', 'R213 intens 0'))
+            deck.write_text(manual)
+            metadata={'contrast_topology':'manual-fig6-equivalent',
+                      'equivalent_stages':['manual-fig6-contrast-control'],
+                      'experiment':{'deck_sha256':hashlib.sha256(deck.read_bytes()).hexdigest()}}
+            with self.assertRaisesRegex(ValueError,'differs from calibration freeze'):
+                phase_a_gates.verify_native_contrast_topology(score,metadata,self.freeze)
+            frozen=copy.deepcopy(self.freeze)
+            frozen['assumptions']['contrast_topology']='manual-fig6-equivalent'
+            self.assertTrue(phase_a_gates.verify_native_contrast_topology(
+                score,metadata,frozen))
 
     def test_all_eight_gates_are_blocking(self):
         result=phase_a_gates.evaluate(self.evidence,self.score,self.freeze)

@@ -463,6 +463,15 @@ zero R2 span, while the manual terminal swap gives 13.375–16.329 V and a
 still a conditional DC result with EHT approximately zero; both topologies
 retain a 33.671 V dark cathode. It does not qualify a sustained frame, tube
 emission or the factory terminal map.
+The conditional wiring is now available in the connected runner as
+`--contrast-topology manual-fig6-equivalent`; the detailed page-3/4 wiring
+remains the default. The deck, run report and grid calibration freeze name
+and bind this equivalent, so it cannot silently replace the source export or
+change between calibration and native rendering. A [native-input 200 µs
+startup screen](reference/k7222-11/page3-4-connected-contrast-transient.json)
+reaches its stop time with tighter KLU settings, while the default sparse
+solve aborts at 1 ns. This qualifies only bounded solver startup, not a
+periodic connected A3 score or the factory topology.
 The short contrast bench shows effectively no cathode or provisional beam
 change across R2's range. The fixed-logic diagnostic shows V1 current changes,
 but the modeled IS output stays low and the neck cathode does not respond to R2.
