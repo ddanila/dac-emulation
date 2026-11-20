@@ -2170,6 +2170,10 @@
       "reason": "heater, emission and tube thermal/electrode bounds are engineering assumptions without B31G22 sources; the RFT B30G1 heater comparator is incompatible with the assembled 12 V/R22 branch and is excluded"
     },
     {
+      "file": "reference/k7222-11/page16-meter-cable-source-read.json",
+      "reason": "the page-16 measuring-cable inset has a series capacitor and shunt elements with no values; its dynamic transfer and digital-voltmeter loading are not bounded, so the 0.1/3.6 mV service readings cannot be scored against direct X3 DC voltage"
+    },
+    {
       "file": "reference/k7222-11/t3-initial-parameters.json",
       "reason": "T3 turns and parasitics still carry assumed-bound, not sourced class-typical or design-derived evidence"
     },

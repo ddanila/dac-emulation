@@ -1,0 +1,33 @@
+{
+  "format": "dac-monitor-page16-meter-cable-source-read-v1",
+  "status": "partial A1 source-observation check; meter transfer and CRT response unqualified",
+  "source_views": [
+    {"file": "older.pdf", "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd", "page": 16, "render": "300 dpi full page", "render_sha256": "e12eb0c6ada130c8db3c8888204bf48bface025cbf537b9c2dea3d82ff8e45d8"},
+    {"file": "older.pdf", "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd", "page": 16, "render": "600 dpi measuring-cable inset crop 1800x850+4950+0", "render_sha256": "69b95c070795a80cd31fcac057c19887141e0734c550bfdcb8d0400bf88d2fd9"}
+  ],
+  "inset_topology": {
+    "left_branch": "unvalued shunt element from left upper to left lower terminal",
+    "series_path": "unvalued capacitor from left upper to right upper terminal",
+    "right_branch": "unvalued shunt element from right upper to right lower terminal",
+    "lower_terminal_connection": "not drawn inside the inset",
+    "part_assignment": "The inset does not identify values or prove which elements belong to the cable, board or voltmeter."
+  },
+  "source_observations": {
+    "page16_note": "0.1 mV dark; 3.6 mV bright, next to the measuring-cable inset",
+    "manual_page30": "Digital voltmeter through cable 1.11.017154.0 at neck X3: at first visible traces, rise <=0.1 mV above the dark reading; after the specified full-bright setup, adjust R4 on board 012-6921 to 3.6 mV.",
+    "manual_source": "reference/k7222-11/service-observations.json"
+  },
+  "neck_board": {
+    "source": "reference/k7222-11/page16-neck-source-netlist.json",
+    "meter_pins": ["X3:1", "X3:2"],
+    "across": "012-6891:R4, documented 390 ohm +/-2%",
+    "direct_x3_difference_in_existing_fixed_20ua_bench_mv": {"dark_video": 7.8, "bright_video": 7.8},
+    "comparison_limit": "The bench reads the direct DC X3 difference, whereas the service voltmeter uses the incompletely specified measuring-cable arrangement and a prescribed grid/trim sequence. Direct 7.8 mV is not a service-meter prediction."
+  },
+  "electrical_inference": "An ideal series capacitor has zero DC conductance. The inset therefore cannot justify identifying the service meter's DC reading with the bare X3 voltage; dynamic coupling and meter loading need bounds.",
+  "remaining": [
+    "Bound the measuring-cable capacitor, shunt elements and voltmeter input or find the original cable specification.",
+    "Run the connected native grid and manual brightness/contrast/R28/R4 sequence with a qualified tube-emission response.",
+    "Compare the modeled meter output, including its response window, with the 0.1 mV rise and 3.6 mV full-bright observations."
+  ]
+}
