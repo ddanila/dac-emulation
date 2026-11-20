@@ -35,7 +35,7 @@
     "trajectory.py": "713713d2d4ecee9c82a702deda7c362d63b2b3c55d3c91e7a685ed4153c36c4c",
     "yoke_geometry.py": "29cc799c4516b5ba764c7f9388658db299fe1cbfe4aeb3833b67eb1a662fbb50",
     "yoke_axial_geometry_screen.py": "2ef1f2e760e69696424cd02002b680ba4473b391573241a7843af6142b7494d4",
-    "yoke_joint_geometry_screen.py": "0adb6b5b56a62d1129eb95856e63678dde1e1c58706f25b9ea712e27edfd3cc2"
+    "yoke_joint_geometry_screen.py": "c223aad2e95437242edf850f1e891fd86ea96b49b658a74f1ecfd3980d32d82c"
   },
   "assumptions": {
     "common_axial_field_for_both_axes": true,
@@ -76,6 +76,29 @@
       0.7323076923076922
     ]
   },
+  "conditional_own_winding_current_proxies_app": {
+    "AT1077/05": {
+      "horizontal": [
+        1.9500592200585802,
+        2.7250972762645915
+      ],
+      "vertical": [
+        0.29408969326582185,
+        0.4178461538461538
+      ]
+    },
+    "AT1077/06": {
+      "horizontal": [
+        1.9500592200585802,
+        2.7250972762645915
+      ],
+      "vertical": [
+        0.1455289203789634,
+        0.20676923076923076
+      ]
+    }
+  },
+  "own_winding_proxy_assumption": "Transfer AT1077/05 257 x 195 mm reference scan and +/-5% tolerance to /06; a sensitivity comparison, not a /06 data-sheet limit or AE9VT specification",
   "cases": [
     {
       "reference_yoke": "AT1077/05",
@@ -89,7 +112,10 @@
       "vertical_peak_current_a": 0.5150883735716346,
       "vertical_current_pp_a": 1.0301767471432692,
       "vertical_in_class_proxy": false,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/05",
@@ -103,7 +129,10 @@
       "vertical_peak_current_a": 0.46747489199042347,
       "vertical_current_pp_a": 0.9349497839808469,
       "vertical_in_class_proxy": false,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/05",
@@ -117,7 +146,10 @@
       "vertical_peak_current_a": 0.44909343138337166,
       "vertical_current_pp_a": 0.8981868627667433,
       "vertical_in_class_proxy": false,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/05",
@@ -131,7 +163,10 @@
       "vertical_peak_current_a": 0.5007925279438499,
       "vertical_current_pp_a": 1.0015850558876997,
       "vertical_in_class_proxy": false,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/05",
@@ -145,7 +180,10 @@
       "vertical_peak_current_a": 0.45434368059039143,
       "vertical_current_pp_a": 0.9086873611807829,
       "vertical_in_class_proxy": false,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/05",
@@ -159,7 +197,10 @@
       "vertical_peak_current_a": 0.436401924043894,
       "vertical_current_pp_a": 0.872803848087788,
       "vertical_in_class_proxy": false,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/05",
@@ -173,7 +214,10 @@
       "vertical_peak_current_a": 0.4618484072387221,
       "vertical_current_pp_a": 0.9236968144774442,
       "vertical_in_class_proxy": false,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/05",
@@ -187,7 +231,10 @@
       "vertical_peak_current_a": 0.4186047001183035,
       "vertical_current_pp_a": 0.837209400236607,
       "vertical_in_class_proxy": false,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/05",
@@ -201,7 +248,10 @@
       "vertical_peak_current_a": 0.40187557682395003,
       "vertical_current_pp_a": 0.8037511536479001,
       "vertical_in_class_proxy": false,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/06",
@@ -215,7 +265,10 @@
       "vertical_peak_current_a": 0.2573952312767506,
       "vertical_current_pp_a": 0.5147904625535012,
       "vertical_in_class_proxy": true,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/06",
@@ -229,7 +282,10 @@
       "vertical_peak_current_a": 0.2337374459207059,
       "vertical_current_pp_a": 0.4674748918414118,
       "vertical_in_class_proxy": true,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/06",
@@ -243,7 +299,10 @@
       "vertical_peak_current_a": 0.2245467157661916,
       "vertical_current_pp_a": 0.4490934315323832,
       "vertical_in_class_proxy": true,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/06",
@@ -257,7 +316,10 @@
       "vertical_peak_current_a": 0.2502514423429967,
       "vertical_current_pp_a": 0.5005028846859934,
       "vertical_in_class_proxy": true,
-      "joint_proxy_match": true
+      "joint_proxy_match": true,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/06",
@@ -271,7 +333,10 @@
       "vertical_peak_current_a": 0.22717184022068984,
       "vertical_current_pp_a": 0.4543436804413797,
       "vertical_in_class_proxy": true,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/06",
@@ -285,7 +350,10 @@
       "vertical_peak_current_a": 0.21820096209645276,
       "vertical_current_pp_a": 0.4364019241929055,
       "vertical_in_class_proxy": true,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/06",
@@ -299,7 +367,10 @@
       "vertical_peak_current_a": 0.2307906441390515,
       "vertical_current_pp_a": 0.461581288278103,
       "vertical_in_class_proxy": true,
-      "joint_proxy_match": true
+      "joint_proxy_match": true,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/06",
@@ -313,7 +384,10 @@
       "vertical_peak_current_a": 0.2093023501336575,
       "vertical_current_pp_a": 0.418604700267315,
       "vertical_in_class_proxy": true,
-      "joint_proxy_match": true
+      "joint_proxy_match": true,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     },
     {
       "reference_yoke": "AT1077/06",
@@ -327,11 +401,15 @@
       "vertical_peak_current_a": 0.20093778833746914,
       "vertical_current_pp_a": 0.4018755766749383,
       "vertical_in_class_proxy": true,
-      "joint_proxy_match": false
+      "joint_proxy_match": false,
+      "horizontal_in_own_winding_proxy": false,
+      "vertical_in_own_winding_proxy": false,
+      "joint_own_winding_proxy_match": false
     }
   ],
   "joint_proxy_matches": 3,
-  "interpretation": "At 235 mm path, 9 mm inner radius and 20 mm common field, horizontal full width needs about 5.71 A peak-to-peak inside the 90-degree proxy. The AT1077/05 18 mH/10 ohm field winding needs about 1.00 A peak-to-peak above its 0.73 A family proxy, while the AT1077/06 72 mH/40 ohm variant needs about 0.50 A and gives a conditional joint match. These class variants are not AE9VT; they demonstrate that field winding choice changes whether a common-field fallback is feasible.",
+  "joint_own_winding_proxy_matches": 0,
+  "interpretation": "At 235 mm path, 9 mm inner radius and 20 mm common field, horizontal full width needs about 5.71 A peak-to-peak. The AT1077/06 72 mH/40 ohm field winding needs about 0.50 A peak-to-peak. This is within the broad family current envelope but both currents exceed the /06-specific transferred bounds. None of the sampled geometries matches both axes against its own reference winding. No catalog yoke or current is qualified as AE9VT.",
   "unresolved": [
     "An AE9VT winding and axis-specific axial field profile are not sourced",
     "The installed B31G22 gun location and inner neck radius remain unknown",
