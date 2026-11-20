@@ -395,39 +395,30 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-20)
 
-**Goal blocked reason (2026-11-20): Phase A cannot be marked complete because
-A5 has neither an original-graph-verified nor a fallback-qualified T3 design
-point, and there is no sustained connected operating point to freeze. Only A4
-meets its done condition.** The .11 scans do not settle T3's return, tap order or HV
-cold end. Earlier [overwind](reference/k7222-11/t3-source-overwind-sweep.json)
-and [return](reference/k7222-11/t3-loaded-return-screen.json) screens fail
-the TP17/EHT or refinement checks, and two connected native-grid attempts
-time out with irregular pulses. The newer [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json)
-meets TP17/EHT, final-two-line periodicity and solver budget at 50/25 ns
-with a prescribed 200 ns base-drive edge. Its return graph, losses and drive
-edge are unqualified. A [labelled connected attempt](reference/k7222-11/t3-connected-ac-loss-39ms-diagnostic.json)
-holds TP17 near 77–78 Vpp but EHT below 11 kV, then aborts at the 39 ms
-field boundary with Q201 named by the solver. Four bounded
-[boundary variants](reference/k7222-11/t3-field-boundary-screen.json)
-also abort there. The [isolated input/contrast path](reference/k7222-11/t3-input-boundary-isolation.json)
-crosses 39 ms. A [connected loading screen](reference/k7222-11/t3-horizontal-boundary-isolation.json)
-finds sensitivity to the conditional Q201 branch: a resistor substitute
-crosses 39 ms, but BJT models with zero CJC or zero dynamic terms still stop.
-BC capacitance is not established as the cause. The source connection and
-model remain unqualified. An [extended Q201-off diagnostic](reference/k7222-11/t3-q201-off-four-fields.json)
-completes 78 ms, but EHT falls to about 10.45 kV and the flyback count drifts;
-V18's base reaches −19.19 V against a 9 V reverse-bias class comparator;
-no sustained connected field has been scored.
-Freezing T3 or scoring A3 from that stage alone would be unsupported. A1's
-source review, A2's device qualification and A6's class-typical bounds also
-remain incomplete, as itemized below; resolving A5 alone would not close
-Phase A.
+**Goal blocked reason (2026-11-20): Phase A cannot be marked complete. A5
+has no source-verified T3 graph or qualified bounded equivalent; A1, A2, A3
+and A6 also have unmet conditions below. Only A4 is done.** The .11 scans
+leave T3's return, tap order and high-voltage cold end unresolved. The
+[conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json)
+meets TP17/EHT, final-two-line periodicity and the solver budget at 50/25 ns,
+but its return graph, loss and prescribed 200 ns base-drive edge are
+unqualified. The [connected Q201-retaining run](reference/k7222-11/t3-connected-ac-loss-39ms-diagnostic.json)
+aborts at the 39 ms field boundary; the [one-factor screen](reference/k7222-11/t3-horizontal-boundary-isolation.json)
+shows sensitivity to the Q201 branch without establishing its cause. The
+[Q201-off diagnostic](reference/k7222-11/t3-q201-off-four-fields.json) reaches
+78 ms only after removing a printed transistor. Its EHT falls to about
+10.45 kV, flyback count drifts, and V18's base reaches −19.19 V against a
+9 V reverse-bias class comparator. Neither run establishes a sustained,
+source-circuit operating point. Freezing T3 or scoring A3 from these runs
+would be unsupported.
 
-The authorized path is to carry the unresolved graph as labelled
-alternatives, bound the losses and drive, then qualify a connected periodic
-field. A1, A2 and A6 have separate unfinished conditions below. This is a
-work/evidence blocker, not a request for a human measurement or approval;
-run receipts are in [phase-a-evidence.md](phase-a-evidence.md).
+To unblock A5, carry the unreadable graph as labelled bounded alternatives,
+qualify the loss, source T2/L4 drive and V18 stress, then qualify Q201 or the
+smallest labelled input-stage equivalent and demonstrate periodic connected
+fields. The other open items still need their own closeout. This is an
+evidence and implementation blocker under the no-human fallback rule, not a
+request for a measurement or approval; the detailed receipts are in
+[phase-a-evidence.md](phase-a-evidence.md).
 
 **Keep this section short.** It holds one row per item: what is still unmet
 and the next step. Results, numbers and source reads go in
