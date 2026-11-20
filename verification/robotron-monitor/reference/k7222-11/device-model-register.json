@@ -19,6 +19,8 @@
       "pages": [2, 3, 5, 6],
       "use": "Comparable silicon signal diode class: VR and VRRM 100 V, VF <=1 V at IF=10 mA, IR <=25 nA at VR=20 V, Cd <=4 pF at 0 V/1 MHz, trr <=4 ns at IF=10 mA/IR=60 mA/RL=100 ohm. Not an identification of 1AE15 or 1AD50."
     },
+    "diodesinc_1n4148w_spice": {"url": "https://www.diodes.com/spice/download/1589/1N4148W.spice.txt", "sha256": "eac112ab3b235eb9f54916f7f9d793ba15091a1fb6988e4eef5652aad393437a", "use": "Manufacturer SPICE model gives M=0.333 for a comparable 1N4148W signal diode; not a factory 1AE15 identification or a bound on other parameters."},
+    "ngspice_manual_diode": {"url": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf", "use": "Diode model parameter definitions and simulator defaults; nominal defaults are made explicit in the active model, while spread bounds remain engineering assumptions."},
     "nexperia_bzx84_c5v1": {
       "url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf",
       "revision": "Rev. 7, 1 January 2023",
@@ -237,7 +239,7 @@
       "model": "VERTICAL_DIODE",
       "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
       "member_ids": ["012-6931:V12", "012-6931:V14", "012-6931:V16", "012-6931:V17", "012-6931:V19", "012-6931:V20", "012-6931:V21", "012-6931:V23", "012-6931:V24", "012-6931:V25"],
-      "sources": ["nexperia_1n4148"],
+      "sources": ["nexperia_1n4148", "diodesinc_1n4148w_spice", "ngspice_manual_diode"],
       "parameters": {
         "IS": {"nominal": 2e-9, "bounds": [1e-12, 2.5e-8], "unit": "A", "basis": "SPICE reverse-current proxy; comparator IR <=25 nA at VR=20 V/25 C, not a direct IS specification"},
         "RS": {"nominal": 2, "bounds": [0.1, 10], "unit": "ohm", "basis": "bounded series-resistance proxy; comparator VF <=1 V at IF=10 mA, no unique RS fit"},
@@ -245,7 +247,12 @@
         "CJO": {"nominal": 2e-12, "bounds": [5e-13, 4e-12], "unit": "F", "basis": "comparator zero-bias Cd <=4 pF; SPICE CJO is a zero-bias proxy"},
         "TT": {"nominal": 5e-9, "bounds": [5e-10, 1e-8], "unit": "s", "basis": "provisional transit-time proxy around comparator trr <=4 ns; TT is not measured reverse recovery"},
         "BV": {"nominal": 100, "bounds": [100, 150], "unit": "V", "basis": "explicit model breakdown from comparable 100 V reverse rating plus unverified breakdown margin"},
-        "IBV": {"nominal": 1e-4, "bounds": [1e-6, 1e-3], "unit": "A", "basis": "explicit assumed breakdown knee; comparator data sheet does not specify a SPICE IBV"}
+        "IBV": {"nominal": 1e-4, "bounds": [1e-6, 1e-3], "unit": "A", "basis": "explicit assumed breakdown knee; comparator data sheet does not specify a SPICE IBV"},
+        "VJ": {"nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "explicit ngspice default junction potential; provisional engineering spread, not a measured 1AE15 range"},
+        "M": {"nominal": 0.5, "bounds": [0.333, 0.5], "unit": "1", "basis": "explicit ngspice default grading coefficient; lower endpoint from Diodes Incorporated 1N4148W SPICE comparator, not an original 1AE15 limit"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "explicit ngspice default forward-bias depletion-capacitance coefficient; provisional engineering spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "explicit ngspice silicon default activation energy; provisional temperature-law spread, not a measured 1AE15 range"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "explicit ngspice default saturation-current temperature exponent; provisional temperature-law spread"}
       },
       "comparison_targets": {
         "VF_v": {"maximum": 1, "conditions": "IF=10 mA, Tj=25 C"},

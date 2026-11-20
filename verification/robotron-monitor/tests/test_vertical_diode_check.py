@@ -28,7 +28,7 @@ class VerticalDiodeCheckTests(unittest.TestCase):
                          current_hash(ROOT/'circuits/k7222-11-vertical-output.kicad_sch'))
         self.assertEqual(saved['stage_source_hashes']['bench'],
                          current_hash(ROOT/'circuits/k7222-11-vertical-output-bench.cir'))
-        self.assertEqual(len(saved['cases']), 14)
+        self.assertEqual(len(saved['cases']), 24)
         self.assertEqual(len(saved['member_ids']), 10)
 
 
