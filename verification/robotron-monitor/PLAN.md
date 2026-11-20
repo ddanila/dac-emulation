@@ -408,8 +408,12 @@ Phase C (speed) waits for B8.
 
 **Tracked goal blocked reason:** Phase A is not fully implemented: only A4
 meets its done condition. A1 still lacks independent pin-to-pin source closure,
-including T3's return/tap graph; without that graph, A5 cannot qualify the
-winding design point. A2's 64 device rows are provisional, A3 has no sustained
+including T3's return/tap graph and a qualified page-18 contrast/service-meter
+response. The short contrast bench changes its cathode waveform by 0.14% of
+the nominal swing and its provisional held-warm beam current by 0.38% of peak
+across the control range; this does not qualify the original tube or the
+manual's measurement path. Without the T3 graph, A5 cannot qualify the winding
+design point. A2's 64 device rows are provisional, A3 has no sustained
 connected native-grid waveform score, and A6's 207 class-typical entries remain
 partial. The conditional simulations and source checks below narrow these
 gaps but do not satisfy the PLAN's completion criteria. Finish and verify the
@@ -483,7 +487,7 @@ labelled as such. The remaining done-condition gaps are:
 
 | Item | Evidence still needed for completion |
 | --- | --- |
-| A1 | The page-16 neck-board pin list and static checks now close that schematic review; the separate unvalued measuring-cable inset still needs a bounded transfer and qualified tube response before its service observations can be checked. Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed local branches, page-4 C27 collector return, page-4 V21/R29–R32 external divider and page-9 centring bridge, including transistor C/E polarity, L1's ambiguous hot-line crossing and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle. Page 18 has four classified model-scope gaps, and its powered input/neck contrast check changes the cathode by only 0.14% of its swing across the control range; re-read that path and resolve the failed functional response. C30 placement/population and the installed E1–E4 pair are not identified. |
+| A1 | The page-16 neck-board pin list and static checks now close that schematic review; the separate unvalued measuring-cable inset still needs a bounded transfer and qualified tube response before its service observations can be checked. Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed local branches, page-4 C27 collector return, page-4 V21/R29–R32 external divider and page-9 centring bridge, including transistor C/E polarity, L1's ambiguous hot-line crossing and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle. Page 18 has four classified model-scope gaps. Its short input/neck contrast check changes the cathode by 0.14% of its swing and the provisional held-warm beam current by 0.38% of peak; re-read that path and qualify the tube/service-meter response before deciding whether the control function passes. C30 placement/population and the installed E1–E4 pair are not identified. |
 | A2 | Qualify every frame-path device model and its bounds. All 64 instances have provisional register rows, including T3, but none closes every parameter check. V21 has explicit bounds for all seven SPICE diode parameters, passes bounded Rectron/Semtech class fixtures, and has a 14-case one-at-a-time connected-stage sensitivity sweep. The slow TT endpoint moves final EHT by 4.4%; nominal late-window reverse voltage reaches 11.92 kV, near the 12 kV comparator rating. V21 identity, joint corners and sustained stage stress remain open. The two cross-revision ÜHA78 winding reports challenge T3's active 1,000-turn hypothesis without proving the K7222.11 construction; its other turns, parasitics and connected sensitivity remain unqualified. Original values and connected sensitivity also remain open for the page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes. |
 | A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check passes in the synthetic-sync loaded bench; a dual-node probe shows the separate 10 V arrow remains sensitive to reset masking and node attribution. The prescribed-V13 T2/L4 loaded-stage sweep misses TP15 and EHT in all 24 cases across both T2 polarities after a bounded solver retry. Score connected stages with stable feature definitions, the required loaded probes, native grid stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. The loaded T2/L4 sweep does not establish a periodic EHT or identify the factory T3 winding. Optional C30 population changes the inferred 16 µs effective resonance inductance from 2.36 to 2.59 mH and loaded final EHT by 2.49–2.53% in the refreshed V21 model; its source population is still unverified. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
@@ -746,8 +750,10 @@ rheostat between the board R4 left/wiper node and V1 emitter. All six main-board
 X1 physical pins match a fresh KiCad export. The remaining four gaps are the
 excluded vertical-board converter 41P/SYNCH paths, an external INTENS drive
 and the held-thermal-state 10.7P heater branch. A short powered input/neck
-bench now measures less than 0.14% cathode-waveform change across the contrast
-control's declared range, so its functional response is unresolved;
+bench measures 0.14% cathode-waveform change and a provisional held-warm CRT
+proxy measures 0.38% maximum beam-current change relative to its peak across
+the contrast control's declared range. Neither is a qualified service-meter
+or sustained native-grid response, so its function remains unresolved;
 A1 page 18 therefore stays open.
 An independent page-16 neck-board read now matches all 39 component pins and
 six diode directions in a fresh KiCad export. Three audit-only connector

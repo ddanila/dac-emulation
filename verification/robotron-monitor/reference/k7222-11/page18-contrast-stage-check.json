@@ -1,13 +1,26 @@
 {
-  "format": "dac-monitor-page18-contrast-stage-check-v1",
-  "qualification": "source-addressed input/neck stage with ideal 5/12/35/41 V rails and bounded synthetic highlight stimulus; not a complete page-3/4 netlist, calibrated contrast, native grid or sustained monitor score",
+  "format": "dac-monitor-page18-contrast-stage-check-v2",
+  "qualification": "source-addressed input/neck stage with ideal 5/12/35/41 V rails and bounded synthetic highlight stimulus; fixed-beam and provisional held-warm CRT responses, not a complete page-3/4 netlist, calibrated contrast, native grid or sustained monitor score",
   "input_sha256": "746189f3e092e1eaa0b56507bd5548f7a12d7801dd0adc2df2bc546ee37af3e9",
   "input_qualification": "synthetic-test-pattern",
   "signal_path_sha256": "27765c639c128c635571b4b45d8db2cf3d78b6e6e4f3427a15970d9bdddb560f",
+  "electrothermal_sha256": "e6d27a690b7d0b668bb91e410ec72056af9f916a6bbce28d5b146926334b0f32",
+  "steady_supply_sha256": "f58188cdcbfc840db706d2a58cc3b127be6bf5568d571f552a5a460238ab307e",
   "stimulus": {
     "duration_s": 0.0002,
     "step_s": 5e-09,
     "reason": "highlight pattern toggles both video and intensity in the retained window"
+  },
+  "held_warm_tube": {
+    "thermal_rise_k": [
+      893.9780984698904,
+      669.1359489252557
+    ],
+    "heater_power_w": 0.7406776655693832,
+    "anode_v": 11500,
+    "g1_v": -25,
+    "g2_v": 350,
+    "qualification": "provisional class-typical emission model and fixed ideal electrode supplies"
   },
   "rows": [
     {
@@ -45,6 +58,11 @@
         "period_s": 6.481473729435469e-05,
         "high_width_s": 1.8524036526676324e-05,
         "rise_10_90_s": 2.6702796614500035e-08
+      },
+      "conditional_held_warm_beam_ua": {
+        "minimum": 0.0,
+        "maximum": 28.98578362717802,
+        "mean": 20.869749333708544
       },
       "deck_sha256": "771081a5e8f372c09bea01c2adf993c9582867062f5b69a65d0ae9174fe8c2c3"
     },
@@ -84,6 +102,11 @@
         "high_width_s": 1.852401469485654e-05,
         "rise_10_90_s": 2.6695320833289055e-08
       },
+      "conditional_held_warm_beam_ua": {
+        "minimum": 0.0,
+        "maximum": 28.98578362648,
+        "mean": 20.869759197490552
+      },
       "deck_sha256": "b0eec9d7d5a2994f74623f609a86daef832209b1bc84e5dd5079c50f7346807b"
     },
     {
@@ -122,15 +145,22 @@
         "high_width_s": 1.8524017014649103e-05,
         "rise_10_90_s": 2.669656207171078e-08
       },
+      "conditional_held_warm_beam_ua": {
+        "minimum": 0.0,
+        "maximum": 28.98578362665926,
+        "mean": 20.86975958620565
+      },
       "deck_sha256": "a4913e65d149f74394896ea7d47f87cf6cf9e2bc19d7d6c3968fd22b75c7e0ca"
     }
   ],
   "sample_count": 40001,
   "low_high_cathode_max_absolute_difference_v": 0.046415980701567605,
   "low_high_cathode_relative_to_mid_swing": 0.0013915782408924094,
-  "functional_result": "contrast control has negligible cathode effect in this bounded stage; do not close page-18 functional review",
+  "low_high_beam_max_absolute_difference_ua": 0.11035715148318559,
+  "low_high_beam_relative_to_mid_peak": 0.003807285423271037,
+  "functional_result": "provisional tube response only; page-18 contrast function and service-meter targets remain unqualified",
   "remaining": [
-    "Re-read page-3/4 R4/V1/V3/intensity connectivity and test the corrected stage against the manual bright/dark cathode procedure",
-    "Qualify the 35 V feed, tube emission and native-grid connected operating point"
+    "Re-read page-3/4 R4/V1/V3/intensity connectivity against the independent source netlist",
+    "Qualify the tube emission and 35 V feed, then run the full-bright service-meter and native-grid procedure"
   ]
 }
