@@ -1,0 +1,87 @@
+{
+  "format": "dac-monitor-t3-tp17-path-sweep-v1",
+  "qualification": "prescribed-drive 4\u20135 ms stage diagnostic only; no native-grid waveform score or physical C18 ESR claim",
+  "source_hashes": {
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/t3-initial-parameters.json": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
+    "reference/k7222-11/service-observations.json": "4268a1b1f5f3eb5ae6721476cfc5f0a22e73528e992183bebd69a3260e0927a9",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_tp17_path_sweep.py": "3ca0b0d700ab4e77d41c3b151d2d030335d655fa6bf21c4cb28a759c82d3a28b"
+  },
+  "ngspice_sha256": "3e14f93f378ffcb37ec55e797b3da6099ce9ee6293a4fe7f203619299a5f9da9",
+  "candidate_id": "t3-fc941ad61c50ce31",
+  "source_path_parts": [
+    "012-6921:C18",
+    "012-6921:V14",
+    "012-6921:R28"
+  ],
+  "manual_tp17_swing_vpp": 80,
+  "manual_tp17_guideline_range_vpp": [
+    64,
+    96
+  ],
+  "c18_esr_status": "deliberate numerical sensitivity assumption, not a sourced capacitor specification",
+  "cases": [
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 2.5,
+      "c18_series_resistance_ohm": 0,
+      "normalized_deck_sha256": "6e4714b1331348d3cb4b4eeea767e34a58ab5764e85d2c54bcf75665e9d761c0",
+      "status": "aborted",
+      "timestep_too_small": true
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 2.5,
+      "c18_series_resistance_ohm": 1,
+      "normalized_deck_sha256": "709ef5d47ce0531674833aaff76512b75f8733fdfa11e753df5843954d997af1",
+      "status": "aborted",
+      "timestep_too_small": true
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 2.5,
+      "c18_series_resistance_ohm": 10,
+      "normalized_deck_sha256": "12bde4d5a0c04b61e690201b74abfcd74db4a852d16f793e01a34195c85471fd",
+      "status": "complete",
+      "result": {
+        "sample_count": 51757,
+        "sample_window_s": [
+          0.00400000241,
+          0.005
+        ],
+        "collector_peak_v": 542.857132,
+        "collector_min_v": -1.23015972,
+        "eht_peak_v": 12897.7412,
+        "eht_final_v": 12833.3999,
+        "eht_same_phase_drift_v_over_16_lines": -64.34130000000005,
+        "feedback_swing_v": 67.6759198,
+        "sync_swing_v": 24.93569595,
+        "yoke_current_range_a": [
+          -0.567014169,
+          0.572300581
+        ],
+        "boost_range_v": [
+          65.2295158,
+          65.4679448
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.877874391627227
+      }
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 5,
+      "c18_series_resistance_ohm": 10,
+      "normalized_deck_sha256": "d037b68f75daf820e9e61139adc806969d3397768b875e678aba3dac50801421",
+      "status": "aborted",
+      "timestep_too_small": true
+    },
+    {
+      "auxiliary_x2_5_to_x2_6_turns": 10,
+      "c18_series_resistance_ohm": 10,
+      "normalized_deck_sha256": "1369345cb50c1411d652454f15967e8fac00e3af73ffc3b3a0cfa67f72c70988",
+      "status": "aborted",
+      "timestep_too_small": true
+    }
+  ],
+  "interpretation_limit": "A failed 5 ms solve cannot establish a turns-ratio limit, and a completed prescribed-drive solve cannot qualify sustained native-grid operation."
+}
