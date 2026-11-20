@@ -4,8 +4,8 @@
   "source_read_sha256": "3339b047d8b26dcc3747e295676c3077e5a909364aac86c410bc11e2841b1223",
   "interconnect_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
   "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
-  "model_sha256": "e2e0cf9d36e0cbd6c25d0f7cfd7878b8a724661469419cae9a43d9711ce0cebc",
-  "sheet_sha256": "8620eca857f8269ad604aefcc0948e98b39a266f20d825fc9377030d0c84ce35",
+  "model_sha256": "4cf72dbd3974d23c12590301c409eaeb9e13f8ed8dda598fc0b948bd8bd0a293",
+  "sheet_sha256": "5679f1f4c55efde1027bcfe7e98916c7aaef2085102c223170a649d74947cf67",
   "source_r1_terminals": {
     "E": "35P",
     "S": "HRS",
@@ -51,19 +51,19 @@
     {
       "element": "Rbrightness_top",
       "from_node": "p35",
-      "to_node": "collector_i",
+      "to_node": "v1_base",
       "resistance": "5000"
     },
     {
       "element": "Rbrightness_bottom",
-      "from_node": "collector_i",
+      "from_node": "v1_base",
       "to_node": "contrast_adjust",
       "resistance": "5000"
     }
   ],
   "brightness_terminal_nodes": {
     "E_35P": "p35",
-    "S_HRS": "collector_i",
+    "S_HRS": "v1_base",
     "A_HRA": "contrast_adjust"
   },
   "brightness_topology_matches": true,

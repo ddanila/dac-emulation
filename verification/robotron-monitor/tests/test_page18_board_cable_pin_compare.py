@@ -21,8 +21,8 @@ class Page18BoardCablePinCompareTests(unittest.TestCase):
         self.assertTrue(report['passed'])
         self.assertEqual(report['cable_pairs_checked'], 18)
         self.assertEqual(report['labelled_connector_pins_checked'], 36)
-        self.assertEqual(report['functional_board_nets_both_present'], 14)
-        self.assertEqual(len(report['functional_model_scope_gaps']), 4)
+        self.assertEqual(report['functional_board_nets_both_present'], 15)
+        self.assertEqual(len(report['functional_model_scope_gaps']), 3)
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory)/'assembly'
             model = steady_supply.assemble(output)

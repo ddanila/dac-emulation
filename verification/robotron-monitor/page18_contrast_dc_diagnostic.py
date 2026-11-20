@@ -15,11 +15,11 @@ import tempfile
 import signal_path
 
 ROOT = Path(__file__).resolve().parent
-INTENS_READ = ROOT/'reference/k7222-11/page3-4-intens-passthrough-source-read.json'
+INTENS_SEAM = ROOT/'reference/k7222-11/page3-4-intens-seam-source-read.json'
 CONTRAST_POSITIONS = (.05, .95)
 STATES = ((0, 0), (0, 1), (1, 0), (1, 1))
 FEED_RESISTANCES = (0, 100)
-PROBES = ('p35', 'reference9', 'collector_i', 'contrast_low', 'rx_intens',
+PROBES = ('p35', 'reference9', 'v1_base', 'contrast_low', 'rx_intens',
           'intens', 'vid', 'clamp_i', 'cathode')
 
 
@@ -69,16 +69,22 @@ def operating_point(deck, folder, position, video, intensity, feed_resistance):
 
 def run(capture_path):
     capture_path = Path(capture_path)
-    passthrough = json.loads(INTENS_READ.read_text())['model_nodes']['ideal_passthrough_element']
+    source = json.loads(INTENS_SEAM.read_text())['model_correction']
+    if (source['V5_collector_and_V3_cathode'],
+            source['V1_base_and_brightness_R1_wiper'],
+            source['input_INTENS'], source['direct_input_to_neck_passthrough']) != (
+            'intens', 'v1_base', 'rx_intens', False):
+        raise ValueError('intensity seam source read differs from DC fixture')
     with tempfile.TemporaryDirectory() as directory:
         folder = Path(directory)
         baseline = folder/'baseline'
         signal_path.run(capture_path, baseline, duration=1e-5, step=5e-9)
         deck = (baseline/'run.cir').read_text()
-        if ('Q202 p35 collector_i contrast_low ' not in deck or
+        if ('Q201 intens base_i mreturn ' not in deck or
+                'D205 clamp_i intens ' not in deck or
+                'Q202 p35 v1_base contrast_low ' not in deck or
                 'Rcontrast reference9 contrast_low ' not in deck or
-                'Vp35 p35 mreturn 35' not in deck or
-                passthrough not in deck):
+                'Vp35 p35 mreturn 35' not in deck):
             raise ValueError('assembled contrast path differs from expected fixture')
         rows = [operating_point(deck, folder/f'op-{feed}-{video}-{intensity}-{position}',
                                 position, video, intensity, feed)
@@ -102,12 +108,12 @@ def run(capture_path):
             'qualification': 'fixed-logic DC operating points in the source-addressed input/neck bench; 100 ohm 35 V feed impedance is illustrative only, not a sourced model or manual service procedure',
             'input_sha256': hashlib.sha256(capture_path.read_bytes()).hexdigest(),
             'signal_path_sha256': hashlib.sha256((ROOT/'signal_path.py').read_bytes()).hexdigest(),
-            'intensity_source_read_sha256': hashlib.sha256(INTENS_READ.read_bytes()).hexdigest(),
+            'intensity_seam_source_sha256': hashlib.sha256(INTENS_SEAM.read_bytes()).hexdigest(),
             'contrast_positions': list(CONTRAST_POSITIONS),
             'logic_states_video_intensity': [list(state) for state in STATES],
             'feed_resistances_ohm': list(FEED_RESISTANCES),
             'rows': rows, 'comparisons': comparisons,
-            'interpretation': 'The source-addressed INTENS passthrough now drives the neck-board diode and changes the bright-video cathode level when intensity changes. The tested contrast setting shifts V1 current and, with an illustrative feed impedance, the 35 V rail; it does not shift the modeled neck video input or cathode DC level at fixed logic states. Source connectivity, device behavior and native-grid service response remain unqualified.'}
+            'interpretation': 'The source-read seam separates incoming INTENS from the neck IS output: V5 collector drives neck intens and HRS drives V1 base. This scoped topology lacks a qualified high-state IS pull-up and does not satisfy the manual intensity or contrast response. The 100 ohm 35 V feed remains an illustrative sensitivity probe; connected native-grid response remains unqualified.'}
 
 
 if __name__ == '__main__':

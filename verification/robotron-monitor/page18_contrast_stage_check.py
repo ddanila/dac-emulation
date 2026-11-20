@@ -11,7 +11,7 @@ import signal_path
 import steady_supply
 
 ROOT = Path(__file__).resolve().parent
-INTENS_READ = ROOT/'reference/k7222-11/page3-4-intens-passthrough-source-read.json'
+INTENS_SEAM = ROOT/'reference/k7222-11/page3-4-intens-seam-source-read.json'
 POSITIONS = (.05, .5, .95)
 PROBE = 'cathode'
 
@@ -69,7 +69,10 @@ def run(capture_path):
         traces = []
         beam_traces = []
         thermal = steady_supply.heater_equilibrium()
-        passthrough = json.loads(INTENS_READ.read_text())['model_nodes']['ideal_passthrough_element']
+        source = json.loads(INTENS_SEAM.read_text())['model_correction']
+        if (source['V5_collector_and_V3_cathode'],
+                source['V1_base_and_brightness_R1_wiper']) != ('intens', 'v1_base'):
+            raise ValueError('intensity seam source read differs from stage contract')
         for position in POSITIONS:
             folder = Path(directory)/f'contrast-{position:g}'
             result = signal_path.run(capture_path, folder, duration=.0002,
@@ -78,9 +81,11 @@ def run(capture_path):
                 raise ValueError('loaded contrast-stage solve did not complete')
             deck = (folder/'run.cir').read_text()
             if any(item not in deck for item in
-                   ('Vp35 p35 mreturn 35', passthrough,
-                    'Rbrightness_top p35 collector_i',
-                    'Rbrightness_bottom collector_i contrast_adjust',
+                   ('Vp35 p35 mreturn 35',
+                    'Q201 intens base_i mreturn', 'D205 clamp_i intens',
+                    'Q202 p35 v1_base contrast_low',
+                    'Rbrightness_top p35 v1_base',
+                    'Rbrightness_bottom v1_base contrast_adjust',
                     'Rcontrast reference9 contrast_low')):
                 raise ValueError('contrast stage lacks the source-addressed controls or feed')
             waveform = samples(folder/'samples.txt', PROBE)
@@ -110,13 +115,13 @@ def run(capture_path):
     beam_difference = max(abs(a[1]-b[1]) for a,b in zip(beam_traces[0],beam_traces[-1]))
     beam_scale = rows[1]['conditional_held_warm_beam_ua']['maximum']
     return {'format': 'dac-monitor-page18-contrast-stage-check-v3',
-            'qualification': 'source-addressed input/neck stage with X9:5-to-X3:2 INTENS passthrough, ideal 5/12/35/41 V rails and bounded synthetic highlight stimulus; fixed-beam and provisional held-warm CRT responses, not a complete page-3/4 netlist, calibrated contrast, native grid or sustained monitor score',
+            'qualification': 'source-addressed input/neck stage with separate incoming INTENS, V5 collector IS and V1 HRS bias, ideal 5/12/35/41 V rails and bounded synthetic highlight stimulus; IS high-state bias and original tube remain unqualified',
             'input_sha256': hashlib.sha256(capture_path.read_bytes()).hexdigest(),
             'input_qualification': capture.get('qualification'),
             'signal_path_sha256': hashlib.sha256((ROOT/'signal_path.py').read_bytes()).hexdigest(),
             'electrothermal_sha256': hashlib.sha256((ROOT/'electrothermal.py').read_bytes()).hexdigest(),
             'steady_supply_sha256': hashlib.sha256((ROOT/'steady_supply.py').read_bytes()).hexdigest(),
-            'intensity_source_read_sha256': hashlib.sha256(INTENS_READ.read_bytes()).hexdigest(),
+            'intensity_seam_source_sha256': hashlib.sha256(INTENS_SEAM.read_bytes()).hexdigest(),
             'stimulus': {'duration_s': .0002, 'step_s': 5e-9,
                          'reason': 'highlight pattern toggles both video and intensity in the retained window'},
             'held_warm_tube': {'thermal_rise_k': thermal['temperature_rise_k'],
@@ -129,7 +134,7 @@ def run(capture_path):
             'low_high_beam_max_absolute_difference_ua': beam_difference,
             'low_high_beam_relative_to_mid_peak': beam_difference/max(beam_scale,1e-12),
             'functional_result': 'provisional tube response only; page-18 contrast function and service-meter targets remain unqualified',
-            'remaining': ['Re-read page-3/4 R4/V1/V3 video/contrast connectivity against the independent source netlist',
+            'remaining': ['Resolve the IS high-state bias and complete the independent page-3/4 source netlist',
                           'Qualify the tube emission and 35 V feed, then run the full-bright service-meter and native-grid procedure']}
 
 

@@ -1,0 +1,30 @@
+{
+  "format": "dac-monitor-page3-4-intens-seam-source-read-v1",
+  "qualification": "scoped independent read of the page-3/4 intensity and brightness seam; full source netlist and IS high-state bias remain open",
+  "source_pdf": "older.pdf",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "views": [
+    {"page": 3, "render": "build/monitor/phase-a/page3-300-recheck.png", "sha256": "e744b90546f4b3c052c377a1b0e59e141c883af0886136f38dde7ab601a93df0"},
+    {"page": 3, "render": "build/monitor/phase-a/page3-600.png", "sha256": "60f0c5d16e278f2be9bae8bd93269b0d4ff6fd82fdb92eba1c223cb85bd8ac17"},
+    {"page": 4, "render": "build/monitor/phase-a/page4-300.png", "sha256": "02cf88c791480f842d7bf2549cbc6365c8282a778132185b02b59ca8a501b748"},
+    {"page": 4, "render": "build/monitor/phase-a/page4-600.png", "sha256": "ef325eb44040c7d493c88e10c85a50d276583ce39bd5579929b4c53a2de7d4dc"}
+  ],
+  "registered_page_edge_offset_300dpi_px": -27,
+  "source_paths": [
+    {"signal": "HRS", "page3_edge_y_300dpi_px": 1822, "page4_edge_y_300dpi_px": 1795, "page4_terminal": "V1:base and R3:lower", "model_net": "v1_base"},
+    {"signal": "IS", "page3_edge_y_300dpi_px": 1981, "page4_edge_y_300dpi_px": 1954, "page3_terminal": "V5:upper_right collector-side lead and V3:cathode", "page4_terminal": "012-6921:X3:2", "model_net": "intens"},
+    {"signal": "incoming INTENS", "page3_edge_y_300dpi_px": 2067, "page4_edge_y_300dpi_px": 2040, "page3_terminal": "012-6921:X9:5 and T200 input branch", "model_net": "rx_intens"}
+  ],
+  "cable_confirmation": "Page-18 cable 1.11.017294.0 maps main-board X3:2 IS to neck-board X1:7 INTENS.",
+  "model_correction": {
+    "V5_collector_and_V3_cathode": "intens",
+    "V1_base_and_brightness_R1_wiper": "v1_base",
+    "input_INTENS": "rx_intens",
+    "direct_input_to_neck_passthrough": false
+  },
+  "open_checks": [
+    "The page-edge lines are distinct; identify every upstream/downstream junction and the IS high-state bias before claiming the complete page-3/4 source netlist.",
+    "The page-3/4 trace read does not establish original V5 transistor C/E polarity or a calibrated contrast response.",
+    "The external panel R1 and R2 values remain bounded assumptions, not factory specifications."
+  ]
+}

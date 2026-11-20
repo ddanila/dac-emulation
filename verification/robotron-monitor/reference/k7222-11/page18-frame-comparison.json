@@ -1,9 +1,9 @@
 {
-  "format": "dac-monitor-page18-frame-comparison-v2",
-  "qualification": "semantic comparison with four explicitly classified functional model-scope gaps; physical pins checked in a separate receipt, connected contrast stage open",
+  "format": "dac-monitor-page18-frame-comparison-v3",
+  "qualification": "semantic comparison with three explicitly classified functional model-scope gaps; source-read V5 collector drives neck IS; connected contrast stage open",
   "source_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
   "assembly_sha256": "e3883360002705d7a0c69a682768fe9f067940e2b9c016a8790de23defc6fc9d",
-  "assembled_components_sha256": "7de374217fcab8e22e48e929ba169872e0ac4a52699dc87597a84f0f3ed10f61",
+  "assembled_components_sha256": "b13e78dbb4e74e027acabcb9948211d1ad787c319f32f83b3535091ea22c02c5",
   "cable_pairs": [
     {
       "cable": "1.11.017307.0",
@@ -169,7 +169,7 @@
       "to_pin": "7",
       "source_signal": "INTENS",
       "model_net": "intens",
-      "horizontal_board_net_present": false,
+      "horizontal_board_net_present": true,
       "destination_board": "012-6891",
       "destination_board_net_present": true
     },
@@ -222,7 +222,7 @@
       "destination_board_net_present": true
     }
   ],
-  "both_board_nets": 14,
+  "both_board_nets": 15,
   "missing_board_nets": [
     {
       "cable": "1.11.017307.0",
@@ -251,18 +251,6 @@
     {
       "cable": "1.11.017294.0",
       "from_connector": "012-6921:X3",
-      "from_pin": "2",
-      "to_connector": "012-6891:X1",
-      "to_pin": "7",
-      "source_signal": "INTENS",
-      "model_net": "intens",
-      "horizontal_board_net_present": false,
-      "destination_board": "012-6891",
-      "destination_board_net_present": true
-    },
-    {
-      "cable": "1.11.017294.0",
-      "from_connector": "012-6921:X3",
       "from_pin": "3",
       "to_connector": "012-6891:X1",
       "to_pin": "6",
@@ -276,7 +264,6 @@
   "scope_gap_dispositions": {
     "41P": "vertical-board converter supply path is excluded by ideal rails",
     "SYNCH": "vertical-board converter synchronizing path is excluded with that converter",
-    "INTENS": "external intensity drive reaches the neck board without a main-board sheet component; connected stimulus remains unqualified",
     "10.7P": "neck heater electrical branch is replaced by a held thermal state; sustained heater balance remains unqualified"
   },
   "mapping_limits": [
@@ -284,7 +271,7 @@
     "SYNCH maps to the horizontal-output h_sync label; the vertical-board converter path is outside the ideal-rail frame"
   ],
   "open_checks": [
-    "four cable signals have classified functional model-scope gaps despite matching physical pins",
+    "three cable signals have classified functional model-scope gaps despite matching physical pins",
     "panel topology and X1 physical pins are checked separately; connected contrast stage remains open"
   ]
 }

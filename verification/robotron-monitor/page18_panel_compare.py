@@ -66,7 +66,7 @@ def compare(source, interconnect, deck, metadata, components, export, *, pdf_sha
         raise ValueError('missing or malformed assembled R4/V1')
     kra_candidate = r4[0]['nodes'][0]
     krs_candidate = v1[0]['nodes'][2]
-    expected_pins = {'1': 'contrast_adjust', '2': 'collector_i',
+    expected_pins = {'1': 'contrast_adjust', '2': 'v1_base',
                      '3': 'p35', '4': 'p35',
                      '5': krs_candidate, '6': kra_candidate}
     actual_pins = physical_pins(export, '012-6921:X1')
@@ -77,11 +77,11 @@ def compare(source, interconnect, deck, metadata, components, export, *, pdf_sha
     brightness = resistor_lines(deck, 'Rbrightness_')
     contrast = resistor_lines(deck, 'Rcontrast')
     terminal_nodes = metadata['external_brightness']['terminal_nodes']
-    expected_brightness = {'E_35P': 'p35', 'S_HRS': 'collector_i',
+    expected_brightness = {'E_35P': 'p35', 'S_HRS': 'v1_base',
                            'A_HRA': 'contrast_adjust'}
     r1_match = (terminal_nodes == expected_brightness and
                 {(row['from_node'], row['to_node']) for row in brightness} ==
-                {('p35', 'collector_i'), ('collector_i', 'contrast_adjust')})
+                {('p35', 'v1_base'), ('v1_base', 'contrast_adjust')})
     contrast_nodes = sorted({node for row in contrast
                              for node in (row['from_node'], row['to_node'])})
     r2_match = (len(contrast) == 1 and len(contrast_nodes) == 2 and

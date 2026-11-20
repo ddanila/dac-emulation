@@ -24,9 +24,9 @@ class Page18FrameCompareTests(unittest.TestCase):
         saved = json.loads((ROOT/'reference/k7222-11/page18-frame-comparison.json').read_text())
         self.assertEqual(report, saved)
         self.assertEqual(len(report['cable_pairs']), 18)
-        self.assertEqual(report['both_board_nets'], 14)
+        self.assertEqual(report['both_board_nets'], 15)
         self.assertEqual({row['source_signal'] for row in report['missing_board_nets']},
-                         {'41P', 'SYNCH', 'INTENS', '10.7P'})
+                         {'41P', 'SYNCH', '10.7P'})
         self.assertEqual(set(report['scope_gap_dispositions']),
                          {row['source_signal'] for row in report['missing_board_nets']})
         self.assertEqual(len(report['assembled_components_sha256']), 64)
