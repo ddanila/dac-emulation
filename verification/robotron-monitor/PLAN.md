@@ -415,7 +415,7 @@ measurement.
 | Item | Unmet done condition | Next resolution step |
 |---|---|---|
 | A1 | The independent page-3/4 and 9/10 netlists, page-18 contrast/service-meter response, and page-16 source-observation check are incomplete. T3 return and tap order remain unverified. | Finish the pin-to-pin source comparisons; record bounded alternatives where the scans cannot resolve a connection. |
-| A2 | All 64 assembled frame-path devices have provisional register rows, but none passes every parameter-qualification check. | Qualify the device models and connected operating stress within documented or bounded ranges. |
+| A2 | All 64 assembled frame-path devices have provisional register rows, but none passes every parameter-qualification check. The [implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json) finds 51 semiconductor instances in 24 register entries still relying on simulator defaults that are absent from their active models and register bounds. | Make those parameters explicit, qualify their bounds and connected operating stress, then finish the remaining device checks. |
 | A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The refreshed 2 ms startup run ends at 5.876 kV EHT, below the sustained 11–12 kV target. | Reach and score a stable connected operating state with the native grid stimulus. |
 | A4 | Done. | No remaining Phase A action. |
 | A5 | T3's source return/tap graph, winding ratios and polarities are unresolved; the yoke/tube design point remains conditional. | Resolve the source graph or use the plan's labelled bounded equivalent, then verify the full design point. |
