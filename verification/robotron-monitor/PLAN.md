@@ -395,21 +395,27 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-20)
 
-**Phase A is not closed; only A4 meets its done condition. Goal-closure blocker:
-A5 has no qualified T3 candidate to freeze.** Source reads do not settle T3's
-return, tap order or HV cold end. The earlier passive coupled-winding fallback
-changes with a non-driving probe and solver step size; two bounded connected
-native-grid attempts developed irregular TP17/collector bursts and timed out
-before four fields. The newer [source-informed overwind screen](reference/k7222-11/t3-source-overwind-sweep.json)
-also misses the joint target: two sampled couplings abort, while two completed
-cases give 719–788 Vpp at the TP17-mapped node against the manual's 64–96 Vpp
-guideline, with EHT at 11.825–12.666 kV. Artificial-loss and grounded-HV-cold
-variants briefly approach the targets but fail timestep refinement. No converged
-joint TP17/EHT point or sustained field is available to freeze or score for A3.
-A1, A2 and A6 also remain open as listed below. See
-[phase-a-evidence.md](phase-a-evidence.md) for the run receipts. This blocks
-closure, not further work: the fallbacks above still apply without a human or
-new measurement.
+**Phase A is not closed; only A4 meets its done condition. The immediate
+goal-closure blocker is A5: there is no source-qualified, numerically stable T3
+design point to freeze.** The .11 scans do not settle T3's return, tap order or
+high-voltage cold end. The [source-informed overwind screen](reference/k7222-11/t3-source-overwind-sweep.json)
+either aborts or gives 719–788 Vpp at the TP17-mapped node against the
+manual's 64–96 Vpp guideline. The [loaded return screen](reference/k7222-11/t3-loaded-return-screen.json)
+gets near TP17 and 11–12 kV EHT at a 100 ns maximum step, but changing only
+that step to 50 ns raises TP17 from 63.25 to 1,028.5 Vpp in the probe-free
+cases. The earlier passive fallback also changes with a non-driving probe,
+and two bounded connected native-grid attempts time out with irregular pulses
+before four fields. Thus
+none of these results establishes a repeatable, sustained operating point;
+freezing T3 or scoring the connected A3 result from them would be unsupported.
+
+The way past this blocker is already authorized by the fallbacks above: carry
+the unresolved return graph as labelled alternatives, bound the winding losses,
+and qualify the smallest equivalent that gives a refined joint TP17/EHT stage
+result and a sustained connected field. A1, A2 and A6 have separate unfinished
+conditions in the table below, so clearing A5 alone will not finish Phase A.
+This is a work/evidence blocker, not a request for a human measurement or
+approval. Detailed run receipts are in [phase-a-evidence.md](phase-a-evidence.md).
 
 **Keep this section short.** It holds one row per item: what is still unmet
 and the next step. Results, numbers and source reads go in
