@@ -77,6 +77,39 @@ def run():
             'gain_in_group_A_range': 18 <= -gain['i(vce)']/base_current <= 35,
             'saturation_below_1_v': 0 <= sat['v(c)'] <= 1,
         }
+    joint_gain_corners = []
+    for bf in (parameter_specs['q_bf']['minimum'],
+               parameter_specs['q_bf']['maximum']):
+        for ikf in (parameter_specs['q_ikf']['minimum'],
+                    parameter_specs['q_ikf']['maximum']):
+            parameters = dict(nominal, q_bf=bf, q_ikf=ikf)
+            low, high = .005, .05
+            for _ in range(24):
+                base_current = (low+high)/2
+                point = op(parameters,
+                           f'VCE c 0 1.3\nIBASE 0 b {base_current}\n',
+                           ('i(vce)', 'v(c)', 'v(b)'))
+                if -point['i(vce)'] > .5:
+                    high = base_current
+                else:
+                    low = base_current
+            base_current = (low+high)/2
+            gain = op(parameters,
+                      f'VCE c 0 1.3\nIBASE 0 b {base_current}\n',
+                      ('i(vce)', 'v(c)', 'v(b)'))
+            effective_gain = -gain['i(vce)']/base_current
+            joint_gain_corners.append({
+                'BF': bf, 'IKF_a': ikf, 'h21E': effective_gain,
+                'within_group_A': 18 <= effective_gain <= 35,
+            })
+    worst_series = dict(nominal,
+                        q_bf=parameter_specs['q_bf']['minimum'],
+                        q_ikf=parameter_specs['q_ikf']['minimum'],
+                        **{key: parameter_specs[key]['maximum']
+                           for key in ('q_rb', 'q_rc', 'q_re')})
+    worst_sat = op(worst_series,
+                   'VCC vcc 0 40\nRLOAD vcc c 80\nIBASE 0 b 0.05\n',
+                   ('i(vcc)', 'v(c)', 'v(b)'))
     return {'format': 'dac-monitor-ssy20-model-dc-check-v1',
             'qualification': 'DC bias comparison only; group-A suffix mapping and fT/switching remain unverified',
             'source': 'https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf',
@@ -84,7 +117,16 @@ def run():
             'data_sheet_conditions': {
                 'gain': 'IC=500 mA, VCE=1.3 V, h21E group A 18..35',
                 'saturation': 'IC=500 mA, IB=50 mA, VCEsat <=1 V'},
-            'cases': cases}
+            'cases': cases,
+            'joint_bf_ikf_gain_corners': joint_gain_corners,
+            'high_series_resistance_saturation': {
+                'q_rb_ohm': worst_series['q_rb'],
+                'q_rc_ohm': worst_series['q_rc'],
+                'q_re_ohm': worst_series['q_re'],
+                'collector_voltage_v': worst_sat['v(c)'],
+                'collector_current_a': -worst_sat['i(vcc)'],
+                'below_1_v': 0 <= worst_sat['v(c)'] <= 1,
+            }}
 
 
 def main():

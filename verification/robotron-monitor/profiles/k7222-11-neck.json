@@ -27,11 +27,11 @@
     },
     "q_bf": {
       "nominal": 26,
-      "minimum": 18,
-      "maximum": 34.7,
+      "minimum": 20,
+      "maximum": 35,
       "unit": "1",
       "evidence": "assumed-bound",
-      "rationale": "SPICE low-injection BF proxy for the SSY20A group-A h21E range 18..35 at IC=500 mA and VCE=1.3 V in the DDR-Halbleiter SSY20 data sheet. The 34.7 upper BF maps to approximately 34.98 h21E at that bias in neck_transistor_check.py. The group-A suffix mapping is inferred; this is not a full fitted model."
+      "rationale": "SPICE low-injection BF proxy jointly bounded with IKF=5..20 A so the effective h21E stays within the SSY20 group-A 18..35 range at IC=500 mA and VCE=1.3 V. The group-A suffix mapping is inferred; this is not a full fitted model."
     },
     "q_vaf": {
       "nominal": 60,
@@ -73,6 +73,17 @@
       "evidence": "assumed-bound",
       "rationale": "Unmeasured collector junction capacitance."
     },
+    "q_ikf": {"nominal": 5, "minimum": 5, "maximum": 20, "unit": "A", "evidence": "class-typical", "rationale": "High-current gain-rolloff proxy jointly bounded with BF=20..35 by the documented 0.5 A SSY20 group-A gain test; not a source-specified IKF. All BF/IKF corners are checked."},
+    "q_rb": {"nominal": 1, "minimum": 0.1, "maximum": 10, "unit": "ohm", "evidence": "class-typical", "rationale": "Finite power-BJT base resistance proxy; ngspice's zero default is not a measured SSY20 value. Range is exploratory and requires stage sensitivity."},
+    "q_rc": {"nominal": 0.1, "minimum": 0.01, "maximum": 0.5, "unit": "ohm", "evidence": "class-typical", "rationale": "Collector resistance proxy constrained jointly with RE by the SSY20 0.5 A/50 mA saturation test; not individually measured."},
+    "q_re": {"nominal": 0.05, "minimum": 0.01, "maximum": 0.2, "unit": "ohm", "evidence": "class-typical", "rationale": "Emitter resistance proxy constrained jointly with RC by the SSY20 saturation test; not individually measured."},
+    "q_vje": {"nominal": 0.75, "minimum": 0.6, "maximum": 0.9, "unit": "V", "evidence": "class-typical", "rationale": "Explicit silicon BJT junction-potential proxy based on the ngspice BJT table; exploratory spread, not an SSY20 limit."},
+    "q_mje": {"nominal": 0.33, "minimum": 0.25, "maximum": 0.5, "unit": "1", "evidence": "class-typical", "rationale": "Explicit ngspice BJT emitter-junction grading proxy with exploratory spread."},
+    "q_vjc": {"nominal": 0.75, "minimum": 0.6, "maximum": 0.9, "unit": "V", "evidence": "class-typical", "rationale": "Explicit silicon BJT collector-junction potential proxy based on the ngspice BJT table; exploratory spread."},
+    "q_mjc": {"nominal": 0.33, "minimum": 0.25, "maximum": 0.5, "unit": "1", "evidence": "class-typical", "rationale": "Explicit ngspice BJT collector-junction grading proxy with exploratory spread."},
+    "q_eg": {"nominal": 1.11, "minimum": 1.08, "maximum": 1.14, "unit": "eV", "evidence": "class-typical", "rationale": "Explicit silicon energy-gap parameter from the ngspice BJT table with exploratory temperature-law spread."},
+    "q_xti": {"nominal": 3, "minimum": 2, "maximum": 4, "unit": "1", "evidence": "class-typical", "rationale": "Explicit ngspice saturation-current temperature-exponent proxy with exploratory spread."},
+    "q_fc": {"nominal": 0.5, "minimum": 0.3, "maximum": 0.7, "unit": "1", "evidence": "class-typical", "rationale": "Explicit ngspice forward-bias depletion-capacitance proxy with exploratory spread."},
     "d_is": {
       "nominal": 1e-09,
       "minimum": 1e-12,

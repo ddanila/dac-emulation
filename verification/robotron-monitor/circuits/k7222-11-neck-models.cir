@@ -1,7 +1,10 @@
 * BOUNDED GENERIC FAMILY MODELS: not manufacturer-calibrated SSY20A/1AD50.
 * Every free parameter and its exploratory bounds is declared in the profile.
 .model SSY20A_BOUND NPN(IS={q_is} BF={q_bf} VAF={q_vaf}
-+ TF={q_tf} TR={q_tr} CJE={q_cje} CJC={q_cjc})
++ TF={q_tf} TR={q_tr} CJE={q_cje} CJC={q_cjc}
++ IKF={q_ikf} RB={q_rb} RC={q_rc} RE={q_re}
++ VJE={q_vje} MJE={q_mje} VJC={q_vjc} MJC={q_mjc}
++ EG={q_eg} XTI={q_xti} FC={q_fc})
 .model 1AD50_BOUND D(IS={d_is} N={d_n} RS={d_rs} CJO={d_cjo} TT={d_tt}
 + BV={d_bv} IBV={d_ibv} VJ={d_vj} M={d_m} FC={d_fc}
 + EG={d_eg} XTI={d_xti})

@@ -10,6 +10,7 @@
     "ti_lm723": {"url": "https://www.ti.com/lit/ds/symlink/lm723.pdf", "revision": "SNVS765C, April 2013", "pages": [2, 3, 4], "use": "10-pin metal-can functional pin contract; 1.7 mA typical standby and 0.2% maximum 1–50 mA load regulation for LM723C at the stated 5 V test fixture. Comparable 723 family, not an MAA723 identification."},
     "tesla_kfy18_1987": {"url": "https://teslakatalog.cz/download/tesla_katalog_2_1987_bw.pdf", "sha256": "fa340fb7a38b8a21091882d4fb3968297e669005c5601f1606fe17960accdc4b", "edition": "TESLA Katalog 2, 1987, printed pages 221-223", "use": "Original KFY18 PNP: h21e 50..250 at IC=1 mA/VCE=5 V, h21E 90..300 at IC=10 mA/VCE=10 V, |VCEsat| typical 0.6 V/max 1 V at IC=150 mA/IB=15 mA, fT typical 100/min 60 MHz at IC=50 mA/VCE=10 V/f=30 MHz, Ccbo typical 19/max 30 pF at VCB=10 V and Cebo typical 55/max 80 pF at VEB=0.5 V. No unique SPICE parameter fit."},
     "ddr_sc237": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SC 236 · SC 237 · SC 238 · SC 239", "use": "Historical SC237 group-E h21e 224–560 at VCE=6 V/IC=2 mA/1 kHz, typical fT 170 MHz at VCE=6 V/IC=10 mA/f=20 MHz, typical pulsed VCEsat 210 mV at IC=100 mA/IB=5 mA, and C11b/C22b 7.7/3.8 pF at stated biases. Not a fitted SC237E transistor curve."},
+    "ddr_ssy20": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SSY 20", "use": "Group-A h21E 18–35 at IC=500 mA/VCE=1.3 V and VCEsat <=1 V at IC=500 mA/IB=50 mA constrain the provisional SSY20A proxy. The suffix-to-group mapping and individual SPICE parameters remain unverified."},
     "ddr_sf126_129": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SF 126 · SF 127 · SF 128 · SF 129", "use": "Historical SF128 base-family h21E groups A–F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."},
     "vishay_uf4007": {"url": "https://www.vishay.com/docs/88755/uf4001.pdf", "revision": "6 April 2020, document 88755", "pages": [1, 2, 3], "use": "Comparable 1000 V ultrafast 1 A rectifier: VF <=1.7 V at 1 A, IR <=10 uA at 1000 V/25 C, trr <=75 ns at IF=0.5 A/IR=1 A/Irr=0.25 A and typical 17 pF at 4 V/1 MHz. Not an identity for 1YL1 variants."},
     "nexperia_bzx84_series": {"url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", "revision": "Rev. 7, 1 January 2023", "pages": [5, 6], "use": "BZX84-C6V2, C9V1 and C16 comparable 5 mA zener voltage, differential resistance and capacitance limits; not historical identifications or SPICE transit-time data."},
@@ -1158,8 +1159,26 @@
       "model": "SSY20A_BOUND",
       "model_file": "circuits/k7222-11-neck-models.cir",
       "profile": "profiles/k7222-11-neck.json",
+      "sources": ["ddr_ssy20", "ngspice_manual_bjt"],
       "parameters": {
-        "BF": {"profile_key": "q_bf", "nominal": 26, "bounds": [18, 34.7], "basis": "Low-injection BF proxy mapped against SSY20 group-A h21E 18..35 at IC=500 mA/VCE=1.3 V with neck_transistor_check.py; suffix mapping and other model parameters remain provisional"}
+        "IS": {"profile_key": "q_is", "nominal": 1e-14, "bounds": [1e-16, 1e-12], "unit": "A", "basis": "Unfitted silicon BJT saturation-current proxy; engineering bounds, not SSY20 data"},
+        "BF": {"profile_key": "q_bf", "nominal": 26, "bounds": [20, 35], "unit": "1", "basis": "Joint BF/IKF corners give h21E 18.32–34.38 at 0.5 A/1.3 V, within the provisional SSY20 group-A range"},
+        "VAF": {"profile_key": "q_vaf", "nominal": 60, "bounds": [20, 150], "unit": "V", "basis": "Unfitted Early-voltage proxy with exploratory spread"},
+        "TF": {"profile_key": "q_tf", "nominal": 2e-9, "bounds": [2e-10, 2e-8], "unit": "s", "basis": "Unfitted forward transit proxy; SSY20 switching and comparison fT checks remain open"},
+        "TR": {"profile_key": "q_tr", "nominal": 1e-8, "bounds": [1e-9, 1e-7], "unit": "s", "basis": "Unfitted reverse transit proxy; source turn-off time is not a direct SPICE TR bound"},
+        "CJE": {"profile_key": "q_cje", "nominal": 2e-11, "bounds": [5e-12, 6e-11], "unit": "F", "basis": "Unfitted base-emitter capacitance proxy"},
+        "CJC": {"profile_key": "q_cjc", "nominal": 8e-12, "bounds": [2e-12, 3e-11], "unit": "F", "basis": "Unfitted base-collector capacitance proxy"},
+        "IKF": {"profile_key": "q_ikf", "nominal": 5, "bounds": [5, 20], "unit": "A", "basis": "High-current gain-rolloff proxy jointly bounded with BF by the 0.5 A SSY20 group-A gain test; not an individual source limit"},
+        "RB": {"profile_key": "q_rb", "nominal": 1, "bounds": [0.1, 10], "unit": "ohm", "basis": "Finite power-BJT base resistance proxy; exploratory spread"},
+        "RC": {"profile_key": "q_rc", "nominal": 0.1, "bounds": [0.01, 0.5], "unit": "ohm", "basis": "Collector resistance proxy; high-RC/RE/RB saturation corner remains below source 1 V limit"},
+        "RE": {"profile_key": "q_re", "nominal": 0.05, "bounds": [0.01, 0.2], "unit": "ohm", "basis": "Emitter resistance proxy; high-RC/RE/RB saturation corner remains below source 1 V limit"},
+        "VJE": {"profile_key": "q_vje", "nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Ngspice silicon BJT default made explicit with exploratory spread"},
+        "MJE": {"profile_key": "q_mje", "nominal": 0.33, "bounds": [0.25, 0.5], "unit": "1", "basis": "Ngspice BJT default made explicit with exploratory spread"},
+        "VJC": {"profile_key": "q_vjc", "nominal": 0.75, "bounds": [0.6, 0.9], "unit": "V", "basis": "Ngspice silicon BJT default made explicit with exploratory spread"},
+        "MJC": {"profile_key": "q_mjc", "nominal": 0.33, "bounds": [0.25, 0.5], "unit": "1", "basis": "Ngspice BJT default made explicit with exploratory spread"},
+        "EG": {"profile_key": "q_eg", "nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Ngspice silicon energy-gap default made explicit with temperature-law spread"},
+        "XTI": {"profile_key": "q_xti", "nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Ngspice saturation-current temperature exponent made explicit with exploratory spread"},
+        "FC": {"profile_key": "q_fc", "nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Ngspice forward-bias depletion-capacitance default made explicit with exploratory spread"}
       },
       "comparison_targets": {
         "h21E": {"range": [18, 35], "conditions": "IC=500 mA, VCE=1.3 V; SSY20 group A", "source": "DDR-Halbleiter SSY20 section"},
@@ -1168,7 +1187,8 @@
         "turn_off_s": {"maximum": 1e-7, "conditions": "same resistive switching test", "source": "DDR-Halbleiter SSY20 section"},
         "fT_hz": {"minimum": 2.5e8, "conditions": "BSY34 comparison, IC=30 mA, VCE=10 V, f=100 MHz; not a direct SSY20 specification", "source": "DDR-Halbleiter BSY34 section and DDR silicon transistor comparison list"}
       },
-      "remaining": ["Measure switching under the data-sheet 80-ohm/500-mA conditions", "Measure model fT and bound TF/CJE/CJC against the BSY34 comparison", "Source or explicitly class-bound IS, VAF and TR; sweep neck-stage sensitivity"]
+      "model_response_report": "reference/k7222-11/ssy20-model-dc-check.json",
+      "remaining": ["Measure switching under the data-sheet 80-ohm/500-mA conditions", "Measure model fT and bound TF/CJE/CJC against the BSY34 comparison", "Sweep connected neck-stage current, voltage and cathode sensitivity over joint model corners; present bounds are exploratory"]
     },
     {
       "id": "012-6921:V18",

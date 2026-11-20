@@ -395,10 +395,10 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-20)
 
-**Phase A is not closed; only A4 meets its done condition. The immediate
-goal-closure blocker is A5: there is no original-graph-verified or
-fallback-qualified T3 design point, and no sustained connected operating
-point to freeze.** The .11 scans do not settle T3's return, tap order or HV
+**Goal blocked reason (2026-11-20): Phase A cannot be marked complete because
+A5 has neither an original-graph-verified nor a fallback-qualified T3 design
+point, and there is no sustained connected operating point to freeze. Only A4
+meets its done condition.** The .11 scans do not settle T3's return, tap order or HV
 cold end. Earlier [overwind](reference/k7222-11/t3-source-overwind-sweep.json)
 and [return](reference/k7222-11/t3-loaded-return-screen.json) screens fail
 the TP17/EHT or refinement checks, and two connected native-grid attempts
@@ -412,7 +412,10 @@ field boundary with Q201 named by the solver. Four bounded
 also abort there. The [isolated input/contrast path](reference/k7222-11/t3-input-boundary-isolation.json)
 crosses 39 ms, so the connected interaction remains unresolved. No sustained
 connected field has been scored.
-Freezing T3 or scoring A3 from that stage alone would be unsupported.
+Freezing T3 or scoring A3 from that stage alone would be unsupported. A1's
+source review, A2's device qualification and A6's class-typical bounds also
+remain incomplete, as itemized below; resolving A5 alone would not close
+Phase A.
 
 The authorized path is to carry the unresolved graph as labelled
 alternatives, bound the losses and drive, then qualify a connected periodic
@@ -430,7 +433,7 @@ next step changes. The narrative that used to follow is in
 | Item | Still unmet | Next step |
 |---|---|---|
 | A1 | Second netlists for pages 3–4 and 9–10 are partial: local branches match, the full pages are not compared. Page 16 schematic is closed; its service-observation check is open. Page 18 has three model-scope gaps and no working contrast path. Not settled by the scans: T3 return (X1:3 to X2:3), tap order and HV cold end; T2 secondary phase and return; installed E2 and E1–E4 links; C30 population; L1's crossing with the flyback line. | Finish the pin-to-pin comparisons. Carry each connection the scan cannot settle as a labelled, bounded alternative. |
-| A2 | All 64 frame-path instances have provisional register rows; none passes every qualification check. Seven instances still rely on screened simulator defaults ([audit](reference/k7222-11/a2-implicit-default-audit.json)). T3 turns, resistance and parasitics are assumed-bound. | Make the remaining defaults explicit with bounds. Check connected operating stress per stage. |
+| A2 | All 64 frame-path instances have provisional register rows; none passes every qualification check. The SSY20A neck proxy now has explicit bounded BJT parameters and passes its source DC corners, but six instances still rely on screened simulator defaults ([audit](reference/k7222-11/a2-implicit-default-audit.json)). T3 turns, resistance and parasitics are assumed-bound. | Make the remaining defaults explicit with bounds. Check switching, frequency and connected operating stress per stage. |
 | A3 | All 17 shape descriptors are registered and scored. No sustained connected native-grid run has been scored. The original flux model under-drives TP17; the older passive equivalent develops irregular bursts. The [labelled AC-loss equivalent](reference/k7222-11/t3-connected-ac-loss-39ms-diagnostic.json) gives about 77–78 Vpp TP17 but 10.76–10.92 kV EHT in unfinished bins, then aborts at 39 ms. The isolated input/contrast path crosses that boundary, leaving a connected interaction unresolved. TP8 is `reference-incomplete`: 17 V is crest-to-zero, and the 10 V arrow has no settled node. | Bound the horizontal feedback/sync interaction at the field boundary; resolve or bound T3 and T2/L4 source paths; then qualify and score refined native-grid fields. |
 | A4 | Done. | None. |
 | A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. T3 graph, ratios and polarities are not frozen. The [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json) meets joint TP17/EHT, 0.1% final-two-line agreement, solver budget and 50/25 ns refinement only with a prescribed 200 ns base edge at `reltol=.005`; the 100 ns run fails collector agreement. Its grounded HV cold end, loss, 10-turn auxiliary and drive edge are unqualified. The connected alternative aborts at 39 ms; no periodic operating point is established. Other T3 sections, vertical current and tube/yoke geometry remain conditional. | Bound the return graph, loss and drive; bound the connected feedback/sync boundary interaction, check joint bounds and collector stress, then establish a converged connected operating point before freezing a candidate. |
