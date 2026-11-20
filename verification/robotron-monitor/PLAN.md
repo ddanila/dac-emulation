@@ -395,18 +395,19 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-20)
 
-**Phase A is not closed. Only A4 meets its done condition.** The goal of fully
-implementing Phase A is blocked at A5: T3's return, tap order and HV cold end
-are not established by the source reads, and the passive coupled-winding
-fallback still uses provisional parasitics. Its prescribed-drive results
-change with a non-driving probe and solver step size; both bounded connected
+**Phase A is not closed; only A4 meets its done condition. Goal-closure blocker:
+A5 has no qualified T3 candidate to freeze.** Source reads do not settle T3's
+return, tap order or HV cold end. The earlier passive coupled-winding fallback
+changes with a non-driving probe and solver step size; two bounded connected
 native-grid attempts developed irregular TP17/collector bursts and timed out
-before four fields. There is therefore no converged joint TP17/EHT operating
-point to freeze or sustained field to score for A3. A1, A2 and A6 also remain
-open as listed below. The run evidence is in [phase-a-evidence.md](phase-a-evidence.md)
-and the `native-coupled-*-bounded-attempt.json` reports. This blocks *closure*,
-not further work: no human or measurement is needed, and the fallbacks above
-still apply.
+before four fields. The newer [source-informed overwind screen](reference/k7222-11/t3-source-overwind-sweep.json)
+also misses the joint target: two sampled couplings abort, while two completed
+cases give 719–788 Vpp at the TP17-mapped node against the manual's 64–96 Vpp
+guideline, with EHT at 11.825–12.666 kV. No converged joint TP17/EHT operating
+point or sustained field is available to freeze or score for A3. A1, A2 and A6
+also remain open as listed below. The evidence and connected-run receipts are
+in [phase-a-evidence.md](phase-a-evidence.md). This blocks closure, not further
+work: the fallbacks above still apply without a human or new measurement.
 
 **Keep this section short.** It holds one row per item: what is still unmet
 and the next step. Results, numbers and source reads go in
