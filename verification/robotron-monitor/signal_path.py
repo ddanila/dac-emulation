@@ -18,15 +18,17 @@ BOUNDS={ # nominal, minimum, maximum; all exploratory, not measured tolerances
  'cable_r':(.3,.05,2.),
  'cable_c':(150e-12,30e-12,1e-9),'return_r':(.2,.02,2.),
  'contrast_trim':(1100.,22.,2200.),'contrast_r':(10000.,1000.,100000.),
- 'contrast_position':(.5,.05,.95),'vertical_load':(100000.,10000.,1000000.),'sync_load':(100000.,10000.,1000000.)}
+ 'contrast_position':(.5,.05,.95),
+ 'brightness_position':(.5,0.,1.),'brightness_pot_r':(10000.,5000.,10000.),
+ 'vertical_load':(100000.,10000.,1000000.),'sync_load':(100000.,10000.,1000000.)}
 CASES=('nominal','weak-video','slow-video','cable-loading','return-resistance',
        'missing-sync','distorted-sync','stuck-intensity','receiver-video-leakage','receiver-sync-bias')
 LIMITATIONS=[
  'Bounded output/input/neck bench, not a complete monitor or a specimen-validated model.',
  '74S37/T200 and discrete semiconductor models are uncalibrated functional/generic families.',
  'Cable R/C and return impedance are assumptions; no transmission-line inductance or measured cable geometry.',
- 'External ideal 5/12/41 V and electrode supplies; no historical converter, flyback or heater lifecycle.',
- 'Contrast control topology transcribed; external potentiometer resistance/setting are assumptions.',
+ 'External ideal 5/12/35/41 V and electrode supplies; the 35 V contrast/brightness feed replaces unconnected flyback/rectifier behavior in this short bench.',
+ 'Contrast and brightness control topologies transcribed; external potentiometer values/settings are assumptions.',
  'Horizontal phase-control and vertical oscillator loads are not connected; their input loads are explicit bounded resistors.',
  'No sync-lock, screen brightness, raster width/height or flyback diagnosis is produced.',
  'Startup uses a DC operating point at the recording initial state; not retained prior analogue history.']
@@ -109,6 +111,9 @@ def run(capture_path,output,*,case='nominal',duration=.0002,step=2e-9,sections=4
         if key not in BOUNDS or type(value) not in (int,float) or not math.isfinite(value) or not BOUNDS[key][1]<=value<=BOUNDS[key][2]:
             raise ValueError('parameter outside signal-path bound: '+key)
         params[key]=value
+    import steady_supply
+    brightness_top, brightness_bottom = steady_supply.brightness_resistances(
+        params['brightness_position'], params['brightness_pot_r'])
     output=Path(output).resolve();output.mkdir(parents=True,exist_ok=False)
     status=dict(format='dac-monitor-signal-path-v1',status='incomplete',case=case,full_monitor_qualified=False)
     def save(): (output/'signal-path.json').write_text(json.dumps(status,indent=2,allow_nan=False)+'\n')
@@ -163,9 +168,12 @@ def run(capture_path,output,*,case='nominal',duration=.0002,step=2e-9,sections=4
                           f'Cwire_{signal}_{j} {node} mreturn {total_c/sections}']
                 previous=node
         lines += [f'Rreturn 0 mreturn {params["return_r"]*(50 if case=="return-resistance" else 1)}',
-            'Vp5 p5 mreturn 5','Vp12 p12 mreturn 12','Vrail p41 mreturn 41',
+            'Vp5 p5 mreturn 5','Vp12 p12 mreturn 12','Vp35 p35 mreturn 35',
+            'Vrail p41 mreturn 41',
             'Vg1 ug1 mreturn -25','Vg2 ug2 mreturn 350','Vg4 ug4 mreturn 175',
             'Rcontrast reference9 contrast_low {contrast_r*contrast_position}',
+            f'Rbrightness_top p35 collector_i {brightness_top:.15g}',
+            f'Rbrightness_bottom collector_i contrast_adjust {brightness_bottom:.15g}',
             'Rdownstream sync_c mreturn {sync_load}','Rvertical_load vertical_trigger mreturn {vertical_load}',
             'Ibeam mreturn cathode 20u','Csocket cathode mreturn {tube_cathode_c}']
         probes=[]
