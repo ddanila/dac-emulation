@@ -20,6 +20,8 @@
       "pages": [2, 3, 5, 6],
       "use": "Comparable 1N4148 signal-diode limits; not a factory identity for 1AE15 or 1AD50"
     },
+    "diodesinc_1n4148w_spice": {"url": "https://www.diodes.com/spice/download/1589/1N4148W.spice.txt", "sha256": "eac112ab3b235eb9f54916f7f9d793ba15091a1fb6988e4eef5652aad393437a", "use": "Manufacturer SPICE model M=0.333 for a comparable signal diode; not an original 1AE15 model."},
+    "ngspice_manual_diode": {"url": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf", "use": "Diode model definitions and nominal simulator defaults; spread bounds are provisional engineering assumptions."},
     "nexperia_bzx84_c5v1": {
       "url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf",
       "revision": "Rev. 7, 1 January 2023",
@@ -375,6 +377,61 @@
       "sources": ["nexperia_1n4148"],
       "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.IBV",
       "basis": "explicit assumed breakdown knee; comparator data sheet does not specify a SPICE IBV",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.VJ",
+      "stage": "vertical-sync-integrator-output",
+      "value": 1,
+      "bounds": [0.75, 1.25],
+      "unit": "V",
+      "sources": ["ngspice_manual_diode"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.VJ",
+      "basis": "Explicit ngspice default junction potential with provisional engineering spread; not a measured 1AE15 range",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.M",
+      "stage": "vertical-sync-integrator-output",
+      "value": 0.5,
+      "bounds": [0.333, 0.5],
+      "unit": "1",
+      "sources": ["ngspice_manual_diode", "diodesinc_1n4148w_spice"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.M",
+      "basis": "Explicit ngspice default grading coefficient; lower endpoint from a comparable 1N4148W manufacturer SPICE model, not an original 1AE15 limit",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.FC",
+      "stage": "vertical-sync-integrator-output",
+      "value": 0.5,
+      "bounds": [0.3, 0.7],
+      "unit": "1",
+      "sources": ["ngspice_manual_diode"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.FC",
+      "basis": "Explicit ngspice default depletion-capacitance coefficient with provisional engineering spread",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.EG",
+      "stage": "vertical-sync-integrator-output",
+      "value": 1.11,
+      "bounds": [1.08, 1.14],
+      "unit": "eV",
+      "sources": ["ngspice_manual_diode"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.EG",
+      "basis": "Explicit ngspice silicon default activation energy with provisional temperature-law spread",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AE15-vertical-signal-diode.XTI",
+      "stage": "vertical-sync-integrator-output",
+      "value": 3,
+      "bounds": [2, 4],
+      "unit": "1",
+      "sources": ["ngspice_manual_diode"],
+      "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_DIODE.XTI",
+      "basis": "Explicit ngspice default saturation-current temperature exponent with provisional temperature-law spread",
       "qualification": "provisional-model-proxy"
     },
     {

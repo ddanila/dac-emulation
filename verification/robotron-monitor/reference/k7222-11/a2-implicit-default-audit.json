@@ -2,12 +2,12 @@
   "format": "dac-monitor-a2-implicit-default-audit-v1",
   "qualification": "first critical-default inventory from declared model text; not an A2 completion check",
   "ngspice_manual": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf",
-  "register_sha256": "11a24b427e6a4f0bc618da73ac40d3c5d656aefc66e8d128ba7aaadbb3233928",
+  "register_sha256": "bd56e0940667a8caa2cc5cb89c5dc56ee8df1f0e26b3ceb90e76edaa3379c790",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
   "model_file_sha256": {
     "circuits/k7222-11-small-transistor-models.cir": "6e3323dc2dd13b6c3127f5d8e5788a10084095692b93897045128263d7f7553b",
     "circuits/k7222-11-neck-models.cir": "17e54caf30fcc182d2350ab37b66323255d9b1ab2ee840a786aead80b055f46d",
-    "circuits/k7222-11-vertical-integrator-models.cir": "c841bb30de84564cf8715e0886196f6b20df611dc114fdd320784697bc0f5a0a",
+    "circuits/k7222-11-vertical-integrator-models.cir": "c41261d5618b49fd94b0b2c88f33a163ccab8b417840d102ff851e6896a134bc",
     "circuits/k7222-11-horizontal-models.cir": "2c1f1cdb868b31706fc78adc044ebccad2e918056b8385d02b24fe7a5981e578",
     "circuits/k7222-11-regulator5-models.cir": "e257cc0488337e34f87e5e998a6a4941df07af681e9247f2aba4af2e918d5a5f",
     "circuits/k7222-11-vertical-output-models.cir": "aeaa5490bc98cde0c088825fec00b7ae5958e45fb66cb02fd62fd4cd05c80eb1",
@@ -70,8 +70,8 @@
     ]
   },
   "registered_semiconductor_entries": 24,
-  "entries_with_critical_defaults": 24,
-  "affected_instances": 51,
+  "entries_with_critical_defaults": 23,
+  "affected_instances": 41,
   "rows": [
     {
       "id": "1SA20C-small-npn-class",
@@ -233,30 +233,34 @@
       "explicit_parameters": [
         "BV",
         "CJO",
+        "EG",
+        "FC",
         "IBV",
         "IS",
+        "M",
         "N",
         "RS",
-        "TT"
+        "TT",
+        "VJ",
+        "XTI"
       ],
       "registered_parameters": [
         "BV",
         "CJO",
-        "IBV",
-        "IS",
-        "N",
-        "RS",
-        "TT"
-      ],
-      "critical_implicit_defaults": [
         "EG",
         "FC",
+        "IBV",
+        "IS",
         "M",
+        "N",
+        "RS",
+        "TT",
         "VJ",
         "XTI"
       ],
+      "critical_implicit_defaults": [],
       "explicit_keys_without_same_named_register_field": [],
-      "status": "critical-defaults-open"
+      "status": "critical-defaults-explicit; other qualification still required"
     },
     {
       "id": "1AE15-input-and-sync-diode",

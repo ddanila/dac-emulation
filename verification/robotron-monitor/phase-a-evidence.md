@@ -2776,3 +2776,24 @@ inventory checks current model text and cross-checks all instance IDs against
 the A2 coverage report. It is a worklist, not a model-response pass: source
 bounds, joint sensitivities, connected stress, subcircuit internals and any
 other material defaults remain to be examined before A2 can close.
+
+The vertical-stage 1AE15 diode model now declares its formerly implicit
+`VJ=1`, `M=0.5`, `FC=0.5`, `EG=1.11` and `XTI=3` values. The [Diodes
+Incorporated 1N4148W SPICE model](https://www.diodes.com/spice/download/1589/1N4148W.spice.txt)
+supplies a same-class `M=0.333` comparator, not a 1AE15 identification;
+the other spreads are assumed. Both A2 and A6 registers carry these five
+provisional ranges, bringing A6 to 214 entries. The regenerated
+[implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json)
+has 41 affected instances in 23 entries instead of 51 in 24. The
+[isolated response check](reference/k7222-11/vertical-diode-model-check.json)
+still passes its four 1N4148-class fixtures. The
+[24-case stage sensitivity receipt](reference/k7222-11/vertical-diode-stage-sensitivity.json)
+completes with a maximum 5.52% yoke-span shift over all twelve diode
+parameters. The new five alter yoke span by less than 0.001% individually
+at fixed temperature; `EG` and `XTI` show zero change there because they
+govern temperature behavior. A paired solve of the current deck with the
+five values explicit and implicit produced identical four reported stage
+metrics. The old sensitivity receipt used older profile and runner hashes,
+so its different baseline is not evidence of a model-induced change.
+Neither the one-at-a-time bench nor the class comparator qualifies joint
+corners, original-device ratings or connected native-frame stress.
