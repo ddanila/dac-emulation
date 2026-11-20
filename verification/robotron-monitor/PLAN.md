@@ -407,7 +407,7 @@ Phase C (speed) waits for B8.
 ## Phase A goal completion blocker (updated 2026-11-20)
 
 **Tracked goal disposition (2026-11-20): completion blocked; implementation
-remains active.** Only A4 meets its done condition. The 306 passing tests verify
+remains active.** Only A4 meets its done condition. The 307 passing tests verify
 the current toolchain and saved reports, but Phase A still lacks the independent
 source and T3 graph checks (A1), qualified device and class-typical bounds (A2
 and A6), a sustained native-grid score (A3), and a frozen tube/yoke design
@@ -421,7 +421,7 @@ equivalent-stage fallbacks without human approval or a physical measurement.
 |---|---|---|
 | A1 | The independent page-3/4 and 9/10 netlists, page-18 contrast/service-meter response, and page-16 source-observation check are incomplete. T3 return and tap order remain unverified. | Finish the pin-to-pin source comparisons; record bounded alternatives where the scans cannot resolve a connection. |
 | A2 | All 64 assembled frame-path devices have provisional register rows, but none passes every parameter-qualification check. The [implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json) finds 14 semiconductor instances in 13 register entries still relying on screened simulator defaults. | Make those parameters explicit, qualify their bounds and connected operating stress, then finish the remaining device checks. |
-| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The refreshed 2 ms startup run ends at 5.876 kV EHT, below the sustained 11–12 kV target. | Reach and score a stable connected operating state with the native grid stimulus. |
+| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The refreshed 2 ms startup run ends at 5.876 kV EHT, below the sustained 11–12 kV target. All 36 ideal-TP15 fallback cases exceed the 9 V V18 reverse-base class limit, including the two apparent EHT matches. | Resolve or bound the T2/L4 base path, then reach and score a stable connected operating state with the native grid stimulus. |
 | A4 | Done. | No remaining Phase A action. |
 | A5 | T3's source return/tap graph, winding ratios and polarities are unresolved; the yoke/tube design point remains conditional. | Resolve the source graph or use the plan's labelled bounded equivalent, then verify the full design point. |
 | A6 | The 272-entry class-typical register is partial: exact B31G22 cold/thermal/emission and G4-dependent cut-off data, T3 parasitics, yoke sensitivity and other frame-path bounds are not qualified. | Complete sourced bounds and the affected stage checks. |
