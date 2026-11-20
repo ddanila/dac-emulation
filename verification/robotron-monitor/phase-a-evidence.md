@@ -2542,3 +2542,17 @@ the manual's full-bright trim sequence must be revisited. The
 still passes; page 18 remains open because topology agreement and this
 conditional response do not prove the required function. This short
 synthetic-pattern check is not a native-grid sustained A3 score.
+
+A follow-up [16-point DC diagnostic](reference/k7222-11/page18-contrast-dc-diagnostic.json)
+holds each video/intensity logic pair fixed, sweeps the two contrast endpoints,
+and repeats with an illustrative 100 Ω source impedance ahead of 35P. With
+the ideal feed and intensity high, V1 collector current falls by 28.21 mA
+from low to high contrast while its base changes by only 0.028 V. With the
+illustrative impedance, the 35P rail changes by 2.329 V and V1's base by
+1.466 V, yet the modeled `vid` input to the neck board and cathode DC level
+do not change at either video level. This narrows the bench issue: the
+control affects V1 and can load the 35 V feed, but these tested operating
+points do not carry that change to the tube input. The 100 Ω value is a
+sensitivity probe, not a source-derived rail model. The page-3/4 V1/V3/video
+path, T200 functional model, and service trim conditions need independent
+qualification before attributing the weak response to the physical monitor.
