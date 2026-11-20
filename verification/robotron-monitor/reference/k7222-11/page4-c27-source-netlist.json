@@ -1,0 +1,29 @@
+{
+  "format": "dac-monitor-page4-c27-source-netlist-v1",
+  "qualification": "scoped page-4 C27/collector return read after prior model exposure; not an independent whole-page source netlist or C30 population proof",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 4,
+    "views": [
+      {"description": "600 dpi complete page", "sha256": "ef325eb44040c7d493c88e10c85a50d276583ce39bd5579929b4c53a2de7d4dc"},
+      {"description": "1200 dpi complete page, collector/return detail", "sha256": "c9ea38f47f977ed24e2b1be074858ef6fd9edb3b14f98aa00de83542b35c52cd"}
+    ]
+  },
+  "scope": {
+    "parts": ["C27", "V17", "V18", "T3"],
+    "nets": {
+      "COLLECTOR": ["C27:top", "V17:cathode", "V18:collector", "T3:X2:7"],
+      "00": ["C27:bottom", "V17:anode", "V18:emitter"]
+    }
+  },
+  "reading_notes": [
+    "The drawn C27 upper plate meets the V18 collector and V17 cathode path; its lower plate meets the 00 return, shared by V18 emitter and V17 anode.",
+    "C27 is an unpolarized capacitor. Top and bottom name drawing position, not physical lead numbering.",
+    "This crop does not provide a reliable C30 terminal or population reading. C30's page-6 parts-list value and the present KiCad parallel placement remain separate evidence."
+  ],
+  "unresolved": [
+    "C30 placement and installed population on the K7222.11 output board are not established by this scoped source read.",
+    "The remaining page-4 pin netlist and T3 internal return/tap order still require independent review."
+  ]
+}

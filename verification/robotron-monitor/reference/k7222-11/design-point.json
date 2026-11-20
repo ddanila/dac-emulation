@@ -94,7 +94,8 @@
       "qualification": "conditional alternative; the loaded 5 ms stage changes final EHT by about 2.5% when C30 is absent, but neither population nor periodic operation is established"
     },
     "equation": "T_retrace = pi * sqrt(L_effective * (C27 + C30))",
-    "evidence": "design-derived from documented timing and printed capacitor values; capacitor parallel connection remains agent-read candidate",
+    "evidence": "design-derived from documented timing and printed capacitor values; C27 collector-to-00 branch has a scoped page-4 source comparison, while C30 parallel placement and population remain unverified",
+    "c27_source_comparison": "reference/k7222-11/page4-c27-comparison.json",
     "sources": [{"file": "older-operation.pdf", "page": 5}, {"file": "older.pdf", "page": 4}, {"file": "older.pdf", "page": 6}],
     "limitation": "This is the effective resonance of the entire horizontal network, not a measurement or direct assignment of yoke inductance. The 2.36 mH candidate requires C30 to be populated; the C27-only alternative is 2.59 mH. Resolve the optional C30 population from source evidence before selecting either."
   },
