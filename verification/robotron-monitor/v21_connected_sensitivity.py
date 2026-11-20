@@ -46,14 +46,14 @@ def setup():
     return graph, parameters, candidate, output_parts, l3_r, l3_l, driver_parts, values
 
 
-def simulate(inputs, overrides):
+def simulate(inputs, overrides, reltol=.002):
     graph, parameters, candidate, output_parts, l3_r, l3_l, driver_parts, values = inputs
     with tempfile.TemporaryDirectory() as directory:
         folder = Path(directory)
         trace, stress, circuit = (folder/name for name in ('late.dat', 'stress.dat', 'stage.cir'))
         deck = driver.deck(graph, parameters, candidate, output_parts, l3_r, l3_l,
                            driver_parts, ratio=3, l4_h=5e-6, on_trace=False,
-                           secondary_reversed=False, trace=trace, reltol=.002)
+                           secondary_reversed=False, trace=trace, reltol=reltol)
         nominal = {key: values[key]['nominal'] for key in PARAMETERS}
         nominal.update(overrides)
         model = '.model HOR_HV_RECT D(' + ' '.join(
@@ -97,15 +97,26 @@ def simulate(inputs, overrides):
 def run():
     inputs = setup()
     values = inputs[-1]
+    reference = json.loads(STAGE_REPORT.read_text())['nominal_off_trace_case']
+    selected_reltol = reference['solver']['selected_reltol']
+    if selected_reltol not in (.001, .002):
+        raise ValueError('saved nominal T2/L4 solve tolerance changed')
     nominal = simulate(inputs, {})
     if nominal['status'] != 'complete':
         raise RuntimeError('V21 nominal loaded-stage bench did not complete')
-    reference = json.loads(STAGE_REPORT.read_text())['nominal_off_trace_case']
-    if reference['solver']['selected_reltol'] != .002:
-        raise ValueError('saved nominal T2/L4 solve tolerance changed')
+    graph, parameters, candidate, output_parts, l3_r, l3_l, driver_parts, _ = inputs
+    unsensed = driver.simulate(graph, parameters, candidate, output_parts,
+                               l3_r, l3_l, driver_parts, ratio=3, l4_h=5e-6,
+                               on_trace=False, reltol=.002)
+    if unsensed['status'] != 'complete':
+        raise RuntimeError('V21 unsensed comparison did not complete')
     reference_result = reference['result']
+    if any(abs(unsensed[key]-reference_result[key]) > .01*max(abs(reference_result[key]), 1e-12)
+           for key in ('eht_final_v', 'collector_peak_v', 'driver_collector_swing_v',
+                       'flyback_width_us_at_10pct_swing_median')):
+        raise ValueError('V21 unsensed comparison differs from saved stage by over 1%')
     probe_relative_difference = {
-        key: (nominal['stage'][key]-reference_result[key])/max(abs(reference_result[key]), 1e-12)
+        key: (nominal['stage'][key]-unsensed[key])/max(abs(unsensed[key]), 1e-12)
         for key in ('eht_final_v', 'collector_peak_v', 'driver_collector_swing_v',
                     'flyback_width_us_at_10pct_swing_median')}
     if any(abs(value) > .01 for value in probe_relative_difference.values()):

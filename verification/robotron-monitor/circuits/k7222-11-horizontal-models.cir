@@ -27,7 +27,10 @@ Kcore Lp Ls {horizontal_driver_coupling}
 .model HOR_Z6 D(IS=1n N=1.5 RS=2 BV=6.2 IBV=1m CJO=100p TT=100n VJ=1 M=0.5 FC=0.5 EG=1.11 XTI=3)
 .model HOR_RECT D(IS=10n N=1.5 RS=.2 CJO=40p TT=20n BV=1000 IBV=10u VJ=1 M=0.5 FC=0.5 EG=1.11 XTI=3)
 .model HOR_HV_RECT D(IS=1n N=2 RS=90 CJO=0.95p TT=100n BV=15k IBV=2u VJ=1 M=0.5 FC=0.5 EG=1.11 XTI=3)
-.model HOR_OUTPUT_N NPN(IS=1e-10 BF=20 VAF=100 CJE=1n CJC=200p TF=100n TR=500n)
+* BU508AF-class V18 candidate: IKF and series resistances are bounded by the
+* 0.1/4.5 A gain and 4.5 A saturation comparisons, not an original SU165 fit.
+* The level-1 BJT still lacks reverse emitter-base breakdown and SOA physics.
+.model HOR_OUTPUT_N NPN(IS=1e-10 BF=20 VAF=100 CJE=1n CJC=200p TF=100n TR=500n IKF=5 RB=0.05 RC=0.02 RE=0.01 VJE=0.75 MJE=0.33 VJC=0.75 MJC=0.33 EG=1.11 XTI=3 FC=0.5)
 .subckt HORIZONTAL_CHOKE a b
 Rloss a n {horizontal_choke_r}
 Lcore n b {horizontal_choke_l}

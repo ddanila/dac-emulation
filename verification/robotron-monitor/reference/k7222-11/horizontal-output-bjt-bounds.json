@@ -1,0 +1,90 @@
+{
+  "format": "dac-monitor-v18-bjt-bounds-v1",
+  "qualification": "25 C BU508AF-class DC gain and saturation corner check for active V18; not original transistor identity, inductive switching, temperature, SOA or connected-stage qualification",
+  "sources": [
+    "https://www.st.com/resource/en/datasheet/bu508af.pdf",
+    "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf"
+  ],
+  "source_hashes": {
+    "circuits/k7222-11-horizontal-models.cir": "a2441a3503533264b51bae8dbecaf173e34f9621ad82218e8799d1d613b891ca",
+    "reference/k7222-11/device-model-register.json": "d8a561d15959a942e1d5e7cab037e5f1ce3dbba4b5fe38ebb9413db2c23a8448",
+    "reference/k7222-11/class-typical-register.json": "d578ada64fd5f7fcfb1a474f94e908a5c8756583656df2b1bf3b2bdd54709a76",
+    "horizontal_output_bjt_bounds.py": "bae656e4225ca577437b2b8423ebb51f945c29706f6df8463f83bcff905cdba7",
+    "horizontal_output_transistor_check.py": "35899af6ded9908601545c1bc495272f5a2a76999dd4ed9cbe84280a8329fe76"
+  },
+  "active_parameters": {
+    "IS": 1e-10,
+    "BF": 20.0,
+    "VAF": 100.0,
+    "CJE": 1e-09,
+    "CJC": 2e-10,
+    "TF": 1.0000000000000001e-07,
+    "TR": 5.000000000000001e-07,
+    "IKF": 5.0,
+    "RB": 0.05,
+    "RC": 0.02,
+    "RE": 0.01,
+    "VJE": 0.75,
+    "MJE": 0.33,
+    "VJC": 0.75,
+    "MJC": 0.33,
+    "EG": 1.11,
+    "XTI": 3.0,
+    "FC": 0.5
+  },
+  "gain_corner_cases": [
+    {
+      "BF": 15,
+      "IKF_a": 3,
+      "hFE_0p1a": 15.18393987164307,
+      "hFE_4p5a": 6.406751740755601,
+      "VCEsat_v": 0.2332844,
+      "VBEsat_v": 0.8367802
+    },
+    {
+      "BF": 15,
+      "IKF_a": 20,
+      "hFE_0p1a": 15.593922691905991,
+      "hFE_4p5a": 12.857200319453705,
+      "VCEsat_v": 0.2046186,
+      "VBEsat_v": 0.821913
+    },
+    {
+      "BF": 28,
+      "IKF_a": 3,
+      "hFE_0p1a": 28.343422317341073,
+      "hFE_4p5a": 11.959864954649937,
+      "VCEsat_v": 0.2246035,
+      "VBEsat_v": 0.8406394
+    },
+    {
+      "BF": 28,
+      "IKF_a": 20,
+      "hFE_0p1a": 29.108807131095755,
+      "hFE_4p5a": 24.000548251510693,
+      "VCEsat_v": 0.2013325,
+      "VBEsat_v": 0.8239064
+    }
+  ],
+  "maximum_series_resistance_case": {
+    "BF": 15,
+    "IKF_a": 3,
+    "RB_ohm": 0.1,
+    "RC_ohm": 0.08,
+    "RE_ohm": 0.03,
+    "hFE_0p1a": 15.182855023175966,
+    "hFE_4p5a": 6.370183995373122,
+    "VCEsat_v": 0.6252844,
+    "VBEsat_v": 1.06678
+  },
+  "checks": {
+    "gain_corners": true,
+    "saturation_resistance_corner": true
+  },
+  "passed": true,
+  "remaining": [
+    "The original V18 identity and fitted parasitics are unknown.",
+    "Joint capacitance, transit, temperature and connected stress bounds remain unqualified.",
+    "The active BJT has no reverse emitter-base breakdown or full safe-operating-area model."
+  ]
+}

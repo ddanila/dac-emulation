@@ -21,8 +21,8 @@ CASES = {
     'low_tr': ('100n', '100n'),
     'nominal': ('100n', '500n'),
     'high_tr': ('100n', '2u'),
-    'low_tf': ('20n', '500n'),
-    'high_tf': ('300n', '500n'),
+    'low_tf': ('50n', '500n'),
+    'high_tf': ('200n', '500n'),
 }
 
 
@@ -51,7 +51,7 @@ VSENSE c cl 0
 DCLAMP cl clamp DPROXY
 VCLAMP clamp 0 200
 CSNUB c 0 1n
-VDRIVE drive 0 PULSE(-2.7 1.142 1u 5n 5n 40u 62.5u)
+VDRIVE drive 0 PULSE(-2.7 1.225 1u 5n 5n 40u 62.5u)
 RBASE drive lb 1
 LBASE lb b 4.5u
 VNEG neg 0 -2.7
@@ -128,7 +128,7 @@ def run():
                                            typical_fall_s=.2e-6),
                 proxy_assumptions=['4.5 A ideal collector current source in place of the data-sheet inductive load',
                                    '200 V diode clamp and 1 nF collector snubber; neither value is specified by the data-sheet text',
-                                   '1 ohm base-drive resistor chosen to produce approximately 0.5 A on current; 4.5 uH remains in series during both phases',
+                                   '1 ohm base-drive resistor and 1.225 V high drive chosen to produce approximately 0.5 A on current with the explicit V18 series resistances; 4.5 uH remains in series during both phases',
                                    'a diode to the -2.7 V rail limits reverse base-voltage overshoot from the base inductor',
                                    'first 10%-to-90% rise of clamp current is a transfer metric, not the data-sheet collector-current fall definition'],
                 cases=cases, data_sheet_timing_verified=False)

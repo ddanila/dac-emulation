@@ -2505,9 +2505,9 @@ largest final-EHT change is **−4.45%** at the 2.5 µs upper transit-time proxy
 collector peak changes by up to 3.08%. Thus the broad recovery bound is
 material to the connected stage and cannot be silently frozen at nominal.
 
-The probed nominal 4–5 ms window reaches 11.923 kV reverse across V21 and
+The probed nominal 4–5 ms window reaches 11.940 kV reverse across V21 and
 about 12.8 mA forward peak. The largest one-at-a-time reverse peak is
-11.928 kV, only about 0.6% below the 12 kV repetitive reverse rating of the
+11.953 kV, only about 0.4% below the 12 kV repetitive reverse rating of the
 [Rectron comparator](https://www.rectron.com/public/product_datasheets/r12000h.pdf).
 This is a conditional, nonperiodic stage window with prescribed V13 drive,
 ideal feed, an unverified T3 return graph and no beam-current load. The
@@ -2741,16 +2741,16 @@ remains the detailed page-3/4 wiring. The stage label is
 
 A [200 µs connected startup screen](reference/k7222-11/page3-4-connected-contrast-transient.json)
 uses the archived native logical capture and one unverified T3 sign candidate.
-After the CRT grid-factor revision, the detailed topology stops at 0.125 ns
-with a timestep error at `sync_c` under default sparse settings. The manual
+With the revised V18 model, the detailed topology reaches 200 µs (2,386
+rows) under default sparse settings. The manual
 equivalent stops at 46.3 µs with a timestep error at `h_boosttap`. With KLU,
 50 ns maximum step, 0.002 relative tolerance and 10⁻⁸ A absolute tolerance,
-the manual equivalent reaches 200 µs (8,611 rows). This only
+the manual equivalent reaches 200 µs (6,034 rows). This only
 establishes short-startup solver feasibility for that one candidate. It
 does not score a field, show lock or periodic settling, prove the manual
 terminal assignment, or qualify the native frame.
 The [same variant extended to 2 ms](reference/k7222-11/page3-4-connected-contrast-2ms.json)
-also completes with 262,181 data rows. Its final EHT is 5.876 kV, below
+also completes with 81,434 data rows. Its final EHT is 5.073 kV, below
 the 11–12 kV sustained target. This
 extends the solver feasibility bound, but remains only about one tenth of
 the 19.5 ms native field and cannot establish an A3 or A5 pass.
@@ -2910,7 +2910,7 @@ model/report consistency, not completion of the remaining Phase A conditions.
 The source-connected [T2/L4 loaded sweep](reference/k7222-11/t2-l4-output-stage-sweep.json)
 now applies the [ST BU508AF](https://www.st.com/resource/en/datasheet/bu508af.pdf)
 9 V absolute maximum emitter-base reverse-voltage comparator to V18. This is
-a class limit, not a rating recovered for the printed transistor. Seventeen
+a class limit, not a rating recovered for the printed transistor. Sixteen
 of 24 previously completed 4–5 ms cases drive V18's base below −9 V, even
 though the model has no reverse emitter-base breakdown mechanism. None of
 the 24 reaches both manual TP15 and EHT ranges, so no stage pass follows.
@@ -2918,20 +2918,20 @@ the 24 reaches both manual TP15 and EHT ranges, so no stage pass follows.
 To test whether the missing TP15 swing alone explains EHT, the
 [ideal TP15 boundary sweep](reference/k7222-11/tp15-equivalent-output-stage.json)
 replaces V13 and its base drive with a 0–45 V source at its collector, leaving
-the transcribed T2/L4/V18/T3/output load in place. All 36 combinations of
+the transcribed T2/L4/V18/T3/output load in place. Thirty-four of 36 combinations of
 1,768/2,035/2,409 HV turns, T2 ratios 1/3/10, two secondary polarities and
-two pulse phases reach the 19–20 ms window. Two 2,035-turn cases match the
+two pulse phases reach the 19–20 ms window; two abort. Two 2,035-turn cases match the
 manual 11–12 kV EHT range and the independent repairer's 370–420 V collector
-comparison. The model-polarity, on-trace case gives 11.351 kV EHT, 391 V
-collector peak, 14.01 µs flyback at the 10% crossing, and only 1.05 V EHT
-drift across the 16-line window. Yet its V18 base reaches −62.57 V; the
-reversed-polarity, off-trace match reaches −62.7 V. Every one of the 36 cases
+comparison. The model-polarity, on-trace case gives 11.281 kV EHT, 388 V
+collector peak, 14.34 µs flyback at the 10% crossing, and only 2.74 V EHT
+drift across the 16-line window. Yet its V18 base reaches −54.04 V; the
+reversed-polarity, off-trace match reaches −54.11 V. Every one of the 34 completed cases
 exceeds the 9 V class limit, including the lower-EHT cases. The apparent
 voltage match is therefore not an admissible equivalent-driver operating
 point. A 16-line EHT drift check is also not a three-field native-grid
 periodicity score. The source T2 secondary/T3 graph, V18 switching stress and
 stage loading must be resolved or bounded before A3/A5 can close.
-With the verified pinned runtime, `make test-monitor` passes 307 tests with no
+With the verified pinned runtime, `make test-monitor` passed 307 tests with no
 skips after the stress audit and dependent receipt refresh. This verifies the
 diagnostic and saved reports, not a source-validated or stress-safe stage.
 
@@ -2952,16 +2952,49 @@ exposure, not the independent whole-page A1 netlist.
 The [eight-case L4-path sensitivity](reference/k7222-11/t2-l4-topology-sensitivity.json)
 holds the conditional 2,035-turn T3 and ideal 45 Vpp TP15 boundary fixed,
 then tries the selected parallel L4:1/L4:2 path, a single coil, two series
-coils, and a near-short bridge at T2 ratios 1 and 10. All eight 19–20 ms
-cases complete. The ratio-1 base minimum stays between −60.60 and −62.65 V;
-the ratio-10 minimum stays between −11.63 and −18.80 V, so none meets the
-9 V V18 reverse-base class comparator. Even the near-short bridge at ratio
-10 gives −11.63 V and 9.91 kV EHT. The selected parallel ratio-1 case
-reproduces the earlier 11.351 kV, 391 V, −62.57 V result. These branch
+coils, and a near-short bridge at T2 ratios 1 and 10. Seven 19–20 ms cases
+complete; the series-path ratio-10 case aborts. All four completed ratio-1
+cases match the EHT range but drive V18's base to −53.19 to −54.65 V. The
+near-short bridge at ratio 10 stays within the 9 V reverse-base class
+comparator at −7.52 V, but gives only 9.92 kV EHT. None is both a voltage
+match and reverse-base safe. The selected parallel ratio-1 case reproduces
+11.281 kV EHT, 388 V collector peak and −54.04 V at V18's base. These branch
 changes alone do not rescue the apparent TP15 voltage match. The alternate
 L4 paths are exploratory impedance bounds, not source-read jumper settings;
 T2 secondary and T3 graph uncertainty still governs the next stage check.
 With `MONITOR_RUNTIME=build/monitor/runtime-phase-a-gcc16-verified`, the
-complete `make test-monitor` suite passes 308 tests with no skips on Python
+complete `make test-monitor` suite passed 308 tests with no skips on Python
 3.9.6. This validates the saved sensitivity receipt and other tool checks;
 it does not meet the remaining Phase A done conditions.
+
+### A2/A6: V18 high-current BJT bounds (2026-11-20)
+
+The active V18 `HOR_OUTPUT_N` model now declares `IKF`, `RB`, `RC`, `RE` and
+the screened junction and temperature defaults. The [parameter-corner
+receipt](reference/k7222-11/horizontal-output-bjt-bounds.json) compares the
+live model with the [ST BU508AF class sheet](https://www.st.com/resource/en/datasheet/bu508af.pdf)
+at 25 °C. All four independent `BF`/`IKF` corners meet the sheet's 0.1 A
+gain interval of 10–30 and 4.5 A gain floor of 5; the lowest 4.5 A gain is
+6.41. The combined maximum registered `RB`/`RC`/`RE` case gives 0.625 V
+collector-emitter and 1.067 V base-emitter saturation proxies, below the
+1.0/1.1 V class comparators. The nominal model gives gains 20.50 and 11.18
+at 0.1/4.5 A. This is a comparator for an unidentified original transistor,
+not a fitted SU165 model. The [switching proxy](reference/k7222-11/horizontal-output-switching-proxy.json)
+now uses the registered `TF` endpoints and about 0.495 A on-base drive; its
+nominal command-to-clamp-10% and clamp-10–90% intervals are 0.801 and
+0.745 µs. Those fixture intervals are not the sheet's inductive storage
+and fall-time measurements. The original identity, joint capacitance/transit
+and temperature bounds, and connected switching stress remain open.
+
+The refreshed [prescribed-V13 T2/L4 stage](reference/k7222-11/t2-l4-output-stage-sweep.json)
+completes all 24 cases with a bounded solver retry, but none meets the
+manual TP15 or EHT window. Sixteen cases exceed the 9 V BU508AF-class
+reverse emitter-base limit; the nominal off-trace case reaches 9.468 kV EHT,
+378 V collector peak and −20.39 V at V18's base. Explicit DC gain and
+series resistance therefore narrow A2's model inventory without closing
+the A3 connected waveform score or A5 design point. The level-1 BJT model
+has no reverse emitter-base breakdown or full safe-operating-area behavior.
+With `MONITOR_RUNTIME=build/monitor/runtime-phase-a-gcc16-verified`, the
+refreshed `make test-monitor` suite passes 309 tests with no skips on Python
+3.9.6. This checks the saved receipts and tool contracts, not the missing
+source, safe connected-stage or full design-point evidence.
