@@ -1,6 +1,6 @@
 {
   "format": "dac-monitor-page3-4-connected-contrast-transient-v1",
-  "qualification": "200 us startup solver screen with native logical input; not a complete field, sustained-state score, calibration or factory topology proof",
+  "qualification": "bounded startup solver screen with native logical input; not a complete field, sustained-state score, calibration or factory topology proof",
   "archive_capture_sha256": "86184b30371f08b5e7d6060c8ee34690c3778ed9a701d523ae705da594162621",
   "selected_field_content_sha256": "633c30319000d20ad677fee8f3003a434d5e6828e71eae795b3dd4d60531e627",
   "selection_period_s": 0.0195,
@@ -89,9 +89,9 @@
     "calibration_contract.py": "02e8cd297fb46665aef203b1aed7c5e58c59cc97eca7ea9310c362e185e05473",
     "calibration_measurements.py": "be271bd351f31cba0e8d8142f7e1d63abaaf482744e2ca388fa7352e7507fdda",
     "grid_geometry.py": "7ed9715119cc3e736662c42af1e5bfa3736cdd485faa4d8010aea019f51844b5",
-    "phase_a_gates.py": "9c89dfeb4e065397aea3ad54e5f5f032e53e08a291b2d518d1ccaa881d9c9502"
+    "phase_a_gates.py": "def98ae4fd2af186c9dc1c6890fbc7ee8cdeffefa40e670bf4aac7da666161fb"
   },
-  "tested_duration_s": 0.0002,
+  "tested_duration_s": 0.00019999999999999998,
   "rows": [
     {
       "case": "detailed_sparse",
@@ -100,13 +100,13 @@
       "reltol": 0.005,
       "abstol": 1e-06,
       "max_step_s": 1e-07,
-      "short_deck_sha256": "6598941cd5351101f1808de35d5e1357315970d5525b90793674868985e6d314",
+      "short_deck_sha256": "6b6a06bb4b4c67616cb617ce36219ccb95b27e0eac18e12e032edd3e0620b8a1",
       "returncode": 0,
       "completed": true,
       "data_rows": 3597,
-      "last_time_s": 0.00019999999999999998,
-      "last_cathode_v": 33.67094865697357,
-      "last_eht_v": 1260.4137708386136,
+      "last_time_s": 0.0002,
+      "last_cathode_v": 33.67094865697354,
+      "last_eht_v": 1260.4137708386131,
       "timestep_failure": null
     },
     {
@@ -116,7 +116,7 @@
       "reltol": 0.005,
       "abstol": 1e-06,
       "max_step_s": 1e-07,
-      "short_deck_sha256": "0b9865054d350d92fe2b62ca91c92ad4c7a412361e6609d0b5f5b638db419b13",
+      "short_deck_sha256": "4f58799b2cc5300ab4a9ca95f8cdbe488626589814fea7151e4c116bebd1f6c5",
       "returncode": 1,
       "completed": false,
       "data_rows": 2,
@@ -132,13 +132,13 @@
       "reltol": 0.002,
       "abstol": 1e-08,
       "max_step_s": 5e-08,
-      "short_deck_sha256": "14868995662ff9bd740823b1da21d5db8cbc4ea021f5d57f8bce937514f88a28",
+      "short_deck_sha256": "dd00442d819a7471b581eb8cfed30c285902d4589531357d0de98079184111d1",
       "returncode": 0,
       "completed": true,
       "data_rows": 9453,
-      "last_time_s": 0.00019999999999999998,
-      "last_cathode_v": 33.67094889427091,
-      "last_eht_v": 1512.872232726477,
+      "last_time_s": 0.0002,
+      "last_cathode_v": 33.67094889433215,
+      "last_eht_v": 1512.8722327264766,
       "timestep_failure": null
     }
   ]
