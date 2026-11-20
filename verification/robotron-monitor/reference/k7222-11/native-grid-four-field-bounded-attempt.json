@@ -10,7 +10,9 @@
   "source_hashes": {
     "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
     "steady_supply.py": "af5e9c08e2d07e6592ba6df39029f66da1117e29d5aa5e76eaad888d0e0ec317",
-    "partial_trace_diagnostic.py": "419605a1c676df5230291fb03ed2267a2007f43c5604f008b3ff026ada9892a5"
+    "partial_trace_diagnostic.py": "419605a1c676df5230291fb03ed2267a2007f43c5604f008b3ff026ada9892a5",
+    "native_grid_horizontal_chain.py": "e76c02164211329dd13035d4ddb6bce31f5f6657950382453407891fbee7bf11",
+    "reference/k7222-11/service-observations.json": "4268a1b1f5f3eb5ae6721476cfc5f0a22e73528e992183bebd69a3260e0927a9"
   },
   "trials": [
     {
@@ -28,7 +30,25 @@
       "eht_mean_v_15_to_16_ms": 7935.9061358316185,
       "h_sync_upcross_100v_15_to_16_ms": 0,
       "output_directory": "build/monitor/phase-a/native-v13-v18-grid-20261120",
-      "termination": "controlled SIGTERM after projected over-budget progress"
+      "termination": "controlled SIGTERM after projected over-budget progress",
+      "horizontal_chain_report": "reference/k7222-11/native-grid-50ns-horizontal-chain.json",
+      "drive_pulses_2_to_12_ms": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "tp17_h_sync_swing_range_vpp_1_to_12_ms": [
+        15.334367435647914,
+        20.473548942718452
+      ]
     },
     {
       "max_step_ns": 200,
@@ -45,16 +65,36 @@
       "eht_mean_v_15_to_16_ms": 9668.175460936993,
       "h_sync_upcross_100v_15_to_16_ms": 0,
       "output_directory": "build/monitor/phase-a/native-v13-v18-grid-200ns-20261120",
-      "termination": "runner wall-budget timeout"
+      "termination": "runner wall-budget timeout",
+      "horizontal_chain_report": "reference/k7222-11/native-grid-200ns-horizontal-chain.json",
+      "drive_pulses_2_to_12_ms": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "tp17_h_sync_swing_range_vpp_1_to_12_ms": [
+        18.656876042340166,
+        20.849486853683132
+      ]
     }
   ],
   "eht_mean_relative_difference_15_to_16_ms": 0.2182824866443367,
   "status": "unqualified",
   "remaining": [
     "Complete and score at least three connected native-grid fields at a refined, converged resolution.",
-    "Resolve conditional T2/T3 source graph and V18 reverse-base operating stress."
+    "Resolve conditional T2/T3 source graph, TP17 under-amplitude and V18 reverse-base operating stress."
   ],
   "runner": "full_path.py --mode steady-supply-frame",
   "capture_archive": "examples/phase-a-native-full-text/capture.json.gz",
-  "wall_budget_hours": 0.25
+  "wall_budget_hours": 0.25,
+  "tp17_manual_swing_vpp": 80,
+  "tp17_manual_tolerance": 0.2
 }

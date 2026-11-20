@@ -395,9 +395,12 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-20)
 
-**Phase A is not closed. Only A4 meets its done condition.** This blocks
-closing Phase A, not the work: nothing below needs a human or a measurement,
-and the fallbacks above apply.
+**Phase A is not closed. Only A4 meets its done condition.** The Phase A
+completion goal is blocked by the open A1, A2, A3, A5 and A6 conditions below.
+The immediate connected-run obstacle is the unresolved T3 source graph and
+under-amplitude TP17 pulse path, compounded by solver non-convergence and
+step-size sensitivity. This blocks closing Phase A, not the work: nothing
+below needs a human or a measurement, and the fallbacks above apply.
 
 **Keep this section short.** It holds one row per item: what is still unmet
 and the next step. Results, numbers and source reads go in
@@ -410,7 +413,7 @@ next step changes. The narrative that used to follow is in
 |---|---|---|
 | A1 | Second netlists for pages 3–4 and 9–10 are partial: local branches match, the full pages are not compared. Page 16 schematic is closed; its service-observation check is open. Page 18 has three model-scope gaps and no working contrast path. Not settled by the scans: T3 return (X1:3 to X2:3), tap order and HV cold end; T2 secondary phase and return; installed E2 and E1–E4 links; C30 population; L1's crossing with the flyback line. | Finish the pin-to-pin comparisons. Carry each connection the scan cannot settle as a labelled, bounded alternative. |
 | A2 | All 64 frame-path instances have provisional register rows; none passes every qualification check. Some semiconductors still rely on screened simulator defaults ([audit](reference/k7222-11/a2-implicit-default-audit.json)). T3 turns, resistance and parasitics are assumed-bound. | Make the remaining defaults explicit with bounds. Check connected operating stress per stage. |
-| A3 | All 17 shape descriptors are registered and scored. No sustained connected run on the native grid has been scored. TP8 is `reference-incomplete`: 17 V is crest-to-zero, and the 10 V arrow has no settled node. | Bound the T2 secondary and L4 base path, find where the connected run loses horizontal sync, show the result does not depend on step size, then score. |
+| A3 | All 17 shape descriptors are registered and scored. No sustained connected run on the native grid has been scored. Horizontal output pulses persist, but the TP17-mapped pulse is under-amplitude in the bounded partial runs; their step-size results disagree and neither reaches the four-field endpoint. TP8 is `reference-incomplete`: 17 V is crest-to-zero, and the 10 V arrow has no settled node. | Resolve or bound the T3 pulse-winding/rectifier and T2/L4 source paths. Qualify TP17 amplitude and solver convergence at a refined step size, then score. |
 | A4 | Done. | None. |
 | A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. T3 graph, ratios and polarities are not frozen. The vertical current calculation and the tube/yoke geometry are conditional. | Resolve the T3 graph from the page images or take the equivalent T3 from "Fallbacks". Then freeze. |
 | A6 | The [register](reference/k7222-11/class-typical-register.json) is partial: tube data (B31G22 cold resistance, thermal law, emission, G4 effect on cut-off), T3 parasitics, yoke sensitivity and the measuring cable lack qualified bounds. | Add cited bounds and re-run the stage checks they affect. |
@@ -453,8 +456,10 @@ are in the evidence log.
   service readings.
 - **Connected runs.** No native-grid run has completed three locked fields.
   The 50 ns and 200 ns partial runs disagree by 22% on mean EHT over the same
-  window, so neither qualifies the other. Shorter startup runs end near
-  5 kV. None of this is evidence about the sustained state.
+  window, so neither qualifies the other. Horizontal output pulses continue,
+  but the TP17-mapped pulse is below the manual guideline in their early
+  complete bins. Shorter startup runs end near 5 kV. None of this is evidence
+  about the sustained state.
 
 `make test-monitor` checks the tools and that saved reports reproduce. It
 needs the pinned runtime (`MONITOR_RUNTIME`) and the source PDFs under
