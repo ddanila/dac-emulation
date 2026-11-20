@@ -23,7 +23,10 @@ BOUNDS = {
     'emission_reference_a': (60e-6,5e-6,300e-6,'A'),
     'work_function_ev': (1.1,.8,1.5,'eV'),
     'perveance': (1e-6,1e-7,1e-5,'A/V^1.5'),
-    'grid2_mu': (10.,5.,30.,'1'),
+    # Provisional 6.5 lies in the overlap of the M31-120 grid cut-off comparator
+    # and the manual's dark/bright cathode states under the isolated neck rails.
+    # B31G22 gun data and the G4 dependence are still unknown.
+    'grid2_mu': (6.5,3.5,30.,'1'),
     'grid2_capture': (.03,.005,.15,'1'),
     'anode_collection_v': (1000.,500.,2000.,'V'),
     'cathode_socket_f': (20e-12,5e-12,60e-12,'F'),

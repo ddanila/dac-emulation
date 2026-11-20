@@ -416,10 +416,10 @@ measurement.
 |---|---|---|
 | A1 | The independent page-3/4 and 9/10 netlists, page-18 contrast/service-meter response, and page-16 source-observation check are incomplete. T3 return and tap order remain unverified. | Finish the pin-to-pin source comparisons; record bounded alternatives where the scans cannot resolve a connection. |
 | A2 | All 64 assembled frame-path devices have provisional register rows, but none passes every parameter-qualification check. | Qualify the device models and connected operating stress within documented or bounded ranges. |
-| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The 2 ms startup run still has rising EHT. | Reach and score a stable connected operating state with the native grid stimulus. |
+| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The refreshed 2 ms startup run ends at 5.876 kV EHT, below the sustained 11–12 kV target. | Reach and score a stable connected operating state with the native grid stimulus. |
 | A4 | Done. | No remaining Phase A action. |
 | A5 | T3's source return/tap graph, winding ratios and polarities are unresolved; the yoke/tube design point remains conditional. | Resolve the source graph or use the plan's labelled bounded equivalent, then verify the full design point. |
-| A6 | The 208-entry class-typical register is partial: exact B31G22 cold/thermal/emission data, T3 parasitics, yoke sensitivity and other frame-path bounds are not qualified. | Complete sourced bounds and the affected stage checks. |
+| A6 | The 209-entry class-typical register is partial: exact B31G22 cold/thermal/emission and G4-dependent cut-off data, T3 parasitics, yoke sensitivity and other frame-path bounds are not qualified. | Complete sourced bounds and the affected stage checks. |
 
 The source reads and diagnostics below narrow these gaps but do not satisfy
 their done conditions. This is a blocker to **goal completion**, not to further
@@ -475,11 +475,12 @@ remains the default. The deck, run report and grid calibration freeze name
 and bind this equivalent, so it cannot silently replace the source export or
 change between calibration and native rendering. A [native-input 200 µs
 startup screen](reference/k7222-11/page3-4-connected-contrast-transient.json)
-reaches its stop time with tighter KLU settings, while the default sparse
-solve aborts at 1 ns. This qualifies only bounded solver startup, not a
+reaches its stop time with tighter KLU settings. With the revised CRT grid
+factor, the default sparse solves stop at 0.125 ns for detailed wiring and
+46.3 µs for the manual equivalent. This qualifies only bounded solver startup, not a
 periodic connected A3 score or the factory topology.
 An [extended 2 ms startup solve](reference/k7222-11/page3-4-connected-contrast-2ms.json)
-also completes for that KLU setting, with EHT at 3.704 kV and still rising;
+also completes for that KLU setting, with final EHT at 5.876 kV;
 it covers only about a tenth of one field and does not meet the sustained
 11–12 kV target.
 The short contrast bench shows effectively no cathode or provisional beam
@@ -492,7 +493,7 @@ unqualified junction capacitance: its median is 0.28 V at the lower bound,
 0.30 V. That does not establish a qualified logic high. The original IS drive,
 tube response and manual service-meter transfer remain open. Without the T3
 graph, A5 cannot qualify the winding design point. A2's 64 device rows are provisional, A3 has no sustained
-connected native-grid waveform score, and A6's 208 class-typical entries remain
+connected native-grid waveform score, and A6's 209 class-typical entries remain
 partial. The conditional simulations and source checks below narrow these
 gaps but do not satisfy the PLAN's completion criteria. Finish and verify the
 remaining A1, A2, A3, A5 and A6 work before marking the tracked goal complete.
@@ -569,7 +570,7 @@ labelled as such. The remaining done-condition gaps are:
 | A2 | Qualify every frame-path device model and its bounds. All 64 instances have provisional register rows, including T3, but none closes every parameter check. V21 has explicit bounds for all seven SPICE diode parameters, passes bounded Rectron/Semtech class fixtures, and has a 14-case one-at-a-time connected-stage sensitivity sweep. The slow TT endpoint moves final EHT by 4.4%; nominal late-window reverse voltage reaches 11.92 kV, near the 12 kV comparator rating. V21 identity, joint corners and sustained stage stress remain open. The two cross-revision ÜHA78 winding reports challenge T3's active 1,000-turn hypothesis without proving the K7222.11 construction; its other turns, parasitics and connected sensitivity remain unqualified. Original values and connected sensitivity also remain open for the page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes. |
 | A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check passes in the synthetic-sync loaded bench; a dual-node probe shows the separate 10 V arrow remains sensitive to reset masking and node attribution. The prescribed-V13 T2/L4 loaded-stage sweep misses TP15 and EHT in all 24 cases across both T2 polarities after a bounded solver retry. Score connected stages with stable feature definitions, the required loaded probes, native grid stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. The loaded T2/L4 sweep does not establish a periodic EHT or identify the factory T3 winding. Optional C30 population changes the inferred 16 µs effective resonance inductance from 2.36 to 2.59 mH and loaded final EHT by 2.49–2.53% in the refreshed V21 model; its source population is still unverified. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
-| A6 | Complete cited bounds for the remaining tube, T3, yoke, measuring cable and other frame-path model values; the current register has 208 partial entries, including three explicitly assumed-bound T3 rows and three additional V21 model parameters. The [Tungsram M31-120 heater check](reference/k7222-11/tube-heater-class-check.json) now supports the active 11 V/68 mA class operating point through the printed 15 Ω R22, but it does not establish B31G22 cold resistance, thermal law or emission. The page-16 meter-cable capacitance, shunts and DVM loading remain unbounded. The older RFT B30G1 6.3 V/0.47 A comparator remains excluded: it would require 13.35 V ahead of R22, above the modeled 12 V rail. |
+| A6 | Complete cited bounds for the remaining tube, T3, yoke, measuring cable and other frame-path model values; the current register has 209 partial entries, including three explicitly assumed-bound T3 rows and three additional V21 model parameters. The [Tungsram M31-120 heater check](reference/k7222-11/tube-heater-class-check.json) supports the active 11 V/68 mA class operating point through the printed 15 Ω R22. The [cut-off class check](reference/k7222-11/tube-cutoff-class-check.json) moves the provisional grid factor into the catalog/manual overlap, but the installed B31G22 gun, G4 effect, cold resistance, thermal law and emission remain unqualified. The page-16 meter-cable capacitance, shunts and DVM loading remain unbounded. The older RFT B30G1 6.3 V/0.47 A comparator remains excluded: it would require 13.35 V ahead of R22, above the modeled 12 V rail. |
 
 All five printed `1SA20C` instances and both `1SC60A` instances now use
 separate [BC546B-class NPN model aliases](circuits/k7222-11-small-transistor-models.cir)
@@ -975,7 +976,7 @@ excursion is 7.59–7.74 V with a 2% fit-error allowance, but only 6.80–7.11 V
 or undefined with 1%. The manual does not prescribe this fit threshold, so
 the result remains diagnostic and TP8 stays `reference-incomplete`.
 The class-typical register collects
-208 cited bounded entries, but tube cold resistance, thermal and emission
+209 cited bounded entries, but tube cold resistance, thermal and emission
 parameters, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
 All three A4 controls are now bound in the ideal-rail

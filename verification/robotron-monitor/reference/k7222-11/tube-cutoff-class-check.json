@@ -1,0 +1,80 @@
+{
+  "format": "dac-monitor-tube-cutoff-class-check-v1",
+  "qualification": "conditional class comparator and isolated neck rails only; no B31G22 gun or G4 qualification",
+  "sources": {
+    "tungsram": {
+      "url": "https://frank.pocnet.net/other/Tungsram/Tungsram_ElectronTubes_Semiconductors_1976.pdf",
+      "pdf_sha256": "3358775dc8165afc7036235d2887264820017453e13d3d0dd8dd52a40583ac15",
+      "pdf_page": 96,
+      "printed_page": "II-46",
+      "type": "M31-120",
+      "exact_installed_type": false
+    },
+    "robotron_manual": {
+      "file": "older-operation.pdf",
+      "pdf_sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
+      "pdf_pages": [
+        10,
+        11
+      ],
+      "printed_pages": [
+        8,
+        9
+      ]
+    }
+  },
+  "active_model": {
+    "file": "electrothermal.py",
+    "sha256": "82e246ec437c17dec8b9168239e144e4524527f06ef9f946e244a9f36974bdd0",
+    "nominal_grid2_mu": 6.5,
+    "bounds": [
+      3.5,
+      30.0
+    ],
+    "law": "perveance * max(G1-K + (G2-K)/mu, 0)^1.5",
+    "g4_modeled": false
+  },
+  "catalog": {
+    "g2_v": 250.0,
+    "grid_control_cutoff_v": [
+      35.0,
+      69.0
+    ],
+    "implied_mu": [
+      3.6231884057971016,
+      7.142857142857143
+    ],
+    "interpretation": "effective mu for the M31-120 at its printed G4=0..350 V operation, not a B31G22 bound"
+  },
+  "manual_and_isolated_neck": {
+    "manual_cathode_v": {
+      "dark": 35.0,
+      "normal_bright": 15.0
+    },
+    "provisional_g1_v": -25.0,
+    "provisional_g2_v": 350.0,
+    "rail_source": "page16-neck-static.json isolated ideal-rail bench",
+    "dark_requires_mu_at_least": 5.25,
+    "bright_requires_mu_below": 8.375,
+    "overlap_with_catalog_mu": [
+      5.25,
+      7.142857142857143
+    ]
+  },
+  "comparison": {
+    "previous_nominal_mu": 10.0,
+    "previous_catalog_grid_cutoff_v": 25.0,
+    "previous_manual_bright_drive_v": -6.5,
+    "nominal_catalog_grid_cutoff_v": 38.46153846153846,
+    "nominal_cathode_cutoff_v": 25.0,
+    "nominal_dark_drive_v": -11.53846153846154,
+    "nominal_bright_drive_v": 11.53846153846154,
+    "nominal_dark_demand_a": 0.0,
+    "nominal_bright_demand_a": 3.919420502808216e-05
+  },
+  "remaining": [
+    "identify installed B31G22 electrode and G4 dependence",
+    "qualify connected G1/G2 rails and sustained bright/dark emission",
+    "bound perveance and emission against tube or service data"
+  ]
+}

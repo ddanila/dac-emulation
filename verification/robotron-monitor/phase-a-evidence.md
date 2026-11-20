@@ -646,9 +646,30 @@ spread is an engineering bound, not a Tungsram or B31G22 limit. The A6
 register now records that operating point, while cold resistance,
 temperature coefficient, thermal transfer and emission still need evidence.
 
+The same Tungsram page prints G2 = 250 V, G4 = 0–350 V and a 35–69 V
+grid-control cut-off. The [cut-off class check](reference/k7222-11/tube-cutoff-class-check.json)
+compares that source with the active CRT law, whose effective G2/G1 factor
+`grid2_mu` was 10. At cathode = 0, that law then cut off at 250/10 = 25 V,
+outside the M31-120 comparator range. It also produced zero demand at the
+manual's approximate 15 V normal-bright cathode under the isolated page-16
+neck rails (G1 = −25 V, G2 = 350 V): its effective drive was −6.5 V.
+The catalog range implies an effective factor of 3.62–7.14 for this law.
+Under those same provisional neck rails, a 35 V dark cathode requires at
+least 5.25 to cut off, and a 15 V bright cathode requires less than 8.375
+to emit. Their conditional overlap is 5.25–7.14. The active nominal is now
+6.5, giving a 38.46 V catalog-condition cut-off and, at the neck rails,
+−11.54 V dark versus +11.54 V bright effective drive. An isolated held-warm
+SPICE check confirms bright emission and dark cut-off. The broad 3.5–30
+model bounds retain exploratory B31G22 uncertainty; values outside that
+overlap are **not** qualified for the manual states. This model omits G4 and
+the catalog characterizes a different tube, so the comparison is a bounded
+nominal choice, not an installed-gun specification or a connected beam score.
+The original B31G22 cut-off, G4 dependence, perveance and emission limit
+remain open A6 work.
+
 The A6 register also carries T3's active HV turns, HV resistance and
 summed drive turns as three explicitly `assumed-bound` rows (204 total at
-that update; 208 after later additions).
+that update; 209 after later additions, including the CRT grid factor).
 The register test checks those rows against the live winding hypothesis; their
 presence records the gap and does not qualify the transformer.
 
@@ -2704,15 +2725,16 @@ remains the detailed page-3/4 wiring. The stage label is
 
 A [200 µs connected startup screen](reference/k7222-11/page3-4-connected-contrast-transient.json)
 uses the archived native logical capture and one unverified T3 sign candidate.
-The detailed topology completes at the default sparse settings (3,597 data
-rows). The manual equivalent fails at 1 ns with a timestep error at `sync_c`
-under those settings. With KLU, 50 ns maximum step, 0.002 relative tolerance
-and 10⁻⁸ A absolute tolerance, it reaches 200 µs (9,453 rows). This only
+After the CRT grid-factor revision, the detailed topology stops at 0.125 ns
+with a timestep error at `sync_c` under default sparse settings. The manual
+equivalent stops at 46.3 µs with a timestep error at `h_boosttap`. With KLU,
+50 ns maximum step, 0.002 relative tolerance and 10⁻⁸ A absolute tolerance,
+the manual equivalent reaches 200 µs (8,611 rows). This only
 establishes short-startup solver feasibility for that one candidate. It
 does not score a field, show lock or periodic settling, prove the manual
 terminal assignment, or qualify the native frame.
 The [same variant extended to 2 ms](reference/k7222-11/page3-4-connected-contrast-2ms.json)
-also completes with 261,527 data rows. Its final EHT is 3.704 kV, still
-rising from startup and far below the 11–12 kV sustained target. This
+also completes with 262,181 data rows. Its final EHT is 5.876 kV, below
+the 11–12 kV sustained target. This
 extends the solver feasibility bound, but remains only about one tenth of
 the 19.5 ms native field and cannot establish an A3 or A5 pass.
