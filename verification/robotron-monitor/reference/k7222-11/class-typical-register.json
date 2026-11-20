@@ -984,6 +984,12 @@
       "basis": "zero-bias junction-capacitance proxy below the comparator 300 pF maximum",
       "qualification": "provisional-model-proxy"
     },
+    {"id":"012-6931:V3.TT","stage":"regulator-5v-reference","value":0,"bounds":[0,0.000001],"unit":"s","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-regulator5-models.cir#REG5_ZENER.TT","basis":"Explicit ngspice 45 zero transit-time default; unmeasured reverse recovery has an exploratory upper bound needing loaded transient sensitivity","qualification":"provisional-model-proxy"},
+    {"id":"012-6931:V3.VJ","stage":"regulator-5v-reference","value":1,"bounds":[0.5,1.2],"unit":"V","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-regulator5-models.cir#REG5_ZENER.VJ","basis":"Explicit ngspice 45 junction-potential default with exploratory silicon-junction spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6931:V3.M","stage":"regulator-5v-reference","value":0.5,"bounds":[0.3,0.6],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-regulator5-models.cir#REG5_ZENER.M","basis":"Explicit ngspice 45 grading default with exploratory capacitance-shape spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6931:V3.FC","stage":"regulator-5v-reference","value":0.5,"bounds":[0.3,0.8],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-regulator5-models.cir#REG5_ZENER.FC","basis":"Explicit ngspice 45 forward-bias capacitance coefficient default with exploratory spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6931:V3.EG","stage":"regulator-5v-reference","value":1.11,"bounds":[1,1.2],"unit":"eV","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-regulator5-models.cir#REG5_ZENER.EG","basis":"Explicit ngspice 45 silicon activation-energy default with exploratory spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6931:V3.XTI","stage":"regulator-5v-reference","value":3,"bounds":[2,4],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-regulator5-models.cir#REG5_ZENER.XTI","basis":"Explicit ngspice 45 saturation-current temperature-exponent default with exploratory spread","qualification":"provisional-model-proxy"},
     {
       "id": "012-6921:V4.IS",
       "stage": "horizontal-input",
@@ -1096,6 +1102,11 @@
       "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required",
       "qualification": "provisional-model-proxy"
     },
+    {"id":"012-6921:V4.VJ","stage":"horizontal-input","value":1,"bounds":[0.75,1.25],"unit":"V","sources":["ngspice_manual_diode"],"model_ref":"circuits/signal-path-models.cir#Z9_BOUND.VJ","basis":"Explicit ngspice 45 junction-potential default with exploratory spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V4.M","stage":"horizontal-input","value":0.5,"bounds":[0.3,0.7],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"circuits/signal-path-models.cir#Z9_BOUND.M","basis":"Explicit ngspice 45 grading default with exploratory spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V4.FC","stage":"horizontal-input","value":0.5,"bounds":[0.3,0.7],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"circuits/signal-path-models.cir#Z9_BOUND.FC","basis":"Explicit ngspice 45 forward-bias capacitance default with exploratory spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V4.EG","stage":"horizontal-input","value":1.11,"bounds":[1.08,1.14],"unit":"eV","sources":["ngspice_manual_diode"],"model_ref":"circuits/signal-path-models.cir#Z9_BOUND.EG","basis":"Explicit ngspice 45 silicon activation-energy default with exploratory spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:V4.XTI","stage":"horizontal-input","value":3,"bounds":[2,4],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"circuits/signal-path-models.cir#Z9_BOUND.XTI","basis":"Explicit ngspice 45 temperature-exponent default with exploratory spread","qualification":"provisional-model-proxy"},
     {
       "id": "012-6921:V11.IS",
       "stage": "horizontal-output",
@@ -1320,6 +1331,11 @@
       "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required",
       "qualification": "provisional-model-proxy"
     },
+    {"id":"012-6931:V15.VJ","stage":"vertical-output","value":1,"bounds":[0.75,1.25],"unit":"V","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-vertical-output-models.cir#VERT_Z16.VJ","basis":"Explicit ngspice 45 junction-potential default with exploratory spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6931:V15.M","stage":"vertical-output","value":0.5,"bounds":[0.3,0.7],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-vertical-output-models.cir#VERT_Z16.M","basis":"Explicit ngspice 45 grading default with exploratory spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6931:V15.FC","stage":"vertical-output","value":0.5,"bounds":[0.3,0.7],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-vertical-output-models.cir#VERT_Z16.FC","basis":"Explicit ngspice 45 forward-bias capacitance default with exploratory spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6931:V15.EG","stage":"vertical-output","value":1.11,"bounds":[1.08,1.14],"unit":"eV","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-vertical-output-models.cir#VERT_Z16.EG","basis":"Explicit ngspice 45 silicon activation-energy default with exploratory spread","qualification":"provisional-model-proxy"},
+    {"id":"012-6931:V15.XTI","stage":"vertical-output","value":3,"bounds":[2,4],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"circuits/k7222-11-vertical-output-models.cir#VERT_Z16.XTI","basis":"Explicit ngspice 45 temperature-exponent default with exploratory spread","qualification":"provisional-model-proxy"},
     {
       "id": "1AL25-horizontal-signal-diode.IS",
       "stage": "horizontal-oscillator",

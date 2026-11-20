@@ -3144,3 +3144,28 @@ again has 631.4 Vpp, 126 drive crossings and 41 flyback crossings with a
 The changed partial behavior between two probe-only formulations, together
 with the stage sensitivity above, makes this equivalent numerically
 unqualified. No connected service score or A5 design point is claimed.
+
+### A2: explicit frame-path zener defaults (2026-11-20)
+
+The [A2 implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json)
+now counts 9 affected frame-path instances, down from 12. Page-9 V3's
+`REG5_ZENER` model explicitly sets its six previously implicit ngspice 45
+diode parameters: TT=0, VJ=1 V, M=0.5, FC=0.5, EG=1.11 eV and XTI=3.
+The V4 `Z9_BOUND` and V15 `VERT_Z16` zener models already had a bounded TT
+proxy; each now explicitly sets the other five defaults, with the same
+nominal values as V3.
+The [device-model register](reference/k7222-11/device-model-register.json)
+and [class-typical register](reference/k7222-11/class-typical-register.json)
+give each an exploratory bound and identify the simulator default as its
+nominal source. These are model choices, not original ZC5.1 measurements.
+The [ngspice 45 diode tables](https://ngspice.sourceforge.io/docs/ngspice-45-manual.pdf)
+give the default values and explain their effects on charge storage,
+capacitance and temperature response.
+
+The [5 mA V3 class check](reference/k7222-11/regulator5-zener-model-check.json)
+still gives 5.125153 V and 12.715 ohm local differential resistance. The
+[V4/V15 class check](reference/k7222-11/frame-zener-class-check.json) also
+passes. All three DC measurements match their pre-explicitation results;
+they do not constrain TT or connected temperature and transient stress.
+The other eight audit rows and the zeners' joint-bound sensitivity remain
+open; A2 is not complete.
