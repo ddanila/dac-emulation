@@ -2973,6 +2973,22 @@ complete `make test-monitor` suite passed 308 tests with no skips on Python
 3.9.6. This validates the saved sensitivity receipt and other tool checks;
 it does not meet the remaining Phase A done conditions.
 
+The [seven-point L4-bridge drive/turn screen](reference/k7222-11/t2-l4-bridge-drive-sensitivity.json)
+holds the conditional T3 loss and T2 ratio-10 bridge path fixed while varying
+the prescribed TP15 source across 36, 45, 48, 51 and 54 Vpp at 2,035 HV turns.
+All five late-window cases complete; EHT remains 9.893–9.920 kV, below the
+11–12 kV manual range. V18's reverse-base excursion grows from 3.60 to
+11.67 V; the 48, 51 and 54 Vpp cases exceed the 9 V class comparator. At
+45 Vpp, raising the conditional HV turns to 2,300 or 2,409 yields 9.994 or
+9.981 kV EHT, still below range. None of the seven sampled points jointly
+meets EHT and V18 stress. The loaded stage response does not justify scaling
+EHT directly by the HV turn count; further amplitude or turn tuning of this
+exploratory bridge is not a substitute for qualifying the source T2/L4 path,
+T3 return and connected drive. These are 16-line conditional stage checks,
+not field-periodic native-grid results.
+With `MONITOR_RUNTIME=build/monitor/runtime-phase-a-gcc16-verified`,
+`make test-monitor` passed 320 tests with no skips after this receipt was added.
+
 ### A2/A6: V18 high-current BJT bounds (2026-11-20)
 
 The active V18 `HOR_OUTPUT_N` model now declares `IKF`, `RB`, `RC`, `RE` and
