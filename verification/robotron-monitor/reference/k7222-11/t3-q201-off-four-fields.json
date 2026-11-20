@@ -1,0 +1,120 @@
+{
+  "format": "dac-monitor-t3-q201-off-long-screen-v2",
+  "qualification": "conditional T3 / manual-Fig-6 contrast diagnostic with Q201 removed; no source-circuit, periodicity or A5 qualification",
+  "source_sha256": {
+    "t3_q201_off_long_screen.py": "7bf9187b6e84404259020b43efb2342cb396b159ca5192beb7c0aba1e3e4aadb",
+    "steady_supply.py": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b"
+  },
+  "short_deck_sha256": "3f1524f1a5e65e03f7b7d277ad909f29041e87e2742d1a6e3ad5cff2330d94e2",
+  "long_deck_sha256": "1f5743d66dcf1acea07963b1cf7714e413d490471b37a7a703ba8abd4ebf1c55",
+  "only_change_from_short_deck": "transient endpoint 39.1 ms to 78 ms",
+  "solver": {
+    "status": "complete",
+    "elapsed_s": 390.42863475,
+    "timeout": false,
+    "runtime_archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+    "runtime_binary_sha256": "3e14f93f378ffcb37ec55e797b3da6099ce9ee6293a4fe7f203619299a5f9da9",
+    "log_sha256": "42d4fb3a8d62af7fa96d89af0617e09ce18064f8af24351f88ebdea38dc67561",
+    "abort_messages": []
+  },
+  "trace": {
+    "sha256": "fb61d78a043e4787ec4a71f2e2b688e55f4b2e52fc9f36312484e240e80edf8a",
+    "declared_points": 2059715,
+    "complete_rows": 2059715,
+    "trailing_bytes": 0,
+    "equal_time_event_rows": 5,
+    "last_time_s": 0.078,
+    "fields": [
+      {
+        "index": 1,
+        "rows": 520729,
+        "duration_s": 0.0195,
+        "eht_min_v": 10798.855601115856,
+        "eht_max_v": 11480.0,
+        "h_sync_min_v": -66.28545005227006,
+        "h_sync_max_v": 11.379325221454657,
+        "h_hot_upcrossings_100v": 316,
+        "eht_time_mean_v": 10915.697211595858,
+        "tp17_mapped_swing_vpp": 77.66477527372473
+      },
+      {
+        "index": 2,
+        "rows": 520058,
+        "duration_s": 0.0195,
+        "eht_min_v": 10684.352314360951,
+        "eht_max_v": 10927.811653861394,
+        "h_sync_min_v": -66.76470596187603,
+        "h_sync_max_v": 11.24997568870138,
+        "h_hot_upcrossings_100v": 316,
+        "eht_time_mean_v": 10858.276598066941,
+        "tp17_mapped_swing_vpp": 78.01468165057742
+      },
+      {
+        "index": 3,
+        "rows": 517667,
+        "duration_s": 0.019499999999999997,
+        "eht_min_v": 10477.056952769452,
+        "eht_max_v": 10684.352314360958,
+        "h_sync_min_v": -66.72549497245895,
+        "h_sync_max_v": 11.21457946297903,
+        "h_hot_upcrossings_100v": 317,
+        "eht_time_mean_v": 10541.454994548081,
+        "tp17_mapped_swing_vpp": 77.94007443543798
+      },
+      {
+        "index": 4,
+        "rows": 501261,
+        "duration_s": 0.019500000000000003,
+        "eht_min_v": 10420.016836475932,
+        "eht_max_v": 10482.467349953122,
+        "h_sync_min_v": -66.80717245730042,
+        "h_sync_max_v": 11.203778827390003,
+        "h_hot_upcrossings_100v": 318,
+        "eht_time_mean_v": 10446.99592963997,
+        "tp17_mapped_swing_vpp": 78.01095128469044
+      }
+    ]
+  },
+  "four_fields_completed": true,
+  "diagnostic_metrics": {
+    "last_three_eht_mean_spread_fraction": 0.03874313316552491,
+    "fourth_field_eht_entirely_below_11kv": true,
+    "h_hot_upcrossings_100v_by_field": [
+      316,
+      316,
+      317,
+      318
+    ]
+  },
+  "field_boundary_samples": {
+    "field_1": {
+      "time_s": 0.019499999999999997,
+      "v(eht)": 10857.643500527813,
+      "v(h_hot)": -0.7106588433342649,
+      "v(h_sync)": 10.860217124047457,
+      "v(cathode)": 33.670949316979
+    },
+    "field_2": {
+      "time_s": 0.039000000000727585,
+      "v(eht)": 10684.352314342408,
+      "v(h_hot)": 133.22801238615986,
+      "v(h_sync)": -12.502764868041732,
+      "v(cathode)": 33.670949316974976
+    },
+    "field_3": {
+      "time_s": 0.05850000000072759,
+      "v(eht)": 10478.560292776898,
+      "v(h_hot)": 435.6340445196889,
+      "v(h_sync)": -65.47102245489347,
+      "v(cathode)": 33.6709493169776
+    },
+    "field_4": {
+      "time_s": 0.078,
+      "v(eht)": 10444.664065021156,
+      "v(h_hot)": -1.0288821068851042,
+      "v(h_sync)": 11.01854920429515,
+      "v(cathode)": 33.67094931655995
+    }
+  },
+  "interpretation": "A Q201-off solve can locate later connected numerical stops, but its transistor removal and conditional T3/contrast topology cannot qualify a source-circuit operating point."
+}
