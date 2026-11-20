@@ -399,6 +399,39 @@
       "qualification": "bounded-class-candidate"
     },
     {
+      "id": "012-6921:V21.IS_a",
+      "stage": "horizontal-output",
+      "value": 1e-9,
+      "bounds": [1e-12, 1e-8],
+      "unit": "A",
+      "sources": ["rectron_r12000h", "semtech_sdh15k"],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_HV_RECT.IS",
+      "basis": "Explicit junction-scale proxy; comparator forward and leakage ceilings do not determine SPICE IS",
+      "qualification": "assumed-bound"
+    },
+    {
+      "id": "012-6921:V21.N",
+      "stage": "horizontal-output",
+      "value": 2,
+      "bounds": [1, 2],
+      "unit": "1",
+      "sources": ["rectron_r12000h", "semtech_sdh15k"],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_HV_RECT.N",
+      "basis": "Explicit silicon-diode ideality proxy; neither rectifier assembly supplies a fitted SPICE coefficient",
+      "qualification": "assumed-bound"
+    },
+    {
+      "id": "012-6921:V21.RS_ohm",
+      "stage": "horizontal-output",
+      "value": 90,
+      "bounds": [1, 95],
+      "unit": "ohm",
+      "sources": ["semtech_sdh15k"],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_HV_RECT.RS",
+      "basis": "At 200 mA the active model junction drop is about 0.99 V; RS <=95 ohm keeps its 200 mA forward drop below Semtech SDH15K's 20 V ceiling. Lower bound remains exploratory",
+      "qualification": "provisional-design-derived"
+    },
+    {
       "id": "012-6921:V21.BV_v",
       "stage": "horizontal-output",
       "value": 15000,
@@ -435,7 +468,7 @@
     {
       "id": "012-6921:V21.CJO_f",
       "stage": "horizontal-output",
-      "value": 1e-12,
+      "value": 9.5e-13,
       "bounds": [
         5e-13,
         2e-12
@@ -445,7 +478,7 @@
         "rectron_r12000h"
       ],
       "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_HV_RECT.CJO",
-      "basis": "Rectron R12000H maximum 1 pF at zero bias/1 MHz; wider class uncertainty spans unverified assembly capacitance",
+      "basis": "0.95 pF nominal leaves margin under Rectron R12000H's 1 pF zero-bias/1 MHz maximum after small-signal SPICE response; wider bounds span unverified assembly capacitance",
       "qualification": "bounded-class-candidate"
     },
     {
@@ -462,7 +495,7 @@
         "semtech_sdh15k"
       ],
       "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_HV_RECT.TT",
-      "basis": "provisional transit-time proxy bracketed by Rectron 0.1 us and Semtech 2.5 us reverse-recovery specifications under different test currents; model recovery must be measured, because SPICE TT is not t_rr",
+      "basis": "Provisional transit-time proxy; long-held class fixtures measure about 43 ns at Rectron's 2/4 mA currents and 41 ns at Semtech's 50/100 mA currents. SPICE TT is not t_rr; Rectron's return threshold is unspecified",
       "qualification": "provisional-model-proxy"
     },
     {

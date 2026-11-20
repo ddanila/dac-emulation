@@ -1123,12 +1123,16 @@
       "model_file": "circuits/k7222-11-horizontal-models.cir",
       "source_connection": "older.pdf page 4 shows anode at T3 X1:1 and cathode at X1:2/EHT; the corrected KiCad transcription now uses that path. Remaining T3 tap continuity and polarity are unverified.",
       "parameters": {
+        "IS_a": {"spice_parameter": "IS", "nominal": 1e-9, "bounds": [1e-12, 1e-8], "basis": "Explicit junction-scale proxy for the unprinted rectifier assembly; neither comparator specifies SPICE IS, so the range remains assumed-bound"},
+        "N": {"spice_parameter": "N", "nominal": 2, "bounds": [1, 2], "basis": "Explicit silicon-diode ideality proxy; neither high-voltage assembly supplies a fitted emission coefficient"},
+        "RS_ohm": {"spice_parameter": "RS", "nominal": 90, "bounds": [1, 95], "basis": "At 200 mA the active junction drop is about 0.99 V; RS at or below 95 ohm keeps the model within Semtech SDH15K's 20 V forward ceiling. The lower range is exploratory and stage sensitivity remains open"},
         "BV_v": {"spice_parameter": "BV", "nominal": 15000, "bounds": [12000, 16000], "basis": "Semtech SDH15K 15 kV and Rectron R12000H 12 kV reverse ratings; 16 kV is an adjacent rectifier class, not a source assertion for V21"},
         "IBV_a": {"spice_parameter": "IBV", "nominal": 2e-6, "bounds": [1e-6, 5e-6], "basis": "Semtech 2 uA maximum reverse leakage at 15 kV/25 C; Rectron 2 uA at 12 kV"},
-        "CJO_f": {"spice_parameter": "CJO", "nominal": 1e-12, "bounds": [5e-13, 2e-12], "basis": "Rectron R12000H maximum 1 pF at zero bias/1 MHz; wider class uncertainty spans unverified assembly capacitance"},
-        "TT_s": {"spice_parameter": "TT", "nominal": 1e-7, "bounds": [1e-7, 2.5e-6], "basis": "provisional transit-time proxy bracketed by Rectron 0.1 us and Semtech 2.5 us reverse-recovery specifications under different test currents; model recovery must be measured, because SPICE TT is not t_rr"}
+        "CJO_f": {"spice_parameter": "CJO", "nominal": 9.5e-13, "bounds": [5e-13, 2e-12], "basis": "0.95 pF nominal leaves margin under Rectron R12000H's 1 pF zero-bias/1 MHz maximum after small-signal SPICE response; wider bounds span unverified assembly capacitance"},
+        "TT_s": {"spice_parameter": "TT", "nominal": 1e-7, "bounds": [1e-7, 2.5e-6], "basis": "Provisional transit-time proxy; a long-held model fixture measures about 43 ns at Rectron's 2/4 mA currents and 41 ns at Semtech's 50/100 mA currents. SPICE TT is not t_rr, and Rectron's return threshold is not specified."}
       },
-      "remaining": ["Resolve the remaining T3 tap/return map against an independent page-4 netlist", "Measure reverse recovery of the SPICE candidate at both data-sheet test conditions", "Bound unexamined IS, N and RS and sweep diode capacitance/recovery sensitivity"]
+      "model_response_report": "reference/k7222-11/hv-rectifier-class-check.json",
+      "remaining": ["Resolve the remaining T3 tap/return map against an independent page-4 netlist", "Sweep the now-explicit IS, N, RS, capacitance and recovery bounds through a connected EHT stage; the comparator fixture does not identify V21", "Qualify reverse voltage/current stress and rectifier assembly behavior at the sustained native grid operating point"]
     },
     {
       "id": "012-6921:T3",

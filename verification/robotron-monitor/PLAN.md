@@ -410,7 +410,7 @@ Phase C (speed) waits for B8.
 meets its done condition. A1 still lacks independent pin-to-pin source closure,
 including T3's return/tap graph; without that graph, A5 cannot qualify the
 winding design point. A2's 64 device rows are provisional, A3 has no sustained
-connected native-grid waveform score, and A6's 204 class-typical entries remain
+connected native-grid waveform score, and A6's 207 class-typical entries remain
 partial. The conditional simulations and source checks below narrow these
 gaps but do not satisfy the PLAN's completion criteria. Finish and verify the
 remaining A1, A2, A3, A5 and A6 work before marking the tracked goal complete.
@@ -442,7 +442,7 @@ retrying at 0.002 completes all 24. The eleven cases solved at both
 tolerances agree within 1.1% on final EHT and within 0.9% on collector peak.
 None of the 24 completed cases meets the
 manual's TP15 36–54 Vpp or EHT 11–12 kV ranges. The nominal off-trace case
-gives 24.55 Vpp at TP15 and 9.44 kV final EHT, with EHT still drifting.
+gives 24.55 Vpp at TP15 and 9.49 kV final EHT, with EHT still drifting.
 This narrows the A3/A5 gap but cannot identify a factory T3 winding or
 establish a sustained native-grid stage score: V13 phase, T2/L4 values, E2
 setting, T3 return graph and omitted feedback remain conditional.
@@ -484,10 +484,10 @@ labelled as such. The remaining done-condition gaps are:
 | Item | Evidence still needed for completion |
 | --- | --- |
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed local branches, page-4 C27 collector return, page-4 V21/R29–R32 external divider and page-9 centring bridge, including transistor C/E polarity, L1's ambiguous hot-line crossing and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check using a bounded meter-cable transfer and qualified tube response. C30 placement/population and the installed E1–E4 pair are not identified. |
-| A2 | Qualify every frame-path device model and its bounds. All 64 instances have provisional register rows, including T3, but none closes every parameter check. The two cross-revision ÜHA78 winding reports challenge T3's active 1,000-turn hypothesis without proving the K7222.11 construction; its other turns, parasitics and connected sensitivity remain unqualified. Original values and connected sensitivity also remain open for the page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes. |
+| A2 | Qualify every frame-path device model and its bounds. All 64 instances have provisional register rows, including T3, but none closes every parameter check. V21 now has explicit bounds for all seven SPICE diode parameters and passes bounded Rectron/Semtech class fixtures; its original identity, connected sensitivity and stage stress remain open. The two cross-revision ÜHA78 winding reports challenge T3's active 1,000-turn hypothesis without proving the K7222.11 construction; its other turns, parasitics and connected sensitivity remain unqualified. Original values and connected sensitivity also remain open for the page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes. |
 | A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check passes in the synthetic-sync loaded bench; a dual-node probe shows the separate 10 V arrow remains sensitive to reset masking and node attribution. The prescribed-V13 T2/L4 loaded-stage sweep misses TP15 and EHT in all 24 cases across both T2 polarities after a bounded solver retry. Score connected stages with stable feature definitions, the required loaded probes, native grid stimulus and recorded trims. |
-| A5 | A conditional vertical current/voltage calculation exists. The loaded T2/L4 sweep does not establish a periodic EHT or identify the factory T3 winding. Optional C30 population changes the inferred 16 µs effective resonance inductance from 2.36 to 2.59 mH and loaded final EHT by about 2.5%; its source population is still unverified. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
-| A6 | Complete cited bounds for the remaining tube, T3, yoke, measuring cable and other frame-path model values; the current register has 204 partial entries, including three explicitly assumed-bound T3 rows. The page-16 meter-cable capacitance, shunts and DVM loading remain unbounded. An RFT B30G1 heater comparator is excluded because its 6.3 V/0.47 A point would require 13.35 V ahead of the printed 15 ohm R22, above the modeled 12 V rail; it is not an installed B31G22 specification. |
+| A5 | A conditional vertical current/voltage calculation exists. The loaded T2/L4 sweep does not establish a periodic EHT or identify the factory T3 winding. Optional C30 population changes the inferred 16 µs effective resonance inductance from 2.36 to 2.59 mH and loaded final EHT by 2.49–2.53% in the refreshed V21 model; its source population is still unverified. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
+| A6 | Complete cited bounds for the remaining tube, T3, yoke, measuring cable and other frame-path model values; the current register has 207 partial entries, including three explicitly assumed-bound T3 rows and three additional V21 model parameters. The page-16 meter-cable capacitance, shunts and DVM loading remain unbounded. An RFT B30G1 heater comparator is excluded because its 6.3 V/0.47 A point would require 13.35 V ahead of the printed 15 ohm R22, above the modeled 12 V rail; it is not an installed B31G22 specification. |
 
 All five printed `1SA20C` instances and both `1SC60A` instances now use
 separate [BC546B-class NPN model aliases](circuits/k7222-11-small-transistor-models.cir)
