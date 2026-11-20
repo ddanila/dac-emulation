@@ -2399,3 +2399,43 @@ regression check ties the source pin list to the live KiCad export. This
 closes that *external branch comparison* only. It does not identify which T3
 internal tap feeds R29, resolve the X1:3/X2:3 return or complete A1's
 independent page-3/4 netlist.
+
+### A2/A6: V21 EHT rectifier class response (2026-11-20)
+
+The active V21 [diode model](circuits/k7222-11-horizontal-models.cir) now has
+explicit provisional bounds for all seven SPICE parameters in the
+[device register](reference/k7222-11/device-model-register.json). The added
+IS and N bounds are assumptions, while the RS upper bound follows a forward
+voltage check; none identifies the factory V21 assembly. The
+[repeatable class fixture](hv_rectifier_check.py) compares the model with
+the manufacturers' [Rectron R12000H](https://www.rectron.com/public/product_datasheets/r12000h.pdf)
+and [Semtech SDH15K](https://www.semtech.com/uploads/design-support/SG-SEMTECH-PD-DATABOOK.pdf)
+limits. The Rectron recovery return threshold is absent from its data sheet,
+so the fixture declares a 25%-of-reverse-current proxy. Semtech's recovery
+specification applies to discrete devices before assembly.
+
+The [saved response](reference/k7222-11/hv-rectifier-class-check.json) passes
+both *class-comparator* fixtures. At Rectron's 10 mA forward and 12 kV reverse
+conditions, the model gives 1.736 V and 0.0129 µA, versus 37.5 V and 2 µA
+ceilings; its 0 V/1 MHz capacitance is 0.9504 pF versus the 1 pF ceiling.
+Recovery is 43.27 ns at approximately 2 mA forward/4 mA reverse using the
+declared return proxy, below the 100 ns limit. At Semtech's 200 mA forward
+and 15 kV reverse conditions, the model gives 18.99 V and 0.0159 µA, versus
+20 V and 2 µA ceilings. Its recovery is 41.34 ns at approximately 50 mA
+forward/100 mA reverse to the specified 25 mA threshold, below the 2.5 µs
+limit. These broad upper limits do not fit the model uniquely. An initial
+100 Ω series resistance missed Semtech's 20 V ceiling; 90 Ω passes.
+
+The changed V21 model was propagated through the saved transistor, diode,
+and zener class reports and the loaded [T2/L4](reference/k7222-11/t2-l4-output-stage-sweep.json)
+and [T3](reference/k7222-11/t3-output-stage-sweep.json) sweeps. All 24 T2/L4
+and 32 T3 conditional cases complete, but none meets the respective joint
+targets. The nominal T2/L4 off-trace case now gives 24.55 Vpp at TP15 and
+9.49 kV final EHT, still drifting. Across complete T2/L4 cases the V21
+change moves final EHT by at most 0.97%; it does not close the target gap.
+The refreshed [C30 comparison](reference/k7222-11/horizontal-retrace-c30-sensitivity.json)
+shows a 2.49–2.53% loaded final-EHT effect across its two polarity cases,
+still above the Phase A 2% sensitivity threshold. The earlier stage numbers
+in this evidence log record prior model revisions. V21 identity, connected
+parameter sensitivity, stage stress, T3 tap/return mapping, and sustained
+native-grid operation remain open.

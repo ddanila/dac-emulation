@@ -14,9 +14,9 @@ import transformer_candidates
 class T3OutputStageSweepTests(unittest.TestCase):
     def test_1768_turn_stage_has_retrace_but_low_eht(self):
         saved = json.loads((ROOT/'reference/k7222-11/t3-output-stage-sweep.json').read_text())
-        self.assertEqual(saved['status'], 'partial')
+        self.assertEqual(saved['status'], 'complete')
         self.assertTrue(saved['analysis_valid'])
-        self.assertEqual(saved['completed_cases'] + saved['aborted_cases'], 32)
+        self.assertEqual((saved['completed_cases'], saved['aborted_cases']), (32, 0))
         self.assertFalse(saved['joint_collector_eht_comparator_matches'])
         self.assertFalse(saved['documented_eht_matches'])
         graph = json.loads(sweep.GRAPH.read_text())

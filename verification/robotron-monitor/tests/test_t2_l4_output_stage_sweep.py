@@ -31,13 +31,17 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
         accepted = set(json.loads(sweep.stage.SIGN.read_text())['accepted_candidate_ids'])
         candidate = next(item for item in transformer_candidates.enumerate_candidates(graph)
                          if item['id'] in accepted)
+        reference = saved['nominal_off_trace_case']
+        self.assertEqual(reference['solver']['strict_status'], 'aborted')
+        self.assertEqual(reference['solver']['relaxed_status'], 'complete')
         result = sweep.simulate(graph, parameters, candidate, output_parts,
                                 l3_r, l3_l, driver_parts, ratio=3, l4_h=5e-6,
-                                on_trace=False)
+                                on_trace=False,
+                                reltol=reference['solver']['selected_reltol'])
         self.assertEqual(result['status'], 'complete')
         self.assertLess(result['driver_collector_swing_v'], 36)
         self.assertLess(result['eht_final_v'], 11000)
-        reference = saved['nominal_off_trace_case']['result']
+        reference = reference['result']
         self.assertAlmostEqual(result['driver_collector_swing_v'],
                                reference['driver_collector_swing_v'], delta=.1)
         self.assertAlmostEqual(result['eht_final_v'], reference['eht_final_v'], delta=1)
@@ -57,17 +61,19 @@ class T2L4OutputStageSweepTests(unittest.TestCase):
         self.assertAlmostEqual(reversed_result['eht_final_v'],
                                reversed_reference['eht_final_v'], delta=1)
 
+        recovered_case = next(row for row in saved['cases']
+                              if row['t2_secondary_polarity'] == 'model'
+                              and row['v13_drive_phase'] == 'on_trace'
+                              and row['t2_primary_secondary_ratio'] == 1
+                              and row['l4_inductance_per_coil_h'] == 5e-6)
         recovered = sweep.simulate(graph, parameters, candidate, output_parts,
                                    l3_r, l3_l, driver_parts, ratio=1,
-                                   l4_h=5e-6, on_trace=True, reltol=.002)
+                                   l4_h=5e-6, on_trace=True,
+                                   reltol=recovered_case['solver']['selected_reltol'])
         self.assertEqual(recovered['status'], 'complete')
         self.assertLess(recovered['driver_collector_swing_v'], 36)
         self.assertLess(recovered['eht_final_v'], 11000)
-        recovered_reference = next(row['result'] for row in saved['cases']
-                                   if row['t2_secondary_polarity'] == 'model'
-                                   and row['v13_drive_phase'] == 'on_trace'
-                                   and row['t2_primary_secondary_ratio'] == 1
-                                   and row['l4_inductance_per_coil_h'] == 5e-6)
+        recovered_reference = recovered_case['result']
         self.assertAlmostEqual(recovered['eht_final_v'],
                                recovered_reference['eht_final_v'], delta=1)
 
