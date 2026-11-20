@@ -2589,3 +2589,27 @@ reaches only 4.39 V at the cathode. This does not validate a guessed 5 V
 pull-up as the missing board drive. The independent page-3/4 read still needs
 to identify the original steady IS bias before the contrast response can be
 qualified against the manual.
+
+### A1: V5 lower return and V4 reference conflict (2026-11-20)
+
+Two independently rendered page-3 crops, one at 300 dpi and one at 600 dpi,
+show V5's lower-right lead crossing the 12P and sync-collector lines without
+junction dots, then reaching 00. The corrected
+[page-3 source read](reference/k7222-11/page3-r11-r37-source-read.json)
+therefore moves that terminal from the earlier, erroneous 12P list to 00.
+The active input model already returns V5 to 00, so this correction improves
+source provenance but does not fix the missing steady IS high state. The two
+image hashes and the parent schematic hash are in the source-read artifact;
+V5 C/E polarity remains unqualified.
+
+The page-8 factory parts list identifies V4 as `9.1 ZC`, while the operating
+manual's simplified Fig. 6 (PDF page 11) labels a 15 V reference. This may
+reflect a functional simplification or a document revision; the figure does
+not establish that factory V4 was a 15 V zener. The extended
+[contrast DC diagnostic](reference/k7222-11/page18-contrast-dc-diagnostic.json)
+holds bright video, both incoming intensity states and both R2 endpoints,
+then changes only V4's model breakdown from 9.1 to 15 V. The local reference
+rises by 5.85–5.88 V and V1 collector current changes, but steady IS and
+cathode voltages do not move in any of the four cases. The result rules out
+that single substitution as a repair for this bench; it does not resolve the
+manual's reference topology or qualify the complete page-3/4 source graph.

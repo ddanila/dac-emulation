@@ -16,6 +16,9 @@ import signal_path
 
 ROOT = Path(__file__).resolve().parent
 INTENS_SEAM = ROOT/'reference/k7222-11/page3-4-intens-seam-source-read.json'
+PAGE3_READ = ROOT/'reference/k7222-11/page3-r11-r37-source-read.json'
+INVENTORY = ROOT/'reference/k7222-11/inventory.json'
+SOURCES = ROOT/'sources.json'
 CONTRAST_POSITIONS = (.05, .95)
 STATES = ((0, 0), (0, 1), (1, 0), (1, 1))
 FEED_RESISTANCES = (0, 100)
@@ -75,6 +78,16 @@ def run(capture_path):
             source['input_INTENS'], source['direct_input_to_neck_passthrough']) != (
             'intens', 'v1_base', 'rx_intens', False):
         raise ValueError('intensity seam source read differs from DC fixture')
+    page3 = json.loads(PAGE3_READ.read_text())
+    source_nets = {row['name']: row['terminals'] for row in page3['source_nets']}
+    if ('V5:lower_right' not in source_nets['00'] or
+            'V5:lower_right' in source_nets['12P']):
+        raise ValueError('page-3 V5 return source read differs from DC fixture')
+    parts = json.loads(INVENTORY.read_text())['parts']
+    v4 = next(part for part in parts if part['id'] == '012-6921:V4')
+    if v4['description'] != '9.1 ZC':
+        raise ValueError('page-8 V4 zener parts-list read changed')
+    source_hashes = {row['file']: row['sha256'] for row in json.loads(SOURCES.read_text())['sources']}
     with tempfile.TemporaryDirectory() as directory:
         folder = Path(directory)
         baseline = folder/'baseline'
@@ -86,11 +99,21 @@ def run(capture_path):
                 'Rcontrast reference9 contrast_low ' not in deck or
                 'Vp35 p35 mreturn 35' not in deck):
             raise ValueError('assembled contrast path differs from expected fixture')
+        zener_lines = [line for line in deck.splitlines()
+                       if line.startswith('.model Z9_BOUND ')]
+        if len(zener_lines) != 1 or 'BV=9.1 ' not in zener_lines[0]:
+            raise ValueError('active V4 zener model differs from 9.1 V source value')
+        manual_variant_deck = deck.replace(zener_lines[0],
+                                           zener_lines[0].replace('BV=9.1 ', 'BV=15 '))
         rows = [operating_point(deck, folder/f'op-{feed}-{video}-{intensity}-{position}',
                                 position, video, intensity, feed)
                 for feed in FEED_RESISTANCES
                 for video, intensity in STATES
                 for position in CONTRAST_POSITIONS]
+        manual_variant_rows = [operating_point(
+            manual_variant_deck, folder/f'v4-15-{intensity}-{position}',
+            position, 1, intensity, 0)
+            for intensity in (0, 1) for position in CONTRAST_POSITIONS]
     comparisons = []
     for feed in FEED_RESISTANCES:
         for video, intensity in STATES:
@@ -104,16 +127,27 @@ def run(capture_path):
                                     for node in PROBES},
                                 'high_minus_low_v1_collector_current_a':
                                 high['v1_collector_current_a']-low['v1_collector_current_a']})
-    return {'format': 'dac-monitor-page18-contrast-dc-diagnostic-v2',
+    return {'format': 'dac-monitor-page18-contrast-dc-diagnostic-v3',
             'qualification': 'fixed-logic DC operating points in the source-addressed input/neck bench; 100 ohm 35 V feed impedance is illustrative only, not a sourced model or manual service procedure',
             'input_sha256': hashlib.sha256(capture_path.read_bytes()).hexdigest(),
             'signal_path_sha256': hashlib.sha256((ROOT/'signal_path.py').read_bytes()).hexdigest(),
             'intensity_seam_source_sha256': hashlib.sha256(INTENS_SEAM.read_bytes()).hexdigest(),
+            'page3_source_read_sha256': hashlib.sha256(PAGE3_READ.read_bytes()).hexdigest(),
+            'v4_source_conflict': {
+                'factory_parts_list': {'file': 'older.pdf', 'pdf_page': 8,
+                                       'pdf_sha256': source_hashes['older.pdf'],
+                                       'V4_description': v4['description']},
+                'manual_functional_figure': {'file': 'older-operation.pdf',
+                                             'pdf_page': 11, 'figure': 6,
+                                             'reference_v': 15,
+                                             'pdf_sha256': source_hashes['older-operation.pdf']},
+                'hypothesis': 'Changing only the active V4 zener breakdown from 9.1 to 15 V is a diagnostic alternative, not an assertion that the factory V4 is 15 V.',
+                'manual_variant_rows': manual_variant_rows},
             'contrast_positions': list(CONTRAST_POSITIONS),
             'logic_states_video_intensity': [list(state) for state in STATES],
             'feed_resistances_ohm': list(FEED_RESISTANCES),
             'rows': rows, 'comparisons': comparisons,
-            'interpretation': 'The source-read seam separates incoming INTENS from the neck IS output: V5 collector drives neck intens and HRS drives V1 base. This scoped topology lacks a qualified high-state IS pull-up and does not satisfy the manual intensity or contrast response. The 100 ohm 35 V feed remains an illustrative sensitivity probe; connected native-grid response remains unqualified.'}
+            'interpretation': 'The source-read seam separates incoming INTENS from the neck IS output: V5 upper lead drives neck intens, its lower lead returns to 00, and HRS drives V1 base. The parts-list 9.1 V V4 and manual Fig. 6 functional 15 V reference conflict; setting V4 breakdown to 15 V changes its local reference and V1 current but not steady IS or cathode in this scoped bench. This topology lacks a qualified high-state IS drive and does not satisfy the manual intensity or contrast response. The 100 ohm 35 V feed remains an illustrative sensitivity probe; connected native-grid response remains unqualified.'}
 
 
 if __name__ == '__main__':

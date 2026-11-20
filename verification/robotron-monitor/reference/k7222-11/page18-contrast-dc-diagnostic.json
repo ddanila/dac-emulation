@@ -1,9 +1,104 @@
 {
-  "format": "dac-monitor-page18-contrast-dc-diagnostic-v2",
+  "format": "dac-monitor-page18-contrast-dc-diagnostic-v3",
   "qualification": "fixed-logic DC operating points in the source-addressed input/neck bench; 100 ohm 35 V feed impedance is illustrative only, not a sourced model or manual service procedure",
   "input_sha256": "746189f3e092e1eaa0b56507bd5548f7a12d7801dd0adc2df2bc546ee37af3e9",
   "signal_path_sha256": "fb1229e6b81e9a06877f3c1863fa86b5a4d8d05027e8ee135fe11481fc22c80c",
   "intensity_seam_source_sha256": "6bcbf333c7f71676b8ff2919cee0da617e2928758b3b55c38ac6a43df24d45a0",
+  "page3_source_read_sha256": "084bd02a2b778817e3b632adb6d972a97f7109ed8d677716989824488fa667dc",
+  "v4_source_conflict": {
+    "factory_parts_list": {
+      "file": "older.pdf",
+      "pdf_page": 8,
+      "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "V4_description": "9.1 ZC"
+    },
+    "manual_functional_figure": {
+      "file": "older-operation.pdf",
+      "pdf_page": 11,
+      "figure": 6,
+      "reference_v": 15,
+      "pdf_sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21"
+    },
+    "hypothesis": "Changing only the active V4 zener breakdown from 9.1 to 15 V is a diagnostic alternative, not an assertion that the factory V4 is 15 V.",
+    "manual_variant_rows": [
+      {
+        "feed_resistance_ohm": 0,
+        "contrast_position": 0.05,
+        "logic_video": 1,
+        "logic_intensity": 0,
+        "voltages_v": {
+          "p35": 35.0,
+          "reference9": 15.26285,
+          "v1_base": 27.38165,
+          "contrast_low": 26.63582,
+          "rx_intens": 0.2802062,
+          "intens": 0.485055,
+          "vid": 3.932942,
+          "clamp_i": 1.104392,
+          "cathode": 0.341102
+        },
+        "v1_collector_current_a": 0.02787075,
+        "deck_sha256": "1473c27d5dd72b1a86ee435de16fda7dfd9411126de44248bd43321b5cba870c"
+      },
+      {
+        "feed_resistance_ohm": 0,
+        "contrast_position": 0.95,
+        "logic_video": 1,
+        "logic_intensity": 0,
+        "voltages_v": {
+          "p35": 35.0,
+          "reference9": 15.09407,
+          "v1_base": 27.3992,
+          "contrast_low": 26.69666,
+          "rx_intens": 0.2802062,
+          "intens": 0.485055,
+          "vid": 3.932942,
+          "clamp_i": 1.104392,
+          "cathode": 0.341102
+        },
+        "v1_collector_current_a": 0.006433367,
+        "deck_sha256": "c515a778211c221e9916c89eea6fc296834d9477363a02ec628ebd1a949e8b4f"
+      },
+      {
+        "feed_resistance_ohm": 0,
+        "contrast_position": 0.05,
+        "logic_video": 1,
+        "logic_intensity": 1,
+        "voltages_v": {
+          "p35": 35.0,
+          "reference9": 15.26285,
+          "v1_base": 27.38165,
+          "contrast_low": 26.63582,
+          "rx_intens": 3.583027,
+          "intens": 0.288003,
+          "vid": 3.932942,
+          "clamp_i": 0.292647,
+          "cathode": 0.3410905
+        },
+        "v1_collector_current_a": 0.02787075,
+        "deck_sha256": "b772c2beeb5f5664f54bd533c2cddb034f3d4e0b4a8dffb983d1985e713139c3"
+      },
+      {
+        "feed_resistance_ohm": 0,
+        "contrast_position": 0.95,
+        "logic_video": 1,
+        "logic_intensity": 1,
+        "voltages_v": {
+          "p35": 35.0,
+          "reference9": 15.09407,
+          "v1_base": 27.3992,
+          "contrast_low": 26.69666,
+          "rx_intens": 3.583027,
+          "intens": 0.288003,
+          "vid": 3.932942,
+          "clamp_i": 0.292647,
+          "cathode": 0.3410905
+        },
+        "v1_collector_current_a": 0.006433367,
+        "deck_sha256": "4478337a03d391b52676b99941e4c71a767d4c7feacfd0b400aa3e2a11f31849"
+      }
+    ]
+  },
   "contrast_positions": [
     0.05,
     0.95
@@ -474,5 +569,5 @@
       "high_minus_low_v1_collector_current_a": -0.023786446
     }
   ],
-  "interpretation": "The source-read seam separates incoming INTENS from the neck IS output: V5 collector drives neck intens and HRS drives V1 base. This scoped topology lacks a qualified high-state IS pull-up and does not satisfy the manual intensity or contrast response. The 100 ohm 35 V feed remains an illustrative sensitivity probe; connected native-grid response remains unqualified."
+  "interpretation": "The source-read seam separates incoming INTENS from the neck IS output: V5 upper lead drives neck intens, its lower lead returns to 00, and HRS drives V1 base. The parts-list 9.1 V V4 and manual Fig. 6 functional 15 V reference conflict; setting V4 breakdown to 15 V changes its local reference and V1 current but not steady IS or cathode in this scoped bench. This topology lacks a qualified high-state IS drive and does not satisfy the manual intensity or contrast response. The 100 ohm 35 V feed remains an illustrative sensitivity probe; connected native-grid response remains unqualified."
 }

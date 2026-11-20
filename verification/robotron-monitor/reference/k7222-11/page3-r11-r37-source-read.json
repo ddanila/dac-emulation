@@ -1,6 +1,6 @@
 {
-  "format": "dac-monitor-page3-r11-r37-source-read-v3",
-  "qualification": "Corrected page-3/4 source-first R11/R37/C33, V19 and V1 branch reads with fresh assembled-net comparison; transistor polarity and full page comparison remain open",
+  "format": "dac-monitor-page3-r11-r37-source-read-v4",
+  "qualification": "Corrected page-3/4 source-first R11/R37/C33, V5 return, V19 and V1 branch reads with fresh assembled-net comparison; transistor polarity and full page comparison remain open",
   "source": {
     "pdf": "older.pdf",
     "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
@@ -66,6 +66,16 @@
         "file": "build/monitor/phase-a/page4-left-v19-trace-300.png",
         "sha256": "8758ec5087048c7c648dc4e0bae76ed8c04d4f67b03b6af7f586e01e3ff5d8c4",
         "method": "300 dpi page-4 left V20 R39/R40/C34/V19 feed crop"
+      },
+      {
+        "file": "build/monitor/phase-a/page3-v5-300-recheck-inspect.png",
+        "sha256": "1b678453bb0f6b6f278156ea8f8b5828e29aa96c3d45fd0a33ed67ed39719b79",
+        "method": "independent 300 dpi page-3 V5 lower lead and two crossing lines crop"
+      },
+      {
+        "file": "build/monitor/phase-a/page3-v5-1200-inspect.png",
+        "sha256": "f0d6dec428d12145a0e564e66f8fd0d3f845f3816c04d24e6a955e53e4385407",
+        "method": "600 dpi page-3 V5 lower lead and 00 return crop enlarged 2x"
       }
     ],
     "cross_schematic_pdf_page": 4
@@ -75,10 +85,11 @@
       "name": "00",
       "terminals": [
         "V6:lower_right",
+        "V5:lower_right",
         "V19:lower_right",
         "V20:lower_right"
       ],
-      "basis": "The lower page-3 return line reaches V6 and V19 lower-right leads and continues to V20 through the page boundary. The earlier V1 attribution was a cropped-label error: V1 is drawn separately on page 4."
+      "basis": "The lower page-3 return line reaches V5, V6 and V19 lower-right leads and continues to V20 through the page boundary. The 300 and 600 dpi V5 crops show its lower lead crossing the 12P and SYNC_C lines without junction dots before reaching 00. The earlier V1 attribution was a cropped-label error: V1 is drawn separately on page 4."
     },
     {
       "name": "SYNC_DIVIDER_MID",
@@ -94,7 +105,6 @@
       "terminals": [
         "R11.2:outer_left",
         "R37:upper",
-        "V5:lower_right",
         "R38:left",
         "R39:upper"
       ],
