@@ -2554,3 +2554,20 @@ The neck cathode DC level does not change at either video level. The
 source graph and IS high-state bias, T200 functional model, original tube
 response and service-meter transfer require qualification before judging the
 physical monitor's contrast function.
+
+A separate [IS drive diagnostic](reference/k7222-11/page3-4-is-drive-diagnostic.json)
+resolves an apparent contradiction between that DC result and the short
+highlight trace. With nominal 3 pF junction capacitance on neck-board V2:4,
+IS has a 4.41 V median during stable dark-video/intensity-high intervals,
+although a fixed-input 0.2 ms solve remains at 0.302 V. Changing only that
+diode's capacitance to its declared 0.5 pF lower and 20 pF upper bounds moves
+the transient median to 0.282 V and 25.45 V; the zero-capacitance diagnostic
+gives 0.202 V. The cathode remains near its dark level in those intervals.
+With video bright, IS stays below 1 V for either intensity input and the
+modeled cathode difference is below 0.01 V. Thus the nominal high interval
+is capacitive coupling in this model, not evidence of a stable IS logic high
+or a working intensity/contrast response. The 20 pF case exceeding the 5 V
+logic rail further shows why the transient cannot validate the original
+circuit. This isolates the model's dependence on an unqualified diode
+parameter; it does not identify a missing physical connection or license an
+unsourced pull-up in the source-addressed schematic.
