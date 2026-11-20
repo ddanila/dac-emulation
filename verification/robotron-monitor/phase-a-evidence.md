@@ -3533,3 +3533,34 @@ while their late extrema stay nearly the same. This points to edge timing
 sensitivity, not a newly established voltage amplitude limit. The corner
 is exploratory and must be checked in a connected operating point before
 the bounds can be frozen.
+
+### A2: explicit SC237E oscillator BJT parameters (2026-11-20)
+
+The printed SC237E V10 oscillator model had nine screened implicit ngspice
+BJT terms. Its live `SC237E_N` model and the [device](reference/k7222-11/device-model-register.json)
+and [class-typical](reference/k7222-11/class-typical-register.json) registers
+now state IKF, RB, VJE/MJE, VJC/MJC, EG, XTI and FC explicitly with bounds.
+IKF, RB and the junction terms use the [ngspice manual's BC546B example](https://ngspice.sourceforge.io/docs/ngspice-manual.pdf)
+as a small-signal silicon class proxy; EG, XTI and FC make its screened
+defaults explicit. These engineering bounds are not measurements of SC237E.
+The historical [DDR SC237 group-E table](https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf)
+provides the comparison conditions, not the new SPICE parameters.
+
+The refreshed [V10/V12 class check](reference/k7222-11/horizontal-small-transistor-class-check.json)
+gives V10 hFE 313.8 at 2 mA/6 V (group-E range 224–560), a 0.228 V DC
+saturation proxy at 100 mA/5 mA base drive (historical typical 0.210 V),
+and a 165.8 MHz 20 MHz gain-product proxy at 10 mA/6 V (historical typical
+170 MHz). Eight selected one-factor and joint low/high screens of the new
+IKF, RB and junction terms give hFE 301.1–318.0, saturation 0.216–0.253 V
+and fT proxy 164.3–168.9 MHz. All retain those source-proximity checks;
+they do not cover every parameter combination or the EG/XTI temperature
+response. The [implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json)
+falls from six to five affected frame-path instances.
+
+The [autonomous T1 check](reference/k7222-11/horizontal-t1-design.json) was
+rerun after the active-model change. Its nominal frequency moves from
+15,890.4 to 15,876.6 Hz (−0.09%), remains within the manual generator
+range, and its 0.5 µs refinement still passes. This is not a connected
+horizontal-lock or transistor switching qualification. The full joint
+parameter space, temperature response, and connected V10 stress remain
+open; no A2 completion or T1 freeze follows from the isolated checks.

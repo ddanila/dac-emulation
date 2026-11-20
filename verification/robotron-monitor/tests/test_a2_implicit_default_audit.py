@@ -24,6 +24,9 @@ class A2ImplicitDefaultAuditTests(unittest.TestCase):
         self.assertEqual(live['affected_instances'], sum(
             len(row['member_ids']) for row in live['rows']
             if row['critical_implicit_defaults']))
+        v10 = next(row for row in live['rows'] if row['id'] == '012-6921:V10')
+        self.assertEqual(v10['critical_implicit_defaults'], [])
+        self.assertEqual(v10['explicit_keys_without_same_named_register_field'], [])
         with tempfile.TemporaryDirectory() as tmp:
             model = Path(tmp)/'models.cir'
             model.write_text('.model X D(IS=1n N=1.5\n+ RS=2 TT=5n)\n')

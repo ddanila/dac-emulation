@@ -1,9 +1,9 @@
 {
   "format": "dac-monitor-v10-v12-model-class-check-v1",
-  "qualification": "historical transistor-family DC/AC proxies; SF1260 suffix, connected stress and implicit SPICE defaults remain open",
+  "qualification": "historical transistor-family DC/AC proxies; SF1260 suffix, connected stress and V12 implicit SPICE defaults remain open",
   "source": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
-  "model_file_sha256": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
-  "register_sha256": "48d6661998a62efceedde3f7c6153b12f79f545de4f69de219a644120a4e7293",
+  "model_file_sha256": "d7aff15d8d6917a6059106c8799aa45dcf9e31fcc23149df15cbd93aa07f3e10",
+  "register_sha256": "67f76c6f4de267b738288683b52192e6a87eefe2d1d6193a0fd61863a03ca916",
   "sheet_sha256": "f84a73d359edfbf7610b791a1d0dc99087fb3fcd8993d346ce670935e20aa6af",
   "devices": [
     {
@@ -19,7 +19,16 @@
         "CJE": "7.7p",
         "CJC": "3.8p",
         "TF": "0.9n",
-        "TR": "10n"
+        "TR": "10n",
+        "IKF": "0.0962",
+        "RB": "100",
+        "VJE": "0.65",
+        "MJE": "0.55",
+        "VJC": "0.65",
+        "MJC": "0.33",
+        "EG": "1.11",
+        "XTI": "3",
+        "FC": "0.5"
       },
       "data_book_targets": {
         "hFE": {
@@ -39,28 +48,28 @@
         }
       },
       "gain_bias": {
-        "collector_current_a": 0.00200004,
-        "base_current_a": 6.25090121075511e-06,
+        "collector_current_a": 0.00199995,
+        "base_current_a": 6.37249462530017e-06,
         "collector_emitter_voltage_v": 6,
-        "base_emitter_voltage_v": 0.6753221,
-        "hFE": 319.96026373905767
+        "base_emitter_voltage_v": 0.676454,
+        "hFE": 313.84098655176103
       },
       "saturation_dc_proxy": {
         "collector_current_a": 0.1,
         "base_current_a": 0.005,
-        "collector_emitter_voltage_v": 0.2076707,
-        "base_emitter_voltage_v": 0.8057253
+        "collector_emitter_voltage_v": 0.2284364,
+        "base_emitter_voltage_v": 1.324244
       },
       "ac_bias": {
         "collector_current_a": 0.0100001,
-        "base_current_a": 3.127291857644915e-05,
+        "base_current_a": 3.432407881692051e-05,
         "collector_emitter_voltage_v": 6,
-        "base_emitter_voltage_v": 0.7186921,
-        "hFE": 319.76868342345324
+        "base_emitter_voltage_v": 0.7245171,
+        "hFE": 291.343579920645
       },
       "ac_test_frequency_hz": 20000000.0,
-      "ac_current_gain": 8.467142,
-      "transition_frequency_proxy_hz": 169342840.00000003,
+      "ac_current_gain": 8.289391,
+      "transition_frequency_proxy_hz": 165787820.0,
       "checks": {
         "group_e_gain": true,
         "typical_saturation_proximity": true,
@@ -68,7 +77,113 @@
         "gain_bias_reached": true,
         "ac_bias_reached": true
       },
-      "passed": true
+      "passed": true,
+      "added_default_bound_screen": {
+        "cases": [
+          {
+            "case": "ikf_low",
+            "changes": {
+              "IKF": 0.03
+            },
+            "hFE_2ma": 301.1303611987142,
+            "VCEsat_100ma_v": 0.2528884,
+            "fT_proxy_hz": 164329280.0,
+            "historical_dc_ac_proximity": true
+          },
+          {
+            "case": "ikf_high",
+            "changes": {
+              "IKF": 0.3
+            },
+            "hFE_2ma": 317.9718809317126,
+            "VCEsat_100ma_v": 0.2159869,
+            "fT_proxy_hz": 166351660.00000003,
+            "historical_dc_ac_proximity": true
+          },
+          {
+            "case": "rb_low",
+            "changes": {
+              "RB": 10
+            },
+            "hFE_2ma": 313.84098655176103,
+            "VCEsat_100ma_v": 0.2284364,
+            "fT_proxy_hz": 165787820.0,
+            "historical_dc_ac_proximity": true
+          },
+          {
+            "case": "rb_high",
+            "changes": {
+              "RB": 200
+            },
+            "hFE_2ma": 313.84098655176103,
+            "VCEsat_100ma_v": 0.2284364,
+            "fT_proxy_hz": 165787820.0,
+            "historical_dc_ac_proximity": true
+          },
+          {
+            "case": "junction_low",
+            "changes": {
+              "VJE": 0.6,
+              "MJE": 0.33,
+              "VJC": 0.5,
+              "MJC": 0.3,
+              "FC": 0.3
+            },
+            "hFE_2ma": 313.84098655176103,
+            "VCEsat_100ma_v": 0.2284364,
+            "fT_proxy_hz": 168926740.0,
+            "historical_dc_ac_proximity": true
+          },
+          {
+            "case": "junction_high",
+            "changes": {
+              "VJE": 0.8,
+              "MJE": 0.6,
+              "VJC": 0.8,
+              "MJC": 0.6,
+              "FC": 0.7
+            },
+            "hFE_2ma": 313.84098655176103,
+            "VCEsat_100ma_v": 0.2284364,
+            "fT_proxy_hz": 164671460.0,
+            "historical_dc_ac_proximity": true
+          },
+          {
+            "case": "joint_low",
+            "changes": {
+              "IKF": 0.03,
+              "RB": 10,
+              "VJE": 0.6,
+              "MJE": 0.33,
+              "VJC": 0.5,
+              "MJC": 0.3,
+              "FC": 0.3
+            },
+            "hFE_2ma": 301.1303611987142,
+            "VCEsat_100ma_v": 0.2528884,
+            "fT_proxy_hz": 167874740.0,
+            "historical_dc_ac_proximity": true
+          },
+          {
+            "case": "joint_high",
+            "changes": {
+              "IKF": 0.3,
+              "RB": 200,
+              "VJE": 0.8,
+              "MJE": 0.6,
+              "VJC": 0.8,
+              "MJC": 0.6,
+              "FC": 0.7
+            },
+            "hFE_2ma": 317.9718809317126,
+            "VCEsat_100ma_v": 0.2159869,
+            "fT_proxy_hz": 165310720.00000003,
+            "historical_dc_ac_proximity": true
+          }
+        ],
+        "all_source_proximity_checks_passed": true,
+        "limitation": "Selected new-term corners at 25 C only; EG/XTI temperature response, the full joint parameter space, switching and connected-stage timing remain open"
+      }
     },
     {
       "source_id": "012-6921:V12",

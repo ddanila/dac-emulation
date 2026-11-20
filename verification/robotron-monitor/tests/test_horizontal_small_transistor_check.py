@@ -17,6 +17,9 @@ class HorizontalSmallTransistorCheckTests(unittest.TestCase):
         self.assertTrue(report['passed'])
         self.assertEqual([row['assembly_reference'] for row in report['devices']],
                          ['Q1034', 'Q1035'])
+        screen = report['devices'][0]['added_default_bound_screen']
+        self.assertEqual(len(screen['cases']), 8)
+        self.assertTrue(screen['all_source_proximity_checks_passed'])
 
         original = check.MODELS.read_text()
         with tempfile.TemporaryDirectory() as directory:
