@@ -422,6 +422,16 @@ connections, but its cathode target makes the missing steady IS high-state
 drive a functional blocker. The isolated neck check reaches only 4.39 V at
 the cathode for bright video with an ideal 5 V IS input, so a guessed 5 V
 pull-up would not by itself qualify the documented normal-bright level.
+[Independent 300 and 600 dpi page-3 reads](reference/k7222-11/page3-r11-r37-source-read.json)
+correct V5's lower lead from the
+earlier claimed 12P connection to 00: it crosses the 12P and sync lines
+without junction dots. The active model already has that return, so this
+correction does not recover the IS high state. The page-8 parts list calls V4
+`9.1 ZC`, whereas the manual's functional Fig. 6 labels a 15 V reference.
+In the [fixed-logic contrast diagnostic](reference/k7222-11/page18-contrast-dc-diagnostic.json),
+substituting 15 V for V4's 9.1 V breakdown raises the local reference by
+5.85–5.88 V but leaves steady IS and cathode unchanged. This tests the
+conflict without treating the simplified figure as a factory V4 specification.
 The short contrast bench shows effectively no cathode or provisional beam
 change across R2's range. The fixed-logic diagnostic shows V1 current changes,
 but the modeled IS output stays low and the neck cathode does not respond to R2.

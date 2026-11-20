@@ -34,6 +34,21 @@ class Page18ContrastDCDiagnosticTests(unittest.TestCase):
         for comparison in live['comparisons']:
             self.assertLess(comparison['high_minus_low_v1_collector_current_a'], -.02)
             self.assertLess(abs(comparison['high_minus_low_voltage_v']['cathode']), 1e-3)
+        conflict = live['v4_source_conflict']
+        self.assertEqual(conflict['factory_parts_list']['V4_description'], '9.1 ZC')
+        self.assertEqual(conflict['manual_functional_figure']['reference_v'], 15)
+        self.assertEqual(len(conflict['manual_variant_rows']), 4)
+        for alternative in conflict['manual_variant_rows']:
+            baseline = next(row for row in live['rows']
+                            if row['feed_resistance_ohm'] == 0 and
+                            row['logic_video'] == alternative['logic_video'] and
+                            row['logic_intensity'] == alternative['logic_intensity'] and
+                            row['contrast_position'] == alternative['contrast_position'])
+            self.assertGreater(alternative['voltages_v']['reference9'] -
+                               baseline['voltages_v']['reference9'], 5)
+            for node in ('intens', 'cathode'):
+                self.assertLess(abs(alternative['voltages_v'][node] -
+                                    baseline['voltages_v'][node]), .001)
 
 
 if __name__ == '__main__':

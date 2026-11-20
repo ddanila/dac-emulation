@@ -104,6 +104,10 @@ class SignalElectricalTests(unittest.TestCase):
             self.assertIn('Rbrightness_top p35 v1_base 5000', deck)
             self.assertIn('Rbrightness_bottom v1_base contrast_adjust 5000', deck)
             self.assertIn('Q201 intens base_i mreturn', deck)
+            source_read=json.loads((ROOT/'reference/k7222-11/page3-r11-r37-source-read.json').read_text())
+            source_nets={row['name']:row['terminals'] for row in source_read['source_nets']}
+            self.assertIn('V5:lower_right',source_nets['00'])
+            self.assertNotIn('V5:lower_right',source_nets['12P'])
             self.assertIn('D205 clamp_i intens', deck)
             self.assertIn('Q202 p35 v1_base contrast_low', deck)
             self.assertFalse(report['coverage']['full_monitor_qualified'])
