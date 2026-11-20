@@ -1295,11 +1295,17 @@
         "N": {"nominal": 1.5, "bounds": [1, 2], "unit": "1", "basis": "bounded ideality proxy; comparator has no unique N fit"},
         "BV": {"nominal": 5.1, "bounds": [4.8, 5.4], "unit": "V", "basis": "SPICE breakdown proxy around comparator 4.8–5.4 V at 5 mA; model voltage is separately solved at that current"},
         "IBV": {"nominal": 0.005, "bounds": [0.001, 0.01], "unit": "A", "basis": "breakdown knee proxy around the 5 mA comparator test point; not a specified IBV"},
-        "CJO": {"nominal": 1e-10, "bounds": [2e-11, 3e-10], "unit": "F", "basis": "zero-bias junction-capacitance proxy below the comparator 300 pF maximum"}
+        "CJO": {"nominal": 1e-10, "bounds": [2e-11, 3e-10], "unit": "F", "basis": "zero-bias junction-capacitance proxy below the comparator 300 pF maximum"},
+        "TT": {"nominal": 0, "bounds": [0, 1e-6], "unit": "s", "basis": "Explicit ngspice 45 zero transit-time default; reverse recovery is not constrained by the BZX84-C5V1 comparator, so the exploratory upper bound requires a loaded transient sensitivity check"},
+        "VJ": {"nominal": 1, "bounds": [0.5, 1.2], "unit": "V", "basis": "Explicit ngspice 45 junction-potential default; exploratory silicon-junction spread, not a ZC5.1 specification"},
+        "M": {"nominal": 0.5, "bounds": [0.3, 0.6], "unit": "1", "basis": "Explicit ngspice 45 junction-grading default; exploratory capacitance-shape spread, not a ZC5.1 specification"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.8], "unit": "1", "basis": "Explicit ngspice 45 forward-bias capacitance coefficient default; exploratory model range, not a ZC5.1 specification"},
+        "EG": {"nominal": 1.11, "bounds": [1, 1.2], "unit": "eV", "basis": "Explicit ngspice 45 silicon activation-energy default; exploratory model range, not a ZC5.1 specification"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice 45 saturation-current temperature-exponent default; exploratory model range, not a ZC5.1 specification"}
       },
       "comparison_targets": {"VZ_v_at_5ma": {"range": [4.8, 5.4], "conditions": "Tj=25 C, IZ=5 mA"}, "rdif_ohm_at_5ma": {"maximum": 60, "conditions": "Tj=25 C, IZ=5 mA"}},
       "model_response_report": "reference/k7222-11/regulator5-zener-model-check.json",
-      "remaining": ["Original ZC5.1 rating and per-device current/voltage stress", "Examine the omitted TT simulator default and sweep joint bounds in the connected 5 V stage"]
+      "remaining": ["Original ZC5.1 rating and per-device current/voltage stress", "Sweep TT and joint parameter bounds in the connected 5 V stage; explicit defaults and exploratory bounds alone do not qualify the zener"]
     },
     {
       "id": "012-6931:V27",
@@ -1336,7 +1342,8 @@
       "model": "Z9_BOUND",
       "model_file": "circuits/signal-path-models.cir",
       "sources": [
-        "nexperia_bzx84_series"
+        "nexperia_bzx84_series",
+        "ngspice_manual_diode"
       ],
       "parameters": {
         "IS": {
@@ -1401,7 +1408,12 @@
           ],
           "unit": "s",
           "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required"
-        }
+        },
+        "VJ": {"nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "Explicit ngspice 45 junction-potential default with exploratory spread"},
+        "M": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice 45 grading default with exploratory spread"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice 45 forward-bias capacitance default with exploratory spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice 45 silicon activation-energy default with exploratory spread"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice 45 temperature-exponent default with exploratory spread"}
       },
       "comparison_targets": {
         "VZ_v_at_5ma": {
@@ -1531,7 +1543,8 @@
       "model": "VERT_Z16",
       "model_file": "circuits/k7222-11-vertical-output-models.cir",
       "sources": [
-        "nexperia_bzx84_series"
+        "nexperia_bzx84_series",
+        "ngspice_manual_diode"
       ],
       "parameters": {
         "IS": {
@@ -1596,7 +1609,12 @@
           ],
           "unit": "s",
           "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required"
-        }
+        },
+        "VJ": {"nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "Explicit ngspice 45 junction-potential default with exploratory spread"},
+        "M": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice 45 grading default with exploratory spread"},
+        "FC": {"nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "Explicit ngspice 45 forward-bias capacitance default with exploratory spread"},
+        "EG": {"nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "Explicit ngspice 45 silicon activation-energy default with exploratory spread"},
+        "XTI": {"nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "Explicit ngspice 45 temperature-exponent default with exploratory spread"}
       },
       "comparison_targets": {
         "VZ_v_at_5ma": {

@@ -2,16 +2,16 @@
   "format": "dac-monitor-a2-implicit-default-audit-v1",
   "qualification": "first critical-default inventory from declared model text; not an A2 completion check",
   "ngspice_manual": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf",
-  "register_sha256": "75f32102fc8d047e1201ff234aa6c613e92497c2233c1694e64585b4fdb2942d",
+  "register_sha256": "e7d3e0befb539916a7a0acef8004d14131b6bc3880c38b4a24feceffd345fe0a",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
   "model_file_sha256": {
     "circuits/k7222-11-small-transistor-models.cir": "3a20130fbb779cf47db557f5e3e6910772cdc0bcc9157e7c1cdbb5fae6e368df",
     "circuits/k7222-11-neck-models.cir": "772dce498e92b419f6a7117185b27d14552dd407fe4ee80c14d21db59504c99f",
     "circuits/k7222-11-vertical-integrator-models.cir": "b78377133decc3416db1de78bf12cb523a609553dcd1cd1f522643174a535c10",
     "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
-    "circuits/k7222-11-regulator5-models.cir": "e257cc0488337e34f87e5e998a6a4941df07af681e9247f2aba4af2e918d5a5f",
-    "circuits/k7222-11-vertical-output-models.cir": "aeaa5490bc98cde0c088825fec00b7ae5958e45fb66cb02fd62fd4cd05c80eb1",
-    "circuits/signal-path-models.cir": "3532cc2defe6e1bdbd83f5d728e61416f3384b313323e8aefacaf32ee2710b62"
+    "circuits/k7222-11-regulator5-models.cir": "6fc59510f3160bc4643fda92fb60a5f8725de99e2adab78d7eaf2595c634d72e",
+    "circuits/k7222-11-vertical-output-models.cir": "2479f53f5813b9129decc7d02b5426f8cfc70b2d5a70a95c9fa6984907a6e6ea",
+    "circuits/signal-path-models.cir": "cba15c8a071a064015018f87c74642de095783504075bbeef45672cf7d60a422"
   },
   "screened_parameters": {
     "D": [
@@ -70,8 +70,8 @@
     ]
   },
   "registered_semiconductor_entries": 24,
-  "entries_with_critical_defaults": 11,
-  "affected_instances": 12,
+  "entries_with_critical_defaults": 8,
+  "affected_instances": 9,
   "rows": [
     {
       "id": "1SA20C-small-npn-class",
@@ -695,29 +695,34 @@
       "explicit_parameters": [
         "BV",
         "CJO",
-        "IBV",
-        "IS",
-        "N",
-        "RS"
-      ],
-      "registered_parameters": [
-        "BV",
-        "CJO",
-        "IBV",
-        "IS",
-        "N",
-        "RS"
-      ],
-      "critical_implicit_defaults": [
         "EG",
         "FC",
+        "IBV",
+        "IS",
         "M",
+        "N",
+        "RS",
         "TT",
         "VJ",
         "XTI"
       ],
+      "registered_parameters": [
+        "BV",
+        "CJO",
+        "EG",
+        "FC",
+        "IBV",
+        "IS",
+        "M",
+        "N",
+        "RS",
+        "TT",
+        "VJ",
+        "XTI"
+      ],
+      "critical_implicit_defaults": [],
       "explicit_keys_without_same_named_register_field": [],
-      "status": "critical-defaults-open"
+      "status": "critical-defaults-explicit; other qualification still required"
     },
     {
       "id": "012-6931:V27",
@@ -821,30 +826,34 @@
       "explicit_parameters": [
         "BV",
         "CJO",
+        "EG",
+        "FC",
         "IBV",
         "IS",
+        "M",
         "N",
         "RS",
-        "TT"
+        "TT",
+        "VJ",
+        "XTI"
       ],
       "registered_parameters": [
         "BV",
         "CJO",
-        "IBV",
-        "IS",
-        "N",
-        "RS",
-        "TT"
-      ],
-      "critical_implicit_defaults": [
         "EG",
         "FC",
+        "IBV",
+        "IS",
         "M",
+        "N",
+        "RS",
+        "TT",
         "VJ",
         "XTI"
       ],
+      "critical_implicit_defaults": [],
       "explicit_keys_without_same_named_register_field": [],
-      "status": "critical-defaults-open"
+      "status": "critical-defaults-explicit; other qualification still required"
     },
     {
       "id": "012-6921:V11",
@@ -899,30 +908,34 @@
       "explicit_parameters": [
         "BV",
         "CJO",
+        "EG",
+        "FC",
         "IBV",
         "IS",
+        "M",
         "N",
         "RS",
-        "TT"
+        "TT",
+        "VJ",
+        "XTI"
       ],
       "registered_parameters": [
         "BV",
         "CJO",
-        "IBV",
-        "IS",
-        "N",
-        "RS",
-        "TT"
-      ],
-      "critical_implicit_defaults": [
         "EG",
         "FC",
+        "IBV",
+        "IS",
         "M",
+        "N",
+        "RS",
+        "TT",
         "VJ",
         "XTI"
       ],
+      "critical_implicit_defaults": [],
       "explicit_keys_without_same_named_register_field": [],
-      "status": "critical-defaults-open"
+      "status": "critical-defaults-explicit; other qualification still required"
     },
     {
       "id": "012-6921:V13",
