@@ -579,6 +579,17 @@ emitter trim/return chain. A V5 collector/emitter reversal fails the check.
 This read followed earlier model exposure and covers only this local network;
 the independent complete page-9 comparison in A1 remains open.
 
+The [page-16 measuring-cable transfer bound](reference/k7222-11/meter-cable-transfer-bound.json)
+shows that the inset's literal common-return, series-capacitor interpretation
+has zero steady DC gain even with an ideal source. A Fluke meter class
+comparison gives different 100 mV input impedances for DC (10 MΩ) and AC
+(1 MΩ), and the conditional 50 Hz and 16 kHz gains vary strongly with the
+unprinted series capacitance. The Robotron instruction specifies only a
+digital voltmeter; it does not state its AC/DC mode, input circuit or
+integration window. The inset also omits the lower-terminal connection and
+both shunt values. These limits rule out using direct X3 DC voltage as the
+0.1/3.6 mV service observation; they do not assign a cable value or close A6.
+
 All five printed `1SA20C` instances and both `1SC60A` instances now use
 separate [BC546B-class NPN model aliases](circuits/k7222-11-small-transistor-models.cir)
 with cited parameter bounds in the A2 and A6 registers. The

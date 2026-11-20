@@ -2754,3 +2754,15 @@ also completes with 262,181 data rows. Its final EHT is 5.876 kV, below
 the 11–12 kV sustained target. This
 extends the solver feasibility bound, but remains only about one tenth of
 the 19.5 ms native field and cannot establish an A3 or A5 pass.
+
+The [page-16 measuring-cable transfer check](reference/k7222-11/meter-cable-transfer-bound.json)
+uses the source inset's unvalued series capacitor and a conditional common
+return. The ideal passive RC has zero steady DC gain. With an illustrative
+100 pF series capacitor, a 1 MΩ AC meter passes less than 4% of a 51.3 Hz
+field component but more than 99% of a 16 kHz line component. These are
+sensitivity cases, not values assigned to cable 1.11.017154.0. A comparable
+Fluke meter documents 1 MΩ for AC mV and 10 MΩ for DC mV; the Robotron
+instruction names no meter model or AC/DC mode. The cable's lower-terminal
+connection and shunt values are also absent from the inset. The 0.1 mV rise
+and 3.6 mV target therefore remain unscorable until the transfer and native
+grid/tube response are bounded.

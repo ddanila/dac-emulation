@@ -1,0 +1,76 @@
+{
+  "format": "dac-monitor-meter-cable-transfer-bound-v1",
+  "status": "conditional structural bound; original cable transfer still unknown",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "operation_pdf_sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
+  "operation_instruction": "PDF page 30, printed page 28: connect the neck board through measuring cable 1.11.017154.0 to a digital voltmeter; set 0.1 mV rise and 3.6 mV bright. No meter model or AC/DC setting is given.",
+  "source_read_sha256": "da70c5c0878c2ae52e2be900a629650cc7cedf16dfee876ca1ab10f8255f05ce",
+  "comparator": {
+    "source": "https://assets.fluke.com/manuals/884xa___umeng0300.pdf",
+    "instrument": "Fluke 8845A/8846A, not the unspecified Robotron service meter",
+    "dc_100mv_default_input_ohm": 10000000.0,
+    "dc_100mv_optional_high_impedance_ohm_min": 10000000000.0,
+    "ac_100mv_input_ohm": 1000000.0,
+    "ac_meter": "AC-coupled true RMS; 3-300 kHz slow filter, 20-300 kHz medium, 200-300 kHz fast"
+  },
+  "model": {
+    "topology": "assumed common lower return, ideal series C, zero-ohm source and resistive meter input",
+    "equation": "|H(j\u03c9)|=Rmeter/sqrt((Rsource+Rmeter)^2+(1/(\u03c9Cseries))^2)",
+    "dc_gain": 0,
+    "series_capacitance_f": "unknown; 10 pF, 100 pF and 1 nF are sensitivity cases, not bounds or assigned cable values",
+    "field_frequency_hz": 51.282051282051285,
+    "line_frequency_hz": 16000
+  },
+  "cases": [
+    {
+      "meter_case": "ac_mv_1meg",
+      "load_ohm": 1000000.0,
+      "frequency_hz": 51.282051282051285,
+      "conditional_gain_by_capacitance_f": {
+        "1e-11": 0.003222129584977412,
+        "1e-10": 0.03220474959990064,
+        "1e-09": 0.3066872217899082
+      },
+      "minimum_series_capacitance_f_for_90pct_best_case_gain": 6.407969736031344e-09
+    },
+    {
+      "meter_case": "ac_mv_1meg",
+      "load_ohm": 1000000.0,
+      "frequency_hz": 16000,
+      "conditional_gain_by_capacitance_f": {
+        "1e-11": 0.7089765698382926,
+        "1e-10": 0.995089090464489,
+        "1e-09": 0.9999505304368983
+      },
+      "minimum_series_capacitance_f_for_90pct_best_case_gain": 2.0538364538562007e-11
+    },
+    {
+      "meter_case": "dc_mv_10meg",
+      "load_ohm": 10000000.0,
+      "frequency_hz": 51.282051282051285,
+      "conditional_gain_by_capacitance_f": {
+        "1e-11": 0.03220474959990064,
+        "1e-10": 0.30668722178990815,
+        "1e-09": 0.9550621600737926
+      },
+      "minimum_series_capacitance_f_for_90pct_best_case_gain": 6.407969736031345e-10
+    },
+    {
+      "meter_case": "dc_mv_10meg",
+      "load_ohm": 10000000.0,
+      "frequency_hz": 16000,
+      "conditional_gain_by_capacitance_f": {
+        "1e-11": 0.995089090464489,
+        "1e-10": 0.9999505304368983,
+        "1e-09": 0.9999995052680251
+      },
+      "minimum_series_capacitance_f_for_90pct_best_case_gain": 2.0538364538562005e-12
+    }
+  ],
+  "conclusion": "For the literal common-return passive RC interpretation, a steady DC meter reading cannot follow X3 through the series capacitor. The manual says only digital voltmeter and does not specify AC/DC mode. The inset leaves both lower connections and both shunt values unassigned, so neither the 0.1 mV rise nor 3.6 mV target can be predicted from a direct X3 DC value. The RC cases are upper-envelope sensitivities, not a reconstruction of cable 1.11.017154.0.",
+  "remaining": [
+    "Identify the actual cable element values and lower-terminal connections or keep topology conditional.",
+    "Identify meter mode, impedance, bandwidth and integration window before scoring the service readings.",
+    "Run the native grid with qualified tube emission and the specified control sequence."
+  ]
+}
