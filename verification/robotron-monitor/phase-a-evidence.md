@@ -2043,6 +2043,22 @@ some current, but the stage still misses the manual TP7 guideline. A5 remains
 conditional on the tube/yoke geometry, circuit model and full connection
 review; this calculation does not freeze a trim or an operating point.
 
+### A1: page-9 V12 oscillator-to-ramp diode bridge
+
+An independent 600 dpi full-branch crop and a separate 1200 dpi diode crop
+support the [source-side read](reference/k7222-11/page9-v12-source-read.json):
+V12's cathode is on the left oscillator pulse branch, and its anode is on the
+right trace toward A2's marked positive input. Fresh exports of the oscillator
+and integrator sheets pass the [cross-sheet comparison](reference/k7222-11/page9-v12-bridge-comparison.json):
+V11's collector and V12's cathode share `vertical_pulse`; V12's anode and A2
+pin 3 share `ramp_noninv`. A subsequent 1200 dpi source crop rechecks V11's
+collector, base and emitter assignment: its lower-right emitter returns to
+00 and its left base meets the timing network. Reversed V12 and V11 C/E
+assignments both fail the regression check. This closes the local polarity
+and endpoint comparison only. Other
+oscillator and amplifier connections, their operating points, and the full
+independent page-9 netlist remain open.
+
 ### A1/A2: page-9 centring bridge replaces the DC source equivalent
 
 The earlier `Icentering` midpoint-neutral current source described above is

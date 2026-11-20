@@ -1,0 +1,49 @@
+{
+  "format": "dac-monitor-page9-v12-source-read-v1",
+  "qualification": "source-first local page-9 diode polarity read; not a complete independent page-9 netlist or amplifier input check",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 9,
+    "views": [
+      {
+        "description": "600 dpi vertical timing crop, read before KiCad inspection for this check",
+        "path": "build/monitor/phase-a/page9-timing-600-crop.png",
+        "sha256": "b377b618c0544683a843d459d14788bed33bbdb08de5c96f3a03b32eb76af606"
+      },
+      {
+        "description": "independent 1200 dpi page crop at 2800x2800+5000+7200",
+        "sha256": "514bedbadb2fcaa0831f9b8ffa2d84d78b751ee25440659ee86fdcd921da82a3"
+      },
+      {
+        "description": "1200 dpi V11 crop at 2500x2700+4200+8300, rechecked after the first KiCad comparison",
+        "sha256": "7700bf2c5e34de1a74b2f9b30d671bc2517707bede625c0489f62b2c33744042"
+      }
+    ]
+  },
+  "scope": {
+    "board": "012-6931",
+    "part": "V12",
+    "page_position": "between the vertical oscillator and the A2 ramp-amplifier input network"
+  },
+  "terminal_read": {
+    "left": "cathode",
+    "right": "anode",
+    "observation": "The diode bar is on the left, toward the oscillator pulse branch; the right-hand trace continues toward the ramp amplifier. Both source views agree on the symbol direction."
+  },
+  "endpoint_trace": {
+    "left": ["V11 collector-side oscillator pulse branch", "V12 cathode"],
+    "right": ["V12 anode", "A2 positive input pin 3"],
+    "method": "The full 600 dpi timing crop shows the left oscillator continuation and the right trace into A2's marked plus input; the 1200 dpi crop independently fixes V12's symbol direction."
+  },
+  "v11_terminal_read": {
+    "collector": "upper-right lead to the oscillator pulse and V12 cathode branch",
+    "base": "left lead from the oscillator timing network",
+    "emitter": "lower-right lead to the 00 return",
+    "qualification": "initial 600 dpi branch view followed by a 1200 dpi source re-read after seeing the KiCad comparison"
+  },
+  "unresolved": [
+    "Other connections on V11's pulse net and A2's positive-input net are outside this scoped read.",
+    "This is a local source read, not page-9 schematic closure."
+  ]
+}
