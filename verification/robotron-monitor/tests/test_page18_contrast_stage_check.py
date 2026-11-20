@@ -25,8 +25,10 @@ class Page18ContrastStageCheckTests(unittest.TestCase):
         self.assertEqual(live, saved)
         self.assertEqual([row['contrast_position'] for row in live['rows']], [.05, .5, .95])
         self.assertLess(live['low_high_cathode_relative_to_mid_swing'], .02)
+        self.assertLess(live['low_high_beam_relative_to_mid_peak'], .02)
         self.assertGreater(live['rows'][1]['cathode']['peak_to_peak'], 30)
-        self.assertIn('do not close', live['functional_result'])
+        self.assertGreater(live['rows'][1]['conditional_held_warm_beam_ua']['maximum'], 20)
+        self.assertIn('remain unqualified', live['functional_result'])
 
 
 if __name__ == '__main__':

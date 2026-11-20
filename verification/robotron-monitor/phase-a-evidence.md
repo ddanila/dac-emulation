@@ -2509,7 +2509,7 @@ still matches its source read. The functional contrast response and remaining
 page-3/4 source review are open, so page 18 is not marked complete in the A1
 gate.
 
-### A1: powered page-18 contrast stage fails functional response (2026-11-20)
+### A1: weak conditional page-18 contrast response (2026-11-20)
 
 The short input/neck bench previously left `p35` floating and omitted the
 source-read external R1 brightness segments, so it could not test the R2/V1
@@ -2525,11 +2525,20 @@ within 0.2 ms, and solves the source-addressed input and neck circuits at
 R2 positions 0.05, 0.50 and 0.95. All three ngspice runs complete. The
 cathode spans about 0.34–33.70 V at each setting; the largest pointwise
 low-versus-high difference is 0.0464 V, or 0.14% of the nominal swing.
-This cannot substantiate a functioning contrast control. The current
-digital intensity path appears insensitive to the R2/V1 bias across this
-stimulus, but the source cause is not yet established. The page-3/4
-R4/V1/V3/intensity wiring and the manual's bright/dark cathode procedure
-must be revisited. The [panel pin/topology comparison](reference/k7222-11/page18-panel-topology-comparison.json)
-still passes; page 18 remains open because topology agreement alone does not
-show the required function. This short synthetic-pattern check is not a
-native-grid sustained A3 score.
+That voltage is not the service contrast observable: the short bench fixes
+beam current at 20 µA, while the manual's page-30 procedure uses a meter
+across neck-board R4 to set maximum beam current.
+
+The same check now also replaces that fixed load with the repository's
+held-warm CRT proxy at its provisional 894/669 K heater/cathode temperature
+rises, ideal 11.5 kV anode and fixed −25/350 V grid supplies. Its peak launch
+current is 28.99 µA at all three settings. The largest pointwise
+low-versus-high difference is 0.110 µA, or 0.38% of the nominal peak. This
+suggests a weak modeled contrast path even when the provisional emission
+response is included, but it does not establish the original tube's response
+or the measuring-cable transfer. The page-3/4 R4/V1/V3/intensity wiring and
+the manual's full-bright trim sequence must be revisited. The
+[panel pin/topology comparison](reference/k7222-11/page18-panel-topology-comparison.json)
+still passes; page 18 remains open because topology agreement and this
+conditional response do not prove the required function. This short
+synthetic-pattern check is not a native-grid sustained A3 score.

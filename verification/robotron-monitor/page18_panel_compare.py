@@ -123,7 +123,7 @@ def compare(source, interconnect, deck, metadata, components, export, *, pdf_sha
                 open_checks=['complete the page-3/4 second netlist',
                              *(['replace the three-node contrast divider with the source-connected rheostat']
                                if not r2_match else []),
-                             'resolve the negligible cathode response in the loaded input/neck contrast check'],
+                             'resolve the weak cathode and provisional beam response in the loaded input/neck contrast check'],
                 page18_gate_closed=False)
 
 
