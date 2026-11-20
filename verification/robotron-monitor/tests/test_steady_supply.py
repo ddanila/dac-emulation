@@ -105,6 +105,29 @@ class SteadySupplyTests(unittest.TestCase):
         with self.assertRaises(ValueError):tc.compile_model(graph,candidates[0],bad,backend='flux')
         with self.assertRaises(ValueError):tc.compile_model(graph,candidates[0],params,backend='invented')
 
+    def test_grounded_hv_cold_return_is_labelled_and_archivable(self):
+        table=json.loads((ROOT/'reference/k7222-11/horizontal-output-transcription.json').read_text())
+        parts=copy.deepcopy(table['components'])
+        original=copy.deepcopy(parts)
+        assembly=dict(components=parts,parameters={k:v[0] for k,v in steady.signal_path.BOUNDS.items()},models=[])
+        record=steady.apply_t3_return_variant(assembly,'hv-only-grounded')
+        self.assertEqual(record['original_pins']['X1_16'],'h_hvcold')
+        self.assertEqual(record['selected_pins']['X1_16'],'0')
+        self.assertEqual(record['selected_pins']['X1_7'],'h_hvcold')
+        changed=[a['source_id'] for a,b in zip(parts,original) if a['nodes']!=b['nodes']]
+        self.assertEqual(changed,['012-6921:T3'])
+        graph=json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
+        params=json.loads((ROOT/'reference/k7222-11/t3-coupled-source-ac-loss-parameters.json').read_text())
+        assembly['magnetic_parameters']=params
+        # The isolated deck fixture has no neck/contrast sheet.
+        assembly['components']=[]
+        candidate=tc.enumerate_candidates(graph)[0]
+        deck,meta=steady.deck(assembly,steady.select(capture()),candidate,magnetic_backend='coupled')
+        self.assertIn('Rhvcoldref h_hvcold 0 1G',deck)
+        self.assertEqual(meta['t3_return_pins'],record['selected_pins'])
+        self.assertIn(steady.T3_GROUNDED_AC_LOSS_LABEL,meta['equivalent_stages'])
+        with self.assertRaises(ValueError):steady.apply_t3_return_variant(assembly,'invented')
+
     def test_tuning_and_solver_controls_stay_bounded(self):
         selection=steady.select(capture())
         assembly=dict(parameters={})
