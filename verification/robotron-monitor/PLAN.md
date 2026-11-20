@@ -403,11 +403,13 @@ native-grid attempts developed irregular TP17/collector bursts and timed out
 before four fields. The newer [source-informed overwind screen](reference/k7222-11/t3-source-overwind-sweep.json)
 also misses the joint target: two sampled couplings abort, while two completed
 cases give 719–788 Vpp at the TP17-mapped node against the manual's 64–96 Vpp
-guideline, with EHT at 11.825–12.666 kV. No converged joint TP17/EHT operating
-point or sustained field is available to freeze or score for A3. A1, A2 and A6
-also remain open as listed below. The evidence and connected-run receipts are
-in [phase-a-evidence.md](phase-a-evidence.md). This blocks closure, not further
-work: the fallbacks above still apply without a human or new measurement.
+guideline, with EHT at 11.825–12.666 kV. An artificial-loss case briefly hits
+both targets but fails timestep and non-driving-probe refinement. No converged
+joint TP17/EHT point or sustained field is available to freeze or score for A3.
+A1, A2 and A6 also remain open as listed below. See
+[phase-a-evidence.md](phase-a-evidence.md) for the run receipts. This blocks
+closure, not further work: the fallbacks above still apply without a human or
+new measurement.
 
 **Keep this section short.** It holds one row per item: what is still unmet
 and the next step. Results, numbers and source reads go in
@@ -422,7 +424,7 @@ next step changes. The narrative that used to follow is in
 | A2 | All 64 frame-path instances have provisional register rows; none passes every qualification check. Seven instances still rely on screened simulator defaults ([audit](reference/k7222-11/a2-implicit-default-audit.json)). T3 turns, resistance and parasitics are assumed-bound. | Make the remaining defaults explicit with bounds. Check connected operating stress per stage. |
 | A3 | All 17 shape descriptors are registered and scored. No sustained connected run on the native grid has been scored. Horizontal output pulses persist, but the flux model under-drives TP17; the labelled passive T3 equivalent develops large irregular pulse bursts and also times out before four fields. The two flux-model step sizes disagree. TP8 is `reference-incomplete`: 17 V is crest-to-zero, and the 10 V arrow has no settled node. | Resolve or bound the T3 pulse-winding/rectifier and T2/L4 source paths. Qualify TP17 and EHT together with converged, refined native-grid fields, then score. |
 | A4 | Done. | None. |
-| A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. T3 graph, ratios and polarities are not frozen. A source-informed overwind variant is bounded, but its class-range stage cases either abort or greatly exceed TP17; the earlier passive candidate is probe-sensitive and bursts in incomplete connected runs. Other T3 sections, the vertical current calculation and tube/yoke geometry remain conditional. | Resolve the T3 graph and numerical sensitivity, then establish joint TP17/EHT stage behavior and a converged connected operating point before freezing any candidate. |
+| A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. T3 graph, ratios and polarities are not frozen. A source-informed overwind variant is bounded, but its class-range stage cases either abort or greatly exceed TP17. An [artificial-loss diagnostic](reference/k7222-11/t3-overwind-damping-diagnostic.json) has one apparent joint-target snapshot that fails timestep/probe invariance; the earlier passive candidate also bursts in incomplete connected runs. Other T3 sections, the vertical current calculation and tube/yoke geometry remain conditional. | Resolve the T3 graph and bound overwind leakage/loss, then establish numerically invariant joint TP17/EHT stage behavior and a converged connected operating point before freezing any candidate. |
 | A6 | The [register](reference/k7222-11/class-typical-register.json) is partial: tube data (B31G22 cold resistance, thermal law, emission, G4 effect on cut-off), T3 parasitics, yoke sensitivity and the measuring cable lack qualified bounds. | Add cited bounds and re-run the stage checks they affect. |
 
 Order: A5 (T3 graph or its fallback), A2, A1, A3, A6, then B1. Phase C waits
