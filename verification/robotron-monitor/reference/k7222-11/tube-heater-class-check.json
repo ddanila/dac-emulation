@@ -1,6 +1,6 @@
 {
-  "format": "dac-monitor-tube-heater-class-check-v1",
-  "qualification": "Tungsram M31-120 manufacturer comparator and active-branch consistency only; installed B31G22 heater, cold resistance, thermal law and emission remain unqualified",
+  "format": "dac-monitor-tube-heater-class-check-v2",
+  "qualification": "M31-120 hot-point and pure-tungsten resistance class proxy; installed B31G22 heater material, temperature, limits and emission remain unqualified",
   "source": {
     "manufacturer": "Tungsram",
     "title": "Electron Tubes, Semiconductors 1976",
@@ -12,6 +12,21 @@
       "page image at 180 dpi",
       "independent Ghostscript text extraction"
     ]
+  },
+  "tungsten_source": {
+    "authority": "NASA",
+    "title": "Space Nuclear Propulsion Material Property Handbook",
+    "url": "https://ntrs.nasa.gov/api/citations/20240004217/downloads/SNP-HDBK-0008_SNP-Material-Handbook.pdf",
+    "pdf_sha256": "acab337e7dcf88cc01ab15a70abab0978a0d2c94c827ffcd709bcfb54c305021",
+    "section": "3.2.1 Tungsten (W), electrical resistivity with temperature",
+    "printed_page": 148,
+    "resistivity_micro_ohm_m": {
+      "300": 0.053,
+      "1000": 0.245,
+      "1200": 0.305,
+      "1400": 0.366
+    },
+    "interpretation": "pure tungsten material comparator, not a B31G22 heater identification"
   },
   "comparator": {
     "type": "M31-120",
@@ -42,23 +57,102 @@
     ],
     "source_resistance_ohm": 15.0,
     "ideal_rail_v": 12.0,
-    "model_sha256": "82e246ec437c17dec8b9168239e144e4524527f06ef9f946e244a9f36974bdd0",
-    "steady_supply_sha256": "af5e9c08e2d07e6592ba6df39029f66da1117e29d5aa5e76eaad888d0e0ec317",
-    "cold_resistance_ohm": 20.0,
-    "alpha_per_k": 0.008,
-    "heater_temperature_rise_k": 893.9780984698904,
-    "cathode_temperature_rise_k": 669.1359489252557,
-    "effective_hot_resistance_ohm": 163.03649575518247,
-    "heater_current_a": 0.06740191076610028,
-    "heater_voltage_v": 10.988971338508495,
-    "heater_power_w": 0.7406776655693831
+    "model_sha256": "9c09699a61d6d9fbba74411a9d5f818d975287fda3aec4762e2d052ec87c35b7",
+    "steady_supply_sha256": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b",
+    "cold_resistance_ohm": 28.0,
+    "alpha_per_k": 0.0053,
+    "heater_temperature_rise_k": 899.2249778374951,
+    "cathode_temperature_rise_k": 672.8793205127708,
+    "effective_hot_resistance_ohm": 161.44498671108428,
+    "heater_current_a": 0.06800986655205522,
+    "heater_voltage_v": 10.979852001719172,
+    "heater_power_w": 0.7467382693982373
   },
   "comparison": {
     "catalog_hot_resistance_ohm": 161.76470588235293,
     "rail_needed_for_exact_catalog_point_v": 12.02,
-    "heater_voltage_relative_error": -0.0010026055901367625,
-    "heater_current_relative_error": -0.008795429910290142,
-    "hot_resistance_relative_error": 0.00786197375930997
+    "heater_voltage_relative_error": -0.001831636207348053,
+    "heater_current_relative_error": 0.00014509635375326013,
+    "hot_resistance_relative_error": -0.0019764457860242945
+  },
+  "cold_resistance_proxy": {
+    "equation": "R_hot/R_300 = rho(T_hot)/rho(300 K); alpha_linear = (R_hot/R_300 - 1)/(T_hot - 300 K)",
+    "ratios_to_300k": {
+      "1000": 4.622641509433962,
+      "1200": 5.754716981132075,
+      "1400": 6.90566037735849
+    },
+    "implied_linear_alpha_per_k": {
+      "1000": 0.005175202156334232,
+      "1200": 0.005283018867924528,
+      "1400": 0.005368782161234991
+    },
+    "cold_ohm_from_catalog_hot_point": {
+      "1000": 34.99399759903961,
+      "1200": 28.1099324975892,
+      "1400": 23.424943747990998
+    },
+    "active_cold_bounds_ohm": [
+      23.0,
+      35.0
+    ],
+    "active_alpha_bounds_per_k": [
+      0.0051,
+      0.0055
+    ],
+    "nominal_branch": {
+      "cold_resistance_ohm": 28.0,
+      "alpha_per_k": 0.0053,
+      "heater_temperature_rise_k": 899.2249778374951,
+      "cathode_temperature_rise_k": 672.8793205127708,
+      "effective_hot_resistance_ohm": 161.44498671108428,
+      "heater_current_a": 0.06800986655205522,
+      "heater_voltage_v": 10.979852001719172,
+      "heater_power_w": 0.7467382693982372
+    },
+    "joint_bound_corners": [
+      {
+        "cold_resistance_ohm": 23.0,
+        "alpha_per_k": 0.0051,
+        "heater_temperature_rise_k": 982.5871823436538,
+        "cathode_temperature_rise_k": 731.9177875880955,
+        "effective_hot_resistance_ohm": 138.25747648891058,
+        "heater_current_a": 0.07829960583272619,
+        "heater_voltage_v": 10.825505912509106,
+        "heater_power_w": 0.8476328458893099
+      },
+      {
+        "cold_resistance_ohm": 23.0,
+        "alpha_per_k": 0.0055,
+        "heater_temperature_rise_k": 959.3289039972872,
+        "cathode_temperature_rise_k": 715.530103748783,
+        "effective_hot_resistance_ohm": 144.35510635565683,
+        "heater_current_a": 0.07530351724793675,
+        "heater_voltage_v": 10.87044724128095,
+        "heater_power_w": 0.8185829113265863
+      },
+      {
+        "cold_resistance_ohm": 35.0,
+        "alpha_per_k": 0.0051,
+        "heater_temperature_rise_k": 831.4459294126038,
+        "cathode_temperature_rise_k": 624.2844940685889,
+        "effective_hot_resistance_ohm": 183.41309840014978,
+        "heater_current_a": 0.06047987807639085,
+        "heater_voltage_v": 11.092801828854137,
+        "heater_power_w": 0.6708913021346639
+      },
+      {
+        "cold_resistance_ohm": 35.0,
+        "alpha_per_k": 0.0055,
+        "heater_temperature_rise_k": 810.2466644839369,
+        "cathode_temperature_rise_k": 608.982647573449,
+        "effective_hot_resistance_ohm": 190.97248291315785,
+        "heater_current_a": 0.05826020947205575,
+        "heater_voltage_v": 11.126096857919164,
+        "heater_power_w": 0.6482087335487516
+      }
+    ],
+    "limitation": "The 300 K material reference approximates the model 293 K ambient. The thermal heater temperature and pure-tungsten composition are class assumptions; independent rectangular parameter corners need not match the catalog hot point."
   },
   "assumed_class_spread": {
     "reason": "declared +/-20% effective hot-resistance sensitivity, not a manufacturer limit or B31G22 rating",
@@ -87,8 +181,7 @@
     ]
   },
   "remaining": [
-    "identify B31G22 manufacturer heater limits directly",
-    "bound cold resistance and temperature coefficient from a compatible source",
+    "identify B31G22 manufacturer heater material and limits directly",
     "bound thermal transfer and emission parameters separately",
     "check held-warm connected tube load against sustained grid evidence"
   ]

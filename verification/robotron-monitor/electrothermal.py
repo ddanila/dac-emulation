@@ -10,8 +10,12 @@ import math
 # nominal, minimum, maximum, SI unit
 BOUNDS = {
     'ambient_k': (293.15,273.15,313.15,'K'),
-    'heater_cold_ohm': (20.,5.,60.,'ohm'),
-    'heater_alpha': (.008,.002,.015,'1/K'),
+    # Pure-tungsten class proxy: NASA resistivity at 300/1200 K gives a
+    # 5.75-fold rise. The 31 cm M31-120 hot point is 11 V / 68 mA; the
+    # 12 V/R22=15 ohm branch then requires about 28 ohm at room temperature.
+    # These are not B31G22 heater limits or a measured filament temperature.
+    'heater_cold_ohm': (28.,23.,35.,'ohm'),
+    'heater_alpha': (.0053,.0051,.0055,'1/K'),
     'heater_capacity': (.02,.002,.2,'J/K'),
     'cathode_capacity': (.05,.005,.5,'J/K'),
     'heater_cathode_g': (.002,.0002,.02,'W/K'),

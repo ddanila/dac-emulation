@@ -638,9 +638,9 @@ unverified.
 A further 2026-11-20 manufacturer-source check found the [RFT B 30 G 1 entry,
 printed page 29](https://frank.pocnet.net/other/RFT/RFT_Spezialroehren_1959.pdf):
 its 30 cm monochrome tube specifies a 6.3 V, approximately 0.47 A heater.
-This is a *comparator*, not a B31G22 identification. The active nominal
+This is a *comparator*, not a B31G22 identification. The then-active nominal
 electrothermal model, solved behind the documented 12 V rail and 15 ohm R22,
-settles at about 10.989 V, 0.0674 A and 0.741 W in the heater. Independently,
+settled at about 10.989 V, 0.0674 A and 0.741 W in the heater. Independently,
 the B30G1 operating point would need 6.3 + 0.47 × 15 = 13.35 V upstream of
 R22, above the model's 12 V rail. Thus the B30G1 values cannot be transferred
 as bounds or used to tune the installed heater. The
@@ -657,13 +657,36 @@ heater, 11 kV typical anode, 250 V G2 and 35–69 V grid-control cut-off.
 This is primary data for the **M31-120**, not proof that the installed
 B31G22 has the same gun. The independent page-image and text reads agree.
 Its hot heater resistance is 161.765 Ω; with source R22 at 15 Ω, that exact
-point needs 12.02 V ahead of R22. The active 12 V branch's 163.036 Ω
-equilibrium resistance gives 10.989 V and 67.402 mA, 0.10% and 0.88% below
-the comparator. A declared ±20% hot-resistance sensitivity produces
+point needs 12.02 V ahead of R22. A declared ±20% hot-resistance sensitivity produces
 57.384–83.096 mA and 10.754–11.139 V in the same ideal-rail branch; this
-spread is an engineering bound, not a Tungsram or B31G22 limit. The A6
-register now records that operating point, while cold resistance,
-temperature coefficient, thermal transfer and emission still need evidence.
+spread is an engineering bound, not a Tungsram or B31G22 limit.
+
+On 2026-11-21, the [NASA tungsten material handbook](https://ntrs.nasa.gov/api/citations/20240004217/downloads/SNP-HDBK-0008_SNP-Material-Handbook.pdf)
+(section 3.2.1, printed page 148) gives resistivities of 0.053, 0.245,
+0.305 and 0.366 µΩ·m at 300, 1,000, 1,200 and 1,400 K. Relative to 300 K,
+the three hot ratios are 4.62, 5.75 and 6.91. Dividing the M31-120 hot
+161.765 Ω comparator by those ratios gives a 23.4–35.0 Ω cold class range;
+the corresponding linear slopes are 0.00518–0.00537 K⁻¹. The active
+`electrothermal.py` model now uses 28 Ω and 0.0053 K⁻¹, with 23–35 Ω and
+0.0051–0.0055 K⁻¹ bounds. Its 12 V/R22 equilibrium gives 161.445 Ω hot,
+10.980 V, 68.010 mA and an unmeasured 1,192 K heater temperature. The four
+independent bound corners in the refreshed
+[heater class check](reference/k7222-11/tube-heater-class-check.json) give
+58.26–78.30 mA, 10.826–11.126 V and 138.26–190.97 Ω hot. This is a
+pure-tungsten electrical class proxy, not evidence that B31G22 uses pure
+tungsten or shares the comparator's thermal state. Thermal transfer and
+emission remain unqualified.
+The refreshed [page-18 loaded contrast check](reference/k7222-11/page18-contrast-stage-check.json)
+raises the provisional mid-position beam peak from 32.68 to 34.67 µA while
+leaving the three contrast settings functionally indistinguishable; it does
+not qualify the source control or the tube emission law. The V13/V18 class
+receipts were refreshed because their source hashes include the A6 register.
+The three older page-3/4 connected contrast receipts retain their recorded
+pre-change electrothermal hash and remain historical diagnostics, not current
+heater-model results. The focused register, electrothermal, supply, V13/V18
+and page-18 contrast tests pass after the change.
+With the verified pinned runtime, `make test-monitor` passes all 320 tests
+with no skips on the refreshed tree.
 
 The same Tungsram page prints G2 = 250 V, G4 = 0–350 V and a 35–69 V
 grid-control cut-off. The [cut-off class check](reference/k7222-11/tube-cutoff-class-check.json)

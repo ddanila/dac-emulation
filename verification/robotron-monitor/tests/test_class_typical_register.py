@@ -11,6 +11,7 @@ sys.path.insert(0, str(ROOT))
 REF = ROOT/'reference/k7222-11'
 import electrothermal
 import steady_supply
+import tube_heater_class_check
 
 
 class ClassTypicalRegisterTests(unittest.TestCase):
@@ -109,8 +110,11 @@ class ClassTypicalRegisterTests(unittest.TestCase):
 
     def test_tube_heater_class_point_matches_live_equilibrium(self):
         check=json.loads((REF/'tube-heater-class-check.json').read_text())
+        self.assertEqual(check['format'],'dac-monitor-tube-heater-class-check-v2')
         source=self.register['sources']['tungsram_m31_120_1976']
         self.assertEqual(source['sha256'],check['source']['pdf_sha256'])
+        tungsten=self.register['sources']['nasa_tungsten_material_handbook']
+        self.assertEqual(tungsten['sha256'],check['tungsten_source']['pdf_sha256'])
         self.assertFalse(check['comparator']['exact_installed_type'])
         row=self.by_id['B31G22.heater_effective_hot_resistance']
         nominal=electrothermal.parameters()
@@ -120,6 +124,21 @@ class ClassTypicalRegisterTests(unittest.TestCase):
         self.assertEqual(row['bounds'],[check['assumed_class_spread']['scenarios'][0]['hot_resistance_ohm'],
                                         check['assumed_class_spread']['scenarios'][-1]['hot_resistance_ohm']])
         self.assertLess(abs(check['comparison']['heater_current_relative_error']),.02)
+        for key, model_key in (('heater_cold_resistance','heater_cold_ohm'),
+                               ('heater_linear_alpha','heater_alpha')):
+            row=self.by_id['B31G22.'+key]
+            self.assertEqual(row['value'],nominal[model_key])
+            self.assertEqual(row['bounds'],list(electrothermal.BOUNDS[model_key][1:3]))
+            self.assertIn('nasa_tungsten_material_handbook',row['sources'])
+        rho=check['tungsten_source']['resistivity_micro_ohm_m']
+        for temperature in ('1000','1200','1400'):
+            ratio=rho[temperature]/rho['300']
+            self.assertAlmostEqual(check['cold_resistance_proxy']['ratios_to_300k'][temperature],ratio)
+        reported=check['cold_resistance_proxy']['nominal_branch']
+        actual=tube_heater_class_check.branch_equilibrium(
+            nominal['heater_cold_ohm'],nominal['heater_alpha'])
+        self.assertAlmostEqual(actual['heater_current_a'],reported['heater_current_a'],places=12)
+        self.assertEqual(len(check['cold_resistance_proxy']['joint_bound_corners']),4)
 
     def test_tube_cutoff_comparator_matches_live_nominal_and_manual_states(self):
         check=json.loads((REF/'tube-cutoff-class-check.json').read_text())
