@@ -3,7 +3,8 @@ Vrail p41 0 41
 Vg1 ug1 0 -25
 Vg2 ug2 0 350
 Vg4 ug4 0 175
-* Four states per 400 us: VIDEO low/high, then repeat with INTENS high.
+* Four states per 400 us: VIDEO low/high with IS low (intensive), then
+* repeat with IS high (normal), as annotated on older.pdf page 16.
 Vvideo vid 0 PULSE(0 5 100u 20n 20n 100u 200u)
 Vintensity intens 0 PULSE(0 5 200u 20n 20n 200u 400u)
 * Small constant beam-current test load and socket/tube capacitance.

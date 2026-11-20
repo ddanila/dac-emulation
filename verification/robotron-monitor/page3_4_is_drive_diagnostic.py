@@ -18,6 +18,7 @@ import signal_path
 
 ROOT = Path(__file__).resolve().parent
 SEAM = ROOT/'reference/k7222-11/page3-4-intens-seam-source-read.json'
+NECK_SOURCE = ROOT/'reference/k7222-11/page16-neck-source-netlist.json'
 NECK_PROFILE = ROOT/'profiles/k7222-11-neck.json'
 DURATION = .0002
 STEP = 5e-9
@@ -92,6 +93,10 @@ def run(capture_path):
     if (seam['V5_collector_and_V3_cathode'], seam['input_INTENS'],
             seam['direct_input_to_neck_passthrough']) != ('intens', 'rx_intens', False):
         raise ValueError('page-3/4 source seam changed')
+    neck_source = json.loads(NECK_SOURCE.read_text())
+    if neck_source.get('signal_polarity') != {'IS_low': 'intensive',
+                                               'IS_high': 'normal'}:
+        raise ValueError('page-16 IS polarity read changed')
     profile = json.loads(NECK_PROFILE.read_text())
     bounds = profile['parameters']['d_cjo']
     if not bounds['minimum'] < bounds['nominal'] < bounds['maximum']:
@@ -127,7 +132,7 @@ def run(capture_path):
         fixed_deck = deck
         for name, value in [('video', 0), ('bsyn', 1), ('intens', 1)]:
             fixed_deck = replace_source(fixed_deck, name, value)
-        fixed_samples = solve(fixed_deck, folder/'fixed_dark_video_high_intensity')
+        fixed_samples = solve(fixed_deck, folder/'fixed_dark_video_input_intens_high')
         columns, rows = read_samples(fixed_samples)
         last = rows[-1]
         fixed = {'logic_video': 0, 'logic_intensity': 1,
@@ -140,10 +145,11 @@ def run(capture_path):
             'capture_sha256': hashlib.sha256(capture_path.read_bytes()).hexdigest(),
             'signal_path_sha256': hashlib.sha256((ROOT/'signal_path.py').read_bytes()).hexdigest(),
             'source_read_sha256': hashlib.sha256(SEAM.read_bytes()).hexdigest(),
+            'neck_source_sha256': hashlib.sha256(NECK_SOURCE.read_bytes()).hexdigest(),
             'neck_profile_sha256': hashlib.sha256(NECK_PROFILE.read_bytes()).hexdigest(),
             'duration_s': DURATION, 'step_s': STEP, 'settle_exclusion_s': SETTLE,
             'variants': variants, 'fixed_state': fixed,
-            'interpretation': 'In the current model, the high IS interval while video is dark and intensity input is high depends on V2:4 (D4) junction capacitance: removing only that capacitance collapses the interval, and fixed inputs settle with IS low. With video bright, IS remains low for either intensity input. This does not prove which original page-3/4 junction or bias component is missing; the contrast/service response remains unqualified.'}
+            'interpretation': 'The source page labels IS low as intensive and high as normal. In the current model, the high IS interval while video is dark and incoming INTENS is high depends on V2:4 (D4) junction capacitance: removing only that capacitance collapses the interval, and fixed inputs settle with IS low. With video bright, IS remains low for either intensity input. This does not prove which original page-3/4 junction or bias component is missing; the contrast/service response remains unqualified.'}
 
 
 if __name__ == '__main__':

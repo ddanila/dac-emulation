@@ -8,19 +8,23 @@
     "views": [
       {
         "description": "600 dpi PDF render",
-        "sha256": "5354bd7f10b7bfa71a0c13036be54c3b5f20ccab2fb0046f4709f05ca0b34cb55"
+        "path": "build/monitor/phase-a/page16-600.png",
+        "sha256": "5354bd7f10b7bfa71b873a5dfce968785cb0cdf0d2453e8a25dfe40ecb2b4432"
       },
       {
-        "description": "separate lower-resolution schematic-page render",
-        "sha256": "206a1026d5059a71a0c13036be54c3b5f20ccab2fb0046f4709f05ca0b34cb55"
+        "description": "independent 300 dpi PDF render",
+        "path": "build/monitor/phase-a/inspect/page16-300.png",
+        "sha256": "e12eb0c6ada130c8db3c8888204bf48bface025cbf537b9c2dea3d82ff8e45d8"
       }
     ]
   },
   "reading_notes": [
     "Solid junction dots distinguish connected crossings from crossing wires without dots.",
     "The curved pairs below OO depict tube-electrode coupling, not discrete neck-board parts or DC shorts.",
-    "X1:4 is the RA return shown at the right edge; X3:1 and X3:2 sit on opposite sides of R4."
+    "X1:4 is the RA return shown at the right edge; X3:1 and X3:2 sit on opposite sides of R4.",
+    "The printed IS annotation reads L = intensiv, H = normal in both the 300 and 600 dpi views. V2:4 has its anode on IS and its cathode on SUK_DRIVE."
   ],
+  "signal_polarity": {"IS_low": "intensive", "IS_high": "normal"},
   "nets": {
     "41P": ["X1:9", "C1:+", "C2:1", "R7:1", "V2:3:K"],
     "OO": ["X1:8", "X1:4", "X2:4", "C1:-", "C2:2", "C3:1", "V1:E", "R8:2"],

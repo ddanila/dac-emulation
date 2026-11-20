@@ -1,13 +1,13 @@
 {
-  "format": "dac-monitor-page16-neck-static-v1",
-  "qualification": "source topology, DC routes and isolated neck-stage function; no manual service-waveform claim",
-  "source_comparison_sha256": "76d2ea778d74a4cbedea4733189a2ace04685817c61e985b8eedf2ce932ec6f3",
-  "source_netlist_sha256": "0eada86bb7a38f418e966443682c34af1df15105593b326155ae4898426bc6a9",
+  "format": "dac-monitor-page16-neck-static-v2",
+  "qualification": "source topology, DC routes and isolated active-low IS function; manual cathode levels and service waveform remain unqualified",
+  "source_comparison_sha256": "1661ac91fc7c7399ffaae184a7e5ac725b6e20147a988058b975ed34bab84a9d",
+  "source_netlist_sha256": "d7a2b4ec65dadc4b2bb6992b19d591b8427fb9e7eaec2e902ea0b8fa1de267e0",
   "sheet_sha256": "b9370c0af89c3d8940875961b2dee1467ee0bd9fb834bc98226fddbaea6523fb",
   "profile_sha256": "9e0558ea0a859fce7cc554a57d993008ba929ea127e0bc20231dc4a6b8368abe",
   "models_sha256": "17e54caf30fcc182d2350ab37b66323255d9b1ab2ee840a786aead80b055f46d",
-  "bench_sha256": "c4077950400cd77a7259e8181eb8c50fef058006f12d0332dc8a8aa83f92bec6",
-  "deck_sha256": "4ec20c6e5c3f87224fba0db1298f89ea7692f8f59f0b23f07c04442a12fc21aa",
+  "bench_sha256": "d914bc7054679d0daa4111db693796af840f068187192bbef5172632896234c1",
+  "deck_sha256": "e9ea3428abb322028ff881d2b8f1e059d7b860bb766f1fc6fac08aac33c5bd67",
   "source_dc_paths": {
     "external_source_or_pass_through_nets": [
       "41P",
@@ -45,6 +45,9 @@
   "state_voltages": {
     "dark_video": {
       "time_s": 4.999999999999991e-05,
+      "video_logic": 0,
+      "is_logic": 0,
+      "intensity_mode": "intensive",
       "volts": {
         "p41": 40.99999999999525,
         "vid": 0.0,
@@ -62,6 +65,9 @@
     },
     "bright_video": {
       "time_s": 0.000150000000000002,
+      "video_logic": 1,
+      "is_logic": 0,
+      "intensity_mode": "intensive",
       "volts": {
         "p41": 41.00000000000949,
         "vid": 4.999999999998645,
@@ -77,8 +83,11 @@
         "g4": 175.000000000005
       }
     },
-    "intensity_only": {
+    "dark_video_normal_is": {
       "time_s": 0.0002500000000000044,
+      "video_logic": 0,
+      "is_logic": 1,
+      "intensity_mode": "normal",
       "volts": {
         "p41": 40.99999999995663,
         "vid": 0.0,
@@ -94,8 +103,11 @@
         "g4": 175.000000000035
       }
     },
-    "video_and_intensity": {
+    "bright_video_normal_is": {
       "time_s": 0.0003500000000000068,
+      "video_logic": 1,
+      "is_logic": 1,
+      "intensity_mode": "normal",
       "volts": {
         "p41": 41.00000000000542,
         "vid": 5.000000000005421,
@@ -117,7 +129,8 @@
     "dark_transistor_off": true,
     "bright_transistor_on": true,
     "video_moves_collector": true,
-    "intensity_moves_cathode": true,
+    "normal_is_raises_bright_cathode": true,
+    "is_state_does_not_brighten_dark_video": true,
     "grid_rails_plausible": true,
     "source_c1_polarity": true
   },
