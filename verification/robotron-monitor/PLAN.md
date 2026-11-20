@@ -412,6 +412,14 @@ concrete and can continue under this plan's bounded `class-typical` and
 equivalent-stage fallbacks; it does not require human approval or a physical
 measurement.
 
+**Goal closure is blocked by missing Phase A evidence.** The last committed
+baseline passes 304 tests, but A1 still lacks an independent complete source
+netlist and verified T3 terminal graph; A2 and A6 still lack qualified device
+bounds; A3 has no sustained native-grid score; and A5 therefore has no frozen
+tube/yoke design point. Conditional simulations and bounded substitutes cannot
+satisfy those done conditions. Complete the checks and commit the matching
+evidence before closing the tracked goal.
+
 | Item | Unmet done condition | Next resolution step |
 |---|---|---|
 | A1 | The independent page-3/4 and 9/10 netlists, page-18 contrast/service-meter response, and page-16 source-observation check are incomplete. T3 return and tap order remain unverified. | Finish the pin-to-pin source comparisons; record bounded alternatives where the scans cannot resolve a connection. |
