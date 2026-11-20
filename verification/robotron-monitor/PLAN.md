@@ -406,6 +406,15 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (updated 2026-11-20)
 
+**Tracked goal blocked reason:** Phase A is not fully implemented: only A4
+meets its done condition. A1 still lacks independent pin-to-pin source closure,
+including T3's return/tap graph; without that graph, A5 cannot qualify the
+winding design point. A2's 64 device rows are provisional, A3 has no sustained
+connected native-grid waveform score, and A6's 201 class-typical entries remain
+partial. The conditional simulations and source checks below narrow these
+gaps but do not satisfy the PLAN's completion criteria. Finish and verify the
+remaining A1, A2, A3, A5 and A6 work before marking the tracked goal complete.
+
 **Goal completion blocked reason (as of 2026-11-20):** The independent
 page-3/4 and 9/10 source netlists are still partial. The page-3/4 V19/V1
 correction and local L1 feed
