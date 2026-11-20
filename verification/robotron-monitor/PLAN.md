@@ -432,6 +432,11 @@ In the [fixed-logic contrast diagnostic](reference/k7222-11/page18-contrast-dc-d
 substituting 15 V for V4's 9.1 V breakdown raises the local reference by
 5.85–5.88 V but leaves steady IS and cathode unchanged. This tests the
 conflict without treating the simplified figure as a factory V4 specification.
+An [isolated IS boundary sweep](reference/k7222-11/page3-4-is-boundary-requirement.json)
+shows what a labelled fallback would need: with V5 replaced only for the
+diagnostic, 15.7 V at IS yields 15.01 V at the normal-bright cathode and
+supplies 28.7 mA; 100 Ω source resistance drops the cathode to 12.66 V.
+No source-backed driver or contrast transfer has yet met that boundary.
 The short contrast bench shows effectively no cathode or provisional beam
 change across R2's range. The fixed-logic diagnostic shows V1 current changes,
 but the modeled IS output stays low and the neck cathode does not respond to R2.
