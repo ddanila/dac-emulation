@@ -1,0 +1,341 @@
+{
+  "format": "dac-monitor-t2-l4-topology-sensitivity-v1",
+  "qualification": "conditional L4 branch-count sensitivity under prescribed TP15 voltage; no source-validated alternate jumper graph, connected oscillator, native grid or operating-point approval",
+  "source_hashes": {
+    "t2_l4_topology_sensitivity.py": "0ea4f0833cc6172cb7f0058658ca0b0b56c8cf53eab5ef2feeee9bbaa2695d34",
+    "reference/k7222-11/page3-4-t2-l4-source-read.json": "34e7b3e1cdd127d31736d8151a068f7b30165cc392bfd730c1a3508a898514ba",
+    "t2_l4_output_stage_sweep.py": "3745bb04dc9fee1d8108ec5ee6871e4f47f8e911adde5375b134a68a1f93c9cb",
+    "tp15_equivalent_output_stage.py": "701bfa1a83019c6d36117f743cb5fe31de10238cfd9227a151956ed9e7f591c2",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/t3-ac-loss-parameters.json": "2ebb0fbd68134903504e58a99c2a0572d50bdec254cbf96ab74a5b6e6fa0f09e",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "profiles/k7222-11-horizontal-oscillator.json": "20288f82c68b3b626c84c45713d3a88f281ec01aa8d2e5c8f4dc8f2142943d96",
+    "circuits/k7222-11-horizontal-models.cir": "cd489c027b4900aac120f8dea0ed9f5c2e6d48195c03343d7a8b30ef64bed8f3",
+    "reference/k7222-11/t3-flyback-sign-filter.json": "906116f65305c37f9f941183ff14e6863a81937badd0f0e412b2c273ce7824c4",
+    "reference/k7222-11/design-point.json": "78c520ec3eadc113379903d1e88264e44e5c51071201fbccbe649ff482fd49f5",
+    "reference/k7222-11/device-model-register.json": "3f50895bb31f933cf56a13ad6c4d492d483afda0b7ca1fbde96e6e85e2e79e50"
+  },
+  "stage_assumptions": [
+    "The 2035-turn T3 candidate, on-trace 45 Vpp ideal TP15 drive, model T2 polarity, 19\u201320 ms window and all other stage elements are held as in the earlier TP15 sweep.",
+    "Parallel is the current selected L4:1/L4:2 path. Single, series and a 1 milliohm bridge are exploratory bounds on the unresolved effective branch impedance, not source-read alternatives or installed settings.",
+    "L4:3 remains bypassed in every case; T2 secondary return and T3 winding graph remain unverified."
+  ],
+  "hv_turns": 2035,
+  "tp15_swing_vpp": 45,
+  "v18_reverse_base_class_limit_v": 9,
+  "manual_eht_range_v": [
+    11000,
+    12000
+  ],
+  "cases": [
+    {
+      "l4_path": "parallel",
+      "t2_primary_secondary_ratio": 1,
+      "result": {
+        "status": "complete",
+        "sample_count": 29478,
+        "sample_window_s": [
+          0.019000067,
+          0.02
+        ],
+        "collector_peak_v": 391.168083,
+        "collector_min_v": -1.03734978,
+        "eht_peak_v": 11357.6193,
+        "eht_final_v": 11350.5762,
+        "eht_same_phase_drift_v_over_16_lines": 1.0487999999986641,
+        "feedback_swing_v": 48.457069,
+        "sync_swing_v": 20.90287643,
+        "yoke_current_range_a": [
+          -0.466684073,
+          0.487856702
+        ],
+        "boost_range_v": [
+          63.4363181,
+          63.5543818
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 14.014460620381808,
+        "output_base_range_v": [
+          -62.5749465,
+          0.636013721
+        ],
+        "driver_collector_swing_v": 45.0
+      },
+      "conditional_checks": {
+        "v18_reverse_base_within_class_rating": false,
+        "eht_in_manual_range": true
+      }
+    },
+    {
+      "l4_path": "parallel",
+      "t2_primary_secondary_ratio": 10,
+      "result": {
+        "status": "complete",
+        "sample_count": 21255,
+        "sample_window_s": [
+          0.0190000338,
+          0.02
+        ],
+        "collector_peak_v": 346.883579,
+        "collector_min_v": -1.12660771,
+        "eht_peak_v": 9865.28136,
+        "eht_final_v": 9862.46701,
+        "eht_same_phase_drift_v_over_16_lines": -2.542939999999362,
+        "feedback_swing_v": 42.759040500000005,
+        "sync_swing_v": 15.83288198,
+        "yoke_current_range_a": [
+          -0.435523051,
+          0.442528365
+        ],
+        "boost_range_v": [
+          64.1486062,
+          64.2516613
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 17.55390218243294,
+        "output_base_range_v": [
+          -15.2077262,
+          0.617531774
+        ],
+        "driver_collector_swing_v": 45.0
+      },
+      "conditional_checks": {
+        "v18_reverse_base_within_class_rating": false,
+        "eht_in_manual_range": false
+      }
+    },
+    {
+      "l4_path": "single",
+      "t2_primary_secondary_ratio": 1,
+      "result": {
+        "status": "complete",
+        "sample_count": 29544,
+        "sample_window_s": [
+          0.0190000239,
+          0.02
+        ],
+        "collector_peak_v": 391.030178,
+        "collector_min_v": -1.04499051,
+        "eht_peak_v": 11349.8191,
+        "eht_final_v": 11337.4831,
+        "eht_same_phase_drift_v_over_16_lines": -3.0037000000011176,
+        "feedback_swing_v": 48.452519,
+        "sync_swing_v": 20.8017204,
+        "yoke_current_range_a": [
+          -0.462050373,
+          0.484024466
+        ],
+        "boost_range_v": [
+          63.4637985,
+          63.5755725
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 14.079817970375636,
+        "output_base_range_v": [
+          -61.8353553,
+          0.635419217
+        ],
+        "driver_collector_swing_v": 45.0
+      },
+      "conditional_checks": {
+        "v18_reverse_base_within_class_rating": false,
+        "eht_in_manual_range": true
+      }
+    },
+    {
+      "l4_path": "single",
+      "t2_primary_secondary_ratio": 10,
+      "result": {
+        "status": "complete",
+        "sample_count": 21040,
+        "sample_window_s": [
+          0.0190000086,
+          0.02
+        ],
+        "collector_peak_v": 345.88275,
+        "collector_min_v": -1.12359828,
+        "eht_peak_v": 9829.43911,
+        "eht_final_v": 9828.59295,
+        "eht_same_phase_drift_v_over_16_lines": 0.7973500000007334,
+        "feedback_swing_v": 42.6347416,
+        "sync_swing_v": 15.81059928,
+        "yoke_current_range_a": [
+          -0.435079279,
+          0.441980972
+        ],
+        "boost_range_v": [
+          64.1294041,
+          64.2322101
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 17.55428536273293,
+        "output_base_range_v": [
+          -17.2959951,
+          0.615257131
+        ],
+        "driver_collector_swing_v": 45.0
+      },
+      "conditional_checks": {
+        "v18_reverse_base_within_class_rating": false,
+        "eht_in_manual_range": false
+      }
+    },
+    {
+      "l4_path": "series",
+      "t2_primary_secondary_ratio": 1,
+      "result": {
+        "status": "complete",
+        "sample_count": 29457,
+        "sample_window_s": [
+          0.0190000423,
+          0.02
+        ],
+        "collector_peak_v": 390.6036,
+        "collector_min_v": -1.05638055,
+        "eht_peak_v": 11353.345,
+        "eht_final_v": 11345.4638,
+        "eht_same_phase_drift_v_over_16_lines": -1.4351999999998952,
+        "feedback_swing_v": 48.3786305,
+        "sync_swing_v": 20.64013625,
+        "yoke_current_range_a": [
+          -0.451526983,
+          0.473721115
+        ],
+        "boost_range_v": [
+          63.4836961,
+          63.5921627
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 14.118595640464498,
+        "output_base_range_v": [
+          -62.6447372,
+          0.634404896
+        ],
+        "driver_collector_swing_v": 45.0
+      },
+      "conditional_checks": {
+        "v18_reverse_base_within_class_rating": false,
+        "eht_in_manual_range": true
+      }
+    },
+    {
+      "l4_path": "series",
+      "t2_primary_secondary_ratio": 10,
+      "result": {
+        "status": "complete",
+        "sample_count": 20106,
+        "sample_window_s": [
+          0.0190000371,
+          0.02
+        ],
+        "collector_peak_v": 344.743595,
+        "collector_min_v": -1.12324469,
+        "eht_peak_v": 9790.25305,
+        "eht_final_v": 9786.69235,
+        "eht_same_phase_drift_v_over_16_lines": 0.8034900000002381,
+        "feedback_swing_v": 42.4937904,
+        "sync_swing_v": 15.74429305,
+        "yoke_current_range_a": [
+          -0.434544534,
+          0.441889209
+        ],
+        "boost_range_v": [
+          64.1151451,
+          64.2182962
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 17.554115122397214,
+        "output_base_range_v": [
+          -18.7979291,
+          0.612433885
+        ],
+        "driver_collector_swing_v": 45.0
+      },
+      "conditional_checks": {
+        "v18_reverse_base_within_class_rating": false,
+        "eht_in_manual_range": false
+      }
+    },
+    {
+      "l4_path": "bridge",
+      "t2_primary_secondary_ratio": 1,
+      "result": {
+        "status": "complete",
+        "sample_count": 29461,
+        "sample_window_s": [
+          0.0190000266,
+          0.02
+        ],
+        "collector_peak_v": 390.807091,
+        "collector_min_v": -1.0299899,
+        "eht_peak_v": 11348.6686,
+        "eht_final_v": 11334.9883,
+        "eht_same_phase_drift_v_over_16_lines": -12.380599999998594,
+        "feedback_swing_v": 48.43397860000001,
+        "sync_swing_v": 20.99199367,
+        "yoke_current_range_a": [
+          -0.455649094,
+          0.480540661
+        ],
+        "boost_range_v": [
+          63.4436921,
+          63.5581308
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 14.031480988947742,
+        "output_base_range_v": [
+          -60.6041451,
+          0.636640179
+        ],
+        "driver_collector_swing_v": 45.0
+      },
+      "conditional_checks": {
+        "v18_reverse_base_within_class_rating": false,
+        "eht_in_manual_range": true
+      }
+    },
+    {
+      "l4_path": "bridge",
+      "t2_primary_secondary_ratio": 10,
+      "result": {
+        "status": "complete",
+        "sample_count": 20743,
+        "sample_window_s": [
+          0.0190000452,
+          0.02
+        ],
+        "collector_peak_v": 348.217932,
+        "collector_min_v": -1.1381637,
+        "eht_peak_v": 9910.85614,
+        "eht_final_v": 9910.07218,
+        "eht_same_phase_drift_v_over_16_lines": -0.344280000001163,
+        "feedback_swing_v": 42.9286381,
+        "sync_swing_v": 15.895800739999999,
+        "yoke_current_range_a": [
+          -0.43738914,
+          0.443075863
+        ],
+        "boost_range_v": [
+          64.1843632,
+          64.2871804
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 17.165641103981944,
+        "output_base_range_v": [
+          -11.6247266,
+          0.619271282
+        ],
+        "driver_collector_swing_v": 45.0
+      },
+      "conditional_checks": {
+        "v18_reverse_base_within_class_rating": false,
+        "eht_in_manual_range": false
+      }
+    }
+  ],
+  "completed_cases": 8,
+  "aborted_cases": 0,
+  "reverse_base_safe_cases": 0,
+  "joint_eht_reverse_base_cases": 0,
+  "status": "partial"
+}

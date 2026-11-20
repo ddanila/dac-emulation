@@ -1,0 +1,35 @@
+{
+  "format": "dac-monitor-page3-4-t2-l4-source-read-v1",
+  "qualification": "scoped page-3/4 source comparison after exposure to the model; not the independent whole-page A1 netlist or proof of the installed E2 setting",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "pages": [3, 4],
+    "views": [
+      {"page": 3, "description": "300 dpi full page", "sha256": "f56151717975bbca3b75bb321b31acc57b760b0cb68c7d35b27e8c7b843f1350"},
+      {"page": 3, "description": "600 dpi full page and T2 right-edge crop", "sha256": "60f0c5d16e278f2be9bae8bd93269b0d4ff6fd82fdb92eba1c223cb85bd8ac17"},
+      {"page": 4, "description": "300 dpi full page and L4/V18 left-edge crop", "sha256": "02cf88c791480f842d7bf2549cbc6365c8282a778132185b02b59ca8a501b748"},
+      {"page": 4, "description": "600 dpi full page and L4/V18 left-edge crop", "sha256": "ef325eb44040c7d493c88e10c85a50d276583ce39bd5579929b4c53a2de7d4dc"},
+      {"page": 4, "description": "1200 dpi full page and L4/V18 left-edge crop", "sha256": "c9ea38f47f977ed24e2b1be074858ef6fd9edb3b14f98aa00de83542b35c52cd"}
+    ]
+  },
+  "visible_edges": {
+    "T2_primary_top": ["R23:lower", "C23:upper", "T2:1"],
+    "T2_primary_bottom": ["V13:collector", "C24:lower", "T2:4"],
+    "V18_base": ["V18:base", "R36:upper", "L4:3:right"],
+    "00": ["V18:emitter", "R36:lower"],
+    "L4_3_bypass": ["L4:3:left", "drawn upper E2 branch", "L4:3:right"]
+  },
+  "model_comparison": {
+    "primary": "The T2 primary's source-addressed top/collector nodes agree with horizontal-transcription.json and the earlier primary-only source read.",
+    "v18": "R36 from V18 base to 00 and V18 emitter at 00 agree with horizontal-output-transcription.json.",
+    "l4_3": "The working E2-closed model bridges L4:3, consistent with the drawn bypass branch as one possible setting; neither the specimen setting nor its physical jumper closure is established by this scan.",
+    "not_verified": "The modeled T2 secondary connection from h_outputbase to 00 and the two parallel L4:1/L4:2 branches cannot be promoted to agent-read from these edge crops."
+  },
+  "open_checks": [
+    "The page-3 image ends through the T2 symbol and the page-4 image begins through the L4 network; a terminal-by-terminal T2 secondary and L4:1/L4:2 seam trace is not recoverable from these views.",
+    "T2 secondary terminal numbering, winding phase, return and coupling remain conditional; test both polarities and bounded ratios without calling either source-verified.",
+    "The drawing shows an upper E2 bypass branch around L4:3, but does not identify the installed jumper state or qualify the active L4 branches.",
+    "A1 still requires the independent complete page-3/4 pin-to-pin comparison and functional checks."
+  ]
+}
