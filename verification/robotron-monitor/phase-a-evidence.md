@@ -2319,3 +2319,21 @@ unverified secondary alone does not close either gap. The source-connected
 oscillator, T3 return
 alternatives, complete feedback and periodicity remain open before A3/A5
 qualification.
+
+### A5: optional C30 retrace capacitor sensitivity (2026-11-20)
+
+The [C30 comparison](reference/k7222-11/horizontal-retrace-c30-sensitivity.json)
+holds documented C27 at 10 nF and treats the transcribed optional 1 nF C30
+as either populated or absent. From the manual's 16 µs retrace, the ideal
+half-cycle effective inductance is 2.358 mH with both capacitors, or 2.594 mH
+with C27 alone. These are whole-network resonance constraints, not T3 or yoke
+winding values.
+
+In the same 1,768-turn loaded output-stage hypothesis and 0.002 Gear solve,
+removing C30 raises the 4–5 ms collector peak by 2.08–2.13%, raises final EHT
+by 2.49–2.50%, and shortens the 10%-swing flyback width by 2.06–2.19% across
+the two T2 polarity/drive-phase cases. TP15 changes by less than 0.03%.
+Because the source population choice moves the stage above the Phase A 2%
+sensitivity threshold, the [design point](reference/k7222-11/design-point.json)
+now carries both alternatives. Neither result identifies the installed C30
+or establishes periodic operation; A5 remains partial.
