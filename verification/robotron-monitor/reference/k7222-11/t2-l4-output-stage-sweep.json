@@ -6,6 +6,7 @@
     "horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
     "horizontal-t2-design.json": "3918d86b22ede1bc6166a295e662559c98c85350c54a542c579b3316feaa9520",
     "horizontal-l4-design.json": "50e5c984238dd68e7b63e0fab852527b0ab1c006c3caabb9ed13e56a1f38cfa8",
+    "device-model-register.json": "3f50895bb31f933cf56a13ad6c4d492d483afda0b7ca1fbde96e6e85e2e79e50",
     "t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
     "t3-ac-loss-parameters.json": "2ebb0fbd68134903504e58a99c2a0572d50bdec254cbf96ab74a5b6e6fa0f09e",
     "k7222-11-horizontal-oscillator.json": "20288f82c68b3b626c84c45713d3a88f281ec01aa8d2e5c8f4dc8f2142943d96",
@@ -42,6 +43,9 @@
     11000,
     12000
   ],
+  "v18_emitter_base_reverse_class_limit_v": 9,
+  "v18_emitter_base_limit_source": "https://www.st.com/resource/en/datasheet/bu508af.pdf",
+  "v18_reverse_stress_note": "The level-1 HOR_OUTPUT_N BJT model has no emitter-base breakdown clamp; excursions beyond the class rating are solver outputs, not viable operating points.",
   "cases": [
     {
       "t2_secondary_polarity": "model",
@@ -92,7 +96,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -139,7 +144,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -191,7 +197,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -238,7 +245,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -285,7 +293,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": true
       }
     },
     {
@@ -332,7 +341,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": true
       }
     },
     {
@@ -384,7 +394,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -431,7 +442,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -478,7 +490,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -525,7 +538,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -577,7 +591,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -629,7 +644,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": true
       }
     },
     {
@@ -681,7 +697,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -733,7 +750,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -785,7 +803,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -837,7 +856,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -889,7 +909,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": true
       }
     },
     {
@@ -941,7 +962,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": true
       }
     },
     {
@@ -988,7 +1010,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -1035,7 +1058,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -1082,7 +1106,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -1129,7 +1154,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": false
       }
     },
     {
@@ -1176,7 +1202,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": true
       }
     },
     {
@@ -1223,7 +1250,8 @@
       },
       "conditional_checks": {
         "tp15_driver_swing_in_manual_range": false,
-        "eht_final_in_manual_range": false
+        "eht_final_in_manual_range": false,
+        "v18_reverse_base_within_class_rating": true
       }
     }
   ],
@@ -1282,11 +1310,134 @@
     },
     "conditional_checks": {
       "tp15_driver_swing_in_manual_range": false,
-      "eht_final_in_manual_range": false
+      "eht_final_in_manual_range": false,
+      "v18_reverse_base_within_class_rating": false
     }
   },
   "conditional_tp15_matches": [],
   "conditional_eht_matches": [],
+  "reverse_base_class_rating_violations": [
+    {
+      "t2_secondary_polarity": "model",
+      "v13_drive_phase": "on_trace",
+      "t2_primary_secondary_ratio": 1,
+      "l4_inductance_per_coil_h": 5e-06,
+      "minimum_v18_base_emitter_v": -35.5291185
+    },
+    {
+      "t2_secondary_polarity": "model",
+      "v13_drive_phase": "on_trace",
+      "t2_primary_secondary_ratio": 1,
+      "l4_inductance_per_coil_h": 5e-05,
+      "minimum_v18_base_emitter_v": -45.1649424
+    },
+    {
+      "t2_secondary_polarity": "model",
+      "v13_drive_phase": "on_trace",
+      "t2_primary_secondary_ratio": 3,
+      "l4_inductance_per_coil_h": 5e-06,
+      "minimum_v18_base_emitter_v": -27.0656426
+    },
+    {
+      "t2_secondary_polarity": "model",
+      "v13_drive_phase": "on_trace",
+      "t2_primary_secondary_ratio": 3,
+      "l4_inductance_per_coil_h": 5e-05,
+      "minimum_v18_base_emitter_v": -26.8010376
+    },
+    {
+      "t2_secondary_polarity": "model",
+      "v13_drive_phase": "off_trace",
+      "t2_primary_secondary_ratio": 1,
+      "l4_inductance_per_coil_h": 5e-06,
+      "minimum_v18_base_emitter_v": -29.4389417
+    },
+    {
+      "t2_secondary_polarity": "model",
+      "v13_drive_phase": "off_trace",
+      "t2_primary_secondary_ratio": 1,
+      "l4_inductance_per_coil_h": 5e-05,
+      "minimum_v18_base_emitter_v": -37.1357027
+    },
+    {
+      "t2_secondary_polarity": "model",
+      "v13_drive_phase": "off_trace",
+      "t2_primary_secondary_ratio": 3,
+      "l4_inductance_per_coil_h": 5e-06,
+      "minimum_v18_base_emitter_v": -19.5015315
+    },
+    {
+      "t2_secondary_polarity": "model",
+      "v13_drive_phase": "off_trace",
+      "t2_primary_secondary_ratio": 3,
+      "l4_inductance_per_coil_h": 5e-05,
+      "minimum_v18_base_emitter_v": -29.8139643
+    },
+    {
+      "t2_secondary_polarity": "model",
+      "v13_drive_phase": "off_trace",
+      "t2_primary_secondary_ratio": 10,
+      "l4_inductance_per_coil_h": 5e-06,
+      "minimum_v18_base_emitter_v": -10.4284848
+    },
+    {
+      "t2_secondary_polarity": "reversed",
+      "v13_drive_phase": "on_trace",
+      "t2_primary_secondary_ratio": 1,
+      "l4_inductance_per_coil_h": 5e-06,
+      "minimum_v18_base_emitter_v": -36.0538382
+    },
+    {
+      "t2_secondary_polarity": "reversed",
+      "v13_drive_phase": "on_trace",
+      "t2_primary_secondary_ratio": 1,
+      "l4_inductance_per_coil_h": 5e-05,
+      "minimum_v18_base_emitter_v": -41.3899513
+    },
+    {
+      "t2_secondary_polarity": "reversed",
+      "v13_drive_phase": "on_trace",
+      "t2_primary_secondary_ratio": 3,
+      "l4_inductance_per_coil_h": 5e-06,
+      "minimum_v18_base_emitter_v": -21.3525011
+    },
+    {
+      "t2_secondary_polarity": "reversed",
+      "v13_drive_phase": "on_trace",
+      "t2_primary_secondary_ratio": 3,
+      "l4_inductance_per_coil_h": 5e-05,
+      "minimum_v18_base_emitter_v": -32.7305749
+    },
+    {
+      "t2_secondary_polarity": "reversed",
+      "v13_drive_phase": "off_trace",
+      "t2_primary_secondary_ratio": 1,
+      "l4_inductance_per_coil_h": 5e-06,
+      "minimum_v18_base_emitter_v": -36.1349534
+    },
+    {
+      "t2_secondary_polarity": "reversed",
+      "v13_drive_phase": "off_trace",
+      "t2_primary_secondary_ratio": 1,
+      "l4_inductance_per_coil_h": 5e-05,
+      "minimum_v18_base_emitter_v": -49.2092818
+    },
+    {
+      "t2_secondary_polarity": "reversed",
+      "v13_drive_phase": "off_trace",
+      "t2_primary_secondary_ratio": 3,
+      "l4_inductance_per_coil_h": 5e-06,
+      "minimum_v18_base_emitter_v": -20.5050155
+    },
+    {
+      "t2_secondary_polarity": "reversed",
+      "v13_drive_phase": "off_trace",
+      "t2_primary_secondary_ratio": 3,
+      "l4_inductance_per_coil_h": 5e-05,
+      "minimum_v18_base_emitter_v": -27.9345974
+    }
+  ],
+  "joint_tp15_eht_reverse_base_matches": [],
   "status": "complete",
   "analysis_valid": true
 }

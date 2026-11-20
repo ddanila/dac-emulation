@@ -14,6 +14,7 @@ OSC = ROOT/'reference/k7222-11/horizontal-transcription.json'
 OUTPUT = stage.TRANSCRIPTION
 T2_DESIGN = ROOT/'reference/k7222-11/horizontal-t2-design.json'
 L4_DESIGN = ROOT/'reference/k7222-11/horizontal-l4-design.json'
+DEVICE_REGISTER = ROOT/'reference/k7222-11/device-model-register.json'
 PRIMARY_PARTS = ('R23', 'C23', 'R33', 'C24', 'R34', 'V13', 'T2')
 BASE_PARTS = ('L4:1', 'L4:2')
 
@@ -103,6 +104,11 @@ def run():
                      if item['id'] in accepted)
     tp15_range = json.loads(T2_DESIGN.read_text())['documented']['tp15_range_vpp']
     manual_eht = json.loads(stage.DESIGN.read_text())['high_voltage_ratio']['eht_target_v']
+    register = json.loads(DEVICE_REGISTER.read_text())
+    v18 = next(item for item in register['devices'] if item['id'] == '012-6921:V18')
+    reverse_limit = v18['comparison_targets']['VEBO_v']['maximum']
+    if v18['model'] != 'HOR_OUTPUT_N' or reverse_limit != 9:
+        raise ValueError('V18 reverse-base class comparator changed')
     rows = []
     for polarity in ('model', 'reversed'):
         for phase in ('on_trace', 'off_trace'):
@@ -136,6 +142,7 @@ def run():
                         row['conditional_checks'] = {
                             'tp15_driver_swing_in_manual_range': tp15_range[0] <= result['driver_collector_swing_v'] <= tp15_range[1],
                             'eht_final_in_manual_range': manual_eht['minimum'] <= result['eht_final_v'] <= manual_eht['maximum'],
+                            'v18_reverse_base_within_class_rating': result['output_base_range_v'][0] >= -reverse_limit,
                         }
                     rows.append(row)
     complete = [row for row in rows if row['result']['status'] == 'complete']
@@ -151,8 +158,8 @@ def run():
         'format': 'dac-monitor-t2-l4-output-stage-sweep-v2',
         'qualification': 'source-addressed T2/L4/V13-to-V18 output-stage sensitivity with prescribed V13 drive; not connected oscillator, native sync, source-validated page-3/4 seam, periodic monitor or A3/A5 pass',
         'source_hashes': {path.name: stage.sha(path) for path in
-            (OSC, OUTPUT, T2_DESIGN, L4_DESIGN, stage.GRAPH, stage.AC_LOSS,
-             stage.PROFILE, stage.MODELS, stage.SIGN, stage.DESIGN)},
+            (OSC, OUTPUT, T2_DESIGN, L4_DESIGN, DEVICE_REGISTER, stage.GRAPH,
+             stage.AC_LOSS, stage.PROFILE, stage.MODELS, stage.SIGN, stage.DESIGN)},
         'driver_source_parts': [part['source_id'] for part in driver_parts],
         't3_candidate_id': candidate['id'], 'high_voltage_turns': 1768,
         'stage_assumptions': [
@@ -165,6 +172,9 @@ def run():
         ],
         'manual_tp15_range_vpp': tp15_range,
         'manual_eht_range_v': [manual_eht['minimum'], manual_eht['maximum']],
+        'v18_emitter_base_reverse_class_limit_v': reverse_limit,
+        'v18_emitter_base_limit_source': register['sources']['st_bu508af']['url'],
+        'v18_reverse_stress_note': 'The level-1 HOR_OUTPUT_N BJT model has no emitter-base breakdown clamp; excursions beyond the class rating are solver outputs, not viable operating points.',
         'cases': rows, 'completed_cases': len(complete), 'aborted_cases': len(rows)-len(complete),
         'strict_completed_cases': sum(row['solver']['strict_status'] == 'complete' for row in rows),
         'relaxed_completed_cases': sum(row['solver']['relaxed_status'] == 'complete' for row in rows),
@@ -178,6 +188,13 @@ def run():
         'conditional_eht_matches': [
             {key: row[key] for key in ('t2_secondary_polarity', 'v13_drive_phase', 't2_primary_secondary_ratio', 'l4_inductance_per_coil_h')}
             for row in complete if row['conditional_checks']['eht_final_in_manual_range']],
+        'reverse_base_class_rating_violations': [
+            {**{key: row[key] for key in ('t2_secondary_polarity', 'v13_drive_phase', 't2_primary_secondary_ratio', 'l4_inductance_per_coil_h')},
+             'minimum_v18_base_emitter_v': row['result']['output_base_range_v'][0]}
+            for row in complete if not row['conditional_checks']['v18_reverse_base_within_class_rating']],
+        'joint_tp15_eht_reverse_base_matches': [
+            {key: row[key] for key in ('t2_secondary_polarity', 'v13_drive_phase', 't2_primary_secondary_ratio', 'l4_inductance_per_coil_h')}
+            for row in complete if all(row['conditional_checks'].values())],
         'status': 'partial' if len(complete) < len(rows) else 'complete',
         'analysis_valid': nominal['result']['status'] == 'complete' and len(rows) == 24
                           and len(compared) > 0 and all(value <= .02 for value in agreement.values()),

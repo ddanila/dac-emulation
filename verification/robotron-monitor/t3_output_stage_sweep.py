@@ -79,7 +79,7 @@ def deck(graph, parameters, candidate, parts, l3_r, l3_l, trace, *, tube_c_f=1e-
     return '\n'.join(lines) + '\n'
 
 
-def summarize(trace):
+def summarize(trace, expected_end_s=.005):
     with trace.open() as stream:
         columns = next(stream).split()
         expected = ['time', 'v(h_hot)', 'v(eht)', 'v(h_feedback)',
@@ -88,8 +88,8 @@ def summarize(trace):
         if columns[:len(expected)] != expected or columns[len(expected):] not in ([], driver_columns):
             raise ValueError('unexpected output-stage trace columns')
         rows = [list(map(float, line.split())) for line in stream if line.strip()]
-    if len(rows) < 1000 or abs(rows[-1][0] - .005) > 1e-9:
-        raise ValueError('output-stage solve did not reach 5 ms')
+    if len(rows) < 1000 or abs(rows[-1][0] - expected_end_s) > 1e-9:
+        raise ValueError(f'output-stage solve did not reach {expected_end_s:g} s')
     if any(len(row) != len(columns) or not all(math.isfinite(v) for v in row)
            for row in rows):
         raise ValueError('incomplete or nonfinite output-stage samples')

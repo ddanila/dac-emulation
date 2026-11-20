@@ -2906,3 +2906,31 @@ temperature behavior, switching storage or sustained native-grid stress.
 With the verified pinned runtime, the refreshed receipts pass all 18 focused
 checks and `make test-monitor` passes 306 tests with no skips. This verifies
 model/report consistency, not completion of the remaining Phase A conditions.
+
+The source-connected [T2/L4 loaded sweep](reference/k7222-11/t2-l4-output-stage-sweep.json)
+now applies the [ST BU508AF](https://www.st.com/resource/en/datasheet/bu508af.pdf)
+9 V absolute maximum emitter-base reverse-voltage comparator to V18. This is
+a class limit, not a rating recovered for the printed transistor. Seventeen
+of 24 previously completed 4–5 ms cases drive V18's base below −9 V, even
+though the model has no reverse emitter-base breakdown mechanism. None of
+the 24 reaches both manual TP15 and EHT ranges, so no stage pass follows.
+
+To test whether the missing TP15 swing alone explains EHT, the
+[ideal TP15 boundary sweep](reference/k7222-11/tp15-equivalent-output-stage.json)
+replaces V13 and its base drive with a 0–45 V source at its collector, leaving
+the transcribed T2/L4/V18/T3/output load in place. All 36 combinations of
+1,768/2,035/2,409 HV turns, T2 ratios 1/3/10, two secondary polarities and
+two pulse phases reach the 19–20 ms window. Two 2,035-turn cases match the
+manual 11–12 kV EHT range and the independent repairer's 370–420 V collector
+comparison. The model-polarity, on-trace case gives 11.351 kV EHT, 391 V
+collector peak, 14.01 µs flyback at the 10% crossing, and only 1.05 V EHT
+drift across the 16-line window. Yet its V18 base reaches −62.57 V; the
+reversed-polarity, off-trace match reaches −62.7 V. Every one of the 36 cases
+exceeds the 9 V class limit, including the lower-EHT cases. The apparent
+voltage match is therefore not an admissible equivalent-driver operating
+point. A 16-line EHT drift check is also not a three-field native-grid
+periodicity score. The source T2 secondary/T3 graph, V18 switching stress and
+stage loading must be resolved or bounded before A3/A5 can close.
+With the verified pinned runtime, `make test-monitor` passes 307 tests with no
+skips after the stress audit and dependent receipt refresh. This verifies the
+diagnostic and saved reports, not a source-validated or stress-safe stage.
