@@ -69,6 +69,49 @@ def numeric(token):
     return float(token[:-1] if scale != 1 else token)*scale
 
 
+def sc237_added_default_bound_screen(entry):
+    """Screen the newly explicit current and junction terms at source biases."""
+    original = MODELS.read_text()
+    line = re.search(r'^\.model SC237E_N NPN\([^)]*\)', original, re.M).group()
+    scenarios = {
+        'ikf_low': ('IKF',), 'ikf_high': ('IKF',),
+        'rb_low': ('RB',), 'rb_high': ('RB',),
+        'junction_low': ('VJE', 'MJE', 'VJC', 'MJC', 'FC'),
+        'junction_high': ('VJE', 'MJE', 'VJC', 'MJC', 'FC'),
+        'joint_low': ('IKF', 'RB', 'VJE', 'MJE', 'VJC', 'MJC', 'FC'),
+        'joint_high': ('IKF', 'RB', 'VJE', 'MJE', 'VJC', 'MJC', 'FC'),
+    }
+    rows = []
+    with tempfile.TemporaryDirectory() as directory:
+        path = Path(directory)/'variant.cir'
+        for name, keys in scenarios.items():
+            variant = line
+            changes = {}
+            for key in keys:
+                value = entry['parameters'][key]['bounds'][0 if name.endswith('low') else 1]
+                variant, count = re.subn(r'(?<![A-Z])'+key+r'=[^\s)]+',
+                                         f'{key}={value}', variant, count=1)
+                if count != 1:
+                    raise ValueError('SC237E model lacks '+key)
+                changes[key] = value
+            path.write_text(original.replace(line, variant, 1))
+            gain = bench.gain_at(.002, 6, 'SC237E_N', path)['hFE']
+            bias = bench.gain_at(.01, 6, 'SC237E_N', path)
+            ft = 20e6*bench.ac_gain_at(bias['base_current_a'], 6, 20e6,
+                                      'SC237E_N', path)
+            saturation = bench.op('ICLOAD 0 c .1\nIBASE 0 b .005',
+                                  ('v(c)', 'v(b)'), 'SC237E_N', path)['v(c)']
+            rows.append(dict(case=name, changes=changes, hFE_2ma=gain,
+                             VCEsat_100ma_v=saturation, fT_proxy_hz=ft,
+                             historical_dc_ac_proximity=(224 <= gain <= 560
+                                and abs(saturation-.21) <= .105
+                                and abs(ft-170e6) <= 51e6)))
+    return dict(cases=rows, all_source_proximity_checks_passed=all(
+                    row['historical_dc_ac_proximity'] for row in rows),
+                limitation='Selected new-term corners at 25 C only; EG/XTI temperature response, '
+                           'the full joint parameter space, switching and connected-stage timing remain open')
+
+
 def check_one(source_id, spec, entry, active):
     model = spec['model']
     if entry['model'] != model:
@@ -102,7 +145,7 @@ def check_one(source_id, spec, entry, active):
                       transition_frequency_proxy=ft_proxy >= 60e6)
     checks['gain_bias_reached'] = abs(gain['collector_current_a']-spec['target_ic']) < .01*spec['target_ic']
     checks['ac_bias_reached'] = abs(bias['collector_current_a']-spec['ac_ic']) < .01*spec['ac_ic']
-    return dict(source_id=source_id, assembly_reference=active['reference'],
+    result = dict(source_id=source_id, assembly_reference=active['reference'],
                 active_model=model, explicit_model_parameters=tokens,
                 data_book_targets=targets, gain_bias=gain,
                 saturation_dc_proxy=dict(collector_current_a=spec['sat_ic'],
@@ -112,6 +155,9 @@ def check_one(source_id, spec, entry, active):
                 ac_bias=bias, ac_test_frequency_hz=spec['ac_hz'],
                 ac_current_gain=ac_gain, transition_frequency_proxy_hz=ft_proxy,
                 checks=checks, passed=all(checks.values()))
+    if source_id.endswith('V10'):
+        result['added_default_bound_screen'] = sc237_added_default_bound_screen(entry)
+    return result
 
 
 def run():
@@ -124,7 +170,7 @@ def run():
             for source_id, spec in SPECS.items()]
     return dict(format='dac-monitor-v10-v12-model-class-check-v1',
                 qualification='historical transistor-family DC/AC proxies; SF1260 suffix, '
-                              'connected stress and implicit SPICE defaults remain open',
+                              'connected stress and V12 implicit SPICE defaults remain open',
                 source=SOURCE, model_file_sha256=sha(MODELS),
                 register_sha256=sha(REGISTER), sheet_sha256=sha(SHEET),
                 devices=rows, passed=all(row['passed'] for row in rows))
