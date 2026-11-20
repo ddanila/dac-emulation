@@ -11,19 +11,20 @@ import t3_q201_off_long_screen as screen
 
 class LongScreenRawTests(unittest.TestCase):
     def trace(self, path, rows):
-        names = ('time', 'v(eht)', 'v(h_sync)', 'v(h_hot)')
-        header = ('Title: field diagnostic\nFlags: real\nNo. Variables: 4\n'
+        names = ('time', 'v(eht)', 'v(h_sync)', 'v(h_hot)',
+                 'v(h_outputbase)')
+        header = ('Title: field diagnostic\nFlags: real\nNo. Variables: 5\n'
                   f'No. Points: {len(rows)}\nVariables:\n')
         header += ''.join(f'{i} {name} voltage\n'
                           for i, name in enumerate(names))
         header += 'Binary:\n'
-        path.write_bytes(header.encode()+b''.join(struct.pack('=4d', *row)
+        path.write_bytes(header.encode()+b''.join(struct.pack('=5d', *row)
                                                for row in rows))
 
     def test_equal_time_event_has_no_elapsed_weight(self):
-        rows = ((0., 0., 0., 0.), (.001, 100., 0., 0.),
-                (.001, 200., 0., 200.), (.0195, 200., 0., 0.),
-                (.039, 300., 0., 0.))
+        rows = ((0., 0., 0., 0., -10.), (.001, 100., 0., 0., -8.),
+                (.001, 200., 0., 200., -8.), (.0195, 200., 0., 0., -8.),
+                (.039, 300., 0., 0., -8.))
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp)/'trace.raw'
             self.trace(path, rows)
@@ -35,10 +36,12 @@ class LongScreenRawTests(unittest.TestCase):
         self.assertAlmostEqual(result['fields'][0]['eht_time_mean_v'],
                                (.001*50+.0185*200)/.0195)
         self.assertEqual(result['fields'][0]['h_hot_upcrossings_100v'], 1)
+        self.assertAlmostEqual(result['fields'][0]['v18_base_below_minus_9v_duration_s'],
+                               .0005)
 
     def test_backward_time_is_rejected(self):
-        rows = ((0., 0., 0., 0.), (.001, 100., 0., 0.),
-                (.0009, 100., 0., 0.))
+        rows = ((0., 0., 0., 0., 0.), (.001, 100., 0., 0., 0.),
+                (.0009, 100., 0., 0., 0.))
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp)/'trace.raw'
             self.trace(path, rows)
