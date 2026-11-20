@@ -195,7 +195,7 @@
   "geometry_diagnostic": {
     "status": "default model misses documented width; shorter-field trial narrowly reaches it but remains unqualified",
     "source_profiles": ["profiles/k7222-11-yoke-geometry.json", "trajectory.py"],
-    "tube_outline_candidate": {"source_url": "https://www.elektroncso.hu/cikkek/crt_m31.gif", "sha256": "edf8c17c807b174e3f90e2a24946fd7e5342fcd9c3448e4788d9c7f0848ea35d", "family": "M31-120/B31-G", "outside_neck_diameter_m": {"nominal": 0.020, "minimum": 0.0195, "maximum": 0.0208}, "implication": "An internal beam aperture cannot be 12 mm radius; even the maximum outer radius is 10.4 mm. Exact B31G22 inner glass radius is unknown."},
+    "tube_outline_candidate": {"source_url": "https://www.elektroncso.hu/cikkek/crt_m31.gif", "sha256": "edf8c17c807b174e3f90e2a24946fd7e5342fcd9c3448e4788d9c7f0848ea35d", "family": "M31-120/B31-G", "outside_neck_diameter_m": {"nominal": 0.020, "minimum": 0.0195, "maximum": 0.0208}, "b31_g_maximum_overall_length_m": 0.253, "implication": "An internal beam aperture cannot be 12 mm radius; even the maximum outer radius is 10.4 mm. The B31-G family maximum overall length is 253 mm, shorter than the active model's 280 mm gun-to-screen distance. Exact B31G22 inner glass radius and gun position are unknown."},
     "conditions": {"anode_v": 11500, "grid2_v": 350, "focus_v": 4000, "neck_radius_m": 0.01, "horizontal_tesla_per_amp": 0.007979477182945251},
     "maximum_horizontal_current_before_neck_clip_a": 0.5255402,
     "maximum_reachable_half_width_m": 0.0908711,
@@ -206,18 +206,19 @@
     "conclusion": "The default 40 mm yoke field clips before the 210 mm documented width. A 12 mm internal neck radius is excluded by the family outline drawing. Shortening the assumed active field to 34.7 mm reaches 105 mm half-width in the reduced model, but does not establish the real tube inner aperture, yoke extent or installed geometry; no peak current is frozen."
   },
   "conditional_axial_geometry_screen": {
-    "status": "110-degree tube-class sensitivity only; installed B31G22/AE9VT dimensions and current remain unqualified",
+    "status": "B31-G family outline sensitivity only; installed B31G22/AE9VT gun, yoke and current remain unqualified",
     "report": "reference/k7222-11/yoke-axial-geometry-screen.json",
-    "source_context": "Robotron K7222.13/23 describes AE9VT with a 110-degree tube; Philips A31-410W is a 31 cm/110-degree/20 mm-neck class tube with 233 mm maximum overall length. Neither identifies the K7222.11 tube or its gun location.",
+    "source_context": "The K7222.11 page-18 assembly labels B31G22 and AE9VT. A scanned B31-G family outline gives 253 mm maximum overall length, while Philips A31-410W gives 233 mm for a different 110-degree comparator. Neither drawing locates the installed gun or magnetic field.",
     "active_model_gun_to_screen_m": 0.28,
-    "class_tube_maximum_overall_length_m": 0.233,
+    "b31_g_family_maximum_overall_length_m": 0.253,
+    "conditional_maximum_field_length_m_at_250mm_path": 0.0298675537109375,
     "conditional_maximum_field_length_m_at_230mm_path": 0.026553515625000003,
     "conditional_maximum_field_length_m_at_200mm_path": 0.021643066406249994,
-    "limitation": "The 230 and 200 mm paths are sensitivity choices, not B31G22 measurements. Field start, internal neck radius, winding sensitivity and screen shape remain assumptions; the 90-degree Philips yoke electrical/current class is not an installed AE9VT limit."
+    "limitation": "The 250, 230 and 200 mm paths are sensitivity choices, not B31G22 measurements. Field start, internal neck radius, winding sensitivity and screen shape remain assumptions; the 90-degree Philips yoke electrical/current class is not an installed AE9VT limit."
   },
   "remaining_design_work": [
     "Resolve the remaining T3 tap/return map and boost supply from the source before fixing turns or the other winding polarities; HV and G1 auxiliary relative signs are conditionally screened within the current graph, leaving four candidates with upper/lower tap signs unresolved.",
-    "Bound B31G22 gun-to-screen distance, inner neck aperture and AE9VT axial field extent before choosing geometry: the current 280 mm beam path exceeds a comparable 110-degree tube's 233 mm maximum overall length. At 230 mm the conditional model needs at most 26.55 mm active field, and at 200 mm at most 21.64 mm; the installed values remain unknown. The active 4.007 mH/2 ohm winding is outside the cited 31 cm/90-degree yoke class, which is only a sensitivity comparator.",
+    "Bound B31G22 gun-to-screen distance, inner neck aperture and AE9VT axial field extent before choosing geometry: the current 280 mm beam path exceeds the named B31-G family's 253 mm maximum overall length. At 250 mm the conditional model needs at most 29.87 mm active field, at 230 mm at most 26.55 mm, and at 200 mm at most 21.64 mm; the installed values remain unknown. The active 4.007 mH/2 ohm winding is outside the cited 31 cm/90-degree yoke class, which is only a sensitivity comparator.",
     "Validate the conditional vertical operating point against sourced tube/yoke bounds and a connected TP7/TP8 differential waveform; test points 1–6 constrain upstream stage waveforms rather than yoke current directly.",
     "Check each derived quantity against the source and replace placeholder T3 parameters only after the constraints are mutually consistent."
   ]

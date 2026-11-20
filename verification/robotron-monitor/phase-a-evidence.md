@@ -3774,3 +3774,29 @@ lengths of 26.55 mm at the 230 mm proxy and 21.64 mm at 200 mm. These
 limits depend on the still-assumed 75 mm yoke start and 10 mm inner neck
 radius; they are model constraints to check against hardware geometry,
 not measured AE9VT dimensions.
+
+### A5: named B31-G family outline tightens the axial comparison (2026-11-21)
+
+The .11 [page-18 assembly](reference/k7222-11/page18-yoke-pin-comparison.json)
+labels the installed tube **B31G22** and yoke **AE9VT 6802.01**. A fresh read
+of the scanned [M31-120/B31-G family outline](https://www.elektroncso.hu/cikkek/crt_m31.gif)
+finds separate maximum overall lengths: 233 mm for M31-120 and **253 mm
+for B31-G**. The source image had already been used for an outside-neck
+diameter comparison; its earlier directly fetched SHA-256 is
+`edf8c17c807b174e3f90e2a24946fd7e5342fcd9c3448e4788d9c7f0848ea35d`.
+The current proxy-fetched GIF copy hashes to
+`c8a87c1cdaf9512faefaff3b51d0eb5c972cefad11c79d31c5ae54d7e2b93c7c`;
+the visible 253 mm label is clear. The drawing's edition and the installed
+gun position remain unknown. This family-specific length supersedes the
+Philips 233 mm *comparison* as the relevant upper bound for a B31G22 beam
+path. The model's 280 mm path exceeds both.
+
+The updated [axial screen](reference/k7222-11/yoke-axial-geometry-screen.json)
+adds a 250 mm gun-to-screen *upper-edge proxy*, just under the family
+overall length. With all other assumptions held, a 30 mm active field
+reaches only 104.52 mm half-width before neck clipping, while 27.5 mm
+reaches the manual's 105 mm at 2.316 A peak with 6.4% clip-current margin.
+The bisection threshold is **29.87 mm**. The 230 and 200 mm results still
+show the sensitivity to unknown gun placement. None of these field lengths
+is an AE9VT measurement; they bound what the current reduced model would
+need at each declared path length.

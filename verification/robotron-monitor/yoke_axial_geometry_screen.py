@@ -1,6 +1,6 @@
-"""Screen the assumed yoke field length against a shorter 110-degree tube class.
+"""Screen assumed yoke field length against the sourced B31-G tube outline.
 
-This is a sensitivity study, not an identification of the B31G22 or AE9VT.
+This is a sensitivity study, not a measured B31G22/AE9VT geometry.
 """
 import argparse
 import hashlib
@@ -16,6 +16,8 @@ PROFILE = ROOT/'profiles/k7222-11-yoke-geometry.json'
 YOKE_CLASS = ROOT/'reference/k7222-11/yoke-class-comparator.json'
 PHILIPS_SHA = '60ac727815c7493e8df4530fb909bc74c35b9120f3eddbdefe7a758bf536e417'
 ROBOTRON_SHA = '887787a48f36e84ce92edbd39acf2469e6a64f755e22d12d80f687f376f492a6'
+OUTLINE_SHA = 'c8a87c1cdaf9512faefaff3b51d0eb5c972cefad11c79d31c5ae54d7e2b93c7c'
+OLDER_SHA = '3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd'
 TARGET_HALF_WIDTH_M = .105
 
 
@@ -90,9 +92,10 @@ def longest_field_for_width(profile, screen_m, passing_m, failing_m):
                 method='bisection of maximum width before neck clipping')
 
 
-def run(philips_pdf, robotron_pdf):
-    if sha(philips_pdf) != PHILIPS_SHA or sha(robotron_pdf) != ROBOTRON_SHA:
-        raise ValueError('manufacturer PDF provenance changed')
+def run(philips_pdf, robotron_pdf, outline_gif, older_pdf):
+    if (sha(philips_pdf) != PHILIPS_SHA or sha(robotron_pdf) != ROBOTRON_SHA
+            or sha(outline_gif) != OUTLINE_SHA or sha(older_pdf) != OLDER_SHA):
+        raise ValueError('tube source provenance changed')
     profile = json.loads(PROFILE.read_text())
     yoke_class = json.loads(YOKE_CLASS.read_text())
     if (yoke_class['reference_scan_at1077_05']['width_mm'] != 257
@@ -100,6 +103,7 @@ def run(philips_pdf, robotron_pdf):
         raise ValueError('class scan reference or target changed')
     cases = [trial(profile, screen, field)
              for screen, field in ((.28, .04), (.28, .0347),
+                                   (.25, .03), (.25, .0275), (.25, .025),
                                    (.23, .0347), (.23, .025),
                                    (.20, .025), (.20, .020))]
     current_class = yoke_class['conditional_current_proxy']['line_family_envelope_app']
@@ -109,17 +113,28 @@ def run(philips_pdf, robotron_pdf):
                 current_class[0] <= row['target_current_pp_a'] <= current_class[1])
     index = {(row['screen_z_m'], row['field_length_m']): row for row in cases}
     if (index[(.28, .0347)]['reaches_210mm_width'] is not True
+            or index[(.25, .03)]['reaches_210mm_width'] is not False
+            or index[(.25, .0275)]['reaches_210mm_width'] is not True
             or index[(.23, .0347)]['reaches_210mm_width'] is not False
             or index[(.23, .025)]['reaches_210mm_width'] is not True
             or index[(.20, .020)]['reaches_210mm_width'] is not True):
         raise ValueError('axial sensitivity changed')
     thresholds = [longest_field_for_width(profile, screen, passing, failing)
-                  for screen, passing, failing in ((.23, .025, .0347),
+                  for screen, passing, failing in ((.25, .0275, .03),
+                                                   (.23, .025, .0347),
                                                    (.20, .020, .025))]
     return dict(
         format='dac-monitor-yoke-axial-geometry-screen-v1',
-        qualification='110-degree tube-class and reduced-ray sensitivity only; not installed B31G22/AE9VT geometry or a calibrated current',
+        qualification='B31-G family outline and reduced-ray sensitivity only; not measured B31G22/AE9VT geometry or a calibrated current',
         sources={
+            'k7222_11_page18': dict(file='older.pdf', sha256=OLDER_SHA, page=18,
+                                     reading='Installed picture-tube label B31G22 and yoke label AE9VT 6802.01'),
+            'b31_g_family_outline': dict(url='https://elektroncso.hu/cikkek/crt_m31.gif',
+                                         retrieved_via='https://wsrv.nl/?url=elektroncso.hu/cikkek/crt_m31.gif',
+                                         retrieved_copy_sha256=OUTLINE_SHA,
+                                         earlier_direct_source_sha256='edf8c17c807b174e3f90e2a24946fd7e5342fcd9c3448e4788d9c7f0848ea35d',
+                                         reading='Scanned M31-120/B31-G outline lists maximum overall length 233/253 mm respectively; B31-G neck outside diameter is marked near 20 mm',
+                                         limitation='The proxy-fetched GIF bytes differ from the earlier direct source digest; the visible dimension agrees. The archival host does not establish the drawing edition or B31G22 gun location.'),
             'philips_t16': dict(url='https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf',
                                 sha256=PHILIPS_SHA, type='A31-410W',
                                 printed_pages=[43, 45],
@@ -135,10 +150,11 @@ def run(philips_pdf, robotron_pdf):
                        'trajectory.py': sha(ROOT/'trajectory.py'),
                        'yoke_geometry.py': sha(ROOT/'yoke_geometry.py'),
                        'yoke_axial_geometry_screen.py': sha(Path(__file__))},
-        class_comparison=dict(maximum_overall_length_m=.233,
+        class_comparison=dict(b31_g_family_maximum_overall_length_m=.253,
+                              philips_110_degree_comparator_maximum_overall_length_m=.233,
                               active_gun_to_screen_m=trajectory.DEFAULTS['screen_z_m'],
-                              nominal_screen_proxy_m=.23,
-                              argument='Any gun-to-screen distance in the A31-410W must be shorter than its 233 mm maximum overall length; this does not bound the B31G22 or locate its gun, so 230 mm is an upper-edge sensitivity case rather than a nominal tube dimension.'),
+                              upper_edge_screen_proxy_m=.25,
+                              argument='A gun-to-screen path must be shorter than the tube overall length. The B31-G family outline gives 253 mm maximum overall; 250 mm is an upper-edge sensitivity case, not a B31G22 nominal dimension. The earlier Philips 233 mm value belongs to a different 110-degree tube.'),
         held_assumptions=dict(yoke_start_m=profile['field_start_m'],
                               neck_radius_m=profile['neck_radius_m'],
                               line_winding='Philips AT1077/05 class 475 uH, 0.8 ohm',
@@ -147,7 +163,7 @@ def run(philips_pdf, robotron_pdf):
         line_current_comparator_app=current_class,
         cases=cases,
         conditional_field_length_thresholds=thresholds,
-        interpretation='At 230 mm gun-to-screen, the earlier 34.7 mm field fails before 210 mm width; a 25 mm field reaches the width at about 2.64 A peak with 4.4% neck-current margin, within the broad 90-degree yoke current proxy. At 200 mm, a 25 mm field fails and a 20 mm field reaches at 3.37 A peak, above that proxy. These are coupled geometry sensitivities, not a sourced field length or installed current.',
+        interpretation='At 250 mm gun-to-screen, a 30 mm field misses 210 mm width while a 27.5 mm field reaches it at 2.32 A peak with 6.4% neck-current margin. At 230 mm, the earlier 34.7 mm field fails while a 25 mm field reaches at 2.64 A peak with 4.4% margin. At 200 mm, a 20 mm field reaches at 3.37 A peak, above the broad 90-degree yoke current proxy. These are coupled geometry sensitivities, not sourced field lengths or installed currents.',
         unresolved=['B31G22 gun location, inside neck aperture and screen curvature',
                     'AE9VT axial field profile, electrical winding and sensitivity',
                     'Whether the 110-degree K7222.13/23 tube class transfers to K7222.11'])
@@ -157,9 +173,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--philips-pdf', type=Path, required=True)
     parser.add_argument('--robotron-pdf', type=Path, required=True)
+    parser.add_argument('--outline-gif', type=Path, required=True)
+    parser.add_argument('--older-pdf', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
-    report = run(args.philips_pdf, args.robotron_pdf)
+    report = run(args.philips_pdf, args.robotron_pdf, args.outline_gif,
+                 args.older_pdf)
     args.output.write_text(json.dumps(report, indent=2)+'\n')
     print('axial geometry cases:', len(report['cases']))
 
