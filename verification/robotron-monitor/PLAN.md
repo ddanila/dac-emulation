@@ -1,6 +1,6 @@
 # Plan: one sustained-state frame from the K7222 reference monitor
 
-Written 2026-11-18, revised 2026-11-20. This plan supersedes `README.md`,
+Written 2026-11-18, revised 2026-11-21. This plan supersedes `README.md`,
 `single-frame-acceptance.md`, `phase-a-evidence.md` and
 `reference/k7222-11/full-path-requirements.json` wherever they disagree. Those
 files stay as the record of what exists.
@@ -393,9 +393,9 @@ Every equivalent stage is named in the result label and in the B8 report. An
 equivalent stage is not final: if a later re-read or stage result explains the
 failure, restore the component-level stage and re-run the gates from there.
 
-## Status (2026-11-20)
+## Status (2026-11-21)
 
-**Goal blocked reason (2026-11-20): Phase A cannot be marked complete. A5
+**Goal blocked reason (2026-11-21): Phase A cannot be marked complete. A5
 has no source-verified T3 graph or bounded design-derived fallback; A1, A2
 and A6 also have unmet conditions below. A3 and A4 are done.** The .11 scans
 leave T3's return, tap order and high-voltage cold end unresolved. The
@@ -444,7 +444,7 @@ next step changes. The narrative that used to follow is in
 | A3 | Done: all 17 source-hashed shapes, 2 kByte timing, bounded EO2-equivalent bandwidth/probe loading and the declared grid stimulus are machine-checkable. TP8's 17 V crest is checkable; its separate 10 V annotation stays `reference-incomplete` with an explicit G4 explanation if it remains unresolved. A sustained connected score belongs to Phase B. | None for the Phase A method. |
 | A4 | Done. | None. |
 | A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. The T3 return/tap alternatives, all winding ratios and polarities, and tube/yoke geometry do not yet have complete design-derived or class-typical bounds with arguments. The conditional AC-loss stage and connected diagnostics cannot supply those missing design values. | Bound the return graph, loss and yoke geometry; derive the ratios and currents from documented values, list functionally retained candidates and check the documents for contradictions. Preserve connected EHT/lock and operating-point stress as Phase B validation. |
-| A6 | The [register](reference/k7222-11/class-typical-register.json) is partial: tube data (B31G22 cold resistance, thermal law, emission, G4 effect on cut-off), T3 parasitics, yoke sensitivity and the measuring cable lack qualified bounds. | Add cited bounds and re-run the stage checks they affect. |
+| A6 | The [register](reference/k7222-11/class-typical-register.json) now bounds the live heater cold resistance and electrical temperature slope with a pure-tungsten class comparator, while B31G22 material and thermal transfer, emission, G4 effect on cut-off, T3 parasitics, yoke sensitivity and the measuring cable remain unqualified. | Add cited bounds for the remaining families and re-run the stage checks they affect. |
 
 Order: A5 (T3 graph or its fallback), A2, A1, A6, then B1. Phase C waits
 for B8.
