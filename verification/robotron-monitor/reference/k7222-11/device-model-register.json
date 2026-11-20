@@ -212,7 +212,7 @@
       "model_file": "circuits/k7222-11-neck-models.cir",
       "profile": "profiles/k7222-11-neck.json",
       "member_ids": ["012-6891:V2:1", "012-6891:V2:2", "012-6891:V2:3", "012-6891:V2:4", "012-6891:V2:5", "012-6891:V2:6", "012-6921:V2", "012-6921:V3"],
-      "sources": ["nexperia_1n4148"],
+      "sources": ["nexperia_1n4148", "diodesinc_1n4148w_spice", "ngspice_manual_diode"],
       "parameters": {
         "IS": {"profile_key": "d_is", "nominal": 1e-9, "bounds": [1e-12, 1e-7], "unit": "A", "basis": "broad SPICE reverse-current proxy; 1N4148 comparator IR <=25 nA at 20 V, not a direct 1AD50 or IS limit"},
         "N": {"profile_key": "d_n", "nominal": 1.5, "bounds": [1, 2], "unit": "1", "basis": "bounded ideality proxy; comparator forward curve does not uniquely fit N"},
@@ -220,7 +220,12 @@
         "CJO": {"profile_key": "d_cjo", "nominal": 3e-12, "bounds": [5e-13, 2e-11], "unit": "F", "basis": "comparator Cd <=4 pF at 0 V/1 MHz; wider upper bound retains uncertainty in the original 1AD50"},
         "TT": {"profile_key": "d_tt", "nominal": 4e-9, "bounds": [5e-10, 4e-8], "unit": "s", "basis": "transit-time proxy; comparator trr <=4 ns under its test, but original 1AD50 recovery is unknown and TT is not trr"},
         "BV": {"profile_key": "d_bv", "nominal": 100, "bounds": [100, 150], "unit": "V", "basis": "explicit breakdown proxy from comparator 100 V reverse rating, with unverified upper margin"},
-        "IBV": {"profile_key": "d_ibv", "nominal": 1e-4, "bounds": [1e-6, 1e-3], "unit": "A", "basis": "explicit assumed breakdown knee; comparator does not specify SPICE IBV"}
+        "IBV": {"profile_key": "d_ibv", "nominal": 1e-4, "bounds": [1e-6, 1e-3], "unit": "A", "basis": "explicit assumed breakdown knee; comparator does not specify SPICE IBV"},
+        "VJ": {"profile_key": "d_vj", "nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "explicit ngspice junction-potential default; provisional engineering spread"},
+        "M": {"profile_key": "d_m", "nominal": 0.5, "bounds": [0.333, 0.5], "unit": "1", "basis": "explicit ngspice default; lower endpoint from comparable 1N4148W manufacturer SPICE model, not an original-part limit"},
+        "FC": {"profile_key": "d_fc", "nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "explicit ngspice depletion-capacitance default; provisional engineering spread"},
+        "EG": {"profile_key": "d_eg", "nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "explicit ngspice silicon activation-energy default; provisional temperature-law spread"},
+        "XTI": {"profile_key": "d_xti", "nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "explicit ngspice saturation-current temperature-exponent default; provisional spread"}
       },
       "comparison_targets": {
         "VF_v": {"maximum": 1, "conditions": "IF=10 mA, Tj=25 C"},
@@ -279,7 +284,9 @@
         "012-6931:V6"
       ],
       "sources": [
-        "nexperia_1n4148"
+        "nexperia_1n4148",
+        "diodesinc_1n4148w_spice",
+        "ngspice_manual_diode"
       ],
       "parameters": {
         "IS": {
@@ -351,7 +358,12 @@
           ],
           "unit": "A",
           "basis": "explicit assumed breakdown knee; comparator does not specify SPICE IBV"
-        }
+        },
+        "VJ": {"profile_key": "d_vj", "nominal": 1, "bounds": [0.75, 1.25], "unit": "V", "basis": "shared explicit ngspice junction-potential default with provisional engineering spread"},
+        "M": {"profile_key": "d_m", "nominal": 0.5, "bounds": [0.333, 0.5], "unit": "1", "basis": "shared explicit ngspice default; lower endpoint from comparable 1N4148W SPICE model"},
+        "FC": {"profile_key": "d_fc", "nominal": 0.5, "bounds": [0.3, 0.7], "unit": "1", "basis": "shared explicit ngspice depletion-capacitance default with provisional engineering spread"},
+        "EG": {"profile_key": "d_eg", "nominal": 1.11, "bounds": [1.08, 1.14], "unit": "eV", "basis": "shared explicit ngspice silicon activation-energy default with provisional temperature-law spread"},
+        "XTI": {"profile_key": "d_xti", "nominal": 3, "bounds": [2, 4], "unit": "1", "basis": "shared explicit ngspice saturation-current temperature-exponent default with provisional spread"}
       },
       "comparison_targets": {
         "VF_v": {

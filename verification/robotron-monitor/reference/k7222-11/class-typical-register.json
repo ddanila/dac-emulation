@@ -302,6 +302,11 @@
       "basis": "Explicit assumed breakdown knee; comparator does not specify SPICE IBV",
       "qualification": "provisional-model-proxy"
     },
+    {"id":"1AD50-signal-clamp-diode.VJ","stage":"neck-video/horizontal-input","value":1,"bounds":[0.75,1.25],"unit":"V","sources":["ngspice_manual_diode"],"model_ref":"profiles/k7222-11-neck.json#parameters.d_vj","basis":"Explicit ngspice junction-potential default with assumed spread; no original-part range","qualification":"provisional-model-proxy"},
+    {"id":"1AD50-signal-clamp-diode.M","stage":"neck-video/horizontal-input","value":0.5,"bounds":[0.333,0.5],"unit":"1","sources":["ngspice_manual_diode","diodesinc_1n4148w_spice"],"model_ref":"profiles/k7222-11-neck.json#parameters.d_m","basis":"Ngspice default with comparable 1N4148W SPICE lower endpoint; no original-part limit","qualification":"provisional-model-proxy"},
+    {"id":"1AD50-signal-clamp-diode.FC","stage":"neck-video/horizontal-input","value":0.5,"bounds":[0.3,0.7],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"profiles/k7222-11-neck.json#parameters.d_fc","basis":"Explicit ngspice depletion-capacitance default with assumed spread","qualification":"provisional-model-proxy"},
+    {"id":"1AD50-signal-clamp-diode.EG","stage":"neck-video/horizontal-input","value":1.11,"bounds":[1.08,1.14],"unit":"eV","sources":["ngspice_manual_diode"],"model_ref":"profiles/k7222-11-neck.json#parameters.d_eg","basis":"Explicit ngspice silicon activation-energy default with assumed temperature-law spread","qualification":"provisional-model-proxy"},
+    {"id":"1AD50-signal-clamp-diode.XTI","stage":"neck-video/horizontal-input","value":3,"bounds":[2,4],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"profiles/k7222-11-neck.json#parameters.d_xti","basis":"Explicit ngspice saturation-current temperature-exponent default with assumed spread","qualification":"provisional-model-proxy"},
     {
       "id": "1AE15-vertical-signal-diode.IS",
       "stage": "vertical-sync-integrator-output",
@@ -841,6 +846,11 @@
       "qualification": "provisional-model-proxy",
       "shared_model_parameter_with": "1AD50-signal-clamp-diode.IBV"
     },
+    {"id":"1AE15-input-and-sync-diode.VJ","stage":"horizontal-input/vertical-sync","value":1,"bounds":[0.75,1.25],"unit":"V","sources":["ngspice_manual_diode"],"model_ref":"profiles/k7222-11-neck.json#parameters.d_vj","basis":"Shared connected-model junction-potential default; original 1AE15 limit unknown","qualification":"provisional-model-proxy","shared_model_parameter_with":"1AD50-signal-clamp-diode.VJ"},
+    {"id":"1AE15-input-and-sync-diode.M","stage":"horizontal-input/vertical-sync","value":0.5,"bounds":[0.333,0.5],"unit":"1","sources":["ngspice_manual_diode","diodesinc_1n4148w_spice"],"model_ref":"profiles/k7222-11-neck.json#parameters.d_m","basis":"Shared connected-model default and comparable 1N4148W lower endpoint","qualification":"provisional-model-proxy","shared_model_parameter_with":"1AD50-signal-clamp-diode.M"},
+    {"id":"1AE15-input-and-sync-diode.FC","stage":"horizontal-input/vertical-sync","value":0.5,"bounds":[0.3,0.7],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"profiles/k7222-11-neck.json#parameters.d_fc","basis":"Shared connected-model depletion-capacitance default with assumed spread","qualification":"provisional-model-proxy","shared_model_parameter_with":"1AD50-signal-clamp-diode.FC"},
+    {"id":"1AE15-input-and-sync-diode.EG","stage":"horizontal-input/vertical-sync","value":1.11,"bounds":[1.08,1.14],"unit":"eV","sources":["ngspice_manual_diode"],"model_ref":"profiles/k7222-11-neck.json#parameters.d_eg","basis":"Shared connected-model silicon activation-energy default with assumed spread","qualification":"provisional-model-proxy","shared_model_parameter_with":"1AD50-signal-clamp-diode.EG"},
+    {"id":"1AE15-input-and-sync-diode.XTI","stage":"horizontal-input/vertical-sync","value":3,"bounds":[2,4],"unit":"1","sources":["ngspice_manual_diode"],"model_ref":"profiles/k7222-11-neck.json#parameters.d_xti","basis":"Shared connected-model temperature exponent default with assumed spread","qualification":"provisional-model-proxy","shared_model_parameter_with":"1AD50-signal-clamp-diode.XTI"},
     {
       "id": "012-6931:V3.IS",
       "stage": "regulator-5v-reference",

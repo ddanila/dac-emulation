@@ -10,6 +10,29 @@ import neck_diode_check
 
 
 class NeckDiodeCheckTests(unittest.TestCase):
+    def test_both_neck_profiles_supply_every_model_parameter(self):
+        names = set(re.findall(r'\{([a-z_]+)\}', neck_diode_check.MODEL.read_text()))
+        for filename in ('k7222-11-neck.json', 'k7222-11-neck-diagnostic.json'):
+            profile = json.loads((ROOT/'profiles'/filename).read_text())
+            self.assertFalse(names - set(profile['parameters']), filename)
+            for name in ('d_vj', 'd_m', 'd_fc', 'd_eg', 'd_xti'):
+                self.assertEqual(profile['parameters'][name],
+                                 json.loads(neck_diode_check.PROFILE.read_text())['parameters'][name])
+
+    def test_fixed_stage_copies_declare_the_same_screened_defaults(self):
+        profile = json.loads(neck_diode_check.PROFILE.read_text())
+        expected = {name: profile['parameters']['d_'+name.lower()]['nominal']
+                    for name in ('VJ', 'M', 'FC', 'EG', 'XTI')}
+        for filename in ('k7222-11-vertical-sync-models.cir',
+                         'k7222-11-vertical-integrator-models.cir'):
+            model = (ROOT/'circuits'/filename).read_text()
+            definition = re.search(r'^\.model 1AD50_BOUND D\(([^)]*)\)',
+                                   model, re.M)
+            self.assertIsNotNone(definition)
+            parameters = dict(re.findall(r'([A-Z]+)=([^\s)]+)', definition.group(1)))
+            for name, nominal in expected.items():
+                self.assertEqual(float(parameters[name]), nominal)
+
     def test_registered_bounds_match_live_model_profile(self):
         register = json.loads((ROOT/'reference/k7222-11/device-model-register.json').read_text())
         family = next(row for row in register['families']

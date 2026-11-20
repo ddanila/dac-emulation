@@ -129,6 +129,11 @@
       "evidence": "assumed-bound",
       "rationale": "Explicit SPICE breakdown-knee proxy; the 1N4148 data sheet does not specify IBV and the original 1AD50 rating is unknown."
     },
+    "d_vj": {"nominal": 1, "minimum": 0.75, "maximum": 1.25, "unit": "V", "evidence": "assumed-bound", "rationale": "Explicit ngspice junction-potential default with provisional engineering spread; no original 1AD50 or 1AE15 limit."},
+    "d_m": {"nominal": 0.5, "minimum": 0.333, "maximum": 0.5, "unit": "1", "evidence": "assumed-bound", "rationale": "Explicit ngspice grading-coefficient default; lower endpoint is a comparable Diodes Incorporated 1N4148W SPICE value, not an original-part limit."},
+    "d_fc": {"nominal": 0.5, "minimum": 0.3, "maximum": 0.7, "unit": "1", "evidence": "assumed-bound", "rationale": "Explicit ngspice forward-bias depletion-capacitance default with provisional engineering spread."},
+    "d_eg": {"nominal": 1.11, "minimum": 1.08, "maximum": 1.14, "unit": "eV", "evidence": "assumed-bound", "rationale": "Explicit ngspice silicon activation-energy default with provisional temperature-law spread."},
+    "d_xti": {"nominal": 3, "minimum": 2, "maximum": 4, "unit": "1", "evidence": "assumed-bound", "rationale": "Explicit ngspice saturation-current temperature-exponent default with provisional spread."},
     "tube_cathode_c": {
       "nominal": 2e-11,
       "minimum": 5e-12,
