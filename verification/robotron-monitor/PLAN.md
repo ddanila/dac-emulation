@@ -395,20 +395,21 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-21)
 
-**Goal completion blocked (2026-11-21): A5 has no qualified, bounded T3 design
-point.** The .11 scans do not resolve T3's return, tap order or high-voltage
-cold end. The four polarity candidates retained by function checks depend on
-an unverified winding graph, so they cannot establish the ratios or signs of
-the installed transformer. The active winding values still have assumed
-bounds, and the permitted function-derived or equivalent-transformer fallback
-has not been parameterized with A5 ratios, loss and parasitic bounds. The
-existing EHT-to-collector voltage proxy cannot bound the HV/drive turns ratio
-until X2:4's full return path and the voltage across X2:7–X2:4 are bounded. The
-installed tube/yoke geometry also lacks enough evidence to fix deflection
-current. A joint horizontal/vertical class screen finds three broad-family
-current matches but none against the sampled winding's own transferred bounds;
-it cannot identify the installed winding or geometry. Marking A5
-complete now would present these assumptions as a
+**Goal blocked reason (2026-11-21): Phase A cannot meet its six-item completion
+rule while A1, A2, A5 and A6 remain open; A5 is the critical dependency.** Its
+T3 design point is not qualified or bounded. The .11 scans do not resolve T3's
+return, tap order or high-voltage cold end. The four polarity candidates
+retained by function checks depend on an unverified winding graph, so they
+cannot establish the ratios or signs of the installed transformer. The active
+winding values still have assumed bounds, and the permitted function-derived
+or equivalent-transformer fallback has not been parameterized with A5 ratios,
+loss and parasitic bounds. The existing EHT-to-collector voltage proxy cannot
+bound the HV/drive turns ratio until X2:4's full return path and the voltage
+across X2:7–X2:4 are bounded. The installed tube/yoke geometry also lacks
+enough evidence to fix deflection current. A joint horizontal/vertical class
+screen finds three broad-family current matches but none against the sampled
+winding's own transferred bounds; it cannot identify the installed winding or
+geometry. Marking A5 complete now would present these assumptions as a
 qualified design point. A1, A2 and A6 have separate unmet conditions in the
 table below; A3 and A4 are done. The
 [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json)
@@ -436,6 +437,9 @@ The unblock path is to carry the unreadable graph as labelled bounded
 alternatives or implement the plan's function-derived/equivalent-transformer
 fallback, then derive every T3 ratio and yoke value with a tier and argument,
 bound loss and parasitics, and list candidates retained by rectifier function.
+Phase A remains incomplete until that A5 design point and the independent A1,
+A2 and A6 closeout conditions in the table are recorded; a passing diagnostic
+or another partial source read does not close them.
 Connected T2/L4, Q201 and field-periodicity validation belongs to Phase B;
 those failed runs do not make the Phase A design point valid or create a
 measurement gate. The source connections and device bounds still belong to A1
