@@ -1,8 +1,9 @@
 {
   "format": "dac-monitor-page18-frame-comparison-v2",
-  "qualification": "partial semantic comparison; A1 page-18 pin-level gate remains open",
+  "qualification": "semantic comparison with four explicitly classified functional model-scope gaps; physical pins checked in a separate receipt, connected contrast stage open",
   "source_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
   "assembly_sha256": "e3883360002705d7a0c69a682768fe9f067940e2b9c016a8790de23defc6fc9d",
+  "assembled_components_sha256": "7de374217fcab8e22e48e929ba169872e0ac4a52699dc87597a84f0f3ed10f61",
   "cable_pairs": [
     {
       "cable": "1.11.017307.0",
@@ -38,7 +39,7 @@
       "model_net": "hy2",
       "horizontal_board_net_present": true,
       "destination_board": "012-6931",
-      "destination_board_net_present": false
+      "destination_board_net_present": true
     },
     {
       "cable": "1.11.017307.0",
@@ -50,7 +51,7 @@
       "model_net": "hy1",
       "horizontal_board_net_present": true,
       "destination_board": "012-6931",
-      "destination_board_net_present": false
+      "destination_board_net_present": true
     },
     {
       "cable": "1.11.017308.0",
@@ -221,7 +222,7 @@
       "destination_board_net_present": true
     }
   ],
-  "both_board_nets": 12,
+  "both_board_nets": 14,
   "missing_board_nets": [
     {
       "cable": "1.11.017307.0",
@@ -243,30 +244,6 @@
       "to_pin": "3",
       "source_signal": "SYNCH",
       "model_net": "h_sync",
-      "horizontal_board_net_present": true,
-      "destination_board": "012-6931",
-      "destination_board_net_present": false
-    },
-    {
-      "cable": "1.11.017307.0",
-      "from_connector": "012-6921:X5",
-      "from_pin": "5",
-      "to_connector": "012-6931:X1",
-      "to_pin": "5",
-      "source_signal": "X2",
-      "model_net": "hy2",
-      "horizontal_board_net_present": true,
-      "destination_board": "012-6931",
-      "destination_board_net_present": false
-    },
-    {
-      "cable": "1.11.017307.0",
-      "from_connector": "012-6921:X5",
-      "from_pin": "6",
-      "to_connector": "012-6931:X1",
-      "to_pin": "6",
-      "source_signal": "X1",
-      "model_net": "hy1",
       "horizontal_board_net_present": true,
       "destination_board": "012-6931",
       "destination_board_net_present": false
@@ -296,12 +273,18 @@
       "destination_board_net_present": false
     }
   ],
+  "scope_gap_dispositions": {
+    "41P": "vertical-board converter supply path is excluded by ideal rails",
+    "SYNCH": "vertical-board converter synchronizing path is excluded with that converter",
+    "INTENS": "external intensity drive reaches the neck board without a main-board sheet component; connected stimulus remains unqualified",
+    "10.7P": "neck heater electrical branch is replaced by a held thermal state; sustained heater balance remains unqualified"
+  },
   "mapping_limits": [
-    "X1/X2 to hy1/hy2 uses the current yoke-net naming; physical pin direction is not established here",
-    "SYNCH to h_sync uses the horizontal-output label; the vertical-board converter path is outside the ideal-rail frame"
+    "X1/X2 map to the current hy1/hy2 centring-choke and yoke nets; the separate yoke-pin comparison checks terminal labels, not winding polarity",
+    "SYNCH maps to the horizontal-output h_sync label; the vertical-board converter path is outside the ideal-rail frame"
   ],
   "open_checks": [
-    "six cable signals have functional model-scope gaps despite matching source-labelled physical pins",
+    "four cable signals have classified functional model-scope gaps despite matching physical pins",
     "panel topology and X1 physical pins are checked separately; connected contrast stage remains open"
   ]
 }

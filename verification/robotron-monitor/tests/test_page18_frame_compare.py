@@ -24,12 +24,15 @@ class Page18FrameCompareTests(unittest.TestCase):
         saved = json.loads((ROOT/'reference/k7222-11/page18-frame-comparison.json').read_text())
         self.assertEqual(report, saved)
         self.assertEqual(len(report['cable_pairs']), 18)
-        self.assertEqual(report['both_board_nets'], 12)
+        self.assertEqual(report['both_board_nets'], 14)
         self.assertEqual({row['source_signal'] for row in report['missing_board_nets']},
-                         {'41P', 'SYNCH', 'X2', 'X1', 'INTENS', '10.7P'})
+                         {'41P', 'SYNCH', 'INTENS', '10.7P'})
+        self.assertEqual(set(report['scope_gap_dispositions']),
+                         {row['source_signal'] for row in report['missing_board_nets']})
+        self.assertEqual(len(report['assembled_components_sha256']), 64)
         self.assertEqual({row['destination_board'] for row in report['cable_pairs']},
                          {'012-6931', '012-6891'})
-        self.assertIn('pin-level gate remains open', report['qualification'])
+        self.assertIn('connected contrast stage open', report['qualification'])
 
     def test_changed_cable_signal_or_neck_pin_is_rejected(self):
         source = copy.deepcopy(self.source)

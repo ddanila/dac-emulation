@@ -483,7 +483,7 @@ labelled as such. The remaining done-condition gaps are:
 
 | Item | Evidence still needed for completion |
 | --- | --- |
-| A1 | The page-16 neck-board pin list and static checks now close that schematic review; the separate unvalued measuring-cable inset still needs a bounded transfer and qualified tube response before its service observations can be checked. Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed local branches, page-4 C27 collector return, page-4 V21/R29–R32 external divider and page-9 centring bridge, including transistor C/E polarity, L1's ambiguous hot-line crossing and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle, and settle page 18's six functional model-scope gaps and connected contrast check. C30 placement/population and the installed E1–E4 pair are not identified. |
+| A1 | The page-16 neck-board pin list and static checks now close that schematic review; the separate unvalued measuring-cable inset still needs a bounded transfer and qualified tube response before its service observations can be checked. Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed local branches, page-4 C27 collector return, page-4 V21/R29–R32 external divider and page-9 centring bridge, including transistor C/E polarity, L1's ambiguous hot-line crossing and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle, and verify page 18's four remaining model-scope dispositions and connected contrast check. C30 placement/population and the installed E1–E4 pair are not identified. |
 | A2 | Qualify every frame-path device model and its bounds. All 64 instances have provisional register rows, including T3, but none closes every parameter check. V21 has explicit bounds for all seven SPICE diode parameters, passes bounded Rectron/Semtech class fixtures, and has a 14-case one-at-a-time connected-stage sensitivity sweep. The slow TT endpoint moves final EHT by 4.4%; nominal late-window reverse voltage reaches 11.92 kV, near the 12 kV comparator rating. V21 identity, joint corners and sustained stage stress remain open. The two cross-revision ÜHA78 winding reports challenge T3's active 1,000-turn hypothesis without proving the K7222.11 construction; its other turns, parasitics and connected sensitivity remain unqualified. Original values and connected sensitivity also remain open for the page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes. |
 | A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check passes in the synthetic-sync loaded bench; a dual-node probe shows the separate 10 V arrow remains sensitive to reset masking and node attribution. The prescribed-V13 T2/L4 loaded-stage sweep misses TP15 and EHT in all 24 cases across both T2 polarities after a bounded solver retry. Score connected stages with stable feature definitions, the required loaded probes, native grid stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. The loaded T2/L4 sweep does not establish a periodic EHT or identify the factory T3 winding. Optional C30 population changes the inferred 16 µs effective resonance inductance from 2.36 to 2.59 mH and loaded final EHT by 2.49–2.53% in the refreshed V21 model; its source population is still unverified. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
@@ -737,21 +737,24 @@ second page-10 feedback part. The rest of the page-10 input, supply and
 feedback paths remain outside this partial check; the TP8 failure is still
 unexplained.
 The page-18 source transcription now has all 18 labelled board-cable pairs
-compared at both physical connector pins in fresh KiCad exports. Twelve signal
-nets occur on both corresponding functional board models; six have model-scope
-gaps. Vertical-board X2's six pins, four yoke terminal labels and assembled
+compared at both physical connector pins in fresh KiCad exports. Fourteen signal
+nets occur on both corresponding functional board models; four have model-scope
+gaps after the vertical-board centring chokes connected X1/X2. Vertical-board X2's six pins, four yoke terminal labels and assembled
 winding endpoints match a separate page-18 comparison. A source-first panel
 read now matches R1's represented topology and R2's corrected two-wire
 rheostat between the board R4 left/wiper node and V1 emitter. All six main-board
-X1 physical pins match a fresh KiCad export. Six board-cable signals still have
-functional model-scope gaps, and the connected contrast stage has no score;
+X1 physical pins match a fresh KiCad export. The remaining four gaps are the
+excluded vertical-board converter 41P/SYNCH paths, an external INTENS drive
+and the held-thermal-state 10.7P heater branch. The connected contrast stage
+has no score;
 A1 page 18 therefore stays open.
 An independent page-16 neck-board read now matches all 39 component pins and
 six diode directions in a fresh KiCad export. Three audit-only connector
 symbols now expose all 17 physical pins in that export, and every pin matches
 the source read. The page-16 source graph has DC routes and an isolated bench
-shows plausible transistor switching and cathode response. The A1 page mark
-still awaits a source-observation check: that bench has no CRT emission and
+shows plausible transistor switching and cathode response. The A1 neck-board
+schematic mark is closed; its separate service-observation check still awaits
+CRT emission and
 uses a fixed beam load. The page-16 measuring-cable inset contains an unvalued
 series capacitor and shunt elements; a direct X3 DC voltage cannot reproduce
 the cable-coupled 0.1 mV rise and 3.6 mV setup readings.
