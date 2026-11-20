@@ -2819,3 +2819,31 @@ R/L winding checks. With `MONITOR_RUNTIME` set to the verified runtime,
 `make test-monitor` passed 304 tests with no skips. This test pass verifies
 tool behavior and current receipts, not a sustained native-grid frame or
 completion of the remaining Phase A done conditions.
+
+The connected assembly uses the neck profile's parameterized `1AD50_BOUND`
+for eight printed 1AD50 clamps and four input/sync 1AE15 diodes; the two
+fixed vertical-stage copies of that alias are removed when the full assembly
+is built. All three declarations now make `VJ`, `M`, `FC`, `EG` and `XTI`
+explicit, and the neck profile bounds the connected values. The nominal
+values remain the earlier ngspice defaults. The diagnostic neck profile uses
+the same bounds so the atlas and continuous thermal lifecycle decks resolve
+the shared model. The lower `M=0.333` endpoint
+comes from the [Diodes Incorporated 1N4148W SPICE model](https://www.diodes.com/spice/download/1589/1N4148W.spice.txt);
+it is a same-class comparator, not an identification or original-part limit.
+The other new spreads are assumed. A2 and A6 now register these five values
+for both printed-type families, bringing A6 to 224 partial entries. The
+[implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json)
+falls from 41 affected instances in 23 entries to 29 in 21. The
+[1AD50 isolated comparator](reference/k7222-11/neck-diode-model-check.json)
+still passes, and the page-16 static and page-3/4 IS-drive diagnostics retain
+their measured values; only model/profile/deck hashes changed. Regenerating
+the [vertical-diode stage sweep](reference/k7222-11/vertical-diode-stage-sensitivity.json)
+after the fixed-copy edit gave identical baseline and 24 bound-case metrics.
+The two printed types still share a provisional connected electrical proxy,
+and no source-backed original rating, temperature sweep, joint bound or
+native connected-stage stress has been established for these twelve parts.
+With the verified pinned runtime, `make test-monitor` passes 306 tests with no
+skips after these model and receipt changes. The rerun includes atlas nominal
+publication, the continuous neck thermal lifecycle, saved-report equality and
+the connected V21 sensitivity check; it does not close the remaining Phase A
+done conditions.
