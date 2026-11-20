@@ -8,7 +8,7 @@ The source circuit and chosen parameter values are archived with every solve.
 import argparse
 import bisect
 from collections import deque
-import hashlib
+from file_hash import digest_stream
 import json
 from pathlib import Path
 import statistics
@@ -81,7 +81,7 @@ def recorded_cycles(path,period_s=62.5e-6,samples=256):
             a,b=rows[j-1],rows[j];f=(t-a['time'])/(b['time']-a['time'])
             values.append(a[channel]+f*(b[channel]-a[channel]))
         waves[name]=values;periods[name]=end-start
-    with Path(path).open('rb') as stream:trace_hash=hashlib.file_digest(stream,'sha256').hexdigest()
+    with Path(path).open('rb') as stream:trace_hash=digest_stream(stream)
     return dict(waveforms=waves,original_periods_s=periods,isolation_period_s=period_s,
                 trace_sha256=trace_hash,
                 qualification='retimed-recorded-cycle-isolation',connected_lock_verified=False)

@@ -5,6 +5,7 @@ thermal/flux/current monitor states are explicitly excluded, never counted as
 physical energy. Unsupported primitives block coverage before a solve.
 """
 import hashlib,json,math,re,subprocess,time
+from file_hash import digest_stream
 from pathlib import Path
 import monitor_runtime
 
@@ -153,7 +154,7 @@ def assess(raw,manifest,*,start_s,end_s,core=None,deadline=None):
     deck=Path(raw).with_name('run.cir')
     if not deck.exists() or hashlib.sha256(deck.read_bytes()).hexdigest()!=manifest['instrumented_deck_sha256']:
         raise ValueError('energy inventory does not match solved deck')
-    with raw.open('rb') as stream:raw_sha256=hashlib.file_digest(stream,'sha256').hexdigest()
+    with raw.open('rb') as stream:raw_sha256=digest_stream(stream)
     parts=manifest['parts'];known={p['name']:p for p in parts}
     energies={};absolute={};previous=None;first=last=None;first_time=None
     groups={k:0. for k in ('source_work','resistor_loss','semiconductor_work','controlled_source_work','beam_work','grid2_work','heater_work','magnetic_work','diagnostic_storage_work')}
@@ -225,7 +226,7 @@ def assess(raw,manifest,*,start_s,end_s,core=None,deadline=None):
     residual=abs(balance)/scale
     terminal_residual=sum(groups.values());terminal_error=abs(terminal_residual)/scale
     with raw.open('rb') as stream:
-        if hashlib.file_digest(stream,'sha256').hexdigest()!=raw_sha256:raise ValueError('energy raw trace changed during accounting')
+        if digest_stream(stream)!=raw_sha256:raise ValueError('energy raw trace changed during accounting')
     return dict(format='dac-circuit-energy-ledger-v1',start_s=start_s,end_s=end_s,groups_j=groups,
         raw_sha256=raw_sha256,inventory_sha256=hashlib.sha256(json.dumps(manifest,sort_keys=True).encode()).hexdigest(),
         component_work_j=energies,storage_change_j=delta,residual_j=balance,normalization_j=scale,relative_error=residual,

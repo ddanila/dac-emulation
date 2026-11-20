@@ -2797,3 +2797,25 @@ metrics. The old sensitivity receipt used older profile and runner hashes,
 so its different baseline is not evidence of a model-induced change.
 Neither the one-at-a-time bench nor the class comparator qualifies joint
 corners, original-device ratings or connected native-frame stress.
+
+The monitor tooling check on the local Python 3.9.6 runner exposed use of
+`hashlib.file_digest` in artifact verification, although that API is absent
+there. A shared [streaming SHA-256 helper](file_hash.py) now reads bounded
+1 MiB chunks for cache, raw trace, image, gate and runtime checks. The
+[pinned-runtime builder](monitor_runtime.py) validates every archive member
+before extraction and binds the imported hash helper and command runner in
+its receipt. The rebuilt local ngspice-47 runtime at
+`build/monitor/runtime-phase-a-gcc16-verified/` verifies; its `runtime.json`
+SHA-256 is `82aca1ae153d04d101e502c431305435ccad5bd993bfabbf52de33f72d3fb2f9`
+and installed solver SHA-256 is
+`3e14f93f378ffcb37ec55e797b3da6099ce9ee6293a4fe7f203619299a5f9da9`.
+These are local build artifacts, not committed source files. Three horizontal
+class-check receipts needed only updated register hashes; their measured
+results did not change. The full-path regression now checks the current
+260/260 source-addressed connected parts, while the audit still marks 81
+entries unresolved for qualification. The vertical-output regression now
+uses the actual A3 input and Y2 probe columns for its input equality and
+R/L winding checks. With `MONITOR_RUNTIME` set to the verified runtime,
+`make test-monitor` passed 304 tests with no skips. This test pass verifies
+tool behavior and current receipts, not a sustained native-grid frame or
+completion of the remaining Phase A done conditions.

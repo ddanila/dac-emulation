@@ -7,6 +7,7 @@ complete monitor, or a physical specimen. It consumes stream_render archives.
 import argparse
 import array
 import hashlib
+from file_hash import digest
 import json
 import math
 from pathlib import Path
@@ -17,9 +18,6 @@ import sustained
 LIMIT = .02
 
 
-def digest(path):
-    with Path(path).open('rb') as stream:
-        return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
 class Archive:
