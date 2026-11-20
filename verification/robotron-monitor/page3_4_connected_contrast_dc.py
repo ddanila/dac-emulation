@@ -100,6 +100,7 @@ def run():
                  'clock_hz': 179712000,
                  'events': [[0, 0, 1, 1], [1800000, 1, 0, 1]]}
     rows = []
+    dark_rows = []
     with tempfile.TemporaryDirectory() as temporary:
         folder = Path(temporary)
         assembly = steady_supply.assemble(folder/'assembly')
@@ -122,6 +123,20 @@ def run():
                                      video=1,
                                      dc_deck_sha256=sha(static.encode()),
                                      **values))
+        assembly['parameters']['contrast_position'] = .5
+        detailed, _ = steady_supply.deck(assembly, selection, candidate)
+        for topology, deck in (('detailed_page3_4', detailed),
+                               ('manual_fig6_terminal_swap', manual_terminal_variant(detailed))):
+            for incoming in INCOMING_INTENS_STATES:
+                static = dc_variant(deck, 0, incoming)
+                values = operating_point(static, folder/f'dark-{topology}-{incoming}')
+                dark_rows.append(dict(topology=topology,
+                                      contrast_position=.5,
+                                      brightness_position=0,
+                                      raw_incoming_intens=incoming,
+                                      video=0,
+                                      dc_deck_sha256=sha(static.encode()),
+                                      **values))
         assembly_hashes = assembly['hashes']
     swings = []
     for topology in ('detailed_page3_4', 'manual_fig6_terminal_swap'):
@@ -144,7 +159,8 @@ def run():
                 winding_candidate_id=candidate['id'],
                 v4_breakdown_v=9.1,
                 logic_note='The provisional T200 model inverts raw incoming INTENS before V5; raw state numbers cannot be compared directly with the manual regenerated intensity signal.',
-                rows=rows, contrast_cathode_swings=swings)
+                rows=rows, dark_rows=dark_rows,
+                contrast_cathode_swings=swings)
 
 
 if __name__ == '__main__':
@@ -154,4 +170,4 @@ if __name__ == '__main__':
     report = run()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2)+'\n')
-    print('connected DC points:', len(report['rows']))
+    print('connected DC points:', len(report['rows'])+len(report['dark_rows']))
