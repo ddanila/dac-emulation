@@ -80,16 +80,23 @@
     "limitation": "E2 selection, original choke behavior, coupling, loaded T2 secondary drive and V18 base current remain unqualified."
   },
   "horizontal_resonance": {
+    "c30_population_assumption": "populated in the current KiCad/output-stage candidate; the physical K7222.11 population is unverified",
     "candidate_parallel_capacitors": [
       {"source_id": "012-6921:C27", "value_f": 1e-8, "tolerance_fraction": 0.1},
       {"source_id": "012-6921:C30", "value_f": 1e-9, "tolerance_fraction": 0.1}
     ],
     "candidate_capacitance_f": {"nominal": 1.1e-8, "minimum": 9.9e-9, "maximum": 1.21e-8},
     "effective_inductance_h": {"nominal": 0.0023580202738580423, "minimum": 0.002143654794416402, "maximum": 0.002620022526508936},
+    "c27_only_alternative": {
+      "candidate_capacitance_f": {"nominal": 1e-8, "minimum": 9e-9, "maximum": 1.1e-8},
+      "effective_inductance_h": {"nominal": 0.0025938223012438462, "minimum": 0.002358020273858042, "maximum": 0.002882024779159829},
+      "loaded_stage_sensitivity_report": "reference/k7222-11/horizontal-retrace-c30-sensitivity.json",
+      "qualification": "conditional alternative; the loaded 5 ms stage changes final EHT by about 2.5% when C30 is absent, but neither population nor periodic operation is established"
+    },
     "equation": "T_retrace = pi * sqrt(L_effective * (C27 + C30))",
     "evidence": "design-derived from documented timing and printed capacitor values; capacitor parallel connection remains agent-read candidate",
     "sources": [{"file": "older-operation.pdf", "page": 5}, {"file": "older.pdf", "page": 4}, {"file": "older.pdf", "page": 6}],
-    "limitation": "This is the effective resonance of the entire horizontal network, not a measurement or direct assignment of yoke inductance. Recheck C27/C30 connectivity against the source before using it to replace a parameter."
+    "limitation": "This is the effective resonance of the entire horizontal network, not a measurement or direct assignment of yoke inductance. The 2.36 mH candidate requires C30 to be populated; the C27-only alternative is 2.59 mH. Resolve the optional C30 population from source evidence before selecting either."
   },
   "collector_flyback": {
     "ideal_ratio_to_trace_supply": 5.565126824747668,
