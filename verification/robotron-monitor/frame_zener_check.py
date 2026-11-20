@@ -19,6 +19,7 @@ CASES = (
     ('012-6931:V15', 'VERT_Z16', 'circuits/k7222-11-vertical-output-models.cir', 'BZX84-C16', (15.3, 17.1), 40),
 )
 REQUIRED_PARAMETERS = {'IS', 'N', 'RS', 'BV', 'IBV', 'CJO', 'TT'}
+EXPLICIT_HORIZONTAL_DEFAULTS = {'VJ', 'M', 'FC', 'EG', 'XTI'}
 
 
 def model_line(path, name):
@@ -28,7 +29,8 @@ def model_line(path, name):
         raise ValueError('expected one diode model for ' + name)
     line = lines[0]
     keys = set(re.findall(r'\b([A-Z]+)=', line))
-    if keys != REQUIRED_PARAMETERS:
+    expected = REQUIRED_PARAMETERS | (EXPLICIT_HORIZONTAL_DEFAULTS if name == 'HOR_Z6' else set())
+    if keys != expected:
         raise ValueError(name + ' has missing or unexpected parameters: ' + str(keys))
     return line
 

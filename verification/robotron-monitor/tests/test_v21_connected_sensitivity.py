@@ -14,7 +14,7 @@ class V21ConnectedSensitivityTests(unittest.TestCase):
         saved = json.loads((ROOT/'reference/k7222-11/v21-connected-sensitivity.json').read_text())
         live = check.run()
         self.assertEqual(live, saved)
-        self.assertEqual((live['completed_bounds'], live['total_bounds']), (14, 14))
+        self.assertEqual((live['completed_bounds'], live['total_bounds']), (24, 24))
         self.assertLess(max(abs(value) for value in
                             live['sense_probe_relative_difference_from_unsensed_stage'].values()), .01)
         slow = next(row for row in live['bounds']
