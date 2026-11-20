@@ -1,0 +1,60 @@
+{
+  "format": "dac-monitor-native-grid-four-field-bounded-attempt-v1",
+  "qualification": "diagnostic-only; both four-field solves unfinished and without a three-field score",
+  "capture_sha256": "86184b30371f08b5e7d6060c8ee34690c3778ed9a701d523ae705da594162621",
+  "candidate_id": "t3-fc941ad61c50ce31",
+  "contrast_topology": "manual-fig6-equivalent",
+  "linear_solver": "klu",
+  "reltol": 0.002,
+  "abstol": 1e-08,
+  "source_hashes": {
+    "circuits/k7222-11-horizontal-models.cir": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
+    "steady_supply.py": "af5e9c08e2d07e6592ba6df39029f66da1117e29d5aa5e76eaad888d0e0ec317",
+    "partial_trace_diagnostic.py": "419605a1c676df5230291fb03ed2267a2007f43c5604f008b3ff026ada9892a5"
+  },
+  "trials": [
+    {
+      "max_step_ns": 50,
+      "run_status": "blocked",
+      "solve_status": "failed",
+      "solve_timeout": false,
+      "solve_elapsed_s": 256.874957208,
+      "trace_report": "reference/k7222-11/native-grid-50ns-partial-diagnostic.json",
+      "trace_sha256": "3e63f98eeba0ff9ebcc2516ff52b11c48f7ab3d7cd639d70cf04e558d11503e7",
+      "complete_rows": 983665,
+      "last_time_s": 0.0161258679855556,
+      "declared_points": 0,
+      "trailing_bytes": 280,
+      "eht_mean_v_15_to_16_ms": 7935.9061358316185,
+      "h_sync_upcross_100v_15_to_16_ms": 0,
+      "output_directory": "build/monitor/phase-a/native-v13-v18-grid-20261120",
+      "termination": "controlled SIGTERM after projected over-budget progress"
+    },
+    {
+      "max_step_ns": 200,
+      "run_status": "blocked",
+      "solve_status": "failed",
+      "solve_timeout": true,
+      "solve_elapsed_s": 595.844541375,
+      "trace_report": "reference/k7222-11/native-grid-200ns-partial-diagnostic.json",
+      "trace_sha256": "9df66887ba8a8d862f686f90140df7765e549b24a9d0a7db3da40c90f0df502e",
+      "complete_rows": 2063542,
+      "last_time_s": 0.036435334027627955,
+      "declared_points": 0,
+      "trailing_bytes": 16,
+      "eht_mean_v_15_to_16_ms": 9668.175460936993,
+      "h_sync_upcross_100v_15_to_16_ms": 0,
+      "output_directory": "build/monitor/phase-a/native-v13-v18-grid-200ns-20261120",
+      "termination": "runner wall-budget timeout"
+    }
+  ],
+  "eht_mean_relative_difference_15_to_16_ms": 0.2182824866443367,
+  "status": "unqualified",
+  "remaining": [
+    "Complete and score at least three connected native-grid fields at a refined, converged resolution.",
+    "Resolve conditional T2/T3 source graph and V18 reverse-base operating stress."
+  ],
+  "runner": "full_path.py --mode steady-supply-frame",
+  "capture_archive": "examples/phase-a-native-full-text/capture.json.gz",
+  "wall_budget_hours": 0.25
+}
