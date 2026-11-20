@@ -42,6 +42,14 @@ CHANGES = {
         'Q201 contrast_low base_i 0 SC60A_CLASS_N',
         'Q201 contrast_low base_i 0 SC60A_Q201_CJC_LOW_N',
         'Q201 alone retains the BJT model with CJC reduced from 4 to its registered 1.7 pF lower bound.'),
+    'q201_cjc_zero': (
+        'Q201 contrast_low base_i 0 SC60A_CLASS_N',
+        'Q201 contrast_low base_i 0 SC60A_Q201_CJC_ZERO_N',
+        'Q201 alone retains the BJT model with CJC set to zero for isolation, outside its registered bounds.'),
+    'q201_static_bjt': (
+        'Q201 contrast_low base_i 0 SC60A_CLASS_N',
+        'Q201 contrast_low base_i 0 SC60A_Q201_STATIC_N',
+        'Q201 retains BJT DC junctions but CJE, CJC, TF and TR are all zeroed for isolation, outside registered bounds.'),
 }
 
 Q201_MODEL = '.model SC60A_CLASS_N NPN(IS=1e-14 BF=260 VAF=80 RC=1 RE=0.25 CJE=10p CJC=4p TF=0.8n TR=10n IKF=0.0962 RB=100 VJE=0.65 MJE=0.55 VJC=0.65 MJC=0.33 EG=1.11 XTI=3 FC=0.5)'
@@ -52,11 +60,19 @@ def run_case(name, baseline, output, runtime, timeout_s):
     if baseline.count(old) != 1:
         raise ValueError(name + ': baseline connection changed')
     deck = baseline.replace(old, new)
-    if name == 'q201_cjc_low':
+    if name in ('q201_cjc_low', 'q201_cjc_zero', 'q201_static_bjt'):
         if deck.count(Q201_MODEL) != 1:
             raise ValueError('Q201 source model changed')
-        bounded = Q201_MODEL.replace('SC60A_CLASS_N', 'SC60A_Q201_CJC_LOW_N', 1)
-        bounded = bounded.replace('CJC=4p', 'CJC=1.7p')
+        model_name = {'q201_cjc_low': 'SC60A_Q201_CJC_LOW_N',
+                      'q201_cjc_zero': 'SC60A_Q201_CJC_ZERO_N',
+                      'q201_static_bjt': 'SC60A_Q201_STATIC_N'}[name]
+        bounded = Q201_MODEL.replace('SC60A_CLASS_N', model_name, 1)
+        if name == 'q201_static_bjt':
+            bounded = bounded.replace('CJE=10p CJC=4p TF=0.8n TR=10n',
+                                      'CJE=0 CJC=0 TF=0 TR=0')
+        else:
+            bounded = bounded.replace('CJC=4p',
+                                      'CJC=1.7p' if name == 'q201_cjc_low' else 'CJC=0')
         deck = deck.replace(Q201_MODEL, Q201_MODEL+'\n'+bounded)
     directory = output/name
     if directory.exists():
@@ -94,6 +110,9 @@ def main():
     baseline = args.baseline.read_text()
     if baseline.count(boundary.SHORT_TRAN) != 1 or baseline.count('.options klu reltol=0.005') != 1:
         raise ValueError('expected archived 39.1 ms KLU deck')
+    if (baseline.count('Q201 contrast_low base_i 0 SC60A_CLASS_N') != 1 or
+            baseline.count('Q202 p35 v1_base intens SC60A_CLASS_N') != 1):
+        raise ValueError('expected conditional manual-Fig-6 contrast topology')
     args.output.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(max_workers=2) as pool:
         pending = {name: pool.submit(run_case, name, baseline, args.output,
@@ -101,8 +120,9 @@ def main():
                    for name in CHANGES}
         cases = [pending[name].result() for name in CHANGES]
     report = {
-        'format': 'dac-monitor-t3-horizontal-boundary-isolation-v5',
+        'format': 'dac-monitor-t3-horizontal-boundary-isolation-v8',
         'qualification': 'one-factor solver diagnosis; no edit is a source-circuit correction or a sustained field',
+        'baseline_contrast_topology': 'conditional manual-Fig-6 equivalent; Q201 collector at contrast_low, unlike the page-3 source read at IS',
         'source_sha256': {
             'producer': boundary.sha(ROOT/'t3_horizontal_boundary_isolation.py'),
             'steady_supply.py': boundary.sha(ROOT/'steady_supply.py'),
@@ -110,6 +130,9 @@ def main():
         'baseline_deck_sha256': boundary.sha(args.baseline),
         'baseline_last_time_s': boundary.raw_tail(args.baseline.parent/'trace.raw')[1],
         'cases': cases,
+        'interpretation': ('Removing Q201 allows 39.1 ms, but a linear BC capacitor alone and BJT models with zero CJC or all dynamic terms zero still stop at 39 ms. '
+                           'Neither BC capacitance nor a specific Q201 model parameter is established as a necessary physical cause. '
+                           'The isolated substitute is not a qualified source-circuit correction or a periodic connected field.'),
     }
     args.report.write_text(json.dumps(report, indent=2)+'\n')
     print(args.report)

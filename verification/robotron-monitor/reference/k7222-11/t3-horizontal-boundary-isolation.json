@@ -1,8 +1,9 @@
 {
-  "format": "dac-monitor-t3-horizontal-boundary-isolation-v5",
+  "format": "dac-monitor-t3-horizontal-boundary-isolation-v8",
   "qualification": "one-factor solver diagnosis; no edit is a source-circuit correction or a sustained field",
+  "baseline_contrast_topology": "conditional manual-Fig-6 equivalent; Q201 collector at contrast_low, unlike the page-3 source read at IS",
   "source_sha256": {
-    "producer": "748fa46d501b495cfd5f5c4fa2e16c4bbe99cdf8b6f9c7c18af1c95b57dca995",
+    "producer": "61f3aa9f77a11d4d09034f262007c7e6769a951a1562b0cfb55f7b9797a5d6ea",
     "steady_supply.py": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b"
   },
   "baseline_deck_sha256": "5ba1538882e4788d2f2b059afc4ab7483f53e237bdc9db74ce0b572b33f7b7df",
@@ -139,6 +140,43 @@
         "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_q201_cjc_low_n-instance q201",
         "run simulation(s) aborted"
       ]
+    },
+    {
+      "name": "q201_cjc_zero",
+      "change": "Q201 alone retains the BJT model with CJC set to zero for isolation, outside its registered bounds.",
+      "deck_sha256": "6a6ee3c0582dc1b89e328ea042e7c732b56861d562edff230c40cad773b5a6f1",
+      "raw_sha256": "ec87ef3cedfed9e3bb0eac6cd0fcea3b9662240dcd9d4ad8359845b31856698b",
+      "solver_log_sha256": "22bc2af58495758004e9d1365000bcf775acc0fdd1100b06c46d4911749bc933",
+      "solve_status": "failed",
+      "solve_elapsed_s": 201.82457079099999,
+      "solve_timeout": false,
+      "raw_complete_rows": 1040824,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_warnings": [],
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with node \"intensity_gate\"",
+        "run simulation(s) aborted"
+      ]
+    },
+    {
+      "name": "q201_static_bjt",
+      "change": "Q201 retains BJT DC junctions but CJE, CJC, TF and TR are all zeroed for isolation, outside registered bounds.",
+      "deck_sha256": "cc7c8ad4f3779dc391d672a492259d2f2b39c4dd61b65edf754109bd396c640d",
+      "raw_sha256": "2849e7c239ae962d78f4c0c9585b9a5a71b9045ddee228768ed5efee176f2de8",
+      "solver_log_sha256": "5204a3ac932a011511dbd21b4a82e867313919d9ccab911d61c529160a3722c7",
+      "solve_status": "failed",
+      "solve_elapsed_s": 202.934814916,
+      "solve_timeout": false,
+      "raw_complete_rows": 1040653,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_warnings": [],
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_q201_static_n-instance q201",
+        "run simulation(s) aborted"
+      ]
     }
-  ]
+  ],
+  "interpretation": "Removing Q201 allows 39.1 ms, but a linear BC capacitor alone and BJT models with zero CJC or all dynamic terms zero still stop at 39 ms. Neither BC capacitance nor a specific Q201 model parameter is established as a necessary physical cause. The isolated substitute is not a qualified source-circuit correction or a periodic connected field."
 }
