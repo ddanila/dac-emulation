@@ -615,6 +615,25 @@ cover other tubes, so their heater, deflection and cutoff numbers are not
 transferred to B31G22. The .11/.21 assembly drawing names B31G22; the manual
 itself supplies the focus criterion above. Tube parameters remain assumed.
 
+A further 2026-11-20 manufacturer-source check found the [RFT B 30 G 1 entry,
+printed page 29](https://frank.pocnet.net/other/RFT/RFT_Spezialroehren_1959.pdf):
+its 30 cm monochrome tube specifies a 6.3 V, approximately 0.47 A heater.
+This is a *comparator*, not a B31G22 identification. The active nominal
+electrothermal model, solved behind the documented 12 V rail and 15 ohm R22,
+settles at about 10.989 V, 0.0674 A and 0.741 W in the heater. Independently,
+the B30G1 operating point would need 6.3 + 0.47 × 15 = 13.35 V upstream of
+R22, above the model's 12 V rail. Thus the B30G1 values cannot be transferred
+as bounds or used to tune the installed heater. The
+[class-typical register](reference/k7222-11/class-typical-register.json)
+records this rejected comparator; the B31G22 heater and emission bounds remain
+open. The numerical model check is reproducible with `steady_supply.heater_equilibrium()`
+and `electrothermal.parameters()`.
+
+The A6 register now also carries T3's active HV turns, HV resistance and
+summed drive turns as three explicitly `assumed-bound` rows (204 total).
+The register test checks those rows against the live winding hypothesis; their
+presence records the gap and does not qualify the transformer.
+
 ## Native test content
 
 The [later S550/TOS/M capture](examples/phase-a-native-full-text/README.md)
