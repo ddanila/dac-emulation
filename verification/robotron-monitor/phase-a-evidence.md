@@ -3324,6 +3324,17 @@ The same stage still has a roughly 459 V collector peak, above the
 which is not a factory .11 limit. The AC-loss branch values, other T3
 sections, core, return graph, joint parameter bounds, and connected
 native-grid behavior remain unqualified. The stage has an ideal 41 V feed,
-prescribed V18 base drive and simplified yoke, and has not demonstrated
-line-to-line flux agreement or a sustained field. It cannot yet support a
-connected service score or selection of the original T3 graph.
+prescribed V18 base drive and simplified yoke; it has not demonstrated a
+sustained connected field. It cannot yet support a connected service score
+or selection of the original T3 graph.
+
+The same producer compares the last two 62.5 µs stage lines after
+interpolating collector voltage, horizontal yoke current and internal T3
+core flux at the union of all accepted sample phases. Their largest
+pointwise changes are 0.158%, 0.0095% and 0.0215% of the preceding line's
+swing, respectively. The collector therefore misses the plan's 0.1%
+stage-periodicity limit, although its line-to-line peak changes much less.
+A coarser 100 ns phase grid would miss the narrow collector difference.
+The median accepted solver step is 5.74 ns across the 4–5 ms window, below
+the plan's 20 ns budget. This stage remains short of both prerequisites for
+a connected run despite the TP17/EHT snapshot match.

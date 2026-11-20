@@ -14,7 +14,7 @@
     "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
     "t3_tp17_path_sweep.py": "90f13dd629d010f0b9ef37e4f32ef12c3568abb9f1ffffc79b876d4ced196b2d",
     "t3_loaded_return_screen.py": "d699fecb27e8a8157b94fa8e56fc867a8250a83628d66c8a1a41a4013d519c66",
-    "t3_ac_loss_candidate_screen.py": "ba161486020a45f9b82a7ea4cd424357753800f664c5494b7353a48337c19c59"
+    "t3_ac_loss_candidate_screen.py": "6db9df1bc22b069f97412edb63cbc07f3609f228321f02f8af84c9abdf299084"
   },
   "ngspice_sha256": "3e14f93f378ffcb37ec55e797b3da6099ce9ee6293a4fe7f203619299a5f9da9",
   "candidate_id": "t3-fc941ad61c50ce31",
@@ -267,6 +267,44 @@
       "snapshot_target_overlap": true
     }
   ],
+  "last_two_line_periodicity": {
+    "normalized_deck_sha256": "0670a823003bfb9c90145327111efb761e1f3b409acb1f602710c9e64f409710",
+    "sample_count": 23359,
+    "window_s": [
+      0.00400002876,
+      0.005
+    ],
+    "line_period_s": 6.25e-05,
+    "compared_line_intervals_s": [
+      [
+        0.004875,
+        0.0049375
+      ],
+      [
+        0.0049375,
+        0.005
+      ]
+    ],
+    "phase_samples": 2917,
+    "phase_selection": "union of accepted sample phases in both final lines, plus endpoints",
+    "waveform_agreement": {
+      "collector": {
+        "earlier_swing": 460.78425893,
+        "max_pointwise_difference_fraction_of_swing": 0.0015754076453626305
+      },
+      "yoke_current": {
+        "earlier_swing": 0.937441449,
+        "max_pointwise_difference_fraction_of_swing": 9.520269627559367e-05
+      },
+      "core_flux": {
+        "earlier_swing": 0.366542298,
+        "max_pointwise_difference_fraction_of_swing": 0.00021529351573634317
+      }
+    },
+    "all_three_under_0_1_percent": false,
+    "median_accepted_step_s": 5.740000000049178e-09,
+    "solver_budget_median_at_least_20_ns": false
+  },
   "ten_turn_refinement": {
     "tp17_fractional_step_change": 0.0011655385466132157,
     "eht_fractional_step_change": 0.0008725543000379117,
@@ -276,6 +314,7 @@
   },
   "remaining": [
     "Source-qualify or bound the return graph and AC-loss model.",
+    "Improve the sub-20-ns median solver step before a connected run.",
     "Check joint parameter bounds, collector stress and connected native-grid periodicity before any A5 freeze."
   ]
 }
