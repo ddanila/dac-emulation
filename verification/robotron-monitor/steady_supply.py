@@ -31,11 +31,21 @@ OUTPUT_CONTRACTS = dict(HORIZONTAL_CHOKE=2, HORIZONTAL_LINEARITY=2,
     T3_CANDIDATE=19)
 CONTRAST_TOPOLOGIES = ('detailed-page3-4', 'manual-fig6-equivalent')
 MAGNETIC_BACKENDS = ('flux', 'coupled')
+T3_RETURN_VARIANTS = ('schematic', 'hv-only-grounded')
 T3_EQUIVALENT_LABEL = 'T3_PASSIVE_COUPLED_EQUIVALENT'
 T3_SOURCE_OVERWIND_LABEL = 'T3_CLASS_TYPICAL_OVERWIND_EQUIVALENT'
+T3_GROUNDED_AC_LOSS_LABEL = 'T3_PASSIVE_COUPLED_AC_LOSS_HV_COLD_GROUNDED_EQUIVALENT'
+T3_GROUNDED_GRAPH_LABEL = 'T3_HV_COLD_GROUNDED_GRAPH_ALTERNATIVE'
 
 
-def t3_equivalent_label(parameters):
+def t3_equivalent_label(parameters, return_variant='schematic'):
+    if return_variant == 'hv-only-grounded':
+        sections = [part for group in parameters.get('groups', {}).values()
+                    for part in group]
+        if ('high_voltage_coupling' in parameters and sections and
+                all('skin_resistance_ohm' in part for part in sections)):
+            return T3_GROUNDED_AC_LOSS_LABEL
+        return T3_GROUNDED_GRAPH_LABEL
     return (T3_SOURCE_OVERWIND_LABEL if 'high_voltage_coupling' in parameters
             else T3_EQUIVALENT_LABEL)
 PROBES = ('v(eht)', 'v(g2)', 'v(g4)', 'v(cathode)', 'i(Lhorizontal)',
@@ -288,6 +298,37 @@ def assemble(output, *, yoke_path=None):
                 coverage=reference.coverage(inv,[c for c in components if not c['source_id'].startswith('1715w:')]))
 
 
+def apply_t3_return_variant(assembly, variant):
+    """Carry a labelled alternative when the page-4 HV cold end is unread."""
+    if variant not in T3_RETURN_VARIANTS:
+        raise ValueError('unknown T3 return variant')
+    transcription=json.loads((ROOT/'reference/k7222-11/horizontal-output-transcription.json').read_text())
+    t3=next(part for part in assembly['components']
+            if part['source_id']=='012-6921:T3')
+    ports=transcription['ports']
+    if len(ports)!=len(t3['nodes']):
+        raise ValueError('T3 return port count changed')
+    original=dict(zip(ports,t3['nodes']))
+    selected=original.copy()
+    if variant=='hv-only-grounded':
+        if (original['X1_16']!='h_hvcold' or
+                original['X1_7']!='h_hvcold' or
+                original['X1_3']!=original['X2_3']):
+            raise ValueError('T3 source return hypothesis changed')
+        selected['X1_16']='0'
+        selected['X1_7']='h_hvcold'
+        t3['nodes']=[selected[port] for port in ports]
+    assembly['t3_return_variant']=variant
+    assembly['t3_return_pins']={port:selected[port] for port in
+                                ('X1_3','X2_3','X1_7','X1_16')}
+    return dict(format='dac-monitor-t3-return-variant-v1',variant=variant,
+                source_id=t3['source_id'],ports=ports,
+                original_pins={port:original[port] for port in
+                               ('X1_3','X2_3','X1_7','X1_16')},
+                selected_pins=assembly['t3_return_pins'],
+                qualification='labelled conditional source-graph alternative; original .11 HV cold end unresolved')
+
+
 INITIAL_VOLTAGE_BOUNDS = {'eht': (0.,25000.), 'h_boost': (0.,150.),
     'h_g2raw': (0.,1000.), 'h_divtop': (0.,1000.), 'h_g1raw': (-200.,0.)}
 
@@ -373,6 +414,9 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         raise ValueError('invalid linear solver/current tolerance')
     if magnetic_backend not in MAGNETIC_BACKENDS:
         raise ValueError('unknown T3 magnetic backend')
+    return_variant=assembly.get('t3_return_variant','schematic')
+    if return_variant not in T3_RETURN_VARIANTS:
+        raise ValueError('unknown T3 return variant')
     initial_voltages=dict(initial_voltages or {})
     for node,value in initial_voltages.items():
         if node not in INITIAL_VOLTAGE_BOUNDS or type(value) not in (int,float) or not math.isfinite(value) or not INITIAL_VOLTAGE_BOUNDS[node][0]<=value<=INITIAL_VOLTAGE_BOUNDS[node][1]:
@@ -409,6 +453,8 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         title += ('; T3 class-typical overwind equivalent'
                   if 'high_voltage_coupling' in parameters else
                   '; T3 passive coupled equivalent')
+    if return_variant=='hv-only-grounded':
+        title += '; conditional T3 HV cold end grounded'
     if contrast_topology == 'manual-fig6-equivalent':
         title += '; manual Fig. 6 contrast equivalent'
     lines=[title]
@@ -450,6 +496,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         'Rhorizontal hy1 h_winding {yoke_horizontal_r}','Lhorizontal h_winding hy2 {yoke_horizontal_l}',
         'Rvertical y1 v_winding {yoke_vertical_r}','Lvertical v_winding y2 {yoke_vertical_l}',
         'Rcapmid h_rectmid 0 {isolated_cap_leakage}','Ryokeleak hy1 0 {isolated_cap_leakage}',
+        *(['Rhvcoldref h_hvcold 0 1G'] if return_variant=='hv-only-grounded' else []),
         f'.options {linear_solver} reltol={reltol} abstol={abstol} vntol=1e-6 method=gear',
         '.save time '+' '.join(PROBES),
         *(['.ic '+' '.join(f'v({n})={v:.15g}' for n,v in sorted(initial_voltages.items()))] if initial_voltages else []),
@@ -468,16 +515,22 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     text='\n'.join(lines)+'\n'
     equivalent_stages = []
     if magnetic_backend == 'coupled':
-        equivalent_stages.append(t3_equivalent_label(parameters))
+        equivalent_stages.append(t3_equivalent_label(parameters,return_variant))
         assumptions.append(
             'T3 overwind uses cross-revision/class-typical turns, resistance, capacitance and primary coupling; other sections, core and original .11 graph remain provisional.'
             if 'high_voltage_coupling' in parameters else
             'T3 passive coupled equivalent uses provisional section resistance, leakage, capacitance and core slope with coupling 0.999; original graph and bounds are unqualified.')
+    elif return_variant=='hv-only-grounded':
+        equivalent_stages.append(T3_GROUNDED_GRAPH_LABEL)
+    if return_variant=='hv-only-grounded':
+        assumptions.append('Conditional T3 graph grounds HV cold end X1:16, leaves X1:7 on a separate 1 Gohm-referenced node, and retains the X1:3/X2:3 tie; factory .11 return is unresolved.')
     if contrast_topology == 'manual-fig6-equivalent':
         equivalent_stages.append('manual-fig6-contrast-control')
     metadata=dict(candidate=meta,thermal=thermal,period_s=period,source_kind=source_kind,
         contrast_topology=contrast_topology,
-        magnetic_backend=magnetic_backend,equivalent_stages=equivalent_stages,
+        magnetic_backend=magnetic_backend,t3_return_variant=return_variant,
+        t3_return_pins=assembly.get('t3_return_pins'),
+        equivalent_stages=equivalent_stages,
         simulated_fields=fields,retained_fields=4,assumptions=assumptions,
         yoke=yoke,initial_voltage_guesses=initial_voltages,initialization='DC operating point with optional voltage guesses; not a periodic-state checkpoint',
         r5_equivalent=dict(source_ids=['012-6931:R5','012-6931:R6','012-6931:R7'],
@@ -670,7 +723,7 @@ def score_trial(trial, metadata):
                 point_statuses={str(point['test_point']):point['status'] for point in result['points']})
 
 
-def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None, calibration_freeze=None, contrast_topology='detailed-page3-4', magnetic_backend='flux'):
+def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None, calibration_freeze=None, contrast_topology='detailed-page3-4', magnetic_backend='flux', t3_return_variant='schematic'):
     """Archive and screen the assembled hypotheses under a single wall budget.
 
     No successful solve or plausible picture is promoted to a verified frame.
@@ -682,8 +735,12 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         raise ValueError('unknown contrast topology')
     if magnetic_backend not in MAGNETIC_BACKENDS:
         raise ValueError('unknown T3 magnetic backend')
+    if t3_return_variant not in T3_RETURN_VARIANTS:
+        raise ValueError('unknown T3 return variant')
     if calibration_freeze is not None and magnetic_backend != 'flux':
         raise ValueError('current calibration freeze does not bind an equivalent T3 backend')
+    if calibration_freeze is not None and t3_return_variant != 'schematic':
+        raise ValueError('current calibration freeze does not bind a T3 return alternative')
     out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     begin=time.monotonic();deadline=begin+wall_budget_hours*3600
     search_deadline=begin+wall_budget_hours*3600*2/3
@@ -691,7 +748,9 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         qualification='experimental-connected-electrical-screen',full_monitor_qualified=False,
         specimen_validated=False,validation_reserved_s=wall_budget_hours*1200,mode='steady-supply-frame',outputs={},candidates=[],blockers=[],
         contrast_topology=contrast_topology,magnetic_backend=magnetic_backend,
+        t3_return_variant=t3_return_variant,
         equivalent_stages=([T3_EQUIVALENT_LABEL] if magnetic_backend == 'coupled' else [])+
+                          ([T3_GROUNDED_GRAPH_LABEL] if magnetic_backend != 'coupled' and t3_return_variant=='hv-only-grounded' else [])+
                           (['manual-fig6-contrast-control']
                            if contrast_topology == 'manual-fig6-equivalent' else []))
     def save():
@@ -732,6 +791,12 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         assembly['contrast_topology']=contrast_topology
         assembly['capture_sha256']=report['capture_sha256']
         assembly['source_kind']=source_kind
+        if t3_return_variant!='schematic':
+            variant_record=apply_t3_return_variant(assembly,t3_return_variant)
+            variant_bytes=(json.dumps(variant_record,indent=2)+'\n').encode()
+            (out/'assembly/t3-return-variant.json').write_bytes(variant_bytes)
+            assembly['hashes']['t3-return-variant.json']=lab.digest(variant_bytes)
+            report['outputs']['t3_return_variant']='assembly/t3-return-variant.json'
         if magnetic_parameters is not None:
             raw_parameters=Path(magnetic_parameters).read_bytes()
             (out/'assembly/magnetic-override.json').write_bytes(raw_parameters)
@@ -739,7 +804,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
             assembly['hashes']['magnetic-override.json']=lab.digest(raw_parameters)
         if magnetic_backend == 'coupled':
             report['equivalent_stages'][0] = t3_equivalent_label(
-                assembly.get('magnetic_parameters') or {})
+                assembly.get('magnetic_parameters') or {},t3_return_variant)
         report['hashes']=assembly['hashes'];report['coverage']=assembly['coverage']
         report['outputs']['assembly']='assembly'
         report['tuning']=tune(assembly,selection,changes)
