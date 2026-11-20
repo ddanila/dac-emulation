@@ -2632,3 +2632,26 @@ pull-up cannot reach the manual level, and a future equivalent needs both
 sufficient voltage and current drive. This sweep does not identify the
 original V5 drive, establish the manual contrast transfer, or qualify CRT
 emission and service-meter observations.
+
+### A1 document conflict: detailed contrast graph versus manual Fig. 6 (2026-11-20)
+
+The detailed page-3/4 source read places V5's upper lead at IS and V1's
+lower lead at KRS, the external contrast wiper/low contact. The operating
+manual's functional Fig. 6 instead puts V1's lower lead at IS and V5 at the
+lower contrast contact. The
+[fixed-logic topology comparison](reference/k7222-11/page3-4-manual-topology-comparison.json)
+keeps the same input, neck, diode and transistor models and moves only those
+two leads and V1's printed 5.1 kΩ emitter shunt. It tests the listed 9.1 V
+V4 and a separate hypothetical 15 V V4, two R2 positions and two bounded
+brightness positions. The 15 V variant tests the manual's reference label;
+it does not replace the factory-list zener value.
+
+At brightness position 0, the detailed topology gives about 0.341 V at
+the bright cathode with no R2 response. The swapped topology with 9.1 V V4
+gives 13.56–16.48 V and a 2.92 V span across R2 when incoming INTENS is low;
+all three compared topologies keep dark video near 33.69 V. With incoming
+INTENS high, however, the swap gives about 16.49 V at both R2 endpoints.
+The manual describes the V5/contrast action for INTENS = 1. Its logic
+polarity cannot be checked against the provisional T200 model here, so the
+terminal swap is a useful functional alternative but does not settle which
+document maps the K7222.11 board pins or justify changing the active sheet.
