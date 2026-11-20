@@ -421,7 +421,7 @@ equivalent-stage fallbacks without human approval or a physical measurement.
 |---|---|---|
 | A1 | The independent page-3/4 and 9/10 netlists, page-18 contrast/service-meter response, and page-16 source-observation check are incomplete. The [T2/L4 seam reread](reference/k7222-11/page3-4-t2-l4-source-read.json) confirms local V18/R36 and T2-primary edges but cannot establish T2 secondary phase/return or the installed E2 setting. T3 return and tap order remain unverified. | Finish the pin-to-pin source comparisons; keep unresolved seam connections as bounded alternatives. |
 | A2 | All 64 assembled frame-path devices have provisional register rows, but none passes every parameter-qualification check. The [implicit-default audit](reference/k7222-11/a2-implicit-default-audit.json) finds 12 semiconductor instances in 11 register entries still relying on screened simulator defaults. V18 and V13 now declare high-current roll-off, series resistances, junction shape and temperature assumptions; selected 25 °C class corners pass, but original identities, joint bounds, inductive switching and connected stress remain unqualified. | Make the other defaults explicit, qualify their bounds and connected operating stress, then finish the remaining device checks. |
-| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The refreshed 2 ms startup run ends at 5.143 kV EHT, below the sustained 11–12 kV target. With the revised V18 model, 34 of 36 ideal-TP15 fallback cases complete, and all completed cases exceed the 9 V V18 reverse-base class limit, including the two apparent EHT matches. The prescribed-V13 T2/L4 sweep has no TP15 or EHT match among 24 completed cases; the [eight-case L4-path bound](reference/k7222-11/t2-l4-topology-sensitivity.json) remains conditional. | Resolve or bound the T2 secondary/drive and L4 base path, then reach and score a stable connected operating state with the native grid stimulus. |
+| A3 | No sustained connected native-grid run has been scored against all required waveform and probe conditions. The refreshed 2 ms startup run ends at 5.143 kV EHT, below the sustained 11–12 kV target. With the revised V18 model, 34 of 36 ideal-TP15 fallback cases complete, and all completed cases exceed the 9 V V18 reverse-base class limit, including the two apparent EHT matches. The prescribed-V13 T2/L4 sweep has no TP15 or EHT match among 24 completed cases; the [eight-case L4-path bound](reference/k7222-11/t2-l4-topology-sensitivity.json) remains conditional. | Resolve or bound the T2 secondary/drive and L4 base path, locate the connected horizontal-sync loss, demonstrate step-size convergence, then score a stable native-grid operating state. |
 | A4 | Done. | No remaining Phase A action. |
 | A5 | T3's source return/tap graph, winding ratios and polarities are unresolved; the yoke/tube design point remains conditional. | Resolve the source graph or use the plan's labelled bounded equivalent, then verify the full design point. |
 | A6 | The 300-entry class-typical register is partial: V18's and V13's 18 active parameter rows each include provisional engineering bounds, and exact B31G22 cold/thermal/emission and G4-dependent cut-off data, T3 parasitics, yoke sensitivity and other frame-path bounds are not qualified. | Complete sourced bounds and the affected stage checks. |
@@ -434,6 +434,19 @@ The current monitor toolchain passes `make test-monitor` with a verified pinned
 runtime (310 tests, no skips, Python 3.9.6). This verifies the checks and
 saved-report consistency; it does not supply the missing A1, A2, A3, A5 or A6
 evidence in the table.
+
+A [bounded native-grid four-field attempt](reference/k7222-11/native-grid-four-field-bounded-attempt.json)
+with the current V13/V18 models and conditional manual contrast wiring did
+not complete. The [50 ns partial
+trace](reference/k7222-11/native-grid-50ns-partial-diagnostic.json) reaches
+16.126 ms before a controlled stop; the [200 ns partial
+trace](reference/k7222-11/native-grid-200ns-partial-diagnostic.json) reaches
+36.435 ms before its 596 s solve budget expires. Their time-weighted EHT
+means over 15–16 ms are 7.936 and 9.668 kV, a 21.8% disagreement. The
+200 ns trace later rises above 12 kV, but neither run yields a completed
+three-field lock or waveform score, and neither resolution is qualified by
+the other. Resolve the driver/topology and numerical sensitivity before
+using a voltage crossing as A3 or A5 evidence.
 
 A renewed page-3/4 source read separates incoming X9:5 INTENS
 (`rx_intens`), V5's IS output to neck X3:2 (`intens`), and the panel HRS wiper

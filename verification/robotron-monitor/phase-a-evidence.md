@@ -3031,3 +3031,31 @@ With `MONITOR_RUNTIME=build/monitor/runtime-phase-a-gcc16-verified`, the
 full `make test-monitor` suite passes 310 tests with no skips on Python
 3.9.6. This verifies the refreshed receipts and tool contracts; the A1,
 A2, A3, A5 and A6 completion evidence is still missing.
+
+### A3: bounded native-grid four-field attempt (2026-11-20)
+
+The [bounded-attempt receipt](reference/k7222-11/native-grid-four-field-bounded-attempt.json)
+records both solver outcomes and the shared-resolution comparison. The
+connected runner used the archived native logical capture, verified
+`runtime-phase-a-gcc16-verified`, conditional `t3-fc941ad61c50ce31` sign
+candidate and `manual-fig6-equivalent` contrast wiring. Both trials used
+KLU, relative tolerance 0.002 and absolute tolerance 10⁻⁸ A. Their raw
+traces remain under `build/monitor/phase-a/native-v13-v18-grid-*/`; the
+small [50 ns](reference/k7222-11/native-grid-50ns-partial-diagnostic.json)
+and [200 ns](reference/k7222-11/native-grid-200ns-partial-diagnostic.json)
+diagnostics preserve trace hashes, complete-row counts and 1 ms time-weighted
+voltage bins. The first solve was deliberately stopped after 257 s because
+its progress projected beyond the search budget; it has 983,665 complete
+rows through 16.126 ms. The second exhausted its 596 s solve budget and
+has 2,063,542 complete rows through 36.435 ms. Neither reached the required
+four-field endpoint, so the runner reported no accepted three-field lock or
+service score.
+
+At the shared 15–16 ms interval, the 50 ns trace averages 7.936 kV EHT and
+the 200 ns trace 9.668 kV, a 21.8% resolution difference. The finer trace
+shows four 100 V horizontal-sync upcrossings in its 13–14 ms bin and none
+in the following bins through 16.126 ms. The coarser trace shows seven in
+29–30 ms and none in its subsequent complete bins. Its EHT exceeds 12 kV
+in late bins, but that crossing is not a converged steady state. The current
+source graph, numerical stiffness, and absent sustained horizontal train
+block a native-grid A3 score; the unfinished traces cannot qualify A5.
