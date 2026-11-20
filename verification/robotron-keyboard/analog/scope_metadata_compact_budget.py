@@ -6,6 +6,14 @@ import scope_metadata_board_budget as previous
 from scope_metadata_compact import Decoder
 
 
+def plain_sum(values):
+    """Left-to-right float sum. Built-in sum() is compensated from Python 3.12,
+    which changes the last digits of the retained timing means."""
+    total=0.0
+    for value in values:total+=value
+    return total
+
+
 def review(root):
     prior=previous.review(root);results={};timings={k:[] for k in ('metadata','references')}
     for line in (root/'metadata-compact-budget.txt').read_text().splitlines():
@@ -32,9 +40,9 @@ def review(root):
         unchanged_bytes=records[0]+sum(len(f'{decoder.tag}_BEGIN 1 {2**64-1} {n} 0 {body_bytes}\n{decoder.tag}_END\n') for n in range(2,calls+1))
         results[key]=dict(records=64,fullImages=1,reusedImages=63,denseBytes=64*len(dense.encode()),
             compactBytes=sum(records),firstRecordBytes=records[0],lastRecordBytes=records[-1],cachedBodyBytes=body_bytes,
-            firstScanSeconds=values[0],repeatMeanSeconds=sum(values[1:])/63,minSeconds=min(values),maxSeconds=max(values),
+            firstScanSeconds=values[0],repeatMeanSeconds=plain_sum(values[1:])/63,minSeconds=min(values),maxSeconds=max(values),
             unchangedBodyProjection=dict(snapshotCalls=calls,logicalBytesWithMaximumTickWidth=unchanged_bytes,
-                scanSeconds=values[0]+(calls-1)*sum(values[1:])/63))
+                scanSeconds=values[0]+(calls-1)*plain_sum(values[1:])/63))
     return dict(qualified=False,controlsPassed=True,allDenseImagesExactlyReconstructed=True,initializedBoard=prior,
         compactMeasurements=results,cachedBodyContentBytes=sum(v['cachedBodyBytes'] for v in results.values()),
         scope='All 64 metadata and 64 reference records from the initialized actual keyboard reconstruct dense bytes exactly. Complete native scans remain enabled and dense post-scan images are unchanged. Timings include serialization and file flush. Cached content byte counts exclude allocator capacity, transient buffers and peak RSS. Future projections assume unchanged bodies; changed-state output, combined operational cost and lifecycle remain unqualified.')
