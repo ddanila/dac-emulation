@@ -9,6 +9,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 REF = ROOT / 'reference/k7222-11'
 DRIVE = REF / 't3-drive-polarity-source-read.json'
+RETURN_SOURCE = REF / 'page4-t3-x2-return-source-netlist.json'
+RETURN_COMPARE = REF / 'page4-t3-x2-return-comparison.json'
 TRANSCRIPTION = REF / 'horizontal-output-transcription.json'
 DESIGN = REF / 'design-point.json'
 
@@ -19,6 +21,8 @@ def sha(path):
 
 def run():
     drive = json.loads(DRIVE.read_text())
+    return_read = json.loads(RETURN_SOURCE.read_text())
+    return_compare = json.loads(RETURN_COMPARE.read_text())
     assembly = json.loads(TRANSCRIPTION.read_text())
     design = json.loads(DESIGN.read_text())
     source = drive['source_edges']
@@ -27,6 +31,11 @@ def run():
     if source['output_transistor_collector'] != dict(part='V18', terminal='C',
                                                      t3_terminal='X2:7'):
         raise ValueError('source-read collector connection changed')
+    if (return_read['source']['pdf_sha256'] != drive['source_pdf_sha256'] or
+            return_compare['source_sha256'] != sha(RETURN_SOURCE) or
+            not return_compare['passed'] or
+            not all(return_compare['checks'].values())):
+        raise ValueError('source-read X2:4 external return changed')
     ports = assembly['port_nets']
     if ports['X2_7'] != 'h_hot' or ports['X2_4'] != 'h_return':
         raise ValueError('candidate assembly drive nets changed')
@@ -41,17 +50,19 @@ def run():
         raise ValueError('design-point collector proxy changed')
     return dict(
         format='dac-monitor-t3-drive-voltage-audit-v1',
-        qualification='source-read drive terminals plus unvalidated assembly-candidate return; no measured differential pulse or T3 ratio',
+        qualification='source-read drive pair and scoped X2:4/C31/C32 external return; no full page-4 netlist, measured differential pulse or T3 ratio',
         source_pdf_sha256=drive['source_pdf_sha256'],
         inputs_sha256={str(path.relative_to(ROOT)): sha(path)
-                       for path in (DRIVE, TRANSCRIPTION, DESIGN, Path(__file__))},
+                       for path in (DRIVE, RETURN_SOURCE, RETURN_COMPARE,
+                                    TRANSCRIPTION, DESIGN, Path(__file__))},
         source_read_drive_terminals=source['drive_winding_endpoints'],
+        source_read_return_branch=return_read['scope']['nets'],
         candidate_assembly_nets={'X2:7': ports['X2_7'], 'X2:4': ports['X2_4']},
         candidate_return_branches=return_parts,
         existing_design_point_equation=ratio['equation'],
         required_drive_voltage='V(X2:7)-V(X2:4) = V(h_hot)-V(h_return) in the assembly candidate',
-        conclusion='EHT divided by collector-to-ground peak is a conditional voltage proxy, not the T3 HV-to-drive turns ratio. X2:4 is a distinct candidate return node and its flyback waveform is not source-bounded. Neither the 28.24-35.94 collector proxy nor the 1808-2300 turn scale may qualify T3 turns.',
-        next='Source-qualify X2:4 return and obtain a bounded differential X2:7-to-X2:4 flyback pulse before using EHT to derive an HV/drive ratio; retain the existing turn sweep as an isolated sensitivity only.')
+        conclusion='EHT divided by collector-to-ground peak is a conditional voltage proxy, not the T3 HV-to-drive turns ratio. X2:4 has a source-read C31/C32 external branch, but its flyback waveform is not source-bounded. Neither the 28.24-35.94 collector proxy nor the 1808-2300 turn scale may qualify T3 turns.',
+        next='Complete the page-4 return-path netlist and obtain a bounded differential X2:7-to-X2:4 flyback pulse before using EHT to derive an HV/drive ratio; retain the existing turn sweep as an isolated sensitivity only.')
 
 
 if __name__ == '__main__':
