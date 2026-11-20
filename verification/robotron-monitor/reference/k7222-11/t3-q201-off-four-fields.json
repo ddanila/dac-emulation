@@ -1,8 +1,8 @@
 {
-  "format": "dac-monitor-t3-q201-off-long-screen-v2",
+  "format": "dac-monitor-t3-q201-off-long-screen-v3",
   "qualification": "conditional T3 / manual-Fig-6 contrast diagnostic with Q201 removed; no source-circuit, periodicity or A5 qualification",
   "source_sha256": {
-    "t3_q201_off_long_screen.py": "7bf9187b6e84404259020b43efb2342cb396b159ca5192beb7c0aba1e3e4aadb",
+    "t3_q201_off_long_screen.py": "cd964712a878072b2d5203884119dd69ccf569edbe38fc73795c2376f9acb160",
     "steady_supply.py": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b"
   },
   "short_deck_sha256": "3f1524f1a5e65e03f7b7d277ad909f29041e87e2742d1a6e3ad5cff2330d94e2",
@@ -33,6 +33,10 @@
         "eht_max_v": 11480.0,
         "h_sync_min_v": -66.28545005227006,
         "h_sync_max_v": 11.379325221454657,
+        "h_hot_peak_v": 450.4135490468282,
+        "v18_base_min_v": -23.53024087174539,
+        "v18_base_max_v": 1.0980921873188971,
+        "v18_base_below_minus_9v_duration_s": 6.372616070634475e-05,
         "h_hot_upcrossings_100v": 316,
         "eht_time_mean_v": 10915.697211595858,
         "tp17_mapped_swing_vpp": 77.66477527372473
@@ -45,6 +49,10 @@
         "eht_max_v": 10927.811653861394,
         "h_sync_min_v": -66.76470596187603,
         "h_sync_max_v": 11.24997568870138,
+        "h_hot_peak_v": 452.9260008084002,
+        "v18_base_min_v": -18.50760764924571,
+        "v18_base_max_v": 0.7060122759711577,
+        "v18_base_below_minus_9v_duration_s": 6.345694327707443e-05,
         "h_hot_upcrossings_100v": 316,
         "eht_time_mean_v": 10858.276598066941,
         "tp17_mapped_swing_vpp": 78.01468165057742
@@ -57,6 +65,10 @@
         "eht_max_v": 10684.352314360958,
         "h_sync_min_v": -66.72549497245895,
         "h_sync_max_v": 11.21457946297903,
+        "h_hot_peak_v": 449.77549650070335,
+        "v18_base_min_v": -18.54540794497289,
+        "v18_base_max_v": 0.7105260848841969,
+        "v18_base_below_minus_9v_duration_s": 6.465240314117854e-05,
         "h_hot_upcrossings_100v": 317,
         "eht_time_mean_v": 10541.454994548081,
         "tp17_mapped_swing_vpp": 77.94007443543798
@@ -69,6 +81,10 @@
         "eht_max_v": 10482.467349953122,
         "h_sync_min_v": -66.80717245730042,
         "h_sync_max_v": 11.203778827390003,
+        "h_hot_peak_v": 451.8243855461453,
+        "v18_base_min_v": -19.18737314141812,
+        "v18_base_max_v": 0.7235399196216299,
+        "v18_base_below_minus_9v_duration_s": 6.538129457163422e-05,
         "h_hot_upcrossings_100v": 318,
         "eht_time_mean_v": 10446.99592963997,
         "tp17_mapped_swing_vpp": 78.01095128469044
@@ -84,7 +100,17 @@
       316,
       317,
       318
-    ]
+    ],
+    "v18_reverse_base_9v_class_comparator": {
+      "basis": "BU508AF-class reverse emitter-base absolute maximum; not a rating for the unidentified original V18",
+      "limit_v": -9.0,
+      "below_limit_duration_s_by_field": [
+        6.372616070634475e-05,
+        6.345694327707443e-05,
+        6.465240314117854e-05,
+        6.538129457163422e-05
+      ]
+    }
   },
   "field_boundary_samples": {
     "field_1": {

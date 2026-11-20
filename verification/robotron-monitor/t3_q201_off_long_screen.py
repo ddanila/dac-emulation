@@ -22,12 +22,25 @@ FOUR = '.tran 5e-08 0.078 0 5e-08'
 FIELD_S = .0195
 
 
+def below_duration(left, right, first, second, limit):
+    """Duration below a limit for a linearly interpolated voltage segment."""
+    if first < limit and second < limit:
+        return right-left
+    if first >= limit and second >= limit:
+        return 0.
+    crossing = left+(limit-first)*(right-left)/(second-first)
+    return crossing-left if first < limit else right-crossing
+
+
 def summarize_raw(path):
     """Read complete real rows, allowing zero-duration solver event pairs."""
     digest = hashlib.sha256()
     fields = [dict(index=i+1, rows=0, duration_s=0., eht_volt_seconds=0.,
                    eht_min_v=float('inf'), eht_max_v=-float('inf'),
                    h_sync_min_v=float('inf'), h_sync_max_v=-float('inf'),
+                   h_hot_peak_v=-float('inf'),
+                   v18_base_min_v=float('inf'), v18_base_max_v=-float('inf'),
+                   v18_base_below_minus_9v_duration_s=0.,
                    h_hot_upcrossings_100v=0) for i in range(4)]
     previous = None
     rows = duplicates = trailing = 0
@@ -49,7 +62,8 @@ def summarize_raw(path):
         if len(names) != count or names[0] != 'time':
             raise ValueError('invalid raw variable table')
         indices = [names.index(name) for name in
-                   ('v(eht)', 'v(h_sync)', 'v(h_hot)')]
+                   ('v(eht)', 'v(h_sync)', 'v(h_hot)',
+                    'v(h_outputbase)')]
         unpack = struct.Struct('='+str(count)+'d')
         while data := stream.read(unpack.size):
             digest.update(data)
@@ -60,7 +74,7 @@ def summarize_raw(path):
             if not all(map(math.isfinite, values)):
                 raise ValueError('nonfinite raw sample')
             t = values[0]
-            eht, sync, hot = (values[i] for i in indices)
+            eht, sync, hot, base = (values[i] for i in indices)
             if t < 0 or (previous is not None and t < previous[0]):
                 raise ValueError('backward raw time')
             if previous is not None and t == previous[0]:
@@ -72,8 +86,11 @@ def summarize_raw(path):
             field['eht_max_v'] = max(field['eht_max_v'], eht)
             field['h_sync_min_v'] = min(field['h_sync_min_v'], sync)
             field['h_sync_max_v'] = max(field['h_sync_max_v'], sync)
+            field['h_hot_peak_v'] = max(field['h_hot_peak_v'], hot)
+            field['v18_base_min_v'] = min(field['v18_base_min_v'], base)
+            field['v18_base_max_v'] = max(field['v18_base_max_v'], base)
             if previous is not None:
-                t0, e0, _, h0 = previous
+                t0, e0, _, h0, b0 = previous
                 if h0 < 100 <= hot:
                     fields[min(int(t/FIELD_S), 3)]['h_hot_upcrossings_100v'] += 1
                 left = t0
@@ -84,10 +101,14 @@ def summarize_raw(path):
                         right = t
                     el = e0+(eht-e0)*(left-t0)/(t-t0)
                     er = e0+(eht-e0)*(right-t0)/(t-t0)
+                    bl = b0+(base-b0)*(left-t0)/(t-t0)
+                    br = b0+(base-b0)*(right-t0)/(t-t0)
                     fields[part]['eht_volt_seconds'] += (el+er)*(right-left)/2
                     fields[part]['duration_s'] += right-left
+                    fields[part]['v18_base_below_minus_9v_duration_s'] += (
+                        below_duration(left, right, bl, br, -9.))
                     left = right
-            previous = (t, eht, sync, hot)
+            previous = (t, eht, sync, hot, base)
             rows += 1
     if rows < 2:
         raise ValueError('trace lacks complete rows')
@@ -97,7 +118,9 @@ def summarize_raw(path):
         field['tp17_mapped_swing_vpp'] = (field['h_sync_max_v']-field['h_sync_min_v']
                                          if field['rows'] else None)
         if not field['rows']:
-            for name in ('eht_min_v', 'eht_max_v', 'h_sync_min_v', 'h_sync_max_v'):
+            for name in ('eht_min_v', 'eht_max_v', 'h_sync_min_v',
+                         'h_sync_max_v', 'h_hot_peak_v', 'v18_base_min_v',
+                         'v18_base_max_v'):
                 field[name] = None
     return {'sha256': digest.hexdigest(), 'declared_points': declared,
             'complete_rows': rows, 'trailing_bytes': trailing,
@@ -135,7 +158,7 @@ def summarize(short_directory, long_directory, runtime, timeout_s):
     eht_means = [field['eht_time_mean_v'] for field in trace['fields']]
     late_means = [value for value in eht_means[1:] if value is not None]
     return {
-        'format': 'dac-monitor-t3-q201-off-long-screen-v2',
+        'format': 'dac-monitor-t3-q201-off-long-screen-v3',
         'qualification': 'conditional T3 / manual-Fig-6 contrast diagnostic with Q201 removed; no source-circuit, periodicity or A5 qualification',
         'source_sha256': {name: boundary.sha(ROOT/name) for name in
                           ('t3_q201_off_long_screen.py', 'steady_supply.py')},
@@ -166,6 +189,13 @@ def summarize(short_directory, long_directory, runtime, timeout_s):
                 if trace['fields'][3]['rows'] else None),
             'h_hot_upcrossings_100v_by_field': [field['h_hot_upcrossings_100v']
                                                 for field in trace['fields']],
+            'v18_reverse_base_9v_class_comparator': {
+                'basis': 'BU508AF-class reverse emitter-base absolute maximum; not a rating for the unidentified original V18',
+                'limit_v': -9.,
+                'below_limit_duration_s_by_field': [
+                    field['v18_base_below_minus_9v_duration_s']
+                    for field in trace['fields']],
+            },
         },
         'field_boundary_samples': samples,
         'interpretation': 'A Q201-off solve can locate later connected numerical stops, but its transistor removal and conditional T3/contrast topology cannot qualify a source-circuit operating point.',

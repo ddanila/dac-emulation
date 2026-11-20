@@ -3491,6 +3491,18 @@ the source input stage or its labelled equivalent, then correct the
 connected T3/drive operating point and demonstrate periodicity and
 refinement.
 
+The same full trace exposes a connected V18 drive-stress problem. Q1133's
+base (`h_outputbase`) reaches −23.53, −18.51, −18.55 and −19.19 V by field;
+it spends about 64–65 µs per field below the 9 V reverse emitter-base
+[BU508AF-class comparator](reference/k7222-11/horizontal-output-transistor-dc-check.json).
+That comparator is not a measured rating for the unidentified original V18,
+but the active BJT model has no reverse-breakdown mechanism, so these
+excursions cannot be treated as qualified operating stress. The connected
+collector peaks at about 450–453 V, near the conditional prescribed-drive
+stage's roughly 459 V, even as EHT drops. The source T2/L4 drive graph,
+base waveform and joint output-stage stress must be resolved before this T3
+candidate can be frozen; the Q201 bypass alone cannot do it.
+
 ### A2: explicit SSY20A neck BJT parameters (2026-11-20)
 
 The printed SSY20A V1 neck model previously inherited eleven screened
