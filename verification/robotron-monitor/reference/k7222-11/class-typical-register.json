@@ -83,6 +83,15 @@
       "sha256": "edf8c17c807b174e3f90e2a24946fd7e5342fcd9c3448e4788d9c7f0848ea35d",
       "use": "Scanned B31-G family outline; original catalog attribution and installed B31G22 dimensions unverified."
     },
+    "rft_b30g1_1959": {
+      "url": "https://frank.pocnet.net/other/RFT/RFT_Spezialroehren_1959.pdf",
+      "edition": "RFT Spezialröhren 1959, printed page 29, B 30 G 1",
+      "use": "Manufacturer data for an older 30 cm monochrome CRT, used only as a rejected heater comparator; not B31G22 limits."
+    },
+    "t3_hv_winding_comparator": {
+      "file": "reference/k7222-11/t3-hv-winding-comparator.json",
+      "use": "Cross-revision ÜHA78 winding and copper-geometry comparisons; they do not qualify the active .11 winding values."
+    },
     "robotron_schematic": {
       "url": "https://www.tiffe.de/Robotron/Monitore/Monitore_2/K7222.11_.21_sch.pdf",
       "sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
@@ -125,6 +134,9 @@
     }
   },
   "entries": [
+    {"id":"012-6921:T3.high_voltage_turns","stage":"horizontal-flyback","value":1000,"bounds":[250,4000],"unit":"turn","sources":["t3_hv_winding_comparator"],"model_ref":"reference/k7222-11/t3-initial-parameters.json#groups.high_voltage[0].turns","basis":"Active 1000-turn hypothesis is below the 1768- and 2409-turn cross-revision comparisons; no .11 identity or source-qualified bound","qualification":"assumed-bound"},
+    {"id":"012-6921:T3.high_voltage_resistance_ohm","stage":"horizontal-flyback","value":1000,"bounds":[250,4000],"unit":"ohm","sources":["t3_hv_winding_comparator"],"model_ref":"reference/k7222-11/t3-initial-parameters.json#groups.high_voltage[0].resistance_ohm","basis":"Active 1 kohm hypothesis falls within the conditional 649–1298 ohm cross-revision copper-geometry estimate; .11 winding unverified","qualification":"assumed-bound"},
+    {"id":"012-6921:T3.drive_total_turns","stage":"horizontal-flyback","value":64,"bounds":[16,256],"unit":"turn","sources":["t3_hv_winding_comparator"],"model_ref":"reference/k7222-11/t3-initial-parameters.json#groups.drive[*].turns.sum","basis":"Sum of active drive-section turns; conditional 67–85-turn range follows only from 2409-turn comparison and unverified boost/ratio assumptions","qualification":"assumed-bound"},
     {"id":"horizontal-output-l4-chokes.L","stage":"horizontal-output-base","value":0.000005,"bounds":[0.0000001,0.00005],"unit":"H","sources":["horizontal_l4_design","st_bu508af"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_compensation_l","basis":"Selected L4:1/L4:2 parallel branch reaches 0.533 A in one third of the 46.5 us trace at 1 V for 50 uH and 1 ohm per coil; L4:3 shares printed stock but is bypassed; conditional operating budget, not original value","qualification":"provisional-design-derived"},
     {"id":"horizontal-output-l4-chokes.RDC","stage":"horizontal-output-base","value":0.1,"bounds":[0.01,1],"unit":"ohm","sources":["horizontal_l4_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_compensation_r","basis":"1 ohm per active coil in parallel drops 0.25 V at 0.5 A total, one quarter of conditional 1 V headroom; bypassed L4:3 shares stock only","qualification":"provisional-design-derived"},
     {"id":"012-6921:L3.L","stage":"horizontal-output-linearity","value":0.00002,"bounds":[0.000001,0.000095],"unit":"H","sources":["horizontal_l3_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_linearity_l","basis":"At the retrace half-cycle frequency, 95 uH maximum keeps current in parallel R35=82 ohm +/-5% below 25% of L3 branch current; nominal and lower bound remain exploratory","qualification":"provisional-design-derived"},
@@ -2142,10 +2154,20 @@
     {"id": "012-6931:A3.input_resistance", "stage": "vertical-output-amplifier", "value": 250000, "bounds": [50000, 1000000], "unit": "ohm", "sources": ["ti_lm709c"], "model_ref": "devices/p09a-equivalent.cir#P09A_EQUIV.input_resistance", "basis": "LM709C 50 kohm minimum and 250 kohm typical differential input resistance; upper class bound assumed", "qualification": "provisional-equivalent"},
     {"id": "012-6931:A3.smooth_current", "stage": "vertical-output-amplifier", "value": 1e-6, "bounds": [1e-8, 1e-5], "unit": "A", "sources": ["ti_lm709c"], "model_ref": "devices/p09a-equivalent.cir#P09A_EQUIV.smooth_current", "basis": "numerical output-drive smoothing scale, not a physical device current", "qualification": "provisional-equivalent"}
   ],
+  "rejected_comparators": [
+    {
+      "id": "B30G1-heater-for-B31G22",
+      "source": "rft_b30g1_1959",
+      "stage": "tube-heater",
+      "source_values": {"heater_voltage_v": 6.3, "heater_current_a": 0.47},
+      "active_nominal_at_equilibrium": {"heater_voltage_v": 10.989, "heater_current_a": 0.0674, "heater_power_w": 0.7407},
+      "reason": "The current 12 V ideal rail plus printed 15 ohm R22 cannot deliver the B30G1 6.3 V / 0.47 A point: it requires 13.35 V upstream. The active nominal electrothermal heater is also far from that point. The B30G1 gun is not the installed B31G22, so its data cannot supply an A6 bound or justify retuning the model."
+    }
+  ],
   "open_families": [
     {
       "file": "electrothermal.py",
-      "reason": "heater, emission and tube thermal/electrode bounds are engineering assumptions without tube-class sources"
+      "reason": "heater, emission and tube thermal/electrode bounds are engineering assumptions without B31G22 sources; the RFT B30G1 heater comparator is incompatible with the assembled 12 V/R22 branch and is excluded"
     },
     {
       "file": "reference/k7222-11/t3-initial-parameters.json",

@@ -34,8 +34,13 @@ class ClassTypicalRegisterTests(unittest.TestCase):
         for device in devices['devices']:
             for key, parameter in device['parameters'].items():
                 row = self.by_id[device['id']+'.'+key]
-                self.assertEqual(row['value'], parameter['nominal'])
-                self.assertEqual(row['bounds'], parameter['bounds'])
+                if 'active_nominal' in parameter:
+                    self.assertEqual(row['value'], parameter['active_nominal'])
+                    self.assertEqual(row['bounds'], parameter['active_bounds'])
+                    self.assertEqual(row['qualification'], parameter['active_tier'])
+                else:
+                    self.assertEqual(row['value'], parameter['nominal'])
+                    self.assertEqual(row['bounds'], parameter['bounds'])
         for family in devices.get('families', []):
             self.assertTrue(family['member_ids'])
             profile = (json.loads((ROOT/family['profile']).read_text())
@@ -79,6 +84,23 @@ class ClassTypicalRegisterTests(unittest.TestCase):
             scale = suffix.get(value[-1], 1)
             numeric = float(value[:-1] if scale != 1 else value)*scale
             self.assertAlmostEqual(numeric, family['parameters'][key]['nominal'])
+
+    def test_t3_assumed_rows_match_live_winding_hypothesis(self):
+        winding = json.loads((REF/'t3-initial-parameters.json').read_text())['groups']
+        expected = {
+            'high_voltage_turns': winding['high_voltage'][0]['turns'],
+            'high_voltage_resistance_ohm': winding['high_voltage'][0]['resistance_ohm'],
+        }
+        for key, parameter in expected.items():
+            row = self.by_id['012-6921:T3.'+key]
+            self.assertEqual(row['value'], parameter['value'])
+            self.assertEqual(row['bounds'], [parameter['minimum'], parameter['maximum']])
+            self.assertEqual(row['qualification'], parameter['evidence'])
+        turns = [section['turns'] for section in winding['drive']]
+        row = self.by_id['012-6921:T3.drive_total_turns']
+        self.assertEqual(row['value'], sum(item['value'] for item in turns))
+        self.assertEqual(row['bounds'], [sum(item['minimum'] for item in turns),
+                                          sum(item['maximum'] for item in turns)])
 
 
 if __name__ == '__main__':
