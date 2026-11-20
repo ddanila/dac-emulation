@@ -1,0 +1,84 @@
+{
+  "format": "dac-monitor-t3-field-boundary-screen-v1",
+  "qualification": "one-factor connected solver diagnostics; no source correction, sustained field or A5 freeze",
+  "source_hashes": {
+    "t3_field_boundary_screen.py": "f60d7324ae7ccb22f23291e362a5eea5813c62b2811aa5931012c2375be786c8",
+    "steady_supply.py": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b",
+    "device-model-register.json": "796e7fe5c3057de65064958f65203faf769192e5de5f7b7d332e58618f8486cf"
+  },
+  "baseline": {
+    "deck_sha256": "6f393cba7c289477a9568a6674f979e0535ff284f62899aa9621806348cef2f8",
+    "solve_status": "failed",
+    "raw_complete_rows": 1040846,
+    "last_time_s": 0.03899999999999999,
+    "solver_abort": "Timestep too small at 39 ms, trouble with Q201"
+  },
+  "shortened_endpoint_s": 0.0391,
+  "cases": [
+    {
+      "name": "bsyn_boundary_20_ns",
+      "change": "Only final BSYN transition widened from 0.1 to 20 ns.",
+      "deck_sha256": "56c2910e27f17a3588ca92b63224964b63fbe4adee76eb3164d5a113aa5a0530",
+      "solve_status": "failed",
+      "solve_elapsed_s": 191.67414820899998,
+      "solve_timeout": false,
+      "raw_sha256": "c99c2153b14f044608387ec68d86a3afb43986bb7aa9ed177ef17a15ecb726be",
+      "raw_complete_rows": 1040768,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_class_n-instance q201",
+        "run simulation(s) aborted"
+      ]
+    },
+    {
+      "name": "explicit_pwl_fields",
+      "change": "Same captured logic points repeated explicitly for three fields, without PWL r=0.",
+      "deck_sha256": "51898697a251242ee50de6d0da49d6332ede992fef39fd24daa993b7ee255e5e",
+      "solve_status": "failed",
+      "solve_elapsed_s": 197.294668666,
+      "solve_timeout": false,
+      "raw_sha256": "c97d51145cdbb062e82574886072f853f1364e45285275f8f7df36d3c16f816e",
+      "raw_complete_rows": 1040734,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_class_n-instance q201",
+        "run simulation(s) aborted"
+      ]
+    },
+    {
+      "name": "gate_tau_30_ns",
+      "change": "T200 gate_tau raised from 5 to 30 ns, its registered exploratory upper bound.",
+      "deck_sha256": "916be01121170af2766d2e177f732789bacb3c00d38c070559033785196e8974",
+      "solve_status": "failed",
+      "solve_elapsed_s": 190.28052887500002,
+      "solve_timeout": false,
+      "raw_sha256": "c45d874cafb388f5c97f519ca296f3509e2b1b0ea8e6184a59aef23f91d5a991",
+      "raw_complete_rows": 1027456,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with sc60a_class_n-instance q201",
+        "run simulation(s) aborted"
+      ]
+    },
+    {
+      "name": "detailed_page3_4_contrast",
+      "change": "Manual-Fig.-6 contrast transistor and R213 terminals returned to the transcribed page-3/4 graph.",
+      "deck_sha256": "0daae7ec09c41a330e1143cadf128f2a71a7ec0e6ae3b6079e5a9ad39f45ce78",
+      "solve_status": "failed",
+      "solve_elapsed_s": 193.034738584,
+      "solve_timeout": false,
+      "raw_sha256": "76575de1aa909a2050aa8ac4e7ac416b480ea3fda4f04f95f8b32f07de701b1a",
+      "raw_complete_rows": 1042430,
+      "last_time_s": 0.03899999999999999,
+      "crossed_39_ms": false,
+      "solver_abort_messages": [
+        "doAnalyses: TRAN:  Timestep too small; time = 0.039, timestep = 6.25e-20: trouble with node \"intensity_gate\"",
+        "run simulation(s) aborted"
+      ]
+    }
+  ],
+  "interpretation": "Each case changes one declared factor and stops at 39.1 ms. A pass only narrows a solver cause; it does not qualify the connected monitor."
+}

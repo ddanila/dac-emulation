@@ -3366,3 +3366,46 @@ against treating one coarse run as stage qualification. The 200 ns base edge
 has not been derived from V13/T2/L4, the return graph and AC-loss values lack
 source-qualified bounds, and neither the connected oscillator nor the native
 grid has produced a sustained field with this candidate. A5 remains open.
+
+### A3/A5: labelled AC-loss T3 in the native connected circuit (2026-11-20)
+
+The connected runner now has an explicit `--t3-return-variant hv-only-grounded`
+alternative. It archives the original and selected T3 pins, grounds only
+X1:16, keeps X1:7 on a separate 1 GΩ-referenced node, and labels the
+passive AC-loss model in the deck and result. The .11 return graph is still
+unresolved; this is an experimental equivalent, not a schematic correction.
+The native-grid diagnostics used the same 10-turn auxiliary and overwind
+parameters as the isolated stage, the conditional manual-Fig.-6 contrast
+control, KLU, `reltol=.005`, a 50 ns maximum step, and warm guesses of
+11.48 kV EHT and 64 V boost. Their connected drive was solved from the
+oscillator, T2 and L4, not prescribed as in the stage bench.
+
+The [120 s receipt](reference/k7222-11/t3-connected-ac-loss-120s-diagnostic.json)
+contains 631,455 complete rows through 23.404 ms; it timed out before the
+78 ms four-field endpoint. In its complete 10–22 ms bins the TP17-mapped
+swing stays about 77 Vpp and EHT is about 10.82–10.88 kV, below the manual's
+11–12 kV range. The [longer receipt](reference/k7222-11/t3-connected-ac-loss-39ms-diagnostic.json)
+contains 1,040,846 rows through exactly 39 ms. The output flyback train is
+still present, mostly 16 crossings per 1 ms bin; TP17 is about 77–78 Vpp
+in complete 20–37 ms bins. EHT ranges roughly 10.76–10.92 kV across those
+bins and does not establish a periodic 11–12 kV point. At the two-field
+boundary, ngspice aborts with a timestep-too-small error naming contrast
+transistor Q201. Neither run completes four fields or yields connected
+settling acceptance or a service score. The failure is a connected source/model
+problem to investigate separately from the T3 stage match.
+
+The [field-boundary screen](reference/k7222-11/t3-field-boundary-screen.json)
+audits four short, exact-deck variants against the same 39.1 ms endpoint.
+Widening only the final BSYN transition from 0.1 to 20 ns still aborts at
+39 ms with Q201 named. Repeating the captured PWL points explicitly across
+fields instead of using ngspice `r=0` also aborts there. Raising T200's
+`gate_tau` from 5 to its registered exploratory upper bound of 30 ns has
+the same outcome. Finally, restoring the transcribed page-3/4 contrast
+terminal arrangement also stops at 39 ms, this time with `intensity_gate`
+named. Each trial changes only its declared factor; none isolates a fix.
+The common boundary and input/contrast nodes suggest a problem in their
+shared event or model path, but that is an inference, not a source correction
+or evidence that T3 has reached a sustained operating point. The next
+diagnostic should reproduce the input/contrast boundary in an isolated
+bench and inspect its node currents and device bounds before another
+four-field connected solve.
