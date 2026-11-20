@@ -1,0 +1,320 @@
+{
+  "format": "dac-monitor-t3-connected-ac-loss-diagnostic-v1",
+  "qualification": "bounded connected native-grid diagnostic; unfinished prefixes are not steady-state or service-score evidence",
+  "source_hashes": {
+    "steady_supply.py": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b",
+    "full_path.py": "e03ce242ea9f61354462133aca22796f9c94af6100cb9a83e4d77b1d912dfa2d",
+    "partial_trace_diagnostic.py": "419605a1c676df5230291fb03ed2267a2007f43c5604f008b3ff026ada9892a5",
+    "native_grid_horizontal_chain.py": "e76c02164211329dd13035d4ddb6bce31f5f6657950382453407891fbee7bf11",
+    "t3_connected_ac_loss_diagnostic.py": "69672eb8802ea8a20d4b67111b198bea74ee3dc2c1a3f166206f44000b83ce6c"
+  },
+  "run_directory": "build/monitor/phase-a/native-ac-loss-hv-grounded-20261120",
+  "run_status": "blocked",
+  "run_elapsed_s": 120.139326541,
+  "capture_sha256": "86184b30371f08b5e7d6060c8ee34690c3778ed9a701d523ae705da594162621",
+  "candidate_id": "t3-fc941ad61c50ce31",
+  "equivalent_stages": [
+    "T3_PASSIVE_COUPLED_AC_LOSS_HV_COLD_GROUNDED_EQUIVALENT",
+    "manual-fig6-contrast-control"
+  ],
+  "assembly_hashes": {
+    "magnetic_override": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "t3_return_variant": "6d1b90d46008093445d77a07deebb357967b8b34c7e3714fb40bcad015d2bcc9"
+  },
+  "variant_pins": {
+    "X1_3": "h_upper2",
+    "X2_3": "h_upper2",
+    "X1_7": "h_hvcold",
+    "X1_16": "0"
+  },
+  "solver": {
+    "status": "failed",
+    "elapsed_s": 116.56056650000001,
+    "timeout": true,
+    "deck_sha256": "6f393cba7c289477a9568a6674f979e0535ff284f62899aa9621806348cef2f8",
+    "solver_log_sha256": "d54df8b0f2c5928a4bbc15e72cd76b9faee218f1de42712afd38cf3c881ca769",
+    "abort_messages": [],
+    "initial_voltage_guesses": {
+      "eht": 11480.0,
+      "h_boost": 64.0
+    },
+    "linear_solver": "klu",
+    "reltol": 0.005,
+    "max_step_s": 5e-08
+  },
+  "four_field_endpoint_s": 0.078,
+  "four_fields_completed": false,
+  "trace": {
+    "sha256": "1a647a206e2cc372cec5bf7c3ffaef6c87fc907f5b67104e1e49fca9fdfd58b6",
+    "declared_points": 0,
+    "complete_rows": 631455,
+    "trailing_bytes": 104,
+    "last_time_s": 0.023403809929356523
+  },
+  "complete_one_ms_bins": [
+    {
+      "start_s": 0.0,
+      "tp17_mapped_swing_vpp": 74.04687195842544,
+      "eht_time_mean_v": 11407.490729958772,
+      "eht_range_v": [
+        11301.020029919522,
+        11480.0
+      ],
+      "drive_collector_upcrossings_10v": 17,
+      "output_collector_upcrossings_100v": 18
+    },
+    {
+      "start_s": 0.001,
+      "tp17_mapped_swing_vpp": 74.7029065338989,
+      "eht_time_mean_v": 11215.144093803861,
+      "eht_range_v": [
+        11140.918475248292,
+        11301.017814983583
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.002,
+      "tp17_mapped_swing_vpp": 75.51377200208117,
+      "eht_time_mean_v": 11065.298635412239,
+      "eht_range_v": [
+        10987.35329043743,
+        11140.915043334975
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.003,
+      "tp17_mapped_swing_vpp": 75.80008453616196,
+      "eht_time_mean_v": 10923.24216537807,
+      "eht_range_v": [
+        10871.325179710659,
+        10987.351120730327
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.004,
+      "tp17_mapped_swing_vpp": 75.92992315159785,
+      "eht_time_mean_v": 10836.42530801817,
+      "eht_range_v": [
+        10806.999940836022,
+        10872.34165657764
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.005,
+      "tp17_mapped_swing_vpp": 76.30974844934775,
+      "eht_time_mean_v": 10818.888831744785,
+      "eht_range_v": [
+        10797.521012751158,
+        10852.842754196558
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.006,
+      "tp17_mapped_swing_vpp": 76.65668549131794,
+      "eht_time_mean_v": 10844.662307998735,
+      "eht_range_v": [
+        10826.420424455022,
+        10866.859040765254
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.007,
+      "tp17_mapped_swing_vpp": 76.71289576984947,
+      "eht_time_mean_v": 10859.547551955358,
+      "eht_range_v": [
+        10829.125698795067,
+        10883.824773640408
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 17
+    },
+    {
+      "start_s": 0.008,
+      "tp17_mapped_swing_vpp": 76.76536808411691,
+      "eht_time_mean_v": 10839.660806738591,
+      "eht_range_v": [
+        10825.820472801091,
+        10857.672106416137
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.009000000000000001,
+      "tp17_mapped_swing_vpp": 76.83237900087649,
+      "eht_time_mean_v": 10835.412230161855,
+      "eht_range_v": [
+        10825.050528506183,
+        10848.071214659916
+      ],
+      "drive_collector_upcrossings_10v": 17,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.01,
+      "tp17_mapped_swing_vpp": 76.9656066811211,
+      "eht_time_mean_v": 10884.59388743661,
+      "eht_range_v": [
+        10833.570631655248,
+        10923.278589949745
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.011,
+      "tp17_mapped_swing_vpp": 76.86117318470338,
+      "eht_time_mean_v": 10839.09970237305,
+      "eht_range_v": [
+        10806.416899735928,
+        10891.792977843781
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.012,
+      "tp17_mapped_swing_vpp": 76.96197995696971,
+      "eht_time_mean_v": 10841.42966381383,
+      "eht_range_v": [
+        10823.203523648668,
+        10860.648696188646
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.013000000000000001,
+      "tp17_mapped_swing_vpp": 77.00698317250217,
+      "eht_time_mean_v": 10843.783154752087,
+      "eht_range_v": [
+        10814.627849917406,
+        10866.039993189668
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.014,
+      "tp17_mapped_swing_vpp": 77.07836111652416,
+      "eht_time_mean_v": 10836.326803261978,
+      "eht_range_v": [
+        10821.04151642019,
+        10864.068853624176
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.015,
+      "tp17_mapped_swing_vpp": 77.12127462831572,
+      "eht_time_mean_v": 10843.020011141603,
+      "eht_range_v": [
+        10821.373666126054,
+        10862.17565934091
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.016,
+      "tp17_mapped_swing_vpp": 77.26785863952989,
+      "eht_time_mean_v": 10842.90367369062,
+      "eht_range_v": [
+        10819.27551091154,
+        10873.05255507571
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 17
+    },
+    {
+      "start_s": 0.017,
+      "tp17_mapped_swing_vpp": 77.31909551486012,
+      "eht_time_mean_v": 10877.159260361988,
+      "eht_range_v": [
+        10855.47666683561,
+        10894.60888117903
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.018000000000000002,
+      "tp17_mapped_swing_vpp": 77.47455490911246,
+      "eht_time_mean_v": 10877.684274429166,
+      "eht_range_v": [
+        10865.048418479484,
+        10904.96423869568
+      ],
+      "drive_collector_upcrossings_10v": 17,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.019,
+      "tp17_mapped_swing_vpp": 77.27069425320438,
+      "eht_time_mean_v": 10863.662373777299,
+      "eht_range_v": [
+        10837.163407271417,
+        10903.328973429627
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.02,
+      "tp17_mapped_swing_vpp": 77.20399135154064,
+      "eht_time_mean_v": 10850.336987635808,
+      "eht_range_v": [
+        10839.758487131485,
+        10858.776952661232
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.021,
+      "tp17_mapped_swing_vpp": 77.2045085054585,
+      "eht_time_mean_v": 10838.605614841515,
+      "eht_range_v": [
+        10819.492352692945,
+        10856.522267235732
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    },
+    {
+      "start_s": 0.022,
+      "tp17_mapped_swing_vpp": 77.4454481890442,
+      "eht_time_mean_v": 10823.992498166072,
+      "eht_range_v": [
+        10813.09059298043,
+        10835.992231718297
+      ],
+      "drive_collector_upcrossings_10v": 16,
+      "output_collector_upcrossings_100v": 16
+    }
+  ],
+  "settling": {
+    "accepted": false,
+    "failures": [
+      "solver failed or exceeded the trial wall budget"
+    ]
+  },
+  "service_score": null,
+  "remaining": [
+    "Original return, AC-loss and connected drive are unqualified.",
+    "A full repeated-field solve and independent refinement are required before an A3 score or A5 freeze."
+  ]
+}

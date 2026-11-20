@@ -405,7 +405,11 @@ the TP17/EHT or refinement checks, and two connected native-grid attempts
 time out with irregular pulses. The newer [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json)
 meets TP17/EHT, final-two-line periodicity and solver budget at 50/25 ns
 with a prescribed 200 ns base-drive edge. Its return graph, losses and drive
-edge are unqualified, and no sustained connected field has been scored.
+edge are unqualified. A [labelled connected attempt](reference/k7222-11/t3-connected-ac-loss-39ms-diagnostic.json)
+holds TP17 near 77–78 Vpp but EHT below 11 kV, then aborts at the 39 ms
+field boundary in the input/contrast stage. Four bounded
+[boundary variants](reference/k7222-11/t3-field-boundary-screen.json)
+also abort there. No sustained connected field has been scored.
 Freezing T3 or scoring A3 from that stage alone would be unsupported.
 
 The authorized path is to carry the unresolved graph as labelled
@@ -425,9 +429,9 @@ next step changes. The narrative that used to follow is in
 |---|---|---|
 | A1 | Second netlists for pages 3–4 and 9–10 are partial: local branches match, the full pages are not compared. Page 16 schematic is closed; its service-observation check is open. Page 18 has three model-scope gaps and no working contrast path. Not settled by the scans: T3 return (X1:3 to X2:3), tap order and HV cold end; T2 secondary phase and return; installed E2 and E1–E4 links; C30 population; L1's crossing with the flyback line. | Finish the pin-to-pin comparisons. Carry each connection the scan cannot settle as a labelled, bounded alternative. |
 | A2 | All 64 frame-path instances have provisional register rows; none passes every qualification check. Seven instances still rely on screened simulator defaults ([audit](reference/k7222-11/a2-implicit-default-audit.json)). T3 turns, resistance and parasitics are assumed-bound. | Make the remaining defaults explicit with bounds. Check connected operating stress per stage. |
-| A3 | All 17 shape descriptors are registered and scored. No sustained connected run on the native grid has been scored. The original flux model under-drives TP17; the older passive equivalent develops irregular bursts and times out. The newer AC-loss equivalent meets TP17/EHT only on a prescribed-drive stage. TP8 is `reference-incomplete`: 17 V is crest-to-zero, and the 10 V arrow has no settled node. | Resolve or bound the T3 pulse-winding/rectifier and T2/L4 source paths. Qualify TP17 and EHT together with converged, refined native-grid fields, then score. |
+| A3 | All 17 shape descriptors are registered and scored. No sustained connected native-grid run has been scored. The original flux model under-drives TP17; the older passive equivalent develops irregular bursts. The [labelled AC-loss equivalent](reference/k7222-11/t3-connected-ac-loss-39ms-diagnostic.json) gives about 77–78 Vpp TP17 but 10.76–10.92 kV EHT in unfinished bins, then aborts at 39 ms. TP8 is `reference-incomplete`: 17 V is crest-to-zero, and the 10 V arrow has no settled node. | Isolate the input/contrast field-boundary failure; resolve or bound T3 and T2/L4 source paths; then qualify and score refined native-grid fields. |
 | A4 | Done. | None. |
-| A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. T3 graph, ratios and polarities are not frozen. The [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json) meets joint TP17/EHT, 0.1% final-two-line agreement, solver budget and 50/25 ns refinement only with a prescribed 200 ns base edge at `reltol=.005`; the 100 ns run fails collector agreement. Its grounded HV cold end, loss, 10-turn auxiliary and drive edge are unqualified, and no connected periodic result exists. Other T3 sections, vertical current and tube/yoke geometry remain conditional. | Bound the return graph, loss and drive; check joint bounds and collector stress; establish a converged connected operating point before freezing a candidate. |
+| A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. T3 graph, ratios and polarities are not frozen. The [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json) meets joint TP17/EHT, 0.1% final-two-line agreement, solver budget and 50/25 ns refinement only with a prescribed 200 ns base edge at `reltol=.005`; the 100 ns run fails collector agreement. Its grounded HV cold end, loss, 10-turn auxiliary and drive edge are unqualified. The connected alternative aborts at 39 ms; no periodic operating point is established. Other T3 sections, vertical current and tube/yoke geometry remain conditional. | Bound the return graph, loss and drive; isolate the input/contrast field-boundary failure, check joint bounds and collector stress, then establish a converged connected operating point before freezing a candidate. |
 | A6 | The [register](reference/k7222-11/class-typical-register.json) is partial: tube data (B31G22 cold resistance, thermal law, emission, G4 effect on cut-off), T3 parasitics, yoke sensitivity and the measuring cable lack qualified bounds. | Add cited bounds and re-run the stage checks they affect. |
 
 Order: A5 (T3 graph or its fallback), A2, A1, A3, A6, then B1. Phase C waits
@@ -456,8 +460,10 @@ are in the evidence log.
   connected runs. The newer AC-loss, grounded-HV-cold equivalent gives about
   79.7 Vpp TP17 and 11.48 kV EHT on a refined prescribed-drive stage. At
   50/25 ns with a 200 ns base edge it meets stage periodicity and solver
-  budget, but its graph, loss and drive edge remain provisional and it has
-  no sustained connected result. Neither is a frozen design point.
+  budget. The labelled connected alternative holds TP17 near 77–78 Vpp in
+  its unfinished prefix, but EHT is below 11 kV and the solver stops at the
+  two-field input/contrast boundary. Its graph, loss and drive remain
+  provisional; neither equivalent is a frozen design point.
 - **Horizontal drive.** No prescribed-drive sweep reaches TP15 (36–54 Vpp)
   and 11–12 kV together. With an ideal 45 Vpp TP15 source, the cases that
   reach about 11.3 kV put more than 50 V of reverse bias on V18's base
