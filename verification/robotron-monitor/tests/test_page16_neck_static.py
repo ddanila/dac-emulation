@@ -22,6 +22,15 @@ class Page16NeckStaticTests(unittest.TestCase):
         bright=report['state_voltages']['bright_video']['volts']
         self.assertGreater(dark['collector']-bright['collector'],30)
         source=json.loads(page16_neck_compare.SOURCE.read_text())
+        meter=json.loads((ROOT/'reference/k7222-11/page16-meter-cable-source-read.json').read_text())
+        self.assertIn('X3:1',source['nets']['SUK_DRIVE'])
+        self.assertIn('R4:1',source['nets']['SUK_DRIVE'])
+        self.assertIn('X3:2',source['nets']['SUK'])
+        self.assertIn('R4:2',source['nets']['SUK'])
+        for state,expected_mv in meter['neck_board']['direct_x3_difference_in_existing_fixed_20ua_bench_mv'].items():
+            volts=report['state_voltages'][state]['volts']
+            self.assertAlmostEqual(1000*abs(volts['cathode']-volts['brightness']),
+                                   expected_mv,places=6)
         changed=copy.deepcopy(source)
         changed['nets']['SUG2'].remove('R2:2')
         changed['nets']['UG2_INPUT'].append('R2:2')

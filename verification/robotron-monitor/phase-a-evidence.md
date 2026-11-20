@@ -1169,10 +1169,24 @@ All declared static/function checks pass; a disconnected source net is caught
 by the path test.
 
 This isolated bench uses ideal external rails and a fixed 20 µA beam-current
-load. It has no CRT emission response and cannot reproduce page 16's C15
+load. It has no CRT emission response and cannot reproduce page 16's
 measuring-cable dark/bright millivolt note. That missing source observation
 keeps the A1 page-16 function check open despite the complete pin comparison
 and plausible transistor operating points.
+
+A later [meter-cable inset read](reference/k7222-11/page16-meter-cable-source-read.json)
+adds a second, separate limitation: page 16 draws a series capacitor between
+the source-side and meter-side upper terminals, with unvalued shunt elements
+at each side. It does not print their values or a lower-terminal connection
+inside the inset. The manual's 0.1 mV limit is a *rise above the dark meter
+reading* during the just-visible setup; 3.6 mV is the full-bright setting
+after R4 adjustment. They are not two DC cathode states. X3:1/X3:2 straddle
+the documented 390 Ω neck-board R4, but the existing fixed-20 µA bench gives
+7.8 mV directly across those pins in both VIDEO states. The service reading
+passes through the unspecified cable and uses a native grid and trim sequence;
+neither direct DC X3 value is a service-meter prediction. The A1 observation
+check now has a precise missing model boundary: cable/meter transfer and
+qualified tube response, followed by the prescribed dynamic setup.
 
 ### Vertical output transistor model bounds (2026-11-19)
 
@@ -1319,7 +1333,7 @@ bias. These DC checks justify only the bounded BF proxy and saturation response
 of this model; switching times, fT and the other assumed transistor parameters
 still need A2 review. The page-16 isolated stage check was regenerated with
 BF=26 and still passes; bright-video collector voltage changes from about
-0.72 V to 0.77 V. The CRT emission and C15 observation gap remains open in A1.
+0.72 V to 0.77 V. The CRT emission and meter-cable observation gap remains open in A1.
 
 ### Frame-path A2 device coverage (2026-11-19)
 
