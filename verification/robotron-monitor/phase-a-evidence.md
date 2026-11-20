@@ -2324,6 +2324,18 @@ are isolated sensitivities, not A5 winding bounds. Source-qualifying X2:4
 and bounding this differential pulse are prerequisites to deriving the
 HV/drive ratio from EHT.
 
+The [two-step drive-pulse screen](reference/k7222-11/t3-drive-pulse-screen.json)
+adds X2:4 and the differential voltage to the conditional 4–5 ms
+prescribed-base stage. In the final two lines at 50 ns, the collector-to-ground
+peak is **459.04 V** while X2:4 is **15.88 V** at that instant, leaving
+**443.16 V** across the drive pair. At 25 ns the corresponding peaks are
+458.91 and 443.02 V; their changes are below 0.1%. X2:4 spans roughly
+16–72 V during the window. The current horizontal-device model differs from
+the older refinement receipt, and the stage still has an unverified winding
+graph, loss and prescribed base drive. This diagnostic confirms that the two
+voltage references differ in a concrete candidate, but does not turn the
+differential peak or EHT into a qualified winding ratio.
+
 ### A1/A5: bounded T3 X1:3/X2:3 return alternatives (2026-11-20)
 
 The [return-variant report](reference/k7222-11/t3-return-variants.json)

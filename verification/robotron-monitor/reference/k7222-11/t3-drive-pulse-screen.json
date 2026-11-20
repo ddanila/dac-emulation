@@ -1,0 +1,78 @@
+{
+  "format": "dac-monitor-t3-drive-pulse-screen-v1",
+  "qualification": "conditional 4-5 ms prescribed-base stage under the unverified T3 graph and return; diagnostic voltage reference only, not A5 turns or connected Phase B score",
+  "inputs_sha256": {
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "reference/k7222-11/t3-coupled-source-overwind-parameters.json": "125fb6c737da4d305196c39de7f999d9e60d920c830635f0ef77166c173af681",
+    "reference/k7222-11/t3-ac-loss-parameters.json": "2ebb0fbd68134903504e58a99c2a0572d50bdec254cbf96ab74a5b6e6fa0f09e",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "reference/k7222-11/t3-cold-return-matrix.json": "8c2154decbcc8da9ce172686a0d73488031afe188b59308eac0aa071e0504bd2",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "reference/k7222-11/t3-stage-refinement-screen.json": "285bda427f2fd59a350c2813bdb7ed8db5d01647f8916e33f9d85ef6482e3585",
+    "magnetics.py": "722c379dcc2730ea4f5a4464102e28fe8af95f5d009aaef94faefdf3835978e7",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_stage_refinement_screen.py": "876a3f7d615cc95ff5ba0f4e5745d224678ee1c9404ded9ed46c14590ba0e48a",
+    "t3_loaded_return_screen.py": "d699fecb27e8a8157b94fa8e56fc867a8250a83628d66c8a1a41a4013d519c66",
+    "t3_drive_pulse_screen.py": "8e4d42ca9ec4db47731bf1a3e8e6986feefabb4dafa8bd2da7f9a31e7507b3a5"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "candidate_id": "t3-fc941ad61c50ce31",
+  "conditional_return_pins": {
+    "X1_3": "h_upper2",
+    "X2_3": "h_upper2",
+    "X1_7": "h_hvcold",
+    "X1_16": "0"
+  },
+  "saved_refinement_model_sha256": "824c09ae9f11264c7ac4910fd1d2b3549c47706cdf6ffcef70a7070b036ec5ae",
+  "current_model_sha256": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+  "measured_reference": "V(X2:7)-V(X2:4) = V(h_hot)-V(h_return)",
+  "cases": [
+    {
+      "max_step_ns": 50,
+      "normalized_reference_deck_sha256": "ecc118c5d1b72f74064a535f8615814a6b98e99687c9d7c579b4a25df5101205",
+      "saved_refinement_deck_sha256": "45c6ca53463ee5b7fc88afb6019537e7622b27a32b538e026896aafb168d6f60",
+      "same_deck_as_saved_refinement": false,
+      "sample_count": 20925,
+      "final_two_line_samples": 2628,
+      "final_window_s": [
+        0.004875,
+        0.005
+      ],
+      "collector_peak_v": 459.040901,
+      "return_at_collector_peak_v": 15.8767872,
+      "differential_at_collector_peak_v": 443.164114,
+      "differential_peak_v": 443.164114,
+      "differential_minimum_v": -73.1739287,
+      "eht_at_collector_peak_v": 11486.5585,
+      "maximum_probe_difference_error_v": 1.0000000258969521e-06
+    },
+    {
+      "max_step_ns": 25,
+      "normalized_reference_deck_sha256": "1a4a9d947df5ddeaf018a37ca1165f819c977e477f215095da8830f47f741d9e",
+      "saved_refinement_deck_sha256": "353de0ecd0981f91803cddfef0f441d1bccf2cb9cd2f66373eaaab452f45fb47",
+      "same_deck_as_saved_refinement": false,
+      "sample_count": 40836,
+      "final_two_line_samples": 5111,
+      "final_window_s": [
+        0.004875,
+        0.005
+      ],
+      "collector_peak_v": 458.910887,
+      "return_at_collector_peak_v": 15.8919453,
+      "differential_at_collector_peak_v": 443.018941,
+      "differential_peak_v": 443.020477,
+      "differential_minimum_v": -73.1686265,
+      "eht_at_collector_peak_v": 11490.0751,
+      "maximum_probe_difference_error_v": 1.0000000543186616e-06
+    }
+  ],
+  "refinement_fractional_change": {
+    "collector_peak_v": 0.00028322966366785024,
+    "return_at_collector_peak_v": 0.0009547334614397901,
+    "differential_peak_v": 0.0003241169477904874
+  },
+  "maximum_refinement_change_below_1_percent": true,
+  "interpretation": "In this prescribed-drive stage, X2:4 moves substantially during flyback. Collector-to-ground and differential drive peaks are distinct and agree across 50/25 ns steps. The current horizontal-device model differs from the saved refinement deck, so this is a fresh conditional screen. Neither voltage supplies a qualified turns ratio because the graph, loss, rectifier load and source-circuit drive are unqualified."
+}
