@@ -1,0 +1,95 @@
+{
+  "format": "dac-monitor-tube-heater-class-check-v1",
+  "qualification": "Tungsram M31-120 manufacturer comparator and active-branch consistency only; installed B31G22 heater, cold resistance, thermal law and emission remain unqualified",
+  "source": {
+    "manufacturer": "Tungsram",
+    "title": "Electron Tubes, Semiconductors 1976",
+    "url": "https://frank.pocnet.net/other/Tungsram/Tungsram_ElectronTubes_Semiconductors_1976.pdf",
+    "pdf_sha256": "3358775dc8165afc7036235d2887264820017453e13d3d0dd8dd52a40583ac15",
+    "pdf_page": 96,
+    "printed_page": "II-46",
+    "read_methods": [
+      "page image at 180 dpi",
+      "independent Ghostscript text extraction"
+    ]
+  },
+  "comparator": {
+    "type": "M31-120",
+    "exact_installed_type": false,
+    "heater_voltage_v": 11.0,
+    "heater_current_a": 0.068,
+    "deflection_angle_deg": 110,
+    "useful_area_mm": [
+      257,
+      195
+    ],
+    "typical_anode_voltage_v": 11000,
+    "typical_grid2_voltage_v": 250,
+    "grid_control_cutoff_v": [
+      35,
+      69
+    ],
+    "cathode_control_cutoff_v": [
+      32,
+      58
+    ]
+  },
+  "assembled_branch": {
+    "source_id": "012-6921:R22",
+    "source_nodes": [
+      "p12",
+      "p10_7"
+    ],
+    "source_resistance_ohm": 15.0,
+    "ideal_rail_v": 12.0,
+    "model_sha256": "e6d27a690b7d0b668bb91e410ec72056af9f916a6bbce28d5b146926334b0f32",
+    "steady_supply_sha256": "af5e9c08e2d07e6592ba6df39029f66da1117e29d5aa5e76eaad888d0e0ec317",
+    "cold_resistance_ohm": 20.0,
+    "alpha_per_k": 0.008,
+    "heater_temperature_rise_k": 893.9780984698904,
+    "cathode_temperature_rise_k": 669.1359489252557,
+    "effective_hot_resistance_ohm": 163.03649575518247,
+    "heater_current_a": 0.06740191076610028,
+    "heater_voltage_v": 10.988971338508495,
+    "heater_power_w": 0.7406776655693831
+  },
+  "comparison": {
+    "catalog_hot_resistance_ohm": 161.76470588235293,
+    "rail_needed_for_exact_catalog_point_v": 12.02,
+    "heater_voltage_relative_error": -0.0010026055901367625,
+    "heater_current_relative_error": -0.008795429910290142,
+    "hot_resistance_relative_error": 0.00786197375930997
+  },
+  "assumed_class_spread": {
+    "reason": "declared +/-20% effective hot-resistance sensitivity, not a manufacturer limit or B31G22 rating",
+    "scenarios": [
+      {
+        "hot_resistance_factor": 0.8,
+        "hot_resistance_ohm": 129.41176470588235,
+        "heater_current_a": 0.08309572301425662,
+        "heater_voltage_v": 10.753564154786151,
+        "heater_power_w": 0.8935751884221486
+      },
+      {
+        "hot_resistance_factor": 1.0,
+        "hot_resistance_ohm": 161.76470588235293,
+        "heater_current_a": 0.06788685524126456,
+        "heater_voltage_v": 10.98169717138103,
+        "heater_power_w": 0.7455128861769486
+      },
+      {
+        "hot_resistance_factor": 1.2,
+        "hot_resistance_ohm": 194.1176470588235,
+        "heater_current_a": 0.05738396624472574,
+        "heater_voltage_v": 11.139240506329113,
+        "heater_power_w": 0.6392138012070715
+      }
+    ]
+  },
+  "remaining": [
+    "identify B31G22 manufacturer heater limits directly",
+    "bound cold resistance and temperature coefficient from a compatible source",
+    "bound thermal transfer and emission parameters separately",
+    "check held-warm connected tube load against sustained grid evidence"
+  ]
+}
