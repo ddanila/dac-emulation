@@ -786,5 +786,16 @@
       "argument": "The two page views independently place V6 in the printed diode 1 AE 15 group. The group spans V19 through V25, excluding a printed V13; the adjacent 13 is the group quantity. This confirms identity only, not the diode electrical model. The V22 schematic conflict remains separate."
     }
   ],
-  "schematics": []
+  "schematics": [
+    {
+      "source_page": 16,
+      "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "independent_netlist_sha256": "0eada86bb7a38f418e966443682c34af1df15105593b326155ae4898426bc6a9",
+      "kicad_tree_sha256": "c8b19ed1ea49dd2b54f8524e30a5b0647db1c3c76ffe96e028da665f08919e4b",
+      "connectivity_checked": true,
+      "diode_direction_checked": true,
+      "winding_polarity_checked": true,
+      "argument": "The independent page-16 neck-board source netlist covers 17 nets, 39 component pins, 17 connector pins, six diode sections, V1 C/B/E and C1 polarity. A fresh KiCad export matches every listed pin with no extra or missing board pins; the source DC-path and isolated operating-point checks pass. No winding appears on this page, so winding polarity is inapplicable. This resolves the board schematic review only. The separate unvalued measuring-cable inset and service-meter transfer remain open and are not represented by this KiCad sheet. Evidence: page16-neck-source-netlist.json, page16-neck-comparison.json, page16-neck-static.json, and page16-meter-cable-source-read.json."
+    }
+  ]
 }
