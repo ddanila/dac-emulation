@@ -572,6 +572,13 @@ labelled as such. The remaining done-condition gaps are:
 | A5 | A conditional vertical current/voltage calculation exists. The loaded T2/L4 sweep does not establish a periodic EHT or identify the factory T3 winding. Optional C30 population changes the inferred 16 µs effective resonance inductance from 2.36 to 2.59 mH and loaded final EHT by 2.49–2.53% in the refreshed V21 model; its source population is still unverified. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
 | A6 | Complete cited bounds for the remaining tube, T3, yoke, measuring cable and other frame-path model values; the current register has 209 partial entries, including three explicitly assumed-bound T3 rows and three additional V21 model parameters. The [Tungsram M31-120 heater check](reference/k7222-11/tube-heater-class-check.json) supports the active 11 V/68 mA class operating point through the printed 15 Ω R22. The [cut-off class check](reference/k7222-11/tube-cutoff-class-check.json) moves the provisional grid factor into the catalog/manual overlap, but the installed B31G22 gun, G4 effect, cold resistance, thermal law and emission remain unqualified. The page-16 meter-cable capacitance, shunts and DVM loading remain unbounded. The older RFT B30G1 6.3 V/0.47 A comparator remains excluded: it would require 13.35 V ahead of R22, above the modeled 12 V rail. |
 
+The [local page-9 oscillator comparison](reference/k7222-11/page9-oscillator-comparison.json)
+now matches the source image's V5/V11 collector, base and emitter branches,
+R31/R32 collector loads, R25 feedback, C13 timing link and R22/R23/R24
+emitter trim/return chain. A V5 collector/emitter reversal fails the check.
+This read followed earlier model exposure and covers only this local network;
+the independent complete page-9 comparison in A1 remains open.
+
 All five printed `1SA20C` instances and both `1SC60A` instances now use
 separate [BC546B-class NPN model aliases](circuits/k7222-11-small-transistor-models.cir)
 with cited parameter bounds in the A2 and A6 registers. The

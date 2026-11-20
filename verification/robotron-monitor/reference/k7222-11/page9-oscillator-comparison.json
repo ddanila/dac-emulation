@@ -1,0 +1,57 @@
+{
+  "format": "dac-monitor-page9-oscillator-comparison-v1",
+  "qualification": "local V5/V11 oscillator terminal groups only; not independent whole-page review or functional validation",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "source_read_sha256": "05e5f401b89f9f199416c85f051fbec581d336da1ca3bf9b589dd2daca51c2b3",
+  "sheet_sha256": "fd88c461fa263880ca4aa9f156995f539da9c61a33987459feed16563df7205c",
+  "exported_groups": {
+    "supply": {
+      "R31.1": "vertical_supply",
+      "R32.1": "vertical_supply"
+    },
+    "timing": {
+      "R31.2": "vertical_timing",
+      "V5.1": "vertical_timing",
+      "C13.1": "vertical_timing"
+    },
+    "pulse": {
+      "R32.2": "vertical_pulse",
+      "V11.1": "vertical_pulse",
+      "R25.1": "vertical_pulse"
+    },
+    "trigger": {
+      "R25.2": "vertical_trigger",
+      "V5.2": "vertical_trigger"
+    },
+    "base": {
+      "C13.2": "vertical_base",
+      "V11.2": "vertical_base",
+      "R23.2": "vertical_base"
+    },
+    "emitter": {
+      "V5.3": "vertical_emitter",
+      "R22.1": "vertical_emitter",
+      "R24.1": "vertical_emitter"
+    },
+    "trim": {
+      "R22.2": "vertical_trim",
+      "R23.1": "vertical_trim"
+    },
+    "return": {
+      "V11.3": "0",
+      "R24.2": "0"
+    }
+  },
+  "checks": {
+    "supply": true,
+    "timing": true,
+    "pulse": true,
+    "trigger": true,
+    "base": true,
+    "emitter": true,
+    "trim": true,
+    "return": true,
+    "nodes_distinct": true
+  },
+  "passed": true
+}

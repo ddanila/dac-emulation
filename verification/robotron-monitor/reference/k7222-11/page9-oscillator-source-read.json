@@ -1,0 +1,19 @@
+{
+  "format": "dac-monitor-page9-oscillator-source-read-v1",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "page": 9,
+  "view_sha256": "b377b618c0544683a843d459d14788bed33bbdb08de5c96f3a03b32eb76af606",
+  "qualification": "Local V5/V11 oscillator network re-read from the 600 dpi page crop after prior model exposure; not the required independent complete page-9 netlist.",
+  "nodes": {
+    "supply": ["R31.1", "R32.1"],
+    "timing": ["R31.2", "V5.C", "C13.1"],
+    "pulse": ["R32.2", "V11.C", "R25.1"],
+    "trigger": ["R25.2", "V5.B"],
+    "base": ["C13.2", "V11.B", "R23.2"],
+    "emitter": ["V5.E", "R22.1", "R24.1"],
+    "trim": ["R22.2", "R23.1"],
+    "return": ["V11.E", "R24.2"]
+  },
+  "observation": "R31 loads the V5 collector/timing node; C13 joins that node to V11 base. R32 loads V11 collector/pulse; R25 returns that pulse to V5 base. V5 emitter has R24 to the bottom return and the R22/R23 trim chain leads to V11 base. V11 emitter has a direct bottom return.",
+  "unresolved": ["The scan does not establish a complete page-9 netlist or connected oscillator behavior.", "The source resistor terminals are geometric labels; passive pin numbers are only a comparison convention."]
+}
