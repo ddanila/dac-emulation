@@ -2287,24 +2287,42 @@ inherits the provisional bounds without a measured branch response.
 The A2 register now covers 63/64 frame-path instances, leaving T3;
 A6 has 201 partial entries. A1, A3, A5 and A6 remain open.
 
-### A5: T3 HV ratio mismatch under the current tap hypothesis (2026-11-20)
+### A5: conditional T3 turn sweep against the collector-voltage proxy (2026-11-20)
 
 The [isolated T3 ratio sweep](reference/k7222-11/t3-hv-ratio-sweep.json)
 compares the active 1000-turn HV section with the existing conditional
 [design point](reference/k7222-11/design-point.json). The unmeasured drive
 sections total 64 turns, giving an ideal 15.625 HV/drive ratio. This is
-below the 28.2–35.9 ratio implied by the candidate 60–70 V boost pulse
-and the manual's 11–12 kV EHT target. If the 64-turn scale and boost
-premise both hold, an ideal-ratio candidate has 1808–2300 HV turns,
-with 2035 at the nominal point. The isolated 1 V, 16 µs pulse also
+below the 28.2–35.9 **EHT-to-collector-peak proxy** implied by the candidate
+60–70 V boost pulse and the manual's 11–12 kV EHT target. If that proxy
+also equalled the actual HV/drive turns ratio, and the 64-turn scale held,
+an ideal-ratio candidate would have 1808–2300 HV turns, with 2035 at the
+nominal point. The isolated 1 V, 16 µs pulse also
 shows the current model's mean HV voltage from 5–15 µs remains below
-the conditional target ratio (14.62 versus at least 28.2). The 2035-turn
+the conditional collector proxy (14.62 versus at least 28.2). The 2035-turn
 candidate gives a 29.97 mean ratio versus its 31.80 ideal ratio; neither
 result predicts a loaded rectified EHT.
 The existing 80 ns sign test is still useful for polarity, but it is too
 early to infer a turns ratio from its amplitude. The T3 graph, actual
-collector pulse and loaded rectifier path remain unresolved, so the
-active 1000-turn hypothesis is retained pending A1/A5 work.
+differential drive pulse and loaded rectifier path remain unresolved, so the
+active 1000-turn hypothesis is retained pending A1/A5 work. The later
+[drive-voltage audit](reference/k7222-11/t3-drive-voltage-audit.json) shows
+why this proxy cannot qualify a turns ratio.
+
+### A5: T3 drive voltage needs both winding terminals (2026-11-21)
+
+The [source-read page-4 drive path](reference/k7222-11/t3-drive-polarity-source-read.json)
+puts V18's collector at T3 X2:7 and names X2:4 as the other drive-winding
+terminal. The [drive-voltage audit](reference/k7222-11/t3-drive-voltage-audit.json)
+checks the current assembly candidate: X2:7 maps to `h_hot`, while X2:4 maps
+to a separate `h_return` node coupled to the yoke return through C31 and C32.
+That assembly is not yet an independent full-page source netlist, and no
+bounded X2:4 flyback waveform is available. The actual drive reference is
+**V(X2:7) − V(X2:4)**, not the collector-to-ground peak alone. Therefore
+the existing 28.24–35.94 EHT/collector proxy and its 1808–2300-turn scale
+are isolated sensitivities, not A5 winding bounds. Source-qualifying X2:4
+and bounding this differential pulse are prerequisites to deriving the
+HV/drive ratio from EHT.
 
 ### A1/A5: bounded T3 X1:3/X2:3 return alternatives (2026-11-20)
 
