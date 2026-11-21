@@ -5345,3 +5345,17 @@ the 19–20 ms requested window has no saved trace. The failure identifies a
 numerical obstacle, not a physical fault in V4. A corrected connected model
 still needs a valid settled trace and source-bounded X2:4 waveform before its
 drive or C21 can support A5.
+
+The [connected stiffness screen](reference/k7222-11/t3-page4-connected-stiffness-screen.json)
+rebuilds the same provisional 20-port candidate and tests four 17 ms startup
+decks, saving from 16 ms with a 50 ns maximum step. With the existing 0.1 ns
+logic-source edge, KLU/Gear aborts at 16.3762 ms on `q201#emitter`; sparse/trap
+does not complete within 120 s. With sparse/Gear, hypothetical 20 ns and
+100 ns source edges abort at 15.9255 ms on `d206#internal` and 15.7251 ms
+on `h_drivebase`, respectively. The [reproducer](t3_page4_connected_stiffness_screen.py)
+records each deck, input and solver hash, and distinguishes an abort from a
+timeout. These trials rule out these specific solver and edge choices as a
+quick route to a connected trace; they do not prove a device or winding fault,
+and the widened edges have no source-qualified basis. The next A5 work is to
+source-check the input/drive boundary and bound the connected nonlinear model
+before using its settled pulse to derive T3 ratios.

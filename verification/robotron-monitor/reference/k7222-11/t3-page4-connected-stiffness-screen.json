@@ -1,0 +1,105 @@
+{
+  "format": "dac-monitor-t3-page4-connected-stiffness-screen-v1",
+  "qualification": "synthetic 17 ms startup sensitivity only; no source-bounded input edge, periodic state, or selected T3 ratio",
+  "input_sha256": {
+    "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+    "signal_path.py": "fb1229e6b81e9a06877f3c1863fa86b5a4d8d05027e8ee135fe11481fc22c80c",
+    "transformer_candidates.py": "e35f2e76b637c7ae80e6e95267043417e1b4b97a50cb5bf4bbd6c833430027a0",
+    "tests/test_frames.py": "8174f0ece596f781d8e9d570d68f62c670415d4f754567ae43f47ec4cb61e3ac",
+    "circuits/signal-path-models.cir": "cba15c8a071a064015018f87c74642de095783504075bbeef45672cf7d60a422",
+    "circuits/k7222-11-horizontal-output-page4.kicad_sch": "7a7426dd8fe69fbb2743f7c237aea4721457a2f9097e9ebdd297e8d333806dc1",
+    "reference/k7222-11/t3-page4-visible-graph.json": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+    "reference/k7222-11/t3-page4-provisional-parameters.json": "d0a15aeec7114384048ac99596b0fc819c69f00dad1486706ece7fb4578088e2",
+    "t3_page4_connected_stiffness_screen.py": "048a18432c9164a00963ee9f08536aa2d5e6a8947694c3003c42b8f3e262549c"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "interface": "page4-visible-20-port",
+  "magnetic_backend": "coupled",
+  "cases": [
+    {
+      "name": "klu_gear",
+      "linear_solver": "klu",
+      "integration": "gear",
+      "source_edge_ns": 0.1,
+      "stop_ms": 17,
+      "saved_from_ms": 16,
+      "max_step_ns": 50,
+      "timeout_s": 120,
+      "status": "aborted",
+      "returncode": 1,
+      "elapsed_s": 55.273,
+      "deck_sha256": "bf68e898b89394ae0c5b38d91150eaf446ca1d6ecf25c6705e9d658655235203",
+      "solver_log_sha256": "9965302af7a81cebb9562069e6007ab27be995aae21c18335aa593232572cc9b",
+      "raw_tail": {
+        "rows": 8013,
+        "declared_rows": 8013,
+        "last_time_s": 0.016376201823076916,
+        "complete_header": true
+      },
+      "solver_failure": {
+        "time_s": 0.0163762,
+        "step_s": 6.25e-20,
+        "node": "q201#emitter"
+      }
+    },
+    {
+      "name": "sparse_trap",
+      "linear_solver": "sparse",
+      "integration": "trap",
+      "source_edge_ns": 0.1,
+      "stop_ms": 17,
+      "saved_from_ms": 16,
+      "max_step_ns": 50,
+      "timeout_s": 120,
+      "status": "timeout",
+      "returncode": null,
+      "elapsed_s": 120.007,
+      "deck_sha256": "fc9c01346979fcada78711a6867ed4033dd2e1710b025dff46198aca5ecdd3fa",
+      "solver_log_sha256": "f1ae4e3a7d3ea9711e3acf56eb224dba420c755b652487c79fafe683a1e4988e",
+      "raw_tail": null
+    },
+    {
+      "name": "edge20ns",
+      "linear_solver": "sparse",
+      "integration": "gear",
+      "source_edge_ns": 20,
+      "stop_ms": 17,
+      "saved_from_ms": 16,
+      "max_step_ns": 50,
+      "timeout_s": 120,
+      "status": "aborted",
+      "returncode": 1,
+      "elapsed_s": 53.177,
+      "deck_sha256": "015885f0133d43deb1d6403a7598654db82225de25701c2ed2f764daaf64e13c",
+      "solver_log_sha256": "74887d74fd998ea3041022d041cb089cb792759930ae9c5979c91e78040f6b5c",
+      "raw_tail": null,
+      "solver_failure": {
+        "time_s": 0.0159255,
+        "step_s": 6.25e-20,
+        "node": "d206#internal"
+      }
+    },
+    {
+      "name": "edge100ns",
+      "linear_solver": "sparse",
+      "integration": "gear",
+      "source_edge_ns": 100,
+      "stop_ms": 17,
+      "saved_from_ms": 16,
+      "max_step_ns": 50,
+      "timeout_s": 150,
+      "status": "aborted",
+      "returncode": 1,
+      "elapsed_s": 115.289,
+      "deck_sha256": "47691702f5e7e28294f8f718be24524019e0fc5b2c541c29daed301bac9532c9",
+      "solver_log_sha256": "c86a6f0c376ac281137b17c0f7a88087883c64257c13fc601eb856805281bda8",
+      "raw_tail": null,
+      "solver_failure": {
+        "time_s": 0.0157251,
+        "step_s": 6.25e-20,
+        "node": "h_drivebase"
+      }
+    }
+  ],
+  "interpretation": "Changing the linear solver, integration method, or assumed input edge did not produce a qualified 17 ms connected trace in these bounded trials. Timeout is not a solver abort; all outcomes remain startup diagnostics."
+}

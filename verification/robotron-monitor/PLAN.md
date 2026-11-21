@@ -410,6 +410,8 @@ waveform and HV cold end. These prescribed-drive screens do not establish a
 periodic connected operating point. A [connected 20-port startup diagnostic](reference/k7222-11/t3-page4-connected-drive-diagnostic.json)
 also fails to qualify one: the 16 ms trace repeats timestamps and the 20 ms
 solve aborts at input-stage V4/D206 before a settled X2:4 waveform is saved.
+An [input-edge and solver screen](reference/k7222-11/t3-page4-connected-stiffness-screen.json)
+also yields no completed 17 ms trace in four bounded variants.
 The allowed equivalent-T3 fallback also
 lacks A5-derived ratios and bounded loss/parasitics. A1 still needs independent
 full-page netlist comparisons for pages 3, 4, 9, 10 and 18; A2 still needs
