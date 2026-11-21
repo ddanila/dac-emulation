@@ -1,0 +1,33 @@
+{
+  "format": "dac-monitor-page9-oscillator-gap-source-read-v1",
+  "qualification": "Independent page-9 image read of the five previously uncovered sync-clamp and oscillator-supply parts; combined oscillator/filter coverage is checked separately and does not close the whole page",
+  "source": {
+    "file": "build/monitor/phase-a/sources/older.pdf",
+    "pdf_page": 9,
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "views": [
+      {"path": "build/monitor/phase-a/page9-600.png", "sha256": "5f44abccbfb5d18ba96a40d523ecf026fefd292566a12d18db596f9aef095d2d"},
+      {"path": "build/monitor/phase-a/page9-oscillator-gap-600.png", "sha256": "b0d25384bef07416d74730f23cd00ac37087dac28b017d64127f28d96a09a051", "crop_from_full_page": [1500, 2800, 4300, 5500]}
+    ]
+  },
+  "source_nets": {
+    "12P": ["R26:right"],
+    "OSC_SUPPLY": ["R26:left", "C16:positive"],
+    "00": ["C16:negative", "C12:lower"],
+    "VF2": ["R28:upper"],
+    "VF_DIODE": ["R28:lower", "V6:cathode"],
+    "TRIGGER": ["V6:anode", "C12:upper"]
+  },
+  "reading_notes": [
+    "R26 runs from the 12P rail to the V5/V11 oscillator supply branch; C16 is drawn from that branch to the 00 rail, with its marked positive plate on the supply branch.",
+    "R28 runs from the lower C1/R20 integration node to the upper V6 terminal. The diode's bar is at that upper terminal, so V6 conducts from the lower trigger node toward R28 when forward biased.",
+    "C12 runs from the V6 lower/trigger node to the 00 rail. Its two plates are not marked polar in the drawing.",
+    "The C12 designator is cramped beside the capacitor; the page-9 margin annotation also names C12 in the vertical-sync integrator and the board parts inventory lists C12. Neither is used to infer the drawn wire.",
+    "The geometric names on unpolarized R26, R28 and C12 do not claim physical lead numbers; their endpoint nets are compared unordered.",
+    "The full-page and tighter-crop reads differ in crop. The adjacent previously read C1, R20, R31, R32, V5 and R25 nodes establish the joins, but are not counted twice here."
+  ],
+  "remaining": [
+    "Combine the oscillator/filter source comparison with the other page-9 branch reads and settle every page-edge connection before calling page 9 complete.",
+    "Run the A1 static DC-path, diode and transistor operating-point checks; a pin comparison alone does not qualify oscillator behavior."
+  ]
+}

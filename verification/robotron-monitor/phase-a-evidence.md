@@ -5489,3 +5489,22 @@ collapsed by the model. These counts establish complete local integrator
 slot coverage, not a complete page-9 second netlist. Joins to the oscillator,
 regulator and centring scopes, remaining page edges, transistor arrows and
 stage-function checks still require the full A1 review.
+
+### A1: page-9 oscillator/filter terminal coverage (2026-11-21)
+
+The [new source read](reference/k7222-11/page9-oscillator-gap-source-read.json)
+traces the five oscillator/filter parts omitted by the earlier sync-input and
+V5/V11 reads: R26 and polarized C16 at the 12P supply branch, plus R28, V6
+and C12 at the sync-trigger clamp. The drawing puts C16's positive plate on
+the oscillator supply node and V6's cathode above its trigger-node anode.
+R26/R28/C12 are compared by endpoint pair because their drawn leads have
+no physical terminal numbers.
+
+The [fresh two-sheet comparison](reference/k7222-11/page9-oscillator-gap-comparison.json)
+matches all 10 new terminals and rechecks the prior oscillator and sync-input
+reads. Those three reads now account for **all 38 modeled electrical slots
+of 18 oscillator/filter parts**, with no export mismatch. The X1 and X3
+page-edge connector pins are reported separately, not counted as completed.
+This is a complete local component-slot census, not the required independent
+whole-page netlist. Page-edge joins, the remaining page-9 branches, DC paths,
+transistor operating points and connected oscillator behavior remain open.

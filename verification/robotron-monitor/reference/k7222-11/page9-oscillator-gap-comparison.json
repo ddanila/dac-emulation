@@ -1,0 +1,32 @@
+{
+  "format": "dac-monitor-page9-oscillator-gap-comparison-v1",
+  "qualification": "all modeled page-9 oscillator/filter electrical slots compared in three scoped reads; whole page and stage behavior remain open",
+  "source_read_sha256": "a94adc96e939a362805e956c60dbdb7455cd3371d7f9ed750fd89264a11dfa98",
+  "oscillator_source_read_sha256": "05e5f401b89f9f199416c85f051fbec581d336da1ca3bf9b589dd2daca51c2b3",
+  "sync_source_read_sha256": "5d965bdf3229eba9ab92bbe5aabf71c4f37c6d9a32fd96e0ba8b61f0c47ff5d2",
+  "oscillator_sheet_sha256": "fd88c461fa263880ca4aa9f156995f539da9c61a33987459feed16563df7205c",
+  "sync_sheet_sha256": "d9d9872f7e753b2b0828736648ccb5ee565518856e43490b73fd175fa4cc502e",
+  "new_parts_checked": [
+    "C12",
+    "C16",
+    "R26",
+    "R28",
+    "V6"
+  ],
+  "new_terminals_checked": 10,
+  "combined_parts_checked": 18,
+  "combined_source_slots": 38,
+  "combined_exported_slots": 38,
+  "page_edge_connectors_not_counted": [
+    "012-6931:X1",
+    "012-6931:X3"
+  ],
+  "previous_oscillator_groups_passed": true,
+  "previous_sync_input_passed": true,
+  "new_mismatches": [],
+  "passed": true,
+  "remaining": [
+    "Combine the oscillator/filter source comparison with the other page-9 branch reads and settle every page-edge connection before calling page 9 complete.",
+    "Run the A1 static DC-path, diode and transistor operating-point checks; a pin comparison alone does not qualify oscillator behavior."
+  ]
+}
