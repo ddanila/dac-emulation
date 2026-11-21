@@ -5300,3 +5300,24 @@ value. The audit's saved result and focused test pass. A
 describes a separate two-lead replacement overwind and reroutes
 its cold end to chassis; that cross-revision procedure supplies no .11
 connection-16 identity.
+
+### A1/A5: C30 population in the corrected 20-port stage (2026-11-21)
+
+The older [C30 comparison](reference/k7222-11/horizontal-retrace-c30-sensitivity.json)
+is a historical 19-port result. Its saved winding graph predates the
+X2:10/X2:13 correction; rerunning that old stage with the current graph gives
+only about 70 V collector peak and 1.4–1.5 kV EHT, so its former 2.5% EHT
+sensitivity cannot decide the current C30 population. The test now checks
+that this historical receipt is not mistaken for a live stage result.
+
+The new [paired C30 screen](reference/k7222-11/t3-page4-c30-screen.json)
+uses the corrected 20-port external interface and the same provisional
+20 ms drive, winding, yoke, centring and rail conditions as the eight-sign
+screen. Removing the model's 1 nF C30 moves sampled EHT from 11.680 to
+11.893 kV (**+1.82%**), horizontal yoke current from 0.9471 to 0.9489 A
+p-p (**+0.20%**) and C21 from 23.750 to 23.626 V (**−0.52%**). Both C21
+values remain below the 60–70 V annotation. All three sampled differences
+are under the Phase A 2% triage threshold, but the source placement and
+installed population of C30, TP17 pulse shape, connected drive and winding
+graph are unqualified. This narrows the C30 decision in one corrected
+conditional stage; it does not close the page-4 source review or A5.
