@@ -1,6 +1,6 @@
 {
-  "format": "dac-monitor-t3-brimar-return-boundary-screen-v2",
-  "qualification": "conditional 4\u20135 ms prescribed-base stage and TBY7 comparator; unverified T3 graph/returns and exploratory centring chokes; not installed AE9VT, periodic operation or an A5 freeze",
+  "format": "dac-monitor-t3-brimar-return-boundary-screen-v3",
+  "qualification": "all six conditional upper-return/cold-end combinations in a 4\u20135 ms prescribed-base stage and TBY7 comparator; unverified T3 graph/returns and exploratory centring chokes; not installed AE9VT, periodic operation or an A5 freeze",
   "source": {
     "k7222_11_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
     "brimar_pdf_sha256": "eb327b3bde53b62472190bd1fd968bc8b1687a082ed991bc0adc0b836801ae01"
@@ -23,7 +23,7 @@
     "t3_loaded_return_screen.py": "d699fecb27e8a8157b94fa8e56fc867a8250a83628d66c8a1a41a4013d519c66",
     "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
     "t3_tp17_path_sweep.py": "90f13dd629d010f0b9ef37e4f32ef12c3568abb9f1ffffc79b876d4ced196b2d",
-    "t3_brimar_return_boundary_screen.py": "dd7fa47d638a62c1e56a375ef791eb2dd48825f10a2bb34607baff0dd1da19bc"
+    "t3_brimar_return_boundary_screen.py": "3526231082173cc28e82eb025a30d41eda5e820fa24ebe269afd0793128d4dc1"
   },
   "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
   "fixed_conditions": {
@@ -43,6 +43,60 @@
   ],
   "prior_boundary_feed_v": 42.50390625,
   "cases": [
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_floating",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "h_hvcold"
+      },
+      "feed_v": 41.0,
+      "r5_equivalent_position": 0.63,
+      "yoke_current_pp_a": 0.9150998349999999,
+      "eht_at_collector_peak_v": 11361.2636,
+      "drive_peak_v": 443.626425,
+      "reaches_class_lower_current": false,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "6b440cf35f8d19e9d15eddaa3ff37d0f454fdd1d11be68469de757cd600fda97"
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_floating",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "h_hvcold"
+      },
+      "feed_v": 42.50390625,
+      "r5_equivalent_position": 0.5227901847256685,
+      "yoke_current_pp_a": 0.9474285739999999,
+      "eht_at_collector_peak_v": 11569.109,
+      "drive_peak_v": 459.008404,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "161cbaeabbd81c0d1360cea9e0115b7025ff0394ab318030d69d795f9850a680"
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_floating",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "h_hvcold"
+      },
+      "feed_v": 43.0,
+      "r5_equivalent_position": 0.4890697674418607,
+      "yoke_current_pp_a": 0.958000197,
+      "eht_at_collector_peak_v": 11638.0927,
+      "drive_peak_v": 463.756777,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "b5de11ffa0a4c4f951a33a53a4569896713caa373adcb8b0ac759cd5fb5dccaf"
+    },
     {
       "upper_return_tied": true,
       "cold_mode": "hv_only_grounded",
@@ -150,6 +204,60 @@
       "reaches_class_lower_current": false,
       "sampled_eht_in_manual_band": false,
       "normalized_deck_sha256": "5edba1bfa70558a0c47d35022dd2c4002867c631039924ff0e799cd7742a98a9"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_floating",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "h_hvcold"
+      },
+      "feed_v": 41.0,
+      "r5_equivalent_position": 0.63,
+      "yoke_current_pp_a": 0.947100385,
+      "eht_at_collector_peak_v": 18.8801454,
+      "drive_peak_v": 482.227572,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": false,
+      "normalized_deck_sha256": "0eab05a4691d8b5fe2c6cde40120ff084da8ea0f617c65cb59aa4ff838109c76"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_floating",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "h_hvcold"
+      },
+      "feed_v": 42.50390625,
+      "r5_equivalent_position": 0.5227901847256685,
+      "yoke_current_pp_a": 0.982132354,
+      "eht_at_collector_peak_v": 19.6104988,
+      "drive_peak_v": 500.221081,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": false,
+      "normalized_deck_sha256": "cef179d6e79194ae1d29c4e664a8c02fc92599bf32df1b1b1ef02b2d6357eae8"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_floating",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "h_hvcold"
+      },
+      "feed_v": 43.0,
+      "r5_equivalent_position": 0.4890697674418607,
+      "yoke_current_pp_a": 0.9937309999999999,
+      "eht_at_collector_peak_v": 19.8552846,
+      "drive_peak_v": 506.148117,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": false,
+      "normalized_deck_sha256": "5c9dd4ff592b4c5cb01418695b28990384aa67e1bbf72442881035e6a0f88023"
     },
     {
       "upper_return_tied": false,
@@ -263,6 +371,18 @@
   "half_step_cases": [
     {
       "upper_return_tied": true,
+      "cold_mode": "shared_floating",
+      "max_step_ns": 25,
+      "feed_v": 42.50390625,
+      "yoke_current_pp_a": 0.9474895480000001,
+      "eht_at_collector_peak_v": 11570.1264,
+      "drive_peak_v": 458.845138,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "3a20c2e3e82b68ed0dd0f53a8a6956ba2b7a3b7711172c4c4e5900a10b7534a5"
+    },
+    {
+      "upper_return_tied": true,
       "cold_mode": "hv_only_grounded",
       "max_step_ns": 25,
       "feed_v": 42.50390625,
@@ -284,6 +404,18 @@
       "reaches_class_lower_current": false,
       "sampled_eht_in_manual_band": false,
       "normalized_deck_sha256": "da5a40b7dc59e5fb277eaa401b0ff18662fbfaf4123305611f6f15fe4dd415a3"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_floating",
+      "max_step_ns": 25,
+      "feed_v": 42.50390625,
+      "yoke_current_pp_a": 0.983080034,
+      "eht_at_collector_peak_v": 19.6544617,
+      "drive_peak_v": 503.057955,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": false,
+      "normalized_deck_sha256": "87d10ea586fca2a637ce52846ae8fc2d846a2f99c6dba48df491740bf0ed1da6"
     },
     {
       "upper_return_tied": false,
@@ -313,6 +445,16 @@
   "half_step_comparison": [
     {
       "upper_return_tied": true,
+      "cold_mode": "shared_floating",
+      "fractional_changes": {
+        "yoke_current_pp_a": 6.435735808846099e-05,
+        "eht_at_collector_peak_v": 8.794108517767578e-05,
+        "drive_peak_v": 0.00035569283389409273
+      },
+      "same_current_and_eht_disposition": true
+    },
+    {
+      "upper_return_tied": true,
       "cold_mode": "hv_only_grounded",
       "fractional_changes": {
         "yoke_current_pp_a": 7.23158116837182e-05,
@@ -328,6 +470,16 @@
         "yoke_current_pp_a": 0.00040207575880075986,
         "eht_at_collector_peak_v": 0.008236759275979756,
         "drive_peak_v": 0.004743549219826313
+      },
+      "same_current_and_eht_disposition": true
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_floating",
+      "fractional_changes": {
+        "yoke_current_pp_a": 0.0009649208644235401,
+        "eht_at_collector_peak_v": 0.0022418042727194863,
+        "drive_peak_v": 0.00567124039300528
       },
       "same_current_and_eht_disposition": true
     },
@@ -356,12 +508,22 @@
   "at_prior_crossing": [
     {
       "upper_return_tied": true,
+      "cold_mode": "shared_floating",
+      "current_and_eht_screen_match": true
+    },
+    {
+      "upper_return_tied": true,
       "cold_mode": "hv_only_grounded",
       "current_and_eht_screen_match": true
     },
     {
       "upper_return_tied": true,
       "cold_mode": "shared_grounded",
+      "current_and_eht_screen_match": false
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_floating",
       "current_and_eht_screen_match": false
     },
     {
@@ -375,5 +537,5 @@
       "current_and_eht_screen_match": true
     }
   ],
-  "interpretation": "At the prior nominal return crossing, three of four conditional return wirings meet the transferred TBY7 lower-current and sampled EHT bands. The tied X1:3/X2:3 plus shared-grounded X1:16/X1:7 combination collapses both outputs; the open-upper-return version does not. All four current/EHT dispositions persist when the maximum step is halved from 50 to 25 ns. This interaction rejects that one pairing only within the assumed graph, stage and rail; it cannot identify the installed return or fix a winding ratio."
+  "interpretation": "At the prior grounded-return crossing, four of six conditional wirings meet the transferred TBY7 lower-current and sampled EHT bands. The tied shared-floating scan hypothesis also meets both; opening its upper return collapses EHT. Conversely, jointly grounding X1:16/X1:7 collapses both outputs only when the upper return remains tied. All six dispositions persist at 25 ns. These interactions reject two pairings only within the assumed graph, stage and rail; they cannot identify the installed return or fix a winding ratio."
 }

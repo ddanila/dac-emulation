@@ -1,11 +1,13 @@
 {
   "format": "dac-monitor-t3-u52-al-gap-screen-v1",
-  "qualification": "conditional linear coupled-T3 magnetizing sensitivity on U52-class geometry and TBY7 yoke, 4\u20135 ms prescribed drive; not an identified .11 core, physical gap, winding ratio or A5 freeze",
+  "qualification": "conditional linear coupled-T3 magnetizing sensitivity on U52-class geometry and TBY7 yoke, 4\u20135 ms prescribed drive; cross-revision core spacers observed but no .11 gap dimension, winding ratio or A5 freeze",
   "source_pdf_sha256": {
     "robotron": "887787a48f36e84ce92edbd39acf2469e6a64f755e22d12d80f687f376f492a6",
-    "fonox": "24bff43f4887ac88bf1ced33961aae4f1703f24fcb12ca20a54bd2954e69f889"
+    "fonox": "24bff43f4887ac88bf1ced33961aae4f1703f24fcb12ca20a54bd2954e69f889",
+    "repair": "19655bfdcb2132cf6348629919ed1bb86c212921fd0273d4664625b47092754a"
   },
   "source_read_sha256": "0cfa73030b6fd0fb9e461040b4183a21de8c7366eb33a7f08f2da3564d884756",
+  "spacer_source_read_sha256": "85be9b70f9d82b11dd4eec37981cdec46c384554953458645427536bfb0bbe01",
   "input_sha256": {
     "reference/k7222-11/t3-brimar-rail-boundary-screen.json": "f4ddaf7ae37792119a7adc0a6dfd532d80c8c79c11a4ca922d04011f0a8b26a6",
     "reference/k7222-11/a5-yoke-class-boundary.json": "603f687194cc18548a0f06206845088ce25c88b62c4902745fe07ee56adae8f8",
@@ -23,7 +25,7 @@
     "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
     "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
     "t3_u52_core_class_screen.py": "d475488267aef1fe5cbc4d3f4c6eb69d5fe16b71b2991325914fca357764814a",
-    "t3_u52_al_gap_screen.py": "740a6e7abb385b6f0654d96b9c75b7965310fdc01f8e6807e34ec73ec8a66ad8"
+    "t3_u52_al_gap_screen.py": "e10b0fa89030cc32e173a6f762f20da878446200741c9ad66bf9d20ed1a77e08"
   },
   "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
   "fixed_conditions": {
@@ -65,7 +67,7 @@
       0.21717812265155206,
       0.23741210923399478
     ],
-    "limitations": "Net extra-reluctance air-gap proxy only. Fringing, two-pole distribution, actual .11 core/material and winding are unknown; this is not an installed gap measurement."
+    "limitations": "Net extra-reluctance air-gap proxy only. A K7222.25 \u00dcHA78 repairer describes two insulation plates between core halves but gives no thickness. Fringing, two-pole distribution, actual .11 core/material and winding are unknown; this is not an installed gap measurement."
   },
   "cases": [
     {
@@ -253,5 +255,5 @@
       ]
     }
   ],
-  "interpretation": "The 375 nH/turn\u00b2 effective-AL case exactly reproduces the prior conditional TBY7 rail crossing even on U52 geometry, because the coupled backend depends on N\u00b2*AL rather than geometry separately. All sampled FONOX catalog AL cases miss the transferred TBY7 lower current at 41, 42.504 and 43 V; EHT is nonmonotone and the 1475 nH case can enter its band without the current match. An excess-reluctance equivalent gap of 0.183\u20130.237 mm would map the catalog AL spread to the conditional 375 nH value, but the .11 core/gap and T3 graph remain unknown. This identifies an effective magnetic parameter for the fallback sensitivity, not a frozen physical core or winding design."
+  "interpretation": "The 375 nH/turn\u00b2 effective-AL case exactly reproduces the prior conditional TBY7 rail crossing even on U52 geometry, because the coupled backend depends on N\u00b2*AL rather than geometry separately. All sampled FONOX catalog AL cases miss the transferred TBY7 lower current at 41, 42.504 and 43 V; EHT is nonmonotone and the 1475 nH case can enter its band without the current match. An excess-reluctance equivalent gap of 0.183\u20130.237 mm would map the catalog AL spread to the conditional 375 nH value. The observed cross-revision \u00dcHA78 insulating plates motivate a physical spacer alternative but cannot set its size or the .11 core. This identifies an effective magnetic parameter for fallback sensitivity, not a frozen physical core or winding design."
 }

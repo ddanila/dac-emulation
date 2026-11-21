@@ -426,17 +426,18 @@ L1/L2 lower case to 16 mH. Both use an unverified T3 graph,
 exploratory L1/L2 and a prescribed drive. Neither establishes installed
 yoke currents, T3 ratios or a sustained operating point. The permitted
 conditional [return boundary screen](reference/k7222-11/t3-brimar-return-boundary-screen.json)
-rejects the tied upper return plus jointly grounded HV cold ends in this
-conditional stage, but three return wirings still pass its sampled current
-and EHT checks at both 50 and 25 ns maximum steps. The permitted
+screens all six upper-return/cold-end combinations: two fail this
+conditional stage's sampled current/EHT checks and four pass at both 50 and
+25 ns maximum steps. The permitted
 function-derived/equivalent T3 fallback still needs A5-derived ratios and
 class-bounded loss and parasitics. A cross-revision U52/54 core statement and
 an independent U52/H21 catalog now bound a class geometry, but the .11 core,
 gap and material remain unidentified; an area/path-only stage screen misses
 the sampled EHT band. A conditional effective-inductance screen shows that
-an extra-reluctance gap proxy can reproduce the prior rail case, but cannot
-identify a physical core or winding. Switching
-to the fallback alone cannot close A5.
+an extra-reluctance gap proxy can reproduce the prior rail case. A firsthand
+K7222.25 repair account confirms core spacer plates but gives no thickness;
+neither result identifies a .11 core or winding. Switching to the fallback
+alone cannot close A5.
 
 A1's full-page source comparisons, A2's sourced joint device bounds and
 stress checks, and A6's remaining class-typical transfers are also open;
