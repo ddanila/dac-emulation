@@ -2,7 +2,7 @@
   "format": "dac-monitor-tp15-equivalent-output-stage-v1",
   "qualification": "prescribed TP15 voltage boundary and conditional T2/L4/T3/yoke stage; no source-validated driver, original winding graph, native-grid stimulus, periodic field score or safe operating point is established",
   "source_hashes": {
-    "tp15_equivalent_output_stage.py": "701bfa1a83019c6d36117f743cb5fe31de10238cfd9227a151956ed9e7f591c2",
+    "tp15_equivalent_output_stage.py": "48fd334737a354b75e387ed1c4303645e5fae13c8e363ed7a367f9c3d12e8d3a",
     "t2_l4_output_stage_sweep.py": "3745bb04dc9fee1d8108ec5ee6871e4f47f8e911adde5375b134a68a1f93c9cb",
     "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
     "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
@@ -11,7 +11,7 @@
     "profiles/k7222-11-horizontal-oscillator.json": "20288f82c68b3b626c84c45713d3a88f281ec01aa8d2e5c8f4dc8f2142943d96",
     "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
     "reference/k7222-11/t3-flyback-sign-filter.json": "906116f65305c37f9f941183ff14e6863a81937badd0f0e412b2c273ce7824c4",
-    "reference/k7222-11/design-point.json": "4a2dd2eefaeca3de19f8015288c354a7cb79b20582763698654734dfbbcb49ec",
+    "reference/k7222-11/design-point.json": "f4809a7c7cf9154c12c5bb38e8d6bfc529c22c8a6b9bd8767c019ea89a288fd5",
     "reference/k7222-11/t3-collector-eht-comparator.json": "f5a1a9bc4e25e47ce8daa37b266445e7f515e6c3ed473c7fe040716f6fe30426",
     "reference/k7222-11/device-model-register.json": "db54e71f7ecbca19fdbf8053896c76d3b97ac154f545661e2497c1bc2bfe979c"
   },
@@ -19,7 +19,7 @@
   "assumptions": [
     "Replace only V13 and its prescribed base drive with a 0-to-45 V ideal source at the source-addressed TP15/V13 collector boundary; retain T2, L4, V18, T3, rectifiers and the conditional yoke/EHT loads.",
     "Both pulse phases and T2 secondary polarities are tested because their factory relation is unresolved; T2 ratios 1, 3 and 10 span the prior bounded stage sweep.",
-    "T3 high-voltage turns 1768 and 2409 are cross-revision winding comparators; 2035 is the conditional A5 design value. Other T3 parameters use the active unverified graph and loss candidate.",
+    "T3 high-voltage turns 1768 and 2409 are cross-revision winding comparators; 2035 is a historical exploratory candidate from the superseded boost calculation. Other T3 parameters use the active unverified graph and loss candidate.",
     "The 19\u201320 ms trace is 16 lines, not a native-grid field-periodic or thermal steady-state acceptance run.",
     "The level-1 V18 BJT model does not represent destructive emitter-base avalanche; simulated reverse-base voltages beyond the class rating invalidate an apparent voltage match."
   ],

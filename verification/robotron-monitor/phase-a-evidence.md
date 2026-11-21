@@ -919,9 +919,12 @@ the 2 kByte timing, the C27/C30 values and the current source connectivity
 candidate. Treating the 16 µs horizontal retrace as half an LC cycle gives
 2.36 mH effective resonant inductance (2.14–2.62 mH from the printed capacitor
 tolerances). An ideal lossless pulse formula gives about 228 V from 41 V alone,
-or 334–390 V if the handwritten 60–70 V boost annotation is the trace supply.
-The 11–12 kV anode target would require an effective high-voltage pulse ratio
-of 28–36 in the boost case. These are design bounds, not a selected T3 winding
+or 551–629 V if the handwritten 60–70 V **across C21** is added to a
+39–43 V 41P comparator before applying the ideal formula. The initial
+334–390 V calculation treated the capacitor differential as a node voltage
+and was corrected on 2026-11-21. The 11–12 kV anode target gives an ideal
+EHT/collector proxy of 17.49–21.78 in the corrected conditional case. These
+are design bounds, not a selected T3 winding
 or a calibrated result; the original rectifier path and supply still need
 source review. The pulse equation is consistent with the
 [published horizontal-output derivation](https://patents.google.com/patent/JP2001313845A/en).
@@ -2335,20 +2338,21 @@ inherits the provisional bounds without a measured branch response.
 The A2 register now covers 63/64 frame-path instances, leaving T3;
 A6 has 201 partial entries. A1, A3, A5 and A6 remain open.
 
-### A5: conditional T3 turn sweep against the collector-voltage proxy (2026-11-20)
+### A5: conditional T3 turn sweep against the collector-voltage proxy (corrected 2026-11-21)
 
 The [isolated T3 ratio sweep](reference/k7222-11/t3-hv-ratio-sweep.json)
 compares the active 1000-turn HV section with the existing conditional
 [design point](reference/k7222-11/design-point.json). The unmeasured drive
 sections total 64 turns, giving an ideal 15.625 HV/drive ratio. This is
-below the 28.2–35.9 **EHT-to-collector-peak proxy** implied by the candidate
-60–70 V boost pulse and the manual's 11–12 kV EHT target. If that proxy
+below the corrected 17.49–21.78 **EHT-to-collector-peak proxy** implied by
+60–70 V across C21, a 39–43 V 41P comparator and the manual's 11–12 kV
+EHT target. If that proxy
 also equalled the actual HV/drive turns ratio, and the 64-turn scale held,
-an ideal-ratio candidate would have 1808–2300 HV turns, with 2035 at the
+an ideal-ratio candidate would have 1,120–1,393 HV turns, with 1,248 at the
 nominal point. The isolated 1 V, 16 µs pulse also
 shows the current model's mean HV voltage from 5–15 µs remains below
-the conditional collector proxy (14.62 versus at least 28.2). The 2035-turn
-candidate gives a 29.97 mean ratio versus its 31.80 ideal ratio; neither
+the conditional collector proxy (14.62 versus at least 17.49). The 1,248-turn
+candidate gives a 19.48 mean ratio versus its 19.50 ideal ratio; neither
 result predicts a loaded rectified EHT.
 The existing 80 ns sign test is still useful for polarity, but it is too
 early to infer a turns ratio from its amplitude. The T3 graph, actual
@@ -2373,7 +2377,7 @@ checks the assembly candidate's `h_hot`/`h_return` mapping. This scoped read
 is not an independent full-page source netlist, and no bounded X2:4 flyback
 waveform is available. The actual drive reference is
 **V(X2:7) − V(X2:4)**, not the collector-to-ground peak alone. Therefore
-the existing 28.24–35.94 EHT/collector proxy and its 1808–2300-turn scale
+the corrected 17.49–21.78 EHT/collector proxy and its 1,120–1,393-turn scale
 are isolated sensitivities, not A5 winding bounds. Bounding the H2/yoke
 operating waveform and this differential pulse is still necessary to derive
 the HV/drive ratio from EHT.
@@ -2480,8 +2484,10 @@ original or replacement transformer are unspecified. The archived
 uses these as cross-revision operating evidence, not K7222.11 factory data.
 
 Dividing the endpoint ranges gives an effective EHT-to-collector amplitude
-range of 27.38–33.78, overlapping the existing 28.24–35.94 conditional
-design-point range. The active 1,000/64-turn ideal ratio is 15.625, below
+range of 27.38–33.78, above the corrected 17.49–21.78 conditional
+ideal-collector design-point range. The different revision/transformers and
+measured-versus-ideal pulse prevent treating that separation as a source
+contradiction. The active 1,000/64-turn ideal ratio is 15.625, below
 both ranges. If 64 drive turns were correct, the repairer range would imply
 about 1,752–2,162 HV turns before loading corrections; if the separate
 2,409-turn winding account applied, it would imply about 71–88 drive turns.
@@ -3078,6 +3084,8 @@ voltage match is therefore not an admissible equivalent-driver operating
 point. A 16-line EHT drift check is also not a three-field native-grid
 periodicity score. The source T2 secondary/T3 graph, V18 switching stress and
 stage loading must be resolved or bounded before A3/A5 can close.
+The 2,035-turn cases are historical exploratory points from the superseded
+C21 voltage-reference calculation, not the corrected design-point nominal.
 With the verified pinned runtime, `make test-monitor` passed 307 tests with no
 skips after the stress audit and dependent receipt refresh. This verifies the
 diagnostic and saved reports, not a source-validated or stress-safe stage.
@@ -3097,7 +3105,7 @@ sweeps therefore remain conditional. This is a scoped comparison after model
 exposure, not the independent whole-page A1 netlist.
 
 The [eight-case L4-path sensitivity](reference/k7222-11/t2-l4-topology-sensitivity.json)
-holds the conditional 2,035-turn T3 and ideal 45 Vpp TP15 boundary fixed,
+holds the historical exploratory 2,035-turn T3 and ideal 45 Vpp TP15 boundary fixed,
 then tries the selected parallel L4:1/L4:2 path, a single coil, two series
 coils, and a near-short bridge at T2 ratios 1 and 10. Seven 19–20 ms cases
 complete; the series-path ratio-10 case aborts. All four completed ratio-1
@@ -3120,7 +3128,7 @@ the prescribed TP15 source across 36, 45, 48, 51 and 54 Vpp at 2,035 HV turns.
 All five late-window cases complete; EHT remains 9.893–9.920 kV, below the
 11–12 kV manual range. V18's reverse-base excursion grows from 3.60 to
 11.67 V; the 48, 51 and 54 Vpp cases exceed the 9 V class comparator. At
-45 Vpp, raising the conditional HV turns to 2,300 or 2,409 yields 9.994 or
+45 Vpp, raising the historical exploratory HV turns to 2,300 or 2,409 yields 9.994 or
 9.981 kV EHT, still below range. None of the seven sampled points jointly
 meets EHT and V18 stress. The loaded stage response does not justify scaling
 EHT directly by the HV turn count; further amplitude or turn tuning of this
@@ -3266,16 +3274,17 @@ the existing periodicity check and is labelled
 core slope and section parasitics are not yet source-qualified `class-typical`
 bounds, and the graph remains conditional.
 
-All eight sampled 4–5 ms prescribed-drive stage cases complete with the
-pinned runtime. With the algebraic probe and 100 ns maximum step, 7.5 auxiliary
-turns and the 1,000-turn HV hypothesis give 86.91 Vpp TP17 but 13.162 kV
-final EHT; 7.5 turns and the 1,768-turn cross-revision comparator give
-56.78 Vpp and 10.657 kV; 7.5 turns and the conditional 2,035-turn A5 scale
-give 72.32 Vpp and 10.188 kV. None of the sampled cases jointly reaches
-TP17's 64–96 Vpp guideline and 11–12 kV EHT. The 7.5/1,768 case changes to
-57.97 Vpp and 10.519 kV at 50 ns. Removing only the non-driving flux probe
-at 100 ns changes it to 63.52 Vpp and 11.842 kV. That roughly 10% probe
-sensitivity and the remaining step-size difference forbid a T3 freeze or
+Seven of eight sampled 4–5 ms prescribed-drive stage cases complete with the
+current model and ngspice inputs; the 10-auxiliary-turn case aborts on a
+timestep failure. With the algebraic probe and 100 ns maximum step, 7.5
+auxiliary turns and the 1,000-turn HV hypothesis give 105.07 Vpp TP17 and
+13.313 kV final EHT; 7.5 turns and the 1,768-turn cross-revision comparator
+give 50.98 Vpp and 11.916 kV; 7.5 turns and the historical exploratory
+2,035-turn case give 48.22 Vpp and 10.197 kV. None of the completed cases
+jointly reaches TP17's 64–96 Vpp guideline and 11–12 kV EHT. The 7.5/1,768
+case changes to 49.51 Vpp and 9.827 kV at 50 ns. Removing only the
+non-driving flux probe at 100 ns changes it to 50.57 Vpp and 10.909 kV.
+These probe and step-size differences, plus the abort, forbid a T3 freeze or
 stage-level waveform qualification.
 
 The first [bounded connected attempt](reference/k7222-11/native-coupled-equivalent-bounded-attempt.json)
@@ -4867,18 +4876,23 @@ feed, and runs only 5 ms with C21 = 220 µF. These samples do not establish
 settled booster voltage, reject a physical return wiring or indicate an
 installed fault.
 
-The previous partial [design point](reference/k7222-11/design-point.json)
-multiplied the 60–70 V **capacitor differential** by the ideal flyback
-factor as if it were the trace node relative to ground. Its conditional
-333.9–389.6 V collector interval, 28.24–35.94 EHT ratio and consequent
-1,808–2,300-turn sweep are therefore not valid boost-referenced A5 bounds.
-The corrected [cross-revision arithmetic](reference/k7222-11/k7222-25-operating-crosscheck.json)
-adds the 39–43 V 41P comparator to the 60–70 V C21 differential, giving a
+The earlier design-point calculation multiplied the 60–70 V **capacitor
+differential** by the ideal flyback factor as if it were the trace node
+relative to ground. Its 333.9–389.6 V collector interval, 28.24–35.94
+EHT ratio and consequent 1,808–2,300-turn sweep were invalid as
+boost-referenced A5 bounds. The corrected partial
+[design point](reference/k7222-11/design-point.json) and
+[cross-revision check](reference/k7222-11/k7222-25-operating-crosscheck.json)
+add the 39–43 V 41P comparator to the 60–70 V C21 differential, giving a
 conditional **99–113 V trace-node** interval. Under the *same ideal formula*,
-that would yield **550.95–628.86 V** collector peak and **17.49–21.78**
-EHT/collector ratio. Those are algebraic alternatives, not an observed
-collector waveform or a qualified winding ratio. The active stage's
+this gives **550.95–628.86 V** collector peak and **17.49–21.78**
+EHT/collector ratio. The isolated
+[turn sweep](reference/k7222-11/t3-hv-ratio-sweep.json) now spans
+**1,120–1,393 turns** around a 1,248-turn nominal for its assumed 64-turn
+drive winding. These remain algebraic and isolated alternatives, not an
+observed collector waveform or a qualified winding ratio. Older 2,035-turn
+stage cases remain historical exploratory comparisons. The active stage's
 roughly 459 V sampled collector peak and 11.7 kV EHT cannot be called
 document-consistent while its C21 voltage is about 24 V. The next A5 step
-must correct the design-point voltage reference and source-bound the
-booster/tap graph before using any turn-count inference.
+must qualify settled C21 voltage, the source-connected collector/drive pulse
+and the booster/tap graph before using any turn-count inference.

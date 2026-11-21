@@ -1,5 +1,5 @@
 {
-  "format": "dac-monitor-t3-drive-voltage-audit-v1",
+  "format": "dac-monitor-t3-drive-voltage-audit-v2",
   "qualification": "source-read drive pair and scoped X2:4/C31/C32-to-H2 external return; no full page-4 netlist, measured differential pulse or T3 ratio",
   "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
   "inputs_sha256": {
@@ -7,8 +7,8 @@
     "reference/k7222-11/page4-t3-x2-return-source-netlist.json": "5d425279509edbb2d69437dee1ee47589a097087acadc9c96332b73a2a84409c",
     "reference/k7222-11/page4-t3-x2-return-comparison.json": "f0b193a81ae0d3032285e07eaccb7df978a7630bc9a9de9fbe53e781639686d9",
     "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
-    "reference/k7222-11/design-point.json": "4a2dd2eefaeca3de19f8015288c354a7cb79b20582763698654734dfbbcb49ec",
-    "t3_drive_voltage_audit.py": "6e4322ca704b7d7906f8c8ef8483a9f994260df129bdab4e38ab334eaa94c26f"
+    "reference/k7222-11/design-point.json": "f4809a7c7cf9154c12c5bb38e8d6bfc529c22c8a6b9bd8767c019ea89a288fd5",
+    "t3_drive_voltage_audit.py": "d9661d2e692a9cadca7bb2497ca70db4ac33f4f858d1b28ebd8531a4b4565fe9"
   },
   "source_read_drive_terminals": [
     "X2:7",
@@ -51,6 +51,6 @@
   ],
   "existing_design_point_equation": "EHT / collector_flyback_peak",
   "required_drive_voltage": "V(X2:7)-V(X2:4) = V(h_hot)-V(h_return) in the assembly candidate",
-  "conclusion": "EHT divided by collector-to-ground peak is a conditional voltage proxy, not the T3 HV-to-drive turns ratio. X2:4 returns through C31/C32 to H2 at X5:5, but the H2 and X2:4 flyback waveforms are not source-bounded. Neither the 28.24-35.94 collector proxy nor the 1808-2300 turn scale may qualify T3 turns.",
+  "conclusion": "EHT divided by collector-to-ground peak is a conditional voltage proxy, not the T3 HV-to-drive turns ratio. X2:4 returns through C31/C32 to H2 at X5:5, but the H2 and X2:4 flyback waveforms are not source-bounded. Neither the corrected 17.49-21.78 collector proxy nor the 1120-1393 turn scale may qualify T3 turns.",
   "next": "Bound the H2-coupled X2:4 waveform and differential X2:7-to-X2:4 flyback pulse before using EHT to derive an HV/drive ratio; retain the existing turn sweep as an isolated sensitivity only."
 }

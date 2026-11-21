@@ -49,10 +49,6 @@ def run():
     if not stage['boost_voltage_reference'].startswith('across C21'):
         raise ValueError('K7222.25 boost voltage reference changed')
     ideal_multiplier = design['collector_flyback']['ideal_ratio_to_trace_supply']
-    collector = design['collector_flyback']['candidate_boost_60_to_70v_case_v']
-    if (not math.isclose(collector['minimum'], ideal_multiplier * boost[0], rel_tol=1e-10)
-            or not math.isclose(collector['maximum'], ideal_multiplier * boost[1], rel_tol=1e-10)):
-        raise ValueError('legacy design-point boost formula changed')
     rail_range = stage['supply_41p_v']
     # C21 is between 41P and the boost node in the .11 transcription. The
     # manual describes voltage *across* C21, so trace-node voltage is their sum.
@@ -61,12 +57,25 @@ def run():
     eht = design['high_voltage_ratio']['eht_target_v']
     corrected_hv_ratio = [eht['minimum'] / corrected_collector[1],
                           eht['maximum'] / corrected_collector[0]]
+    candidate = design['collector_flyback']
+    if (candidate['candidate_41p_feed_v']['bounds'] != rail_range
+            or candidate['candidate_c21_differential_v']['bounds'] != boost
+            or candidate['candidate_trace_node_v']['bounds'] != corrected_trace
+            or not math.isclose(candidate['candidate_boosted_collector_peak_v']['minimum'],
+                                corrected_collector[0], rel_tol=1e-10)
+            or not math.isclose(candidate['candidate_boosted_collector_peak_v']['maximum'],
+                                corrected_collector[1], rel_tol=1e-10)):
+        raise ValueError('design-point boost reference or arithmetic differs')
+    ratio = design['high_voltage_ratio']['ratio_if_boost_case_is_correct']
+    if (not math.isclose(ratio['minimum'], corrected_hv_ratio[0], rel_tol=1e-10)
+            or not math.isclose(ratio['maximum'], corrected_hv_ratio[1], rel_tol=1e-10)):
+        raise ValueError('design-point EHT ratio differs from corrected boost')
     feed = rail['threshold']['first_within']['feed_v']
     sweep = link['threshold_feed_range_v']
     if not (rail_range[0] <= sweep[0] <= feed <= sweep[1] <= rail_range[1]):
         raise ValueError('conditional rail crossing exceeds K7222.25 comparator range')
     return dict(
-        format='dac-monitor-k7222-25-operating-crosscheck-v2',
+        format='dac-monitor-k7222-25-operating-crosscheck-v3',
         qualification='same-named-yoke cross-revision timing, rail and boost comparison; no K7222.11 T3 ratio, tap map, installed yoke current or source-driven waveform qualification',
         input_sha256={str(path.relative_to(ROOT)): sha(path)
                       for path in (READ, DESIGN, ASSEMBLY, RAIL, LINK, Path(__file__))},
@@ -80,14 +89,14 @@ def run():
         k7222_25_minus_k7222_11_timing=deltas,
         k7222_25_41p_v=rail_range,
         k7222_25_c21_differential_voltage_v=boost,
-        legacy_design_point_treats_c21_voltage_as_trace_node=True,
+        design_point_uses_c21_differential_reference=True,
         corrected_conditional_trace_node_v=corrected_trace,
         corrected_conditional_ideal_collector_peak_v=corrected_collector,
         corrected_conditional_eht_to_collector_ratio=corrected_hv_ratio,
         conditional_tby7_nominal_crossing_feed_v=feed,
         conditional_tby7_choke_sweep_crossing_feed_v=sweep,
         crossing_inside_k7222_25_41p_range=True,
-        finding='The later Robotron stage names AE9VT and independently gives 60-70 V across C21; the .11 page-4 annotation agrees. C21 lies between 41P and the boost node in the .11 graph, so the partial design point incorrectly used its differential voltage as the trace-node voltage. The corrected conditional trace-node range is 99-113 V, not 60-70 V. The TBY7 rail crossings fit the later 39-43 V 41P range, but neither revision qualifies the .11 T3 graph or actual collector pulse.',
+        finding='The later Robotron stage names AE9VT and independently gives 60-70 V across C21; the .11 page-4 annotation agrees. C21 lies between 41P and the boost node in the .11 graph, and the partial design point now sums the two voltages to a conditional 99-113 V trace-node range. The TBY7 rail crossings fit the later 39-43 V 41P range, but neither revision qualifies the .11 T3 graph or actual collector pulse.',
         excluded_transfer=read['excluded_transfer'])
 
 

@@ -51,8 +51,11 @@ def run():
     ratio = design['high_voltage_ratio']
     if ratio['equation'] != 'EHT / collector_flyback_peak':
         raise ValueError('design-point collector proxy changed')
+    ratio_bounds = ratio['ratio_if_boost_case_is_correct']
+    turn_bounds = design['conditional_t3_hv_turn_scale'][
+        'candidate_hv_turns_if_current_drive_scale_and_boost_case_hold']
     return dict(
-        format='dac-monitor-t3-drive-voltage-audit-v1',
+        format='dac-monitor-t3-drive-voltage-audit-v2',
         qualification='source-read drive pair and scoped X2:4/C31/C32-to-H2 external return; no full page-4 netlist, measured differential pulse or T3 ratio',
         source_pdf_sha256=drive['source_pdf_sha256'],
         inputs_sha256={str(path.relative_to(ROOT)): sha(path)
@@ -65,7 +68,7 @@ def run():
         candidate_return_branches=return_parts,
         existing_design_point_equation=ratio['equation'],
         required_drive_voltage='V(X2:7)-V(X2:4) = V(h_hot)-V(h_return) in the assembly candidate',
-        conclusion='EHT divided by collector-to-ground peak is a conditional voltage proxy, not the T3 HV-to-drive turns ratio. X2:4 returns through C31/C32 to H2 at X5:5, but the H2 and X2:4 flyback waveforms are not source-bounded. Neither the 28.24-35.94 collector proxy nor the 1808-2300 turn scale may qualify T3 turns.',
+        conclusion=(f'EHT divided by collector-to-ground peak is a conditional voltage proxy, not the T3 HV-to-drive turns ratio. X2:4 returns through C31/C32 to H2 at X5:5, but the H2 and X2:4 flyback waveforms are not source-bounded. Neither the corrected {ratio_bounds["minimum"]:.2f}-{ratio_bounds["maximum"]:.2f} collector proxy nor the {turn_bounds["minimum"]}-{turn_bounds["maximum"]} turn scale may qualify T3 turns.'),
         next='Bound the H2-coupled X2:4 waveform and differential X2:7-to-X2:4 flyback pulse before using EHT to derive an HV/drive ratio; retain the existing turn sweep as an isolated sensitivity only.')
 
 

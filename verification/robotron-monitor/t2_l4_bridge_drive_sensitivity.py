@@ -90,7 +90,7 @@ def run():
         'assumptions': [
             'The conditional AC-loss T3, on-trace model-polarity TP15 pulse, T2 ratio 10 and 19–20 ms output-stage window are held fixed.',
             'The 1 milliohm L4 bridge is an exploratory lower-impedance bound, not a source-read installed jumper setting.',
-            'TP15 amplitudes 36–54 Vpp span the manual tolerance; 2035 HV turns is the conditional design point, 2300 an interior comparator and 2409 a cross-revision comparator.',
+            'TP15 amplitudes 36–54 Vpp span the manual tolerance; 2035 and 2300 HV turns are historical exploratory cases from the superseded boost calculation, and 2409 is a cross-revision comparator.',
             'A late 16-line trace is not a source-connected native-grid field-periodicity or thermal steady-state qualification.',
             'The level-1 V18 BJT lacks reverse emitter-base breakdown, so the 9 V class comparison excludes apparent voltage matches beyond that stress.',
         ],
