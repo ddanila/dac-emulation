@@ -4509,3 +4509,32 @@ state a G2 maximum, so this is an operating-point difference to check in a
 connected run, not a demonstrated contradiction. The A6 register now cites
 the exact-name table on the affected model rows and keeps those bounds
 conditional.
+
+### A5: source-paired yoke current and winding-voltage boundary (2026-11-21)
+
+The [A5 class-boundary calculation](reference/k7222-11/a5-yoke-class-boundary.json)
+rechecks the primary [Brimar catalog](https://tubedata.altanatubes.com.br/other/Brimar/Brimar_IndustrialCathodeRayTubes_DataSection_Issue3.pdf)
+hash, the saved TBY7 electrical/current comparator and the A6 register.
+For the Robotron's nominal 210 × 145 mm picture at 11.5 kV it gives a
+**class candidate**, not an AE9VT value: 1.188 A p-p horizontal
+(0.946–1.462 A p-p transfer bounds) and 0.449 A p-p vertical
+(0.355–0.557 A p-p). The corresponding peak magnitudes for a centred
+trace are 0.594 and 0.225 A. These bounds are inherited from the catalog
+picture-size/EHT transfer and declared ±10% transfer allowance, not from a
+Brimar tolerance on full-scan current.
+
+With a *linear current trace* through only the paired winding's R and L,
+`V = L ΔI/T_trace + R I`, the nominal horizontal inductive term is 104.7 V
+over 46.5 µs and its resistive endpoint term is ±5.23 V. Independent
+L/R/current corners give 79.2–135.3 V for the inductive term and
+83.2–142.1 V for the end-of-trace winding voltage. The nominal vertical
+terms over 18 ms are 0.799 V inductive and ±3.59 V resistive. This is a
+*winding-only boundary*, not a T3 tap or turns ratio: the real stage also
+has S-correction capacitance, centring bridge, flyback and loading. The
+conditional prescribed-drive TBY7 stage reaches 11.51 kV at its sampled
+collector pulse but only 0.914 A p-p yoke span, 0.032 A below the class
+candidate's lower current proxy and 23.1% below its nominal. That stage is
+not periodic. The next A5 check must reconcile the bounded drive/boost and
+tap alternatives with the class current boundary, then choose a labelled
+field equivalent or source-bounded installed geometry before any yoke
+freeze. The active `design-point.json` and ray profile remain partial.
