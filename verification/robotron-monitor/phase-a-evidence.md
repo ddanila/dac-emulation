@@ -5553,3 +5553,14 @@ sections between those two tied terminals, so joining the labels alone
 would short assumed sections. Split or re-evaluate the magnetic section
 graph, add the source conductor to the wrapper, and rerun the source and
 connected screens before using any of their numerical results for A5.
+
+Implementation handoff: the follow-up inspection made no circuit or parameter
+changes. `page4_t3_visible_wrapper.py` generates the two separate nets;
+`t3_page4_visible_stage_screen.py` transfers two assumed one-turn sections
+into the single HV group. `steady_supply.py` requires the saved screen's
+parameter transfer to equal the active provisional parameter file. Correct
+the winding groups, parameter transfer and generated sheet together, then
+regenerate the wrapper comparison and affected screen before assembling a
+connected candidate. Preserve the existing numerical results as historical
+evidence of the pre-bridge model. The upper-bridge audit and wrapper test
+passed; the audit explicitly reports a source/model mismatch, not A5 closure.
