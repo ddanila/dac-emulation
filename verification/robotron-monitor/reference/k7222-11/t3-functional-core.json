@@ -9,6 +9,7 @@
   },
   "transcription_sha256": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
   "previous_filter_sha256": "0fe159027942ea52f16b3c2587ec9d557da3512b600376427d503eb6418241c8",
+  "cross_variant_read_sha256": "7e39b15aba2e1226094167986e04bd71e4c2832fc95d857efcdefc2f1d09ff43",
   "voltage_reference": {
     "drive": "V(X2:7)-V(X2:4)",
     "high_voltage": "V(X1:1)-V(X1:16)",
@@ -59,6 +60,24 @@
       "high_voltage_sign": 1,
       "g1_auxiliary_sign": -1,
       "retained": true
+    }
+  ],
+  "excluded_graph_alternatives": [
+    {
+      "variant": "TV \u00dcHA78 bridges reported in 2006",
+      "reported_bridges": [
+        [
+          "X1:1",
+          "X1:2"
+        ],
+        [
+          "X1:7",
+          "X2:3"
+        ]
+      ],
+      "excluded": true,
+      "reason": "The X1:1-to-X1:2 bridge would bypass the .11 source-drawn V21 rectifier between those terminals; the TV X1:7-to-X2:3 link cannot be transferred to an unidentified monitor revision.",
+      "source_read": "reference/k7222-11/t3-tv-variant-source-read.json"
     }
   ],
   "unassigned_assembly_terminals": [
