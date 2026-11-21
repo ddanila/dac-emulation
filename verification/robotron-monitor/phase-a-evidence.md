@@ -5414,3 +5414,19 @@ the corrected connected drive observable. They do not qualify the BSYN
 offset, installed T3 graph, winding ratio, yoke or 60–70 V C21 target. A5
 must retain the source timing uncertainty and pursue the return, winding and
 boost discrepancy rather than selecting this provisional candidate.
+
+### A5: connected C21 initial state does not explain the boost gap (2026-11-21)
+
+The [paired connected boost screen](reference/k7222-11/t3-page4-connected-boost-settling-screen.json)
+uses the same corrected 20-port graph, 1 ns conditional BSYN skew and
+40.064 ms two-period solve as the preceding screen. One case uses the
+unseeded operating-point start; the other initializes `h_boost` to 106 V,
+which is **65 V across C21** above the 41 V feed. The unseeded case exactly
+reproduces the prior saved trace. Both runs complete with no duplicate
+timestamps. In their final 1 ms windows, C21 spans **18.499–18.776 V**
+and **18.521–18.796 V**, respectively; EHT spans 10.372–10.391 and
+10.396–10.413 kV. The starting 65 V differential therefore does not
+restore the printed 60–70 V in this provisional connected graph. The small
+remaining differences do not prove periodic convergence, and neither the
+BSYN delay nor the internal T3 return, turns, yoke or installed input stage
+is source-qualified. These alternatives remain open for the A5 design point.

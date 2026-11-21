@@ -1,0 +1,110 @@
+{
+  "format": "dac-monitor-t3-page4-connected-boost-settling-screen-v1",
+  "qualification": "paired conditional two-period connected startup with 1 ns unverified BSYN skew and provisional T3; not periodic or source-qualified",
+  "input_sha256": {
+    "reference/k7222-11/t3-page4-connected-input-skew-screen.json": "2eda4d045065f0add664eee8d9bd14d766c31bd70ca6d523bacb42bbbde359e6",
+    "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+    "signal_path.py": "fb1229e6b81e9a06877f3c1863fa86b5a4d8d05027e8ee135fe11481fc22c80c",
+    "transformer_candidates.py": "e35f2e76b637c7ae80e6e95267043417e1b4b97a50cb5bf4bbd6c833430027a0",
+    "tests/test_frames.py": "8174f0ece596f781d8e9d570d68f62c670415d4f754567ae43f47ec4cb61e3ac",
+    "t3_page4_connected_input_skew_screen.py": "436984b3ea891064c7105808e58a3e57ac1cf477ed2db1c25986b0ae4cae5387",
+    "t3_page4_connected_drive_diagnostic.py": "aff5de61ba45bdad9889267417cb15659aa27e942c577a776279bc4b9e8df87d",
+    "t3_page4_connected_stiffness_screen.py": "048a18432c9164a00963ee9f08536aa2d5e6a8947694c3003c42b8f3e262549c",
+    "t3_page4_connected_boost_settling_screen.py": "ab768f8ea4da168d66c521f64edce6958f01c2d800cbb16e5ac7de72c4aaa0c5"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "interface": "page4-visible-20-port",
+  "candidate_id": "t3-8130433bb201581d",
+  "rail_v": 41.0,
+  "seeded_boost_node_v": 106.0,
+  "stop_ms": 40.06410256410256,
+  "saved_from_ms": 39.06410256410256,
+  "cases": [
+    {
+      "name": "unseeded",
+      "initial_c21_v": null,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 300,
+      "elapsed_s": 137.818,
+      "deck_sha256": "a8cf9807f65a0fd6724eb66c5db318b3989deaf43e349bbaa9b16209f95f2c4f",
+      "solver_log_sha256": "2072f349bdde4cc777b4d94c8a27d35f9b72decd0b3191dd0453d6ff665c343c",
+      "raw_tail": {
+        "rows": 21580,
+        "declared_rows": 21580,
+        "last_time_s": 0.0400641025641026,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21580,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.03906411985735467,
+          0.0400641025641026
+        ],
+        "eht_v": [
+          10372.166011632282,
+          10390.789582779853
+        ],
+        "hot_to_return_drive_v": [
+          -68.54041648444088,
+          439.3543234110777
+        ],
+        "c21_differential_v": [
+          18.498952976894188,
+          18.775694788060036
+        ],
+        "tp17_mapped_v": [
+          -67.2080832339911,
+          11.153849338090096
+        ],
+        "yoke_current_pp_a": 0.9305779571310537,
+        "endpoint_eht_v": 10382.603183188521,
+        "endpoint_c21_v": 18.69061940986061
+      }
+    },
+    {
+      "name": "c21_65v",
+      "initial_c21_v": 65,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 300,
+      "elapsed_s": 139.424,
+      "deck_sha256": "bd5b01ab61ae08453f4b40113fd317d0eca1d4b4692312752ab970aa82c13dd5",
+      "solver_log_sha256": "35f0bd29c49176f2ebb3b76ee79446100789523f0d3cb0b14706b1844459a806",
+      "raw_tail": {
+        "rows": 21555,
+        "declared_rows": 21555,
+        "last_time_s": 0.0400641025641026,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21555,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.03906411442964268,
+          0.0400641025641026
+        ],
+        "eht_v": [
+          10396.08709412165,
+          10412.547399809893
+        ],
+        "hot_to_return_drive_v": [
+          -68.58630344345069,
+          441.106258072879
+        ],
+        "c21_differential_v": [
+          18.52056072686205,
+          18.795590340112717
+        ],
+        "tp17_mapped_v": [
+          -68.48732325316763,
+          11.196968266320063
+        ],
+        "yoke_current_pp_a": 0.9225650808144552,
+        "endpoint_eht_v": 10396.08709412165,
+        "endpoint_c21_v": 18.606774529871934
+      }
+    }
+  ]
+}
