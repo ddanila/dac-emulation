@@ -396,25 +396,31 @@ failure, restore the component-level stage and re-run the gates from there.
 ## Status (2026-11-21)
 
 **Goal blocked reason (2026-11-21): Phase A does not meet its six-item
-completion rule.** A5 is the critical dependency: the .11 scan does not
-settle T3's return, tap order or high-voltage cold end. The
+completion rule.** A5 is the critical dependency. The .11 scan does not
+settle T3's return, tap order or high-voltage cold end; the
 [function-only core](reference/k7222-11/t3-functional-core.json) assigns only
-six of 19 terminals; its remaining signs do not determine winding ratios.
-The cross-revision [TV ÜHA78 bridge](reference/k7222-11/t3-tv-variant-source-read.json)
-would bypass the .11 V21 rectifier and cannot identify the installed pin map.
-The active T3 values retain assumed bounds, while the plan's permitted
-function-derived or equivalent-transformer fallback still lacks A5-derived
-ratios and bounded loss, parasitics and yoke currents. Conditional stage
-matches and failed connected runs cannot qualify that design point.
+six of 19 terminals and cannot determine winding ratios. The cross-revision
+[TV ÜHA78 bridge](reference/k7222-11/t3-tv-variant-source-read.json) would
+bypass the .11 V21 rectifier, so it cannot identify the installed pin map.
+The H2-coupled T3 drive waveform also lacks bounds for L1/L2 and the installed
+E1–E4 links. The latest [110° yoke stage screen](reference/k7222-11/t3-yoke-110deg-stage-screen.json)
+tests five source-paired windings, but all have 28.6 mm necks rather than the
+roughly 20 mm B31-G-class neck indicated by the tube outline. Their
+conditional EHT spans 6.86–13.20 kV; none is in the manual's 11–12 kV band
+at the sampled pulse. The screen neither identifies AE9VT nor rules out a
+physical T3 design. The active T3 values
+therefore remain placeholders, and the permitted function-derived or
+equivalent-transformer fallback still has no defensible A5 ratios, yoke
+currents, or bounded loss and parasitics.
 
 A1's full-page source comparisons, A2's sourced joint device bounds and
 stress checks, and A6's remaining class-typical transfers are also open;
 A3 and A4 are done. This is an internal evidence and implementation gap, not
-an external wait or an approval request. The unblock path is to carry
-unreadable connections as labelled bounded alternatives, parameterize the A5
-fallback from documented function and class-typical bounds, then close the
-other open rows below. The detailed findings and receipts are in
-[phase-a-evidence.md](phase-a-evidence.md).
+an external wait or an approval request. To unblock A5, carry unreadable
+connections as labelled bounded alternatives, source a 110°/20 mm-neck yoke
+class and L1/L2/link bounds or declare bounded class-typical substitutes,
+then parameterize the fallback and close the other open rows below. Detailed
+findings and receipts are in [phase-a-evidence.md](phase-a-evidence.md).
 
 **Keep this section short.** It holds one row per item: what is still unmet
 and the next step. Results, numbers and source reads go in
