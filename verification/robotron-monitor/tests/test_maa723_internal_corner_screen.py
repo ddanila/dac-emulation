@@ -17,6 +17,13 @@ class MAA723InternalCornerTests(unittest.TestCase):
         self.assertEqual(saved['class_check_failures_at_25c'], 0)
         self.assertEqual(saved['engineering_probe_misses_at_25c'], 4)
         self.assertEqual(saved['lower_dissipation_probe_misses_at_25c'], 4)
+        attribution = saved['pass_corner_attribution']
+        restored = attribution['restore_nominal_from_all_low_pass_load_current_a']
+        self.assertLess(restored['none'], .063)
+        self.assertLess(restored['BF'], .100)
+        self.assertLess(restored['IKF'], .100)
+        self.assertGreater(restored['BF+IKF'], .145)
+        self.assertLess(attribution['low_bf_ikf_drive_ceiling_sweep']['high']['load_current_a'], .100)
         nominal_probe = saved['rows'][0]['temperatures'][1]['lower_dissipation_150ma_probe']
         self.assertGreater(nominal_probe['actual_load_current_a'], .145)
         self.assertLess(nominal_probe['chip_power_proxy_w'], .66)
