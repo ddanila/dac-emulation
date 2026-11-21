@@ -5391,3 +5391,26 @@ horizontal base. Those node labels are solver diagnostics, not evidence of
 a failed physical part. V4 charge tuning within the registered proxy bounds
 does not remove the numerical obstacle. The source-edge/input-chain behavior
 and the remaining A5 winding/return bounds still need qualification.
+
+### A5: sub-tick BSYN skew completes corrected connected startup (2026-11-21)
+
+The [input-skew screen](reference/k7222-11/t3-page4-connected-input-skew-screen.json)
+keeps video, intensity, the 0.1 ns electrical source edge, 20-port T3,
+coupled parameters and native-pattern input sequence fixed. It delays only
+BSYN transitions by 1, 5 or 50 ns; these are numerical probes, not measured
+cable or driver delays. The capture tick is 5.564 ns, so 1 and 5 ns are
+sub-tick trials; 50 ns is outside a tick. All three corrected connected
+decks complete to 20 ms with no duplicate timestamps. Their 19–20 ms EHT
+ranges are 10.515–10.540, 10.517–10.542 and 10.517–10.542 kV, respectively.
+C21 remains about 18.3–18.7 V in each, far below the printed 60–70 V.
+At 1 ns skew, a separate run completes through two captured periods
+(40.064 ms), again without duplicate timestamps. Its final 1 ms has
+10.372–10.391 kV EHT, 18.499–18.776 V C21, −68.5 to 439.4 V
+X2:7-to-X2:4 differential drive, 78.36 V peak-to-peak TP17-mapped swing and
+0.931 A peak-to-peak horizontal-yoke current. EHT is lower than in the first
+period, so this is not a demonstrated periodic state. The completed runs
+isolate the simultaneous input edges as a solver-sensitive boundary and make
+the corrected connected drive observable. They do not qualify the BSYN
+offset, installed T3 graph, winding ratio, yoke or 60–70 V C21 target. A5
+must retain the source timing uncertainty and pursue the return, winding and
+boost discrepancy rather than selecting this provisional candidate.

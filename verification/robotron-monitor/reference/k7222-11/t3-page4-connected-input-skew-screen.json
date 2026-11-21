@@ -1,0 +1,201 @@
+{
+  "format": "dac-monitor-t3-page4-connected-input-skew-screen-v1",
+  "qualification": "synthetic connected startup and two-period sensitivity with unverified BSYN timing offsets; no source-qualified input delay, periodic state or T3 ratio",
+  "input_sha256": {
+    "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+    "signal_path.py": "fb1229e6b81e9a06877f3c1863fa86b5a4d8d05027e8ee135fe11481fc22c80c",
+    "transformer_candidates.py": "e35f2e76b637c7ae80e6e95267043417e1b4b97a50cb5bf4bbd6c833430027a0",
+    "tests/test_frames.py": "8174f0ece596f781d8e9d570d68f62c670415d4f754567ae43f47ec4cb61e3ac",
+    "circuits/k7222-11-horizontal-output-page4.kicad_sch": "7a7426dd8fe69fbb2743f7c237aea4721457a2f9097e9ebdd297e8d333806dc1",
+    "reference/k7222-11/t3-page4-visible-graph.json": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+    "reference/k7222-11/t3-page4-provisional-parameters.json": "d0a15aeec7114384048ac99596b0fc819c69f00dad1486706ece7fb4578088e2",
+    "t3_page4_connected_drive_diagnostic.py": "aff5de61ba45bdad9889267417cb15659aa27e942c577a776279bc4b9e8df87d",
+    "t3_page4_connected_stiffness_screen.py": "048a18432c9164a00963ee9f08536aa2d5e6a8947694c3003c42b8f3e262549c",
+    "t3_page4_connected_input_skew_screen.py": "436984b3ea891064c7105808e58a3e57ac1cf477ed2db1c25986b0ae4cae5387"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "interface": "page4-visible-20-port",
+  "magnetic_backend": "coupled",
+  "candidate_id": "t3-8130433bb201581d",
+  "capture_tick_ns": 5.564458689458689,
+  "capture_period_ms": 20.03205128205128,
+  "source_edge_ns": 0.1,
+  "cases": [
+    {
+      "bsyn_skew_ns": 1,
+      "stop_ms": 20,
+      "saved_from_ms": 19,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 180,
+      "elapsed_s": 68.652,
+      "deck_sha256": "b538766037bcff6be2526c43b17a757586ae4958f3b39a28953ab9de83598b9e",
+      "solver_log_sha256": "c1745173a7c3b3562bf43dd4204d85355b649ba7e3d0b0df972c28f714f8db9c",
+      "raw_tail": {
+        "rows": 21633,
+        "declared_rows": 21633,
+        "last_time_s": 0.02,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21633,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.019000016242263496,
+          0.02
+        ],
+        "eht_v": [
+          10514.726373671134,
+          10540.39277314518
+        ],
+        "hot_to_return_drive_v": [
+          -68.44785941878222,
+          428.406587017796
+        ],
+        "c21_differential_v": [
+          18.345959408791842,
+          18.661114564416295
+        ],
+        "tp17_mapped_v": [
+          -65.55465087904221,
+          11.236480752591751
+        ],
+        "yoke_current_pp_a": 0.9368713939761355,
+        "endpoint_eht_v": 10522.389122105815,
+        "endpoint_c21_v": 18.608401878763004
+      }
+    },
+    {
+      "bsyn_skew_ns": 5,
+      "stop_ms": 20,
+      "saved_from_ms": 19,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 180,
+      "elapsed_s": 69.628,
+      "deck_sha256": "30eb4689a67a40cbf41b5d14488868125df41aeb2bacb0b2ba576bbe4de0e139",
+      "solver_log_sha256": "b689960868a627ddfb7320504d9674e5d3d2adbc9b82085c85daa18d67d292a7",
+      "raw_tail": {
+        "rows": 21702,
+        "declared_rows": 21702,
+        "last_time_s": 0.02,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21702,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.01900004044326974,
+          0.02
+        ],
+        "eht_v": [
+          10516.969882232761,
+          10541.861233582158
+        ],
+        "hot_to_return_drive_v": [
+          -68.45156370045704,
+          428.9388659507234
+        ],
+        "c21_differential_v": [
+          18.335574421903154,
+          18.656726357712827
+        ],
+        "tp17_mapped_v": [
+          -65.60639232639947,
+          11.257751812502796
+        ],
+        "yoke_current_pp_a": 0.9412038002334647,
+        "endpoint_eht_v": 10523.918725339898,
+        "endpoint_c21_v": 18.604504381012006
+      }
+    },
+    {
+      "bsyn_skew_ns": 50,
+      "stop_ms": 20,
+      "saved_from_ms": 19,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 180,
+      "elapsed_s": 70.283,
+      "deck_sha256": "e90e5af3caee882b9f520d9b2e34f098ac2e02cdd407477ea9ae9bee8b03959f",
+      "solver_log_sha256": "47b5cf3a0d0252e1b27b71f91ccb03d5b3087c67e0b7594eb511d9c123b0760c",
+      "raw_tail": {
+        "rows": 21788,
+        "declared_rows": 21788,
+        "last_time_s": 0.02,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21788,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.019000011600213307,
+          0.02
+        ],
+        "eht_v": [
+          10517.085990308604,
+          10542.294211397486
+        ],
+        "hot_to_return_drive_v": [
+          -68.45886694041661,
+          428.8043594488216
+        ],
+        "c21_differential_v": [
+          18.346086347432887,
+          18.66455344900462
+        ],
+        "tp17_mapped_v": [
+          -65.58709194987821,
+          11.231200192173121
+        ],
+        "yoke_current_pp_a": 0.9406382952750525,
+        "endpoint_eht_v": 10524.61684872638,
+        "endpoint_c21_v": 18.612175175422678
+      }
+    },
+    {
+      "bsyn_skew_ns": 1,
+      "stop_ms": 40.06410256410256,
+      "saved_from_ms": 39.06410256410256,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 300,
+      "elapsed_s": 134.73,
+      "deck_sha256": "a8cf9807f65a0fd6724eb66c5db318b3989deaf43e349bbaa9b16209f95f2c4f",
+      "solver_log_sha256": "350e3c162e2a2293739a5d1d9ba2af573947c1f6c4b90728a678a8b1f70efc0b",
+      "raw_tail": {
+        "rows": 21580,
+        "declared_rows": 21580,
+        "last_time_s": 0.0400641025641026,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21580,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.03906411985735467,
+          0.0400641025641026
+        ],
+        "eht_v": [
+          10372.166011632282,
+          10390.789582779853
+        ],
+        "hot_to_return_drive_v": [
+          -68.54041648444088,
+          439.3543234110777
+        ],
+        "c21_differential_v": [
+          18.498952976894188,
+          18.775694788060036
+        ],
+        "tp17_mapped_v": [
+          -67.2080832339911,
+          11.153849338090096
+        ],
+        "yoke_current_pp_a": 0.9305779571310537,
+        "endpoint_eht_v": 10382.603183188521,
+        "endpoint_c21_v": 18.69061940986061
+      }
+    }
+  ]
+}
