@@ -1,0 +1,45 @@
+{
+  "format": "dac-monitor-t3-core-loss-comparator-v1",
+  "qualification": "reference-condition comparison only; not a .11 material identification, 16 kHz pulse-loss bound or replacement T3 parameter",
+  "inputs_sha256": {
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "magnetics.py": "722c379dcc2730ea4f5a4464102e28fe8af95f5d009aaef94faefdf3835978e7",
+    "t3_core_loss_comparator.py": "8cefe47f0be0e82b2b7ae2ab366b5871dadfaf40979e69e314394ba8d386b2b8"
+  },
+  "reference_condition": {
+    "frequency_hz": 25000,
+    "peak_sinusoidal_flux_t": 0.2,
+    "temperature_c": 100,
+    "equation": "V_rms = 4.442882938 f N A B_peak; P = V_rms^2 / R"
+  },
+  "candidate": {
+    "first_winding_turns": 36,
+    "core_area_m2": 0.00015,
+    "magnetic_path_length_m": 0.08,
+    "core_volume_m3": 1.1999999999999999e-05,
+    "first_winding_sine_voltage_rms_v": 119.95783933027587,
+    "core_loss_shunt_ohm": 10000,
+    "equivalent_shunt_power_w": 1.4389883216788282
+  },
+  "comparators": [
+    {
+      "material": "TDK N87",
+      "source": "https://www.tdk-electronics.tdk.com/download/187238/990c299b916e9f3eb7e44ad563b7f0b9/pdf-n87.pdf",
+      "source_loss_kind": "typical",
+      "source_loss_density_w_per_m3": 57000,
+      "candidate_volume_loss_w": 0.6839999999999999,
+      "equivalent_first_winding_shunt_ohm": 21037.84096021679,
+      "candidate_shunt_power_divided_by_material_power": 2.1037840960216787
+    },
+    {
+      "material": "Ferroxcube 3C90",
+      "source": "https://www.ferroxcube.com/en-global/download/download/11",
+      "source_loss_kind": "maximum",
+      "source_loss_density_w_per_m3": 80000,
+      "candidate_volume_loss_w": 0.9599999999999999,
+      "equivalent_first_winding_shunt_ohm": 14989.461684154461,
+      "candidate_shunt_power_divided_by_material_power": 1.4989461684154461
+    }
+  ],
+  "conclusion": "The 10 kohm candidate shunt dissipates more than either modern ferrite comparator at the same hypothetical 25 kHz/200 mT sine flux. The .11 material, core volume, temperature and actual 16 kHz pulse flux are unqualified, so this cannot set or bound the operating T3 loss shunt."
+}
