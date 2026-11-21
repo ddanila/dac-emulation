@@ -126,7 +126,7 @@ def run():
         'assumptions': [
             'Replace only V13 and its prescribed base drive with a 0-to-45 V ideal source at the source-addressed TP15/V13 collector boundary; retain T2, L4, V18, T3, rectifiers and the conditional yoke/EHT loads.',
             'Both pulse phases and T2 secondary polarities are tested because their factory relation is unresolved; T2 ratios 1, 3 and 10 span the prior bounded stage sweep.',
-            'T3 high-voltage turns 1768 and 2409 are cross-revision winding comparators; 2035 is the conditional A5 design value. Other T3 parameters use the active unverified graph and loss candidate.',
+            'T3 high-voltage turns 1768 and 2409 are cross-revision winding comparators; 2035 is a historical exploratory candidate from the superseded boost calculation. Other T3 parameters use the active unverified graph and loss candidate.',
             'The 19–20 ms trace is 16 lines, not a native-grid field-periodic or thermal steady-state acceptance run.',
             'The level-1 V18 BJT model does not represent destructive emitter-base avalanche; simulated reverse-base voltages beyond the class rating invalidate an apparent voltage match.',
         ],

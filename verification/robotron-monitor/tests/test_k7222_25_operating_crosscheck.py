@@ -19,7 +19,7 @@ class K722225OperatingCrosscheckTests(unittest.TestCase):
         self.assertEqual(check.run(), saved)
         self.assertTrue(saved['crossing_inside_k7222_25_41p_range'])
         self.assertEqual(saved['corrected_conditional_trace_node_v'], [99, 113])
-        self.assertTrue(saved['legacy_design_point_treats_c21_voltage_as_trace_node'])
+        self.assertTrue(saved['design_point_uses_c21_differential_reference'])
 
     def test_cross_revision_rail_range_rejects_an_outside_crossing(self):
         report = json.loads(check.LINK.read_text())

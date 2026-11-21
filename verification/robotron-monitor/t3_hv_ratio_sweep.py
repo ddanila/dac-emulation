@@ -64,7 +64,7 @@ def run():
     drive_turns=sum(section['turns']['value'] for section in parameters['groups']['drive'])
     current=parameters['groups']['high_voltage'][0]['turns']['value']
     lower=math.ceil(ratio['minimum']*drive_turns)
-    nominal=round(ratio['nominal_at_11500v_and_65v_supply']*drive_turns)
+    nominal=round(ratio['nominal_at_11500v_and_106v_supply']*drive_turns)
     upper=math.floor(ratio['maximum']*drive_turns)
     window=[5e-6,15e-6]
     cases={name:pulse(graph,parameters,turns,window)
@@ -75,7 +75,7 @@ def run():
             and all(case['isolated_window_mean_ratio']>0 for case in cases.values())
             and cases['current']['isolated_window_mean_ratio']<ratio['minimum']
             and cases['conditional_nominal']['isolated_window_mean_ratio']>cases['current']['isolated_window_mean_ratio'])
-    return dict(format='dac-monitor-t3-hv-ratio-sweep-v1',
+    return dict(format='dac-monitor-t3-hv-ratio-sweep-v2',
         qualification='isolated conditional A5 mismatch diagnostic; no loaded EHT, source-validated winding graph or T3 parameter freeze',
         graph_sha256=sha(GRAPH),parameters_sha256=sha(PARAMETERS),
         design_point_sha256=sha(DESIGN),
@@ -86,7 +86,7 @@ def run():
         pulse_setup='1 V, 16 us pulse across X2:7 to X2:4; each other magnetic terminal shunted by 1 Gohm; isolated HV voltage sampled over 5-15 us',
         finding=f'The active {current:g}/{drive_turns:g}-turn ideal ratio is below the conditional {ratio["minimum"]:.1f}-{ratio["maximum"]:.1f} EHT ratio; the candidate turns sweep only explores that conditional ideal scale.',
         open_checks=['The 64-turn drive winding is an unmeasured hypothesis',
-                     'The 60-70 V boost premise, loaded collector pulse and rectified EHT have not been verified',
+                     'The 60-70 V C21 differential, 39-43 V feed comparator, loaded collector pulse and rectified EHT have not been jointly verified',
                      'The X1:3-to-X2:3 return and other T3 tap continuities are unverified',
                      'Open-circuit pulse ratios with 1 Gohm shunts do not establish loaded monitor high voltage'],
         passed=passed)

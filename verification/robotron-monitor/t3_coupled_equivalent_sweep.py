@@ -64,7 +64,7 @@ def run(ngspice):
         'flux_probe_variation': 'The Bflux source only reads coupled-inductor currents; removing it from a stage deck tests numerical sensitivity and does not change the physical winding connections.',
         'source_path_parts': ['012-6921:'+name for name in tp17.SOURCE_PARTS],
         'manual_tp17_guideline_range_vpp': [64, 96],
-        'high_voltage_turn_cases': '1000 active hypothesis; 1768 cross-revision comparator; 2035 conditional A5 design-point turn scale',
+        'high_voltage_turn_cases': '1000 active hypothesis; 1768 cross-revision comparator; 2035 historical exploratory case from the superseded boost calculation',
         'connected_candidate_parameters': 'reference/k7222-11/t3-coupled-equivalent-parameters.json',
         'cases': cases,
         'remaining': ['Qualify source-informed T3 ratios and parasitic bounds',
