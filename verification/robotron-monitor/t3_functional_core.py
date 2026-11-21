@@ -1,113 +1,95 @@
-"""Regenerate the source-constrained T3 drive/HV/G1 core without tap order."""
-
+"""Regenerate corrected .11 T3 functional anchors without inventing HV polarity."""
 import argparse
 import hashlib
-import itertools
 import json
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parent
 REF = ROOT / 'reference/k7222-11'
-DRIVE = REF / 't3-drive-polarity-source-read.json'
-HV = REF / 't3-hv-terminal-read.json'
-G1 = REF / 't3-g1-rectifier-source-read.json'
-TRANSCRIPTION = REF / 'horizontal-output-transcription.json'
-OLD_FILTER = REF / 't3-g1-polarity-filter.json'
-TV_VARIANT = REF / 't3-tv-variant-source-read.json'
+READS = {key: REF / name for key, name in {
+    'drive': 't3-drive-polarity-source-read.json',
+    'g1': 't3-g1-rectifier-source-read.json',
+    'terminal_identity': 'page4-t3-terminal-identity-source-read.json',
+    'visible_graph_candidate': 't3-page4-visible-graph.json',
+    'tv_variant': 't3-tv-variant-source-read.json',
+}.items()}
+HISTORICAL = REF / 't3-functional-core-historical.json'
 
 
 def sha(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
 def run(source_pdf):
-    reads = {name: json.loads(path.read_text()) for name, path in
-             [('drive', DRIVE), ('hv', HV), ('g1', G1)]}
-    source_sha = sha(source_pdf)
-    if any(read['source_pdf_sha256'] != source_sha for read in
-           (reads['drive'], reads['g1'])):
-        raise ValueError('source scan does not match the functional reads')
-    if any(view['pdf_sha256'] != source_sha for view in reads['hv']['source_views']
-           if view['file'] == 'older.pdf'):
-        raise ValueError('source scan does not match the HV terminal read')
-    if reads['drive']['source_edges']['drive_winding_endpoints'] != ['X2:7', 'X2:4']:
-        raise ValueError('drive terminals changed')
-    if reads['drive']['source_edges']['output_transistor_collector']['t3_terminal'] != 'X2:7':
-        raise ValueError('drive collector terminal changed')
-    if reads['drive']['source_edges']['damper'] != dict(part='V17', anode_net='0',
-                                                        cathode_terminal='X2:7'):
-        raise ValueError('collector flyback polarity evidence changed')
-    if reads['hv']['source_edges'] != [
-        dict(kind='winding', terminals=['X1:16', 'X1:1']),
-        dict(kind='rectifier', part='V21', anode='X1:1', cathode='X1:2'),
-        dict(kind='output', terminal='X1:2', net='EHT/UG3')]:
-        raise ValueError('HV source path changed')
-    tv_variant = json.loads(TV_VARIANT.read_text())
-    tv_bridges = {frozenset(pair) for pair in tv_variant['reported_tv_bridges']}
-    if (len(tv_bridges) != 2 or
-            frozenset(('X1:1', 'X1:2')) not in tv_bridges or
-            frozenset(('X1:7', 'X2:3')) not in tv_bridges):
-        raise ValueError('TV variant bridge evidence changed')
-    if reads['g1']['source_edges'] != dict(
-            v14_anode_net='h_g1raw', v14_cathode_t3_terminal='X2:6',
-            c18_other_terminal='00', manual_tp17_terminal='V14:K'):
-        raise ValueError('G1 source path changed')
-
-    # Each pair names only the terminals needed for one documented function.
-    # Their order defines the measured voltage; no other pin is joined to them.
-    core = dict(drive=['X2_7', 'X2_4'], high_voltage=['X1_1', 'X1_16'],
-                g1_auxiliary=['X2_6', 'X2_5'])
-    transcription = json.loads(TRANSCRIPTION.read_text())
-    ports = transcription['ports']
-    represented = [pin for pair in core.values() for pin in pair]
-    if len(set(represented)) != 6 or not set(represented) <= set(ports):
-        raise ValueError('functional core is inconsistent with assembly ports')
-    if any(transcription['port_nets'].get(pin) != net for pin, net in
-           dict(X2_7='h_hot', X2_4='h_return', X2_5='0',
-                X2_6='h_sync', X1_16='h_hvcold').items()):
-        raise ValueError('functional terminal assembly mapping changed')
-    old = json.loads(OLD_FILTER.read_text())
-    old_retained = [row for row in old['candidate_results'] if row['compatible']]
-    if len(old_retained) != 4 or any(
-            row['polarity']['high_voltage'] != -1 or row['polarity']['auxiliary'] != 1
-            for row in old_retained):
-        raise ValueError('prior conditional sign result changed')
-    candidates = [dict(high_voltage_sign=hv_sign, g1_auxiliary_sign=g1_sign,
-                       retained=hv_sign == 1 and g1_sign == -1)
-                  for hv_sign, g1_sign in itertools.product((-1, 1), repeat=2)]
-    return dict(
-        format='dac-monitor-t3-functional-core-v1',
-        qualification='source-constrained six-terminal core only; no full T3 graph, ratios or source-circuit operating point',
-        source_pdf_sha256=source_sha,
-        source_read_sha256={name: sha(path) for name, path in
-                            [('drive', DRIVE), ('hv', HV), ('g1', G1)]},
-        transcription_sha256=sha(TRANSCRIPTION), previous_filter_sha256=sha(OLD_FILTER),
-        cross_variant_read_sha256=sha(TV_VARIANT),
-        voltage_reference=dict(drive='V(X2:7)-V(X2:4)',
-                               high_voltage='V(X1:1)-V(X1:16)',
-                               g1_auxiliary='V(X2:6)-V(X2:5)'),
-        functional_pairs=core,
-        functional_rules=[
-            'Positive X2:7-to-X2:4 flyback must make X1:1 positive relative to X1:16 so V21 charges EHT.',
-            'With the X2:5-to-00 return hypothesis, the same flyback must make X2:6 negative relative to X2:5 so V14 charges negative G1.'
+    pdf_hash = sha(source_pdf)
+    data = {key: json.loads(path.read_text()) for key, path in READS.items()}
+    drive, g1, identity, graph, variant = (data[key] for key in READS)
+    if (drive['source_pdf_sha256'] != pdf_hash
+            or g1['source_pdf_sha256'] != pdf_hash
+            or identity['source']['pdf_sha256'] != pdf_hash):
+        raise ValueError('source PDF differs from T3 functional reads')
+    if (drive['source_edges']['drive_winding_endpoints'] != ['X2:7', 'X2:4']
+            or drive['source_edges']['output_transistor_collector']['t3_terminal'] != 'X2:7'
+            or drive['source_edges']['damper'] != dict(
+                part='V17', anode_net='0', cathode_terminal='X2:7')):
+        raise ValueError('source drive/damper terminals changed')
+    if g1['source_edges'] != dict(v14_anode_net='h_g1raw',
+            v14_cathode_t3_terminal='X2:6', c18_other_terminal='00',
+            manual_tp17_terminal='V14:K'):
+        raise ValueError('source G1 rectifier terminals changed')
+    labels = identity['visible_labels']
+    if (labels['v21_anode_pad'] != 'X3:1'
+            or labels['v21_cathode_pad'] != 'X3:2'
+            or labels['v21_cathode_net'] != 'EHT/UG3'
+            or ['X1:2', 'X2:3'] not in identity['drawn_conductor_pairs']):
+        raise ValueError('corrected V21 pads or external conductor changed')
+    if graph['source_terminal_read_sha256'] != sha(READS['terminal_identity']):
+        raise ValueError('visible graph is not bound to corrected source read')
+    terminals = [pin.replace('_', ':') for group in graph['groups']
+                 for pin in group['taps']]
+    if (len(terminals) != len(set(terminals)) or len(terminals) != 20
+            or 'X3:1' not in terminals or 'X1:16' in terminals):
+        raise ValueError('source-visible T3 terminal inventory changed')
+    bridges = {frozenset(pair) for pair in variant['reported_tv_bridges']}
+    if bridges != {frozenset(('X1:1', 'X1:2')),
+                   frozenset(('X1:7', 'X2:3'))}:
+        raise ValueError('reported TV bridges changed')
+    if 'V21 anode X3:1, cathode X3:2/EHT' not in variant['compatibility_with_k7222_11']['required_external_v21_path']:
+        raise ValueError('TV comparison still uses superseded V21 pads')
+    historical = json.loads(HISTORICAL.read_text())
+    if (historical['voltage_reference']['high_voltage'] != 'V(X1:1)-V(X1:16)'
+            or historical['source_read_sha256']['hv'] != sha(REF / 't3-hv-terminal-read.json')):
+        raise ValueError('historical conditional result changed')
+    return {
+        'format': 'dac-monitor-t3-functional-anchors-v2',
+        'status': 'incomplete: no source-qualified HV winding pair, ratio or sign selection',
+        'qualification': 'corrected .11 external functional anchors only; no complete winding graph or design point',
+        'source_pdf_sha256': pdf_hash,
+        'source_read_sha256': {key: sha(path) for key, path in READS.items()},
+        'historical_report_sha256': sha(HISTORICAL),
+        'visible_magnetic_terminal_count': len(terminals),
+        'functional_anchors': {
+            'drive_visible_endpoints': ['X2:7', 'X2:4'],
+            'collector_and_damper_cathode': 'X2:7',
+            'v21_anode_t3_terminal': 'X3:1',
+            'v21_cathode_rectified_terminal': 'X3:2',
+            'v14_cathode_t3_terminal': 'X2:6',
+            'drawn_external_conductor': ['X1:2', 'X2:3'],
+        },
+        'qualified_hv_cold_end': None,
+        'qualified_hv_differential_sign': None,
+        'qualified_g1_relative_sign': None,
+        'conditional_g1_rule': 'If X2:5 is the 00 return and internally continuous with X2:6, collector flyback needs X2:6 negative relative to X2:5 for V14 to charge negative G1.',
+        'tv_variant_disposition': 'Do not transfer the reported TV bridges to .11. The old V21-bypass exclusion is invalid because V21 is on X3:1/X3:2.',
+        'historical_result_disposition': 'The archived 1-of-4 HV/G1 sign result depended on superseded X1:1/V21/X1:2 pads and manual-only X1:16; it cannot prune the corrected 20-port graph.',
+        'unresolved': [
+            'Identify or bound the winding return feeding V21 anode X3:1; X1:16 is not a visible page-4 terminal.',
+            'Qualify X2:5 return, X2:5-X2:6 continuity and connected X2:4 drive before using the conditional G1 sign.',
+            'Bound winding turns, polarities, loss and parasitics before an equivalent fallback can replace T3.'
         ],
-        candidates=candidates,
-        retained_candidates=[row for row in candidates if row['retained']],
-        excluded_graph_alternatives=[dict(
-            variant='TV ÜHA78 bridges reported in 2006',
-            reported_bridges=tv_variant['reported_tv_bridges'],
-            excluded=True,
-            reason='The X1:1-to-X1:2 bridge would bypass the .11 source-drawn V21 rectifier between those terminals; the TV X1:7-to-X2:3 link cannot be transferred to an unidentified monitor revision.',
-            source_read='reference/k7222-11/t3-tv-variant-source-read.json')],
-        unassigned_assembly_terminals=[pin for pin in ports if pin not in represented],
-        crosscheck='The retained pair signs correspond to the earlier four candidates after reversing the HV and auxiliary tap-list orientation; upper/lower signs are not inferred here.',
-        unresolved=[
-            'X2:5 return and X2:5-to-X2:6 winding continuity are not source-qualified; G1 sign is conditional on both.',
-            'The thirteen remaining assembly terminals and all internal continuities, tap signs and ratios are unassigned.',
-            'A full multi-winding equivalent needs independently bounded ratios, loss and parasitics before it can replace T3.'
-        ],
-        passed=len([row for row in candidates if row['retained']]) == 1)
+        'audit_passed': True,
+        'a5_qualified': False,
+    }
 
 
 if __name__ == '__main__':
@@ -115,7 +97,7 @@ if __name__ == '__main__':
     parser.add_argument('--source-pdf', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
-    report = run(args.source_pdf)
-    args.output.write_text(json.dumps(report, indent=2) + '\n')
-    print(f"{len(report['retained_candidates'])}/{len(report['candidates'])} functional core candidates remain")
-    raise SystemExit(0 if report['passed'] else 2)
+    result = run(args.source_pdf)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(result, indent=2) + '\n')
+    print('T3 functional anchors checked; HV sign and A5 remain unqualified')

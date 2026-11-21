@@ -1,6 +1,6 @@
 {
   "format": "dac-monitor-t3-tv-variant-source-read-v1",
-  "qualification": "firsthand K7222/ÜHA78 variant comparison; monitor revision and installed .11 winding graph not identified",
+  "qualification": "firsthand K7222/ÜHA78 variant comparison; monitor revision and installed .11 winding graph not identified; compatibility reread against corrected .11 V21 pads",
   "source_url": "https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=1415",
   "retrieved_html_sha256": "8b903fe21ccf64909b6f83c17a7f3a8b801d6b9aab895588a50e2847ab767a00",
   "observations": [
@@ -22,11 +22,11 @@
     ["X1:7", "X2:3"]
   ],
   "compatibility_with_k7222_11": {
-    "source_read": "reference/k7222-11/page4-t3-hv-comparison.json",
-    "required_external_v21_path": "V21 anode X1:1, cathode X1:2/EHT; these are distinct nodes",
-    "tv_x1_1_x1_2_bridge": "excluded: a direct bridge would bypass the source-drawn V21 EHT rectifier",
+    "source_read": "reference/k7222-11/page4-t3-terminal-identity-source-read.json",
+    "required_external_v21_path": "V21 anode X3:1, cathode X3:2/EHT; the separate X1:1 and X1:2 labels are magnetic terminals",
+    "tv_x1_1_x1_2_bridge": "not excluded by the V21 path: the diode is on X3:1/X3:2, but a TV-variant bridge is not evidence that the .11 part contains it",
     "tv_x1_7_x2_3_bridge": "not transferred: the post assigns this link to a TV variant and gives no .11 monitor pin map",
-    "monitor_x1_3_x2_3_hypothesis": "unresolved: the post does not prove or disprove the current .11 model hypothesis"
+    "monitor_x1_2_x2_3_conductor": "the .11 page-4 drawing joins these external terminals; the TV post does not prove any further internal continuity"
   },
-  "effect_on_a5": "Reject the TV bridge as an installed .11 candidate; retain source-qualified X1:1/V21/X1:2 separation and continue to carry monitor T3 tap/return alternatives with explicit bounds. No turns, polarity or core-loss bound follows from this account."
+  "effect_on_a5": "Do not transfer the TV bridges to the .11 candidate. The earlier V21-bypass reason for excluding X1:1-X1:2 was wrong because V21 is on X3:1/X3:2. The .11 internal bridge state is unqualified; no turns, polarity or core-loss bound follows from this account."
 }

@@ -1,105 +1,42 @@
 {
-  "format": "dac-monitor-t3-functional-core-v1",
-  "qualification": "source-constrained six-terminal core only; no full T3 graph, ratios or source-circuit operating point",
+  "format": "dac-monitor-t3-functional-anchors-v2",
+  "status": "incomplete: no source-qualified HV winding pair, ratio or sign selection",
+  "qualification": "corrected .11 external functional anchors only; no complete winding graph or design point",
   "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
   "source_read_sha256": {
     "drive": "11304942f9d33817151733033946ff165d68eef0cf5815cb92ae9957e9bfb762",
-    "hv": "16d3efcdd886f8f40dc72b87fd988767312c47969b5d2876c92d7e690373400d",
-    "g1": "df462f26bd60da523a83b81580f927dbd4596a5e94c8a4ea0e639c029e746d9c"
+    "g1": "df462f26bd60da523a83b81580f927dbd4596a5e94c8a4ea0e639c029e746d9c",
+    "terminal_identity": "b79db095bd3922e075e9709a1a2bb25800d42583fb70266b9b1a33ffaa6eded1",
+    "visible_graph_candidate": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+    "tv_variant": "1a3262262147391a28a1a450bf1c3cb96f1e28c149a00b9b639bee1bb55b8a1a"
   },
-  "transcription_sha256": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
-  "previous_filter_sha256": "0fe159027942ea52f16b3c2587ec9d557da3512b600376427d503eb6418241c8",
-  "cross_variant_read_sha256": "7e39b15aba2e1226094167986e04bd71e4c2832fc95d857efcdefc2f1d09ff43",
-  "voltage_reference": {
-    "drive": "V(X2:7)-V(X2:4)",
-    "high_voltage": "V(X1:1)-V(X1:16)",
-    "g1_auxiliary": "V(X2:6)-V(X2:5)"
-  },
-  "functional_pairs": {
-    "drive": [
-      "X2_7",
-      "X2_4"
+  "historical_report_sha256": "e14e585372568bf1e2491c7050eedd9d7f253561c3b4418ccec5bbcea285b3dd",
+  "visible_magnetic_terminal_count": 20,
+  "functional_anchors": {
+    "drive_visible_endpoints": [
+      "X2:7",
+      "X2:4"
     ],
-    "high_voltage": [
-      "X1_1",
-      "X1_16"
-    ],
-    "g1_auxiliary": [
-      "X2_6",
-      "X2_5"
+    "collector_and_damper_cathode": "X2:7",
+    "v21_anode_t3_terminal": "X3:1",
+    "v21_cathode_rectified_terminal": "X3:2",
+    "v14_cathode_t3_terminal": "X2:6",
+    "drawn_external_conductor": [
+      "X1:2",
+      "X2:3"
     ]
   },
-  "functional_rules": [
-    "Positive X2:7-to-X2:4 flyback must make X1:1 positive relative to X1:16 so V21 charges EHT.",
-    "With the X2:5-to-00 return hypothesis, the same flyback must make X2:6 negative relative to X2:5 so V14 charges negative G1."
-  ],
-  "candidates": [
-    {
-      "high_voltage_sign": -1,
-      "g1_auxiliary_sign": -1,
-      "retained": false
-    },
-    {
-      "high_voltage_sign": -1,
-      "g1_auxiliary_sign": 1,
-      "retained": false
-    },
-    {
-      "high_voltage_sign": 1,
-      "g1_auxiliary_sign": -1,
-      "retained": true
-    },
-    {
-      "high_voltage_sign": 1,
-      "g1_auxiliary_sign": 1,
-      "retained": false
-    }
-  ],
-  "retained_candidates": [
-    {
-      "high_voltage_sign": 1,
-      "g1_auxiliary_sign": -1,
-      "retained": true
-    }
-  ],
-  "excluded_graph_alternatives": [
-    {
-      "variant": "TV \u00dcHA78 bridges reported in 2006",
-      "reported_bridges": [
-        [
-          "X1:1",
-          "X1:2"
-        ],
-        [
-          "X1:7",
-          "X2:3"
-        ]
-      ],
-      "excluded": true,
-      "reason": "The X1:1-to-X1:2 bridge would bypass the .11 source-drawn V21 rectifier between those terminals; the TV X1:7-to-X2:3 link cannot be transferred to an unidentified monitor revision.",
-      "source_read": "reference/k7222-11/t3-tv-variant-source-read.json"
-    }
-  ],
-  "unassigned_assembly_terminals": [
-    "X2_10",
-    "X2_11",
-    "X2_12",
-    "X2_13",
-    "X2_3",
-    "X1_3",
-    "X1_5",
-    "X1_7",
-    "X1_9",
-    "X1_12",
-    "X1_13",
-    "X1_10",
-    "X1_15"
-  ],
-  "crosscheck": "The retained pair signs correspond to the earlier four candidates after reversing the HV and auxiliary tap-list orientation; upper/lower signs are not inferred here.",
+  "qualified_hv_cold_end": null,
+  "qualified_hv_differential_sign": null,
+  "qualified_g1_relative_sign": null,
+  "conditional_g1_rule": "If X2:5 is the 00 return and internally continuous with X2:6, collector flyback needs X2:6 negative relative to X2:5 for V14 to charge negative G1.",
+  "tv_variant_disposition": "Do not transfer the reported TV bridges to .11. The old V21-bypass exclusion is invalid because V21 is on X3:1/X3:2.",
+  "historical_result_disposition": "The archived 1-of-4 HV/G1 sign result depended on superseded X1:1/V21/X1:2 pads and manual-only X1:16; it cannot prune the corrected 20-port graph.",
   "unresolved": [
-    "X2:5 return and X2:5-to-X2:6 winding continuity are not source-qualified; G1 sign is conditional on both.",
-    "The thirteen remaining assembly terminals and all internal continuities, tap signs and ratios are unassigned.",
-    "A full multi-winding equivalent needs independently bounded ratios, loss and parasitics before it can replace T3."
+    "Identify or bound the winding return feeding V21 anode X3:1; X1:16 is not a visible page-4 terminal.",
+    "Qualify X2:5 return, X2:5-X2:6 continuity and connected X2:4 drive before using the conditional G1 sign.",
+    "Bound winding turns, polarities, loss and parasitics before an equivalent fallback can replace T3."
   ],
-  "passed": true
+  "audit_passed": true,
+  "a5_qualified": false
 }

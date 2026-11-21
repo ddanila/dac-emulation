@@ -3976,27 +3976,15 @@ show the sensitivity to unknown gun placement. None of these field lengths
 is an AE9VT measurement; they bound what the current reduced model would
 need at each declared path length.
 
-### A5: regenerate the source-constrained T3 functional core (2026-11-21)
+### A5: historical T3 functional-core screen (2026-11-21)
 
-The [functional-core report](reference/k7222-11/t3-functional-core.json)
-uses the independent .11 [drive](reference/k7222-11/t3-drive-polarity-source-read.json),
-[HV](reference/k7222-11/t3-hv-terminal-read.json) and
-[G1](reference/k7222-11/t3-g1-rectifier-source-read.json) reads. It names
-only three terminal pairs: X2:7–X2:4 for the collector drive, X1:1–X1:16
-for the V21/EHT winding, and X2:6–X2:5 for the V14/G1 winding. No
-scan-order tap continuity or X1:3/X2:3 bridge enters this core. The
-[generator](t3_functional_core.py) checks the source hashes and all six
-terminals against the current assembly transcription.
-
-Of four relative sign assignments to the HV and G1 pairs, one permits a
-positive collector flyback to charge positive EHT and negative G1. The G1
-part still assumes X2:5 returns to 00 and has winding continuity with X2:6.
-After accounting for the reversed pair orientation, the result agrees with
-the earlier four-of-sixteen
-filter within the hypothetical full graph. Thirteen other T3 assembly
-terminals remain unassigned, including the upper/lower output taps; this
-six-terminal core is a starting point for the function-only fallback,
-not a full winding candidate or a numerical T3 design point.
+The [archived six-terminal report](reference/k7222-11/t3-functional-core-historical.json)
+used the old X1:1/V21/X1:2 diode read and manual-only X1:16 as an HV
+winding pair. Its one-of-four HV/G1 sign result is conditional on those
+superseded pads and cannot prune the corrected .11 graph. The subsequent
+[page-4 terminal reread](reference/k7222-11/page4-t3-terminal-identity-source-read.json)
+places V21 on X3:1/X3:2 and draws X1:2–X2:3 as an external conductor.
+The historical report is retained for traceability, not A5 qualification.
 
 ### A5: inner neck clearance changes the axial geometry result (2026-11-21)
 
@@ -4141,21 +4129,20 @@ This is a topology interpretation of an unverified graph, not proof of
 internal .11 continuity, turn count or polarity. The function-only T3
 fallback must keep the series-return alternative explicit.
 
-### A5: TV ÜHA78 bridge is excluded from the .11 candidate set (2026-11-21)
+### A5: TV ÜHA78 bridge cannot be transferred to .11 (2026-11-21)
 
 A [firsthand 2006 variant discussion](https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=1415)
 distinguishes a two-coil computer-monitor ÜHA78 from a one-coil Combivision
 TV unit. A participant describes his TV transformer's X1:1–X1:2 bridge and
 X1:7–X2:3 connection, then says its wiring must change for the monitor. The
 [hashed source read](reference/k7222-11/t3-tv-variant-source-read.json) records
-the posts and limits of that comparison. The independently checked .11 page-4
-path has V21 between X1:1 and X1:2/EHT. A direct X1:1–X1:2 bridge would
-bypass V21, so the TV wiring is excluded as an installed .11 graph. The TV
-X1:7–X2:3 connection cannot select the monitor return either: the post does
-not identify the .11 revision or its internal tap order. The present
-X1:3–X2:3 model link remains a bounded hypothesis, not a source-confirmed
-connection. This excludes one misleading cross-variant alternative without
-qualifying the remaining A5 turns, signs or loss.
+the posts and limits of that comparison. The earlier exclusion argued that
+X1:1–X1:2 would bypass V21. That argument is withdrawn: the corrected .11
+source read puts V21 on **X3:1/X3:2**, separate from both X1 labels. The
+forum writer describes a TV transformer and gives no .11 monitor pin map, so
+neither TV bridge can be transferred as an installed .11 connection. The
+.11 drawing itself joins **X1:2–X2:3** externally. No winding turn, polarity
+or loss bound follows from the TV variant account.
 
 ### A2: internal-device default audit (2026-11-21)
 
@@ -5527,3 +5514,23 @@ is not source-approved by this comparison. The TP1 waveform register currently
 cites page 9 for its X3:6 mapping; its provenance should be changed to page 18
 with the dependent target-hashed receipts refreshed together. This mismatch
 does not select a T3 winding or close the page-9 whole-netlist review.
+
+### A5: correct the T3 functional anchor audit (2026-11-21)
+
+The [regenerated audit](reference/k7222-11/t3-functional-core.json) now binds
+the .11 drive and G1 reads to the corrected page-4 terminal inventory. It
+records the collector/damper at X2:7, the visible drive pair X2:7–X2:4,
+V14's cathode at X2:6, V21's anode at X3:1 and cathode at X3:2/EHT, and the
+drawn X1:2–X2:3 conductor. Its source-visible inventory has 20 magnetic
+terminal labels; **X1:16 is not one of them**. The generator no longer uses
+the superseded X1:1/X1:16 HV pair, the old 19-port transcription or the
+four-of-sixteen sign filter to select a polarity.
+
+The HV cold end remains unidentified, so V21 orientation establishes only
+which *anode pulse* must be positive to charge EHT. It cannot establish the
+HV winding's differential polarity or turns ratio relative to X2:7–X2:4.
+The G1 sign remains conditional on an unqualified X2:5 return and internal
+continuity to X2:6. The [archived report](reference/k7222-11/t3-functional-core-historical.json)
+preserves the earlier one-of-four result as a historical conditional screen;
+it is not an A5 candidate filter for the corrected graph. The equivalent
+fallback still needs source-bounded returns, ratios, loss and parasitics.
