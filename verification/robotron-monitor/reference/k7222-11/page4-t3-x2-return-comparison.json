@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-page4-t3-x2-return-comparison-v1",
-  "qualification": "scoped external branch comparison; no full page-4 netlist, T3 internal graph or source-bounded return waveform",
-  "source_sha256": "2af45f176021dec611ce2f4327f0c59756defee9b074abdedb504685706907fb",
+  "qualification": "scoped X2:4 capacitor return to H2/X5:5; no full page-4 netlist, T3 internal graph or source-bounded return waveform",
+  "source_sha256": "5d425279509edbb2d69437dee1ee47589a097087acadc9c96332b73a2a84409c",
   "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
   "transcription_sha256": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
   "sheet_sha256": "54a21db8a705d33cebea7c00aa6605a8e27a77557696804132323f1d19f2ae9b",
@@ -15,7 +15,8 @@
       "2": "h_return",
       "1": "hy2"
     },
-    "common_other_plate": "hy2"
+    "common_other_plate": "hy2",
+    "x5_pin5": "hy2"
   },
   "checks": {
     "t3_x2_4_present": true,
@@ -24,11 +25,13 @@
     "c31_one_plate_at_x2_4": true,
     "c32_one_plate_at_x2_4": true,
     "other_plates_join": true,
+    "h2_reaches_x5_pin5": true,
+    "h2_crosses_ground_without_junction": true,
     "return_distinct_from_collector": true
   },
   "unresolved": [
     "The full page-4 pin netlist, T3 internal drive tap graph and HV cold-end return remain unqualified.",
-    "C31/C32 loading and X2:4 flyback voltage still need a source-bounded operating point."
+    "The H2/yoke waveform, C31/C32 loading and X2:4 flyback voltage still need a source-bounded operating point."
   ],
   "passed": true
 }
