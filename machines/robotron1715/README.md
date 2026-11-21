@@ -114,8 +114,8 @@ added. The raster is updated during scanout, not by interpreting program IDs or
 re-reading screen RAM on a host video call.
 
 The opt-in device owns 18h/1Ah parameters, 19h/1Bh commands/status and the
-20h–23h screen/glyph latch aliases. The latch's low five bits select a 2 KiB
-main-RAM block; its DB6 XOR GPA0 selects the character generator. Glyph addresses
+34h–37h screen/glyph latch aliases. The latch's D1–D5 bits select a 2 KiB
+main-RAM block (D0 is bypassed by X12 in 80-column mode); its DB6 XOR GPA0 selects the character generator. Glyph addresses
 are `scanline*128+code`, D7 first. Frame prefetch resets the low 11-bit display
 address counter, independent of CPU ROM overlay. Fetches take available CPU
 refresh slots; without refresh, the 8275 row buffer underruns. Burst spacing,
@@ -154,3 +154,17 @@ Device hand vectors are in `tests/integration/pc1715_video_test.c`.
 Sources: [ZRE schematic sheet 2](https://www.sax.de/~zander/pc1715/pc_zres.pdf),
 [service manual](https://www.sax.de/~zander/pc1715/doku/pc_serv.pdf), and
 [Intel 8275](https://bitsavers.org/components/intel/8275/1981_8275.pdf).
+
+### Screen-address regression (2026-11-21)
+
+The initial optional video model incorrectly claimed floppy ports 20h–23h and
+shifted D0–D4 into AB11–AB15. The service manual I/O table (pp.15–16) assigns
+BWSCS to 34h–37h; schematic sheet 2 wires A23.2 D1–D5 through A22.4 to
+AB11–AB15, with counter AB10 selected by X12 for 80 columns. F800h therefore
+requires 3Eh, not 1Fh. Earlier ROM qualification against that model did not
+validate these hardware assumptions.
+
+Device regressions now exercise all 32 screen blocks, all four latch aliases,
+ignored D0, upper I/O address bits, and CPU-driven floppy writes reaching the
+card and WAIT callback while video is enabled. The existing glyph-bank XOR,
+attribute, refresh, timing and reset tests remain active.
