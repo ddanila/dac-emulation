@@ -76,14 +76,15 @@ def compare(source, assembly_source, deck, input_export, *, source_pdf_sha256):
     if x9_count > 1:
         raise ValueError('duplicate physical X9 connector')
     physical_x9_present = x9_count == 1
-    if physical_x9_present:
-        actual_pins = physical_pins(input_export, '012-6921:X9')
-        model_pins = {pin: ('0' if label == '00' else
-                            f'rx_{SIGNALS[pin][1]}') for pin, label in pins.items()}
-        if actual_pins != model_pins:
-            raise ValueError('physical X9 pin nets differ from page-18 input seam')
+    if not physical_x9_present:
+        raise ValueError('missing physical X9 connector')
+    actual_pins = physical_pins(input_export, '012-6921:X9')
+    model_pins = {pin: ('0' if label == '00' else
+                        f'rx_{SIGNALS[pin][1]}') for pin, label in pins.items()}
+    if actual_pins != model_pins:
+        raise ValueError('physical X9 pin nets differ from page-18 input seam')
     return dict(format='dac-monitor-page18-external-input-comparison-v1',
-                qualification='source X9 labels and assembled logical receiver/cable continuity checked; X9 physical connector absent from bounded input KiCad sheet, so full physical page-18 review remains open',
+                qualification='source X9 labels, physical input connector and assembled logical receiver/cable continuity checked; full page-18 function review remains open',
                 source_sha256=sha(SOURCE), source_pdf_sha256=source_pdf_sha256,
                 assembly_sha256=sha(ASSEMBLY),
                 input_sheet_sha256=sha(ROOT / 'circuits/k7222-11-input.kicad_sch'),
@@ -92,8 +93,9 @@ def compare(source, assembly_source, deck, input_export, *, source_pdf_sha256):
                 input_connector='012-6921:X9', signal_rows=rows,
                 return_pins=['4', '6'], return_element='Rreturn',
                 physical_x9_present=physical_x9_present,
+                physical_pins_checked=len(actual_pins),
                 logical_seam_passed=True,
-                remaining=['X9 is modeled as a source/cable equivalent rather than a physical KiCad connector',
+                remaining=['X9 cable and driver stay an equivalent outside the audit-only connector',
                            'page-3/4 input and contrast function remains unqualified'])
 
 

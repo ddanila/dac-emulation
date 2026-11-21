@@ -1,12 +1,12 @@
 {
   "format": "dac-monitor-page18-external-input-comparison-v1",
-  "qualification": "source X9 labels and assembled logical receiver/cable continuity checked; X9 physical connector absent from bounded input KiCad sheet, so full physical page-18 review remains open",
+  "qualification": "source X9 labels, physical input connector and assembled logical receiver/cable continuity checked; full page-18 function review remains open",
   "source_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
   "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
   "assembly_sha256": "e3883360002705d7a0c69a682768fe9f067940e2b9c016a8790de23defc6fc9d",
-  "input_sheet_sha256": "5679f1f4c55efde1027bcfe7e98916c7aaef2085102c223170a649d74947cf67",
+  "input_sheet_sha256": "996d2d742367be8f16b9e0da4f664c0f40a3172ffc88344a2e1f7f4c100ec0b2",
   "steady_supply_sha256": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
-  "checker_sha256": "b3a8861fd19a8d06ab43df6f65d2efa5a26fc6abdca0fda2a6cab53e12282c5a",
+  "checker_sha256": "491832ffd37e410eaf98794831cb2cf52f520b245a59c48b9ed1230c7513d945",
   "input_connector": "012-6921:X9",
   "signal_rows": [
     {
@@ -39,10 +39,11 @@
     "6"
   ],
   "return_element": "Rreturn",
-  "physical_x9_present": false,
+  "physical_x9_present": true,
+  "physical_pins_checked": 5,
   "logical_seam_passed": true,
   "remaining": [
-    "X9 is modeled as a source/cable equivalent rather than a physical KiCad connector",
+    "X9 cable and driver stay an equivalent outside the audit-only connector",
     "page-3/4 input and contrast function remains unqualified"
   ]
 }
