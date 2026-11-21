@@ -4455,3 +4455,29 @@ own transferred proxy bound. This does not qualify a periodic point, the
 installed yoke, its field profile, or T3 ratios. A5 can now use a genuinely
 neck/angle/size-matched *class* fallback, then must bound the X2:4 drive,
 returns and geometry before freezing it.
+
+### A5: paired Brimar winding does not close the geometry/current bound (2026-11-21)
+
+The [reproducible reduced-ray screen](reference/k7222-11/yoke-brimar-geometry-screen.json)
+tests the source-paired TBY7 4.1 mH/8.8 Ω line and 32 mH/16 Ω field
+windings against their transferred current bounds. It derives each winding's
+field with the existing cosine-sheet model, takes a 9 mm inner neck radius,
+and varies gun-to-screen path over 230, 240 and 250 mm and common axial field
+length over 20, 25 and 27.5 mm. At 11.5 kV, none of the nine common-field
+cases reaches both 105 mm horizontal and 72.5 mm vertical half-extents within
+the paired current bounds. Even at the upper transferred currents, the
+largest sampled horizontal and vertical half-extents are 95.7 and 66.4 mm.
+The winding packing calculation itself passes; the missing result is a
+qualified field and beam geometry, not merely an electrical winding choice.
+
+A deliberately favorable *separable* sensitivity uses a 13.6 mm horizontal
+sheet radius, 25/35 mm horizontal/vertical field lengths and a 250 mm path.
+It brackets both extents at 1.431/0.546 A p-p, within the proxy current
+bounds. That geometry is not a physical identification: the horizontal
+winding sits only about 0.1 mm outside the assumed neck clearance, and the
+gun-to-screen path is only 3 mm shorter than the B31-G family's 253 mm
+maximum **overall** length. The one-axis ray checks also do not establish a
+combined two-axis raster. The active geometry and A5 yoke current remain
+unfrozen. The next bound must specify credible B31G22/AE9VT gun position,
+neck clearance and separate horizontal/vertical field profiles, or use a
+labelled field equivalent whose transfer is bounded by source evidence.
