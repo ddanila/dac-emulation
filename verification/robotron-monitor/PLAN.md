@@ -425,6 +425,10 @@ keeps that crossing within 42.219–42.570 V after widening its exploratory
 L1/L2 lower case to 16 mH. Both use an unverified T3 graph,
 exploratory L1/L2 and a prescribed drive. Neither establishes installed
 yoke currents, T3 ratios or a sustained operating point. The permitted
+conditional [return boundary screen](reference/k7222-11/t3-brimar-return-boundary-screen.json)
+rejects the tied upper return plus jointly grounded HV cold ends in this
+conditional stage, but three return wirings still pass its sampled current
+and EHT checks. The permitted
 function-derived/equivalent T3 fallback still needs A5-derived ratios and
 class-bounded loss and parasitics; switching to that fallback alone cannot
 close A5.

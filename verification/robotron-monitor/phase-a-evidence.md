@@ -4744,3 +4744,23 @@ the current working yoke is 4 mH. Its 12.5 kV and auxiliary-output figures
 therefore cannot be transferred as T3 winding ratios or parasitic bounds.
 The function-derived T3 fallback still needs independent class bounds for
 its actual winding and loss roles.
+
+### A5: return wiring at the TBY7 rail boundary (2026-11-21)
+
+The [return boundary screen](reference/k7222-11/t3-brimar-return-boundary-screen.json)
+holds the TBY7 winding, E1+E2 centring bridge, 80 mH L1/L2, prescribed
+V18 base pulse and earlier R5-equivalent current crossing fixed while it
+tests both X1:3/X2:3 upper-return states against two HV cold-end wirings.
+At **42.504 V**, the tied upper return with X1:16 and X1:7 both grounded
+produces only **0.0479 A p-p** yoke current and **1.205 kV** sampled EHT.
+The other three cases give **0.94597–0.94599 A p-p** and
+**11.722–11.723 kV**, meeting the transferred TBY7 lower-current and
+manual EHT bands at that sample. At 41 and 43 V the same one pairing
+remains far outside both bands; the other three track one another closely.
+
+Thus the rail/yoke boundary discriminates one *combination* of assumed
+returns, rather than identifying an installed cold end or upper-return
+connection. All outcomes use the scan-order T3 graph, exploratory centring
+chokes, a class-comparator yoke and a 4–5 ms prescribed-drive window. The
+screen cannot qualify periodic operation, a T3 turns ratio or the AE9VT
+winding.
