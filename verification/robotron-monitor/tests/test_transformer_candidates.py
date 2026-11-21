@@ -1,4 +1,4 @@
-import copy,hashlib,json,sys,tempfile,unittest
+import copy,hashlib,json,subprocess,sys,tempfile,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 import transformer_candidates as tc
@@ -53,6 +53,44 @@ class TransformerCandidateTests(unittest.TestCase):
         _,metadata=tc.compile_model(graph,candidates[0],parameters,backend='coupled')
         self.assertEqual(len(metadata['ports']),20)
         self.assertEqual(metadata['ports'],actual)
+
+        bounded_coupling=dict(value=.92,minimum=.90,maximum=.95,
+                              evidence='class-typical',
+                              rationale='Synthetic multisection coupling check only.')
+        parameters['high_voltage_coupling']=bounded_coupling
+        model,metadata=tc.compile_model(graph,candidates[0],parameters,backend='coupled')
+        hv={i for i,item in enumerate(metadata['sections']) if item['group']=='high_voltage'}
+        self.assertEqual(len(hv),5)
+        pairs=[line.split() for line in model.splitlines() if line.startswith('Kcore')]
+        self.assertEqual(len(pairs),len(metadata['sections'])*(len(metadata['sections'])-1)//2)
+        for name,_,_,coefficient in pairs:
+            a,b=map(int,name.removeprefix('Kcore').split('_'))
+            self.assertEqual(float(coefficient),.92 if (a in hv)!=(b in hv) else .999)
+        with tempfile.TemporaryDirectory() as directory:
+            folder=Path(directory)
+            trace=folder/'trace.txt'
+            nodes=['0' if port=='X2_4' else port for port in metadata['ports']]
+            shunts=[f'Rref{i} {port} 0 1G' for i,port in enumerate(metadata['ports'])
+                    if port not in ('X2_7','X2_4')]
+            deck='\n'.join([
+                'Synthetic 20-port coupled T3 compilation check',model,
+                'Vsource source 0 SIN(0 1 1000)', 'Rsource source X2_7 1',
+                'Xtest '+' '.join(nodes)+' T3_CANDIDATE',*shunts,
+                '.control','tran 10u 2m',f'wrdata {trace} v(X3_1) v(X2_7)',
+                'quit','.endc','.end',
+            ])+'\n'
+            circuit=folder/'candidate.cir'
+            circuit.write_text(deck)
+            solved=subprocess.run(['ngspice','-b',str(circuit)],capture_output=True,text=True)
+            self.assertEqual(solved.returncode,0,solved.stdout+solved.stderr)
+            rows=[list(map(float,line.split())) for line in trace.read_text().splitlines()
+                  if line.strip()]
+            self.assertGreater(len(rows),100)
+            self.assertTrue(all(all(abs(value)<1e6 for value in row) for row in rows))
+        invalid=copy.deepcopy(parameters)
+        invalid['high_voltage_coupling']['maximum']=.999
+        with self.assertRaises(ValueError):
+            tc.compile_model(graph,candidates[0],invalid,backend='coupled')
 
     def test_taps_polarity_and_loading_use_shared_core(self):
         graph=copy.deepcopy(self.graph);graph['groups']=graph['groups'][:1]+graph['groups'][2:3]

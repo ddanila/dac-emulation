@@ -78,22 +78,32 @@ def transformer_flux(name, windings, core, shorted_turns=None, *, smoothing_t=1e
 
 
 def transformer_coupled(name, windings, core, shorted_turns=None, *,
-                        high_voltage_index=None, high_voltage_coupling=None):
+                        high_voltage_index=None, high_voltage_indices=None,
+                        high_voltage_coupling=None):
     """Passive linear multi-winding equivalent with explicit shared coupling.
 
     A selected HV-overwind coupling replaces the provisional 0.999 value
-    only on pairs containing that section. Mutual leakage adds to each
-    declared section's provisional series leakage.
+    on pairs crossing from the HV section set to another winding. Sections
+    within the same overwind retain background coupling. Mutual leakage
+    adds to each declared section's provisional series leakage.
     """
     transformer(name, windings, core, shorted_turns)
-    if (high_voltage_index is None) != (high_voltage_coupling is None):
-        raise ValueError('HV coupling needs both winding index and coefficient')
-    if high_voltage_index is not None and (
-            type(high_voltage_index) is not int or
-            not 0 < high_voltage_index < len(windings) or
+    if high_voltage_index is not None:
+        if high_voltage_indices is not None:
+            raise ValueError('specify one HV index form')
+        high_voltage_indices = (high_voltage_index,)
+    if (high_voltage_indices is None) != (high_voltage_coupling is None):
+        raise ValueError('HV coupling needs both winding indices and coefficient')
+    if high_voltage_indices is not None and (
+            type(high_voltage_indices) not in (tuple, list) or
+            not high_voltage_indices or
+            any(type(i) is not int or not 0 < i < len(windings)
+                for i in high_voltage_indices) or
+            len(set(high_voltage_indices)) != len(high_voltage_indices) or
             not math.isfinite(high_voltage_coupling) or
             not 0 < high_voltage_coupling < EQUIVALENT_COUPLING):
         raise ValueError('invalid HV overwind coupling')
+    hv_sections = set(high_voltage_indices or ())
     ws = list(windings)
     if shorted_turns:
         ws.append(dict(turns=shorted_turns['turns'],
@@ -118,11 +128,11 @@ def transformer_coupled(name, windings, core, shorted_turns=None, *,
         lines.append(f'Lmag{i} {first} {last} {inductance:.15g}')
     for i in range(len(ws)):
         for j in range(i+1, len(ws)):
-            coupling = (high_voltage_coupling if high_voltage_index in (i, j)
+            coupling = (high_voltage_coupling if (i in hv_sections) != (j in hv_sections)
                         else EQUIVALENT_COUPLING)
             lines.append(f'Kcore{i}_{j} Lmag{i} Lmag{j} {coupling:.15g}')
     flux_terms = [f'{magnetizing_inductances[0]:.15g}*i(Lmag0)']
-    flux_terms += [f'{(high_voltage_coupling if i == high_voltage_index else EQUIVALENT_COUPLING)*math.sqrt(magnetizing_inductances[0]*inductance):.15g}*i(Lmag{i})'
+    flux_terms += [f'{(high_voltage_coupling if i in hv_sections else EQUIVALENT_COUPLING)*math.sqrt(magnetizing_inductances[0]*inductance):.15g}*i(Lmag{i})'
                    for i, inductance in enumerate(magnetizing_inductances[1:], 1)]
     lines += [f'Rloss l0 w0n {core["loss_ohm"]:.15g}',
               f'Bflux flux_b 0 V={{({"+".join(flux_terms)})/{ws[0]["turns"]*core["area_m2"]:.15g}}}']

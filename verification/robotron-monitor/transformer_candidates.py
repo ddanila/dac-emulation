@@ -83,11 +83,12 @@ def compile_model(graph,candidate,parameters,name='T3_CANDIDATE',shorted_turns=N
         raise ValueError('magnetic parameters need independent provenance')
     expected={g['id'] for g in graph['groups']}
     if set(parameters.get('groups',{}))!=expected:raise ValueError('missing or extra numerical winding groups')
-    windings=[];pins=[];ports=[];descriptions=[];high_voltage_index=None
+    windings=[];pins=[];ports=[];descriptions=[];high_voltage_indices=[]
     for group in graph['groups']:
         gid=group['id'];taps=group['taps'];values=parameters['groups'][gid]
-        if gid == 'high_voltage':high_voltage_index=len(windings)
         if len(values)!=len(taps)-1:raise ValueError('wrong section count')
+        if gid == 'high_voltage':
+            high_voltage_indices.extend(range(len(windings),len(windings)+len(values)))
         ports+=taps
         for i,(a,b) in enumerate(zip(taps,taps[1:])):
             keys={'turns','resistance_ohm','leakage_h','capacitance_f'}
@@ -107,12 +108,11 @@ def compile_model(graph,candidate,parameters,name='T3_CANDIDATE',shorted_turns=N
            'coupled': magnetics.transformer_coupled}[backend]
     hv_coupling = (bounded(parameters['high_voltage_coupling'])
                    if 'high_voltage_coupling' in parameters else None)
-    if hv_coupling is not None and (high_voltage_index is None or
-                                   len(parameters['groups']['high_voltage']) != 1 or
+    if hv_coupling is not None and (not high_voltage_indices or
                                    parameters['high_voltage_coupling']['maximum']>=magnetics.EQUIVALENT_COUPLING):
         raise ValueError('HV coupling bound requires an overwind below background coupling')
     model=(build(name+'_CORE',windings,core,shorted_turns,
-                 high_voltage_index=high_voltage_index,
+                 high_voltage_indices=tuple(high_voltage_indices),
                  high_voltage_coupling=hv_coupling)
            if hv_coupling is not None and backend == 'coupled' else
            build(name+'_CORE',windings,core,shorted_turns))
