@@ -2710,6 +2710,13 @@ model are still needed before the 0.1/3.6 mV service observations can be
 compared. The page-16 decision in
 [source-review-decisions.json](reference/k7222-11/source-review-decisions.json)
 states that boundary explicitly.
+After later changes elsewhere in the KiCad tree, the global source-review hash
+made the live gate reopen page 16 despite an unchanged neck sheet. The page-16
+pin and static checks were rerun and passed; the decision now binds the
+current whole-tree hash. The live gate again has only pages 3, 4, 9, 10 and
+18 open. The [A2 device coverage](reference/k7222-11/device-model-coverage.json)
+was also refreshed against that tree: all 64 frame-path device instances
+still have provisional register rows, with none absent from the assembly.
 
 ### A1: refreshed page-18 cable semantics (2026-11-20)
 
