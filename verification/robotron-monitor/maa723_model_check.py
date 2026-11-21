@@ -64,7 +64,7 @@ def registered_parameters():
     return register, rows[0]
 
 
-def op(parameters, *, supply, load_ohm=None):
+def op(parameters, *, supply, load_ohm=None, model_file=MODEL_FILE, temperature_c=25):
     values = ' '.join(f'{key}={data["nominal"]:.12g}' for key, data in parameters.items())
     if load_ohm is None:
         circuit = '''Rref ref 0 1T
@@ -80,8 +80,8 @@ Rload out 0 {load_ohm:.12g}
 Ccomp comp 0 100p'''
     deck = f'''* 723-family isolated operating point
 .param vertical_bf=60 retrace_bf=100 {values}
-.include {MODEL_FILE}
-.temp 25
+.include {model_file}
+.temp {temperature_c:.12g}
 Vvp vp 0 {supply:.12g}
 Vvc vc 0 {supply:.12g}
 {circuit}
