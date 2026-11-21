@@ -16,6 +16,15 @@
 > source-corrected wiring. The source read and paired result are detailed at
 > the end of this log.
 
+> **T3 terminal-identity correction (2026-11-21).** A later
+> [page-4 audit](reference/k7222-11/page4-t3-terminal-identity-audit.json)
+> shows that the 19-port T3 graph omits the separate X1:2 terminal and ties
+> X1:3 to X2:3 where the scan draws X1:2 to X2:3. It also finds that the
+> earlier HV source read called V21's X3:1/X3:2 pads X1:1/X1:2. All saved T3
+> numerical screens using that graph, including source-order variants, are
+> historical conditional sensitivities until the wrapper and comparisons
+> are rebuilt. Their successful target checks do not qualify a .11 T3 ratio.
+
 The two original .11/.21 PDFs were freshly downloaded into ignored `build/`
 storage on 2026-11-18. Their byte counts and SHA-256 digests match
 [`sources.json`](sources.json): `older.pdf` is 769,720 bytes with digest
@@ -5069,3 +5078,23 @@ solution within this assumed graph, but the chosen levels are engineering
 probes, not source-derived bounds. The installed base waveform, loaded
 X2:7–X2:4 differential pulse, other winding/return alternatives and
 periodic state remain unqualified.
+
+### A1/A5: V21 pad and T3 upper-tap identity correction (2026-11-21)
+
+A close [source-hashed page-4 read](reference/k7222-11/page4-t3-terminal-identity-source-read.json)
+distinguishes V21's **X3:1 anode** and **X3:2 cathode** pads from the
+transformer's **X1:1, X1:2, X1:3, X1:5 and X1:7** upper right-hand bank.
+The .11 scan shows a conductor with junction dots from **X1:2 to X2:3**.
+The annotated cross-revision image supports the printed labels but is not
+used to transfer its different booster wiring. The manual's statement that
+the HV winding has connections 1 and 16 does not identify V21's pad prefix.
+
+The [model audit](reference/k7222-11/page4-t3-terminal-identity-audit.json)
+finds four mismatches: X1:2 is absent from both the 19-port T3 wrapper and
+upper-tap group; the model joins X1:3, not X1:2, to X2:3; and the older
+[HV source read](reference/k7222-11/t3-hv-terminal-read.json) assigns V21's
+pads to X1:1/X1:2. That read and its passing model comparison are superseded
+for terminal identity. The drawing does not by itself establish section
+turns, polarity or the electrical relationship between every X3 and X1
+terminal, so the correction does not license a new ratio. Rebuild the T3
+wrapper and source comparison first, then repeat the affected stage screens.

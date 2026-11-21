@@ -1,0 +1,31 @@
+{
+  "format": "dac-monitor-page4-t3-terminal-identity-source-read-v1",
+  "qualification": "scoped visual terminal-label and conductor read after model exposure; not a full independent page-4 second netlist or complete T3 winding graph",
+  "source": {
+    "file": "older.pdf",
+    "page": 4,
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "full_page_600dpi_sha256": "7704358ec71269bb02afb8ec28c3c00f6596c911b6049a3b6fa2cbe998e62ab5"
+  },
+  "cross_revision_view": {
+    "file": "K7222_HK-forum.jpg",
+    "sha256": "982c5d4fc5e97fc44c66edcfafab29f9e0266f02447d1a04b1b92dc8eef0d10a",
+    "use": "label legibility corroboration only; its booster pins differ from the .11 scan"
+  },
+  "visible_labels": {
+    "v21_anode_pad": "X3:1",
+    "v21_cathode_pad": "X3:2",
+    "v21_cathode_net": "EHT/UG3",
+    "t3_upper_right_bank": ["X1:1", "X1:2", "X1:3", "X1:5", "X1:7"]
+  },
+  "drawn_conductor_pairs": [["X1:2", "X2:3"]],
+  "reading_notes": [
+    "The V21 pad prefixes read X3 in the .11 scan; the separate upper winding bank reads X1 and includes both X1:2 and X1:3.",
+    "The X1:2 line has a dot on a downward conductor that reaches the X2:3 line inside T3.",
+    "The existing t3-hv-terminal-read.json assigns the V21 pads to X1:1/X1:2 and calls X1:2 the rectified output. That identification is superseded by this source read."
+  ],
+  "unresolved": [
+    "The winding section and electrical relationship between X3:1, X1:1 and the other upper-bank terminals require an explicit corrected graph; distinct printed labels alone do not prove isolated electrical nodes.",
+    "Turns, polarities, other internal continuities and the complete page-4 second netlist remain open."
+  ]
+}
