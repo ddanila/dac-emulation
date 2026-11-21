@@ -1,0 +1,102 @@
+{
+  "format": "dac-monitor-t3-brimar-boost-settling-screen-v1",
+  "qualification": "one unverified T3 return graph, prescribed base, TBY7 class yoke and fixed rail; initial-state convergence check only, not a periodic installed-stage qualification",
+  "input_sha256": {
+    "reference/k7222-11/t3-brimar-boost-boundary-screen.json": "e8151b1d375db073f6654dba8d3f4699975ff61a945b6ff5447b25092f7a89a5",
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "bb8d3b08215561925553c6b0e7f87d30573569191fa90e0723639c08e37c6bba",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/t3-initial-parameters.json": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "t3_brimar_boost_boundary_screen.py": "961f9e6ffb1092325b3c8276fbaa2bc56569a114a34ee23708fa7744f1b9190a",
+    "t3_brimar_boost_settling_screen.py": "18dd22ac2e12109a8852c231ca7ba9e16110a092dd0e9842c3fb9b3922b0e217"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_conditions": {
+    "feed_v": 42.50390625,
+    "yoke_type": "TBY7",
+    "upper_return_tied": true,
+    "cold_mode": "hv_only_grounded",
+    "centering_link_pair": "E1+E2",
+    "max_step_ns": 50
+  },
+  "source_annotated_c21_voltage_v": [
+    60,
+    70
+  ],
+  "cases": [
+    {
+      "initial_boost_node_v": 65,
+      "initial_c21_differential_v": 22.49609375,
+      "stop_s": 0.02,
+      "final_window_start_s": 0.019,
+      "normalized_deck_sha256": "3fc9e17c3fabe38154e5ceaf57f76a1d35a49cb6dba7c8efb67bc4e1e9b22034",
+      "sample_count": 2616,
+      "yoke_current_pp_a": 0.9463391800000001,
+      "eht_at_collector_peak_v": 11694.4378,
+      "boost_node_at_collector_peak_v": 66.2104442,
+      "boost_node_range_v": [
+        66.2104442,
+        66.3285613
+      ],
+      "c21_voltage_at_collector_peak_v": 23.706538,
+      "c21_voltage_range_v": [
+        23.706538,
+        23.824655
+      ],
+      "c21_window_phase_drift_v": -4.289999999684824e-05,
+      "eht_window_phase_drift_v": 0.16709999999875436,
+      "within_source_c21_band": false
+    },
+    {
+      "initial_boost_node_v": 107.50390625,
+      "initial_c21_differential_v": 65.0,
+      "stop_s": 0.005,
+      "final_window_start_s": 0.004,
+      "normalized_deck_sha256": "afdda55878e95a693287ebea8a13541597067bb835a5b6fc592e955a5b7a78eb",
+      "sample_count": 2609,
+      "yoke_current_pp_a": 1.12703171,
+      "eht_at_collector_peak_v": 12175.8765,
+      "boost_node_at_collector_peak_v": 80.7720784,
+      "boost_node_range_v": [
+        80.5826217,
+        81.0113198
+      ],
+      "c21_voltage_at_collector_peak_v": 38.2681721,
+      "c21_voltage_range_v": [
+        38.0787154,
+        38.5074136
+      ],
+      "c21_window_phase_drift_v": -3.427270699999994,
+      "eht_window_phase_drift_v": 43.81830000000082,
+      "within_source_c21_band": false
+    },
+    {
+      "initial_boost_node_v": 107.50390625,
+      "initial_c21_differential_v": 65.0,
+      "stop_s": 0.02,
+      "final_window_start_s": 0.019,
+      "normalized_deck_sha256": "ef95e65f6ce270db2c4fd803e7cb67802bf5d08c19e343d8a5a985cc4973daef",
+      "sample_count": 2609,
+      "yoke_current_pp_a": 0.9465028550000001,
+      "eht_at_collector_peak_v": 11708.262,
+      "boost_node_at_collector_peak_v": 66.2262806,
+      "boost_node_range_v": [
+        66.2249811,
+        66.3455814
+      ],
+      "c21_voltage_at_collector_peak_v": 23.7223743,
+      "c21_voltage_range_v": [
+        23.7210749,
+        23.8416752
+      ],
+      "c21_window_phase_drift_v": -0.04588370000000097,
+      "eht_window_phase_drift_v": -16.884600000001228,
+      "within_source_c21_band": false
+    }
+  ],
+  "final_20ms_c21_difference_between_initial_states_v": 0.015836300000000136,
+  "max_final_1ms_c21_phase_drift_v": 0.04588370000000097,
+  "max_final_1ms_eht_phase_drift_v": 16.884600000001228,
+  "interpretation": "Two different C21 initial states approach the same approximately 24 V differential by 20 ms in this conditional stage, with small last-1-ms same-phase drift. The source annotation is 60-70 V across C21, so the 5-ms mismatch is not explained by the initial C21 voltage in this graph. This does not reject an installed return graph: the T3 graph, prescribed drive, yoke transfer and centring chokes are unqualified, and three locked native fields were not checked."
+}
