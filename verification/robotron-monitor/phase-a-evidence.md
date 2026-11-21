@@ -4691,3 +4691,23 @@ cannot be accepted at the screened mean power without a lower actual thermal
 resistance, cooling, or a different bounded output-device equivalent. The
 sheet's 10 µs–1 ms pulse SOA curves are for single, nonrepetitive pulses and
 do not qualify this repeated field waveform.
+
+### A5: centring-link disposition and transformer-class exclusion (2026-11-21)
+
+The [link disposition](reference/k7222-11/t3-centering-link-disposition.json)
+compares E1+E2 with E3+E4 at the same 42.504 V R5-equivalent feed in three
+symmetric and two unequal L1/L2 cases. The maximum relative change is
+**0.0026%** in yoke current, **0.0196%** in sampled EHT and **0.0081%** in
+differential drive peak. All are below A1's 2% sensitivity budget. Keep
+E1+E2 as the labelled default and E3+E4 as a bounded alternative for this
+conditional TBY7 stage; an installed-link claim or a native-frame result
+does not follow. L1/L2 electrical behavior and the T3 return remain
+unverified; the link-pair difference is small only within these five cases.
+
+The [Philips AT2140/16 maker sheet](https://bitsavers.org/components/philips/_dataBooks/1987_C20_Philips_Wirewound_Components_for_TV_and_Monitors.pdf)
+is a useful same-era line-transformer class, but it pairs an 8 µs flyback
+with a 475 µH/90° yoke. The K7222.11 manual calls for 16 µs retrace and
+the current working yoke is 4 mH. Its 12.5 kV and auxiliary-output figures
+therefore cannot be transferred as T3 winding ratios or parasitic bounds.
+The function-derived T3 fallback still needs independent class bounds for
+its actual winding and loss roles.
