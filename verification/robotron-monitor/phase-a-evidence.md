@@ -3988,3 +3988,22 @@ variant in the [earlier return matrix](reference/k7222-11/t3-cold-return-matrix.
 This is a topology interpretation of an unverified graph, not proof of
 internal .11 continuity, turn count or polarity. The function-only T3
 fallback must keep the series-return alternative explicit.
+
+### A2: internal-device default audit (2026-11-21)
+
+The [internal-device audit](reference/k7222-11/a2-internal-device-audit.json)
+inspects the two IC equivalents selected by the ideal-rail vertical profiles.
+The active `MAA723_BOUND` contains two `M723_CLAMP` diodes, one `M723_PASS`
+transistor and one `M723_LIMIT` transistor. All four instances omit at least
+one parameter from the existing A2 critical-default screen: the clamp omits
+ten screened keys, the pass transistor twelve, and the limit transistor
+sixteen. `P09A_EQUIV` has no internal discrete semiconductor instances. The
+earlier zero-default result covered the registered board devices, so it did
+not establish this internal part of A2.
+
+These are engineering models, not identified MAA723 silicon. Their omitted
+values must be explicitly examined and bounded against a cited 723-family
+class or declared as bounded equivalent parameters. Changing them then
+requires the isolated MAA723 class check and affected vertical-stage checks
+to be rerun. The audit does not qualify the IC's behavioral sources, joint
+parameter corners, connected stress or temperature response.

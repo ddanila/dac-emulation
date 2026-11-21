@@ -1,0 +1,181 @@
+{
+  "format": "dac-monitor-a2-internal-device-audit-v1",
+  "qualification": "selected frame-path IC equivalents only; model-default inventory, not silicon qualification",
+  "register_sha256": "8676123942f0bfe0bd58c8ff927cfaf2ac94ff5a75ec7888a2be4437ba2536f0",
+  "profile_sha256": {
+    "k7222-11-vertical-integrator.json": "bcf7297e805dc6afe082e664b3b877f0d9108b8f6d1101919972336b8db3e7fc",
+    "k7222-11-vertical-output.json": "4af447b79a9d09ecf8e6484398ba43b42d425ae635693a688c6d5dcd3cf7d75c"
+  },
+  "screened_parameters": {
+    "D": [
+      "BV",
+      "CJO",
+      "EG",
+      "FC",
+      "IBV",
+      "IS",
+      "M",
+      "N",
+      "RS",
+      "TT",
+      "VJ",
+      "XTI"
+    ],
+    "NPN": [
+      "BF",
+      "CJC",
+      "CJE",
+      "EG",
+      "FC",
+      "IKF",
+      "IS",
+      "MJC",
+      "MJE",
+      "RB",
+      "RC",
+      "RE",
+      "TF",
+      "TR",
+      "VAF",
+      "VJC",
+      "VJE",
+      "XTI"
+    ],
+    "PNP": [
+      "BF",
+      "CJC",
+      "CJE",
+      "EG",
+      "FC",
+      "IKF",
+      "IS",
+      "MJC",
+      "MJE",
+      "RB",
+      "RC",
+      "RE",
+      "TF",
+      "TR",
+      "VAF",
+      "VJC",
+      "VJE",
+      "XTI"
+    ]
+  },
+  "rows": [
+    {
+      "source_id": "012-6931:A2",
+      "subcircuit": "MAA723_BOUND",
+      "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
+      "model_sha256": "d52776482832f1979d6c770cb09852d6c320943bd96b5fa26d725c86238b68c3",
+      "devices": [
+        {
+          "reference": "Dupper",
+          "model": "M723_CLAMP",
+          "model_type": "D",
+          "explicit_parameters": [
+            "IS",
+            "RS"
+          ],
+          "critical_implicit_defaults": [
+            "BV",
+            "CJO",
+            "EG",
+            "FC",
+            "IBV",
+            "M",
+            "N",
+            "TT",
+            "VJ",
+            "XTI"
+          ]
+        },
+        {
+          "reference": "Dlower",
+          "model": "M723_CLAMP",
+          "model_type": "D",
+          "explicit_parameters": [
+            "IS",
+            "RS"
+          ],
+          "critical_implicit_defaults": [
+            "BV",
+            "CJO",
+            "EG",
+            "FC",
+            "IBV",
+            "M",
+            "N",
+            "TT",
+            "VJ",
+            "XTI"
+          ]
+        },
+        {
+          "reference": "Qpass",
+          "model": "M723_PASS",
+          "model_type": "NPN",
+          "explicit_parameters": [
+            "BF",
+            "CJC",
+            "CJE",
+            "IS",
+            "TF",
+            "VAF"
+          ],
+          "critical_implicit_defaults": [
+            "EG",
+            "FC",
+            "IKF",
+            "MJC",
+            "MJE",
+            "RB",
+            "RC",
+            "RE",
+            "TR",
+            "VJC",
+            "VJE",
+            "XTI"
+          ]
+        },
+        {
+          "reference": "Qlimit",
+          "model": "M723_LIMIT",
+          "model_type": "NPN",
+          "explicit_parameters": [
+            "BF",
+            "IS",
+            "VAF"
+          ],
+          "critical_implicit_defaults": [
+            "CJC",
+            "CJE",
+            "EG",
+            "FC",
+            "IKF",
+            "MJC",
+            "MJE",
+            "RB",
+            "RC",
+            "RE",
+            "TF",
+            "TR",
+            "VJC",
+            "VJE",
+            "XTI"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "012-6931:A3",
+      "subcircuit": "P09A_EQUIV",
+      "model_file": "devices/p09a-equivalent.cir",
+      "model_sha256": "b3283dcda3155ecf232888a82cd999fe8ae1019eb35e5ca51074a21ddf4d6c9e",
+      "devices": []
+    }
+  ],
+  "internal_discrete_instances": 4,
+  "instances_with_critical_defaults": 4,
+  "remaining": "Explicitly bound the selected MAA723 internal pass, limit and clamp models, then rerun its class check and affected vertical-stage checks. The P09A equivalent has behavioral elements only; its parameter bounds and connected-stage qualification remain separate A2 work."
+}
