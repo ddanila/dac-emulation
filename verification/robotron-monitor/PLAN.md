@@ -399,10 +399,11 @@ failure, restore the component-level stage and re-run the gates from there.
 produce a bounded, document-consistent design point because the active
 19-port T3 model conflicts with the .11 page-4 terminal labels: it omits
 X3:1 and X1:2, joins X1:3 to X2:3 where the drawing joins X1:2, and includes
-X1:16 without a resolved page-4 mapping. The 20-terminal correction is only
-a structural candidate, with no qualified winding parameters or active KiCad
-wrapper. Consequently the existing numerical T3 screens cannot establish
-the installed EHT, C21 boost or winding ratios. A1, A2 and A6 also remain
+X1:16 without a resolved page-4 mapping. The 20-terminal correction now has
+a source-checked KiCad interface candidate, but no qualified winding
+parameters or active connected wrapper. Consequently the existing numerical
+T3 screens cannot establish the installed EHT, C21 boost or winding ratios.
+A1, A2 and A6 also remain
 open; A3 and A4 are done. This is an evidence and model-qualification gap,
 not an external dependency or approval wait. The immediate unblock is to
 resolve X1:16's mapping, rebuild and compare the wrapper, then rerun the
@@ -443,10 +444,12 @@ wrapper, source comparison and affected screens before using them to bound
 a ratio.
 The separate [20-terminal page-4 graph candidate](reference/k7222-11/t3-page4-visible-graph.json)
 now compiles with X3:1 and X1:2 and excludes X3:2/EHT and the page-4-unseen
-X1:16. Its four winding groups and section order are explicit hypotheses;
-it has no qualified section parameters or active KiCad wrapper. Resolve the
-manual's connection-16 mapping and source-visible continuity before
-promoting this candidate.
+X1:16. Its four winding groups and section order are explicit hypotheses.
+A [generated 20-pin KiCad interface](reference/k7222-11/page4-t3-visible-wrapper-comparison.json)
+passes 9/9 scoped source-visible export checks, including X3:1–V21 anode,
+X1:2–X2:3 and both booster link pairs. It remains separate from the active
+19-port model and has no qualified section parameters. Resolve the manual's
+connection-16 mapping and source-visible continuity before promoting it.
 
 A scoped [page-4 booster comparison](reference/k7222-11/page4-booster-comparison.json)
 found that the model had exchanged T3 X2:10 and X2:13: the source connects
