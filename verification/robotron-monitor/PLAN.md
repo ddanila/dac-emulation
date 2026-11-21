@@ -409,7 +409,11 @@ across X2:7–X2:4 are bounded. A
 [12 mm ÜHA78 core comparison](reference/k7222-11/t3-uha78-core-area-sensitivity.json)
 raises the conditional stage's peak model flux from 0.198 to 0.279 T when its
 core area is changed from 150 to 113 mm²; effective area and material remain
-unqualified. The installed tube/yoke geometry also lacks
+unqualified. Its full-stage check then reaches 12.38 kV EHT and 11.89 µs
+retrace, missing both source-guideline ranges at 50/25 ns. C27/C30 at their
+documented +10% limits still give 12.154 kV and 12.091 µs; the capacitor
+tolerances alone cannot restore both checks. The installed
+tube/yoke geometry also lacks
 enough evidence to fix deflection current. A joint horizontal/vertical class
 screen finds three broad-family current matches but none against the sampled
 winding's own transferred bounds; it cannot identify the installed winding or
