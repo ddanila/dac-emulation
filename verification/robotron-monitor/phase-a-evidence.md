@@ -5430,3 +5430,25 @@ restore the printed 60–70 V in this provisional connected graph. The small
 remaining differences do not prove periodic convergence, and neither the
 BSYN delay nor the internal T3 return, turns, yoke or installed input stage
 is source-qualified. These alternatives remain open for the A5 design point.
+
+### A5: connected booster-turn samples do not restore joint targets (2026-11-21)
+
+The [connected booster-turn screen](reference/k7222-11/t3-page4-connected-booster-turn-screen.json)
+uses the source-visible 20-port external pins, conditional 1 ns BSYN skew and
+two-period solve. It scales only the three provisional X2:13-to-X2:10 drive
+sections together from 7 turns each to 1.75, 3.5, 7, 14 or 28 turns each,
+the same assumed range as the earlier prescribed-drive screen. All five
+connected cases complete with no duplicate timestamps; the 7-turn case
+exactly reproduces the saved nominal trace. Their final 1 ms C21 ranges are
+**−11.05 to −10.70**, **−2.47 to −2.18**, **18.50 to 18.78**,
+**−5.47 to −5.07** and **−20.00 to −19.62 V**, respectively. No sampled
+factor reaches the printed 60–70 V differential. At 3.5 turns, EHT is
+11.500–11.521 kV, inside the 11–12 kV target, but horizontal-yoke current
+is only 0.452 A peak-to-peak against the transferred TBY7 lower comparison
+of 0.946 A; TP17-mapped swing is about 54.7 V peak-to-peak against its
+64–96 V guideline. The 7-turn case gives the largest sampled C21 voltage,
+but only 10.372–10.391 kV EHT. These discrete points do not rule out every
+intermediate turn count or another return graph. They show that changing the
+three assumed booster sections alone cannot select an A5 design point from
+the sampled candidates; the source-unqualified return, drive, yoke and other
+winding sections remain coupled alternatives.

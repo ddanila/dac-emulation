@@ -1,0 +1,246 @@
+{
+  "format": "dac-monitor-t3-page4-connected-booster-turn-screen-v1",
+  "qualification": "five conditional connected two-period booster-section sensitivities within assumed turn bounds; 1 ns unverified BSYN skew and provisional T3 graph; no installed ratio or periodic qualification",
+  "input_sha256": {
+    "reference/k7222-11/t3-page4-connected-input-skew-screen.json": "2eda4d045065f0add664eee8d9bd14d766c31bd70ca6d523bacb42bbbde359e6",
+    "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+    "signal_path.py": "fb1229e6b81e9a06877f3c1863fa86b5a4d8d05027e8ee135fe11481fc22c80c",
+    "transformer_candidates.py": "e35f2e76b637c7ae80e6e95267043417e1b4b97a50cb5bf4bbd6c833430027a0",
+    "tests/test_frames.py": "8174f0ece596f781d8e9d570d68f62c670415d4f754567ae43f47ec4cb61e3ac",
+    "reference/k7222-11/t3-page4-provisional-parameters.json": "d0a15aeec7114384048ac99596b0fc819c69f00dad1486706ece7fb4578088e2",
+    "reference/k7222-11/t3-page4-visible-graph.json": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+    "t3_page4_connected_input_skew_screen.py": "436984b3ea891064c7105808e58a3e57ac1cf477ed2db1c25986b0ae4cae5387",
+    "t3_page4_connected_drive_diagnostic.py": "aff5de61ba45bdad9889267417cb15659aa27e942c577a776279bc4b9e8df87d",
+    "t3_page4_connected_stiffness_screen.py": "048a18432c9164a00963ee9f08536aa2d5e6a8947694c3003c42b8f3e262549c",
+    "t3_page4_connected_booster_turn_screen.py": "6723abebce52c5a4177e7d4d4942d47b5669dc83bc4f7099584d52c0615422d7"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "interface": "page4-visible-20-port",
+  "candidate_id": "t3-8130433bb201581d",
+  "stop_ms": 40.06410256410256,
+  "saved_from_ms": 39.06410256410256,
+  "factors": [
+    0.25,
+    0.5,
+    1,
+    2,
+    4
+  ],
+  "cases": [
+    {
+      "factor": 0.25,
+      "section_turns": 1.75,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 300,
+      "elapsed_s": 141.256,
+      "deck_sha256": "d8136a7c83ee1a9aa26d472bcab7fbd9d3696f668c1fe77d308a5328674e7b47",
+      "solver_log_sha256": "042491bf26233ed5577ad20b1ff6430782f9f71a82ef880ce23da96162f8b54e",
+      "raw_tail": {
+        "rows": 21867,
+        "declared_rows": 21867,
+        "last_time_s": 0.0400641025641026,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21867,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.039064118060134885,
+          0.0400641025641026
+        ],
+        "eht_v": [
+          9777.709764863057,
+          9788.544827902537
+        ],
+        "hot_to_return_drive_v": [
+          -36.134136340243444,
+          241.29587903686937
+        ],
+        "c21_differential_v": [
+          -11.04912728386913,
+          -10.698622727356245
+        ],
+        "tp17_mapped_v": [
+          -41.86586338550682,
+          7.148360561224779
+        ],
+        "yoke_current_pp_a": 0.29099637178220467,
+        "endpoint_eht_v": 9786.820995517039,
+        "endpoint_c21_v": -10.962673189402384
+      }
+    },
+    {
+      "factor": 0.5,
+      "section_turns": 3.5,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 300,
+      "elapsed_s": 140.081,
+      "deck_sha256": "801f60094bb29fb142cb89d06947c3fc2787db32d65025dc9024b622f64b76c5",
+      "solver_log_sha256": "aa764e3f6044a688edbf2906e5956df5adb93a8f02568eec8292017648eacdb4",
+      "raw_tail": {
+        "rows": 21893,
+        "declared_rows": 21893,
+        "last_time_s": 0.0400641025641026,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21893,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.03906411480673846,
+          0.0400641025641026
+        ],
+        "eht_v": [
+          11500.480878869545,
+          11521.019020965934
+        ],
+        "hot_to_return_drive_v": [
+          -45.388845212170615,
+          266.24983268985454
+        ],
+        "c21_differential_v": [
+          -2.4689831957783,
+          -2.1846021206300676
+        ],
+        "tp17_mapped_v": [
+          -46.08977535360238,
+          8.63452921714927
+        ],
+        "yoke_current_pp_a": 0.4515430609210087,
+        "endpoint_eht_v": 11503.959966575001,
+        "endpoint_c21_v": -2.2760793989354653
+      }
+    },
+    {
+      "factor": 1,
+      "section_turns": 7,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 300,
+      "elapsed_s": 138.949,
+      "deck_sha256": "a8cf9807f65a0fd6724eb66c5db318b3989deaf43e349bbaa9b16209f95f2c4f",
+      "solver_log_sha256": "4a0ef6133e5fb81b2ce2c0500c8b90e9eb1d91059140fac4617289c14fc2ea17",
+      "raw_tail": {
+        "rows": 21580,
+        "declared_rows": 21580,
+        "last_time_s": 0.0400641025641026,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21580,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.03906411985735467,
+          0.0400641025641026
+        ],
+        "eht_v": [
+          10372.166011632282,
+          10390.789582779853
+        ],
+        "hot_to_return_drive_v": [
+          -68.54041648444088,
+          439.3543234110777
+        ],
+        "c21_differential_v": [
+          18.498952976894188,
+          18.775694788060036
+        ],
+        "tp17_mapped_v": [
+          -67.2080832339911,
+          11.153849338090096
+        ],
+        "yoke_current_pp_a": 0.9305779571310537,
+        "endpoint_eht_v": 10382.603183188521,
+        "endpoint_c21_v": 18.69061940986061
+      }
+    },
+    {
+      "factor": 2,
+      "section_turns": 14,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 300,
+      "elapsed_s": 140.855,
+      "deck_sha256": "d2e34d7d85ad707f07ba1f6bce70134bc8db47d3cad1569723a39d79c8429cda",
+      "solver_log_sha256": "cc371497b36447f93e5c930e5e40bf92a4327a9b2d881e29fdd0b297ac09d486",
+      "raw_tail": {
+        "rows": 21729,
+        "declared_rows": 21729,
+        "last_time_s": 0.0400641025641026,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21729,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.03906410924335092,
+          0.0400641025641026
+        ],
+        "eht_v": [
+          8418.544939297206,
+          8430.472226838287
+        ],
+        "hot_to_return_drive_v": [
+          -40.5557480955033,
+          264.30486836579007
+        ],
+        "c21_differential_v": [
+          -5.467472962812934,
+          -5.072845662540537
+        ],
+        "tp17_mapped_v": [
+          -31.996413788053157,
+          5.6474990961207086
+        ],
+        "yoke_current_pp_a": 0.3278621898050498,
+        "endpoint_eht_v": 8424.317869862878,
+        "endpoint_c21_v": -5.150747459260124
+      }
+    },
+    {
+      "factor": 4,
+      "section_turns": 28,
+      "status": "complete",
+      "returncode": 0,
+      "timeout_s": 300,
+      "elapsed_s": 131.268,
+      "deck_sha256": "3177398131e051e4a2543a942bdcc75c019d35e96745462f2d3d3b13c0f3a501",
+      "solver_log_sha256": "97ea455c4aef9379d3bcbb3c3bfce8c383304f27ef4a401f4f5c62228603b474",
+      "raw_tail": {
+        "rows": 21631,
+        "declared_rows": 21631,
+        "last_time_s": 0.0400641025641026,
+        "complete_header": true
+      },
+      "observed": {
+        "sample_count": 21631,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.03906412650925436,
+          0.0400641025641026
+        ],
+        "eht_v": [
+          1223.347962564041,
+          1233.3761852215073
+        ],
+        "hot_to_return_drive_v": [
+          -13.099397036510068,
+          103.67585039210158
+        ],
+        "c21_differential_v": [
+          -19.997356775947672,
+          -19.61691275178902
+        ],
+        "tp17_mapped_v": [
+          -8.408771947040682,
+          0.9961372255326103
+        ],
+        "yoke_current_pp_a": 0.06776409983938456,
+        "endpoint_eht_v": 1232.156628197741,
+        "endpoint_c21_v": -19.84660741482369
+      }
+    }
+  ]
+}
