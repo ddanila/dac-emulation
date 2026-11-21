@@ -18,6 +18,11 @@ class T3Page4C30ScreenTests(unittest.TestCase):
         live = screen.run(Path(ngspice), screen.visible.SOURCE_PDF)
         self.assertEqual(live, saved)
         self.assertTrue(live['sampled_three_metric_within_2pct'])
+        self.assertFalse(live['sampled_tp17_waveform_within_2pct'])
+        self.assertGreater(live['tp17_waveform_comparison']['peak_difference_over_populated_pp'], .02)
+        self.assertGreater(live['refined_tp17_waveform_comparison']['peak_difference_over_populated_pp'], .02)
+        self.assertLess(abs(live['tp17_waveform_comparison']['peak_difference_over_populated_pp'] -
+                            live['refined_tp17_waveform_comparison']['peak_difference_over_populated_pp']), .001)
         self.assertEqual([row['c30_populated'] for row in live['cases']], [True, False])
         self.assertLess(live['cases'][0]['observed']['c21_voltage_at_collector_peak_v'], 60)
         self.assertLess(live['cases'][1]['observed']['c21_voltage_at_collector_peak_v'], 60)
