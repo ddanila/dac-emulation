@@ -3697,6 +3697,24 @@ The source-connected vertical output, integrator, oscillator and connected
 stage regressions pass after the change, but they do not resolve that
 source conflict or establish device stress under a sustained field.
 
+The [connected V27/V28 stress screen](reference/k7222-11/vertical-output-stress-screen.json),
+reproduced by [vertical_output_stress_check.py](vertical_output_stress_check.py),
+uses the current source-connected vertical stage with nominal models, ideal
+12/+22/−16 V rails, synthetic 20.8 ms sync and a hypothetical 20 mH/10 Ω
+yoke. It records 0–240 ms at 5 µs intervals and compares the final two fields
+(198.4–240 ms). Their yoke-current traces differ by at most 2.40 mA, or
+0.425% of the 0.565 A span; this is a stage diagnostic, not a sustained
+native-grid monitor result. V27 reaches 33.28 V |VCE| and 0.367 A |IC|; V28
+reaches 30.65 V and 0.200 A. Both stay below the [ST BD139/BD140 class
+ratings](https://www.st.com/resource/en/datasheet/bd139.pdf) of 80 V VCEO,
+1.5 A continuous IC, 5 V reverse VBE and 0.5 A base current in this nominal
+run. Their mean positive collector powers are 1.709 W and 0.534 W. V27 thus
+exceeds ST's 1.25 W free-air rating at 25 °C ambient, while both remain below
+its 12.5 W case-mounted rating at 25 °C case. The screen cannot determine the
+board's heat transfer or junction temperature, and its 9.37/3.88 W power
+peaks are not a pulsed safe-operating-area check. This is a specific thermal
+qualification gap, not evidence that the installed V27 is a BD139 or fails.
+
 The refreshed [24-case vertical-diode stage sensitivity](reference/k7222-11/vertical-diode-stage-sensitivity.json)
 also includes the changed V18/V27/V28 models. Its nominal yoke span moves
 from 0.546044 to 0.545597 in the report's current units (−0.082%); the
