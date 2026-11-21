@@ -430,8 +430,11 @@ rejects the tied upper return plus jointly grounded HV cold ends in this
 conditional stage, but three return wirings still pass its sampled current
 and EHT checks at both 50 and 25 ns maximum steps. The permitted
 function-derived/equivalent T3 fallback still needs A5-derived ratios and
-class-bounded loss and parasitics; switching to that fallback alone cannot
-close A5.
+class-bounded loss and parasitics. A cross-revision U52/54 core statement and
+an independent U52/H21 catalog now bound a class geometry, but the .11 core,
+gap and material remain unidentified; an area/path-only stage screen misses
+the sampled EHT band and cannot replace a joint magnetic model. Switching
+to the fallback alone cannot close A5.
 
 A1's full-page source comparisons, A2's sourced joint device bounds and
 stress checks, and A6's remaining class-typical transfers are also open;
