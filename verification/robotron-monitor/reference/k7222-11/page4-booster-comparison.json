@@ -1,0 +1,27 @@
+{
+  "format": "dac-monitor-page4-booster-comparison-v1",
+  "qualification": "scoped external booster wiring only; internal T3 graph and complete page-4 comparison remain open",
+  "source_sha256": "50916a1d2f7cb6bc5f1da50b71f4d22a0b33eaa0ed83874ad6a1ebeafee5d8d3",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "transcription_sha256": "0b056b42807752c34b86f4dc14886a5c90a92b085c5b28c11404a9806087a737",
+  "sheet_sha256": "a4b3769c2a341eb5262a2bd277e40d97b0df8de0245ddf8592756a19b97ba932",
+  "model_nets": {
+    "feed": "h_feed",
+    "v16_c26_output": "h_boosttap",
+    "c21_output": "h_boost",
+    "t3_x2_13": "h_boosttap",
+    "t3_x2_10": "h_boost"
+  },
+  "checks": {
+    "feed_shared": true,
+    "v16_c26_parallel": true,
+    "v16_c26_to_x2_13": true,
+    "c21_to_x2_10": true,
+    "three_distinct_nets": true
+  },
+  "passed": true,
+  "unresolved": [
+    "T3 internal continuity, tap polarity, return and X1:15 relationship to this branch remain unverified.",
+    "The complete page-4 pin-to-pin second netlist remains open."
+  ]
+}
