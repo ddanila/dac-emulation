@@ -1,0 +1,48 @@
+{
+  "format": "dac-monitor-page18-external-input-comparison-v1",
+  "qualification": "source X9 labels and assembled logical receiver/cable continuity checked; X9 physical connector absent from bounded input KiCad sheet, so full physical page-18 review remains open",
+  "source_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "assembly_sha256": "e3883360002705d7a0c69a682768fe9f067940e2b9c016a8790de23defc6fc9d",
+  "input_sheet_sha256": "5679f1f4c55efde1027bcfe7e98916c7aaef2085102c223170a649d74947cf67",
+  "steady_supply_sha256": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+  "checker_sha256": "b3a8861fd19a8d06ab43df6f65d2efa5a26fc6abdca0fda2a6cab53e12282c5a",
+  "input_connector": "012-6921:X9",
+  "signal_rows": [
+    {
+      "pin": "1",
+      "source_signal": "VIDEO",
+      "model_receive_node": "rx_video",
+      "driver": "X101",
+      "cable_sections": 4,
+      "receiver": "X201"
+    },
+    {
+      "pin": "3",
+      "source_signal": "BSYN",
+      "model_receive_node": "rx_bsyn",
+      "driver": "X102",
+      "cable_sections": 4,
+      "receiver": "X201"
+    },
+    {
+      "pin": "5",
+      "source_signal": "INTENS",
+      "model_receive_node": "rx_intens",
+      "driver": "X103",
+      "cable_sections": 4,
+      "receiver": "X201"
+    }
+  ],
+  "return_pins": [
+    "4",
+    "6"
+  ],
+  "return_element": "Rreturn",
+  "physical_x9_present": false,
+  "logical_seam_passed": true,
+  "remaining": [
+    "X9 is modeled as a source/cable equivalent rather than a physical KiCad connector",
+    "page-3/4 input and contrast function remains unqualified"
+  ]
+}

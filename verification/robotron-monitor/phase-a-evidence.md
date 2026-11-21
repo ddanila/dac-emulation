@@ -2716,8 +2716,8 @@ states that boundary explicitly.
 The earlier page-18 receipt recorded six functional board-net gaps before
 the centring-choke model was connected. Reassembling the current KiCad sheets
 and comparing them with all 18 source-labelled cable pairs changes the
-[semantic receipt](reference/k7222-11/page18-frame-comparison.json) to 14
-board-net matches and four explicitly classified model-scope gaps. X1/X2 now
+[semantic receipt](reference/k7222-11/page18-frame-comparison.json) to 15
+board-net matches and three explicitly classified model-scope gaps. X1/X2 now
 reach the vertical board through its L1/L2 centring chokes; their physical
 connector and yoke endpoints remain checked separately. The refreshed
 [physical-pin receipt](reference/k7222-11/page18-board-cable-pin-comparison.json)
@@ -2734,6 +2734,16 @@ The refreshed [panel topology](reference/k7222-11/page18-panel-topology-comparis
 still matches its source read. The functional contrast response and remaining
 page-3/4 source review are open, so page 18 is not marked complete in the A1
 gate.
+
+The new [external X9 seam check](reference/k7222-11/page18-external-input-comparison.json)
+compares the page-18 VIDEO, BSYN and INTENS pins and two 00 returns with the
+assembly declaration and freshly built input deck. Each signal has a distinct
+S37 driver, four cable sections and the expected T200 receive node; the
+computer return reaches monitor ground. The bounded input KiCad sheet has no
+physical X9 symbol, so this proves the logical cable mapping only, not a
+physical X9 pin-to-export comparison or the page-3/4 contrast function.
+The page-18 frame, cable-pin and panel receipts were regenerated against the
+current assembler hashes; their twelve focused comparison tests now pass.
 
 ### A1: corrected page-3/4 intensity seam and unresolved contrast response (2026-11-20)
 
