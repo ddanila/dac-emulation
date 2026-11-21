@@ -1,20 +1,15 @@
 {
   "format": "dac-monitor-page9-integrator-core-comparison-v1",
-  "qualification": "scoped source-to-fresh-KiCad electrical pin comparison; A2 physical pin numbers, rest of page 9 and functional response remain open",
-  "source_read_sha256": "0341bf97a48f908314d93b9cdd40838556cb4ec35008a626ba1c920d3478167f",
+  "qualification": "scoped source-to-fresh-KiCad electrical pin comparison using the exact MAA723 pin map; rest of page 9 and functional response remain open",
+  "source_read_sha256": "89d85982e7d1f259f7834fd2c0e9632af830f4bb6d2bb1545918b4b6b09d1c8e",
   "crossing_source_read_sha256": "195c7659b5668cfd9d23b3b84f31005707d5c2f92b243cb2a295afaa76050635",
   "sheet_sha256": "fcc4105a85343558459544a6a0e19538b2b82691860eb9517956c0992e9c65ea",
-  "terminals_checked": 31,
+  "terminals_checked": 35,
   "combined_components_touched": 16,
-  "combined_physical_source_terminals_read": 38,
-  "combined_model_terminal_slots_verified": 37,
+  "combined_physical_source_terminals_read": 42,
+  "combined_model_terminal_slots_verified": 41,
   "integrator_model_terminal_slots_total": 41,
-  "unverified_a2_model_slot_indices": [
-    0,
-    4,
-    6,
-    7
-  ],
+  "unverified_a2_model_slot_indices": [],
   "checked": [
     {
       "terminal": "V12:K",
@@ -157,6 +152,16 @@
       "model_net": "ramp_limit"
     },
     {
+      "terminal": "A2:vc",
+      "source_net": "12P",
+      "model_net": "p12"
+    },
+    {
+      "terminal": "A2:vp",
+      "source_net": "12P",
+      "model_net": "p12"
+    },
+    {
       "terminal": "R33:lower",
       "source_net": "00",
       "model_net": "0"
@@ -170,11 +175,21 @@
       "terminal": "R40:lower",
       "source_net": "00",
       "model_net": "0"
+    },
+    {
+      "terminal": "A2:cs",
+      "source_net": "00",
+      "model_net": "0"
+    },
+    {
+      "terminal": "A2:vm",
+      "source_net": "00",
+      "model_net": "0"
     }
   ],
   "mismatches": [],
   "remaining": [
-    "Combine with the other scoped page-9 source reads into a complete physical pin-to-pin netlist, including A2's numbered pins, supply pins and all page-edge traces.",
+    "Combine with the other scoped page-9 source reads into a complete physical pin-to-pin netlist, including all page-edge traces.",
     "Re-read transistor arrows and perform the A1 static/functional checks; a matching electrical export does not qualify the source-stage behavior."
   ]
 }

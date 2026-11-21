@@ -5472,16 +5472,20 @@ The [scoped source read](reference/k7222-11/page9-integrator-core-source-read.js
 adds V12/V13, C14/C15, V16/V17, the ramp bias and feedback resistors, and
 the legible A2 functional terminals to the prior height/feedback crossing.
 Its [fresh export comparison](reference/k7222-11/page9-integrator-core-comparison.json)
-matches all 31 newly listed terminals. V12's cathode faces the oscillator;
+matches all 35 newly listed terminals. V12's cathode faces the oscillator;
 V16 and V17 face the output. V13's upper-right lead returns to the A2
 inverting branch, and C14's positive plate is on the 2 V bias branch.
 
+The [exact Tesla MAA 723 catalog](https://teslakatalog.cz/download/tesla_katalog_1_1986_bw.pdf)
+identifies pins 1 and 5 as current sense and ground, and 7 and 8 as the two
+positive supplies. On the page-9 drawing, pins 1 and 5 join the 00 rail at
+a dotted junction; their line crosses the 7.15 V reference and R44 lines
+without dots. Pins 7 and 8 join 12P. The fresh export matches all four.
+
 Together the two scoped reads touch all 16 modeled integrator components
-and 38 distinct source physical terminals. They match 37 of the 41 exported
-electrical terminal slots; the remaining four are A2 terminals whose
-physical pin numbers or page-edge relationships have not been independently
-closed. R35's source wiper is the extra physical terminal collapsed by the
-model. These counts establish substantial local coverage, not a complete
-page-9 second netlist. Joins to the oscillator, regulator and centring
-scopes, remaining page edges, transistor arrows and stage-function checks
-still require the full A1 review.
+and 42 distinct source physical terminals. They match all 41 exported
+electrical terminal slots. R35's source wiper is the extra physical terminal
+collapsed by the model. These counts establish complete local integrator
+slot coverage, not a complete page-9 second netlist. Joins to the oscillator,
+regulator and centring scopes, remaining page edges, transistor arrows and
+stage-function checks still require the full A1 review.

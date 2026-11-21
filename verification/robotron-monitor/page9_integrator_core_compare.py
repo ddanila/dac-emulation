@@ -26,8 +26,8 @@ PIN_INDEX = {
     'R41': {'upper': 0, 'lower': 1},
     'R42': {'upper': 0, 'lower': 1},
     'R44': {'upper': 0, 'lower': 1},
-    'A2': {'minus': 1, 'plus': 2, 'reference': 3, 'output': 5,
-           'compensation': 8, 'limit': 9},
+    'A2': {'cs': 0, 'minus': 1, 'plus': 2, 'reference': 3, 'vm': 4,
+           'output': 5, 'vc': 6, 'vp': 7, 'compensation': 8, 'limit': 9},
 }
 MODEL_NET = {
     'PULSE': 'vertical_pulse', 'A2_PLUS': 'ramp_noninv',
@@ -35,7 +35,7 @@ MODEL_NET = {
     'A2_COMP': 'ramp_comp', 'RAMP_BIAS': 'ramp_bias',
     'REFERENCE': 'vertical_reference', 'RAW_OUTPUT': 'ramp_raw',
     'DIODE_MID': 'ramp_diode', 'RAMP_OUTPUT': 'vertical_ramp',
-    'LIMIT': 'ramp_limit', '00': '0',
+    'LIMIT': 'ramp_limit', '12P': 'p12', '00': '0',
 }
 
 
@@ -60,7 +60,7 @@ def compare(source, components):
                 raise ValueError('source-to-KiCad mismatch at ' + terminal)
             checked.append({'terminal': terminal, 'source_net': source_net,
                             'model_net': MODEL_NET[source_net]})
-    if len(checked) != 31 or {row['terminal'].split(':')[0] for row in checked} != set(PIN_INDEX):
+    if len(checked) != 35 or {row['terminal'].split(':')[0] for row in checked} != set(PIN_INDEX):
         raise ValueError('page-9 A2 source coverage changed')
     previous_source = json.loads(PREVIOUS_READ.read_text())
     crossing.compare(previous_source, components)
@@ -71,12 +71,12 @@ def compare(source, components):
     all_ids = set(PIN_INDEX) | {'R34', 'R35', 'C22'}
     model_slots = sum(len(by_id['012-6931:' + part]['nodes']) for part in all_ids)
     verified_slots = len(source_terminals - {'R35:wiper'})
-    if (len(all_ids) != 16 or len(source_terminals) != 38 or
-            'R35:wiper' not in source_terminals or verified_slots != 37 or model_slots != 41):
+    if (len(all_ids) != 16 or len(source_terminals) != 42 or
+            'R35:wiper' not in source_terminals or verified_slots != 41 or model_slots != 41):
         raise ValueError('combined page-9 integrator coverage changed')
     return {
         'format': 'dac-monitor-page9-integrator-core-comparison-v1',
-        'qualification': 'scoped source-to-fresh-KiCad electrical pin comparison; A2 physical pin numbers, rest of page 9 and functional response remain open',
+        'qualification': 'scoped source-to-fresh-KiCad electrical pin comparison using the exact MAA723 pin map; rest of page 9 and functional response remain open',
         'source_read_sha256': hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         'crossing_source_read_sha256': hashlib.sha256(PREVIOUS_READ.read_bytes()).hexdigest(),
         'sheet_sha256': hashlib.sha256(SHEET.read_bytes()).hexdigest(),
@@ -85,7 +85,7 @@ def compare(source, components):
         'combined_physical_source_terminals_read': len(source_terminals),
         'combined_model_terminal_slots_verified': verified_slots,
         'integrator_model_terminal_slots_total': model_slots,
-        'unverified_a2_model_slot_indices': [0, 4, 6, 7],
+        'unverified_a2_model_slot_indices': [],
         'checked': checked,
         'mismatches': [],
         'remaining': source['remaining'],
