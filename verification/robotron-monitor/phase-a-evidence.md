@@ -2389,6 +2389,21 @@ graph, loss and prescribed base drive. This diagnostic confirms that the two
 voltage references differ in a concrete candidate, but does not turn the
 differential peak or EHT into a qualified winding ratio.
 
+The [page-9 centring-return screen](reference/k7222-11/t3-centering-return-screen.json)
+adds the source-addressed L1/L2–R4–R2 bridge and both plausible E1–E4 link
+pairs to that same conditional stage. Its no-bridge case reproduces the saved
+50 ns pulse exactly. At the R4 midpoint and nominal 5 Ω coil resistance,
+the assumed 20–320 mH choke range moves the peak differential drive from
+443.16 V without the bridge to 443.36–444.88 V with it (at most 0.39%).
+Changing the link pair shifts the H2 waveform by about the 12 V rail span,
+while the differential peak changes by less than 0.02 V at a fixed choke
+value. This tests the newly identified H2 path; it does **not** bound an
+installed H2 waveform. The link pair and choke construction/values are
+unobserved, the stage uses an assumed 4 mH yoke outside the cited class, and
+its T3 graph and base drive remain conditional. Source or class bounds for
+the centring chokes and installed yoke, followed by a differential pulse
+screen, remain necessary before deriving A5 turns ratios.
+
 ### A1/A5: bounded T3 X1:3/X2:3 return alternatives (2026-11-20)
 
 The [return-variant report](reference/k7222-11/t3-return-variants.json)
