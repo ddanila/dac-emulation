@@ -6,6 +6,26 @@
     "older-operation.pdf": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
     "pc1715-servicemanual.pdf": "e810e4722d889a7e357e192486da3a8004b1fd08aca1c0dcef4f3bbc5b66021d"
   },
+  "t3_terminal_identity": {
+    "status": "source-visible 20-port external interface candidate; internal magnetic graph and parameters unqualified",
+    "source_read": "reference/k7222-11/page4-t3-terminal-identity-source-read.json",
+    "source_read_sha256": "b79db095bd3922e075e9709a1a2bb25800d42583fb70266b9b1a33ffaa6eded1",
+    "visible_magnetic_port_count": 20,
+    "v21_anode_pad": "X3:1",
+    "v21_cathode_pad": "X3:2",
+    "drawn_upper_conductor": ["X1:2", "X2:3"],
+    "manual_connection_16_mapping": null,
+    "active_19_port_model_source_contradicted": true,
+    "candidate_graph": "reference/k7222-11/t3-page4-visible-graph.json",
+    "candidate_graph_sha256": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+    "candidate_wrapper_comparison": "reference/k7222-11/page4-t3-visible-wrapper-comparison.json",
+    "candidate_wrapper_comparison_sha256": "918dcd10bd9c092303dfca1a37311b2392f6421d5ee20c07279bd077c79a7382",
+    "candidate_stage_screen": "reference/k7222-11/t3-page4-visible-stage-screen.json",
+    "candidate_stage_screen_sha256": "71e694d8847517d2691d761f9b46280aaf92e663a5f405502a7c8ba278a43b77",
+    "candidate_booster_turn_screen": "reference/k7222-11/t3-page4-booster-turn-screen.json",
+    "candidate_booster_turn_screen_sha256": "87711898fc8221cfc5a5df102b878cbe8cfff4cce8488d904fdb9cce8e0bc027",
+    "screen_result": "No joint sampled EHT, TBY7 current and C21 match in seven completed eight-sign cases or five completed booster-turn cases; prescribed-drive sensitivities do not qualify installed turns, returns or periodic state."
+  },
   "mode": {
     "name": "S550 2 kByte",
     "line_period_s": 0.0000625,
@@ -110,30 +130,34 @@
     "candidate_trace_node_v": {"nominal": 106, "bounds": [99, 113], "equation": "V(h_boost) = V(41P) + V(C21); source-addressed C21 joins h_feed to h_boost"},
     "candidate_boosted_collector_peak_v": {"minimum": 550.9475556500191, "maximum": 628.8593311964864, "nominal": 589.9034434232527},
     "evidence": "design-derived ideal LC approximation; 60–70 V is across C21 in the .11 handwritten page-4 annotation and the later AE9VT description, while 39–43 V is a cross-revision 41P operating comparator",
-    "limitation": "The actual C21 voltage and collector trace supply have not been verified in a settled .11 stage. The 5 ms prescribed-drive screen starts C21 near 22.5 V and cannot qualify the 60–70 V operating point. Loss, loading, damper conduction and transformer coupling change the pulse; neither ideal case is a measured collector peak."
+    "limitation": "The actual C21 voltage and collector trace supply have not been verified in a settled .11 stage. Corrected 20-port prescribed-drive screens do not jointly match sampled EHT, TBY7 current and C21, and cannot qualify the 60–70 V operating point. Loss, loading, damper conduction and transformer coupling change the pulse; neither ideal case is a measured collector peak."
   },
   "high_voltage_ratio": {
+    "status": "historical conditional EHT-to-collector-voltage proxy; not an installed T3 turns ratio",
     "eht_target_v": {"minimum": 11000, "maximum": 12000},
     "ratio_if_boost_case_is_correct": {"minimum": 17.49198819880922, "maximum": 21.780657481712858, "nominal_at_11500v_and_106v_supply": 19.494715835636864},
     "equation": "EHT / collector_flyback_peak",
     "evidence": "design-derived from manual EHT target and candidate ideal collector pulse",
     "source": {"file": "older-operation.pdf", "page": 6},
-    "limitation": "Not yet a T3 turns ratio. The V21 terminal roles are source-read, but the remaining winding return, polarity and actual collector pulse are unverified."
+    "limitation": "V21's source-visible anode/cathode pads are X3:1/X3:2, not the X1:1/X1:2 pads used by the historical 19-port graph. The 17.49–21.78 calculation divides EHT by an ideal collector-to-ground pulse; it cannot establish an HV-to-drive turns ratio without the HV cold end, the X2:4 differential drive waveform, source-corrected winding continuity and settled loading."
   },
   "conditional_t3_hv_turn_scale": {
+    "status": "historical 19-port graph sensitivity; invalid as a current 20-port winding proposal",
+    "valid_for_current_20_port_graph": false,
     "assumed_drive_total_turns": 64,
     "current_hv_turns": 1000,
     "current_ideal_open_circuit_ratio": 15.625,
     "candidate_hv_turns_if_current_drive_scale_and_boost_case_hold": {"minimum": 1120, "nominal": 1248, "maximum": 1393},
     "report": "reference/k7222-11/t3-hv-ratio-sweep.json",
     "evidence": "conditional design-derived ratio sweep using the high_voltage_ratio calculation and an isolated 1 V pulse",
-    "limitation": "The 64 drive turns, boost voltage, T3 graph and loaded EHT are unverified. These candidate absolute turns do not replace the active 1000-turn hypothesis or freeze T3."
+    "limitation": "The 64 drive turns, boost voltage, historical 19-port T3 graph and loaded EHT are unverified. The source-visible X3:1 V21 anode and X1:2–X2:3 conductor supersede that graph. These absolute turns cannot qualify the 20-port candidate or freeze T3."
   },
   "conditional_t3_polarity_screen": {
-    "status": "8 of 16 relative-polarity candidates remain within the current unverified tap graph; no winding freeze",
+    "status": "historical 19-port graph sensitivity: 8 of 16 relative-polarity candidates survived; no current winding selection",
+    "valid_for_current_20_port_graph": false,
     "report": "reference/k7222-11/t3-flyback-sign-filter.json",
-    "source_path": "Page 4 places T3 X2:7 on V18 collector with V17 anode at 0 V and cathode at X2:7; the separate source read puts V21 anode at X1:1 and cathode at positive EHT.",
-    "functional_rule": "A positive X2:7-to-X2:4 collector flyback pulse must make X1:1 positive relative to X1:16 for V21 to conduct during retrace.",
+    "source_path": "Page 4 places T3 X2:7 on the V18 collector and V17 cathode; the corrected V21 pads are X3:1/X3:2. The earlier X1:1/X1:2 V21 identification used by this screen is superseded.",
+    "functional_rule": "Within the superseded 19-port graph only, a positive X2:7-to-X2:4 pulse was required to make X1:1 positive relative to X1:16. This is not a source-corrected V21 sign rule.",
     "accepted_high_voltage_relative_polarity": -1,
     "accepted_candidate_ids": [
       "t3-fc941ad61c50ce31",
@@ -145,14 +169,15 @@
       "t3-261c9dcc23bf007c",
       "t3-af505506129d6f57"
     ],
-    "rejection_reason": "The other eight reverse the high-voltage winding voltage for the positive collector pulse and would charge V21 on the wrong primary phase.",
-    "limitation": "The isolated 1 V pulse checks sign, not EHT amplitude or a settled field. Tap order and X1:3-to-X2:3 continuity remain hypotheses; the accepted list must be recalculated if either changes."
+    "rejection_reason": "The other eight reverse the high-voltage winding voltage under the historical 19-port graph's positive collector pulse and its now-superseded V21 pad mapping.",
+    "limitation": "The isolated 1 V pulse checks only the historical graph's sign. The drawn upper conductor is X1:2–X2:3, and V21's anode is X3:1. The accepted IDs do not select signs for the 20-port candidate and must be recomputed after its internal graph and returns are bounded."
   },
   "conditional_t3_g1_polarity_screen": {
-    "status": "4 of the original 16 relative-polarity candidates remain after HV and negative-G1 function filters; no winding freeze",
+    "status": "historical 19-port graph sensitivity: 4 of 16 candidates survived combined HV and negative-G1 filters; no current winding selection",
+    "valid_for_current_20_port_graph": false,
     "report": "reference/k7222-11/t3-g1-polarity-filter.json",
     "source_read": "reference/k7222-11/t3-g1-rectifier-source-read.json",
-    "functional_rule": "Within the current X2:5-to-00 return hypothesis, a positive collector flyback pulse must make X2:6 negative relative to X2:5 so V14 can pull the G1 brightness branch negative during retrace.",
+    "functional_rule": "Within the historical X2:5-to-00 return hypothesis, a positive collector flyback pulse must make X2:6 negative relative to X2:5 so V14 can pull the G1 brightness branch negative during retrace.",
     "accepted_auxiliary_relative_polarity": 1,
     "accepted_candidate_ids": [
       "t3-fc941ad61c50ce31",
@@ -161,7 +186,7 @@
       "t3-5727c601bf8a59ed"
     ],
     "rejection_reason": "The four HV-compatible candidates with opposite auxiliary sign make X2:6 positive under the prescribed positive collector pulse, the wrong phase for V14 to generate negative UG1 through the current return path.",
-    "limitation": "Page 4 establishes V14's external rectifier path and the cross-revision Robotron description corroborates its purpose, but X2:5 grounding and auxiliary internal continuity remain hypotheses. The 1 V isolated check establishes sign only, not TP17 amplitude or a source-verified T3 graph."
+    "limitation": "Page 4 establishes V14's external rectifier path and a cross-revision Robotron description corroborates its purpose, but X2:5 grounding and auxiliary internal continuity remain hypotheses. These IDs inherit the source-contradicted 19-port HV filter; they cannot select a 20-port sign. The 1 V isolated check establishes sign only, not TP17 amplitude or a source-verified T3 graph."
   },
   "manual_test_points": {
     "14": {"node": "X12:2", "swing_vpp": 70, "role": "feedback waveform; path to T3 needs source review"},
@@ -221,7 +246,7 @@
     "limitation": "The 250, 230 and 200 mm paths are sensitivity choices, not B31G22 measurements. Field start, internal neck radius, winding sensitivity and screen shape remain assumptions; the 90-degree Philips yoke electrical/current class is not an installed AE9VT limit."
   },
   "remaining_design_work": [
-    "Resolve the remaining T3 tap/return map and boost supply from the source before fixing turns or the other winding polarities; HV and G1 auxiliary relative signs are conditionally screened within the current graph, leaving four candidates with upper/lower tap signs unresolved.",
+    "Resolve or carry bounded alternatives for the source-visible 20-port T3 tap/return map, X1:16 manual mapping, X2:4 drive and settled C21 voltage before fixing turns or winding polarities; the historical eight- and four-candidate 19-port sign filters do not select the corrected graph.",
     "Bound B31G22 gun-to-screen distance, inner neck aperture and AE9VT axial field extent before choosing geometry: the current 280 mm beam path exceeds the named B31-G family's 253 mm maximum overall length. At 250 mm the conditional model needs at most 29.87 mm active field, at 230 mm at most 26.55 mm, and at 200 mm at most 21.64 mm; the installed values remain unknown. The active 4.007 mH/2 ohm winding is outside the cited 31 cm/90-degree yoke class, which is only a sensitivity comparator.",
     "Validate the conditional vertical operating point against sourced tube/yoke bounds and a connected TP7/TP8 differential waveform; test points 1–6 constrain upstream stage waveforms rather than yoke current directly.",
     "Check each derived quantity against the source and replace placeholder T3 parameters only after the constraints are mutually consistent."
