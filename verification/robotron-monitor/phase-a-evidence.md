@@ -4007,3 +4007,34 @@ class or declared as bounded equivalent parameters. Changing them then
 requires the isolated MAA723 class check and affected vertical-stage checks
 to be rerun. The audit does not qualify the IC's behavioral sources, joint
 parameter corners, connected stress or temperature response.
+
+### A2/A6: bound the MAA723 internal-device proxies (2026-11-21)
+
+The active `MAA723_BOUND` now declares every parameter in the A2 critical
+screen for `M723_PASS`, `M723_LIMIT` and `M723_CLAMP`; the refreshed
+[internal-device audit](reference/k7222-11/a2-internal-device-audit.json)
+finds zero screened implicit defaults in its four discrete instances. All
+48 unique model parameters have nominal values and engineering bounds in the
+[A6 register](reference/k7222-11/class-typical-register.json). The audit
+checks those values against the live `.model` declarations. These are
+provisional equivalent parameters, not measured MAA723 junction values.
+The [TI LM723 data sheet](https://www.ti.com/lit/ds/symlink/lm723.pdf)
+establishes a family-level series-pass/current-limit arrangement and 150 mA
+output capability; it does not give the individual SPICE parameters. The
+[ngspice manual](https://ngspice.sourceforge.io/docs/ngspice-manual.pdf)
+defines the model parameters and explains that its generic defaults do not
+describe a particular commercial device.
+
+The refreshed [isolated class check](reference/k7222-11/maa723-model-check.json)
+still passes its 7.15 V reference, 2.300 mA standby and 1–50 mA regulation
+comparisons. Its load droop changed from 1.755 to 1.914 mV, below the 10 mV
+class limit. The source-connected vertical-output regression passes at 5 and
+10 µs steps. The refreshed [one-at-a-time vertical-diode screen](reference/k7222-11/vertical-diode-stage-sensitivity.json)
+has a maximum 5.36% yoke-span change across its 24 cases; it does not test
+joint MAA723 corners. The refreshed [nominal stress screen](reference/k7222-11/vertical-output-stress-screen.json)
+finds V27 mean collector power over the final two fields at 1.775 W, up from
+1.709 W and still above the BD139/BD140 free-air 1.25 W comparator. V28 falls
+from 0.534 to 0.501 W. The final-two-field yoke-current difference is 0.43%
+of its span. Board thermal resistance, transient SOA, joint internal-model
+corners and temperature response are still unqualified, so neither the IC
+equivalent nor the vertical output stage is frozen.

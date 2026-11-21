@@ -1,7 +1,8 @@
 {
   "format": "dac-monitor-a2-internal-device-audit-v1",
-  "qualification": "selected frame-path IC equivalents only; model-default inventory, not silicon qualification",
-  "register_sha256": "8676123942f0bfe0bd58c8ff927cfaf2ac94ff5a75ec7888a2be4437ba2536f0",
+  "qualification": "selected frame-path IC equivalents only; model-default and declared-bound check, not silicon qualification",
+  "register_sha256": "d1bdb99ce6ab50fc4042ef109fa30fab2459026c5171b85f46e758d1b9e79fa4",
+  "class_register_sha256": "12464756169e58dfdaac773ca4457dbb89c4324b5e1082172bc04783bb25f230",
   "profile_sha256": {
     "k7222-11-vertical-integrator.json": "bcf7297e805dc6afe082e664b3b877f0d9108b8f6d1101919972336b8db3e7fc",
     "k7222-11-vertical-output.json": "4af447b79a9d09ecf8e6484398ba43b42d425ae635693a688c6d5dcd3cf7d75c"
@@ -67,49 +68,49 @@
       "source_id": "012-6931:A2",
       "subcircuit": "MAA723_BOUND",
       "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
-      "model_sha256": "d52776482832f1979d6c770cb09852d6c320943bd96b5fa26d725c86238b68c3",
+      "model_sha256": "d242521c5f43445c9ef9801fd5aecc829850604580f774d3f69c42047b9a9d1a",
       "devices": [
         {
           "reference": "Dupper",
           "model": "M723_CLAMP",
           "model_type": "D",
           "explicit_parameters": [
-            "IS",
-            "RS"
-          ],
-          "critical_implicit_defaults": [
             "BV",
             "CJO",
             "EG",
             "FC",
             "IBV",
+            "IS",
             "M",
             "N",
+            "RS",
             "TT",
             "VJ",
             "XTI"
-          ]
+          ],
+          "critical_implicit_defaults": [],
+          "unbounded_explicit_parameters": []
         },
         {
           "reference": "Dlower",
           "model": "M723_CLAMP",
           "model_type": "D",
           "explicit_parameters": [
-            "IS",
-            "RS"
-          ],
-          "critical_implicit_defaults": [
             "BV",
             "CJO",
             "EG",
             "FC",
             "IBV",
+            "IS",
             "M",
             "N",
+            "RS",
             "TT",
             "VJ",
             "XTI"
-          ]
+          ],
+          "critical_implicit_defaults": [],
+          "unbounded_explicit_parameters": []
         },
         {
           "reference": "Qpass",
@@ -119,24 +120,24 @@
             "BF",
             "CJC",
             "CJE",
-            "IS",
-            "TF",
-            "VAF"
-          ],
-          "critical_implicit_defaults": [
             "EG",
             "FC",
             "IKF",
+            "IS",
             "MJC",
             "MJE",
             "RB",
             "RC",
             "RE",
+            "TF",
             "TR",
+            "VAF",
             "VJC",
             "VJE",
             "XTI"
-          ]
+          ],
+          "critical_implicit_defaults": [],
+          "unbounded_explicit_parameters": []
         },
         {
           "reference": "Qlimit",
@@ -144,15 +145,12 @@
           "model_type": "NPN",
           "explicit_parameters": [
             "BF",
-            "IS",
-            "VAF"
-          ],
-          "critical_implicit_defaults": [
             "CJC",
             "CJE",
             "EG",
             "FC",
             "IKF",
+            "IS",
             "MJC",
             "MJE",
             "RB",
@@ -160,10 +158,13 @@
             "RE",
             "TF",
             "TR",
+            "VAF",
             "VJC",
             "VJE",
             "XTI"
-          ]
+          ],
+          "critical_implicit_defaults": [],
+          "unbounded_explicit_parameters": []
         }
       ]
     },
@@ -176,6 +177,8 @@
     }
   ],
   "internal_discrete_instances": 4,
-  "instances_with_critical_defaults": 4,
-  "remaining": "Explicitly bound the selected MAA723 internal pass, limit and clamp models, then rerun its class check and affected vertical-stage checks. The P09A equivalent has behavioral elements only; its parameter bounds and connected-stage qualification remain separate A2 work."
+  "instances_with_critical_defaults": 0,
+  "unique_internal_discrete_models": 3,
+  "instances_with_unbounded_explicit_parameters": 0,
+  "remaining": "Zero screened defaults and registered engineering bounds do not identify MAA723 silicon or qualify joint corners, connected stress or temperature. The P09A equivalent has behavioral elements only; its connected-stage qualification remains separate A2 work."
 }

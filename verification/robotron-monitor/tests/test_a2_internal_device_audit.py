@@ -19,7 +19,9 @@ class A2InternalDeviceAuditTests(unittest.TestCase):
         self.assertEqual({device['reference'] for device in rows['MAA723_BOUND']['devices']},
                          {'Dupper', 'Dlower', 'Qpass', 'Qlimit'})
         self.assertEqual(rows['P09A_EQUIV']['devices'], [])
-        self.assertEqual(live['instances_with_critical_defaults'], 4)
+        self.assertEqual(live['instances_with_critical_defaults'], 0)
+        self.assertEqual(live['instances_with_unbounded_explicit_parameters'], 0)
+        self.assertEqual(live['unique_internal_discrete_models'], 3)
 
 
 if __name__ == '__main__':

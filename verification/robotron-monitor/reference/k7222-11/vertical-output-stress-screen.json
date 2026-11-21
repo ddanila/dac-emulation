@@ -17,16 +17,16 @@
     "sample_step_s": 5e-06,
     "synthetic_sync_period_s": 0.0208,
     "final_two_field_start_s": 0.1984,
-    "final_two_field_yoke_current_max_difference_a": 0.0024003306035069727,
-    "final_two_field_yoke_current_span_a": 0.5648104528415162,
-    "field_difference_fraction_of_span": 0.004249798479173148,
+    "final_two_field_yoke_current_max_difference_a": 0.002420958992957023,
+    "final_two_field_yoke_current_span_a": 0.5630602487586127,
+    "field_difference_fraction_of_span": 0.004299644661995847,
     "rows": 48001,
     "ngspice_version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******"
   },
   "inputs": {
     "stage_hashes": {
       "schematic": "fd88c461fa263880ca4aa9f156995f539da9c61a33987459feed16563df7205c",
-      "models": "d52776482832f1979d6c770cb09852d6c320943bd96b5fa26d725c86238b68c3",
+      "models": "d242521c5f43445c9ef9801fd5aecc829850604580f774d3f69c42047b9a9d1a",
       "bench": "600c2bffddaa00c7d0d41d093077ec4547361b0887d87444f621e34c86d2cf31",
       "inventory": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
       "profile": "0c01057c2e74625bfd9d27eada55c670bfdbf325572413ec1a4b1846d3473b0a",
@@ -41,35 +41,35 @@
       "model_0": "b3283dcda3155ecf232888a82cd999fe8ae1019eb35e5ca51074a21ddf4d6c9e",
       "model_1": "707af9030fb2e2978949981f68b4441a578e3ce8ecd16cf2bf1791ca07318443",
       "model_2": "3a20130fbb779cf47db557f5e3e6910772cdc0bcc9157e7c1cdbb5fae6e368df",
-      "deck": "5cc968f8efef813d029129104c2445ad281ff301f9fc50620e12ea11af7d6ccf"
+      "deck": "a5c3215ff083f7cca9c64b93ce89b51ef560296e39197a6e132af4c201acae40"
     },
-    "stress_deck_sha256": "89b9db8c58f15d1082ce07aa089084ae376bf0e8a92bde732f24724510273cec",
+    "stress_deck_sha256": "3af923286fb99f116d7b5e375ed2c89b31401bc2a2fb076dbc6e419810ad2f73",
     "script_sha256": "16c37b977ef92373815f86d2197348089d2cee83c3d02f218b0d91f2bd8cd7d6"
   },
   "devices": {
     "V27": {
       "full_run": {
         "max_abs_vce_v": {
-          "value": 34.27394373293164,
+          "value": 34.27411971841564,
           "time_s": 5e-06
         },
         "max_reverse_vbe_v": {
-          "value": 0.000949225821387234,
+          "value": 0.0009493205034232233,
           "time_s": 0.06007999999999306
         },
         "max_abs_collector_current_a": {
-          "value": 0.379712067637793,
-          "time_s": 0.06137999999999255
+          "value": 0.3846169381772498,
+          "time_s": 0.06139499999999255
         },
         "max_abs_base_current_a": {
-          "value": 0.007552131566327853,
-          "time_s": 0.06135499999999256
+          "value": 0.007677781374101623,
+          "time_s": 0.06136999999999256
         },
         "max_positive_collector_power_w": {
-          "value": 9.743231354829677,
-          "time_s": 0.06149499999999251
+          "value": 9.886196209843575,
+          "time_s": 0.0615099999999925
         },
-        "mean_positive_collector_power_w": 1.6309426057050422,
+        "mean_positive_collector_power_w": 1.6843962519587807,
         "class_absolute_max_screen": {
           "vce_80v": true,
           "reverse_vbe_5v": true,
@@ -80,26 +80,26 @@
       },
       "final_two_fields": {
         "max_abs_vce_v": {
-          "value": 33.283346310362006,
-          "time_s": 0.228320000000158
+          "value": 33.17518404389766,
+          "time_s": 0.2075200000001372
         },
         "max_reverse_vbe_v": {
-          "value": 0.0007376998328250117,
+          "value": 0.0007215693040050208,
           "time_s": 0.2272350000001569
         },
         "max_abs_collector_current_a": {
-          "value": 0.366888760653497,
+          "value": 0.3710950561895969,
           "time_s": 0.2281850000001578
         },
         "max_abs_base_current_a": {
-          "value": 0.007227734562776811,
+          "value": 0.007333539216701379,
           "time_s": 0.2281600000001578
         },
         "max_positive_collector_power_w": {
-          "value": 9.365135145842649,
-          "time_s": 0.2282950000001579
+          "value": 9.488160615945587,
+          "time_s": 0.2283000000001579
         },
-        "mean_positive_collector_power_w": 1.7093974988554308,
+        "mean_positive_collector_power_w": 1.7747664208598488,
         "class_absolute_max_screen": {
           "vce_80v": true,
           "reverse_vbe_5v": true,
@@ -112,26 +112,26 @@
     "V28": {
       "full_run": {
         "max_abs_vce_v": {
-          "value": 30.825303260438503,
+          "value": 30.825443119782108,
           "time_s": 0.06036499999999295
         },
         "max_reverse_vbe_v": {
-          "value": 0.0009831165734794922,
-          "time_s": 0.06143999999999253
+          "value": 0.0009849678499450065,
+          "time_s": 0.06144999999999252
         },
         "max_abs_collector_current_a": {
-          "value": 0.5307818604710753,
-          "time_s": 0.05848499999999367
+          "value": 0.5313653534632485,
+          "time_s": 0.05851999999999366
         },
         "max_abs_base_current_a": {
-          "value": 0.01202657038999599,
-          "time_s": 0.05846499999999368
+          "value": 0.01204546669452324,
+          "time_s": 0.05849999999999367
         },
         "max_positive_collector_power_w": {
-          "value": 12.124841027238384,
+          "value": 12.139642828017507,
           "time_s": 0.06014499999999303
         },
-        "mean_positive_collector_power_w": 0.7409517379494555,
+        "mean_positive_collector_power_w": 0.7194215933901571,
         "class_absolute_max_screen": {
           "vce_80v": true,
           "reverse_vbe_5v": true,
@@ -142,26 +142,26 @@
       },
       "final_two_fields": {
         "max_abs_vce_v": {
-          "value": 30.653817428721553,
-          "time_s": 0.2274500000001571
+          "value": 30.64227759057816,
+          "time_s": 0.2274450000001571
         },
         "max_reverse_vbe_v": {
-          "value": 0.0009782188280950677,
-          "time_s": 0.2282400000001579
+          "value": 0.000980033422820159,
+          "time_s": 0.2074400000001371
         },
         "max_abs_collector_current_a": {
-          "value": 0.2001116353014352,
+          "value": 0.1941226385319235,
           "time_s": 0.2272100000001568
         },
         "max_abs_base_current_a": {
-          "value": 0.003404409453123827,
+          "value": 0.003284517269348669,
           "time_s": 0.2272100000001568
         },
         "max_positive_collector_power_w": {
-          "value": 3.876732126532462,
-          "time_s": 0.2272750000001569
+          "value": 3.7378867078564273,
+          "time_s": 0.2272700000001569
         },
-        "mean_positive_collector_power_w": 0.534181639343012,
+        "mean_positive_collector_power_w": 0.5011913781208812,
         "class_absolute_max_screen": {
           "vce_80v": true,
           "reverse_vbe_5v": true,

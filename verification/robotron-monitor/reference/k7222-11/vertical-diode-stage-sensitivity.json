@@ -1,12 +1,12 @@
 {
   "format": "dac-monitor-1ae15-vertical-stage-sensitivity-v1",
   "qualification": "one-at-a-time provisional bounds on 20.8 ms stage bench; original part and native connected frame unverified",
-  "model_sha256": "d52776482832f1979d6c770cb09852d6c320943bd96b5fa26d725c86238b68c3",
+  "model_sha256": "d242521c5f43445c9ef9801fd5aecc829850604580f774d3f69c42047b9a9d1a",
   "profile_sha256": "4af447b79a9d09ecf8e6484398ba43b42d425ae635693a688c6d5dcd3cf7d75c",
-  "register_sha256": "8676123942f0bfe0bd58c8ff927cfaf2ac94ff5a75ec7888a2be4437ba2536f0",
+  "register_sha256": "d1bdb99ce6ab50fc4042ef109fa30fab2459026c5171b85f46e758d1b9e79fa4",
   "stage_source_hashes": {
     "schematic": "fd88c461fa263880ca4aa9f156995f539da9c61a33987459feed16563df7205c",
-    "models": "d52776482832f1979d6c770cb09852d6c320943bd96b5fa26d725c86238b68c3",
+    "models": "d242521c5f43445c9ef9801fd5aecc829850604580f774d3f69c42047b9a9d1a",
     "bench": "600c2bffddaa00c7d0d41d093077ec4547361b0887d87444f621e34c86d2cf31",
     "inventory": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
     "profile": "4af447b79a9d09ecf8e6484398ba43b42d425ae635693a688c6d5dcd3cf7d75c",
@@ -21,7 +21,7 @@
     "model_0": "b3283dcda3155ecf232888a82cd999fe8ae1019eb35e5ca51074a21ddf4d6c9e",
     "model_1": "707af9030fb2e2978949981f68b4441a578e3ce8ecd16cf2bf1791ca07318443",
     "model_2": "3a20130fbb779cf47db557f5e3e6910772cdc0bcc9157e7c1cdbb5fae6e368df",
-    "deck": "4ea7bac105bf43453f9578f0d766a82b169bd8a87a05e89db921dfd48de7c804"
+    "deck": "3856e9387bf9bb8a6151588ddbc2c215da08e24b345925f6f46310728a5dbf11"
   },
   "solver_version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
   "family_id": "1AE15-vertical-signal-diode",
@@ -41,10 +41,10 @@
   "sample_step_s": 1e-05,
   "final_field_start_s": 0.1392,
   "baseline": {
-    "yoke_peak_to_peak": 0.5455970044860301,
-    "ramp_peak_to_peak": 2.1732769719983165,
-    "pulse_peak_to_peak": 10.374701882195758,
-    "yoke_mean": 0.05921593527978987
+    "yoke_peak_to_peak": 0.5436519259964294,
+    "ramp_peak_to_peak": 2.1730033340931776,
+    "pulse_peak_to_peak": 10.374703413342175,
+    "yoke_mean": 0.06544382409576968
   },
   "cases": [
     {
@@ -52,16 +52,16 @@
       "bound": "minimum",
       "value": 1e-12,
       "metrics": {
-        "yoke_peak_to_peak": 0.5757083961014335,
-        "ramp_peak_to_peak": 2.173481964468904,
-        "pulse_peak_to_peak": 10.374951072737531,
-        "yoke_mean": 0.06725083895671918
+        "yoke_peak_to_peak": 0.5727749534872189,
+        "ramp_peak_to_peak": 2.173315942257678,
+        "pulse_peak_to_peak": 10.374951025755907,
+        "yoke_mean": 0.07376208704529866
       },
       "delta": {
-        "yoke_peak_to_peak": 0.030111391615403438,
-        "ramp_peak_to_peak": 0.00020499247058758385,
-        "pulse_peak_to_peak": 0.000249190541772748,
-        "yoke_mean": 0.008034903676929314
+        "yoke_peak_to_peak": 0.029123027490789433,
+        "ramp_peak_to_peak": 0.00031260816450062734,
+        "pulse_peak_to_peak": 0.0002476124137320568,
+        "yoke_mean": 0.008318262949528976
       }
     },
     {
@@ -69,16 +69,16 @@
       "bound": "maximum",
       "value": 2.5e-08,
       "metrics": {
-        "yoke_peak_to_peak": 0.5319475060832808,
-        "ramp_peak_to_peak": 2.172701556541627,
-        "pulse_peak_to_peak": 10.374597806614178,
-        "yoke_mean": 0.05611304576274311
+        "yoke_peak_to_peak": 0.5303714953807375,
+        "ramp_peak_to_peak": 2.172433786102691,
+        "pulse_peak_to_peak": 10.374597263792404,
+        "yoke_mean": 0.06219528812405532
       },
       "delta": {
-        "yoke_peak_to_peak": -0.013649498402749316,
-        "ramp_peak_to_peak": -0.0005754154566894876,
-        "pulse_peak_to_peak": -0.00010407558158043173,
-        "yoke_mean": -0.003102889517046757
+        "yoke_peak_to_peak": -0.013280430615691952,
+        "ramp_peak_to_peak": -0.0005695479904868073,
+        "pulse_peak_to_peak": -0.00010614954977050672,
+        "yoke_mean": -0.0032485359717143586
       }
     },
     {
@@ -86,16 +86,16 @@
       "bound": "minimum",
       "value": 0.1,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455111063869842,
-        "ramp_peak_to_peak": 2.1732569142065628,
-        "pulse_peak_to_peak": 10.374701466551878,
-        "yoke_mean": 0.05921533761419137
+        "yoke_peak_to_peak": 0.5435546740382486,
+        "ramp_peak_to_peak": 2.1729832140497773,
+        "pulse_peak_to_peak": 10.374701538310848,
+        "yoke_mean": 0.06544314634229609
       },
       "delta": {
-        "yoke_peak_to_peak": -8.589809904591128e-05,
-        "ramp_peak_to_peak": -2.00577917537359e-05,
-        "pulse_peak_to_peak": -4.156438802027651e-07,
-        "yoke_mean": -5.976655984979429e-07
+        "yoke_peak_to_peak": -9.725195818077736e-05,
+        "ramp_peak_to_peak": -2.0120043400240206e-05,
+        "pulse_peak_to_peak": -1.8750313266480134e-06,
+        "yoke_mean": -6.777534735935564e-07
       }
     },
     {
@@ -103,16 +103,16 @@
       "bound": "maximum",
       "value": 10,
       "metrics": {
-        "yoke_peak_to_peak": 0.5459455748053652,
-        "ramp_peak_to_peak": 2.1733636877463276,
-        "pulse_peak_to_peak": 10.374703331160182,
-        "yoke_mean": 0.05921841490202494
+        "yoke_peak_to_peak": 0.544046183131903,
+        "ramp_peak_to_peak": 2.1730917049663914,
+        "pulse_peak_to_peak": 10.374703396635137,
+        "yoke_mean": 0.06544655771815538
       },
       "delta": {
-        "yoke_peak_to_peak": 0.0003485703193351064,
-        "ramp_peak_to_peak": 8.671574801111248e-05,
-        "pulse_peak_to_peak": 1.4489644240001098e-06,
-        "yoke_mean": 2.4796222350687014e-06
+        "yoke_peak_to_peak": 0.00039425713547358576,
+        "ramp_peak_to_peak": 8.837087321378334e-05,
+        "pulse_peak_to_peak": -1.670703753120506e-08,
+        "yoke_mean": 2.7336223857032937e-06
       }
     },
     {
@@ -120,16 +120,16 @@
       "bound": "minimum",
       "value": 1,
       "metrics": {
-        "yoke_peak_to_peak": 0.5194934678277918,
-        "ramp_peak_to_peak": 2.1712158036070446,
-        "pulse_peak_to_peak": 10.374545669165451,
-        "yoke_mean": 0.05380980359973361
+        "yoke_peak_to_peak": 0.5176633713104648,
+        "ramp_peak_to_peak": 2.1710054593361017,
+        "pulse_peak_to_peak": 10.374545954602455,
+        "yoke_mean": 0.05974671015131794
       },
       "delta": {
-        "yoke_peak_to_peak": -0.02610353665823828,
-        "ramp_peak_to_peak": -0.002061168391271906,
-        "pulse_peak_to_peak": -0.00015621303030677325,
-        "yoke_mean": -0.005406131680056256
+        "yoke_peak_to_peak": -0.025988554685964615,
+        "ramp_peak_to_peak": -0.0019978747570759126,
+        "pulse_peak_to_peak": -0.00015745873971972912,
+        "yoke_mean": -0.005697113944451743
       }
     },
     {
@@ -137,16 +137,16 @@
       "bound": "maximum",
       "value": 2,
       "metrics": {
-        "yoke_peak_to_peak": 0.5547635921645466,
-        "ramp_peak_to_peak": 2.1739724403254908,
-        "pulse_peak_to_peak": 10.37476857395475,
-        "yoke_mean": 0.0612909705926571
+        "yoke_peak_to_peak": 0.5525017313878507,
+        "ramp_peak_to_peak": 2.173705497176556,
+        "pulse_peak_to_peak": 10.374768367896873,
+        "yoke_mean": 0.06760494548528562
       },
       "delta": {
-        "yoke_peak_to_peak": 0.009166587678516525,
-        "ramp_peak_to_peak": 0.0006954683271742645,
-        "pulse_peak_to_peak": 6.669175899176594e-05,
-        "yoke_mean": 0.002075035312867228
+        "yoke_peak_to_peak": 0.008849805391421328,
+        "ramp_peak_to_peak": 0.0007021630833783377,
+        "pulse_peak_to_peak": 6.495455469845979e-05,
+        "yoke_mean": 0.0021611213895159354
       }
     },
     {
@@ -154,16 +154,16 @@
       "bound": "minimum",
       "value": 5e-13,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455779403194432,
-        "ramp_peak_to_peak": 2.1733287664809335,
-        "pulse_peak_to_peak": 10.374702408536622,
-        "yoke_mean": 0.05921981549164494
+        "yoke_peak_to_peak": 0.5436176505889074,
+        "ramp_peak_to_peak": 2.1730561693611183,
+        "pulse_peak_to_peak": 10.374701826814434,
+        "yoke_mean": 0.06544772336598896
       },
       "delta": {
-        "yoke_peak_to_peak": -1.9064166586924003e-05,
-        "ramp_peak_to_peak": 5.179448261705133e-05,
-        "pulse_peak_to_peak": 5.263408642264267e-07,
-        "yoke_mean": 3.880211855072924e-06
+        "yoke_peak_to_peak": -3.4275407521988654e-05,
+        "ramp_peak_to_peak": 5.2835267940753994e-05,
+        "pulse_peak_to_peak": -1.5865277411819534e-06,
+        "yoke_mean": 3.899270219279161e-06
       }
     },
     {
@@ -171,16 +171,16 @@
       "bound": "maximum",
       "value": 4e-12,
       "metrics": {
-        "yoke_peak_to_peak": 0.545591667781903,
-        "ramp_peak_to_peak": 2.173228064995448,
-        "pulse_peak_to_peak": 10.374702252769278,
-        "yoke_mean": 0.05921298162972563
+        "yoke_peak_to_peak": 0.5436668753615869,
+        "ramp_peak_to_peak": 2.1729536835985606,
+        "pulse_peak_to_peak": 10.374703474537908,
+        "yoke_mean": 0.06544124435137552
       },
       "delta": {
-        "yoke_peak_to_peak": -5.3367041270568905e-06,
-        "ramp_peak_to_peak": -4.890700286841465e-05,
-        "pulse_peak_to_peak": 3.705735203141103e-07,
-        "yoke_mean": -2.9536500642385333e-06
+        "yoke_peak_to_peak": 1.494936515744616e-05,
+        "ramp_peak_to_peak": -4.96504946170262e-05,
+        "pulse_peak_to_peak": 6.119573292551195e-08,
+        "yoke_mean": -2.5797443941599774e-06
       }
     },
     {
@@ -188,16 +188,16 @@
       "bound": "minimum",
       "value": 5e-10,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455971764812622,
-        "ramp_peak_to_peak": 2.1732767367451666,
-        "pulse_peak_to_peak": 10.37470201087293,
-        "yoke_mean": 0.05921592690132309
+        "yoke_peak_to_peak": 0.5436508708502434,
+        "ramp_peak_to_peak": 2.173003599122918,
+        "pulse_peak_to_peak": 10.374702423822887,
+        "yoke_mean": 0.06544380244296027
       },
       "delta": {
-        "yoke_peak_to_peak": 1.7199523205668754e-07,
-        "ramp_peak_to_peak": -2.352531498495125e-07,
-        "pulse_peak_to_peak": 1.2867717202880158e-07,
-        "yoke_mean": -8.378466781477911e-09
+        "yoke_peak_to_peak": -1.055146185979794e-06,
+        "ramp_peak_to_peak": 2.650297403761215e-07,
+        "pulse_peak_to_peak": -9.895192878417447e-07,
+        "yoke_mean": -2.165280940658043e-08
       }
     },
     {
@@ -205,16 +205,16 @@
       "bound": "maximum",
       "value": 1e-08,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455969878875633,
-        "ramp_peak_to_peak": 2.173276783092958,
-        "pulse_peak_to_peak": 10.374701931397631,
-        "yoke_mean": 0.05921595000133981
+        "yoke_peak_to_peak": 0.5436517270884549,
+        "ramp_peak_to_peak": 2.173003572497962,
+        "pulse_peak_to_peak": 10.374702914650483,
+        "yoke_mean": 0.06544381463460242
       },
       "delta": {
-        "yoke_peak_to_peak": -1.6598466823225522e-08,
-        "ramp_peak_to_peak": -1.889053584669398e-07,
-        "pulse_peak_to_peak": 4.92018727982213e-08,
-        "yoke_mean": 1.472154993742425e-08
+        "yoke_peak_to_peak": -1.989079745357003e-07,
+        "ramp_peak_to_peak": 2.3840478435843693e-07,
+        "pulse_peak_to_peak": -4.986916923854778e-07,
+        "yoke_mean": -9.461167266300308e-09
       }
     },
     {
@@ -222,10 +222,10 @@
       "bound": "minimum",
       "value": 100,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455970044860301,
-        "ramp_peak_to_peak": 2.1732769719983165,
-        "pulse_peak_to_peak": 10.374701882195758,
-        "yoke_mean": 0.05921593527978987
+        "yoke_peak_to_peak": 0.5436519259964294,
+        "ramp_peak_to_peak": 2.1730033340931776,
+        "pulse_peak_to_peak": 10.374703413342175,
+        "yoke_mean": 0.06544382409576968
       },
       "delta": {
         "yoke_peak_to_peak": 0.0,
@@ -239,10 +239,10 @@
       "bound": "maximum",
       "value": 150,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455970044860301,
-        "ramp_peak_to_peak": 2.1732769719983165,
-        "pulse_peak_to_peak": 10.374701882195758,
-        "yoke_mean": 0.05921593527978987
+        "yoke_peak_to_peak": 0.5436519259964294,
+        "ramp_peak_to_peak": 2.1730033340931776,
+        "pulse_peak_to_peak": 10.374703413342175,
+        "yoke_mean": 0.06544382409576968
       },
       "delta": {
         "yoke_peak_to_peak": 0.0,
@@ -256,10 +256,10 @@
       "bound": "minimum",
       "value": 1e-06,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455970044860301,
-        "ramp_peak_to_peak": 2.1732769719983165,
-        "pulse_peak_to_peak": 10.374701882195758,
-        "yoke_mean": 0.05921593527978987
+        "yoke_peak_to_peak": 0.5436519259964294,
+        "ramp_peak_to_peak": 2.1730033340931776,
+        "pulse_peak_to_peak": 10.374703413342175,
+        "yoke_mean": 0.06544382409576968
       },
       "delta": {
         "yoke_peak_to_peak": 0.0,
@@ -273,10 +273,10 @@
       "bound": "maximum",
       "value": 0.001,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455970044860301,
-        "ramp_peak_to_peak": 2.1732769719983165,
-        "pulse_peak_to_peak": 10.374701882195758,
-        "yoke_mean": 0.05921593527978987
+        "yoke_peak_to_peak": 0.5436519259964294,
+        "ramp_peak_to_peak": 2.1730033340931776,
+        "pulse_peak_to_peak": 10.374703413342175,
+        "yoke_mean": 0.06544382409576968
       },
       "delta": {
         "yoke_peak_to_peak": 0.0,
@@ -290,16 +290,16 @@
       "bound": "minimum",
       "value": 0.75,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455961813082093,
-        "ramp_peak_to_peak": 2.1732838916960504,
-        "pulse_peak_to_peak": 10.374701983999032,
-        "yoke_mean": 0.05921636466487033
+        "yoke_peak_to_peak": 0.5436476615673835,
+        "ramp_peak_to_peak": 2.173010437518874,
+        "pulse_peak_to_peak": 10.374703225724579,
+        "yoke_mean": 0.06544421944179168
       },
       "delta": {
-        "yoke_peak_to_peak": -8.231778207967722e-07,
-        "ramp_peak_to_peak": 6.919697733920316e-06,
-        "pulse_peak_to_peak": 1.0180327336684059e-07,
-        "yoke_mean": 4.293850804637511e-07
+        "yoke_peak_to_peak": -4.264429045885976e-06,
+        "ramp_peak_to_peak": 7.103425696541876e-06,
+        "pulse_peak_to_peak": -1.8761759612573314e-07,
+        "yoke_mean": 3.9534602200297364e-07
       }
     },
     {
@@ -307,16 +307,16 @@
       "bound": "maximum",
       "value": 1.25,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455982170721029,
-        "ramp_peak_to_peak": 2.1732716293852987,
-        "pulse_peak_to_peak": 10.374702037235881,
-        "yoke_mean": 0.059215600639044234
+        "yoke_peak_to_peak": 0.5436533908674392,
+        "ramp_peak_to_peak": 2.172998065305798,
+        "pulse_peak_to_peak": 10.3747026235054,
+        "yoke_mean": 0.06544347973835798
       },
       "delta": {
-        "yoke_peak_to_peak": 1.21258607277408e-06,
-        "ramp_peak_to_peak": -5.342613017766951e-06,
-        "pulse_peak_to_peak": 1.5504012296219116e-07,
-        "yoke_mean": -3.346407456347733e-07
+        "yoke_peak_to_peak": 1.4648710098263962e-06,
+        "ramp_peak_to_peak": -5.268787379719697e-06,
+        "pulse_peak_to_peak": -7.898367755387881e-07,
+        "yoke_mean": -3.443574116968051e-07
       }
     },
     {
@@ -324,16 +324,16 @@
       "bound": "minimum",
       "value": 0.333,
       "metrics": {
-        "yoke_peak_to_peak": 0.5456018227413904,
-        "ramp_peak_to_peak": 2.17325184127303,
-        "pulse_peak_to_peak": 10.374702477197683,
-        "yoke_mean": 0.05921467707227571
+        "yoke_peak_to_peak": 0.5436599706183993,
+        "ramp_peak_to_peak": 2.17297819039799,
+        "pulse_peak_to_peak": 10.37470267563934,
+        "yoke_mean": 0.06544259501500567
       },
       "delta": {
-        "yoke_peak_to_peak": 4.81825536025049e-06,
-        "ramp_peak_to_peak": -2.513072528653737e-05,
-        "pulse_peak_to_peak": 5.950019250633432e-07,
-        "yoke_mean": -1.2582075141626126e-06
+        "yoke_peak_to_peak": 8.044621969904853e-06,
+        "ramp_peak_to_peak": -2.514369518769044e-05,
+        "pulse_peak_to_peak": -7.377028357069548e-07,
+        "yoke_mean": -1.2290807640119583e-06
       }
     },
     {
@@ -341,10 +341,10 @@
       "bound": "maximum",
       "value": 0.5,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455970044860301,
-        "ramp_peak_to_peak": 2.1732769719983165,
-        "pulse_peak_to_peak": 10.374701882195758,
-        "yoke_mean": 0.05921593527978987
+        "yoke_peak_to_peak": 0.5436519259964294,
+        "ramp_peak_to_peak": 2.1730033340931776,
+        "pulse_peak_to_peak": 10.374703413342175,
+        "yoke_mean": 0.06544382409576968
       },
       "delta": {
         "yoke_peak_to_peak": 0.0,
@@ -358,16 +358,16 @@
       "bound": "minimum",
       "value": 0.3,
       "metrics": {
-        "yoke_peak_to_peak": 0.545597021630631,
-        "ramp_peak_to_peak": 2.173276867122126,
-        "pulse_peak_to_peak": 10.3747018984261,
-        "yoke_mean": 0.05921592915144072
+        "yoke_peak_to_peak": 0.5436514864091322,
+        "ramp_peak_to_peak": 2.17300351058653,
+        "pulse_peak_to_peak": 10.374703438414508,
+        "yoke_mean": 0.06544382324463997
       },
       "delta": {
-        "yoke_peak_to_peak": 1.7144600850116376e-08,
-        "ramp_peak_to_peak": -1.0487619039878382e-07,
-        "pulse_peak_to_peak": 1.6230341515210966e-08,
-        "yoke_mean": -6.128349147593859e-09
+        "yoke_peak_to_peak": -4.3958729722959333e-07,
+        "ramp_peak_to_peak": 1.764933523773493e-07,
+        "pulse_peak_to_peak": 2.5072333542652814e-08,
+        "yoke_mean": -8.511297083790836e-10
       }
     },
     {
@@ -375,16 +375,16 @@
       "bound": "maximum",
       "value": 0.7,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455967171424019,
-        "ramp_peak_to_peak": 2.173276943079756,
-        "pulse_peak_to_peak": 10.374701882582986,
-        "yoke_mean": 0.059215928110011404
+        "yoke_peak_to_peak": 0.5436509355585403,
+        "ramp_peak_to_peak": 2.173003487643421,
+        "pulse_peak_to_peak": 10.374702438127752,
+        "yoke_mean": 0.06544380481449887
       },
       "delta": {
-        "yoke_peak_to_peak": -2.8734362822468995e-07,
-        "ramp_peak_to_peak": -2.8918560435187146e-08,
-        "pulse_peak_to_peak": 3.872280274208606e-10,
-        "yoke_mean": -7.169778465376808e-09
+        "yoke_peak_to_peak": -9.904378891478771e-07,
+        "ramp_peak_to_peak": 1.535502436311731e-07,
+        "pulse_peak_to_peak": -9.752144229935311e-07,
+        "yoke_mean": -1.9281270816073892e-08
       }
     },
     {
@@ -392,10 +392,10 @@
       "bound": "minimum",
       "value": 1.08,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455970044860301,
-        "ramp_peak_to_peak": 2.1732769719983165,
-        "pulse_peak_to_peak": 10.374701882195758,
-        "yoke_mean": 0.05921593527978987
+        "yoke_peak_to_peak": 0.5436519259964294,
+        "ramp_peak_to_peak": 2.1730033340931776,
+        "pulse_peak_to_peak": 10.374703413342175,
+        "yoke_mean": 0.06544382409576968
       },
       "delta": {
         "yoke_peak_to_peak": 0.0,
@@ -409,10 +409,10 @@
       "bound": "maximum",
       "value": 1.14,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455970044860301,
-        "ramp_peak_to_peak": 2.1732769719983165,
-        "pulse_peak_to_peak": 10.374701882195758,
-        "yoke_mean": 0.05921593527978987
+        "yoke_peak_to_peak": 0.5436519259964294,
+        "ramp_peak_to_peak": 2.1730033340931776,
+        "pulse_peak_to_peak": 10.374703413342175,
+        "yoke_mean": 0.06544382409576968
       },
       "delta": {
         "yoke_peak_to_peak": 0.0,
@@ -426,10 +426,10 @@
       "bound": "minimum",
       "value": 2,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455970044860301,
-        "ramp_peak_to_peak": 2.1732769719983165,
-        "pulse_peak_to_peak": 10.374701882195758,
-        "yoke_mean": 0.05921593527978987
+        "yoke_peak_to_peak": 0.5436519259964294,
+        "ramp_peak_to_peak": 2.1730033340931776,
+        "pulse_peak_to_peak": 10.374703413342175,
+        "yoke_mean": 0.06544382409576968
       },
       "delta": {
         "yoke_peak_to_peak": 0.0,
@@ -443,10 +443,10 @@
       "bound": "maximum",
       "value": 4,
       "metrics": {
-        "yoke_peak_to_peak": 0.5455970044860301,
-        "ramp_peak_to_peak": 2.1732769719983165,
-        "pulse_peak_to_peak": 10.374701882195758,
-        "yoke_mean": 0.05921593527978987
+        "yoke_peak_to_peak": 0.5436519259964294,
+        "ramp_peak_to_peak": 2.1730033340931776,
+        "pulse_peak_to_peak": 10.374703413342175,
+        "yoke_mean": 0.06544382409576968
       },
       "delta": {
         "yoke_peak_to_peak": 0.0,
@@ -457,15 +457,15 @@
     }
   ],
   "maximum_absolute_delta": {
-    "yoke_peak_to_peak": 0.030111391615403438,
-    "ramp_peak_to_peak": 0.002061168391271906,
-    "pulse_peak_to_peak": 0.000249190541772748,
-    "yoke_mean": 0.008034903676929314
+    "yoke_peak_to_peak": 0.029123027490789433,
+    "ramp_peak_to_peak": 0.0019978747570759126,
+    "pulse_peak_to_peak": 0.0002476124137320568,
+    "yoke_mean": 0.008318262949528976
   },
   "maximum_fractional_delta": {
-    "yoke_peak_to_peak": 0.05518980377058583,
-    "ramp_peak_to_peak": 0.0009484149594502318,
-    "pulse_peak_to_peak": 2.40190556415302e-05,
-    "yoke_mean": 0.13568820012662353
+    "yoke_peak_to_peak": 0.053569252858640115,
+    "ramp_peak_to_peak": 0.0009194071291702144,
+    "pulse_peak_to_peak": 2.3866939021468304e-05,
+    "yoke_mean": 0.12710539251734637
   }
 }
