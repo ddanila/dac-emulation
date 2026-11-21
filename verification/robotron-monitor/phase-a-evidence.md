@@ -4481,3 +4481,31 @@ combined two-axis raster. The active geometry and A5 yoke current remain
 unfrozen. The next bound must specify credible B31G22/AE9VT gun position,
 neck clearance and separate horizontal/vertical field profiles, or use a
 labelled field equivalent whose transfer is bounded by source evidence.
+
+### A6: named B31-G22 table corroborates the tube operating class (2026-11-21)
+
+A published [Tungsram monitor-tube table](https://elektroncso.hu/cikkek/crt.php)
+names **B31-G 22** in its M 31-G family row and gives 11 V/68 mA heater,
+35–69 V G1 cut-off, 250 V G2, 0–350 V G4, 11 kV anode (<12 kV), a
+257 × 195 mm visible picture, 21 mm neck, 110° deflection and 253 mm
+length. A [seller's own CRT inventory](https://www.reton.cz/files/vyprodej/katalog-crt.pdf)
+independently identifies B31-G22 as a Tungsram tube, but contains no
+electrical limits. The exact-type table is a secondary compilation: its
+underlying B31-G22 type sheet is not available here. Its numbers are
+therefore recorded as corroborating evidence, not promoted to manufacturer
+limits for the installed specimen.
+
+The table's heater, G1 cut-off and G2 figures match the already inspected
+[Tungsram 1976 M31-120 manufacturer page](https://frank.pocnet.net/other/Tungsram/Tungsram_ElectronTubes_Semiconductors_1976.pdf)
+(PDF page 96, SHA-256 in the class register). The 11 V/68 mA point implies
+161.765 Ω hot resistance, within 0.2% of the active 161.445 Ω equilibrium
+proxy. At the printed 250 V G2 and 35–69 V cut-off, the active model's
+effective `grid2_mu` interval is 3.62–7.14; its nominal 6.5 lies inside.
+These checks strengthen the choice of nominal heater and G1/G2 class.
+They do not identify cathode emissivity, heater alloy or thermal behavior,
+G4's effect on the cut-off curve, or an AE9VT field profile. The isolated
+neck model uses 350 V G2, while the table prints 250 V; the table does not
+state a G2 maximum, so this is an operating-point difference to check in a
+connected run, not a demonstrated contradiction. The A6 register now cites
+the exact-name table on the affected model rows and keeps those bounds
+conditional.
