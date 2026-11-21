@@ -1,0 +1,494 @@
+{
+  "format": "dac-monitor-maa723-internal-corner-screen-v1",
+  "qualification": "nine correlated internal-model cases at three temperatures; isolated family proxy only, not exhaustive joint bounds or an MAA723 identity",
+  "model_sha256": "d242521c5f43445c9ef9801fd5aecc829850604580f774d3f69c42047b9a9d1a",
+  "class_register_sha256": "12464756169e58dfdaac773ca4457dbb89c4324b5e1082172bc04783bb25f230",
+  "device_register_sha256": "d1bdb99ce6ab50fc4042ef109fa30fab2459026c5171b85f46e758d1b9e79fa4",
+  "script_sha256": "28d31eb44b95b13ebd7bbc62988518108b34a9371be8f83b61f0b0bf3da9c652",
+  "cases": 9,
+  "temperatures_c": [
+    0,
+    25,
+    70
+  ],
+  "target_source": {
+    "url": "https://www.ti.com/lit/ds/symlink/lm723.pdf",
+    "revision": "SNVS765C, April 2013",
+    "pages": [
+      2,
+      3,
+      4
+    ],
+    "use": "10-pin metal-can functional pin contract; 1.7 mA typical standby and 0.2% maximum 1\u201350 mA load regulation for LM723C at the stated 5 V test fixture. Comparable 723 family, not an MAA723 identification."
+  },
+  "comparison_targets": {
+    "reference_v": {
+      "range": [
+        6.8,
+        7.5
+      ],
+      "conditions": "uA723C, 25 C, family comparison"
+    },
+    "standby_current_a": {
+      "maximum": 0.004,
+      "conditions": "uA723C, 30 V input, no output load, 25 C, family comparison"
+    },
+    "load_regulation_v": {
+      "maximum": 0.01,
+      "conditions": "LM723C 0.2% of 5 V for 1 to 50 mA load, 12 V input, 25 C, family comparison"
+    },
+    "output_150ma_v": {
+      "minimum": 4.9,
+      "conditions": "engineering proxy for uA723 150 mA capability at 12 V input; no 4.9 V data-sheet limit"
+    }
+  },
+  "rows": [
+    {
+      "groups": {
+        "M723_PASS": "nominal",
+        "M723_LIMIT": "nominal",
+        "M723_CLAMP": "nominal"
+      },
+      "temperatures": [
+        {
+          "temperature_c": 0,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000600053,
+          "load_regulation_v": 0.001915000000000333,
+          "output_150ma_v": 4.983199,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        },
+        {
+          "temperature_c": 25,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000600053,
+          "load_regulation_v": 0.0019140000000001933,
+          "output_150ma_v": 4.983203,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        },
+        {
+          "temperature_c": 70,
+          "reference_v": 7.15,
+          "standby_current_a": 0.00230000006807,
+          "load_regulation_v": 0.0019119999999999138,
+          "output_150ma_v": 4.983211,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        }
+      ],
+      "all_proxy_checks_pass": true
+    },
+    {
+      "groups": {
+        "M723_PASS": "low",
+        "M723_LIMIT": "low",
+        "M723_CLAMP": "low"
+      },
+      "temperatures": [
+        {
+          "temperature_c": 0,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000596856,
+          "load_regulation_v": 0.00572600000000012,
+          "output_150ma_v": 2.228068,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        },
+        {
+          "temperature_c": 25,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000596856,
+          "load_regulation_v": 0.005720000000000169,
+          "output_150ma_v": 2.229364,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        },
+        {
+          "temperature_c": 70,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000607514,
+          "load_regulation_v": 0.0057109999999998,
+          "output_150ma_v": 2.231744,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        }
+      ],
+      "all_proxy_checks_pass": false
+    },
+    {
+      "groups": {
+        "M723_PASS": "low",
+        "M723_LIMIT": "low",
+        "M723_CLAMP": "high"
+      },
+      "temperatures": [
+        {
+          "temperature_c": 0,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000596856,
+          "load_regulation_v": 0.00572600000000012,
+          "output_150ma_v": 2.228068,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        },
+        {
+          "temperature_c": 25,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000596856,
+          "load_regulation_v": 0.005720000000000169,
+          "output_150ma_v": 2.229364,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        },
+        {
+          "temperature_c": 70,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000607514,
+          "load_regulation_v": 0.0057109999999998,
+          "output_150ma_v": 2.231744,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        }
+      ],
+      "all_proxy_checks_pass": false
+    },
+    {
+      "groups": {
+        "M723_PASS": "low",
+        "M723_LIMIT": "high",
+        "M723_CLAMP": "low"
+      },
+      "temperatures": [
+        {
+          "temperature_c": 0,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000596856,
+          "load_regulation_v": 0.00572600000000012,
+          "output_150ma_v": 2.228068,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        },
+        {
+          "temperature_c": 25,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000596856,
+          "load_regulation_v": 0.005720000000000169,
+          "output_150ma_v": 2.229364,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        },
+        {
+          "temperature_c": 70,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000607514,
+          "load_regulation_v": 0.0057109999999998,
+          "output_150ma_v": 2.231744,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        }
+      ],
+      "all_proxy_checks_pass": false
+    },
+    {
+      "groups": {
+        "M723_PASS": "low",
+        "M723_LIMIT": "high",
+        "M723_CLAMP": "high"
+      },
+      "temperatures": [
+        {
+          "temperature_c": 0,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000596856,
+          "load_regulation_v": 0.00572600000000012,
+          "output_150ma_v": 2.228068,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        },
+        {
+          "temperature_c": 25,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000596856,
+          "load_regulation_v": 0.005720000000000169,
+          "output_150ma_v": 2.229364,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        },
+        {
+          "temperature_c": 70,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000607514,
+          "load_regulation_v": 0.0057109999999998,
+          "output_150ma_v": 2.231744,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": false
+          }
+        }
+      ],
+      "all_proxy_checks_pass": false
+    },
+    {
+      "groups": {
+        "M723_PASS": "high",
+        "M723_LIMIT": "low",
+        "M723_CLAMP": "low"
+      },
+      "temperatures": [
+        {
+          "temperature_c": 0,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000600012,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986924,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        },
+        {
+          "temperature_c": 25,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000601587,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986925,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        },
+        {
+          "temperature_c": 70,
+          "reference_v": 7.15,
+          "standby_current_a": 0.002300000154184,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986927,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        }
+      ],
+      "all_proxy_checks_pass": true
+    },
+    {
+      "groups": {
+        "M723_PASS": "high",
+        "M723_LIMIT": "low",
+        "M723_CLAMP": "high"
+      },
+      "temperatures": [
+        {
+          "temperature_c": 0,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000600012,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986924,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        },
+        {
+          "temperature_c": 25,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000601587,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986925,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        },
+        {
+          "temperature_c": 70,
+          "reference_v": 7.15,
+          "standby_current_a": 0.002300000157438,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986927,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        }
+      ],
+      "all_proxy_checks_pass": true
+    },
+    {
+      "groups": {
+        "M723_PASS": "high",
+        "M723_LIMIT": "high",
+        "M723_CLAMP": "low"
+      },
+      "temperatures": [
+        {
+          "temperature_c": 0,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000600012,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986924,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        },
+        {
+          "temperature_c": 25,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000601587,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986925,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        },
+        {
+          "temperature_c": 70,
+          "reference_v": 7.15,
+          "standby_current_a": 0.002300000154185,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986927,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        }
+      ],
+      "all_proxy_checks_pass": true
+    },
+    {
+      "groups": {
+        "M723_PASS": "high",
+        "M723_LIMIT": "high",
+        "M723_CLAMP": "high"
+      },
+      "temperatures": [
+        {
+          "temperature_c": 0,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000600012,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986924,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        },
+        {
+          "temperature_c": 25,
+          "reference_v": 7.15,
+          "standby_current_a": 0.0023000000601587,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986925,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        },
+        {
+          "temperature_c": 70,
+          "reference_v": 7.15,
+          "standby_current_a": 0.002300000157419,
+          "load_regulation_v": 0.0009579999999997924,
+          "output_150ma_v": 4.986927,
+          "checks": {
+            "reference": true,
+            "standby": true,
+            "load_regulation": true,
+            "output_150ma": true
+          }
+        }
+      ],
+      "all_proxy_checks_pass": true
+    }
+  ],
+  "failed_cases": 4,
+  "limitations": [
+    "All low/high shifts within each internal model are correlated; arbitrary mixed corners are not covered.",
+    "The 25 C comparison targets are reused as engineering proxies at 0 and 70 C, not claimed data-sheet limits at those temperatures.",
+    "The isolated DC setup does not exercise current-limit switching, transient stability, connected device stress or the 30 pF pole."
+  ]
+}

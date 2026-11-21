@@ -4038,3 +4038,27 @@ from 0.534 to 0.501 W. The final-two-field yoke-current difference is 0.43%
 of its span. Board thermal resistance, transient SOA, joint internal-model
 corners and temperature response are still unqualified, so neither the IC
 equivalent nor the vertical output stage is frozen.
+
+### A2: MAA723 internal-model joint corner screen (2026-11-21)
+
+The [correlated corner screen](reference/k7222-11/maa723-internal-corner-screen.json)
+uses the registered low/high bounds for the pass transistor, current-limit
+transistor and clamp diodes as three separate groups. It checks the nominal
+model plus all eight group combinations at 0, 25 and 70 °C in the isolated
+723-family circuit. Four of nine cases miss the **engineering** 4.9 V output
+proxy at a 150 mA load, all when `M723_PASS` is at its low group corner:
+the output is 2.228–2.232 V. All high-pass-group cases give about 4.987 V.
+The 7.15 V reference, 2.3 mA standby and 1–50 mA load-droop comparisons
+still pass in every sampled case; maximum droop is 5.726 mV against the
+10 mV proxy. The clamp and limit group choices do not alter these DC results.
+
+The [TI LM723 data sheet](https://www.ti.com/lit/ds/symlink/lm723.pdf)
+states a 150 mA output capability, but does not specify 4.9 V at this
+particular load/circuit or the MAA723 internal transistors. The 4.9 V check
+is a declared engineering proxy, not a data-book limit. Reusing the 25 °C
+targets at 0 and 70 °C is a sensitivity probe, not temperature qualification.
+These eight correlated group corners do not cover arbitrary combinations of
+all 48 internal parameters, nor current-limit switching or the connected
+stage. The low-pass-group failure must be resolved against documented
+723-family operating conditions before the joint bounds can be qualified;
+the nominal pass does not justify narrowing the bounds to hide it.
