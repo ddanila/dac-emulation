@@ -64,7 +64,8 @@ def registered_parameters():
     return register, rows[0]
 
 
-def op(parameters, *, supply, load_ohm=None, model_file=MODEL_FILE, temperature_c=25):
+def op(parameters, *, supply, load_ohm=None, model_file=MODEL_FILE,
+       temperature_c=25, divider_top_ohm=2150, divider_bottom_ohm=4990):
     values = ' '.join(f'{key}={data["nominal"]:.12g}' for key, data in parameters.items())
     if load_ohm is None:
         circuit = '''Rref ref 0 1T
@@ -73,8 +74,8 @@ Rnoninv noninv 0 100k
 Rload out 0 1T
 Rcomp comp 0 1Meg'''
     else:
-        circuit = f'''Rref_top ref noninv 2.15k
-Rref_bottom noninv 0 4.99k
+        circuit = f'''Rref_top ref noninv {divider_top_ohm:.12g}
+Rref_bottom noninv 0 {divider_bottom_ohm:.12g}
 Rfeedback out inv 1
 Rload out 0 {load_ohm:.12g}
 Ccomp comp 0 100p'''
@@ -106,8 +107,13 @@ quit
     observed = {key.lower(): float(value) for key, value in VALUES.findall(result.stdout)}
     if set(observed) != {'v(ref)', 'v(out)', 'i(vvp)', 'i(vvc)'}:
         raise RuntimeError('MAA723 SPICE values missing: '+result.stdout[-700:])
+    current = observed['v(out)']/load_ohm if load_ohm is not None else 0.
+    supply_current = -observed['i(vvp)']-observed['i(vvc)']
     return dict(reference_v=observed['v(ref)'], output_v=observed['v(out)'],
-                supply_current_a=-observed['i(vvp)']-observed['i(vvc)'])
+                supply_current_a=supply_current,
+                load_current_a=current,
+                pass_power_proxy_w=max(supply-observed['v(out)'], 0.)*current,
+                chip_power_proxy_w=supply*supply_current-observed['v(out)']*current)
 
 
 def run():
@@ -116,6 +122,8 @@ def run():
     standby = op(parameters, supply=30)
     loads = {name: op(parameters, supply=12, load_ohm=ohm)
              for name, ohm in [('1ma', 5000), ('50ma', 100), ('150ma', 100/3)]}
+    lower_dissipation = op(parameters, supply=9.5, load_ohm=6.5/.15,
+                           divider_top_ohm=650, divider_bottom_ohm=6500)
     targets = entry['comparison_targets']
     checks = {
         'reference_class': targets['reference_v']['range'][0] <= standby['reference_v']
@@ -124,11 +132,9 @@ def run():
                          <= targets['standby_current_a']['maximum'],
         'load_regulation_class': abs(loads['1ma']['output_v']-loads['50ma']['output_v'])
                                  <= targets['load_regulation_v']['maximum'],
-        'output_current_capability_proxy': loads['150ma']['output_v']
-                                           >= targets['output_150ma_v']['minimum'],
     }
-    return dict(format='dac-monitor-maa723-class-check-v1',
-                qualification='723-family isolated DC proxy only; exact MAA723 identity, transient response, current limiting and connected-stage stress remain open',
+    return dict(format='dac-monitor-maa723-class-check-v2',
+                qualification='723-family isolated DC comparison; 150 mA resistor trial is an engineering probe, not a data-sheet regulation limit or thermal qualification',
                 sources={name: register['sources'][name] for name in entry['sources']},
                 register_sha256=sha(REGISTER), model_file_sha256=sha(MODEL_FILE),
                 sheet_sha256=sha(SHEET),
@@ -137,6 +143,27 @@ def run():
                 parameters=parameters, data_book_targets=targets,
                 standby_30v=standby, five_volt_loads_12v=loads,
                 load_regulation_v=loads['1ma']['output_v']-loads['50ma']['output_v'],
+                engineering_150ma_probe={
+                    'load_resistance_ohm': 100/3,
+                    'intended_current_a_at_5v': .15,
+                    'observed_current_a': loads['150ma']['load_current_a'],
+                    'pass_power_proxy_w': loads['150ma']['pass_power_proxy_w'],
+                    'meets_4p9v_proxy': loads['150ma']['output_v']
+                                          >= targets['output_150ma_v']['minimum'],
+                    'ideal_5v_pass_power_w_at_12v': (12-5)*.15,
+                    'lm723_25c_package_power_ratings_w': {
+                        'metal_can': .8, 'cdip': .9, 'pdip': .66},
+                    'power_source': 'https://www.ti.com/lit/ds/symlink/lm723.pdf',
+                    'interpretation': 'The 12 V/5 V/150 mA ideal pass loss alone exceeds the listed LM723 package ratings. This resistor probe cannot certify family-wide continuous 150 mA regulation.'},
+                lower_dissipation_150ma_probe={
+                    'source': 'https://www.ti.com/lit/ds/symlink/ua723.pdf',
+                    'input_v': 9.5, 'setpoint_v': 6.5,
+                    'nominal_input_output_difference_v': 3,
+                    'load_resistance_ohm': 6.5/.15,
+                    'expected_pass_power_w_at_setpoint': .45,
+                    'observed': lower_dissipation,
+                    'within_lm723_pdip_25c_power_proxy': lower_dissipation['chip_power_proxy_w'] <= .66,
+                    'interpretation': 'Chosen at the uA723 minimum input voltage and input/output differential, with a 150 mA intended resistive load. The 0.66 W comparator is the LM723 PDIP 25 C rating, not an identified MAA723 thermal limit or a guaranteed regulation point.'},
                 checks=checks, passed=all(checks.values()))
 
 
