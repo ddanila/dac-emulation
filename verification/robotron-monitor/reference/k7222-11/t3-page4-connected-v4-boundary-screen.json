@@ -1,0 +1,134 @@
+{
+  "format": "dac-monitor-t3-page4-connected-v4-boundary-screen-v1",
+  "qualification": "synthetic 17 ms startup sensitivity at registered provisional V4 CJO/TT corners; not a source-qualified device or T3 design point",
+  "input_sha256": {
+    "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+    "signal_path.py": "fb1229e6b81e9a06877f3c1863fa86b5a4d8d05027e8ee135fe11481fc22c80c",
+    "transformer_candidates.py": "e35f2e76b637c7ae80e6e95267043417e1b4b97a50cb5bf4bbd6c833430027a0",
+    "tests/test_frames.py": "8174f0ece596f781d8e9d570d68f62c670415d4f754567ae43f47ec4cb61e3ac",
+    "circuits/signal-path-models.cir": "cba15c8a071a064015018f87c74642de095783504075bbeef45672cf7d60a422",
+    "reference/k7222-11/class-typical-register.json": "8db33b76ec55b999194b453a236de652f9039ede0018632e1999d234c8495494",
+    "circuits/k7222-11-horizontal-output-page4.kicad_sch": "7a7426dd8fe69fbb2743f7c237aea4721457a2f9097e9ebdd297e8d333806dc1",
+    "reference/k7222-11/t3-page4-visible-graph.json": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+    "reference/k7222-11/t3-page4-provisional-parameters.json": "d0a15aeec7114384048ac99596b0fc819c69f00dad1486706ece7fb4578088e2",
+    "t3_page4_connected_stiffness_screen.py": "048a18432c9164a00963ee9f08536aa2d5e6a8947694c3003c42b8f3e262549c",
+    "t3_page4_connected_v4_boundary_screen.py": "d7d738df2bf4e9f5986b279f0412bdd40596ac1d3ac2f5f4edb97938aa31e3f6"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "interface": "page4-visible-20-port",
+  "magnetic_backend": "coupled",
+  "registered_bounds": {
+    "CJO": {
+      "value": 7.5e-11,
+      "bounds": [
+        1e-12,
+        1.5e-10
+      ],
+      "qualification": "provisional-model-proxy"
+    },
+    "TT": {
+      "value": 1e-07,
+      "bounds": [
+        1e-08,
+        1e-06
+      ],
+      "qualification": "provisional-model-proxy"
+    }
+  },
+  "cases": [
+    {
+      "name": "nominal",
+      "cjo_f": 7.5e-11,
+      "tt_s": 1e-07,
+      "status": "aborted",
+      "returncode": 1,
+      "timeout_s": 150,
+      "elapsed_s": 55.914,
+      "deck_sha256": "0324152a07a866bae1e1733da3dc6156e0d3db745cd227116f4f91f57e7cce03",
+      "solver_log_sha256": "58fe4c7c39012b3adbd319405e1fe4eb54b2434af4f4bba11f0ffa77121660cf",
+      "raw_tail": {
+        "rows": 29444,
+        "declared_rows": 29444,
+        "last_time_s": 0.01637620182307693,
+        "complete_header": true
+      },
+      "nearest_source_preedge": {
+        "transition_s": 0.016376201923076924,
+        "preedge_s": 0.016376201823076923,
+        "changed_channels": [
+          "video",
+          "bsyn"
+        ],
+        "absolute_residual_s": 6.938893903907228e-18
+      },
+      "solver_failure": {
+        "time_s": 0.0163762,
+        "step_s": 6.25e-20,
+        "node": "vp41#branch"
+      }
+    },
+    {
+      "name": "low_charge",
+      "cjo_f": 1e-12,
+      "tt_s": 1e-08,
+      "status": "aborted",
+      "returncode": 1,
+      "timeout_s": 150,
+      "elapsed_s": 54.062,
+      "deck_sha256": "abaf446e6992bf9f328d2797337dec44c89302228d9406a7e1adcfc349fac0d7",
+      "solver_log_sha256": "19515a5c6ad0d1f021a36de04aa169be3ce5a3fe439e49f7685fb4a6d4981446",
+      "raw_tail": {
+        "rows": 19770,
+        "declared_rows": 19770,
+        "last_time_s": 0.015925480669230795,
+        "complete_header": true
+      },
+      "nearest_source_preedge": {
+        "transition_s": 0.015925480769230768,
+        "preedge_s": 0.015925480669230767,
+        "changed_channels": [
+          "video",
+          "bsyn"
+        ],
+        "absolute_residual_s": 2.7755575615628914e-17
+      },
+      "solver_failure": {
+        "time_s": 0.0159255,
+        "step_s": 6.25e-20,
+        "node": "vp41#branch"
+      }
+    },
+    {
+      "name": "high_charge",
+      "cjo_f": 1.5e-10,
+      "tt_s": 1e-06,
+      "status": "aborted",
+      "returncode": 1,
+      "timeout_s": 150,
+      "elapsed_s": 57.442,
+      "deck_sha256": "4611341a5a2739e1938c1ae3c95c313173098f1057a5b3b82bb007c1ef227f3d",
+      "solver_log_sha256": "96b1bad974a06850f165c7af153219d11fab5d99808ef7c85a4edd340cb70676",
+      "raw_tail": {
+        "rows": 39090,
+        "declared_rows": 39090,
+        "last_time_s": 0.016826922976923096,
+        "complete_header": true
+      },
+      "nearest_source_preedge": {
+        "transition_s": 0.016826923076923076,
+        "preedge_s": 0.016826922976923075,
+        "changed_channels": [
+          "video",
+          "bsyn"
+        ],
+        "absolute_residual_s": 2.0816681711721685e-17
+      },
+      "solver_failure": {
+        "time_s": 0.0168269,
+        "step_s": 6.25e-20,
+        "node": "vp41#branch"
+      }
+    }
+  ],
+  "interpretation": "All registered V4 charge corners abort before 17 ms. Their saved trace tails coincide with the start of a 0.1 ns logic-source transition, so the reported trouble node does not identify a failed physical device. The V4 charge bounds alone do not provide a settled X2:4 drive waveform."
+}

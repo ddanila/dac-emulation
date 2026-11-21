@@ -413,7 +413,10 @@ repeats timestamps at 16 ms and aborts at input-stage V4/D206 at 20 ms before
 a settled X2:4 waveform is saved; the [input-edge and solver screen](reference/k7222-11/t3-page4-connected-stiffness-screen.json)
 completes none of four 17 ms variants. The equivalent fallback also lacks
 A5-derived ratios and bounded loss/parasitics. Thus no corrected connected
-result can qualify the design point yet. A1 still needs independent full-page
+result can qualify the design point yet. A [V4 charge-corner check](reference/k7222-11/t3-page4-connected-v4-boundary-screen.json)
+also aborts in all three registered proxy cases exactly at simultaneous
+video/BSYN source pre-edges, so the reported trouble node alone cannot select
+a faulty part or a T3 ratio. A1 still needs independent full-page
 netlist comparisons for pages 3, 4, 9, 10 and 18 despite the checked X9
 connector seam; A2 still needs joint device bounds and stress qualification;
 A6 still needs several cited class transfers. A3 and A4 are done. This is an

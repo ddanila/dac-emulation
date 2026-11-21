@@ -5373,3 +5373,21 @@ quick route to a connected trace; they do not prove a device or winding fault,
 and the widened edges have no source-qualified basis. The next A5 work is to
 source-check the input/drive boundary and bound the connected nonlinear model
 before using its settled pulse to derive T3 ratios.
+
+### A5: connected V4 charge corners reach simultaneous source pre-edges (2026-11-21)
+
+The [V4 boundary screen](reference/k7222-11/t3-page4-connected-v4-boundary-screen.json)
+keeps the corrected 20-port candidate, native-pattern capture, source timing,
+50 ns maximum step and coupled model fixed. It varies only V4's provisional
+registered junction capacitance and transit time: nominal 75 pF/100 ns,
+low 1 pF/10 ns and high 150 pF/1 µs. All three 17 ms runs abort. Their final
+raw timestamps are 15.925480669, 16.376201823 and 16.826922977 ms,
+respectively. Each is the start of a 0.1 ns PWL edge at which **video and
+BSYN change together**, to within about 3×10⁻¹⁷ s in the saved trace. The
+nominal and high corners get farther than the low corner, but none saves a
+complete connected drive window. The reported trouble node is
+`vp41#branch` in these decks, whereas earlier decks named V4, Q201 or the
+horizontal base. Those node labels are solver diagnostics, not evidence of
+a failed physical part. V4 charge tuning within the registered proxy bounds
+does not remove the numerical obstacle. The source-edge/input-chain behavior
+and the remaining A5 winding/return bounds still need qualification.
