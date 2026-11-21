@@ -1,0 +1,482 @@
+{
+  "format": "dac-monitor-yoke-brimar-geometry-screen-v1",
+  "qualification": "conditional reduced-ray class sensitivity; no installed B31G22/AE9VT field or geometry identification",
+  "source": {
+    "url": "https://tubedata.altanatubes.com.br/other/Brimar/Brimar_IndustrialCathodeRayTubes_DataSection_Issue3.pdf",
+    "sha256": "eb327b3bde53b62472190bd1fd968bc8b1687a082ed991bc0adc0b836801ae01",
+    "selection_table_printed_page": 8,
+    "scan_coil_sheets": "TBY3/TBY5/TBY7 page 1"
+  },
+  "input_hashes": {
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "c3d0cfa7dd5786827ebd0eac4eac5f68e7a99422b8a22c158fcd94df3bdac4ca",
+    "profiles/k7222-11-yoke-geometry.json": "4553f3d817ed5d094cea2df8d49343bed890c1b70dc9911b998c6f10e5b98f78",
+    "trajectory.py": "713713d2d4ecee9c82a702deda7c362d63b2b3c55d3c91e7a685ed4153c36c4c",
+    "yoke_geometry.py": "c141ddafd26c444b0c155bf1c3f31a01fdade73db53a95cc98428df58e2ef175",
+    "yoke_brimar_geometry_screen.py": "588e9325c9564a475937ce74daa154af77229dadda26263f55d8f752b09965b2"
+  },
+  "catalog_type": "TBY7",
+  "declared_assumptions": {
+    "anode_v": 11500,
+    "grid2_v": 350,
+    "focus_v": 4000,
+    "field_start_m": 0.075,
+    "inner_neck_radius_m": 0.009,
+    "single_axis_rays": true,
+    "target_half_width_m": 0.105,
+    "target_half_height_m": 0.0725,
+    "source_picture_current_bounds_are_transferred_proxies": true
+  },
+  "common_field_cases": [
+    {
+      "screen_z_m": 0.23,
+      "common_field_length_m": 0.02,
+      "inner_neck_radius_m": 0.009,
+      "horizontal_sheet_radius_m": 0.016,
+      "winding_fill_fraction": {
+        "horizontal": 0.2165948046673621,
+        "vertical": 0.5551560340663225
+      },
+      "axes": {
+        "horizontal": {
+          "bound_current_pp_a": [
+            0.9459574468085108,
+            1.4618078564381878
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.04428526007641107
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.07158499924921254
+          },
+          "target_half_extent_m": 0.105,
+          "target_bracketed": false
+        },
+        "vertical": {
+          "bound_current_pp_a": [
+            0.35454545454545455,
+            0.5570484990582331
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.03128311225795591
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.050299407391049454
+          },
+          "target_half_extent_m": 0.0725,
+          "target_bracketed": false
+        }
+      },
+      "joint_current_match": false
+    },
+    {
+      "screen_z_m": 0.23,
+      "common_field_length_m": 0.025,
+      "inner_neck_radius_m": 0.009,
+      "horizontal_sheet_radius_m": 0.016,
+      "winding_fill_fraction": {
+        "horizontal": 0.18582628526850165,
+        "vertical": 0.46586936721026556
+      },
+      "axes": {
+        "horizontal": {
+          "bound_current_pp_a": [
+            0.9459574468085108,
+            1.4618078564381878
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.049069588893374115
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.0803724970878929
+          },
+          "target_half_extent_m": 0.105,
+          "target_bracketed": false
+        },
+        "vertical": {
+          "bound_current_pp_a": [
+            0.35454545454545455,
+            0.5570484990582331
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.03452647515430714
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.05586327002253499
+          },
+          "target_half_extent_m": 0.0725,
+          "target_bracketed": false
+        }
+      },
+      "joint_current_match": false
+    },
+    {
+      "screen_z_m": 0.23,
+      "common_field_length_m": 0.0275,
+      "inner_neck_radius_m": 0.009,
+      "horizontal_sheet_radius_m": 0.016,
+      "winding_fill_fraction": {
+        "horizontal": 0.17439379765147062,
+        "vertical": 0.4331409563375234
+      },
+      "axes": {
+        "horizontal": {
+          "bound_current_pp_a": [
+            0.9459574468085108,
+            1.4618078564381878
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.05119036008573982
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.08442211492984382
+          },
+          "target_half_extent_m": 0.105,
+          "target_bracketed": false
+        },
+        "vertical": {
+          "bound_current_pp_a": [
+            0.35454545454545455,
+            0.5570484990582331
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.035962738331374026
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.058373020867130865
+          },
+          "target_half_extent_m": 0.0725,
+          "target_bracketed": false
+        }
+      },
+      "joint_current_match": false
+    },
+    {
+      "screen_z_m": 0.24,
+      "common_field_length_m": 0.02,
+      "inner_neck_radius_m": 0.009,
+      "horizontal_sheet_radius_m": 0.016,
+      "winding_fill_fraction": {
+        "horizontal": 0.2165948046673621,
+        "vertical": 0.5551560340663225
+      },
+      "axes": {
+        "horizontal": {
+          "bound_current_pp_a": [
+            0.9459574468085108,
+            1.4618078564381878
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.047293718207962035
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.07633105674802325
+          },
+          "target_half_extent_m": 0.105,
+          "target_bracketed": false
+        },
+        "vertical": {
+          "bound_current_pp_a": [
+            0.35454545454545455,
+            0.5570484990582331
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.03342440349159097
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.05370150951678166
+          },
+          "target_half_extent_m": 0.0725,
+          "target_bracketed": false
+        }
+      },
+      "joint_current_match": false
+    },
+    {
+      "screen_z_m": 0.24,
+      "common_field_length_m": 0.025,
+      "inner_neck_radius_m": 0.009,
+      "horizontal_sheet_radius_m": 0.016,
+      "winding_fill_fraction": {
+        "horizontal": 0.18582628526850165,
+        "vertical": 0.46586936721026556
+      },
+      "axes": {
+        "horizontal": {
+          "bound_current_pp_a": [
+            0.9459574468085108,
+            1.4618078564381878
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.052449945659504976
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.08573908490506195
+          },
+          "target_half_extent_m": 0.105,
+          "target_bracketed": false
+        },
+        "vertical": {
+          "bound_current_pp_a": [
+            0.35454545454545455,
+            0.5570484990582331
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.03692730654129182
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.05969058459800815
+          },
+          "target_half_extent_m": 0.0725,
+          "target_bracketed": false
+        }
+      },
+      "joint_current_match": false
+    },
+    {
+      "screen_z_m": 0.24,
+      "common_field_length_m": 0.0275,
+      "inner_neck_radius_m": 0.009,
+      "horizontal_sheet_radius_m": 0.016,
+      "winding_fill_fraction": {
+        "horizontal": 0.17439379765147062,
+        "vertical": 0.4331409563375234
+      },
+      "axes": {
+        "horizontal": {
+          "bound_current_pp_a": [
+            0.9459574468085108,
+            1.4618078564381878
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.05474225907510156
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.0900798450929114
+          },
+          "target_half_extent_m": 0.105,
+          "target_bracketed": false
+        },
+        "vertical": {
+          "bound_current_pp_a": [
+            0.35454545454545455,
+            0.5570484990582331
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.03848363181111157
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.0623988474262138
+          },
+          "target_half_extent_m": 0.0725,
+          "target_bracketed": false
+        }
+      },
+      "joint_current_match": false
+    },
+    {
+      "screen_z_m": 0.25,
+      "common_field_length_m": 0.02,
+      "inner_neck_radius_m": 0.009,
+      "horizontal_sheet_radius_m": 0.016,
+      "winding_fill_fraction": {
+        "horizontal": 0.2165948046673621,
+        "vertical": 0.5551560340663225
+      },
+      "axes": {
+        "horizontal": {
+          "bound_current_pp_a": [
+            0.9459574468085108,
+            1.4618078564381878
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.05029604253268517
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.08105248635038308
+          },
+          "target_half_extent_m": 0.105,
+          "target_bracketed": false
+        },
+        "vertical": {
+          "bound_current_pp_a": [
+            0.35454545454545455,
+            0.5570484990582331
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.035563498117650194
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.05709470585984847
+          },
+          "target_half_extent_m": 0.0725,
+          "target_bracketed": false
+        }
+      },
+      "joint_current_match": false
+    },
+    {
+      "screen_z_m": 0.25,
+      "common_field_length_m": 0.025,
+      "inner_neck_radius_m": 0.009,
+      "horizontal_sheet_radius_m": 0.016,
+      "winding_fill_fraction": {
+        "horizontal": 0.18582628526850165,
+        "vertical": 0.46586936721026556
+      },
+      "axes": {
+        "horizontal": {
+          "bound_current_pp_a": [
+            0.9459574468085108,
+            1.4618078564381878
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.05582157457014425
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.09106973026840243
+          },
+          "target_half_extent_m": 0.105,
+          "target_bracketed": false
+        },
+        "vertical": {
+          "bound_current_pp_a": [
+            0.35454545454545455,
+            0.5570484990582331
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.03932503740284404
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.06350516792212424
+          },
+          "target_half_extent_m": 0.0725,
+          "target_bracketed": false
+        }
+      },
+      "joint_current_match": false
+    },
+    {
+      "screen_z_m": 0.25,
+      "common_field_length_m": 0.0275,
+      "inner_neck_radius_m": 0.009,
+      "horizontal_sheet_radius_m": 0.016,
+      "winding_fill_fraction": {
+        "horizontal": 0.17439379765147062,
+        "vertical": 0.4331409563375234
+      },
+      "axes": {
+        "horizontal": {
+          "bound_current_pp_a": [
+            0.9459574468085108,
+            1.4618078564381878
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.05828401834324668
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.0956952615449088
+          },
+          "target_half_extent_m": 0.105,
+          "target_bracketed": false
+        },
+        "vertical": {
+          "bound_current_pp_a": [
+            0.35454545454545455,
+            0.5570484990582331
+          ],
+          "lower_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.04100093353050983
+          },
+          "upper_bound_ray": {
+            "reason": "screen",
+            "half_extent_m": 0.06640982823686678
+          },
+          "target_half_extent_m": 0.0725,
+          "target_bracketed": false
+        }
+      },
+      "joint_current_match": false
+    }
+  ],
+  "common_field_joint_matches": 0,
+  "axis_specific_edge_case": {
+    "screen_z_m": 0.25,
+    "horizontal_field_length_m": 0.025,
+    "vertical_field_length_m": 0.035,
+    "horizontal_sheet_radius_m": 0.0136,
+    "inner_neck_radius_m": 0.009,
+    "axes": {
+      "horizontal": {
+        "bound_current_pp_a": [
+          0.9459574468085108,
+          1.4618078564381878
+        ],
+        "lower_bound_ray": {
+          "reason": "screen",
+          "half_extent_m": 0.06474407926402659
+        },
+        "upper_bound_ray": {
+          "reason": "screen",
+          "half_extent_m": 0.10785103804824997
+        },
+        "target_half_extent_m": 0.105,
+        "target_bracketed": true,
+        "required_current_pp_a": 1.4314206014103938
+      },
+      "vertical": {
+        "bound_current_pp_a": [
+          0.35454545454545455,
+          0.5570484990582331
+        ],
+        "lower_bound_ray": {
+          "reason": "screen",
+          "half_extent_m": 0.045410760508791934
+        },
+        "upper_bound_ray": {
+          "reason": "screen",
+          "half_extent_m": 0.0742351575069314
+        },
+        "target_half_extent_m": 0.0725,
+        "target_bracketed": true,
+        "required_current_pp_a": 0.5455757907317229
+      }
+    },
+    "separable_joint_current_match": true
+  },
+  "interpretation": "The paired TBY7 winding fits the reduced magnetic winding pack, but none of the nine sampled common-field geometries reaches both Robotron half-extents within its transferred current bounds. A tighter 13.6 mm horizontal sheet and different 25/35 mm axis lengths can bracket both targets only at a 250 mm gun-to-screen path, an upper-edge sensitivity case for the 253 mm B31-G overall-length outline. This does not establish the installed field profile or a physically plausible gun position; do not promote it to the active design point."
+}
