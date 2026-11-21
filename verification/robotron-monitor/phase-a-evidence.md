@@ -2085,9 +2085,18 @@ says R59/R60 use that constant reference. The active KiCad circuit follows
 the manual: A3 pin 6 is on `n16`, C23 is on `vertical_reference`. The
 [source read](reference/k7222-11/page10-feedback-source-netlist.json) records
 both PDF hashes and image hashes. C23 is excluded from the matching-pin count
-and remains an A1 conflict to settle by circuit function or a bounded
-alternative; this local pass does not endorse either depiction as a fully
-qualified page-10 netlist.
+because the documents disagree. The
+[paired topology screen](reference/k7222-11/page10-c23-conflict-screen.json)
+changes only C706 from the manual's A2 reference to the scan's A3 pin-6
+negative rail. In the last two fields of the identical 160 ms synthetic-sync
+bench, Y1 differs pointwise by at most 0.00551 V, or 0.0215% of its 25.665 V
+swing; Y2 and yoke current differ by at most 0.0035% and 0.0031% of their
+respective swings. This is below A1's 2% sensitivity threshold. The manual's
+explicit constant-reference explanation and Fig. 12 therefore select the
+existing C23-to-A2-reference connection for the model. The source disagreement
+remains recorded; the screen does not identify physical board wiring or prove
+a sustained vertical stage. The nominal Y1 field-to-field repeat difference
+is about 14.9% of its swing in this bench, so it is not a Phase B score.
 
 The nearby printed label is R46. Page 9 already places R44 in the A2
 ramp-output divider, where the live integrator assembles it as R613 with

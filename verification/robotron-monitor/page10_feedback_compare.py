@@ -81,7 +81,7 @@ def compare(source, xml):
                 source_pins=len(expected), matched_pins=len(expected) - len(mismatches),
                 missing_source_parts=missing, missing_or_changed_pins=mismatches,
                 resistor_values_match=value_matches,
-                unsettled_source_conflicts=source['unsettled_source_conflicts'],
+                source_conflicts=source['source_conflicts'],
                 passed=not missing and not mismatches and all(value_matches.values()))
 
 
@@ -89,7 +89,7 @@ def run(source_pdf):
     source = json.loads(SOURCE.read_text())
     if sha(source_pdf) != source['source']['pdf_sha256']:
         raise ValueError('source PDF differs from recorded page-10 reading')
-    for conflict in source['unsettled_source_conflicts']:
+    for conflict in source['source_conflicts']:
         manual = source_pdf.with_name(conflict['operation_manual_file'])
         if sha(manual) != conflict['operation_manual_pdf_sha256']:
             raise ValueError('operating manual differs from recorded C23 reading')

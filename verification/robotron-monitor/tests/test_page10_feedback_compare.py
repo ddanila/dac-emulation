@@ -17,7 +17,7 @@ class Page10FeedbackTests(unittest.TestCase):
         self.assertEqual(checker.run(pdf), saved)
         self.assertTrue(saved['passed'])
         self.assertEqual(saved['matched_pins'], 18)
-        self.assertEqual(len(saved['unsettled_source_conflicts']), 1)
+        self.assertEqual(len(saved['source_conflicts']), 1)
 
     def test_moved_r46_return_is_detected(self):
         source = json.loads(checker.SOURCE.read_text())

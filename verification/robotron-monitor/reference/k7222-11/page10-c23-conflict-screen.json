@@ -1,0 +1,58 @@
+{
+  "format": "dac-monitor-page10-c23-conflict-screen-v1",
+  "qualification": "A1 topology-sensitivity only; synthetic sync, ideal rails, provisional device models, final two fields not certified periodic",
+  "inputs": {
+    "page10_source_read_sha256": "30007032dc74703f0e994a6c19e118edc8cec6ea1057eb94489e6be10b13657f",
+    "page10_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "operation_manual_pdf_sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
+    "profile_sha256": "4af447b79a9d09ecf8e6484398ba43b42d425ae635693a688c6d5dcd3cf7d75c",
+    "sheet_sha256": "f4a82dde10cd54fc63b980397d4ea194126d373a9749ee07795df0e3b99989d1",
+    "script_sha256": "1588ea24ba4c643b81b3dea4c33bd014a00cdf99361f4bcd74bbcb0b4b97b2a7",
+    "manual_deck_sha256": "3856e9387bf9bb8a6151588ddbc2c215da08e24b345925f6f46310728a5dbf11",
+    "scan_deck_sha256": "c6892222cf43298ada3c4835e7d8a08db703ac565554755a19613b63b28d499f"
+  },
+  "comparison": {
+    "stop_s": 0.16,
+    "sample_step_s": 1e-05,
+    "final_two_field_start_s": 0.1184,
+    "paired_final_rows": 4160,
+    "manual_connection": "C706 vertical_reference 0 2.2u",
+    "scan_connection": "C706 n16 0 2.2u",
+    "max_difference_over_each_manual_mean_or_swing": {
+      "tp7_y2_v": {
+        "manual_swing": 2.1962573378434183,
+        "scan_swing": 2.196294355399708,
+        "max_pointwise_difference": 7.609721490120513e-05,
+        "difference_fraction_of_manual_scale": 3.464858766319599e-05,
+        "manual_field_repeat_fraction_of_swing": 0.02656675441726576
+      },
+      "tp8_y1_v": {
+        "manual_swing": 25.66513391432862,
+        "scan_swing": 25.66501014314595,
+        "max_pointwise_difference": 0.005507970596227096,
+        "difference_fraction_of_manual_scale": 0.00021460907293969133,
+        "manual_field_repeat_fraction_of_swing": 0.14924263202651988
+      },
+      "yoke_a": {
+        "manual_swing": 0.5436519259964294,
+        "scan_swing": 0.5436610948872489,
+        "max_pointwise_difference": 1.637963957540345e-05,
+        "difference_fraction_of_manual_scale": 3.0128909311563858e-05,
+        "manual_field_repeat_fraction_of_swing": 0.022737164420073414
+      },
+      "a2_reference_v": {
+        "manual_swing": 0.0009045603832236182,
+        "scan_swing": 0.0009103670806851483,
+        "max_pointwise_difference": 2.0634391075802228e-05,
+        "difference_fraction_of_manual_scale": 2.9013827674967583e-06,
+        "manual_field_repeat_fraction_of_swing": 0.42011450245986615
+      }
+    },
+    "all_selected_probes_below_two_percent": true
+  },
+  "decision": {
+    "selected": "manual-fig12-reference-connection",
+    "basis": "The operating manual names the constant A2 reference as the R59/R60/C23 source; the schematic scan instead joins C23 to A3 pin 6. The paired topology screen checks that this conflict does not materially change the current stage bench under the A1 two-percent sensitivity rule.",
+    "phase_b_qualified": false
+  }
+}
