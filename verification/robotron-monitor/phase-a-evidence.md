@@ -2621,7 +2621,9 @@ X6:2 (UG2), R32's wiper to X6:3 (UG4), and the lower ends to the 00 return.
 
 A fresh KiCad XML export agrees with all eleven pins of V21 and R29–R32 in the
 [comparison](reference/k7222-11/page4-hv-divider-comparison.json). The
-regression check ties the source pin list to the live KiCad export. This
+regression check ties the source pin list to the live KiCad export. A fresh
+export on 2026-11-21 still matches all five components and eleven terminals;
+the saved sheet hash was refreshed. This
 closes that *external branch comparison* only. It does not identify which T3
 internal tap feeds R29, resolve the X1:3/X2:3 return or complete A1's
 independent page-3/4 netlist.
@@ -2746,11 +2748,15 @@ The new [external X9 seam check](reference/k7222-11/page18-external-input-compar
 compares the page-18 VIDEO, BSYN and INTENS pins and two 00 returns with the
 assembly declaration and freshly built input deck. Each signal has a distinct
 S37 driver, four cable sections and the expected T200 receive node; the
-computer return reaches monitor ground. The bounded input KiCad sheet has no
-physical X9 symbol, so this proves the logical cable mapping only, not a
-physical X9 pin-to-export comparison or the page-3/4 contrast function.
-The page-18 frame, cable-pin and panel receipts were regenerated against the
-current assembler hashes; their twelve focused comparison tests now pass.
+computer return reaches monitor ground. The bounded input KiCad sheet now
+has an audit-only X9 symbol with the five printed pins; a fresh export matches
+VIDEO, BSYN, INTENS and both 00 returns pin by pin. The source/cable and S37
+driver remain an explicit equivalent outside that connector. Comparing the
+pre-edit and updated KiCad exports confirms that the 40 existing references
+and 109 terminal-to-net mappings are unchanged. This closes the
+physical X9 seam, not the page-3/4 contrast function or the three page-18
+model-scope gaps. The page-18 input, frame, cable-pin and panel receipts were
+regenerated against the current sheet and assembler hashes.
 
 ### A1: corrected page-3/4 intensity seam and unresolved contrast response (2026-11-20)
 

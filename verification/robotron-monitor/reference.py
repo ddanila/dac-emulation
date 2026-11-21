@@ -93,7 +93,8 @@ def source_connectivity(path, inventory, board, subcircuits=None, *, allow_float
         '012-6891': {'J1': '012-6891:X1', 'J2': '012-6891:X2', 'J3': '012-6891:X3'},
         '012-6921': {'J901': '012-6921:X1', 'J930': '012-6921:X3',
                      'J940': '012-6921:X4',
-                     'J950': '012-6921:X5', 'J960': '012-6921:X6'},
+                     'J950': '012-6921:X5', 'J960': '012-6921:X6',
+                     'J990': '012-6921:X9'},
         '012-6931': {'J910': '012-6931:X1', 'J920': '012-6931:X2',
                      'J931': '012-6931:X3'},
     }
@@ -129,9 +130,14 @@ def source_connectivity(path, inventory, board, subcircuits=None, *, allow_float
                    '10.7P':'p10_7','UG1':'ug1','Y1':'y1','Y2':'y2',
                    'HRA':'contrast_adjust','HRS':'v1_base','35P':'p35',
                    'KRS':'contrast_low','KRA':'reference9'}
-            expected={connector:{pin:names[label] for pin,label in source['connectors'][source_id].items()}
-                      for source_id in (source_ids[ref] for ref in audit_refs)
-                      for connector in [source_id.split(':')[-1]]}
+            expected={}
+            for source_id in (source_ids[ref] for ref in audit_refs):
+                connector=source_id.split(':')[-1]
+                labels=({'VIDEO':'rx_video','BSYN':'rx_bsyn',
+                         'INTENS':'rx_intens','00':'0'}
+                        if connector == 'X9' else names)
+                expected[connector]={pin:labels[label]
+                                     for pin,label in source['connectors'][source_id].items()}
         if physical!=expected:
             raise ValueError('source connector pins differ from source map')
     components = lab.connectivity(path,subcircuits,ignored_refs=audit_refs,
