@@ -5029,6 +5029,22 @@ current and C21 together. The tied/shared-floating and open/shared-floating
 C21 voltages still drift about −0.43 and −0.40 V over the final millisecond;
 these 20 ms samples do not prove a periodic state. Within this fixed-drive,
 fixed-yoke conditional graph, changing only these return connections cannot
-close the C21 gap while retaining EHT. The X1:15 external relationship to
-the booster branch, internal T3 section order/turns and actual X2:4 drive
-remain source/functional checks before any ratio can be frozen.
+close the C21 gap while retaining EHT. The X1:15 relationship to the
+booster branch, internal T3 section order/turns and actual X2:4 drive
+were the next source/functional checks before any ratio could be frozen.
+
+### A1/A5: two drawn T3 conductor links match the model (2026-11-21)
+
+A separate [source-hashed page-4 read](reference/k7222-11/page4-t3-internal-links-source-read.json)
+traces the visible conductor from **X2:10 to X1:15** and the lower route
+from **X2:11 to X1:13**. Each route has a junction dot at both ends; the two
+bottom runs sit at different heights and cross other lines without junction
+dots. A [fresh KiCad comparison](reference/k7222-11/page4-t3-internal-links-comparison.json)
+passes **2/2** link checks and verifies the matching transcription nets:
+`h_boost` for X2:10/X1:15 and `h_lower13` for X2:11/X1:13. The first read
+rules out an omitted X1:15-to-C21 connection as the cause of the conditional
+C21 mismatch. The second confirms one more internal terminal pairing; it
+does not fix the sequence of winding sections between these nodes, their
+turns or polarity. This scoped read followed model inspection and does not
+close A1's independent full-page second netlist. X2:4 drive and the rest of
+the T3 graph still require bounding.
