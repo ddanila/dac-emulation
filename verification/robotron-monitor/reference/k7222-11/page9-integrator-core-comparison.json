@@ -1,0 +1,180 @@
+{
+  "format": "dac-monitor-page9-integrator-core-comparison-v1",
+  "qualification": "scoped source-to-fresh-KiCad electrical pin comparison; A2 physical pin numbers, rest of page 9 and functional response remain open",
+  "source_read_sha256": "0341bf97a48f908314d93b9cdd40838556cb4ec35008a626ba1c920d3478167f",
+  "crossing_source_read_sha256": "195c7659b5668cfd9d23b3b84f31005707d5c2f92b243cb2a295afaa76050635",
+  "sheet_sha256": "fcc4105a85343558459544a6a0e19538b2b82691860eb9517956c0992e9c65ea",
+  "terminals_checked": 31,
+  "combined_components_touched": 16,
+  "combined_physical_source_terminals_read": 38,
+  "combined_model_terminal_slots_verified": 37,
+  "integrator_model_terminal_slots_total": 41,
+  "unverified_a2_model_slot_indices": [
+    0,
+    4,
+    6,
+    7
+  ],
+  "checked": [
+    {
+      "terminal": "V12:K",
+      "source_net": "PULSE",
+      "model_net": "vertical_pulse"
+    },
+    {
+      "terminal": "V12:A",
+      "source_net": "A2_PLUS",
+      "model_net": "ramp_noninv"
+    },
+    {
+      "terminal": "R39:upper",
+      "source_net": "A2_PLUS",
+      "model_net": "ramp_noninv"
+    },
+    {
+      "terminal": "R41:upper",
+      "source_net": "A2_PLUS",
+      "model_net": "ramp_noninv"
+    },
+    {
+      "terminal": "A2:plus",
+      "source_net": "A2_PLUS",
+      "model_net": "ramp_noninv"
+    },
+    {
+      "terminal": "R39:lower",
+      "source_net": "V13_BASE",
+      "model_net": "retrace_base"
+    },
+    {
+      "terminal": "V13:base",
+      "source_net": "V13_BASE",
+      "model_net": "retrace_base"
+    },
+    {
+      "terminal": "V13:upper_right",
+      "source_net": "A2_MINUS",
+      "model_net": "ramp_inv"
+    },
+    {
+      "terminal": "C15:left",
+      "source_net": "A2_MINUS",
+      "model_net": "ramp_inv"
+    },
+    {
+      "terminal": "A2:minus",
+      "source_net": "A2_MINUS",
+      "model_net": "ramp_inv"
+    },
+    {
+      "terminal": "C15:right",
+      "source_net": "A2_COMP",
+      "model_net": "ramp_comp"
+    },
+    {
+      "terminal": "A2:compensation",
+      "source_net": "A2_COMP",
+      "model_net": "ramp_comp"
+    },
+    {
+      "terminal": "V13:lower_right",
+      "source_net": "RAMP_BIAS",
+      "model_net": "ramp_bias"
+    },
+    {
+      "terminal": "R41:lower",
+      "source_net": "RAMP_BIAS",
+      "model_net": "ramp_bias"
+    },
+    {
+      "terminal": "R42:lower",
+      "source_net": "RAMP_BIAS",
+      "model_net": "ramp_bias"
+    },
+    {
+      "terminal": "R33:upper",
+      "source_net": "RAMP_BIAS",
+      "model_net": "ramp_bias"
+    },
+    {
+      "terminal": "C14:positive",
+      "source_net": "RAMP_BIAS",
+      "model_net": "ramp_bias"
+    },
+    {
+      "terminal": "R42:upper",
+      "source_net": "REFERENCE",
+      "model_net": "vertical_reference"
+    },
+    {
+      "terminal": "A2:reference",
+      "source_net": "REFERENCE",
+      "model_net": "vertical_reference"
+    },
+    {
+      "terminal": "A2:output",
+      "source_net": "RAW_OUTPUT",
+      "model_net": "ramp_raw"
+    },
+    {
+      "terminal": "V16:A",
+      "source_net": "RAW_OUTPUT",
+      "model_net": "ramp_raw"
+    },
+    {
+      "terminal": "V16:K",
+      "source_net": "DIODE_MID",
+      "model_net": "ramp_diode"
+    },
+    {
+      "terminal": "V17:A",
+      "source_net": "DIODE_MID",
+      "model_net": "ramp_diode"
+    },
+    {
+      "terminal": "V17:K",
+      "source_net": "RAMP_OUTPUT",
+      "model_net": "vertical_ramp"
+    },
+    {
+      "terminal": "R44:upper",
+      "source_net": "RAMP_OUTPUT",
+      "model_net": "vertical_ramp"
+    },
+    {
+      "terminal": "R44:lower",
+      "source_net": "LIMIT",
+      "model_net": "ramp_limit"
+    },
+    {
+      "terminal": "R40:upper",
+      "source_net": "LIMIT",
+      "model_net": "ramp_limit"
+    },
+    {
+      "terminal": "A2:limit",
+      "source_net": "LIMIT",
+      "model_net": "ramp_limit"
+    },
+    {
+      "terminal": "R33:lower",
+      "source_net": "00",
+      "model_net": "0"
+    },
+    {
+      "terminal": "C14:negative",
+      "source_net": "00",
+      "model_net": "0"
+    },
+    {
+      "terminal": "R40:lower",
+      "source_net": "00",
+      "model_net": "0"
+    }
+  ],
+  "mismatches": [],
+  "remaining": [
+    "Combine with the other scoped page-9 source reads into a complete physical pin-to-pin netlist, including A2's numbered pins, supply pins and all page-edge traces.",
+    "Re-read transistor arrows and perform the A1 static/functional checks; a matching electrical export does not qualify the source-stage behavior."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "format": "dac-monitor-page9-integrator-core-source-read-v1",
+  "qualification": "Scoped page-9 image transcription of the A2 ramp, retrace-feedback and output-clamp branch; not a complete independent page-9 netlist or an A2 physical-pin approval",
+  "source": {
+    "file": "older.pdf",
+    "pdf_page": 9,
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "views": [
+      {"path": "build/monitor/phase-a/page9-600.png", "sha256": "5f44abccbfb5d18ba96a40d523ecf026fefd292566a12d18db596f9aef095d2d"},
+      {"path": "build/monitor/phase-a/page9-a2-1200.png", "sha256": "449f3d31ef8730f7ce3897417c1e36d3bae948667c574b75552e51760809389c"}
+    ]
+  },
+  "source_nets": {
+    "PULSE": ["V12:K"],
+    "A2_PLUS": ["V12:A", "R39:upper", "R41:upper", "A2:plus"],
+    "V13_BASE": ["R39:lower", "V13:base"],
+    "A2_MINUS": ["V13:upper_right", "C15:left", "A2:minus"],
+    "A2_COMP": ["C15:right", "A2:compensation"],
+    "RAMP_BIAS": ["V13:lower_right", "R41:lower", "R42:lower", "R33:upper", "C14:positive"],
+    "REFERENCE": ["R42:upper", "A2:reference"],
+    "RAW_OUTPUT": ["A2:output", "V16:A"],
+    "DIODE_MID": ["V16:K", "V17:A"],
+    "RAMP_OUTPUT": ["V17:K", "R44:upper"],
+    "LIMIT": ["R44:lower", "R40:upper", "A2:limit"],
+    "00": ["R33:lower", "C14:negative", "R40:lower"]
+  },
+  "reading_notes": [
+    "V12's bar is left, toward the oscillator pulse; V16 and V17 have their bars to the right, toward the output.",
+    "V13's upper-right lead returns to the A2 inverting branch, its base is fed through R39, and its lower-right lead joins the 2 V bias branch. The C/E names for these two leads are a model assignment, not an independently established printed-arrow read.",
+    "C14 has its marked positive plate on the 2 V bias branch and negative plate on 00.",
+    "The 12P and 00 vertical rails cross several horizontal A2 branches without junction dots. The separately recorded R34/R35/C22 read checks the height and feedback crossings.",
+    "A2 plus, minus, output, compensation, reference and limit are functional terminal names in this scoped read; some physical pin numbers remain too unclear for full pin approval."
+  ],
+  "remaining": [
+    "Combine with the other scoped page-9 source reads into a complete physical pin-to-pin netlist, including A2's numbered pins, supply pins and all page-edge traces.",
+    "Re-read transistor arrows and perform the A1 static/functional checks; a matching electrical export does not qualify the source-stage behavior."
+  ]
+}

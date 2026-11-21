@@ -5465,3 +5465,23 @@ has eight physical terminals in this scope. The model exports seven because
 its two-terminal R35 variable-resistance equivalent collapses the tied
 wiper. The full page-9 pin comparison remains open, and this result does not
 qualify the vertical stage's functional response or R35's installed setting.
+
+### A1: page-9 A2 integrator core and coverage (2026-11-21)
+
+The [scoped source read](reference/k7222-11/page9-integrator-core-source-read.json)
+adds V12/V13, C14/C15, V16/V17, the ramp bias and feedback resistors, and
+the legible A2 functional terminals to the prior height/feedback crossing.
+Its [fresh export comparison](reference/k7222-11/page9-integrator-core-comparison.json)
+matches all 31 newly listed terminals. V12's cathode faces the oscillator;
+V16 and V17 face the output. V13's upper-right lead returns to the A2
+inverting branch, and C14's positive plate is on the 2 V bias branch.
+
+Together the two scoped reads touch all 16 modeled integrator components
+and 38 distinct source physical terminals. They match 37 of the 41 exported
+electrical terminal slots; the remaining four are A2 terminals whose
+physical pin numbers or page-edge relationships have not been independently
+closed. R35's source wiper is the extra physical terminal collapsed by the
+model. These counts establish substantial local coverage, not a complete
+page-9 second netlist. Joins to the oscillator, regulator and centring
+scopes, remaining page edges, transistor arrows and stage-function checks
+still require the full A1 review.
