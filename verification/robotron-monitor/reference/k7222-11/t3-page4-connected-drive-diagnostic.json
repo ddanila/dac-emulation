@@ -1,0 +1,78 @@
+{
+  "format": "dac-monitor-t3-page4-connected-drive-diagnostic-v1",
+  "qualification": "synthetic native-pattern connected startup diagnostic, not a periodic or source-qualified T3 design point; strict raw parser rejects repeated timestamps in the 16 ms trace",
+  "input_sha256": {
+    "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+    "transformer_candidates.py": "e35f2e76b637c7ae80e6e95267043417e1b4b97a50cb5bf4bbd6c833430027a0",
+    "tests/test_frames.py": "8174f0ece596f781d8e9d570d68f62c670415d4f754567ae43f47ec4cb61e3ac",
+    "circuits/k7222-11-horizontal-output-page4.kicad_sch": "7a7426dd8fe69fbb2743f7c237aea4721457a2f9097e9ebdd297e8d333806dc1",
+    "reference/k7222-11/t3-page4-visible-graph.json": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+    "reference/k7222-11/t3-page4-provisional-parameters.json": "d0a15aeec7114384048ac99596b0fc819c69f00dad1486706ece7fb4578088e2",
+    "reference/k7222-11/page4-t3-visible-wrapper-comparison.json": "02e98ec849d595836c0d466bf4a1b104711c5ca98b062104341ebef473be98de",
+    "t3_page4_connected_drive_diagnostic.py": "aff5de61ba45bdad9889267417cb15659aa27e942c577a776279bc4b9e8df87d"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "interface": "page4-visible-20-port",
+  "magnetic_backend": "coupled",
+  "contrast_topology": "detailed-page3-4",
+  "period_s": 0.020032051282051284,
+  "source_kind": "schematic-derived-logical",
+  "cases": [
+    {
+      "stop_ms": 16,
+      "saved_from_ms": 15,
+      "status": "complete",
+      "returncode": 0,
+      "deck_sha256": "43e8be59f429f6438e413702a15b7b58e422e5e01d1256046920c4769a1f0c2e",
+      "trace": {
+        "raw_points": 21425,
+        "duplicate_time_count": 4,
+        "maximum_same_time_voltage_or_current_step": 0.012142905390880185,
+        "strict_prefix_rows": 19770,
+        "strict_prefix_last_time_s": 0.015925480669230795,
+        "measured_window_s": [
+          0.015000017115643884,
+          0.015925480669230795
+        ],
+        "eht_v": [
+          10471.667905487511,
+          10492.771376480132
+        ],
+        "hot_to_return_drive_v": [
+          -68.21604663122316,
+          425.6602203458478
+        ],
+        "h_return_v": [
+          13.12280106602818,
+          67.139505244837
+        ],
+        "collector_to_ground_v": [
+          -1.1238820059395511,
+          438.78302141187595
+        ],
+        "c21_differential_v": [
+          18.147484247023662,
+          18.496707281429927
+        ],
+        "yoke_current_pp_a": 0.9221512674726154
+      }
+    },
+    {
+      "stop_ms": 20,
+      "saved_from_ms": 19,
+      "status": "aborted",
+      "returncode": 1,
+      "deck_sha256": "d4c2c65c76758561bd368d54d50abceeae6481e0d44d08006fa0efc349259444",
+      "solver_failure": {
+        "time_s": 0.0168269,
+        "step_s": 6.25e-20,
+        "node": "d206#internal"
+      }
+    }
+  ],
+  "limitations": [
+    "The 16 ms prefix is startup, and its repeated timestamps prevent strict trace acceptance.",
+    "The 20 ms run fails in V4/D206; no complete field or settled X2:4 waveform is available.",
+    "HV cold end and installed 20-port winding parameters remain unqualified."
+  ]
+}
