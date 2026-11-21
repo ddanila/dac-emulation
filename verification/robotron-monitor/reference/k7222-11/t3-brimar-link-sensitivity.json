@@ -1,0 +1,227 @@
+{
+  "format": "dac-monitor-t3-brimar-link-sensitivity-v1",
+  "qualification": "conditional 4-5 ms prescribed-base T3/yoke stage at the prior rail crossing; exploratory L1/L2 bounds, unknown E1-E4 pair and unverified T3 graph; not an installed AE9VT or periodic operating point",
+  "source": {
+    "k7222_11_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "brimar_pdf_sha256": "eb327b3bde53b62472190bd1fd968bc8b1687a082ed991bc0adc0b836801ae01"
+  },
+  "input_sha256": {
+    "reference/k7222-11/t3-brimar-rail-boundary-screen.json": "564453ff068246b40b9d3a0cf1ef5793cafb5deda2fcf9ed4554aed948f5952c",
+    "reference/k7222-11/a5-yoke-class-boundary.json": "603f687194cc18548a0f06206845088ce25c88b62c4902745fe07ee56adae8f8",
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "c3d0cfa7dd5786827ebd0eac4eac5f68e7a99422b8a22c158fcd94df3bdac4ca",
+    "steady_supply.py": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b",
+    "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
+    "t3_brimar_rail_boundary_screen.py": "350a92a8f758c6c32bef70f659c6547fd12ce771629d7c7a0d44527ebe13b82c",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_brimar_link_sensitivity.py": "72938f815fb100a5feec0e35fcf80bfc46e83f2fa88d3332433c6e5b6046e463"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_conditions": {
+    "feed_v": 42.50390625,
+    "r5_equivalent_position": 0.5227901847256685,
+    "yoke_type": "TBY7",
+    "yoke_line_l_h": 0.0041,
+    "yoke_line_r_ohm": 8.8,
+    "centering_coil_r_ohm": 5.0,
+    "r4_position": 0.5,
+    "prescribed_base_edge_ns": 200,
+    "max_step_ns": 50
+  },
+  "class_lower_current_pp_a": 0.9459574468085108,
+  "coil_l_h_cases": [
+    0.02,
+    0.08,
+    0.32
+  ],
+  "rows": [
+    {
+      "link_pair": "E1+E2",
+      "centering_coil_l_h": 0.02,
+      "yoke_current_pp_a": 0.95059572,
+      "reaches_class_lower_current": true,
+      "eht_at_collector_peak_v": 11898.3906,
+      "drive_peak_v": 456.393224,
+      "normalized_deck_sha256": "ac92557ef6aa4ba9687b553ecf31783a2d37f1299d3e697d38bbbcd668611eff"
+    },
+    {
+      "link_pair": "E1+E2",
+      "centering_coil_l_h": 0.08,
+      "yoke_current_pp_a": 0.945975692,
+      "reaches_class_lower_current": true,
+      "eht_at_collector_peak_v": 11722.0144,
+      "drive_peak_v": 457.655189,
+      "normalized_deck_sha256": "2337ec1d46853855afcadc8287d556d8a0410aed6eda649caa811f52c96dce3b"
+    },
+    {
+      "link_pair": "E1+E2",
+      "centering_coil_l_h": 0.32,
+      "yoke_current_pp_a": 0.944599601,
+      "reaches_class_lower_current": false,
+      "eht_at_collector_peak_v": 11675.9409,
+      "drive_peak_v": 457.455102,
+      "normalized_deck_sha256": "530ed3d28ce1a4c2d7a226d8fd8d0ba767c8723fa1030cc65a3361514b343205"
+    },
+    {
+      "link_pair": "E3+E4",
+      "centering_coil_l_h": 0.02,
+      "yoke_current_pp_a": 0.9506101069999999,
+      "reaches_class_lower_current": true,
+      "eht_at_collector_peak_v": 11900.2637,
+      "drive_peak_v": 456.430131,
+      "normalized_deck_sha256": "e132b16bd0b341f490920fc5d8817abb22c2d20c6ee7a6cc5eaa39942368fd1c"
+    },
+    {
+      "link_pair": "E3+E4",
+      "centering_coil_l_h": 0.08,
+      "yoke_current_pp_a": 0.945959524,
+      "reaches_class_lower_current": true,
+      "eht_at_collector_peak_v": 11722.9572,
+      "drive_peak_v": 457.661854,
+      "normalized_deck_sha256": "b3de69d07e8a10696abf84f3e280e2f4f80d9447069b250eebe7cab02b11175d"
+    },
+    {
+      "link_pair": "E3+E4",
+      "centering_coil_l_h": 0.32,
+      "yoke_current_pp_a": 0.944585963,
+      "reaches_class_lower_current": false,
+      "eht_at_collector_peak_v": 11676.1865,
+      "drive_peak_v": 457.465773,
+      "normalized_deck_sha256": "e307a5cb1d4c14e45b8671df81c758a717a98207c83c53ce760d50964208e64a"
+    }
+  ],
+  "threshold_brackets": [
+    {
+      "link_pair": "E1+E2",
+      "centering_coil_l_h": 0.02,
+      "last_below": {
+        "feed_v": 42.2734375,
+        "current_pp_a": 0.94586083,
+        "eht_v": 11867.3695,
+        "drive_peak_v": 455.005621,
+        "deck_sha256": "c4d2657ffed5696947e0d6f866501ff914e1d39008748e6864f769b5d38347d2"
+      },
+      "first_within": {
+        "feed_v": 42.28125,
+        "current_pp_a": 0.9459984669999999,
+        "eht_v": 11868.2195,
+        "drive_peak_v": 455.080674,
+        "deck_sha256": "56385dd2f03ebdbc22cc300e07d7ea247381f6cb77cd318c6b256e6c03430bcd"
+      },
+      "first_within_r5_equivalent_position": 0.538181818181818,
+      "bracket_width_v": 0.0078125
+    },
+    {
+      "link_pair": "E1+E2",
+      "centering_coil_l_h": 0.08,
+      "last_below": {
+        "feed_v": 42.5,
+        "current_pp_a": 0.945892277,
+        "eht_v": 11721.5645,
+        "drive_peak_v": 457.619066,
+        "deck_sha256": "badeeba9f74f9a36cd8b46f0f77df69ba75a96da55b640fc57e34f6bf94ec13c"
+      },
+      "first_within": {
+        "feed_v": 42.5078125,
+        "current_pp_a": 0.946044868,
+        "eht_v": 11722.3439,
+        "drive_peak_v": 457.688891,
+        "deck_sha256": "5455cd1963038f3b4aeba3395a26e22ba0a170eac1a73bc6efab7cd1c2812d7f"
+      },
+      "first_within_r5_equivalent_position": 0.5225215952949825,
+      "bracket_width_v": 0.0078125
+    },
+    {
+      "link_pair": "E1+E2",
+      "centering_coil_l_h": 0.32,
+      "last_below": {
+        "feed_v": 42.5625,
+        "current_pp_a": 0.945850858,
+        "eht_v": 11684.5487,
+        "drive_peak_v": 457.998762,
+        "deck_sha256": "f06bd23716eccdc29ffc43b55f7e43d8fe466188aa67c88c2cf55876da92e829"
+      },
+      "first_within": {
+        "feed_v": 42.5703125,
+        "current_pp_a": 0.94599066,
+        "eht_v": 11685.652,
+        "drive_peak_v": 458.066452,
+        "deck_sha256": "bc60727aa0346c1b0477e05e95ed069c80c19194c08949ab58a450a0628c7d83"
+      },
+      "first_within_r5_equivalent_position": 0.5182308680491833,
+      "bracket_width_v": 0.0078125
+    },
+    {
+      "link_pair": "E3+E4",
+      "centering_coil_l_h": 0.02,
+      "last_below": {
+        "feed_v": 42.2734375,
+        "current_pp_a": 0.9458231539999999,
+        "eht_v": 11867.4202,
+        "drive_peak_v": 454.985889,
+        "deck_sha256": "a0b221511746989ae3f12ae415ff43480314540269e2ff5e8c973eb443fa6b93"
+      },
+      "first_within": {
+        "feed_v": 42.28125,
+        "current_pp_a": 0.9460064699999999,
+        "eht_v": 11868.9002,
+        "drive_peak_v": 455.05888,
+        "deck_sha256": "7936d2bf2c8e5b07a951e5f0105c3f8f8c4c522e59f4fe9dc556145d48bfad21"
+      },
+      "first_within_r5_equivalent_position": 0.538181818181818,
+      "bracket_width_v": 0.0078125
+    },
+    {
+      "link_pair": "E3+E4",
+      "centering_coil_l_h": 0.08,
+      "last_below": {
+        "feed_v": 42.5,
+        "current_pp_a": 0.945922726,
+        "eht_v": 11722.4398,
+        "drive_peak_v": 457.629406,
+        "deck_sha256": "b7f54c6f3f6cd8ca2a2518502551566689e85743f3893b01651f7acf52907ab3"
+      },
+      "first_within": {
+        "feed_v": 42.5078125,
+        "current_pp_a": 0.946065744,
+        "eht_v": 11722.3897,
+        "drive_peak_v": 457.678494,
+        "deck_sha256": "603a6f7077f37c0db911d5bf0b5a9823fdf6abf50cbb1a8dcfc3a669d4f9a89d"
+      },
+      "first_within_r5_equivalent_position": 0.5225215952949825,
+      "bracket_width_v": 0.0078125
+    },
+    {
+      "link_pair": "E3+E4",
+      "centering_coil_l_h": 0.32,
+      "last_below": {
+        "feed_v": 42.5625,
+        "current_pp_a": 0.945836067,
+        "eht_v": 11684.6005,
+        "drive_peak_v": 458.017441,
+        "deck_sha256": "b029e8354b6475b944ae21008c999f75af14d240ad50aa099f4bed3c7acce8b9"
+      },
+      "first_within": {
+        "feed_v": 42.5703125,
+        "current_pp_a": 0.945993208,
+        "eht_v": 11685.5607,
+        "drive_peak_v": 458.071896,
+        "deck_sha256": "811a635c5934cbc917d37fb0ea3eb111bc8104cab625eff5ced307140bb284f0"
+      },
+      "first_within_r5_equivalent_position": 0.5182308680491833,
+      "bracket_width_v": 0.0078125
+    }
+  ],
+  "threshold_feed_range_v": [
+    42.28125,
+    42.5703125
+  ],
+  "pair_current_difference_a": {
+    "0.02": 1.4386999999893568e-05,
+    "0.08": -1.6167999999927574e-05,
+    "0.32": -1.3637999999982497e-05
+  },
+  "maximum_absolute_pair_difference_a": 1.6167999999927574e-05,
+  "coil_current_span_a": 0.0060241439999999535,
+  "interpretation": "At the sampled rail crossing, swapping the E1+E2 and E3+E4 links scarcely changes TBY7 current under this symmetric bridge. Changing the exploratory coil inductance moves current across the transferred class lower bound, but each sampled coil/link case has a separate class-current crossing within the 41-43 V screen. This isolates L1/L2 as the material uncertainty for this conditional crossing; neither link state nor inductance is source-qualified for the installed board."
+}

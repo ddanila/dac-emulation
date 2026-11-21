@@ -4603,3 +4603,38 @@ The 12 V centring rail and base drive were held fixed, and the 4–5 ms
 stage has no source-qualified X2:4 waveform or T3 internal return. A5 must
 still bound the tap/boost alternatives and source-coupled field transfer;
 the current crossing alone cannot select a winding graph or HV ratio.
+
+### A5: centring link and choke sensitivity at the TBY7 rail crossing (2026-11-21)
+
+The [six-scenario bracket screen](reference/k7222-11/t3-brimar-link-sensitivity.json)
+reuses the source-paired TBY7 winding, the prior rail screen's 42.504 V
+crossing and the page-9 centring bridge. For each possible E1+E2 or E3+E4
+link pair it checks the *exploratory*, not maker-specified, 20, 80 and
+320 mH L1/L2 values. At the old crossing the link swap changes horizontal
+current by at most **16 µA p-p** under the symmetric bridge, while changing
+the coil inductance spans **6.024 mA p-p**. The 320 mH cases fall just below
+the transferred TBY7 lower-current proxy there; the 20 and 80 mH cases
+meet it. The unknown link pair alone is therefore small for this *particular*
+current boundary, but the assumed coil value matters when the sample is
+right at the crossing.
+
+Rebracketing each of the six cases over 41–43 V puts the lower-current
+crossing between **42.281 and 42.570 V** (R5-equivalent positions
+0.538–0.518). Sampled EHT at those first-within points is 11.686–11.869 kV.
+This is still one 4–5 ms prescribed-base stage with an unverified T3 graph,
+assumed coil resistance, unknown installed AE9VT current/field and no
+periodic operating point. It shows that the conditional rail-current match
+survives these link/coil alternatives within physical R5 travel; it does
+not qualify L1/L2, select installed links or fix a transformer ratio.
+
+A [firsthand repair account](https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=23259)
+also distinguishes the author's measured, later-faulty **AE9** winding
+(3.13/3.59 mH and 4.3/4.06 Ω horizontal by two meters) from an **AE 9 VT**
+removed from a Debüt VT 132 and substituted into an EC7927.01 terminal.
+The latter gave a roughly 215 × 160 mm raster in that different machine,
+but no AE 9 VT winding values or EHT were reported. The AE9 measurements
+must not be transferred into the AE9VT A6 register. The
+[Robotron K7222.13/23 service list](https://www.tiffe.de/Robotron/Monitore/Monitor_K_7222.13_und_23_Betriebsvorschrift_mit_Einstellungen.pdf)
+names AE 9VT 6802.01 as the cross-revision replacement, but likewise gives
+no axis-specific electrical or field limits. A5 still needs a direct
+AE9VT/B31G22 transfer or a clearly bounded equivalent field model.
