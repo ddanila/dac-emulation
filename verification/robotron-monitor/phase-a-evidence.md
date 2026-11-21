@@ -4364,3 +4364,32 @@ are unchanged. `make test-monitor` then passed 330 tests with eight skips.
 This verifies that the evidence chain reflects the current register, not
 that V18's installed identity, reverse-base breakdown or connected stress is
 qualified.
+
+### A5: paired yoke-class windings invalidate the active-stage pulse proxy (2026-11-21)
+
+The [paired-winding stage screen](reference/k7222-11/t3-yoke-class-stage-screen.json)
+replaces only the active 4 mH/2 Ω horizontal winding in the conditional
+50 ns, 4–5 ms prescribed-base T3 stage. It uses all eleven line-inductance
+and resistance **pairs** from the cited [Philips 31 cm class report](reference/k7222-11/yoke-class-comparator.json),
+while retaining the E1+E2 centring-link scenario, 80 mH L1/L2 and the
+same unverified T3 graph. The two catalog rows with identical line windings
+in each pair produce identical decks, as expected.
+
+With the active winding and centring bridge, the sampled differential T3
+drive peak is 443.87 V, EHT at that pulse is 11.55 kV, and the final-two-line
+yoke-current range is 0.94 A peak-to-peak. The catalog winding pairs instead
+give **182.7–599.9 V** across X2:7–X2:4, **4.97–10.54 kV** EHT at the sampled
+collector pulse and **7.98–11.25 A** model yoke-current range. No catalog
+case reaches 11 kV at that pulse. These are large, non-monotonic circuit
+changes, not a small correction to the 4 mH result. The report also records
+the final-window EHT values and current traces for each winding pair.
+
+The catalog class is 90° and its reference tubes differ from the 110°
+B31G22/AE9VT assembly; the 4–5 ms stage has prescribed drive and does not
+establish connected steady operation. Catalog full-scan currents are not
+installed acceptance limits for these trace ranges. This screen therefore
+does not choose an AE9VT winding or rule out a physical T3 design. It does
+show that the active 4 mH pulse cannot supply an A5 turns-ratio bound across
+even this limited class transfer. A source-bounded 110°/20 mm-neck winding
+and its matching drive/current operating point must precede the fallback
+ratio and loss parameterization.

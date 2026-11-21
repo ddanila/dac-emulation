@@ -27,7 +27,7 @@ def replace_once(deck, old, new):
     return deck.replace(old, new)
 
 
-def case(ngspice, inputs, link_pair, coil_l_h):
+def case(ngspice, inputs, link_pair, coil_l_h, *, yoke=None):
     graph, parameters, candidate, parts, l3_r, l3_l, _ = inputs
     with tempfile.TemporaryDirectory() as directory:
         trace = Path(directory) / 'trace.dat'
@@ -44,6 +44,14 @@ def case(ngspice, inputs, link_pair, coil_l_h):
         deck = replace_once(deck, 'reltol=.001', f'reltol={refinement.RELTOL:g}')
         deck = replace_once(deck, 'tran 100n 5m 4m', 'tran 50n 5m 4m')
         deck = replace_once(deck, '1u 20n 20n 46.5u', '1u 200n 200n 46.5u')
+        if yoke is not None:
+            inductance_h, resistance_ohm = yoke
+            if inductance_h <= 0 or resistance_ohm <= 0:
+                raise ValueError('invalid yoke winding')
+            deck = replace_once(deck, 'Rhorizontal hy1 h_winding 2',
+                                f'Rhorizontal hy1 h_winding {resistance_ohm:.15g}')
+            deck = replace_once(deck, 'Lhorizontal h_winding hy2 4m',
+                                f'Lhorizontal h_winding hy2 {inductance_h:.15g}')
         if link_pair is not None:
             p = {key: value[0] for key, value in steady_supply.ASSEMBLY_BOUNDS.items()}
             if link_pair not in (0, 1) or coil_l_h <= 0:
@@ -70,7 +78,7 @@ def case(ngspice, inputs, link_pair, coil_l_h):
         deck = replace_once(deck,
                             f'wrdata {trace} v(h_hot) v(eht)',
                             f'wrdata {trace} v(h_hot) v(h_return) '
-                            'v(h_hot,h_return) v(hy2) v(eht)')
+                            'v(h_hot,h_return) v(hy2) v(eht) i(Lhorizontal)')
         digest = hashlib.sha256(deck.replace(str(trace), '<trace>').encode()).hexdigest()
         circuit.write_text(deck)
         process = subprocess.run([str(ngspice), '-b', str(circuit)],
@@ -83,9 +91,9 @@ def case(ngspice, inputs, link_pair, coil_l_h):
         with trace.open() as stream:
             header = stream.readline().split()
             rows = [list(map(float, line.split())) for line in stream if line.strip()]
-    if header[:6] != ['time', 'v(h_hot)', 'v(h_return)',
-                      'v(h_hot,h_return)', 'v(hy2)', 'v(eht)']:
-        raise ValueError('unexpected centring trace columns')
+    if header[:7] != ['time', 'v(h_hot)', 'v(h_return)',
+                      'v(h_hot,h_return)', 'v(hy2)', 'v(eht)', 'i(Lhorizontal)']:
+        raise ValueError(f'unexpected centring trace columns: {header[:7]}')
     last = [row for row in rows if row[0] >= pulse.WINDOW_START_S]
     if not last or abs(rows[-1][0] - pulse.END_S) > 1e-9 or len(last) < 1000:
         raise ValueError('incomplete final two-line trace')
@@ -106,7 +114,10 @@ def case(ngspice, inputs, link_pair, coil_l_h):
                 drive_peak_v=differential[3],
                 h2_range_v=[min(row[4] for row in last), max(row[4] for row in last)],
                 return_range_v=[min(row[2] for row in last), max(row[2] for row in last)],
-                eht_at_collector_peak_v=collector[5])
+                eht_at_collector_peak_v=collector[5],
+                eht_at_window_end_v=last[-1][5],
+                yoke_current_range_a=[min(row[6] for row in last),
+                                      max(row[6] for row in last)])
 
 
 def run(ngspice):
