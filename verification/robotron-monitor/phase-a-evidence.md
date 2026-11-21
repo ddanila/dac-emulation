@@ -2440,6 +2440,16 @@ gives 649–1,298 Ω at 20 °C for the 2,409-turn winding. That calculation make
 the active 1 kΩ winding resistance plausible but does not qualify it; the
 active 1,000 turns are below both reported counts.
 
+The comparator's earlier 67–85-drive-turn inference used the superseded
+28.24–35.94 EHT/collector proxy. The corrected conditional proxy is
+**17.49–21.78**; the reported 2,409 turns divided by the *assumed* 64
+drive turns gives 37.64, or 1.728 times that proxy's upper end. This is
+not a physical winding-ratio discrepancy: the EHT/collector voltage proxy
+does not include the X2:4 return waveform, loaded differential drive or
+verified .11 winding graph. The [T3 comparator](reference/k7222-11/t3-hv-winding-comparator.json)
+and [device register](reference/k7222-11/device-model-register.json) now
+remove the false drive-turn inference; the physical turns remain open.
+
 Holding the isolated loaded T3 bench fixed and changing only HV turns gives
 20.30, 37.40, 43.12 and 50.92 V after five 1 V pulses for 1,000, 1,768,
 2,035 and 2,409 turns respectively. These values do not predict the connected
