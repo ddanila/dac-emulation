@@ -134,6 +134,35 @@ class ClassTypicalRegisterTests(unittest.TestCase):
         self.assertTrue(trials[1]['reaches_target'])
         self.assertLess(trials[1]['neck_clip_current_margin_fraction'], .01)
 
+    def test_brimar_110deg_pair_and_conditional_stage_have_provenance(self):
+        report = json.loads((REF/'yoke-brimar-110deg-comparator.json').read_text())
+        stage = json.loads((REF/'t3-yoke-brimar-stage-screen.json').read_text())
+        self.assertEqual(report['source']['sha256'],
+                         self.register['sources']['brimar_tby_110deg_20mm']['sha256'])
+        self.assertEqual(stage['source']['sha256'], report['source']['sha256'])
+        for name, path in (('target', REF/'yoke-class-comparator.json'),
+                           ('script', ROOT/'yoke_brimar_110deg_comparator.py')):
+            self.assertEqual(report['input_hashes'][name], hashlib.sha256(path.read_bytes()).hexdigest())
+        self.assertEqual(stage['inputs_sha256']['reference/k7222-11/yoke-brimar-110deg-comparator.json'],
+                         hashlib.sha256((REF/'yoke-brimar-110deg-comparator.json').read_bytes()).hexdigest())
+        cases = {row['type']: row for row in report['class_cases']}
+        self.assertEqual(set(cases), {'TBY3', 'TBY5', 'TBY7'})
+        self.assertEqual((cases['TBY7']['line_inductance_h'],
+                          cases['TBY7']['line_resistance_ohm'],
+                          cases['TBY7']['field_inductance_h'],
+                          cases['TBY7']['field_resistance_ohm']), (.0041, 8.8, .032, 16))
+        for suffix, key in (('line_inductance', 'line_inductance_h'),
+                            ('line_resistance', 'line_resistance_ohm'),
+                            ('field_inductance', 'field_inductance_h'),
+                            ('field_resistance', 'field_resistance_ohm')):
+            self.assertEqual(self.by_id['AE9VT.TBY7_candidate_'+suffix]['value'],
+                             cases['TBY7'][key])
+        stage_cases = {row['catalog_type']: row for row in stage['class_cases']}
+        self.assertEqual(set(stage_cases), set(cases))
+        self.assertEqual(stage['class_cases_in_11_12kv_band_at_collector_peak'], 1)
+        self.assertTrue(11000 < stage_cases['TBY7']['eht_at_collector_peak_v'] < 12000)
+        self.assertLess(stage_cases['TBY3']['eht_at_collector_peak_v'], 11000)
+
     def test_tube_heater_class_point_matches_live_equilibrium(self):
         check=json.loads((REF/'tube-heater-class-check.json').read_text())
         self.assertEqual(check['format'],'dac-monitor-tube-heater-class-check-v2')

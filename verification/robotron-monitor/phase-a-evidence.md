@@ -4424,3 +4424,34 @@ conditional circuit sensitivities, not steady connected acceptance tests;
 the catalog's 17 kV full-scan currents are not AE9VT limits. A 110°,
 20 mm-neck electrical and field-profile source—or installed AE9VT evidence—
 is still needed before freezing the A5 fallback and its drive ratio.
+
+### A5/A6: source-paired 110-degree, 20 mm-neck yoke class (2026-11-21)
+
+The [Brimar Industrial CRT catalog](https://tubedata.altanatubes.com.br/other/Brimar/Brimar_IndustrialCathodeRayTubes_DataSection_Issue3.pdf)
+(PDF SHA-256 `eb327b3bde53b62472190bd1fd968bc8b1687a082ed991bc0adc0b836801ae01`,
+selection table p. 8 and TBY3/TBY5/TBY7 sheets p. 1) identifies M31-120 as a
+31 cm, 110°, 20.7 mm maximum-neck monitor tube and pairs it with scan coils
+specified for a 20 mm neck. This closes the *missing class source* identified
+in the preceding Philips comparison, but does not identify the installed
+B31G22/AE9VT. The [paired comparator](reference/k7222-11/yoke-brimar-110deg-comparator.json)
+records all three electrical windings and M31-120 full-scan currents at 11 kV:
+TBY3 is 0.258 mH/0.55 Ω line and 30 mH/16.7 Ω field with 5.1/0.53 A p-p;
+TBY5 shares the line winding and has 7 mH/3.1 Ω field with 5.1/1.16 A p-p;
+TBY7 is 4.1 mH/8.8 Ω line and 32 mH/16 Ω field with 1.3/0.5 A p-p.
+
+Brimar's 235 × 165 mm M31-120 raster-distortion figure is used only as a
+size proxy, with linear scan-size and √EHT transfer to the Robotron's
+190–230 × 130–160 mm and 11–12 kV windows. A declared ±10% *transfer*
+allowance, not a manufacturer current tolerance, gives TBY7 proxy bounds
+0.946–1.462 A p-p horizontally and 0.355–0.557 A p-p vertically. The
+[conditional T3 stage screen](reference/k7222-11/t3-yoke-brimar-stage-screen.json)
+keeps the same unverified graph, E1+E2 links, 80 mH chokes and prescribed
+drive. TBY7 gives 443.16 V differential peak, 11.51 kV EHT at the sampled
+collector pulse and 0.914 A final-two-line yoke-current span; TBY3/TBY5
+give 186.68 V, 5.10 kV and 10.77 A respectively. TBY7 therefore preserves
+the active 4 mH case's *conditional* EHT behavior while its 8.8 Ω line
+resistance differs from the active 2 Ω and its sampled current is below its
+own transferred proxy bound. This does not qualify a periodic point, the
+installed yoke, its field profile, or T3 ratios. A5 can now use a genuinely
+neck/angle/size-matched *class* fallback, then must bound the X2:4 drive,
+returns and geometry before freezing it.
