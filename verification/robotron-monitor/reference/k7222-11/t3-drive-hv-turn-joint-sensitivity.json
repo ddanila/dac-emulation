@@ -1,0 +1,509 @@
+{
+  "format": "dac-monitor-t3-drive-hv-turn-joint-sensitivity-v1",
+  "qualification": "conditional prescribed-base 4-5ms stage, unverified winding graph and 12mm circular-core family comparator; ratio sensitivity only, not installed .11 turns, A5 design point or Phase B score",
+  "source_basis": {
+    "core_diameter": "https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=22157 post 005, cross-revision 12mm UHA78 core-diameter report",
+    "hv_comparator": "reference/k7222-11/t3-hv-winding-comparator.json",
+    "drive_sections": "assumed-bound candidate 36+7+7+7+7 turns, varied to 48+10+10+10+10 within existing section bounds; no source .11 drive-turn count"
+  },
+  "inputs_sha256": {
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "t3_stage_refinement_screen.py": "876a3f7d615cc95ff5ba0f4e5745d224678ee1c9404ded9ed46c14590ba0e48a",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc"
+  },
+  "assumptions": {
+    "core_area_m2": 0.00011309733552923255,
+    "prescribed_base_edge_ns": 200,
+    "c27_nf": 10,
+    "c30_nf": 1,
+    "c30_population": "conditional",
+    "only_changed_parameters": "T3 core area, drive-section turns, HV turns; all resistances, leakages, parasitics, core B-H, source-addressed circuit, drive and solver settings held fixed"
+  },
+  "checks": {
+    "tp17_swing_vpp": [
+      64,
+      96
+    ],
+    "eht_final_v": [
+      11000,
+      12000
+    ],
+    "retrace_width_us": [
+      12.8,
+      19.2
+    ],
+    "flyback_pulses": 16,
+    "last_two_lines_max_disagreement_fraction": 0.001,
+    "median_step_min_ns": 20
+  },
+  "cases": [
+    {
+      "drive_total_turns": 64,
+      "drive_sections_turns": [
+        36,
+        7,
+        7,
+        7,
+        7
+      ],
+      "hv_turns": 1768,
+      "ideal_turns_ratio": 27.625,
+      "normalized_deck_sha256": "c261fd245c75e2ac257e213b523d4c97a5ca3fa9e52514469305def480404a33",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": true,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 84.6911632,
+        "eht_final_v": 12379.7835,
+        "collector_peak_v": 492.841358,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.89520567603875,
+        "yoke_current_range_a": [
+          -0.475844407,
+          0.477372501
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 64,
+      "drive_sections_turns": [
+        36,
+        7,
+        7,
+        7,
+        7
+      ],
+      "hv_turns": 2035,
+      "ideal_turns_ratio": 31.796875,
+      "normalized_deck_sha256": "6714a3d7d244a4c7afcb6fe93c59e231083d4f8515bd95e644afb03a1b9c74e5",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 66.756204,
+        "eht_final_v": 12333.9149,
+        "collector_peak_v": 380.765856,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.330272859625286,
+        "yoke_current_range_a": [
+          -0.466348606,
+          0.458349996
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 64,
+      "drive_sections_turns": [
+        36,
+        7,
+        7,
+        7,
+        7
+      ],
+      "hv_turns": 2300,
+      "ideal_turns_ratio": 35.9375,
+      "normalized_deck_sha256": "527d21d066a53f73eec6b52c143a26b561cef5f04a5741ad62c94ffab473cffa",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": true,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 65.0983033,
+        "eht_final_v": 12199.8176,
+        "collector_peak_v": 371.062462,
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 14.846497442889614,
+        "yoke_current_range_a": [
+          -0.45692474,
+          0.44390865
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 64,
+      "drive_sections_turns": [
+        36,
+        7,
+        7,
+        7,
+        7
+      ],
+      "hv_turns": 2409,
+      "ideal_turns_ratio": 37.640625,
+      "normalized_deck_sha256": "018cda47d984ba6c62c3877c1fdb7ba84adbd8fec43f3913767f6418c7f619e6",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": true,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 64.0068158,
+        "eht_final_v": 12126.1769,
+        "collector_peak_v": 366.462463,
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.200323277436006,
+        "yoke_current_range_a": [
+          -0.452493006,
+          0.443318799
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 72,
+      "drive_sections_turns": [
+        40,
+        8,
+        8,
+        8,
+        8
+      ],
+      "hv_turns": 1768,
+      "ideal_turns_ratio": 24.555555555555557,
+      "normalized_deck_sha256": "ff7f736ba707b241cffd178b7057fdefe25f914aa1573a803b2f81c00631b91c",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 77.5512894,
+        "eht_final_v": 11920.0566,
+        "collector_peak_v": 492.886221,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.66200021347763,
+        "yoke_current_range_a": [
+          -0.476623312,
+          0.47677203
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 72,
+      "drive_sections_turns": [
+        40,
+        8,
+        8,
+        8,
+        8
+      ],
+      "hv_turns": 2035,
+      "ideal_turns_ratio": 28.26388888888889,
+      "normalized_deck_sha256": "c5a85970f4d4823c37ac2ae1a9e675cfa24d4128a300bd6c370b6198d53f4d98",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 69.8334172,
+        "eht_final_v": 12126.0324,
+        "collector_peak_v": 445.808926,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 12.906346975118804,
+        "yoke_current_range_a": [
+          -0.467374116,
+          0.465081627
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 72,
+      "drive_sections_turns": [
+        40,
+        8,
+        8,
+        8,
+        8
+      ],
+      "hv_turns": 2300,
+      "ideal_turns_ratio": 31.944444444444443,
+      "normalized_deck_sha256": "3277466bfc9d8a80d3c9629fd8b722925deae971f65b884ace62c9a9745349ae",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": true,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 62.571184599999995,
+        "eht_final_v": 12116.2819,
+        "collector_peak_v": 395.248155,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 14.33763428467698,
+        "yoke_current_range_a": [
+          -0.458535809,
+          0.449173039
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 72,
+      "drive_sections_turns": [
+        40,
+        8,
+        8,
+        8,
+        8
+      ],
+      "hv_turns": 2409,
+      "ideal_turns_ratio": 33.458333333333336,
+      "normalized_deck_sha256": "d36f3fdc5083b0bd0a4c01b1c4aaaed7db774f73c904392b32b276a4791f2124",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": true,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 56.997595399999994,
+        "eht_final_v": 12075.7703,
+        "collector_peak_v": 360.047336,
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 14.904615847082143,
+        "yoke_current_range_a": [
+          -0.456397767,
+          0.439198413
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 80,
+      "drive_sections_turns": [
+        44,
+        9,
+        9,
+        9,
+        9
+      ],
+      "hv_turns": 1768,
+      "ideal_turns_ratio": 22.1,
+      "normalized_deck_sha256": "1a31cf8a989b303946a3726659d520a404d048ec26db5c6f09bb2b5879b1f9dc",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 71.68381824,
+        "eht_final_v": 12129.677,
+        "collector_peak_v": 497.222483,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 10.944365557358834,
+        "yoke_current_range_a": [
+          -0.478224111,
+          0.477853248
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 80,
+      "drive_sections_turns": [
+        44,
+        9,
+        9,
+        9,
+        9
+      ],
+      "hv_turns": 2035,
+      "ideal_turns_ratio": 25.4375,
+      "normalized_deck_sha256": "8db514ef99dcd003d10a13fd9ff65526dd6290918f2875e7392912bcc98bc47d",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 62.27727061,
+        "eht_final_v": 12386.205,
+        "collector_peak_v": 428.987244,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 12.079397567384738,
+        "yoke_current_range_a": [
+          -0.469938486,
+          0.466800871
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 80,
+      "drive_sections_turns": [
+        44,
+        9,
+        9,
+        9,
+        9
+      ],
+      "hv_turns": 2300,
+      "ideal_turns_ratio": 28.75,
+      "normalized_deck_sha256": "7c31bc6b8c6a501b9268de75eaf89ef7b24e39f37f01b6c4b1c5b6a2b9dfb1ad",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 56.959644409999996,
+        "eht_final_v": 12324.993,
+        "collector_peak_v": 397.969212,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.120089220591996,
+        "yoke_current_range_a": [
+          -0.462506616,
+          0.45200509
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 80,
+      "drive_sections_turns": [
+        44,
+        9,
+        9,
+        9,
+        9
+      ],
+      "hv_turns": 2409,
+      "ideal_turns_ratio": 30.1125,
+      "normalized_deck_sha256": "067b9b8c500c2a9dec6826d71f8209d860af33db0e595b5beefbcd625eb0c8bc",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": true,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 57.19463159,
+        "eht_final_v": 12329.5539,
+        "collector_peak_v": 398.772308,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 13.386157701286706,
+        "yoke_current_range_a": [
+          -0.460539941,
+          0.449427944
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 88,
+      "drive_sections_turns": [
+        48,
+        10,
+        10,
+        10,
+        10
+      ],
+      "hv_turns": 1768,
+      "ideal_turns_ratio": 20.09090909090909,
+      "normalized_deck_sha256": "de21e79f9c8e0c692b33b8503eab8831ea812c624c2268686c77577052e253ef",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 69.40105506,
+        "eht_final_v": 12791.8602,
+        "collector_peak_v": 520.769102,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 10.06945002868893,
+        "yoke_current_range_a": [
+          -0.480064668,
+          0.480433392
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 88,
+      "drive_sections_turns": [
+        48,
+        10,
+        10,
+        10,
+        10
+      ],
+      "hv_turns": 2035,
+      "ideal_turns_ratio": 23.125,
+      "normalized_deck_sha256": "13746e1528a8ff92ba72e9ea70acfccf7776196221f8fddc6f83b1c8d15f3b86",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 62.13702175,
+        "eht_final_v": 13267.6334,
+        "collector_peak_v": 465.957612,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.001681597917496,
+        "yoke_current_range_a": [
+          -0.47436698,
+          0.470185528
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 88,
+      "drive_sections_turns": [
+        48,
+        10,
+        10,
+        10,
+        10
+      ],
+      "hv_turns": 2300,
+      "ideal_turns_ratio": 26.136363636363637,
+      "normalized_deck_sha256": "aeeee7d16d215aa419d7fda14d420da1170a9260ba4e5069c2201046b437578a",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 60.277652589999995,
+        "eht_final_v": 13118.4859,
+        "collector_peak_v": 457.058748,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 12.076514816348158,
+        "yoke_current_range_a": [
+          -0.466690884,
+          0.456235042
+        ]
+      }
+    },
+    {
+      "drive_total_turns": 88,
+      "drive_sections_turns": [
+        48,
+        10,
+        10,
+        10,
+        10
+      ],
+      "hv_turns": 2409,
+      "ideal_turns_ratio": 27.375,
+      "normalized_deck_sha256": "d4f11e944563dc290490aa80ec4c82cd92fbd022eb92bbd2b916176822693802",
+      "max_step_ns": 50,
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 60.54468301,
+        "eht_final_v": 12936.2422,
+        "collector_peak_v": 461.161717,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 12.48058212121152,
+        "yoke_current_range_a": [
+          -0.462858181,
+          0.449184867
+        ]
+      }
+    }
+  ],
+  "screen_summary": {
+    "case_count": 16,
+    "completed_cases": 16,
+    "stage_window_matches": 0,
+    "periodic_final_two_lines": 6,
+    "eht_window_matches": 1,
+    "only_eht_window_match": {
+      "drive_total_turns": 72,
+      "hv_turns": 1768,
+      "eht_final_v": 11920.0566,
+      "retrace_width_us": 11.66200021347763
+    },
+    "conclusion": "No sampled drive/HV turn combination jointly meets TP17, final EHT, retrace and final-two-line periodicity at the 12 mm core-area comparator. This finite screen does not exclude other ratios, capacitances, returns, material curves or connected-drive waveforms.",
+    "flyback_count_16_cases": 13,
+    "flyback_count_15_cases": 3
+  },
+  "next": "Re-read the T3 external return and internal series/tap graph; bound effective core area and B-H/loss from class data before a joint fallback parameter freeze. Do not tune turns from EHT/collector proxy."
+}
