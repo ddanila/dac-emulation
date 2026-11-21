@@ -1,6 +1,7 @@
 {
-  "format": "dac-monitor-t3-hv-winding-comparator-v1",
+  "format": "dac-monitor-t3-hv-winding-comparator-v2",
   "qualification": "cross-revision ÜHA78 comparator; no factory specification or .11 winding/return-path proof",
+  "design_point_sha256": "f4809a7c7cf9154c12c5bb38e8d6bfc529c22c8a6b9bd8767c019ea89a288fd5",
   "sources": {
     "original_winding_report": {
       "url": "https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=22157",
@@ -48,9 +49,9 @@
     "active_ideal_hv_to_drive_ratio": 15.625,
     "original_comparator_ideal_hv_to_64_turn_drive_ratio": 37.640625,
     "replacement_comparator_ideal_hv_to_64_turn_drive_ratio": 27.625,
-    "conditional_design_ratio_range_if_60_to_70v_boost": [28.237066663792028, 35.938084844826214],
-    "drive_turns_implied_by_original_comparator_and_conditional_ratio": [67.03195260408566, 85.31339422338175],
-    "interpretation": "The active 1,000-turn HV hypothesis is below both reported ÜHA78 winding counts. Its 1 kohm DC resistance is within the broad geometry-derived original-winding copper range. The 2,409-turn comparator with a 64-turn drive exceeds the conditional boost-case ratio by 4.7 percent; that discrepancy cannot identify the drive turns or boost voltage because both are unverified."
+    "conditional_ideal_eht_to_collector_proxy_range": [17.49198819880922, 21.780657481712858],
+    "original_comparator_ratio_over_conditional_proxy_upper_bound": 1.7281675280740834,
+    "interpretation": "The active 1,000-turn HV hypothesis is below both reported ÜHA78 winding counts. Its 1 kohm DC resistance is within the broad geometry-derived original-winding copper range. The 2,409/64 ideal turn ratio is 1.728 times the corrected conditional EHT/collector proxy upper bound, but the proxy is not an HV/drive winding ratio: X2:4 return voltage, the loaded differential drive pulse and the .11 winding graph are unqualified. Neither the cross-revision turns nor this discrepancy identifies .11 drive turns."
   },
   "isolated_loaded_sensitivity": {
     "setup": "t3_return_variants.py flux backend, one accepted sign candidate, tied X1:3/X2:3 return, 1 V/16 us primary pulses, 1 nF EHT load and V21-class diode; all parameters except HV turns held at the active hypothesis",
@@ -62,5 +63,5 @@
     },
     "interpretation": "The HV-turn choice materially changes the isolated loaded result. These low-voltage pulses cannot establish a connected 11–12 kV operating point."
   },
-  "next": "Keep the original .11 T3 graph and other section parameters conditional. Compare the two source-derived turn scales under connected horizontal-output loading and check which, if either, can meet the documented retrace, feedback and EHT constraints before replacing the active model."
+  "next": "Keep the .11 T3 graph and section parameters conditional. Use the reported ÜHA78 counts only as cross-revision comparators; source the .11 winding and return map or use the function-derived equivalent with explicit bounded ratios, leakage, capacitance and loss before replacing the active model."
 }
