@@ -18,8 +18,8 @@
 
 > **T3 terminal-identity correction (2026-11-21).** A later
 > [page-4 audit](reference/k7222-11/page4-t3-terminal-identity-audit.json)
-> shows that the 19-port T3 graph omits the separate X1:2 terminal and ties
-> X1:3 to X2:3 where the scan draws X1:2 to X2:3. It also finds that the
+> shows that the 19-port T3 graph omits the separate X3:1 and X1:2 terminals
+> and ties X1:3 to X2:3 where the scan draws X1:2 to X2:3. It also finds that the
 > earlier HV source read called V21's X3:1/X3:2 pads X1:1/X1:2. All saved T3
 > numerical screens using that graph, including source-order variants, are
 > historical conditional sensitivities until the wrapper and comparisons
@@ -5090,11 +5090,27 @@ used to transfer its different booster wiring. The manual's statement that
 the HV winding has connections 1 and 16 does not identify V21's pad prefix.
 
 The [model audit](reference/k7222-11/page4-t3-terminal-identity-audit.json)
-finds four mismatches: X1:2 is absent from both the 19-port T3 wrapper and
-upper-tap group; the model joins X1:3, not X1:2, to X2:3; and the older
+now inventories **20 distinct page-4 magnetic terminal labels**. The
+19-port wrapper is missing **X3:1 and X1:2** and includes **X1:16**, which
+is not visibly labelled in this scan. A fresh KiCad export also has only
+**19 T3 pins**, matching that transcription. This does not disprove the manual's
+"1 and 16" winding statement; its connector-prefix mapping remains open.
+The audit finds five mismatches in total: X1:2 is absent from the upper-tap
+group; the model joins X1:3, not X1:2, to X2:3; and the older
 [HV source read](reference/k7222-11/t3-hv-terminal-read.json) assigns V21's
 pads to X1:1/X1:2. That read and its passing model comparison are superseded
 for terminal identity. The drawing does not by itself establish section
 turns, polarity or the electrical relationship between every X3 and X1
-terminal, so the correction does not license a new ratio. Rebuild the T3
-wrapper and source comparison first, then repeat the affected stage screens.
+terminal, so the correction does not license a new ratio. Resolve X1:16's
+role, rebuild the T3 wrapper and source comparison, then repeat the affected
+stage screens.
+
+A [20-terminal source-visible candidate](reference/k7222-11/t3-page4-visible-graph.json)
+now carries the inventory as four explicitly hypothetical winding groups.
+It includes X3:1 and X1:2, omits the separate X3:2 rectified output, and
+does not silently promote the manual's unresolved connection 16 to a
+page-4 pin. The magnetic-graph validator now accepts X3 terminals; a
+synthetic-parameter compilation test confirms all 20 candidate ports and
+eight relative-polarity candidates. This is a structural migration step,
+not a fitted transformer or active schematic correction. Its assumed
+continuity, section values, return and cold end still need qualification.
