@@ -1,4 +1,4 @@
-"""Exercise declared MAA723 internal-model bounds against isolated 723 targets.
+"""Exercise declared MAA723 internal-model bounds against isolated Tesla targets.
 
 Each internal model moves as a correlated low/high group. This deliberately
 does not claim exhaustive coverage of the 48-dimensional parameter box.
@@ -76,17 +76,25 @@ def case(model_file, temperature, parameters, targets):
     standby = op(parameters, supply=30, **common)
     loads = {name: op(parameters, supply=12, load_ohm=ohm, **common)
              for name, ohm in (('1ma', 5000), ('50ma', 100), ('150ma', 100/3))}
+    line_outputs = {str(supply): op(parameters, supply=supply, load_ohm=5000, **common)
+                    for supply in (15, 40)}
     lower_dissipation = op(parameters, supply=9.5, load_ohm=6.5/.15,
                            divider_top_ohm=650, divider_bottom_ohm=6500, **common)
     droop = loads['1ma']['output_v']-loads['50ma']['output_v']
     checks = dict(reference=targets['reference_v']['range'][0]
-                  <= standby['reference_v'] <= targets['reference_v']['range'][1],
+                  <= loads['1ma']['reference_v'] <= targets['reference_v']['range'][1],
                   standby=0 < standby['supply_current_a']
-                  <= targets['standby_current_a']['maximum'],
-                  load_regulation=abs(droop) <= targets['load_regulation_v']['maximum'])
-    return dict(temperature_c=temperature, reference_v=standby['reference_v'],
+                  < targets['standby_current_a']['maximum'],
+                  load_regulation=abs(droop) < targets['load_regulation_v']['maximum'],
+                  line_regulation_12_to_15_v=abs(line_outputs['15']['output_v']-loads['1ma']['output_v'])
+                                             < targets['line_regulation_12_to_15_v']['maximum'],
+                  line_regulation_12_to_40_v=abs(line_outputs['40']['output_v']-loads['1ma']['output_v'])
+                                             < targets['line_regulation_12_to_40_v']['maximum'])
+    return dict(temperature_c=temperature, reference_v=loads['1ma']['reference_v'],
                 standby_current_a=standby['supply_current_a'],
                 load_regulation_v=droop,
+                line_regulation_v={'12_to_15': line_outputs['15']['output_v']-loads['1ma']['output_v'],
+                                   '12_to_40': line_outputs['40']['output_v']-loads['1ma']['output_v']},
                 engineering_150ma_probe={
                     'load_resistance_ohm': 100/3,
                     'output_v': loads['150ma']['output_v'],
@@ -173,16 +181,16 @@ def run():
                              engineering_4p9v_probe_at_25c_pass=results[1]['engineering_150ma_probe']['meets_4p9v_proxy'],
                              lower_dissipation_145ma_probe_at_25c_pass=results[1]['lower_dissipation_150ma_probe']['reaches_145ma_engineering_proxy']))
         attribution = pass_corner_attribution(model_file, source, internal, entry['parameters'])
-    return dict(format='dac-monitor-maa723-internal-corner-screen-v2',
-                qualification='nine correlated internal-model cases at three temperatures; 25 C data-sheet comparisons separated from a thermally unqualified 150 mA resistor probe',
+    return dict(format='dac-monitor-maa723-internal-corner-screen-v3',
+                qualification='nine correlated internal-model cases at three temperatures; exact Tesla MAA 723 25 C catalog comparisons separated from a thermally unqualified 150 mA resistor probe',
                 model_sha256=sha(MODEL), class_register_sha256=sha(REGISTER),
                 device_register_sha256=sha(maa723_model_check.REGISTER),
                 script_sha256=sha(Path(__file__)),
                 cases=len(rows), temperatures_c=list(TEMPERATURES_C),
-                target_source=register['sources']['ti_lm723'],
+                target_source=register['sources']['tesla_maa723_1986'],
                 comparison_targets=targets,
                 ideal_5v_150ma_pass_power_w_at_12v=1.05,
-                lm723_25c_package_power_ratings_w={'metal_can': .8, 'cdip': .9, 'pdip': .66},
+                tesla_maa723_package_power_max_w=.8,
                 rows=rows,
                 class_check_failures_at_25c=sum(not row['class_checks_at_25c_pass'] for row in rows),
                 engineering_probe_misses_at_25c=sum(not row['engineering_4p9v_probe_at_25c_pass'] for row in rows),
@@ -190,8 +198,8 @@ def run():
                 pass_corner_attribution=attribution,
                 limitations=['All low/high shifts within each internal model are correlated; arbitrary mixed corners are not covered.',
                              'The 25 C comparison targets are reused only as sensitivity references at 0 and 70 C, not claimed data-sheet limits at those temperatures.',
-                             'The 33.33 ohm resistor draws 150 mA only near 5 V. At the low-pass corner, its actual current is about 67 mA. A regulated 5 V/150 mA point at 12 V would dissipate about 1.05 W in the pass path, above every listed LM723 package rating at 25 C, so the 4.9 V probe is not a family qualification gate.',
-                             'The 9.5 V/6.5 V/150 mA intended point lies within the uA723 recommended voltage, differential and current envelope and is below the LM723 PDIP 25 C power comparator at nominal; the sheets do not guarantee 145 mA or a particular output voltage in this setup, so its threshold remains an engineering proxy.',
+                             'The 33.33 ohm resistor draws 150 mA only near 5 V. At the low-pass corner, its actual current is about 67 mA. A regulated 5 V/150 mA point at 12 V would dissipate about 1.05 W in the pass path, above the Tesla MAA 723 0.8 W package maximum, so the 4.9 V probe is not a catalog qualification gate.',
+                             'The 9.5 V/6.5 V/150 mA intended point lies within the Tesla MAA 723 voltage, differential and maximum-current envelope and is below its 0.8 W package maximum at nominal; the catalog does not guarantee 145 mA or a particular output voltage in this setup, so its threshold remains an engineering proxy.',
                              'The isolated DC setup does not exercise current-limit switching, transient stability, connected device stress or the 30 pF pole.'])
 
 

@@ -28,19 +28,19 @@
     },
     "m723_ref_v": {
       "nominal": 7.15,
-      "minimum": 6.8,
-      "maximum": 7.5,
+      "minimum": 6.95,
+      "maximum": 7.35,
       "unit": "V",
       "evidence": "assumed-bound",
-      "rationale": "TI uA723C reference-voltage range at 25 C; MAA723 suffix and limits unverified."
+      "rationale": "Exact Tesla MAA 723 catalog reference range at 12 V input/5 V output; broader temperature and board behavior remain unqualified."
     },
     "m723_iq": {
       "nominal": 0.0023,
       "minimum": 0.0017,
-      "maximum": 0.004,
+      "maximum": 0.0035,
       "unit": "A",
       "evidence": "assumed-bound",
-      "rationale": "uA723C 2.3 mA typical and 4 mA maximum standby at 30 V; 1.7 mA lower engineering bound from LM723 family typical."
+      "rationale": "Exact Tesla MAA 723 2.3 mA typical/<3.5 mA standby at 30 V with unloaded output/reference; 1.7 mA lower engineering bound from LM723 family typical."
     },
     "m723_error_gm": {
       "nominal": 0.25,

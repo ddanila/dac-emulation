@@ -6,6 +6,7 @@
     "ti_sn74h00_1985": {"url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf", "edition": "Texas Instruments The TTL Data Book, 1985, printed pages 3-3 and 3-6", "use": "SN74H00 4x 2-input NAND class: 4.75-5.25 V supply, VIH >=2 V, VIL <=0.8 V, VOH >=2.4 V at -0.5 mA, VOL <=0.4 V at 20 mA, IIH <=50 uA, IIL >=-2 mA, ICCH <=16.8 mA, ICCL <=40 mA, and tPLH/tPHL <=10 ns at 280 ohm/25 pF. A Robotron table maps T200 to this family; not a T200 specimen test."},
     "ti_lm709c": {"url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf", "revision": "National Semiconductor / TI SNOS659A", "pages": [2, 3, 4], "use": "LM709C class comparator at +/-15 V: minimum 15 V/mV large-signal gain, +/-10 V minimum output swing into 2 kohm, 2.6 mA typical/6.6 mA maximum supply current, 300 nA typical/1.5 uA maximum bias, 50 kohm minimum/250 kohm typical input resistance, 150 ohm typical output resistance and 0.25 V/us typical slew. The K7222.11 printed P09A is not identified as LM709."},
     "robotron_pc1715_ic_crossref": {"file": "reference/k7222-11/pc1715-ic-crossref.json", "use": "A separate Robotron PC 1715 service-manual table maps T200/D2000 to SN74H00 and MAA723H to uA723. T200 has matching printed identity in K7222.11, while K7222.11 MAA723 lacks the H suffix; family comparison only."},
+    "tesla_maa723_1986": {"url": "https://teslakatalog.cz/download/tesla_katalog_1_1986_bw.pdf", "sha256": "6b99b2e11e7439096d1cea2f41afe3f0728c2b7517243b1c22588b398676388b", "edition": "TESLA Katalog 1, 1986, printed pages 65-66 (PDF pages 66-67)", "use": "Original MAA 723 (without H) 10-pin functional pinout; 7.15 V typical/6.95-7.35 V reference, 2.3 mA typical/<3.5 mA standby at 30 V/no load, <0.15% 1-50 mA load regulation at 12 V/5 V, and 150 mA maximum output current. Does not specify internal transistor parameters or guarantee 150 mA regulation in the model fixture."},
     "ti_ua723": {"url": "https://www.ti.com/lit/ds/symlink/ua723.pdf", "revision": "SLVS057D, July 1999", "pages": [1, 3], "use": "uA723C comparator: 6.8–7.5 V reference at 25 C, 2.3 mA typical/4 mA maximum standby at 30 V, 9.5–40 V input range, and 150 mA output capability. Behavioral error-amplifier parameters are fitted proxies, not internal specifications."},
     "ti_lm723": {"url": "https://www.ti.com/lit/ds/symlink/lm723.pdf", "revision": "SNVS765C, April 2013", "pages": [2, 3, 4], "use": "10-pin metal-can functional pin contract; 1.7 mA typical standby and 0.2% maximum 1–50 mA load regulation for LM723C at the stated 5 V test fixture. Comparable 723 family, not an MAA723 identification."},
     "tesla_kfy18_1987": {"url": "https://teslakatalog.cz/download/tesla_katalog_2_1987_bw.pdf", "sha256": "fa340fb7a38b8a21091882d4fb3968297e669005c5601f1606fe17960accdc4b", "edition": "TESLA Katalog 2, 1987, printed pages 221-223", "use": "Original KFY18 PNP: h21e 50..250 at IC=1 mA/VCE=5 V, h21E 90..300 at IC=10 mA/VCE=10 V, |VCEsat| typical 0.6 V/max 1 V at IC=150 mA/IB=15 mA, fT typical 100/min 60 MHz at IC=50 mA/VCE=10 V/f=30 MHz, Ccbo typical 19/max 30 pF at VCB=10 V and Cebo typical 55/max 80 pF at VEB=0.5 V. No unique SPICE parameter fit."},
@@ -2258,26 +2259,28 @@
       "id": "012-6931:A2",
       "printed_type": "MAA723",
       "candidate_class": "723-family functional regulator/ramp amplifier proxy",
-      "identity_tier": "Robotron MAA723H-to-uA723 comparison; K7222.11 lacks H suffix, so exact identity and internal circuit remain unverified",
+      "identity_tier": "K7222.11 printed MAA723 matches the exact no-H type and 10-pin function map in the Tesla 1986 catalog; package population and internal transistor parameters remain unverified",
       "model": "MAA723_BOUND",
       "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
       "profile": "profiles/k7222-11-vertical-output.json",
-      "sources": ["robotron_pc1715_ic_crossref", "ti_ua723", "ti_lm723"],
+      "sources": ["tesla_maa723_1986", "robotron_pc1715_ic_crossref", "ti_ua723", "ti_lm723"],
       "parameters": {
-        "m723_ref_v": {"nominal": 7.15, "bounds": [6.8, 7.5], "unit": "V", "basis": "uA723C reference spread at 25 C; applied as a family proxy, not an MAA723 limit"},
-        "m723_iq": {"nominal": 0.0023, "bounds": [0.0017, 0.004], "unit": "A", "basis": "uA723C 2.3 mA typical/4 mA maximum at 30 V; lower engineering bound is LM723-family 1.7 mA typical"},
-        "m723_error_gm": {"nominal": 0.25, "bounds": [0.1, 0.5], "unit": "S", "basis": "behavioral transconductance chosen to reproduce the LM723C 1–50 mA load-regulation class; internal gm not specified"},
-        "m723_drive_limit": {"nominal": 0.002, "bounds": [0.0015, 0.004], "unit": "A", "basis": "behavioral base-drive bound supporting the uA723 150 mA output class with the provisional pass BJT; not a measured current limit"}
+        "m723_ref_v": {"nominal": 7.15, "bounds": [6.95, 7.35], "unit": "V", "basis": "Exact Tesla MAA 723 reference range at 12 V input/5 V output; does not specify temperature spread at other fixtures"},
+        "m723_iq": {"nominal": 0.0023, "bounds": [0.0017, 0.0035], "unit": "A", "basis": "Exact Tesla MAA 723 2.3 mA typical/<3.5 mA standby at 30 V and no output/reference load; 1.7 mA lower engineering bound from LM723 family typical"},
+        "m723_error_gm": {"nominal": 0.25, "bounds": [0.1, 0.5], "unit": "S", "basis": "behavioral transconductance chosen to reproduce the Tesla MAA 723 1–50 mA load-regulation limit; internal gm not specified"},
+        "m723_drive_limit": {"nominal": 0.002, "bounds": [0.0015, 0.004], "unit": "A", "basis": "behavioral base-drive bound with a provisional pass BJT; Tesla lists 150 mA as maximum output current, not a guaranteed load-regulation point or base-drive limit"}
       },
       "comparison_targets": {
-        "reference_v": {"range": [6.8, 7.5], "conditions": "uA723C, 25 C, family comparison"},
-        "standby_current_a": {"maximum": 0.004, "conditions": "uA723C, 30 V input, no output load, 25 C, family comparison"},
-        "load_regulation_v": {"maximum": 0.01, "conditions": "LM723C 0.2% of 5 V for 1 to 50 mA load, 12 V input, 25 C, family comparison"},
-        "output_150ma_v": {"minimum": 4.9, "conditions": "engineering proxy for uA723 150 mA capability at 12 V input; no 4.9 V data-sheet limit"}
+        "reference_v": {"range": [6.95, 7.35], "conditions": "Tesla MAA 723, 12 V input, 5 V output; isolated reference fixture is an approximation"},
+        "standby_current_a": {"maximum": 0.0035, "conditions": "Tesla MAA 723, 30 V input, no output/reference load"},
+        "load_regulation_v": {"maximum": 0.0075, "conditions": "Tesla MAA 723 <0.15% of 5 V for 1 to 50 mA load, 12 V input; isolated fixture approximates catalog circuit"},
+        "line_regulation_12_to_15_v": {"maximum": 0.005, "conditions": "Tesla MAA 723 <0.1% of 5 V for 12-15 V input, 5 V/1 mA output; isolated fixture approximates catalog circuit"},
+        "line_regulation_12_to_40_v": {"maximum": 0.01, "conditions": "Tesla MAA 723 <0.2% of 5 V for 12-40 V input, 5 V/1 mA output; isolated fixture approximates catalog circuit"},
+        "output_150ma_v": {"minimum": 4.9, "conditions": "engineering proxy only; Tesla 150 mA value is a maximum output-current rating, not a guaranteed 4.9 V regulation limit"}
       },
       "model_response_report": "reference/k7222-11/maa723-model-check.json",
       "internal_parameter_register": "reference/k7222-11/class-typical-register.json#012-6931:A2.M723_*",
-      "remaining": ["Check the K7222.11 MAA723 suffix and page-9 functional pin map", "Qualify connected vertical-stage voltage/current/thermal stress and joint parameter bounds", "Test the bounded internal pass/current-limit/clamp models and 30 pF pole jointly, including temperature; no transistor-level MAA723 identity is claimed"]
+      "remaining": ["Verify installed MAA723 package and page-9 board pin-to-pin wiring against the exact Tesla function map", "Qualify connected vertical-stage voltage/current/thermal stress and joint parameter bounds", "Test the bounded internal pass/current-limit/clamp models and 30 pF pole jointly, including temperature; no transistor-level MAA723 identity is claimed"]
     }
   ]
 }

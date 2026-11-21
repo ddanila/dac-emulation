@@ -1,10 +1,10 @@
 {
-  "format": "dac-monitor-maa723-internal-corner-screen-v2",
-  "qualification": "nine correlated internal-model cases at three temperatures; 25 C data-sheet comparisons separated from a thermally unqualified 150 mA resistor probe",
-  "model_sha256": "d242521c5f43445c9ef9801fd5aecc829850604580f774d3f69c42047b9a9d1a",
-  "class_register_sha256": "12464756169e58dfdaac773ca4457dbb89c4324b5e1082172bc04783bb25f230",
-  "device_register_sha256": "a99654199b5851db267bd6cb15b1251c2f13027c7cfc316eb60ab94f41a605dd",
-  "script_sha256": "9b5cb78f75ac61ffe9ecc31455d0444334e0a697218ed5fbe80e507471a3866b",
+  "format": "dac-monitor-maa723-internal-corner-screen-v3",
+  "qualification": "nine correlated internal-model cases at three temperatures; exact Tesla MAA 723 25 C catalog comparisons separated from a thermally unqualified 150 mA resistor probe",
+  "model_sha256": "fc2ef20aafa92e42364924e1e6631150d5f7e3689d46ad48dc6331449c7f6015",
+  "class_register_sha256": "d0c013d33ab2332b643c383f54d705a15dddc76a3a4ebfaf92d4f98cfd739124",
+  "device_register_sha256": "4e344d23078a47ed613d468fe9070343574b910da4f01ab468986c6ae317cade",
+  "script_sha256": "73f6b52ebc71e9c6b66a9a7ed03551ab26b3f23a55203cbc5e5c24b664a00ce8",
   "cases": 9,
   "temperatures_c": [
     0,
@@ -12,42 +12,42 @@
     70
   ],
   "target_source": {
-    "url": "https://www.ti.com/lit/ds/symlink/lm723.pdf",
-    "revision": "SNVS765C, April 2013",
-    "pages": [
-      2,
-      3,
-      4
-    ],
-    "use": "10-pin metal-can functional pin contract; 1.7 mA typical standby and 0.2% maximum 1\u201350 mA load regulation for LM723C at the stated 5 V test fixture. Comparable 723 family, not an MAA723 identification."
+    "url": "https://teslakatalog.cz/download/tesla_katalog_1_1986_bw.pdf",
+    "sha256": "6b99b2e11e7439096d1cea2f41afe3f0728c2b7517243b1c22588b398676388b",
+    "edition": "TESLA Katalog 1, 1986, printed pages 65-66 (PDF pages 66-67)",
+    "use": "Original MAA 723 (without H) 10-pin functional pinout; 7.15 V typical/6.95-7.35 V reference, 2.3 mA typical/<3.5 mA standby at 30 V/no load, <0.15% 1-50 mA load regulation at 12 V/5 V, and 150 mA maximum output current. Does not specify internal transistor parameters or guarantee 150 mA regulation in the model fixture."
   },
   "comparison_targets": {
     "reference_v": {
       "range": [
-        6.8,
-        7.5
+        6.95,
+        7.35
       ],
-      "conditions": "uA723C, 25 C, family comparison"
+      "conditions": "Tesla MAA 723, 12 V input, 5 V output; isolated reference fixture is an approximation"
     },
     "standby_current_a": {
-      "maximum": 0.004,
-      "conditions": "uA723C, 30 V input, no output load, 25 C, family comparison"
+      "maximum": 0.0035,
+      "conditions": "Tesla MAA 723, 30 V input, no output/reference load"
     },
     "load_regulation_v": {
+      "maximum": 0.0075,
+      "conditions": "Tesla MAA 723 <0.15% of 5 V for 1 to 50 mA load, 12 V input; isolated fixture approximates catalog circuit"
+    },
+    "line_regulation_12_to_15_v": {
+      "maximum": 0.005,
+      "conditions": "Tesla MAA 723 <0.1% of 5 V for 12-15 V input, 5 V/1 mA output; isolated fixture approximates catalog circuit"
+    },
+    "line_regulation_12_to_40_v": {
       "maximum": 0.01,
-      "conditions": "LM723C 0.2% of 5 V for 1 to 50 mA load, 12 V input, 25 C, family comparison"
+      "conditions": "Tesla MAA 723 <0.2% of 5 V for 12-40 V input, 5 V/1 mA output; isolated fixture approximates catalog circuit"
     },
     "output_150ma_v": {
       "minimum": 4.9,
-      "conditions": "engineering proxy for uA723 150 mA capability at 12 V input; no 4.9 V data-sheet limit"
+      "conditions": "engineering proxy only; Tesla 150 mA value is a maximum output-current rating, not a guaranteed 4.9 V regulation limit"
     }
   },
   "ideal_5v_150ma_pass_power_w_at_12v": 1.05,
-  "lm723_25c_package_power_ratings_w": {
-    "metal_can": 0.8,
-    "cdip": 0.9,
-    "pdip": 0.66
-  },
+  "tesla_maa723_package_power_max_w": 0.8,
   "rows": [
     {
       "groups": {
@@ -58,9 +58,13 @@
       "temperatures": [
         {
           "temperature_c": 0,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000600053,
           "load_regulation_v": 0.001915000000000333,
+          "line_regulation_v": {
+            "12_to_15": 1.000000000139778e-06,
+            "12_to_40": 9.999999999621423e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.983199,
@@ -80,14 +84,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 25,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000600053,
           "load_regulation_v": 0.0019140000000001933,
+          "line_regulation_v": {
+            "12_to_15": 1.000000000139778e-06,
+            "12_to_40": 9.999999999621423e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.983203,
@@ -107,14 +117,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 70,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.00230000006807,
           "load_regulation_v": 0.0019119999999999138,
+          "line_regulation_v": {
+            "12_to_15": 1.000000000139778e-06,
+            "12_to_40": 9.999999999621423e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.983211,
@@ -134,7 +150,9 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         }
       ],
@@ -151,9 +169,13 @@
       "temperatures": [
         {
           "temperature_c": 0,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.00572600000000012,
+          "line_regulation_v": {
+            "12_to_15": 4.999999999810711e-06,
+            "12_to_40": 34.361719
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.228068,
@@ -173,14 +195,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": false
           }
         },
         {
           "temperature_c": 25,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.005720000000000169,
+          "line_regulation_v": {
+            "12_to_15": 4.999999999810711e-06,
+            "12_to_40": 2.899999999961267e-05
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.229364,
@@ -200,14 +228,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 70,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000607514,
           "load_regulation_v": 0.0057109999999998,
+          "line_regulation_v": {
+            "12_to_15": 5.00000000069889e-06,
+            "12_to_40": 34.486388000000005
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.231744,
@@ -227,7 +261,9 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": false
           }
         }
       ],
@@ -244,9 +280,13 @@
       "temperatures": [
         {
           "temperature_c": 0,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.00572600000000012,
+          "line_regulation_v": {
+            "12_to_15": 4.999999999810711e-06,
+            "12_to_40": 2.899999999961267e-05
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.228068,
@@ -266,14 +306,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 25,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.005720000000000169,
+          "line_regulation_v": {
+            "12_to_15": 4.999999999810711e-06,
+            "12_to_40": 2.899999999961267e-05
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.229364,
@@ -293,14 +339,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 70,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000607514,
           "load_regulation_v": 0.0057109999999998,
+          "line_regulation_v": {
+            "12_to_15": 5.00000000069889e-06,
+            "12_to_40": 2.800000000036107e-05
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.231744,
@@ -320,7 +372,9 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         }
       ],
@@ -337,9 +391,13 @@
       "temperatures": [
         {
           "temperature_c": 0,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.00572600000000012,
+          "line_regulation_v": {
+            "12_to_15": 4.999999999810711e-06,
+            "12_to_40": 2.899999999961267e-05
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.228068,
@@ -359,14 +417,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 25,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.005720000000000169,
+          "line_regulation_v": {
+            "12_to_15": 4.999999999810711e-06,
+            "12_to_40": 2.899999999961267e-05
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.229364,
@@ -386,14 +450,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 70,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000607514,
           "load_regulation_v": 0.0057109999999998,
+          "line_regulation_v": {
+            "12_to_15": 5.00000000069889e-06,
+            "12_to_40": 34.486368
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.231744,
@@ -413,7 +483,9 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": false
           }
         }
       ],
@@ -430,9 +502,13 @@
       "temperatures": [
         {
           "temperature_c": 0,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.00572600000000012,
+          "line_regulation_v": {
+            "12_to_15": 4.999999999810711e-06,
+            "12_to_40": 2.899999999961267e-05
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.228068,
@@ -452,14 +528,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 25,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.005720000000000169,
+          "line_regulation_v": {
+            "12_to_15": 4.999999999810711e-06,
+            "12_to_40": 2.899999999961267e-05
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.229364,
@@ -479,14 +561,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 70,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000607514,
           "load_regulation_v": 0.0057109999999998,
+          "line_regulation_v": {
+            "12_to_15": 5.00000000069889e-06,
+            "12_to_40": 2.800000000036107e-05
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 2.231744,
@@ -506,7 +594,9 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         }
       ],
@@ -523,9 +613,13 @@
       "temperatures": [
         {
           "temperature_c": 0,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000600012,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 2.000000000279556e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986924,
@@ -545,14 +639,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 25,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000601587,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 3.000000000419334e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986925,
@@ -572,14 +672,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 70,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.002300000154184,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 3.000000000419334e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986927,
@@ -599,7 +705,9 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         }
       ],
@@ -616,9 +724,13 @@
       "temperatures": [
         {
           "temperature_c": 0,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000600012,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 2.000000000279556e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986924,
@@ -638,14 +750,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 25,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000601587,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 3.000000000419334e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986925,
@@ -665,14 +783,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 70,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.002300000157438,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 3.000000000419334e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986927,
@@ -692,7 +816,9 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         }
       ],
@@ -709,9 +835,13 @@
       "temperatures": [
         {
           "temperature_c": 0,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000600012,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 2.000000000279556e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986924,
@@ -731,14 +861,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 25,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000601587,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 3.000000000419334e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986925,
@@ -758,14 +894,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 70,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.002300000154185,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 3.000000000419334e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986927,
@@ -785,7 +927,9 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         }
       ],
@@ -802,9 +946,13 @@
       "temperatures": [
         {
           "temperature_c": 0,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000600012,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 2.000000000279556e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986924,
@@ -824,14 +972,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 25,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.0023000000601587,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 3.000000000419334e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986925,
@@ -851,14 +1005,20 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         },
         {
           "temperature_c": 70,
-          "reference_v": 7.15,
+          "reference_v": 7.14,
           "standby_current_a": 0.002300000157419,
           "load_regulation_v": 0.0009579999999997924,
+          "line_regulation_v": {
+            "12_to_15": 0.0,
+            "12_to_40": 3.000000000419334e-06
+          },
           "engineering_150ma_probe": {
             "load_resistance_ohm": 33.333333333333336,
             "output_v": 4.986927,
@@ -878,7 +1038,9 @@
           "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true
+            "load_regulation": true,
+            "line_regulation_12_to_15_v": true,
+            "line_regulation_12_to_40_v": true
           }
         }
       ],
@@ -931,8 +1093,8 @@
   "limitations": [
     "All low/high shifts within each internal model are correlated; arbitrary mixed corners are not covered.",
     "The 25 C comparison targets are reused only as sensitivity references at 0 and 70 C, not claimed data-sheet limits at those temperatures.",
-    "The 33.33 ohm resistor draws 150 mA only near 5 V. At the low-pass corner, its actual current is about 67 mA. A regulated 5 V/150 mA point at 12 V would dissipate about 1.05 W in the pass path, above every listed LM723 package rating at 25 C, so the 4.9 V probe is not a family qualification gate.",
-    "The 9.5 V/6.5 V/150 mA intended point lies within the uA723 recommended voltage, differential and current envelope and is below the LM723 PDIP 25 C power comparator at nominal; the sheets do not guarantee 145 mA or a particular output voltage in this setup, so its threshold remains an engineering proxy.",
+    "The 33.33 ohm resistor draws 150 mA only near 5 V. At the low-pass corner, its actual current is about 67 mA. A regulated 5 V/150 mA point at 12 V would dissipate about 1.05 W in the pass path, above the Tesla MAA 723 0.8 W package maximum, so the 4.9 V probe is not a catalog qualification gate.",
+    "The 9.5 V/6.5 V/150 mA intended point lies within the Tesla MAA 723 voltage, differential and maximum-current envelope and is below its 0.8 W package maximum at nominal; the catalog does not guarantee 145 mA or a particular output voltage in this setup, so its threshold remains an engineering proxy.",
     "The isolated DC setup does not exercise current-limit switching, transient stability, connected device stress or the 30 pF pole."
   ]
 }

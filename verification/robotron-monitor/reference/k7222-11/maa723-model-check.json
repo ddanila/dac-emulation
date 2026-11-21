@@ -1,7 +1,13 @@
 {
-  "format": "dac-monitor-maa723-class-check-v2",
-  "qualification": "723-family isolated DC comparison; 150 mA resistor trial is an engineering probe, not a data-sheet regulation limit or thermal qualification",
+  "format": "dac-monitor-maa723-class-check-v3",
+  "qualification": "exact Tesla MAA 723 isolated DC comparison with an approximate catalog fixture; 150 mA resistor trial is an engineering probe, not a catalog regulation limit or thermal qualification",
   "sources": {
+    "tesla_maa723_1986": {
+      "url": "https://teslakatalog.cz/download/tesla_katalog_1_1986_bw.pdf",
+      "sha256": "6b99b2e11e7439096d1cea2f41afe3f0728c2b7517243b1c22588b398676388b",
+      "edition": "TESLA Katalog 1, 1986, printed pages 65-66 (PDF pages 66-67)",
+      "use": "Original MAA 723 (without H) 10-pin functional pinout; 7.15 V typical/6.95-7.35 V reference, 2.3 mA typical/<3.5 mA standby at 30 V/no load, <0.15% 1-50 mA load regulation at 12 V/5 V, and 150 mA maximum output current. Does not specify internal transistor parameters or guarantee 150 mA regulation in the model fixture."
+    },
     "robotron_pc1715_ic_crossref": {
       "file": "reference/k7222-11/pc1715-ic-crossref.json",
       "use": "A separate Robotron PC 1715 service-manual table maps T200/D2000 to SN74H00 and MAA723H to uA723. T200 has matching printed identity in K7222.11, while K7222.11 MAA723 lacks the H suffix; family comparison only."
@@ -26,12 +32,12 @@
       "use": "10-pin metal-can functional pin contract; 1.7 mA typical standby and 0.2% maximum 1\u201350 mA load regulation for LM723C at the stated 5 V test fixture. Comparable 723 family, not an MAA723 identification."
     }
   },
-  "register_sha256": "a99654199b5851db267bd6cb15b1251c2f13027c7cfc316eb60ab94f41a605dd",
-  "model_file_sha256": "d242521c5f43445c9ef9801fd5aecc829850604580f774d3f69c42047b9a9d1a",
+  "register_sha256": "4e344d23078a47ed613d468fe9070343574b910da4f01ab468986c6ae317cade",
+  "model_file_sha256": "fc2ef20aafa92e42364924e1e6631150d5f7e3689d46ad48dc6331449c7f6015",
   "sheet_sha256": "fcc4105a85343558459544a6a0e19538b2b82691860eb9517956c0992e9c65ea",
   "profile_sha256": {
-    "k7222-11-vertical-integrator.json": "bcf7297e805dc6afe082e664b3b877f0d9108b8f6d1101919972336b8db3e7fc",
-    "k7222-11-vertical-output.json": "4af447b79a9d09ecf8e6484398ba43b42d425ae635693a688c6d5dcd3cf7d75c"
+    "k7222-11-vertical-integrator.json": "facfb5ae4e37242e18dc04dd9e22a87f7798ec6146e04e81e5d28563dedfae0b",
+    "k7222-11-vertical-output.json": "6c51e75a4ea27e48a0a8f27c39bccc128c21b9a327169233430b115731ab3a62"
   },
   "assembly_source_id": "012-6931:A2",
   "assembly_reference": "X615",
@@ -39,20 +45,20 @@
     "m723_ref_v": {
       "nominal": 7.15,
       "bounds": [
-        6.8,
-        7.5
+        6.95,
+        7.35
       ],
       "unit": "V",
-      "basis": "uA723C reference spread at 25 C; applied as a family proxy, not an MAA723 limit"
+      "basis": "Exact Tesla MAA 723 reference range at 12 V input/5 V output; does not specify temperature spread at other fixtures"
     },
     "m723_iq": {
       "nominal": 0.0023,
       "bounds": [
         0.0017,
-        0.004
+        0.0035
       ],
       "unit": "A",
-      "basis": "uA723C 2.3 mA typical/4 mA maximum at 30 V; lower engineering bound is LM723-family 1.7 mA typical"
+      "basis": "Exact Tesla MAA 723 2.3 mA typical/<3.5 mA standby at 30 V and no output/reference load; 1.7 mA lower engineering bound from LM723 family typical"
     },
     "m723_error_gm": {
       "nominal": 0.25,
@@ -61,7 +67,7 @@
         0.5
       ],
       "unit": "S",
-      "basis": "behavioral transconductance chosen to reproduce the LM723C 1\u201350 mA load-regulation class; internal gm not specified"
+      "basis": "behavioral transconductance chosen to reproduce the Tesla MAA 723 1\u201350 mA load-regulation limit; internal gm not specified"
     },
     "m723_drive_limit": {
       "nominal": 0.002,
@@ -70,28 +76,36 @@
         0.004
       ],
       "unit": "A",
-      "basis": "behavioral base-drive bound supporting the uA723 150 mA output class with the provisional pass BJT; not a measured current limit"
+      "basis": "behavioral base-drive bound with a provisional pass BJT; Tesla lists 150 mA as maximum output current, not a guaranteed load-regulation point or base-drive limit"
     }
   },
   "data_book_targets": {
     "reference_v": {
       "range": [
-        6.8,
-        7.5
+        6.95,
+        7.35
       ],
-      "conditions": "uA723C, 25 C, family comparison"
+      "conditions": "Tesla MAA 723, 12 V input, 5 V output; isolated reference fixture is an approximation"
     },
     "standby_current_a": {
-      "maximum": 0.004,
-      "conditions": "uA723C, 30 V input, no output load, 25 C, family comparison"
+      "maximum": 0.0035,
+      "conditions": "Tesla MAA 723, 30 V input, no output/reference load"
     },
     "load_regulation_v": {
+      "maximum": 0.0075,
+      "conditions": "Tesla MAA 723 <0.15% of 5 V for 1 to 50 mA load, 12 V input; isolated fixture approximates catalog circuit"
+    },
+    "line_regulation_12_to_15_v": {
+      "maximum": 0.005,
+      "conditions": "Tesla MAA 723 <0.1% of 5 V for 12-15 V input, 5 V/1 mA output; isolated fixture approximates catalog circuit"
+    },
+    "line_regulation_12_to_40_v": {
       "maximum": 0.01,
-      "conditions": "LM723C 0.2% of 5 V for 1 to 50 mA load, 12 V input, 25 C, family comparison"
+      "conditions": "Tesla MAA 723 <0.2% of 5 V for 12-40 V input, 5 V/1 mA output; isolated fixture approximates catalog circuit"
     },
     "output_150ma_v": {
       "minimum": 4.9,
-      "conditions": "engineering proxy for uA723 150 mA capability at 12 V input; no 4.9 V data-sheet limit"
+      "conditions": "engineering proxy only; Tesla 150 mA value is a maximum output-current rating, not a guaranteed 4.9 V regulation limit"
     }
   },
   "standby_30v": {
@@ -128,7 +142,30 @@
       "chip_power_proxy_w": 1.08865415582373
     }
   },
+  "reference_12v_5v": 7.14,
   "load_regulation_v": 0.0019140000000001933,
+  "line_outputs_1ma": {
+    "15": {
+      "reference_v": 7.14,
+      "output_v": 4.989963,
+      "supply_current_a": 0.004303545000000001,
+      "load_current_a": 0.0009979926,
+      "pass_power_proxy_w": 0.009989942851726202,
+      "chip_power_proxy_w": 0.0595732288517262
+    },
+    "40": {
+      "reference_v": 7.14,
+      "output_v": 4.989972,
+      "supply_current_a": 0.004303549,
+      "load_current_a": 0.0009979944,
+      "pass_power_proxy_w": 0.034939811887843196,
+      "chip_power_proxy_w": 0.16716199588784322
+    }
+  },
+  "line_regulation_v": {
+    "12_to_15": 1.000000000139778e-06,
+    "12_to_40": 9.999999999621423e-06
+  },
   "engineering_150ma_probe": {
     "load_resistance_ohm": 33.333333333333336,
     "intended_current_a_at_5v": 0.15,
@@ -136,16 +173,12 @@
     "pass_power_proxy_w": 1.0489837158237298,
     "meets_4p9v_proxy": true,
     "ideal_5v_pass_power_w_at_12v": 1.05,
-    "lm723_25c_package_power_ratings_w": {
-      "metal_can": 0.8,
-      "cdip": 0.9,
-      "pdip": 0.66
-    },
-    "power_source": "https://www.ti.com/lit/ds/symlink/lm723.pdf",
-    "interpretation": "The 12 V/5 V/150 mA ideal pass loss alone exceeds the listed LM723 package ratings. This resistor probe cannot certify family-wide continuous 150 mA regulation."
+    "tesla_maa723_package_power_max_w": 0.8,
+    "power_source": "https://teslakatalog.cz/download/tesla_katalog_1_1986_bw.pdf",
+    "interpretation": "The 12 V/5 V/150 mA ideal pass loss alone exceeds the Tesla MAA 723 800 mW package maximum. This resistor probe cannot certify continuous 150 mA regulation."
   },
   "lower_dissipation_150ma_probe": {
-    "source": "https://www.ti.com/lit/ds/symlink/ua723.pdf",
+    "source": "https://teslakatalog.cz/download/tesla_katalog_1_1986_bw.pdf",
     "input_v": 9.5,
     "setpoint_v": 6.5,
     "nominal_input_output_difference_v": 3,
@@ -159,13 +192,15 @@
       "pass_power_proxy_w": 0.4513192087361538,
       "chip_power_proxy_w": 0.4827277506592308
     },
-    "within_lm723_pdip_25c_power_proxy": true,
-    "interpretation": "Chosen at the uA723 minimum input voltage and input/output differential, with a 150 mA intended resistive load. The 0.66 W comparator is the LM723 PDIP 25 C rating, not an identified MAA723 thermal limit or a guaranteed regulation point."
+    "within_tesla_maa723_package_power_proxy": true,
+    "interpretation": "Chosen at the Tesla MAA 723 minimum input voltage and input/output differential, with a 150 mA intended resistive load. The 0.8 W Tesla limit is a maximum package rating, not a guarantee of regulation at this load or a connected thermal qualification."
   },
   "checks": {
     "reference_class": true,
     "standby_class": true,
-    "load_regulation_class": true
+    "load_regulation_class": true,
+    "line_regulation_12_to_15_v": true,
+    "line_regulation_12_to_40_v": true
   },
   "passed": true
 }

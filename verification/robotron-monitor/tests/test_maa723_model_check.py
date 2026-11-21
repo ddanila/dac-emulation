@@ -1,4 +1,4 @@
-"""The 723-family load check must reject the former under-driven proxy."""
+"""The exact MAA723 load check must reject the former under-driven proxy."""
 import json
 import sys
 import unittest
@@ -16,10 +16,11 @@ class MAA723ModelTests(unittest.TestCase):
         self.assertTrue(saved['passed'])
         high_loss = saved['engineering_150ma_probe']
         self.assertGreater(high_loss['ideal_5v_pass_power_w_at_12v'],
-                           max(high_loss['lm723_25c_package_power_ratings_w'].values()))
+                           high_loss['tesla_maa723_package_power_max_w'])
+        self.assertLess(abs(saved['line_regulation_v']['12_to_40']), .01)
         lower_loss = saved['lower_dissipation_150ma_probe']['observed']
         self.assertGreater(lower_loss['load_current_a'], .145)
-        self.assertLess(lower_loss['chip_power_proxy_w'], .66)
+        self.assertLess(lower_loss['chip_power_proxy_w'], .8)
 
     def test_old_drive_would_fail_50ma_load(self):
         _, entry = check.registered_parameters()
