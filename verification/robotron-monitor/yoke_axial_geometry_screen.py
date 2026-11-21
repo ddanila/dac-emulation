@@ -25,11 +25,12 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def trial(profile, screen_m, field_m):
+def trial(profile, screen_m, field_m, horizontal_winding=None):
     trial_profile = json.loads(json.dumps(profile))
     trial_profile['field_length_m'] = field_m
-    trial_profile['horizontal']['target_inductance_h'] = .000475
-    trial_profile['horizontal']['target_resistance_ohm'] = .8
+    inductance, resistance = horizontal_winding or (.000475, .8)
+    trial_profile['horizontal']['target_inductance_h'] = inductance
+    trial_profile['horizontal']['target_resistance_ohm'] = resistance
     derived = yoke_geometry.derive(trial_profile)
     field = derived['field'] | {'screen_z_m': screen_m, 'screen_width_m': .35}
 
@@ -38,8 +39,10 @@ def trial(profile, screen_m, field_m):
                               overrides=field, step_m=.0002)
 
     low, high = 0., 4.
-    if ray(high)['reason'] != 'neck aperture':
-        raise ValueError('4 A did not bracket neck clipping')
+    while ray(high)['reason'] != 'neck aperture':
+        high += 1
+        if high > 16:
+            raise ValueError('16 A did not bracket neck clipping')
     for _ in range(30):
         mid = (low+high)/2
         if ray(mid)['reason'] == 'neck aperture':

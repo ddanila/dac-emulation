@@ -65,7 +65,9 @@ def derive(profile):
             raise ValueError('invalid winding dimensions or constraints')
         if not profile['neck_radius_m']<a-thickness/2<a+thickness/2<b:
             raise ValueError('winding does not clear neck/core')
-        if not .0004<=target<=.08 or not .5<=resistance<=40:
+        # The lower limits also admit the catalogued 228 uH/0.41 ohm
+        # 31 cm, 110-degree AT1039/03 sensitivity comparator.
+        if not .0002<=target<=.08 or not .4<=resistance<=40:
             raise ValueError('electrical constraint outside hypothesis bounds')
         coef=coefficients(b/a,c/a,mu);u0=coef[0]
         # K=N I/(2a), N is the total effective turn count on either sheet half.

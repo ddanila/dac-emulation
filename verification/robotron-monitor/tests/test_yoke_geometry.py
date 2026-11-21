@@ -9,6 +9,7 @@ import yoke_geometry as y
 import yoke_profile
 import trajectory
 import trajectory_native
+import yoke_axial_geometry_screen as axial
 
 class GeometryTests(unittest.TestCase):
     def test_air_sheet_matches_analytic_field_and_inductance(self):
@@ -34,6 +35,21 @@ class GeometryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'clear'):y.derive(bad)
         bad=copy.deepcopy(p);bad['vertical']['sheet_radius_m']=.016
         with self.assertRaises(ValueError):y.derive(bad)
+
+    def test_110_degree_catalog_winding_sensitivity_is_representable(self):
+        p=json.loads(y.DEFAULT.read_text())
+        p['neck_radius_m']=.009
+        p['field_length_m']=.02
+        p['horizontal']['target_inductance_h']=.000228
+        p['horizontal']['target_resistance_ohm']=.41
+        p['vertical']['target_inductance_h']=.00918
+        p['vertical']['target_resistance_ohm']=10.2
+        derived=y.derive(p)
+        self.assertAlmostEqual(derived['electrical']['yoke_horizontal_l'],.000228,delta=.00000228)
+        self.assertLess(derived['axes']['horizontal']['fill_fraction'],p['maximum_fill_fraction'])
+        trial=axial.trial(p,.23,.02,horizontal_winding=(.000228,.41))
+        self.assertAlmostEqual(trial['horizontal_inductance_h'],.000228,delta=.00000228)
+        self.assertEqual(trial['horizontal_resistance_ohm'],.41)
 
     def test_geometry_electrical_override_is_refused(self):
         import steady_supply,transformer_candidates

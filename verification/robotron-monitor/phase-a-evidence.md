@@ -3952,6 +3952,35 @@ specific winding as the installed part or calibrate its current. The gun
 location, inner glass clearance, axis-specific AE9VT field profile and winding
 remain unknown, so the active design point cannot be frozen from this screen.
 
+### A5: angle-matched yoke still lacks a joint current match (2026-11-21)
+
+The [Philips T16 AT1039/03 sheet](https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf)
+(printed pages 401, 404 and 406) supplies a 31 cm, 110° deflection unit with
+228 µH/0.41 Ω parallel line coils, 9.18 mH/10.2 Ω series field coils, and
+7.95/1.21 A peak-to-peak full-scan currents at 17 kV on a 230 × 170 mm
+reference picture. The [reproducible angle-matched screen](reference/k7222-11/yoke-110deg-comparator.json)
+transfers those currents by picture size and √EHT, carrying the maker's ±5%
+current spread and the .11 service picture/EHT windows. Its conditional
+target bounds are **5.019–7.013 A** horizontally and **0.707–1.005 A**
+vertically. The horizontal upper end exceeds the earlier 90° family's
+5.732 A proxy; that proxy cannot be treated as a universal current cap for
+a 110° winding.
+
+The screen uses the catalog electrical windings in the same reduced magnetic
+geometry, with a hypothetical 9 mm inner aperture, 230/235/250 mm
+gun-to-screen paths and 20/25/27.5 mm common field lengths. Four of nine
+cases reach 210 mm width and only one meets the AT1039/03 transferred
+horizontal current range: the others require 7.709–8.450 A peak-to-peak.
+**None of nine** meets both its horizontal and
+vertical current ranges; the vertical current of the width-reaching cases is
+1.172–1.443 A peak-to-peak, above the comparator's 1.005 A upper end. This
+does not exclude other axial profiles or the installed AE9VT. The Philips
+unit has a **28.6 mm neck** while the B31-G outline indicates about **20 mm**
+outside diameter, and the gun position and AE9VT axis-specific field remain
+unsourced. The model's electrical input guard was widened to admit the
+catalogued 228 µH/0.41 Ω sensitivity case; the active .11 winding was not
+changed.
+
 ### A5/A6: T3 core-loss reference-condition comparator (2026-11-21)
 
 The [core-loss comparator](reference/k7222-11/t3-core-loss-comparator.json)

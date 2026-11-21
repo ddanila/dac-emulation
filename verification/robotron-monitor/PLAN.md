@@ -427,7 +427,10 @@ tube/yoke geometry also lacks
 enough evidence to fix deflection current. A joint horizontal/vertical class
 screen finds three broad-family current matches but none against the sampled
 winding's own transferred bounds; it cannot identify the installed winding or
-geometry. Marking A5 complete now would present these assumptions as a
+geometry. An [angle-matched 110° comparator](reference/k7222-11/yoke-110deg-comparator.json)
+also finds no joint match in nine conditional geometries, and its 28.6 mm
+neck cannot identify AE9VT on B31G22. Marking A5 complete now would present
+these assumptions as a
 qualified design point. A1, A2 and A6 have separate unmet conditions in the
 table below; A3 and A4 are done. The
 [conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json)
