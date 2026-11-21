@@ -1,0 +1,20 @@
+{
+  "format": "dac-monitor-page4-t3-upper-bridge-audit-v1",
+  "qualification": "source-to-model external conductor comparison; no winding ratio or connected design point",
+  "source_read_sha256": "fed471c40a249a02673168dc372975ce7fb688d8fd69863b0d8f80d8d5831c78",
+  "candidate_sheet_sha256": "7a7426dd8fe69fbb2743f7c237aea4721457a2f9097e9ebdd297e8d333806dc1",
+  "source_pair": [
+    "X1:1",
+    "X1:7"
+  ],
+  "exported_nets": {
+    "X1:1": "t3_x1_1",
+    "X1:7": "t3_x1_7"
+  },
+  "source_requires_same_net": true,
+  "model_has_same_net": false,
+  "source_model_match": false,
+  "audit_passed": true,
+  "a5_qualified": false,
+  "next_action": "Split/re-evaluate the assumed high-voltage winding group and join X1:1 to X1:7 in the opt-in 20-port interface; rerun source comparisons and affected connected screens."
+}

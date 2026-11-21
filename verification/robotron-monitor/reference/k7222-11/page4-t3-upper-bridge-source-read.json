@@ -1,0 +1,32 @@
+{
+  "format": "dac-monitor-page4-t3-upper-bridge-source-read-v1",
+  "qualification": "scoped direct conductor read from two different crops/resolutions of the .11 page-4 scan; winding sections, turns and manual connection 16 remain unresolved",
+  "source_pdf": {
+    "file": "build/monitor/phase-a/sources/older.pdf",
+    "page": 4,
+    "sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd"
+  },
+  "views": [
+    {
+      "path": "build/monitor/phase-a/t3-upper-junction-independent-600.png",
+      "resolution_dpi": 600,
+      "parent_view_sha256": "ef325eb44040c7d493c88e10c85a50d276583ce39bd5579929b4c53a2de7d4dc",
+      "crop_from_600dpi_page": [1725, 1500, 2300, 2750],
+      "sha256": "d5a2bc54c782f24cefb05845eabdfe0900e77dde76ebc2a9aaca0105aadcca93"
+    },
+    {
+      "path": "build/monitor/phase-a/t3-upper-junction-independent-1200.png",
+      "resolution_dpi": 1200,
+      "parent_view_sha256": "c9ea38f47f977ed24e2b1be074858ef6fd9edb3b14f98aa00de83542b35c52cd",
+      "crop_from_1200dpi_page": [3450, 3000, 4600, 5500],
+      "sha256": "853497dc8a29c6ea224909dcd56d0383eb6a04179183d6614f549a29b305ff82"
+    }
+  ],
+  "drawn_conductor_pair": ["X1:1", "X1:7"],
+  "reading": "A vertical thin conductor begins at the junction dot on the X1:1 horizontal lead and ends at the junction dot on the X1:7 horizontal lead. It crosses the X1:2, X1:3 and X1:5 leads without junction dots. The pair is an external same-node tie in the page-4 T3 symbol; those crossed leads are not tied by this conductor.",
+  "effect_on_model": "The opt-in 20-port KiCad wrapper currently exports X1:1 and X1:7 on separate nets and therefore misses this source-visible conductor. Its assumed single ordered high-voltage group also needs splitting or re-evaluation before any corrected connected simulation is qualified.",
+  "unresolved": [
+    "The thick winding bars and the identity of the manual's connection 16 need a separate source-bounded magnetic section map.",
+    "The conductor fixes an external node equality, not section turns, polarity, loading or the HV differential cold end."
+  ]
+}

@@ -5534,3 +5534,22 @@ continuity to X2:6. The [archived report](reference/k7222-11/t3-functional-core-
 preserves the earlier one-of-four result as a historical conditional screen;
 it is not an A5 candidate filter for the corrected graph. The equivalent
 fallback still needs source-bounded returns, ratios, loss and parasitics.
+
+### A1/A5: page-4 X1:1–X1:7 conductor omitted from opt-in T3 wrapper (2026-11-21)
+
+A [new direct read](reference/k7222-11/page4-t3-upper-bridge-source-read.json)
+checks the .11 page-4 T3 upper bank in independently cropped 600 and 1200 dpi
+views. A thin vertical conductor runs from the junction dot
+on **X1:1** to the dot on **X1:7**. It crosses X1:2, X1:3 and X1:5 without
+junction dots. This is a drawn same-node tie, distinct from the previously
+recorded X1:2–X2:3 conductor; it does not identify a winding turn count or
+the manual's connection 16.
+
+The [fresh export audit](reference/k7222-11/page4-t3-upper-bridge-audit.json)
+finds that the opt-in 20-port KiCad sheet still assigns X1:1 to `t3_x1_1`
+and X1:7 to `t3_x1_7`. Its earlier 10 scoped checks did not compare this
+pair. The candidate's assumed single ordered HV group would also put winding
+sections between those two tied terminals, so joining the labels alone
+would short assumed sections. Split or re-evaluate the magnetic section
+graph, add the source conductor to the wrapper, and rerun the source and
+connected screens before using any of their numerical results for A5.
