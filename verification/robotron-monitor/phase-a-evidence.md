@@ -4062,3 +4062,55 @@ all 48 internal parameters, nor current-limit switching or the connected
 stage. The low-pass-group failure must be resolved against documented
 723-family operating conditions before the joint bounds can be qualified;
 the nominal pass does not justify narrowing the bounds to hide it.
+
+### A2: separate the 150 mA resistor probe from sourced limits (2026-11-21)
+
+The [TI µA723 sheet](https://www.ti.com/lit/ds/symlink/ua723.pdf)
+lists 150 mA as a recommended output-current ceiling and specifies reference,
+standby and output-regulation tests at distinct conditions. The
+[LM723 sheet](https://www.ti.com/lit/ds/symlink/lm723.pdf) gives 1–50 mA
+load-regulation limits at 12 V/5 V and 25 °C, and 25 °C internal-power
+ratings of 0.66 W (PDIP), 0.80 W (metal can) and 0.90 W (CDIP). Neither
+sheet guarantees 4.9 V at 150 mA in the particular 12 V circuit used by
+the earlier isolated check. At a regulated 5 V, that trial would dissipate
+about (12 − 5) × 0.15 = **1.05 W** in the pass path alone, above all three
+listed LM723 package ratings. The installed MAA723 package and thermal path
+are not identified, so this comparison does not set an MAA723 SOA limit.
+
+The 33.33 Ω load is labelled by its *intended* 150 mA draw at 5 V. In the
+low-pass-group corner, the solved 2.229 V output actually draws only
+66.9 mA; its pass-power proxy is 0.653 W. At nominal, the solved output is
+4.983 V and 149.5 mA, with a 1.049 W pass-power proxy. The refreshed
+[isolated check](reference/k7222-11/maa723-model-check.json) and
+[corner screen](reference/k7222-11/maa723-internal-corner-screen.json)
+therefore keep the 4.9 V result visible as an engineering probe, while the
+sourced 25 °C reference, standby and 1–50 mA comparisons define their class
+check. All nine sampled internal-model cases pass those three comparisons
+at 25 °C; four still miss the separate probe. A package-safe, documented
+high-current condition is needed before that probe can be used to qualify
+the internal-model bounds. The 0 and 70 °C runs remain sensitivity data.
+
+### A2: lower-dissipation 723 output-capability probe (2026-11-21)
+
+The [µA723 recommended operating table](https://www.ti.com/lit/ds/symlink/ua723.pdf)
+allows 9.5 V minimum input, 2–37 V output, at least 3 V input-to-output
+headroom and up to 150 mA output. The revised isolated check therefore adds
+a 9.5 V input, 6.5 V setpoint and 43.33 Ω load: at the setpoint this draws
+150 mA with 3 V headroom and about 0.45 W pass loss. The nominal model solves
+6.484 V/149.6 mA and a 0.483 W chip-power proxy, below the
+[LM723 PDIP 25 °C 0.66 W comparator](https://www.ti.com/lit/ds/symlink/lm723.pdf).
+This is a family comparison, not a package or thermal identification for the
+installed MAA723. The source table does not guarantee a 6.5 V regulation
+tolerance at 150 mA in this circuit; the ≥145 mA threshold remains an
+engineering capability probe.
+
+The [updated nine-case screen](reference/k7222-11/maa723-internal-corner-screen.json)
+finds the same four low-`M723_PASS` group combinations below that proxy at
+25 °C: they solve about 2.685 V and **62.0 mA**, with about 0.454 W chip
+power. The other four group combinations deliver about 149.7 mA, and the
+nominal case 149.6 mA. Sourced 25 °C reference, standby and 1–50 mA load
+comparisons still pass all nine cases. The 0/70 °C observations remain
+sensitivity points. This lower-loss trial removes the oversized
+12 V/5 V power premise from the high-current diagnosis, but leaves the
+pass-transistor/drive lower corner unqualified. It does not identify which
+internal parameter, behavioral drive bound or MAA723 variant is responsible.

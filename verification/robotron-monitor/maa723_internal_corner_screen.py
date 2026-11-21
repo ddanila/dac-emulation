@@ -75,18 +75,32 @@ def case(model_file, temperature, parameters, targets):
     standby = op(parameters, supply=30, **common)
     loads = {name: op(parameters, supply=12, load_ohm=ohm, **common)
              for name, ohm in (('1ma', 5000), ('50ma', 100), ('150ma', 100/3))}
+    lower_dissipation = op(parameters, supply=9.5, load_ohm=6.5/.15,
+                           divider_top_ohm=650, divider_bottom_ohm=6500, **common)
     droop = loads['1ma']['output_v']-loads['50ma']['output_v']
     checks = dict(reference=targets['reference_v']['range'][0]
                   <= standby['reference_v'] <= targets['reference_v']['range'][1],
                   standby=0 < standby['supply_current_a']
                   <= targets['standby_current_a']['maximum'],
-                  load_regulation=abs(droop) <= targets['load_regulation_v']['maximum'],
-                  output_150ma=loads['150ma']['output_v']
-                  >= targets['output_150ma_v']['minimum'])
+                  load_regulation=abs(droop) <= targets['load_regulation_v']['maximum'])
     return dict(temperature_c=temperature, reference_v=standby['reference_v'],
                 standby_current_a=standby['supply_current_a'],
                 load_regulation_v=droop,
-                output_150ma_v=loads['150ma']['output_v'], checks=checks)
+                engineering_150ma_probe={
+                    'load_resistance_ohm': 100/3,
+                    'output_v': loads['150ma']['output_v'],
+                    'actual_load_current_a': loads['150ma']['load_current_a'],
+                    'pass_power_proxy_w': loads['150ma']['pass_power_proxy_w'],
+                    'meets_4p9v_proxy': loads['150ma']['output_v']
+                                          >= targets['output_150ma_v']['minimum']},
+                lower_dissipation_150ma_probe={
+                    'input_v': 9.5, 'setpoint_v': 6.5,
+                    'load_resistance_ohm': 6.5/.15,
+                    'output_v': lower_dissipation['output_v'],
+                    'actual_load_current_a': lower_dissipation['load_current_a'],
+                    'chip_power_proxy_w': lower_dissipation['chip_power_proxy_w'],
+                    'reaches_145ma_engineering_proxy': lower_dissipation['load_current_a'] >= .145},
+                comparisons_to_25c_targets=checks)
 
 
 def run():
@@ -105,20 +119,27 @@ def run():
             results = [case(model_file, temperature, entry['parameters'], targets)
                        for temperature in TEMPERATURES_C]
             rows.append(dict(groups=selection, temperatures=results,
-                             all_proxy_checks_pass=all(all(point['checks'].values())
-                                                       for point in results)))
-    return dict(format='dac-monitor-maa723-internal-corner-screen-v1',
-                qualification='nine correlated internal-model cases at three temperatures; isolated family proxy only, not exhaustive joint bounds or an MAA723 identity',
+                             class_checks_at_25c_pass=all(results[1]['comparisons_to_25c_targets'].values()),
+                             engineering_4p9v_probe_at_25c_pass=results[1]['engineering_150ma_probe']['meets_4p9v_proxy'],
+                             lower_dissipation_145ma_probe_at_25c_pass=results[1]['lower_dissipation_150ma_probe']['reaches_145ma_engineering_proxy']))
+    return dict(format='dac-monitor-maa723-internal-corner-screen-v2',
+                qualification='nine correlated internal-model cases at three temperatures; 25 C data-sheet comparisons separated from a thermally unqualified 150 mA resistor probe',
                 model_sha256=sha(MODEL), class_register_sha256=sha(REGISTER),
                 device_register_sha256=sha(maa723_model_check.REGISTER),
                 script_sha256=sha(Path(__file__)),
                 cases=len(rows), temperatures_c=list(TEMPERATURES_C),
                 target_source=register['sources']['ti_lm723'],
                 comparison_targets=targets,
+                ideal_5v_150ma_pass_power_w_at_12v=1.05,
+                lm723_25c_package_power_ratings_w={'metal_can': .8, 'cdip': .9, 'pdip': .66},
                 rows=rows,
-                failed_cases=sum(not row['all_proxy_checks_pass'] for row in rows),
+                class_check_failures_at_25c=sum(not row['class_checks_at_25c_pass'] for row in rows),
+                engineering_probe_misses_at_25c=sum(not row['engineering_4p9v_probe_at_25c_pass'] for row in rows),
+                lower_dissipation_probe_misses_at_25c=sum(not row['lower_dissipation_145ma_probe_at_25c_pass'] for row in rows),
                 limitations=['All low/high shifts within each internal model are correlated; arbitrary mixed corners are not covered.',
-                             'The 25 C comparison targets are reused as engineering proxies at 0 and 70 C, not claimed data-sheet limits at those temperatures.',
+                             'The 25 C comparison targets are reused only as sensitivity references at 0 and 70 C, not claimed data-sheet limits at those temperatures.',
+                             'The 33.33 ohm resistor draws 150 mA only near 5 V. At the low-pass corner, its actual current is about 67 mA. A regulated 5 V/150 mA point at 12 V would dissipate about 1.05 W in the pass path, above every listed LM723 package rating at 25 C, so the 4.9 V probe is not a family qualification gate.',
+                             'The 9.5 V/6.5 V/150 mA intended point lies within the uA723 recommended voltage, differential and current envelope and is below the LM723 PDIP 25 C power comparator at nominal; the sheets do not guarantee 145 mA or a particular output voltage in this setup, so its threshold remains an engineering proxy.',
                              'The isolated DC setup does not exercise current-limit switching, transient stability, connected device stress or the 30 pF pole.'])
 
 
@@ -129,4 +150,6 @@ if __name__ == '__main__':
     report = run()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2)+'\n')
-    print(f"{report['failed_cases']} of {report['cases']} correlated internal-model cases miss an isolated proxy target")
+    print(f"{report['class_check_failures_at_25c']} class-check failures; "
+          f"{report['engineering_probe_misses_at_25c']} miss the 4.9 V probe, "
+          f"{report['lower_dissipation_probe_misses_at_25c']} miss the lower-dissipation 145 mA probe")

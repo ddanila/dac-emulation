@@ -14,13 +14,23 @@ class MAA723InternalCornerTests(unittest.TestCase):
         saved = json.loads((ROOT/'reference/k7222-11/maa723-internal-corner-screen.json').read_text())
         self.assertEqual(saved, screen.run())
         self.assertEqual(saved['cases'], 9)
-        self.assertEqual(saved['failed_cases'], 4)
+        self.assertEqual(saved['class_check_failures_at_25c'], 0)
+        self.assertEqual(saved['engineering_probe_misses_at_25c'], 4)
+        self.assertEqual(saved['lower_dissipation_probe_misses_at_25c'], 4)
+        nominal_probe = saved['rows'][0]['temperatures'][1]['lower_dissipation_150ma_probe']
+        self.assertGreater(nominal_probe['actual_load_current_a'], .145)
+        self.assertLess(nominal_probe['chip_power_proxy_w'], .66)
         for row in saved['rows'][1:]:
-            self.assertEqual(row['all_proxy_checks_pass'], row['groups']['M723_PASS'] == 'high')
+            self.assertTrue(row['class_checks_at_25c_pass'])
+            self.assertEqual(row['engineering_4p9v_probe_at_25c_pass'],
+                             row['groups']['M723_PASS'] == 'high')
+            self.assertEqual(row['lower_dissipation_145ma_probe_at_25c_pass'],
+                             row['groups']['M723_PASS'] == 'high')
             for result in row['temperatures']:
-                if not row['all_proxy_checks_pass']:
-                    self.assertEqual([key for key, passed in result['checks'].items() if not passed],
-                                     ['output_150ma'])
+                if row['groups']['M723_PASS'] == 'low':
+                    self.assertFalse(result['engineering_150ma_probe']['meets_4p9v_proxy'])
+                    self.assertLess(result['engineering_150ma_probe']['actual_load_current_a'], .07)
+                    self.assertLess(result['lower_dissipation_150ma_probe']['actual_load_current_a'], .07)
 
 
 if __name__ == '__main__':

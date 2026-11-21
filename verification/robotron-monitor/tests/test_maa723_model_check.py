@@ -14,6 +14,12 @@ class MAA723ModelTests(unittest.TestCase):
         saved = json.loads((ROOT/'reference/k7222-11/maa723-model-check.json').read_text())
         self.assertEqual(saved, check.run())
         self.assertTrue(saved['passed'])
+        high_loss = saved['engineering_150ma_probe']
+        self.assertGreater(high_loss['ideal_5v_pass_power_w_at_12v'],
+                           max(high_loss['lm723_25c_package_power_ratings_w'].values()))
+        lower_loss = saved['lower_dissipation_150ma_probe']['observed']
+        self.assertGreater(lower_loss['load_current_a'], .145)
+        self.assertLess(lower_loss['chip_power_proxy_w'], .66)
 
     def test_old_drive_would_fail_50ma_load(self):
         _, entry = check.registered_parameters()

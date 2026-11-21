@@ -1,6 +1,6 @@
 {
-  "format": "dac-monitor-maa723-class-check-v1",
-  "qualification": "723-family isolated DC proxy only; exact MAA723 identity, transient response, current limiting and connected-stage stress remain open",
+  "format": "dac-monitor-maa723-class-check-v2",
+  "qualification": "723-family isolated DC comparison; 150 mA resistor trial is an engineering probe, not a data-sheet regulation limit or thermal qualification",
   "sources": {
     "robotron_pc1715_ic_crossref": {
       "file": "reference/k7222-11/pc1715-ic-crossref.json",
@@ -97,31 +97,75 @@
   "standby_30v": {
     "reference_v": 7.15,
     "output_v": 1.119055e-08,
-    "supply_current_a": 0.0023000000600053
+    "supply_current_a": 0.0023000000600053,
+    "load_current_a": 0.0,
+    "pass_power_proxy_w": 0.0,
+    "chip_power_proxy_w": 0.069000001800159
   },
   "five_volt_loads_12v": {
     "1ma": {
       "reference_v": 7.14,
       "output_v": 4.989962,
-      "supply_current_a": 0.004303548
+      "supply_current_a": 0.004303548,
+      "load_current_a": 0.0009979924,
+      "pass_power_proxy_w": 0.006995964647711199,
+      "chip_power_proxy_w": 0.046662631847711196
     },
     "50ma": {
       "reference_v": 7.14,
       "output_v": 4.988048,
-      "supply_current_a": 0.05318601
+      "supply_current_a": 0.05318601,
+      "load_current_a": 0.04988048,
+      "pass_power_proxy_w": 0.34975953149696,
+      "chip_power_proxy_w": 0.38942589149695994
     },
     "150ma": {
       "reference_v": 7.14,
       "output_v": 4.983203,
-      "supply_current_a": 0.15280196
+      "supply_current_a": 0.15280196,
+      "load_current_a": 0.14949608999999997,
+      "pass_power_proxy_w": 1.0489837158237298,
+      "chip_power_proxy_w": 1.08865415582373
     }
   },
   "load_regulation_v": 0.0019140000000001933,
+  "engineering_150ma_probe": {
+    "load_resistance_ohm": 33.333333333333336,
+    "intended_current_a_at_5v": 0.15,
+    "observed_current_a": 0.14949608999999997,
+    "pass_power_proxy_w": 1.0489837158237298,
+    "meets_4p9v_proxy": true,
+    "ideal_5v_pass_power_w_at_12v": 1.05,
+    "lm723_25c_package_power_ratings_w": {
+      "metal_can": 0.8,
+      "cdip": 0.9,
+      "pdip": 0.66
+    },
+    "power_source": "https://www.ti.com/lit/ds/symlink/lm723.pdf",
+    "interpretation": "The 12 V/5 V/150 mA ideal pass loss alone exceeds the listed LM723 package ratings. This resistor probe cannot certify family-wide continuous 150 mA regulation."
+  },
+  "lower_dissipation_150ma_probe": {
+    "source": "https://www.ti.com/lit/ds/symlink/ua723.pdf",
+    "input_v": 9.5,
+    "setpoint_v": 6.5,
+    "nominal_input_output_difference_v": 3,
+    "load_resistance_ohm": 43.333333333333336,
+    "expected_pass_power_w_at_setpoint": 0.45,
+    "observed": {
+      "reference_v": 7.140014,
+      "output_v": 6.48359,
+      "supply_current_a": 0.15292747,
+      "load_current_a": 0.1496213076923077,
+      "pass_power_proxy_w": 0.4513192087361538,
+      "chip_power_proxy_w": 0.4827277506592308
+    },
+    "within_lm723_pdip_25c_power_proxy": true,
+    "interpretation": "Chosen at the uA723 minimum input voltage and input/output differential, with a 150 mA intended resistive load. The 0.66 W comparator is the LM723 PDIP 25 C rating, not an identified MAA723 thermal limit or a guaranteed regulation point."
+  },
   "checks": {
     "reference_class": true,
     "standby_class": true,
-    "load_regulation_class": true,
-    "output_current_capability_proxy": true
+    "load_regulation_class": true
   },
   "passed": true
 }

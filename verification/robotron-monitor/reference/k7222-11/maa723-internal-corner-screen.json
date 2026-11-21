@@ -1,10 +1,10 @@
 {
-  "format": "dac-monitor-maa723-internal-corner-screen-v1",
-  "qualification": "nine correlated internal-model cases at three temperatures; isolated family proxy only, not exhaustive joint bounds or an MAA723 identity",
+  "format": "dac-monitor-maa723-internal-corner-screen-v2",
+  "qualification": "nine correlated internal-model cases at three temperatures; 25 C data-sheet comparisons separated from a thermally unqualified 150 mA resistor probe",
   "model_sha256": "d242521c5f43445c9ef9801fd5aecc829850604580f774d3f69c42047b9a9d1a",
   "class_register_sha256": "12464756169e58dfdaac773ca4457dbb89c4324b5e1082172bc04783bb25f230",
   "device_register_sha256": "d1bdb99ce6ab50fc4042ef109fa30fab2459026c5171b85f46e758d1b9e79fa4",
-  "script_sha256": "28d31eb44b95b13ebd7bbc62988518108b34a9371be8f83b61f0b0bf3da9c652",
+  "script_sha256": "26f64e6bb547d7e077c7a109c8d914f17d3672c49766452e065ebfc97515c29f",
   "cases": 9,
   "temperatures_c": [
     0,
@@ -42,6 +42,12 @@
       "conditions": "engineering proxy for uA723 150 mA capability at 12 V input; no 4.9 V data-sheet limit"
     }
   },
+  "ideal_5v_150ma_pass_power_w_at_12v": 1.05,
+  "lm723_25c_package_power_ratings_w": {
+    "metal_can": 0.8,
+    "cdip": 0.9,
+    "pdip": 0.66
+  },
   "rows": [
     {
       "groups": {
@@ -55,12 +61,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000600053,
           "load_regulation_v": 0.001915000000000333,
-          "output_150ma_v": 4.983199,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.983199,
+            "actual_load_current_a": 0.14949596999999998,
+            "pass_power_proxy_w": 1.04898347179197,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.483585,
+            "actual_load_current_a": 0.1496211923076923,
+            "chip_power_proxy_w": 0.48272136187173087,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         },
         {
@@ -68,12 +88,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000600053,
           "load_regulation_v": 0.0019140000000001933,
-          "output_150ma_v": 4.983203,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.983203,
+            "actual_load_current_a": 0.14949608999999997,
+            "pass_power_proxy_w": 1.0489837158237298,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.48359,
+            "actual_load_current_a": 0.1496213076923077,
+            "chip_power_proxy_w": 0.4827277506592308,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         },
         {
@@ -81,16 +115,32 @@
           "reference_v": 7.15,
           "standby_current_a": 0.00230000006807,
           "load_regulation_v": 0.0019119999999999138,
-          "output_150ma_v": 4.983211,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.983211,
+            "actual_load_current_a": 0.14949632999999998,
+            "pass_power_proxy_w": 1.04898420388437,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.483598,
+            "actual_load_current_a": 0.14962149230769228,
+            "chip_power_proxy_w": 0.4827240267168309,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         }
       ],
-      "all_proxy_checks_pass": true
+      "class_checks_at_25c_pass": true,
+      "engineering_4p9v_probe_at_25c_pass": true,
+      "lower_dissipation_145ma_probe_at_25c_pass": true
     },
     {
       "groups": {
@@ -104,12 +154,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.00572600000000012,
-          "output_150ma_v": 2.228068,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.228068,
+            "actual_load_current_a": 0.06684203999999999,
+            "pass_power_proxy_w": 0.6531758696212799,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.683044,
+            "actual_load_current_a": 0.0619164,
+            "chip_power_proxy_w": 0.4534470494784,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         },
         {
@@ -117,12 +181,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.005720000000000169,
-          "output_150ma_v": 2.229364,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.229364,
+            "actual_load_current_a": 0.06688092,
+            "pass_power_proxy_w": 0.65346912466512,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.684703,
+            "actual_load_current_a": 0.06195468461538461,
+            "chip_power_proxy_w": 0.45360444734902317,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         },
         {
@@ -130,16 +208,32 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000607514,
           "load_regulation_v": 0.0057109999999998,
-          "output_150ma_v": 2.231744,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.231744,
+            "actual_load_current_a": 0.06695232,
+            "pass_power_proxy_w": 0.65400740155392,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.687749,
+            "actual_load_current_a": 0.06202497692307692,
+            "chip_power_proxy_w": 0.45389465529997686,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         }
       ],
-      "all_proxy_checks_pass": false
+      "class_checks_at_25c_pass": true,
+      "engineering_4p9v_probe_at_25c_pass": false,
+      "lower_dissipation_145ma_probe_at_25c_pass": false
     },
     {
       "groups": {
@@ -153,12 +247,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.00572600000000012,
-          "output_150ma_v": 2.228068,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.228068,
+            "actual_load_current_a": 0.06684203999999999,
+            "pass_power_proxy_w": 0.6531758696212799,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.683044,
+            "actual_load_current_a": 0.0619164,
+            "chip_power_proxy_w": 0.4534470494784,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         },
         {
@@ -166,12 +274,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.005720000000000169,
-          "output_150ma_v": 2.229364,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.229364,
+            "actual_load_current_a": 0.06688092,
+            "pass_power_proxy_w": 0.65346912466512,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.684703,
+            "actual_load_current_a": 0.06195468461538461,
+            "chip_power_proxy_w": 0.45360444734902317,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         },
         {
@@ -179,16 +301,32 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000607514,
           "load_regulation_v": 0.0057109999999998,
-          "output_150ma_v": 2.231744,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.231744,
+            "actual_load_current_a": 0.06695232,
+            "pass_power_proxy_w": 0.65400740155392,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.687749,
+            "actual_load_current_a": 0.06202497692307692,
+            "chip_power_proxy_w": 0.45389465529997686,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         }
       ],
-      "all_proxy_checks_pass": false
+      "class_checks_at_25c_pass": true,
+      "engineering_4p9v_probe_at_25c_pass": false,
+      "lower_dissipation_145ma_probe_at_25c_pass": false
     },
     {
       "groups": {
@@ -202,12 +340,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.00572600000000012,
-          "output_150ma_v": 2.228068,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.228068,
+            "actual_load_current_a": 0.06684203999999999,
+            "pass_power_proxy_w": 0.6531758696212799,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.683044,
+            "actual_load_current_a": 0.0619164,
+            "chip_power_proxy_w": 0.4534470494784,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         },
         {
@@ -215,12 +367,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.005720000000000169,
-          "output_150ma_v": 2.229364,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.229364,
+            "actual_load_current_a": 0.06688092,
+            "pass_power_proxy_w": 0.65346912466512,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.684703,
+            "actual_load_current_a": 0.06195468461538461,
+            "chip_power_proxy_w": 0.45360444734902317,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         },
         {
@@ -228,16 +394,32 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000607514,
           "load_regulation_v": 0.0057109999999998,
-          "output_150ma_v": 2.231744,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.231744,
+            "actual_load_current_a": 0.06695232,
+            "pass_power_proxy_w": 0.65400740155392,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.687749,
+            "actual_load_current_a": 0.06202497692307692,
+            "chip_power_proxy_w": 0.45389465529997686,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         }
       ],
-      "all_proxy_checks_pass": false
+      "class_checks_at_25c_pass": true,
+      "engineering_4p9v_probe_at_25c_pass": false,
+      "lower_dissipation_145ma_probe_at_25c_pass": false
     },
     {
       "groups": {
@@ -251,12 +433,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.00572600000000012,
-          "output_150ma_v": 2.228068,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.228068,
+            "actual_load_current_a": 0.06684203999999999,
+            "pass_power_proxy_w": 0.6531758696212799,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.683044,
+            "actual_load_current_a": 0.0619164,
+            "chip_power_proxy_w": 0.4534470494784,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         },
         {
@@ -264,12 +460,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000596856,
           "load_regulation_v": 0.005720000000000169,
-          "output_150ma_v": 2.229364,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.229364,
+            "actual_load_current_a": 0.06688092,
+            "pass_power_proxy_w": 0.65346912466512,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.684703,
+            "actual_load_current_a": 0.06195468461538461,
+            "chip_power_proxy_w": 0.45360444734902317,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         },
         {
@@ -277,16 +487,32 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000607514,
           "load_regulation_v": 0.0057109999999998,
-          "output_150ma_v": 2.231744,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 2.231744,
+            "actual_load_current_a": 0.06695232,
+            "pass_power_proxy_w": 0.65400740155392,
+            "meets_4p9v_proxy": false
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 2.687752,
+            "actual_load_current_a": 0.06202504615384615,
+            "chip_power_proxy_w": 0.45389523314990765,
+            "reaches_145ma_engineering_proxy": false
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": false
+            "load_regulation": true
           }
         }
       ],
-      "all_proxy_checks_pass": false
+      "class_checks_at_25c_pass": true,
+      "engineering_4p9v_probe_at_25c_pass": false,
+      "lower_dissipation_145ma_probe_at_25c_pass": false
     },
     {
       "groups": {
@@ -300,12 +526,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000600012,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986924,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986924,
+            "actual_load_current_a": 0.14960772,
+            "pass_power_proxy_w": 1.0492103105467199,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.487757,
+            "actual_load_current_a": 0.14971746923076923,
+            "chip_power_proxy_w": 0.4823953509757922,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         },
         {
@@ -313,12 +553,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000601587,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986925,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986925,
+            "actual_load_current_a": 0.14960774999999998,
+            "pass_power_proxy_w": 1.04921037133125,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.487758,
+            "actual_load_current_a": 0.1497174923076923,
+            "chip_power_proxy_w": 0.4823927715408308,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         },
         {
@@ -326,16 +580,32 @@
           "reference_v": 7.15,
           "standby_current_a": 0.002300000154184,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986927,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986927,
+            "actual_load_current_a": 0.14960780999999998,
+            "pass_power_proxy_w": 1.0492104929001298,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.48776,
+            "actual_load_current_a": 0.14971753846153846,
+            "chip_power_proxy_w": 0.4823879926707695,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         }
       ],
-      "all_proxy_checks_pass": true
+      "class_checks_at_25c_pass": true,
+      "engineering_4p9v_probe_at_25c_pass": true,
+      "lower_dissipation_145ma_probe_at_25c_pass": true
     },
     {
       "groups": {
@@ -349,12 +619,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000600012,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986924,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986924,
+            "actual_load_current_a": 0.14960772,
+            "pass_power_proxy_w": 1.0492103105467199,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.487757,
+            "actual_load_current_a": 0.14971746923076923,
+            "chip_power_proxy_w": 0.4823953509757922,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         },
         {
@@ -362,12 +646,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000601587,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986925,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986925,
+            "actual_load_current_a": 0.14960774999999998,
+            "pass_power_proxy_w": 1.04921037133125,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.487758,
+            "actual_load_current_a": 0.1497174923076923,
+            "chip_power_proxy_w": 0.4823927715408308,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         },
         {
@@ -375,16 +673,32 @@
           "reference_v": 7.15,
           "standby_current_a": 0.002300000157438,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986927,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986927,
+            "actual_load_current_a": 0.14960780999999998,
+            "pass_power_proxy_w": 1.0492104929001298,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.48776,
+            "actual_load_current_a": 0.14971753846153846,
+            "chip_power_proxy_w": 0.4823879926707695,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         }
       ],
-      "all_proxy_checks_pass": true
+      "class_checks_at_25c_pass": true,
+      "engineering_4p9v_probe_at_25c_pass": true,
+      "lower_dissipation_145ma_probe_at_25c_pass": true
     },
     {
       "groups": {
@@ -398,12 +712,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000600012,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986924,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986924,
+            "actual_load_current_a": 0.14960772,
+            "pass_power_proxy_w": 1.0492103105467199,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.487757,
+            "actual_load_current_a": 0.14971746923076923,
+            "chip_power_proxy_w": 0.4823953509757922,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         },
         {
@@ -411,12 +739,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000601587,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986925,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986925,
+            "actual_load_current_a": 0.14960774999999998,
+            "pass_power_proxy_w": 1.04921037133125,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.487758,
+            "actual_load_current_a": 0.1497174923076923,
+            "chip_power_proxy_w": 0.4823927715408308,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         },
         {
@@ -424,16 +766,32 @@
           "reference_v": 7.15,
           "standby_current_a": 0.002300000154185,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986927,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986927,
+            "actual_load_current_a": 0.14960780999999998,
+            "pass_power_proxy_w": 1.0492104929001298,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.48776,
+            "actual_load_current_a": 0.14971753846153846,
+            "chip_power_proxy_w": 0.4823879926707695,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         }
       ],
-      "all_proxy_checks_pass": true
+      "class_checks_at_25c_pass": true,
+      "engineering_4p9v_probe_at_25c_pass": true,
+      "lower_dissipation_145ma_probe_at_25c_pass": true
     },
     {
       "groups": {
@@ -447,12 +805,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000600012,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986924,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986924,
+            "actual_load_current_a": 0.14960772,
+            "pass_power_proxy_w": 1.0492103105467199,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.487757,
+            "actual_load_current_a": 0.14971746923076923,
+            "chip_power_proxy_w": 0.4823953509757922,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         },
         {
@@ -460,12 +832,26 @@
           "reference_v": 7.15,
           "standby_current_a": 0.0023000000601587,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986925,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986925,
+            "actual_load_current_a": 0.14960774999999998,
+            "pass_power_proxy_w": 1.04921037133125,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.487758,
+            "actual_load_current_a": 0.1497174923076923,
+            "chip_power_proxy_w": 0.4823927715408308,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         },
         {
@@ -473,22 +859,42 @@
           "reference_v": 7.15,
           "standby_current_a": 0.002300000157419,
           "load_regulation_v": 0.0009579999999997924,
-          "output_150ma_v": 4.986927,
-          "checks": {
+          "engineering_150ma_probe": {
+            "load_resistance_ohm": 33.333333333333336,
+            "output_v": 4.986927,
+            "actual_load_current_a": 0.14960780999999998,
+            "pass_power_proxy_w": 1.0492104929001298,
+            "meets_4p9v_proxy": true
+          },
+          "lower_dissipation_150ma_probe": {
+            "input_v": 9.5,
+            "setpoint_v": 6.5,
+            "load_resistance_ohm": 43.333333333333336,
+            "output_v": 6.48776,
+            "actual_load_current_a": 0.14971753846153846,
+            "chip_power_proxy_w": 0.4823879926707695,
+            "reaches_145ma_engineering_proxy": true
+          },
+          "comparisons_to_25c_targets": {
             "reference": true,
             "standby": true,
-            "load_regulation": true,
-            "output_150ma": true
+            "load_regulation": true
           }
         }
       ],
-      "all_proxy_checks_pass": true
+      "class_checks_at_25c_pass": true,
+      "engineering_4p9v_probe_at_25c_pass": true,
+      "lower_dissipation_145ma_probe_at_25c_pass": true
     }
   ],
-  "failed_cases": 4,
+  "class_check_failures_at_25c": 0,
+  "engineering_probe_misses_at_25c": 4,
+  "lower_dissipation_probe_misses_at_25c": 4,
   "limitations": [
     "All low/high shifts within each internal model are correlated; arbitrary mixed corners are not covered.",
-    "The 25 C comparison targets are reused as engineering proxies at 0 and 70 C, not claimed data-sheet limits at those temperatures.",
+    "The 25 C comparison targets are reused only as sensitivity references at 0 and 70 C, not claimed data-sheet limits at those temperatures.",
+    "The 33.33 ohm resistor draws 150 mA only near 5 V. At the low-pass corner, its actual current is about 67 mA. A regulated 5 V/150 mA point at 12 V would dissipate about 1.05 W in the pass path, above every listed LM723 package rating at 25 C, so the 4.9 V probe is not a family qualification gate.",
+    "The 9.5 V/6.5 V/150 mA intended point lies within the uA723 recommended voltage, differential and current envelope and is below the LM723 PDIP 25 C power comparator at nominal; the sheets do not guarantee 145 mA or a particular output voltage in this setup, so its threshold remains an engineering proxy.",
     "The isolated DC setup does not exercise current-limit switching, transient stability, connected device stress or the 30 pF pole."
   ]
 }
