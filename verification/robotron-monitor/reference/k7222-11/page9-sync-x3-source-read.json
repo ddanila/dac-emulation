@@ -1,0 +1,34 @@
+{
+  "format": "dac-monitor-page9-sync-x3-source-read-v1",
+  "qualification": "Source-document conflict at the vertical SYN connector; pin 6 is the page-18 assembly/cable model choice, while the page-9 handwritten pin 7 annotation remains unexplained",
+  "source_pdf": {"file": "build/monitor/phase-a/sources/older.pdf", "sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd"},
+  "page9": {
+    "pdf_page": 9,
+    "views": [
+      {"path": "build/monitor/phase-a/page9-600.png", "sha256": "5f44abccbfb5d18ba96a40d523ecf026fefd292566a12d18db596f9aef095d2d"},
+      {"path": "build/monitor/phase-a/page9-x3-sync-1200.png", "sha256": "3ef1a5b667c77b9a332d3ba90d12c4d3b4b7e036a47ff9d744a9bd0a00697e6a", "crop_from_1200dpi_page": [1250, 7050, 3050, 7900]}
+    ],
+    "handwritten_connector": "012-6931:X3",
+    "handwritten_pin": "7",
+    "printed_signal": "SYN",
+    "trace": "SYN arrow enters the left side of R3 on page 9"
+  },
+  "page18": {
+    "pdf_page": 18,
+    "view": {"path": "build/monitor/phase-a/page18-300.png", "sha256": "714831c2ea6e78286efca9a9d2bd4d7bb7b637f213a1867c3f416a5890aae719"},
+    "transcription": "reference/k7222-11/page18-interconnect-transcription.json",
+    "transcription_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
+    "assembly_connector": "012-6931:X3",
+    "assembly_pin": "6",
+    "printed_signal": "SYN",
+    "cable_part": "1.11.017308.0",
+    "cable_from": "012-6921:X4",
+    "cable_from_pin": "6"
+  },
+  "reading_notes": [
+    "Both 600 and 1200 dpi page-9 views read the handwritten left-edge marking as X3:7, adjacent to the printed SYN arrow; the 7 is not a diode or a test-point mark.",
+    "The page-18 .11 assembly drawing prints six numbered X3 positions, with SYN at 6, and its six-wire cable pairs main-board X4:6 to vertical-board X3:6.",
+    "The page-9 label may be an annotation for another connector/revision; the scan alone does not establish that history. The page-18 printed assembly pin 6 is the source for the modeled six-pin cable.",
+    "The service-observations waveform register currently attributes its X3:6 mapping to source page 9; that provenance is inaccurate and requires a separate receipt refresh before changing the register."
+  ]
+}

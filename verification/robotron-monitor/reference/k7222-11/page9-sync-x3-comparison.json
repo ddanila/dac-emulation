@@ -1,0 +1,30 @@
+{
+  "format": "dac-monitor-page9-sync-x3-comparison-v1",
+  "qualification": "confirmed cross-page source-label conflict; model follows printed page-18 six-pin assembly, but the page-9 handwritten 7 remains an open A1 annotation",
+  "source_read_sha256": "b44468b45185d058bb5c5049aa857c012390632db2a2ecdc1f6650ae598e5547",
+  "page18_transcription_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
+  "page18_cable_sheet_sha256": {
+    "012-6921:X4": "996d2d742367be8f16b9e0da4f664c0f40a3172ffc88344a2e1f7f4c100ec0b2",
+    "012-6931:X3": "d9d9872f7e753b2b0828736648ccb5ee565518856e43490b73fd175fa4cc502e"
+  },
+  "page9_sync_input_sheet_sha256": "d9d9872f7e753b2b0828736648ccb5ee565518856e43490b73fd175fa4cc502e",
+  "page9_handwritten": {
+    "connector": "012-6931:X3",
+    "pin": "7",
+    "signal": "SYN"
+  },
+  "page18_assembly": {
+    "connector": "012-6931:X3",
+    "pin": "6",
+    "signal": "SYN",
+    "cable_part": "1.11.017308.0"
+  },
+  "model_connector_pin6_net": "sync_gate",
+  "model_has_connector_pin7": false,
+  "page18_six_wire_cable_passed": true,
+  "page9_r3_sync_input_passed": true,
+  "source_conflict_open": true,
+  "a1_page9_closed": false,
+  "model_disposition": "Retain X3:6 for the .11 six-wire assembly; do not claim that page-9 handwritten X3:7 agrees with it.",
+  "next_action": "Correct waveform-register mapping provenance and source-bound the page-9 annotation or carry it as a revision alternative during the whole-page netlist review."
+}

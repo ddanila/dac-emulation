@@ -5508,3 +5508,22 @@ page-edge connector pins are reported separately, not counted as completed.
 This is a complete local component-slot census, not the required independent
 whole-page netlist. Page-edge joins, the remaining page-9 branches, DC paths,
 transistor operating points and connected oscillator behavior remain open.
+
+### A1: page-9 X3 SYN pin conflicts with page-18 assembly (2026-11-21)
+
+The [600/1200 dpi page-9 read](reference/k7222-11/page9-sync-x3-source-read.json)
+shows a handwritten **X3:7** beside the printed SYN arrow entering R3.
+The same .11 source PDF's page-18 assembly drawing prints only six positions
+at vertical-board X3 and puts **SYN on X3:6**. Its cable
+`1.11.017308.0` pairs main-board X4:6 with vertical-board X3:6. A
+[fresh comparison](reference/k7222-11/page9-sync-x3-comparison.json) rechecks
+all six cable pairs and the R3 sync-input endpoint; the model has X3:6 on
+`sync_gate` and no X3:7. The two source markings conflict even though the
+modeled signal path agrees with the printed assembly cable map.
+
+Keep X3:6 as the .11 assembly model choice and carry the page-9 handwritten
+7 as an unexplained annotation or revision alternative. The page-9 pin number
+is not source-approved by this comparison. The TP1 waveform register currently
+cites page 9 for its X3:6 mapping; its provenance should be changed to page 18
+with the dependent target-hashed receipts refreshed together. This mismatch
+does not select a T3 winding or close the page-9 whole-netlist review.
