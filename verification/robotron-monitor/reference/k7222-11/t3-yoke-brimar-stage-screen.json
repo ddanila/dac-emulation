@@ -1,0 +1,167 @@
+{
+  "format": "dac-monitor-t3-yoke-brimar-stage-screen-v1",
+  "qualification": "conditional 4\u20135 ms prescribed-base stage, not a periodic operating point or installed AE9VT winding; T3 graph and centring links unverified",
+  "source": {
+    "url": "https://tubedata.altanatubes.com.br/other/Brimar/Brimar_IndustrialCathodeRayTubes_DataSection_Issue3.pdf",
+    "sha256": "eb327b3bde53b62472190bd1fd968bc8b1687a082ed991bc0adc0b836801ae01",
+    "centering_source_netlist_sha256": "b499fbeaee2b5682e22c4879577b8038ec6a4077785d88444b5af277be738230"
+  },
+  "inputs_sha256": {
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "c3d0cfa7dd5786827ebd0eac4eac5f68e7a99422b8a22c158fcd94df3bdac4ca",
+    "reference/k7222-11/t3-centering-return-screen.json": "e8b8826d3f8dea325485e84533b03bb4ecea9278fd9793cac7fb3d727b90415f",
+    "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "yoke_brimar_110deg_comparator.py": "02604394bb7bbd7937bd7bb634501264ffc430bb02687393e8451f3727186ca8",
+    "t3_yoke_brimar_stage_screen.py": "e22f433eff9b8a683e73ad271c32c9714779eb0e3a23937fa5e8702e69f7090e"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_inputs": {
+    "centering_link_pair": "E1+E2",
+    "centering_coil_l_h": 0.08,
+    "centering_r4_position": 0.5,
+    "prescribed_base_edge_ns": 200,
+    "max_step_ns": 50
+  },
+  "active_4mh_yoke_case": {
+    "link_pair": "E1+E2",
+    "coil_l_h": 0.08,
+    "normalized_deck_sha256": "622fabc13ed46c7cd7fd2bada37dd11ef9eb27f9a50570ad5738e3407fdc168c",
+    "final_two_line_samples": 2610,
+    "collector_peak_v": 459.64587,
+    "return_at_collector_peak_v": 15.7720077,
+    "drive_at_collector_peak_v": 443.873862,
+    "h2_at_collector_peak_v": -59.6144398,
+    "drive_peak_v": 443.873862,
+    "h2_range_v": [
+      -59.7004594,
+      15.4619542
+    ],
+    "return_range_v": [
+      15.7720077,
+      72.1213197
+    ],
+    "eht_at_collector_peak_v": 11549.4405,
+    "eht_at_window_end_v": 11542.09,
+    "yoke_current_range_a": [
+      -0.451621859,
+      0.487848827
+    ]
+  },
+  "class_cases": [
+    {
+      "catalog_type": "TBY3",
+      "line_inductance_h": 0.000258,
+      "line_resistance_ohm": 0.55,
+      "catalog_transferred_current_bounds_pp_a": [
+        3.7110638297872343,
+        5.734784667565199
+      ],
+      "model_yoke_current_pp_a": 10.77392228,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "9e0e6538170506f0cff4619df571410c68ab99f4c719e2b3dedb67e40f62bf98",
+      "final_two_line_samples": 2608,
+      "collector_peak_v": 224.193774,
+      "return_at_collector_peak_v": 37.5117993,
+      "drive_at_collector_peak_v": 186.681975,
+      "h2_at_collector_peak_v": 71.5571182,
+      "drive_peak_v": 186.681975,
+      "h2_range_v": [
+        -112.734443,
+        121.012962
+      ],
+      "return_range_v": [
+        37.5117993,
+        65.614662
+      ],
+      "eht_at_collector_peak_v": 5103.80382,
+      "eht_at_window_end_v": 5103.72493,
+      "yoke_current_range_a": [
+        -6.10125616,
+        4.67266612
+      ]
+    },
+    {
+      "catalog_type": "TBY5",
+      "line_inductance_h": 0.000258,
+      "line_resistance_ohm": 0.55,
+      "catalog_transferred_current_bounds_pp_a": [
+        3.7110638297872343,
+        5.734784667565199
+      ],
+      "model_yoke_current_pp_a": 10.77392228,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "9e0e6538170506f0cff4619df571410c68ab99f4c719e2b3dedb67e40f62bf98",
+      "final_two_line_samples": 2608,
+      "collector_peak_v": 224.193774,
+      "return_at_collector_peak_v": 37.5117993,
+      "drive_at_collector_peak_v": 186.681975,
+      "h2_at_collector_peak_v": 71.5571182,
+      "drive_peak_v": 186.681975,
+      "h2_range_v": [
+        -112.734443,
+        121.012962
+      ],
+      "return_range_v": [
+        37.5117993,
+        65.614662
+      ],
+      "eht_at_collector_peak_v": 5103.80382,
+      "eht_at_window_end_v": 5103.72493,
+      "yoke_current_range_a": [
+        -6.10125616,
+        4.67266612
+      ]
+    },
+    {
+      "catalog_type": "TBY7",
+      "line_inductance_h": 0.0041,
+      "line_resistance_ohm": 8.8,
+      "catalog_transferred_current_bounds_pp_a": [
+        0.9459574468085108,
+        1.4618078564381878
+      ],
+      "model_yoke_current_pp_a": 0.913942491,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "41cc8fcdcf9835f77e018e56a126078ad3a50156e1ccb46496668a71b18fa811",
+      "final_two_line_samples": 2610,
+      "collector_peak_v": 459.000978,
+      "return_at_collector_peak_v": 15.8411103,
+      "drive_at_collector_peak_v": 443.159867,
+      "h2_at_collector_peak_v": -59.2125099,
+      "drive_peak_v": 443.159867,
+      "h2_range_v": [
+        -59.2966981,
+        15.2490993
+      ],
+      "return_range_v": [
+        15.8411103,
+        72.1142109
+      ],
+      "eht_at_collector_peak_v": 11511.5163,
+      "eht_at_window_end_v": 11505.26,
+      "yoke_current_range_a": [
+        -0.433987191,
+        0.4799553
+      ]
+    }
+  ],
+  "class_case_envelope": {
+    "drive_peak_v": [
+      186.681975,
+      443.159867
+    ],
+    "eht_at_collector_peak_v": [
+      5103.80382,
+      11511.5163
+    ],
+    "model_yoke_current_pp_a": [
+      0.913942491,
+      10.77392228
+    ]
+  },
+  "class_cases_in_11_12kv_band_at_collector_peak": 1,
+  "interpretation": "The source-paired 31 cm/110-degree/20 mm-neck class tests the present T3 stage more directly than the 28.6 mm catalog family. Conditional pulse and EHT shifts still cannot determine the installed winding or A5 turns ratios without source-qualified X2:4 drive and return bounds."
+}

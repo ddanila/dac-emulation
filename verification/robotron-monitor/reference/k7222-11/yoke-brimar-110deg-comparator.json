@@ -1,0 +1,126 @@
+{
+  "format": "dac-monitor-yoke-brimar-110deg-comparator-v1",
+  "qualification": "source-paired 31 cm/110-degree/20 mm-neck class transfer; not AE9VT identification, B31G22 geometry, or a freeze",
+  "source": {
+    "url": "https://tubedata.altanatubes.com.br/other/Brimar/Brimar_IndustrialCathodeRayTubes_DataSection_Issue3.pdf",
+    "sha256": "eb327b3bde53b62472190bd1fd968bc8b1687a082ed991bc0adc0b836801ae01",
+    "selection_table_printed_page": 8,
+    "scan_coil_sheets": "TBY3/TBY5/TBY7 page 1"
+  },
+  "input_hashes": {
+    "target": "8e25e47949c55870840fc8245ec36b29abdf3f5e98d23cdcf449c54314fb0ffe",
+    "script": "02604394bb7bbd7937bd7bb634501264ffc430bb02687393e8451f3727186ca8"
+  },
+  "reference": {
+    "tube": "M31-120",
+    "tube_diagonal_cm": 31,
+    "tube_deflection_degrees": 110,
+    "tube_maximum_neck_mm": 20.7,
+    "yoke_nominal_neck_mm": 20,
+    "tube_maximum_overall_length_mm": 233,
+    "reference_eht_v": 11000,
+    "proxy_raster_width_mm": 235,
+    "proxy_raster_height_mm": 165
+  },
+  "target": {
+    "width_mm": 210,
+    "width_tolerance_mm": 20,
+    "height_mm": 145,
+    "height_tolerance_mm": 15,
+    "eht_v": [
+      11000,
+      12000
+    ]
+  },
+  "transfer_equation": "I_target_pp = I_M31-120_pp * target_scan_mm/Brimar_235x165mm_raster_mm * sqrt(target_EHT/11000V)",
+  "transfer_uncertainty_fraction": 0.1,
+  "transfer_uncertainty_basis": "Declared +/-10% model-transfer allowance; Brimar states 5%/8% inductance tolerance, not full-scan current tolerance. The 235 x 165 mm raster-distortion figure is a size proxy, not a guaranteed full-scan specification.",
+  "class_cases": [
+    {
+      "type": "TBY3",
+      "line_inductance_h": 0.000258,
+      "line_resistance_ohm": 0.55,
+      "field_inductance_h": 0.03,
+      "field_resistance_ohm": 16.7,
+      "maker_full_scan_current_pp_a": {
+        "horizontal": 5.1,
+        "vertical": 0.53
+      },
+      "transferred_current_nominal_pp_a": {
+        "horizontal": 4.659874132543649,
+        "vertical": 0.47622534513315323
+      },
+      "transferred_current_bounds_pp_a": {
+        "horizontal": [
+          3.7110638297872343,
+          5.734784667565199
+        ],
+        "vertical": [
+          0.37581818181818183,
+          0.5904714090017272
+        ]
+      }
+    },
+    {
+      "type": "TBY5",
+      "line_inductance_h": 0.000258,
+      "line_resistance_ohm": 0.55,
+      "field_inductance_h": 0.007,
+      "field_resistance_ohm": 3.1,
+      "maker_full_scan_current_pp_a": {
+        "horizontal": 5.1,
+        "vertical": 1.16
+      },
+      "transferred_current_nominal_pp_a": {
+        "horizontal": 4.659874132543649,
+        "vertical": 1.0423045289706747
+      },
+      "transferred_current_bounds_pp_a": {
+        "horizontal": [
+          3.7110638297872343,
+          5.734784667565199
+        ],
+        "vertical": [
+          0.8225454545454546,
+          1.2923525178151007
+        ]
+      }
+    },
+    {
+      "type": "TBY7",
+      "line_inductance_h": 0.0041,
+      "line_resistance_ohm": 8.8,
+      "field_inductance_h": 0.032,
+      "field_resistance_ohm": 16.0,
+      "maker_full_scan_current_pp_a": {
+        "horizontal": 1.3,
+        "vertical": 0.5
+      },
+      "transferred_current_nominal_pp_a": {
+        "horizontal": 1.1878110533934791,
+        "vertical": 0.44926919352184264
+      },
+      "transferred_current_bounds_pp_a": {
+        "horizontal": [
+          0.9459574468085108,
+          1.4618078564381878
+        ],
+        "vertical": [
+          0.35454545454545455,
+          0.5570484990582331
+        ]
+      }
+    }
+  ],
+  "transferred_current_envelope_pp_a": {
+    "horizontal": [
+      0.9459574468085108,
+      5.734784667565199
+    ],
+    "vertical": [
+      0.35454545454545455,
+      1.2923525178151007
+    ]
+  },
+  "interpretation": "These are paired electrical/current cases for a 31 cm 110-degree tube on a 20 mm nominal neck, a closer geometry class than the earlier 28.6 mm Philips units. They still do not identify the installed AE9VT winding, field profile, or current."
+}
