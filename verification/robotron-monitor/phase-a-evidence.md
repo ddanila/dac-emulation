@@ -1329,6 +1329,20 @@ identification. It gives hFE 10–30 at 0.1 A and a minimum 5 at 4.5 A, both at
 review point the audit had 23 resolved frame-path entries and three open:
 T3, V27 and V28.
 
+The period [DDR semiconductor databook's SU 165 section](https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf)
+provides a separate check of the handwritten candidate. It specifies 900 V
+collector-emitter peak voltage with base-emitter resistance at most 100 ohms,
+350 V with base current zero, 2.5 A continuous and 3 A peak collector current,
+and 10 W total dissipation with case temperature at most 90 °C. Those limits
+have different test conditions from the BU508AF comparison and do not
+identify the installed V18. The SU 165 section does not state an emitter-base
+reverse-voltage limit, so the 9 V BU508AF-class screen remains a class
+comparison, not an SU 165 rating. The conditional T3 stage's roughly 459 V
+collector peak cannot be judged against either SU 165 voltage limit without
+establishing its base condition and the original device identity; current and
+thermal stress also remain unqualified. This read narrows the candidate
+comparison but does not close A2.
+
 ST also specifies at most 1 V saturation at 4.5 A/1.6 A base drive and
 typical 2.5 µs storage plus 0.2 µs fall time in an inductive 16 kHz test.
 Those are recorded as A2 comparison targets, not claimed properties of the

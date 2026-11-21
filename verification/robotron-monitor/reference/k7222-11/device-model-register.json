@@ -11,6 +11,7 @@
     "tesla_kfy18_1987": {"url": "https://teslakatalog.cz/download/tesla_katalog_2_1987_bw.pdf", "sha256": "fa340fb7a38b8a21091882d4fb3968297e669005c5601f1606fe17960accdc4b", "edition": "TESLA Katalog 2, 1987, printed pages 221-223", "use": "Original KFY18 PNP: h21e 50..250 at IC=1 mA/VCE=5 V, h21E 90..300 at IC=10 mA/VCE=10 V, |VCEsat| typical 0.6 V/max 1 V at IC=150 mA/IB=15 mA, fT typical 100/min 60 MHz at IC=50 mA/VCE=10 V/f=30 MHz, Ccbo typical 19/max 30 pF at VCB=10 V and Cebo typical 55/max 80 pF at VEB=0.5 V. No unique SPICE parameter fit."},
     "ddr_sc237": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SC 236 · SC 237 · SC 238 · SC 239", "use": "Historical SC237 group-E h21e 224–560 at VCE=6 V/IC=2 mA/1 kHz, typical fT 170 MHz at VCE=6 V/IC=10 mA/f=20 MHz, typical pulsed VCEsat 210 mV at IC=100 mA/IB=5 mA, and C11b/C22b 7.7/3.8 pF at stated biases. Not a fitted SC237E transistor curve."},
     "ddr_ssy20": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SSY 20", "use": "Group-A h21E 18–35 at IC=500 mA/VCE=1.3 V and VCEsat <=1 V at IC=500 mA/IB=50 mA constrain the provisional SSY20A proxy. The suffix-to-group mapping and individual SPICE parameters remain unverified."},
+    "ddr_su165": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SU 165", "use": "Period data-book comparison for the handwritten V18 annotation only: UCERM 900 V with RBE <=100 ohm, UCEO 350 V with IB=0, continuous/peak collector current 2.5/3 A, Ptot 10 W at case <=90 C, and turn-on/off maxima 1/5 us under the stated 1 A switching conditions. The sheet gives no emitter-base reverse-voltage rating and does not identify the installed transistor."},
     "ddr_sf126_129": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SF 126 · SF 127 · SF 128 · SF 129", "use": "Historical SF128 base-family h21E groups A–F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."},
     "vishay_uf4007": {"url": "https://www.vishay.com/docs/88755/uf4001.pdf", "revision": "6 April 2020, document 88755", "pages": [1, 2, 3], "use": "Comparable 1000 V ultrafast 1 A rectifier: VF <=1.7 V at 1 A, IR <=10 uA at 1000 V/25 C, trr <=75 ns at IF=0.5 A/IR=1 A/Irr=0.25 A and typical 17 pF at 4 V/1 MHz. Not an identity for 1YL1 variants."},
     "nexperia_bzx84_series": {"url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", "revision": "Rev. 7, 1 January 2023", "pages": [5, 6], "use": "BZX84-C6V2, C9V1 and C16 comparable 5 mA zener voltage, differential resistance and capacitance limits; not historical identifications or SPICE transit-time data."},
@@ -1196,7 +1197,7 @@
       "identity_tier": "class-typical; handwritten SU165 not adopted as factory identity",
       "model": "HOR_OUTPUT_N",
       "model_file": "circuits/k7222-11-horizontal-models.cir",
-      "sources": ["st_bu508af", "ngspice_manual_bjt"],
+      "sources": ["st_bu508af", "ddr_su165", "ngspice_manual_bjt"],
       "parameters": {
         "IS": {"nominal": 1e-10, "bounds": [1e-12, 1e-8], "unit": "A", "basis": "Unfitted saturation-current proxy retained from the prior model; engineering bounds, not a BU508AF extraction"},
         "BF": {"nominal": 20, "bounds": [15, 28], "unit": "1", "basis": "With IKF=3..20 A, the independent BF=15..28 range keeps effective gain inside BU508AF-class 10..30 at 0.1 A and above 5 at 4.5 A in the 25 C DC fixture"},
@@ -1225,6 +1226,15 @@
         "VEBO_v": {"maximum": 9, "conditions": "absolute maximum emitter-base voltage at IC=0; class stress limit, not an original V18 rating", "source": "ST BU508AF page 3"},
         "storage_time_s": {"typical": 2.5e-6, "conditions": "inductive 4.5 A, IB(on)=0.5 A, VBE(off)=-2.7 V, 16 kHz", "source": "ST BU508AF page 4"},
         "fall_time_s": {"typical": 2e-7, "conditions": "same inductive switching test", "source": "ST BU508AF page 4"}
+      },
+      "handwritten_su165_candidate": {
+        "identity_status": "handwritten page-4 annotation; not printed as the V18 assembly type in the .11 board BOM",
+        "UCERM_v": {"maximum": 900, "conditions": "RBE <=100 ohm", "source": "DDR-Halbleiter SU 165 section"},
+        "UCEO_v": {"maximum": 350, "conditions": "IB=0", "source": "DDR-Halbleiter SU 165 section"},
+        "IC_continuous_a": {"maximum": 2.5, "source": "DDR-Halbleiter SU 165 section"},
+        "IC_peak_a": {"maximum": 3, "source": "DDR-Halbleiter SU 165 section"},
+        "Ptot_w": {"maximum": 10, "conditions": "case temperature <=90 C", "source": "DDR-Halbleiter SU 165 section"},
+        "emitter_base_reverse_rating": "not specified in the SU 165 section; retain the separate BU508AF-class 9 V comparison without treating it as an SU 165 rating"
       },
       "model_response_report": "reference/k7222-11/horizontal-output-transistor-dc-check.json",
       "switching_proxy_report": "reference/k7222-11/horizontal-output-switching-proxy.json",
