@@ -1,0 +1,40 @@
+{
+  "format": "dac-monitor-k7222-25-horizontal-source-read-v1",
+  "qualification": "independent Robotron K7222.25 operating comparator naming the AE9VT yoke family; not a K7222.11 T3 pin map, winding specification or installed setting",
+  "source": {
+    "file": "build/monitor/phase-a/sources/pc1715-servicemanual.pdf",
+    "url": "https://magentacloud.de/s/iNaPeeaM2m5TbHS",
+    "local_pdf_sha256": "e810e4722d889a7e357e192486da3a8004b1fd08aca1c0dcef4f3bbc5b66021d",
+    "online_text_counterpart": {
+      "url": "https://www.sax.de/~zander/pc1715/doku/pc_serv.pdf",
+      "sha256": "8320672db3115e5ceaece9194eff4430b1e8fb57239890b5229c8761f1a63206",
+      "note": "The public copy has the corresponding printed pages 25 and 85, but is not byte-identical to the locally rendered scan."
+    },
+    "views": [
+      {"pdf_page": 27, "printed_page": 25, "render": "build/monitor/phase-a/pc1715-k7222-25-timing-p25.png", "render_sha256": "9beee1560f56e40e5e5b7b5bd63cc46740a9320765c7257b14a4664fdb00b786"},
+      {"pdf_page": 87, "printed_page": 85, "render": "build/monitor/phase-a/pc1715-k7222-25-horizontal-p85.png", "render_sha256": "28289ad30852f662295d9e242f518efba1e35bf41f086ec9ab7453b1a3d277ba"}
+    ]
+  },
+  "timing_k7222_25": {
+    "trace_us": 46.2,
+    "retrace_us": 16.2,
+    "line_us": 62.4,
+    "field_ms": 19.5
+  },
+  "horizontal_stage_k7222_25": {
+    "yoke_type": "AE9VT",
+    "output_transistor": "SU165 V18",
+    "flyback_transformer": "T3",
+    "supply_41p_v": [39, 43],
+    "boost_at_c21_v": [60, 70],
+    "yoke_amplitude_tap_numbers": [2, 3, 4],
+    "tap_function": "Selects horizontal deflection voltage for limit-case yoke coils; the adjustable 41P rail otherwise sets horizontal amplitude.",
+    "l1_l2_function": "Additional filtering of 41P for other stages in this revision; these are not the K7222.11 page-9 centering chokes."
+  },
+  "excluded_transfer": [
+    "The preceding non-.25 paragraph gives a 110 uH yoke and 18 V boost; it does not describe the explicitly marked K7222.25 stage.",
+    "The manual gives no AE9VT inductance, resistance, current sensitivity or axial field profile.",
+    "Tap numbers 2, 3 and 4 establish a function in K7222.25 but do not assign K7222.11 X1/X2 terminals, tap order or turns.",
+    "The 60-70 V boost is a cross-revision operating comparator, not a measurement of K7222.11."
+  ]
+}
