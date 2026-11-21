@@ -45,24 +45,28 @@ def run():
                     if 'h_return' in row['nodes'] and row['source_id'] != '012-6921:T3']
     if {row['source_id'] for row in return_parts} != {'012-6921:C31', '012-6921:C32'}:
         raise ValueError('candidate assembly return branches changed')
+    if (return_compare['model_nets']['x5_pin5'] != 'hy2' or
+            any(row['nodes'] != ['hy2', 'h_return'] for row in return_parts)):
+        raise ValueError('H2 capacitor return differs from candidate assembly')
     ratio = design['high_voltage_ratio']
     if ratio['equation'] != 'EHT / collector_flyback_peak':
         raise ValueError('design-point collector proxy changed')
     return dict(
         format='dac-monitor-t3-drive-voltage-audit-v1',
-        qualification='source-read drive pair and scoped X2:4/C31/C32 external return; no full page-4 netlist, measured differential pulse or T3 ratio',
+        qualification='source-read drive pair and scoped X2:4/C31/C32-to-H2 external return; no full page-4 netlist, measured differential pulse or T3 ratio',
         source_pdf_sha256=drive['source_pdf_sha256'],
         inputs_sha256={str(path.relative_to(ROOT)): sha(path)
                        for path in (DRIVE, RETURN_SOURCE, RETURN_COMPARE,
                                     TRANSCRIPTION, DESIGN, Path(__file__))},
         source_read_drive_terminals=source['drive_winding_endpoints'],
         source_read_return_branch=return_read['scope']['nets'],
-        candidate_assembly_nets={'X2:7': ports['X2_7'], 'X2:4': ports['X2_4']},
+        candidate_assembly_nets={'X2:7': ports['X2_7'], 'X2:4': ports['X2_4'],
+                                 'H2/X5:5': return_compare['model_nets']['x5_pin5']},
         candidate_return_branches=return_parts,
         existing_design_point_equation=ratio['equation'],
         required_drive_voltage='V(X2:7)-V(X2:4) = V(h_hot)-V(h_return) in the assembly candidate',
-        conclusion='EHT divided by collector-to-ground peak is a conditional voltage proxy, not the T3 HV-to-drive turns ratio. X2:4 has a source-read C31/C32 external branch, but its flyback waveform is not source-bounded. Neither the 28.24-35.94 collector proxy nor the 1808-2300 turn scale may qualify T3 turns.',
-        next='Complete the page-4 return-path netlist and obtain a bounded differential X2:7-to-X2:4 flyback pulse before using EHT to derive an HV/drive ratio; retain the existing turn sweep as an isolated sensitivity only.')
+        conclusion='EHT divided by collector-to-ground peak is a conditional voltage proxy, not the T3 HV-to-drive turns ratio. X2:4 returns through C31/C32 to H2 at X5:5, but the H2 and X2:4 flyback waveforms are not source-bounded. Neither the 28.24-35.94 collector proxy nor the 1808-2300 turn scale may qualify T3 turns.',
+        next='Bound the H2-coupled X2:4 waveform and differential X2:7-to-X2:4 flyback pulse before using EHT to derive an HV/drive ratio; retain the existing turn sweep as an isolated sensitivity only.')
 
 
 if __name__ == '__main__':

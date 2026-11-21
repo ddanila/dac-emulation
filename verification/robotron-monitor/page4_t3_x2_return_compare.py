@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / 'reference/k7222-11/page4-t3-x2-return-source-netlist.json'
 TRANSCRIPTION = ROOT / 'reference/k7222-11/horizontal-output-transcription.json'
 SHEET = ROOT / 'circuits/k7222-11-horizontal-output.kicad_sch'
-IDS = {f'012-6921:{name}' for name in ('T3', 'C31', 'C32')}
+IDS = {f'012-6921:{name}' for name in ('T3', 'C31', 'C32', 'X5')}
 
 
 def sha(path):
@@ -49,7 +49,7 @@ def compare(source, transcription, xml):
         raise ValueError('wrong X2:4 source read')
     expected = {
         'X2_4_RETURN': {'T3:X2:4', 'C31:one_plate', 'C32:one_plate'},
-        'COMMON_OTHER_PLATE': {'C31:other_plate', 'C32:other_plate'},
+        'H2_EXTERNAL_RETURN': {'C31:other_plate', 'C32:other_plate', 'X5:5'},
     }
     if {name: set(parts) for name, parts in source['scope']['nets'].items()} != expected:
         raise ValueError('source X2:4 branch changed')
@@ -70,28 +70,31 @@ def compare(source, transcription, xml):
         'c31_one_plate_at_x2_4': t3_net in c31.values(),
         'c32_one_plate_at_x2_4': t3_net in c32.values(),
         'other_plates_join': c31_other is not None and c31_other == c32_other,
+        'h2_reaches_x5_pin5': c31_other is not None and c31_other == pins['012-6921:X5'].get('5'),
+        'h2_crosses_ground_without_junction': c31_other not in (None, '0'),
         'return_distinct_from_collector': t3_net != pins['012-6921:T3'].get(
             str(ports.index('X2_7') + 1)),
     }
     return dict(
         format='dac-monitor-page4-t3-x2-return-comparison-v1',
-        qualification='scoped external branch comparison; no full page-4 netlist, T3 internal graph or source-bounded return waveform',
+        qualification='scoped X2:4 capacitor return to H2/X5:5; no full page-4 netlist, T3 internal graph or source-bounded return waveform',
         source_sha256=sha(SOURCE),
         source_pdf_sha256=source['source']['pdf_sha256'],
         transcription_sha256=sha(TRANSCRIPTION),
         sheet_sha256=sha(SHEET),
         model_nets=dict(x2_4=t3_net, c31=c31, c32=c32,
-                        common_other_plate=c31_other),
+                        common_other_plate=c31_other, x5_pin5=pins['012-6921:X5'].get('5')),
         checks=checks,
         unresolved=source['unresolved'],
         passed=all(checks.values()))
 
 
-def run(source_pdf, source_crop):
+def run(source_pdf, source_crop, h2_crop):
     source = json.loads(SOURCE.read_text())
     if (sha(source_pdf) != source['source']['pdf_sha256'] or
-            sha(source_crop) != source['source']['views'][2]['sha256']):
-        raise ValueError('source PDF or X2:4 crop changed')
+            sha(source_crop) != source['source']['views'][2]['sha256'] or
+            sha(h2_crop) != source['source']['views'][4]['sha256']):
+        raise ValueError('source PDF or X2:4/H2 crop changed')
     transcription = json.loads(TRANSCRIPTION.read_text())
     with tempfile.TemporaryDirectory() as directory:
         xml = Path(directory) / 'horizontal-output.xml'
@@ -105,9 +108,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source-pdf', type=Path, required=True)
     parser.add_argument('--source-crop', type=Path, required=True)
+    parser.add_argument('--h2-crop', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
-    report = run(args.source_pdf, args.source_crop)
+    report = run(args.source_pdf, args.source_crop, args.h2_crop)
     args.output.write_text(json.dumps(report, indent=2) + '\n')
     print(f"{sum(report['checks'].values())}/{len(report['checks'])} X2:4 branch checks pass")
     raise SystemExit(0 if report['passed'] else 2)
