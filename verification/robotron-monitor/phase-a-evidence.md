@@ -5115,12 +5115,17 @@ eight relative-polarity candidates. This is a structural migration step,
 not a fitted transformer or active schematic correction. Its assumed
 continuity, section values, return and cold end still need qualification.
 
-The [source-visible wrapper comparison](reference/k7222-11/page4-t3-visible-wrapper-comparison.json)
-now generates a separate 20-pin KiCad T3 interface from the historical sheet
-and checks a fresh netlist export. All **9/9 scoped checks pass**: the exported
+The [source-visible wrapper generator](page4_t3_visible_wrapper.py) creates a
+separate [20-pin KiCad T3 sheet](circuits/k7222-11-horizontal-output-page4.kicad_sch)
+from the historical sheet. The
+[comparison](reference/k7222-11/page4-t3-visible-wrapper-comparison.json)
+requires the committed sheet to match the generator, then checks a fresh
+netlist export. All **10/10 scoped checks pass**: the exported
 ports match the page-4 inventory and graph; X3:1 reaches V21's anode while
 its cathode remains on EHT; X1:2 reaches X2:3 and X1:3 does not; and the
 previously verified X2:10–X1:15 and X2:11–X1:13 conductors remain intact.
+All non-T3 component pin nets match the original export, so this variant
+does not alter the other 79 exported component pins.
 The report records the graph-to-export pin permutation so a later magnetic
 subcircuit can connect without guessing symbol order. A regression check
 changes the X1:2 connection and confirms that the comparison fails.

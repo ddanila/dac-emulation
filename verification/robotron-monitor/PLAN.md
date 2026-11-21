@@ -445,10 +445,12 @@ a ratio.
 The separate [20-terminal page-4 graph candidate](reference/k7222-11/t3-page4-visible-graph.json)
 now compiles with X3:1 and X1:2 and excludes X3:2/EHT and the page-4-unseen
 X1:16. Its four winding groups and section order are explicit hypotheses.
-A [generated 20-pin KiCad interface](reference/k7222-11/page4-t3-visible-wrapper-comparison.json)
-passes 9/9 scoped source-visible export checks, including X3:1–V21 anode,
+A [committed 20-pin KiCad interface](circuits/k7222-11-horizontal-output-page4.kicad_sch)
+and its [fresh comparison](reference/k7222-11/page4-t3-visible-wrapper-comparison.json)
+pass 10/10 scoped export checks, including X3:1–V21 anode,
 X1:2–X2:3 and both booster link pairs. It remains separate from the active
-19-port model and has no qualified section parameters. Resolve the manual's
+19-port model; all other component pin nets are unchanged, but it has no
+qualified section parameters. Resolve the manual's
 connection-16 mapping and source-visible continuity before promoting it.
 
 A scoped [page-4 booster comparison](reference/k7222-11/page4-booster-comparison.json)

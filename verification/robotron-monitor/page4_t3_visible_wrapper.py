@@ -17,6 +17,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parent
 REF = ROOT / 'reference/k7222-11'
 SHEET = ROOT / 'circuits/k7222-11-horizontal-output.kicad_sch'
+CANDIDATE_SHEET = ROOT / 'circuits/k7222-11-horizontal-output-page4.kicad_sch'
 SOURCE = REF / 'page4-t3-terminal-identity-source-read.json'
 GRAPH = REF / 't3-page4-visible-graph.json'
 OUTPUT = REF / 'page4-t3-visible-wrapper-comparison.json'
@@ -97,7 +98,18 @@ def exported_pins(xml, source_id):
     return pins
 
 
-def compare(xml, source, graph):
+def all_exported_pins(xml):
+    nodes = {}
+    for net in ET.parse(xml).getroot().findall('./nets/net'):
+        for node in net.findall('node'):
+            key = (node.get('ref'), node.get('pin'))
+            if key in nodes:
+                raise ValueError(f'duplicate exported pin {key}')
+            nodes[key] = net.get('name').removeprefix('/')
+    return nodes
+
+
+def compare(xml, original_xml, source, graph, sheet=CANDIDATE_SHEET):
     visible = {pin.replace(':', '_') for group in
                source['page4_visible_magnetic_terminals'].values() for pin in group}
     graph_order = [pin for group in graph['groups'] for pin in group['taps']]
@@ -105,6 +117,10 @@ def compare(xml, source, graph):
     t3 = exported_pins(xml, '012-6921:T3')
     v21 = exported_pins(xml, '012-6921:V21')
     nodes = {port: t3.get(str(index)) for index, port in enumerate(PORTS, 1)}
+    original_other = {key: net for key, net in all_exported_pins(original_xml).items()
+                      if key[0] != 'X1136'}
+    candidate_other = {key: net for key, net in all_exported_pins(xml).items()
+                       if key[0] != 'X1136'}
     checks = {
         '20_exported_pins': len(t3) == 20 and set(t3) == {str(n) for n in range(1, 21)},
         'ports_match_source_and_graph': set(PORTS) == visible == graph_ports,
@@ -115,6 +131,7 @@ def compare(xml, source, graph):
         'x1_3_separate_from_x2_3': nodes['X1_3'] is not None and nodes['X1_3'] != nodes['X2_3'],
         'x2_10_to_x1_15': nodes['X2_10'] is not None and nodes['X2_10'] == nodes['X1_15'],
         'x2_11_to_x1_13': nodes['X2_11'] is not None and nodes['X2_11'] == nodes['X1_13'],
+        'other_component_pins_unchanged': original_other == candidate_other,
     }
     return {
         'format': 'dac-monitor-page4-t3-visible-wrapper-comparison-v1',
@@ -122,11 +139,13 @@ def compare(xml, source, graph):
         'source_sha256': sha(SOURCE),
         'graph_sha256': sha(GRAPH),
         'historical_sheet_sha256': sha(SHEET),
+        'candidate_sheet_sha256': sha(sheet),
         'generator_sha256': sha(__file__),
         'ports_in_export_order': PORTS,
         'graph_order_to_export_pin': {port: PORTS.index(port) + 1 for port in graph_order},
         'exported_nodes': nodes,
         'v21_pins': v21,
+        'non_t3_exported_pin_count': len(candidate_other),
         'checks': checks,
         'passed': all(checks.values()),
         'unresolved': [
@@ -144,13 +163,18 @@ def run(source_pdf):
     graph = json.loads(GRAPH.read_text())
     if graph['source_terminal_read_sha256'] != sha(SOURCE):
         raise ValueError('page-4 graph source read changed')
+    if CANDIDATE_SHEET.read_text() != candidate_sheet():
+        raise ValueError('committed candidate sheet differs from generator')
     with tempfile.TemporaryDirectory() as directory:
-        sheet = Path(directory) / 'k7222-11-horizontal-output-page4.kicad_sch'
+        original_xml = Path(directory) / 'horizontal-output-original.xml'
         xml = Path(directory) / 'horizontal-output-page4.xml'
-        sheet.write_text(candidate_sheet())
         subprocess.run(['kicad-cli', 'sch', 'export', 'netlist', '--format', 'kicadxml',
-                        '-o', str(xml), str(sheet)], check=True, capture_output=True, text=True)
-        return compare(xml, source, graph)
+                        '-o', str(original_xml), str(SHEET)],
+                       check=True, capture_output=True, text=True)
+        subprocess.run(['kicad-cli', 'sch', 'export', 'netlist', '--format', 'kicadxml',
+                        '-o', str(xml), str(CANDIDATE_SHEET)],
+                       check=True, capture_output=True, text=True)
+        return compare(xml, original_xml, source, graph, CANDIDATE_SHEET)
 
 
 if __name__ == '__main__':
@@ -158,7 +182,11 @@ if __name__ == '__main__':
     parser.add_argument('--source-pdf', type=Path,
                         default=ROOT.parents[1] / 'build/monitor/phase-a/sources/older.pdf')
     parser.add_argument('--output', type=Path, default=OUTPUT)
+    parser.add_argument('--write-sheet', action='store_true',
+                        help='regenerate the committed candidate sheet before checking it')
     args = parser.parse_args()
+    if args.write_sheet:
+        CANDIDATE_SHEET.write_text(candidate_sheet())
     result = run(args.source_pdf)
     args.output.write_text(json.dumps(result, indent=2) + '\n')
     print(f"{sum(result['checks'].values())}/{len(result['checks'])} source-visible wrapper checks pass")
