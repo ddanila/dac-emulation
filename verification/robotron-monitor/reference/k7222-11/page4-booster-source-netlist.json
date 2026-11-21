@@ -1,0 +1,31 @@
+{
+  "format": "dac-monitor-page4-booster-source-netlist-v1",
+  "qualification": "scoped source read after exposure to the existing model; not an independent whole-page second netlist or proof of T3 internal winding continuity",
+  "source": {
+    "file": "older.pdf",
+    "page": 4,
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "views": [
+      {"description": "600 dpi complete page", "sha256": "7704358ec71269bb02afb8ec28c3c00f6596c911b6049a3b6fa2cbe998e62ab5"},
+      {"description": "separate primary/booster context crop", "sha256": "841fedf38d67fc9122bbf57ddc7a5610a86c26b8d397868439ba44c9fe6eaace"}
+    ]
+  },
+  "scope": {
+    "parts": ["C21", "C26", "V16", "T3"],
+    "nets": {
+      "41P_FEED": ["C21:feed", "C26:feed", "V16:anode"],
+      "RECTIFIED_TAP": ["C26:tap", "V16:cathode", "T3:X2:13"],
+      "BOOST_CAPACITOR": ["C21:tap", "T3:X2:10"]
+    }
+  },
+  "reading_notes": [
+    "The 41P vertical feed meets the left terminal of C21 and the anode of V16; C26 is drawn across V16.",
+    "V16's cathode and C26's right terminal meet the higher of the two visible booster tap lines, labelled X2:13 in the source scan.",
+    "C21's right terminal meets the lower line, labelled X2:10; the handwritten 60–70 V is across C21.",
+    "The two tap labels are visibly distinct in both views. This source read was prompted by a model discrepancy, so it does not replace the independent complete-page review."
+  ],
+  "unresolved": [
+    "T3 internal continuity, tap polarity, return and X1:15 relationship to this branch remain unverified.",
+    "The complete page-4 pin-to-pin second netlist remains open."
+  ]
+}

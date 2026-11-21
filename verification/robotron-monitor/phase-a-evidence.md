@@ -9,6 +9,13 @@
 > them. The connected startup diagnostics below are kept as history and are
 > not evidence about the sustained state. The facts recorded here stand.
 
+> **T3 stage-result scope (2026-11-21).** A scoped page-4 booster read found
+> exchanged X2:10/X2:13 external model pins. All T3 numerical stage results
+> below that predate the [pin-order screen](reference/k7222-11/t3-booster-pin-order-screen.json)
+> are historical pre-correction probes, not qualification of the current
+> source-corrected wiring. The source read and paired result are detailed at
+> the end of this log.
+
 The two original .11/.21 PDFs were freshly downloaded into ignored `build/`
 storage on 2026-11-18. Their byte counts and SHA-256 digests match
 [`sources.json`](sources.json): `older.pdf` is 769,720 bytes with digest
@@ -4919,3 +4926,45 @@ roughly 459 V sampled collector peak and 11.7 kV EHT cannot be called
 document-consistent while its C21 voltage is about 24 V. The next A5 step
 must qualify source-connected periodic C21 voltage, the collector/drive pulse
 and the booster/tap graph before using any turn-count inference.
+
+### A1/A5: page-4 booster tap correction and conditional order screen (2026-11-21)
+
+A scoped, source-hashed [page-4 read](reference/k7222-11/page4-booster-source-netlist.json)
+of `older.pdf` page 4 separates the V16/C26 output from C21's lower plate.
+The scan places the V16 cathode and C26 right terminal at **T3 X2:13** and
+C21's right terminal at **T3 X2:10**; their other terminals share the 41P
+feed. This read followed exposure to the model, so it is a local correction,
+not the independent complete-page second netlist required by A1. The
+[fresh KiCad comparison](reference/k7222-11/page4-booster-comparison.json)
+initially passed only three of five checks: it had connected V16/C26 to
+X2:10 and C21 to X2:13. After exchanging those two T3 connections in the
+schematic and transcription, all five checks pass. The C27, HV rectifier
+and X2:4 return source comparisons still pass against fresh exports.
+
+The active [legacy T3 graph](reference/k7222-11/t3-winding-hypothesis.json)
+had called its `X2:7–10–11–12–13–4` drive-section order the page's visual
+order. It is now explicitly a **legacy electrical hypothesis**: the visible
+external pin order is `X2:7–13–11–12–10–4`, while internal continuity and
+relative polarity are not proved by the scan. The
+[paired 5 ms screen](reference/k7222-11/t3-booster-pin-order-screen.json)
+keeps the 42.504 V rail, TBY7 class yoke, prescribed drive, one return case
+and a 65 V initial C21 differential fixed. The old external pins give
+**1.127 A p-p**, **12.176 kV** EHT and **38.267 V** across C21 at the sampled
+collector peak. Corrected external pins with the legacy internal section
+order give **0.0648 A p-p**, **2.934 kV** and **−4.823 V**. Corrected pins
+with the visible source-order section hypothesis reproduce the old result
+numerically; that is an isomorphic conditional electrical model, not
+evidence that the installed T3 has this internal winding order.
+
+All earlier T3 numerical stage reports used the old external assignment.
+Their values remain historical probes and do not qualify the corrected
+source-connected model, even when the isomorphic source-order case happens
+to reproduce them. A5 must now screen source-corrected internal alternatives,
+then qualify a settled C21 voltage and the actual X2:4/collector pulse before
+deriving winding ratios. The 60–70 V C21 source annotation remains unmet in
+these three 5 ms cases; no periodic installed-stage claim follows.
+The old `test_t3_output_stage_sweep` now fails its 370 V collector-floor check:
+the corrected external pins with the active legacy section order give only
+120.248 V in that isolated bench. This is a genuine model-qualification
+failure pending tap-order selection and stage regeneration, not a regression
+to hide by changing the acceptance floor.
