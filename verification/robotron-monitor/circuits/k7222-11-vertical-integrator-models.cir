@@ -8,11 +8,13 @@
 .model VERTICAL_DIODE D(IS=2n RS=2 N=1.7 CJO=2p TT=5n BV=100 IBV=100u VJ=1 M=0.5 FC=0.5 EG=1.11 XTI=3)
 * KFY18-class PNP proxy: Tesla 1987 catalog, pages 221-223; not a fitted factory curve.
 .model VERTICAL_PNP_BOUND PNP(IS=1e-14 BF={retrace_bf} VAF=60 RC=3 RE=0.25 CJE=65p CJC=45p TF=1.5n TR=50n EG=1.11 FC=0.5 IKF=0.3 MJC=0.33 MJE=0.33 RB=2 VJC=0.75 VJE=0.75 XTI=3)
-* 723-family functional equivalent: TI SNVS765C p2 metal-can pin contract.
+* 723-family functional equivalent: exact Tesla MAA 723 1986 catalog pp 65-66
+* supplies the 10-pin function contract and external DC comparison limits.
 * cs inv noninv ref vminus out collector vplus compensation current-limit
 * NOT a transistor-level Tesla MAA723 model. No thermal/SOA qualification.
-* Error gm and drive bound by the uA723-class 1..50 mA output response;
-* internal 30 pF pole and transistor curves remain unqualified assumptions.
+* Error gm and drive are behavioral proxies against MAA 723 DC response;
+* equivalent 30 pF pole and transistor curves remain unqualified assumptions;
+* the Tesla drawing labels a 5 pF die capacitor, not this equivalent pole.
 .subckt MAA723_BOUND cs inv noninv ref vm out vc vp comp cl
 Breference ref_i vm V={min(m723_ref_v,max(v(vp,vm)-2.35,0))}
 Rreference ref_i ref 10
@@ -28,7 +30,7 @@ Dlower vm comp M723_CLAMP
 Qpass vc comp out M723_PASS
 Qlimit comp cl cs M723_LIMIT
 Rout out vm 1Meg
-* Explicit bounded-proxy shapes. TI's 723 data constrain the assembled
+* Explicit bounded-proxy shapes. Tesla's MAA 723 data constrain the assembled
 * regulator, not these individual MAA723 junctions; values and engineering
 * ranges are recorded in the A6 class-typical register.
 .model M723_PASS NPN(IS=1e-14 BF=100 VAF=60 CJE=30p CJC=10p TF=5n

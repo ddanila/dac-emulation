@@ -1,7 +1,7 @@
-"""Check the live MAA723 functional proxy at documented 723-family bias points.
+"""Check the live MAA723 functional proxy against exact Tesla catalog targets.
 
-This is a class comparison, not a claim about the unqualified MAA723 suffix,
-the internal transistor circuit, or the connected vertical-stage stress.
+The isolated fixture approximates the catalog circuits; this is not a claim
+about internal transistor accuracy or connected vertical-stage stress.
 """
 import argparse
 import hashlib
@@ -122,19 +122,25 @@ def run():
     standby = op(parameters, supply=30)
     loads = {name: op(parameters, supply=12, load_ohm=ohm)
              for name, ohm in [('1ma', 5000), ('50ma', 100), ('150ma', 100/3)]}
+    line_outputs = {str(supply): op(parameters, supply=supply, load_ohm=5000)
+                    for supply in (15, 40)}
     lower_dissipation = op(parameters, supply=9.5, load_ohm=6.5/.15,
                            divider_top_ohm=650, divider_bottom_ohm=6500)
     targets = entry['comparison_targets']
     checks = {
-        'reference_class': targets['reference_v']['range'][0] <= standby['reference_v']
+        'reference_class': targets['reference_v']['range'][0] <= loads['1ma']['reference_v']
                            <= targets['reference_v']['range'][1],
         'standby_class': 0 < standby['supply_current_a']
-                         <= targets['standby_current_a']['maximum'],
+                         < targets['standby_current_a']['maximum'],
         'load_regulation_class': abs(loads['1ma']['output_v']-loads['50ma']['output_v'])
-                                 <= targets['load_regulation_v']['maximum'],
+                                 < targets['load_regulation_v']['maximum'],
+        'line_regulation_12_to_15_v': abs(loads['1ma']['output_v']-line_outputs['15']['output_v'])
+                                       < targets['line_regulation_12_to_15_v']['maximum'],
+        'line_regulation_12_to_40_v': abs(loads['1ma']['output_v']-line_outputs['40']['output_v'])
+                                       < targets['line_regulation_12_to_40_v']['maximum'],
     }
-    return dict(format='dac-monitor-maa723-class-check-v2',
-                qualification='723-family isolated DC comparison; 150 mA resistor trial is an engineering probe, not a data-sheet regulation limit or thermal qualification',
+    return dict(format='dac-monitor-maa723-class-check-v3',
+                qualification='exact Tesla MAA 723 isolated DC comparison with an approximate catalog fixture; 150 mA resistor trial is an engineering probe, not a catalog regulation limit or thermal qualification',
                 sources={name: register['sources'][name] for name in entry['sources']},
                 register_sha256=sha(REGISTER), model_file_sha256=sha(MODEL_FILE),
                 sheet_sha256=sha(SHEET),
@@ -142,7 +148,11 @@ def run():
                 assembly_source_id=SOURCE_ID, assembly_reference=active_model(),
                 parameters=parameters, data_book_targets=targets,
                 standby_30v=standby, five_volt_loads_12v=loads,
+                reference_12v_5v=loads['1ma']['reference_v'],
                 load_regulation_v=loads['1ma']['output_v']-loads['50ma']['output_v'],
+                line_outputs_1ma=line_outputs,
+                line_regulation_v={'12_to_15': line_outputs['15']['output_v']-loads['1ma']['output_v'],
+                                   '12_to_40': line_outputs['40']['output_v']-loads['1ma']['output_v']},
                 engineering_150ma_probe={
                     'load_resistance_ohm': 100/3,
                     'intended_current_a_at_5v': .15,
@@ -151,19 +161,18 @@ def run():
                     'meets_4p9v_proxy': loads['150ma']['output_v']
                                           >= targets['output_150ma_v']['minimum'],
                     'ideal_5v_pass_power_w_at_12v': (12-5)*.15,
-                    'lm723_25c_package_power_ratings_w': {
-                        'metal_can': .8, 'cdip': .9, 'pdip': .66},
-                    'power_source': 'https://www.ti.com/lit/ds/symlink/lm723.pdf',
-                    'interpretation': 'The 12 V/5 V/150 mA ideal pass loss alone exceeds the listed LM723 package ratings. This resistor probe cannot certify family-wide continuous 150 mA regulation.'},
+                    'tesla_maa723_package_power_max_w': .8,
+                    'power_source': 'https://teslakatalog.cz/download/tesla_katalog_1_1986_bw.pdf',
+                    'interpretation': 'The 12 V/5 V/150 mA ideal pass loss alone exceeds the Tesla MAA 723 800 mW package maximum. This resistor probe cannot certify continuous 150 mA regulation.'},
                 lower_dissipation_150ma_probe={
-                    'source': 'https://www.ti.com/lit/ds/symlink/ua723.pdf',
+                    'source': 'https://teslakatalog.cz/download/tesla_katalog_1_1986_bw.pdf',
                     'input_v': 9.5, 'setpoint_v': 6.5,
                     'nominal_input_output_difference_v': 3,
                     'load_resistance_ohm': 6.5/.15,
                     'expected_pass_power_w_at_setpoint': .45,
                     'observed': lower_dissipation,
-                    'within_lm723_pdip_25c_power_proxy': lower_dissipation['chip_power_proxy_w'] <= .66,
-                    'interpretation': 'Chosen at the uA723 minimum input voltage and input/output differential, with a 150 mA intended resistive load. The 0.66 W comparator is the LM723 PDIP 25 C rating, not an identified MAA723 thermal limit or a guaranteed regulation point.'},
+                    'within_tesla_maa723_package_power_proxy': lower_dissipation['chip_power_proxy_w'] <= .8,
+                    'interpretation': 'Chosen at the Tesla MAA 723 minimum input voltage and input/output differential, with a 150 mA intended resistive load. The 0.8 W Tesla limit is a maximum package rating, not a guarantee of regulation at this load or a connected thermal qualification.'},
                 checks=checks, passed=all(checks.values()))
 
 

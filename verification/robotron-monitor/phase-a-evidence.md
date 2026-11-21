@@ -1596,12 +1596,13 @@ has a comparison table on PDF page 119 (printed page 117) that pairs `MAA723H`
 with `uA723` and `B260D` with `TDA1060`.
 `reference/k7222-11/pc1715-ic-crossref.json` records the source and page
 hashes. This independently supports the 723 functional family used for
-K7222.11 `MAA723`, while its missing H suffix and electrical parameters remain
-unverified. `B260D` is converter-only in the Phase A ideal-rail scope.
+K7222.11 `MAA723`. The exact-type Tesla catalog read below supersedes the
+H-suffix uncertainty. `B260D` is converter-only in the Phase A ideal-rail scope.
 
 The active `MAA723_BOUND` functional subcircuit is now provisionally registered
-for 012-6931:A2. The separate Robotron table establishes only a 723-family
-comparison; it does not identify the K7222.11 part's missing H suffix. The
+for 012-6931:A2. The separate Robotron table initially established only a
+723-family comparison; the exact-type Tesla catalog read below supersedes
+that identity gap. The
 [TI µA723 data sheet](https://www.ti.com/lit/ds/symlink/ua723.pdf) gives a
 6.8–7.5 V reference, 2.3 mA typical/4 mA maximum standby current at 30 V and
 150 mA output capability for the comparable µA723C. The
@@ -1612,11 +1613,11 @@ drive ceiling delivered only 2.31 V into a 100 Ω load in an isolated 5 V
 regulator fixture. That conflicts with the 723 output-current class.
 
 The revised proxy exposes bounded reference, standby, error-transconductance
-and drive-limit parameters. Its saved
+and drive-limit parameters. Its current
 [isolated class check](reference/k7222-11/maa723-model-check.json) reports
 7.150 V reference and 2.300 mA standby at 30 V. At 12 V input, the same
-fixture gives 4.990 V at approximately 1 mA, 4.988 V at 50 mA and 4.985 V
-at 150 mA; the 1–50 mA droop is 1.755 mV. These are behavioral comparisons,
+fixture gives 4.990 V at approximately 1 mA, 4.988 V at 50 mA and 4.983 V
+at an intended 150 mA; the 1–50 mA droop is 1.914 mV. These are behavioral comparisons,
 not a fit to MAA723 internal silicon. A regression test demonstrates that the
 former 1 mS/200 µA settings fail the 50 mA check. The existing connected
 vertical-integrator and vertical-output tests still pass with the revised
@@ -4159,7 +4160,8 @@ proxy at a 150 mA load, all when `M723_PASS` is at its low group corner:
 the output is 2.228–2.232 V. All high-pass-group cases give about 4.987 V.
 The 7.15 V reference, 2.3 mA standby and 1–50 mA load-droop comparisons
 still pass in every sampled case; maximum droop is 5.726 mV against the
-10 mV proxy. The clamp and limit group choices do not alter these DC results.
+now exact-type 7.5 mV limit. The clamp and limit group choices do not alter
+these DC results.
 
 The [TI LM723 data sheet](https://www.ti.com/lit/ds/symlink/lm723.pdf)
 states a 150 mA output capability, but does not specify 4.9 V at this
@@ -4193,8 +4195,8 @@ low-pass-group corner, the solved 2.229 V output actually draws only
 [isolated check](reference/k7222-11/maa723-model-check.json) and
 [corner screen](reference/k7222-11/maa723-internal-corner-screen.json)
 therefore keep the 4.9 V result visible as an engineering probe, while the
-sourced 25 °C reference, standby and 1–50 mA comparisons define their class
-check. All nine sampled internal-model cases pass those three comparisons
+sourced 25 °C reference, standby, load and line-regulation comparisons define
+their class check. All nine sampled internal-model cases pass all five comparisons
 at 25 °C; four still miss the separate probe. A package-safe, documented
 high-current condition is needed before that probe can be used to qualify
 the internal-model bounds. The 0 and 70 °C runs remain sensitivity data.
@@ -4217,7 +4219,7 @@ The [updated nine-case screen](reference/k7222-11/maa723-internal-corner-screen.
 finds the same four low-`M723_PASS` group combinations below that proxy at
 25 °C: they solve about 2.685 V and **62.0 mA**, with about 0.454 W chip
 power. The other four group combinations deliver about 149.7 mA, and the
-nominal case 149.6 mA. Sourced 25 °C reference, standby and 1–50 mA load
+nominal case 149.6 mA. Sourced 25 °C reference, standby, load and line-regulation
 comparisons still pass all nine cases. The 0/70 °C observations remain
 sensitivity points. This lower-loss trial removes the oversized
 12 V/5 V power premise from the high-current diagnosis, but leaves the
@@ -4242,6 +4244,44 @@ this fixture. The next A2 step is to source the installed part's pass/drive
 behavior or construct an externally bounded equivalent, then repeat the
 joint and connected checks. Tightening BF or IKF solely to erase this probe
 would not qualify the model.
+
+### A2: exact Tesla MAA 723 catalog read (2026-11-21)
+
+The original [TESLA Katalog 1 (1986)](https://teslakatalog.cz/download/tesla_katalog_1_1986_bw.pdf),
+printed pages 65–66 (PDF pages 66–67; SHA-256
+`6b99b2e11e7439096d1cea2f41afe3f0728c2b7517243b1c22588b398676388b`),
+lists **MAA 723** separately from MAA 723H. Its 10-pin can map is current
+sense, inverting input, noninverting input, reference, ground, output, output
+transistor supply, input supply, compensation, current limit. This matches
+the functional order of `MAA723_BOUND` and removes the earlier H-suffix
+family-transfer uncertainty for the printed K7222.11 type. Installed package
+and board wiring still require independent confirmation. The catalog's
+internal schematic labels a 5 pF die capacitor, while the active model uses
+an unqualified 30 pF effective pole; those are not directly interchangeable.
+The drawing does not calibrate the equivalent's individual BJTs.
+
+For MAA 723 the catalog gives a 7.15 V typical, **6.95–7.35 V** reference
+at 12 V input/5 V output; **2.3 mA typical, <3.5 mA** standby at 30 V with
+output and reference unloaded; **<0.15% of 5 V (7.5 mV)** change across
+1–50 mA at 12 V; and line-regulation limits of **<0.1% (5 mV)** across
+12–15 V and **<0.2% (10 mV)** across 12–40 V at 5 V/1 mA. These replace
+the looser TI-family limits in the A2 register and isolated checks. The
+unchanged nominal equivalent yields 7.150 V reference, 2.300 mA standby,
+1.914 mV load droop, 0.001 mV line change to 15 V, and 0.010 mV to 40 V.
+All nine sampled internal-model cases pass the five exact-type comparisons
+at 25 °C; the largest 12–40 V line change is 0.029 mV. The 0 and 70 °C
+runs remain sensitivity probes, not a sweep of the catalog's −55 to +125 °C
+temperature conditions.
+
+Tesla lists **150 mA as a maximum output-current rating**, not a minimum
+delivered current or a high-load regulation guarantee. Its MAA 723 package
+power maximum is **800 mW**. The earlier 12 V/5 V/150 mA trial's ideal
+1.05 W pass loss exceeds that exact-type ceiling; the 9.5 V/6.5 V trial's
+nominal chip-power proxy is 0.483 W, but still has no catalog voltage or
+current guarantee at 150 mA. Four low-pass cases remain near 62 mA in that
+engineering probe. The source improves external identity and DC bounds; it
+does not validate the provisional BF/IKF corners, 30 pF pole, thermal path,
+or connected vertical-stage stress. A2 therefore remains open.
 
 ### A5/A6: ÜHA78 core-area sensitivity (2026-11-21)
 
