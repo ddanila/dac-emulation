@@ -4,7 +4,7 @@
   "model_sha256": "d242521c5f43445c9ef9801fd5aecc829850604580f774d3f69c42047b9a9d1a",
   "class_register_sha256": "12464756169e58dfdaac773ca4457dbb89c4324b5e1082172bc04783bb25f230",
   "device_register_sha256": "a99654199b5851db267bd6cb15b1251c2f13027c7cfc316eb60ab94f41a605dd",
-  "script_sha256": "26f64e6bb547d7e077c7a109c8d914f17d3672c49766452e065ebfc97515c29f",
+  "script_sha256": "9b5cb78f75ac61ffe9ecc31455d0444334e0a697218ed5fbe80e507471a3866b",
   "cases": 9,
   "temperatures_c": [
     0,
@@ -890,6 +890,44 @@
   "class_check_failures_at_25c": 0,
   "engineering_probe_misses_at_25c": 4,
   "lower_dissipation_probe_misses_at_25c": 4,
+  "pass_corner_attribution": {
+    "probe": "9.5 V input, 6.5 V intended output, 43.333 ohm load, 25 C",
+    "pass_bjt_bounds": {
+      "BF": [
+        50,
+        200
+      ],
+      "IKF": [
+        0.05,
+        2
+      ]
+    },
+    "one_parameter_low_load_current_a": {
+      "BF": 0.09398630769230767,
+      "IKF": 0.08649574615384616
+    },
+    "restore_nominal_from_all_low_pass_load_current_a": {
+      "none": 0.06195470769230769,
+      "BF": 0.0921651,
+      "IKF": 0.09974136923076922,
+      "BF+IKF": 0.14962797692307692
+    },
+    "low_bf_ikf_drive_ceiling_sweep": {
+      "low": {
+        "base_drive_ceiling_a": 0.0015,
+        "load_current_a": 0.047214946153846145
+      },
+      "nominal": {
+        "base_drive_ceiling_a": 0.002,
+        "load_current_a": 0.0571887
+      },
+      "high": {
+        "base_drive_ceiling_a": 0.004,
+        "load_current_a": 0.08839446923076923
+      }
+    },
+    "interpretation": "The arbitrary pass-transistor BF and IKF lower bounds jointly cause the low-pass DC failure. Restoring both nominal values recovers about 150 mA even with every other pass model parameter low. The behavioral base-drive upper bound does not rescue the two-parameter low corner; none of these internal values is a manufacturer MAA723 limit."
+  },
   "limitations": [
     "All low/high shifts within each internal model are correlated; arbitrary mixed corners are not covered.",
     "The 25 C comparison targets are reused only as sensitivity references at 0 and 70 C, not claimed data-sheet limits at those temperatures.",

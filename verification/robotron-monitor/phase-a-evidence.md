@@ -4181,8 +4181,27 @@ nominal case 149.6 mA. Sourced 25 °C reference, standby and 1–50 mA load
 comparisons still pass all nine cases. The 0/70 °C observations remain
 sensitivity points. This lower-loss trial removes the oversized
 12 V/5 V power premise from the high-current diagnosis, but leaves the
-pass-transistor/drive lower corner unqualified. It does not identify which
-internal parameter, behavioral drive bound or MAA723 variant is responsible.
+pass-transistor/drive lower corner unqualified.
+
+The refreshed screen now isolates that failure within the `M723_PASS` model.
+At the lower-loss 25 °C probe, lowering only its provisional BF from 100 to
+50 gives **94.0 mA**; lowering only IKF from 0.5 to 0.05 A gives **86.5 mA**.
+Putting every pass parameter at its low bound gives **62.0 mA**; restoring
+only BF gives 92.2 mA, only IKF 99.7 mA, and **both together 149.6 mA**
+while every other pass parameter stays low. With BF=50 and IKF=0.05 A,
+raising the behavioral base-drive ceiling from 1.5 to its registered 4 mA
+upper bound still gives only **88.4 mA**. The limit transistor and clamp
+groups do not explain this isolated DC miss.
+
+These BF, IKF and drive bounds are declared engineering ranges for an
+equivalent, not maker limits for the installed MAA723. The
+[TI µA723 sheet](https://www.ti.com/lit/ds/symlink/ua723.pdf) lists 150 mA
+as an output-current capability and recommended ceiling, but gives no
+individual pass-transistor gain or high-current regulation guarantee for
+this fixture. The next A2 step is to source the installed part's pass/drive
+behavior or construct an externally bounded equivalent, then repeat the
+joint and connected checks. Tightening BF or IKF solely to erase this probe
+would not qualify the model.
 
 ### A5/A6: ÜHA78 core-area sensitivity (2026-11-21)
 

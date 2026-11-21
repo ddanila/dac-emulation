@@ -4,6 +4,7 @@ Each internal model moves as a correlated low/high group. This deliberately
 does not claim exhaustive coverage of the 48-dimensional parameter box.
 """
 import argparse
+import copy
 import hashlib
 import itertools
 import json
@@ -103,6 +104,55 @@ def case(model_file, temperature, parameters, targets):
                 comparisons_to_25c_targets=checks)
 
 
+def pass_corner_attribution(model_file, source, internal, parameters):
+    """Separate the pass BJT's BF/IKF interaction from other low corners."""
+    nominal = {name: 'nominal' for name in NAMES}
+    low_pass = nominal | {'M723_PASS': 'low'}
+
+    def probe(selection, register, settings=parameters):
+        model_file.write_text(rewrite(source, selection, register))
+        return maa723_model_check.op(
+            settings, supply=9.5, load_ohm=6.5/.15,
+            divider_top_ohm=650, divider_bottom_ohm=6500,
+            model_file=model_file)['load_current_a']
+
+    one_low = {}
+    for key in ('BF', 'IKF'):
+        varied = copy.deepcopy(internal)
+        varied['M723_PASS'][key]['value'] = varied['M723_PASS'][key]['bounds'][0]
+        one_low[key] = probe(nominal, varied)
+
+    restored = {}
+    for keys in ((), ('BF',), ('IKF',), ('BF', 'IKF')):
+        varied = copy.deepcopy(internal)
+        for key in keys:
+            varied['M723_PASS'][key]['bounds'][0] = varied['M723_PASS'][key]['value']
+        restored['+'.join(keys) or 'none'] = probe(low_pass, varied)
+
+    low_bf_ikf = copy.deepcopy(internal)
+    for key in ('BF', 'IKF'):
+        low_bf_ikf['M723_PASS'][key]['value'] = low_bf_ikf['M723_PASS'][key]['bounds'][0]
+    drive = {}
+    for label, current in [('low', parameters['m723_drive_limit']['bounds'][0]),
+                           ('nominal', parameters['m723_drive_limit']['nominal']),
+                           ('high', parameters['m723_drive_limit']['bounds'][1])]:
+        settings = copy.deepcopy(parameters)
+        settings['m723_drive_limit']['nominal'] = current
+        drive[label] = dict(base_drive_ceiling_a=current,
+                            load_current_a=probe(nominal, low_bf_ikf, settings))
+    if (not .061 < restored['none'] < .063
+            or not .149 < restored['BF+IKF'] < .150
+            or drive['high']['load_current_a'] >= .145):
+        raise ValueError('MAA723 pass-corner attribution changed')
+    return dict(probe='9.5 V input, 6.5 V intended output, 43.333 ohm load, 25 C',
+                pass_bjt_bounds=dict(BF=internal['M723_PASS']['BF']['bounds'],
+                                     IKF=internal['M723_PASS']['IKF']['bounds']),
+                one_parameter_low_load_current_a=one_low,
+                restore_nominal_from_all_low_pass_load_current_a=restored,
+                low_bf_ikf_drive_ceiling_sweep=drive,
+                interpretation='The arbitrary pass-transistor BF and IKF lower bounds jointly cause the low-pass DC failure. Restoring both nominal values recovers about 150 mA even with every other pass model parameter low. The behavioral base-drive upper bound does not rescue the two-parameter low corner; none of these internal values is a manufacturer MAA723 limit.')
+
+
 def run():
     register, entry = maa723_model_check.registered_parameters()
     internal = bounds()
@@ -122,6 +172,7 @@ def run():
                              class_checks_at_25c_pass=all(results[1]['comparisons_to_25c_targets'].values()),
                              engineering_4p9v_probe_at_25c_pass=results[1]['engineering_150ma_probe']['meets_4p9v_proxy'],
                              lower_dissipation_145ma_probe_at_25c_pass=results[1]['lower_dissipation_150ma_probe']['reaches_145ma_engineering_proxy']))
+        attribution = pass_corner_attribution(model_file, source, internal, entry['parameters'])
     return dict(format='dac-monitor-maa723-internal-corner-screen-v2',
                 qualification='nine correlated internal-model cases at three temperatures; 25 C data-sheet comparisons separated from a thermally unqualified 150 mA resistor probe',
                 model_sha256=sha(MODEL), class_register_sha256=sha(REGISTER),
@@ -136,6 +187,7 @@ def run():
                 class_check_failures_at_25c=sum(not row['class_checks_at_25c_pass'] for row in rows),
                 engineering_probe_misses_at_25c=sum(not row['engineering_4p9v_probe_at_25c_pass'] for row in rows),
                 lower_dissipation_probe_misses_at_25c=sum(not row['lower_dissipation_145ma_probe_at_25c_pass'] for row in rows),
+                pass_corner_attribution=attribution,
                 limitations=['All low/high shifts within each internal model are correlated; arbitrary mixed corners are not covered.',
                              'The 25 C comparison targets are reused only as sensitivity references at 0 and 70 C, not claimed data-sheet limits at those temperatures.',
                              'The 33.33 ohm resistor draws 150 mA only near 5 V. At the low-pass corner, its actual current is about 67 mA. A regulated 5 V/150 mA point at 12 V would dissipate about 1.05 W in the pass path, above every listed LM723 package rating at 25 C, so the 4.9 V probe is not a family qualification gate.',
