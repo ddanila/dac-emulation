@@ -418,7 +418,8 @@ provides a bounded comparator, not an installed AE9VT identification. The
 [conditional R5 rail screen](reference/k7222-11/t3-brimar-rail-boundary-screen.json)
 crosses its lower-current proxy near 42.504 V with 11.72 kV sampled EHT;
 the [six-scenario link/choke screen](reference/k7222-11/t3-brimar-link-sensitivity.json)
-keeps that crossing within 42.281–42.570 V. Both use an unverified T3 graph,
+keeps that crossing within 42.219–42.570 V after widening its exploratory
+L1/L2 lower case to 16 mH. Both use an unverified T3 graph,
 exploratory L1/L2 and a prescribed drive. Neither establishes installed
 yoke currents, T3 ratios or a sustained operating point. The permitted
 function-derived/equivalent T3 fallback still needs A5-derived ratios and

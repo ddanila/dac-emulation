@@ -6,10 +6,10 @@
     "brimar_pdf_sha256": "eb327b3bde53b62472190bd1fd968bc8b1687a082ed991bc0adc0b836801ae01"
   },
   "input_sha256": {
-    "reference/k7222-11/t3-brimar-rail-boundary-screen.json": "564453ff068246b40b9d3a0cf1ef5793cafb5deda2fcf9ed4554aed948f5952c",
+    "reference/k7222-11/t3-brimar-rail-boundary-screen.json": "f4ddaf7ae37792119a7adc0a6dfd532d80c8c79c11a4ca922d04011f0a8b26a6",
     "reference/k7222-11/a5-yoke-class-boundary.json": "603f687194cc18548a0f06206845088ce25c88b62c4902745fe07ee56adae8f8",
     "reference/k7222-11/yoke-brimar-110deg-comparator.json": "c3d0cfa7dd5786827ebd0eac4eac5f68e7a99422b8a22c158fcd94df3bdac4ca",
-    "steady_supply.py": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b",
+    "steady_supply.py": "a459e23925c690da6e31437d2c79557cd7c97482ca0ede351bf6b724da073e75",
     "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
     "t3_brimar_rail_boundary_screen.py": "350a92a8f758c6c32bef70f659c6547fd12ce771629d7c7a0d44527ebe13b82c",
     "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
@@ -30,19 +30,19 @@
   },
   "class_lower_current_pp_a": 0.9459574468085108,
   "coil_l_h_cases": [
-    0.02,
+    0.016,
     0.08,
     0.32
   ],
   "rows": [
     {
       "link_pair": "E1+E2",
-      "centering_coil_l_h": 0.02,
-      "yoke_current_pp_a": 0.95059572,
+      "centering_coil_l_h": 0.016,
+      "yoke_current_pp_a": 0.951832682,
       "reaches_class_lower_current": true,
-      "eht_at_collector_peak_v": 11898.3906,
-      "drive_peak_v": 456.393224,
-      "normalized_deck_sha256": "ac92557ef6aa4ba9687b553ecf31783a2d37f1299d3e697d38bbbcd668611eff"
+      "eht_at_collector_peak_v": 11954.8714,
+      "drive_peak_v": 454.860089,
+      "normalized_deck_sha256": "78a32dd0f54a4ab0ba00e28517cc3bd215b0aa2a1def94ea4bcbae96db87404b"
     },
     {
       "link_pair": "E1+E2",
@@ -64,12 +64,12 @@
     },
     {
       "link_pair": "E3+E4",
-      "centering_coil_l_h": 0.02,
-      "yoke_current_pp_a": 0.9506101069999999,
+      "centering_coil_l_h": 0.016,
+      "yoke_current_pp_a": 0.951852108,
       "reaches_class_lower_current": true,
-      "eht_at_collector_peak_v": 11900.2637,
-      "drive_peak_v": 456.430131,
-      "normalized_deck_sha256": "e132b16bd0b341f490920fc5d8817abb22c2d20c6ee7a6cc5eaa39942368fd1c"
+      "eht_at_collector_peak_v": 11954.8712,
+      "drive_peak_v": 454.879402,
+      "normalized_deck_sha256": "5442a08fb248f9a5b62d83b324620a7c933588c6f08f6ffa2a96a833763d0141"
     },
     {
       "link_pair": "E3+E4",
@@ -93,22 +93,22 @@
   "threshold_brackets": [
     {
       "link_pair": "E1+E2",
-      "centering_coil_l_h": 0.02,
+      "centering_coil_l_h": 0.016,
       "last_below": {
-        "feed_v": 42.2734375,
-        "current_pp_a": 0.94586083,
-        "eht_v": 11867.3695,
-        "drive_peak_v": 455.005621,
-        "deck_sha256": "c4d2657ffed5696947e0d6f866501ff914e1d39008748e6864f769b5d38347d2"
+        "feed_v": 42.2109375,
+        "current_pp_a": 0.945864684,
+        "eht_v": 11913.0322,
+        "drive_peak_v": 453.574273,
+        "deck_sha256": "3c31579860f5c7faf2a12fafd9a3324d2d4aaad5da5b801b113802c08b2e8511"
       },
       "first_within": {
-        "feed_v": 42.28125,
-        "current_pp_a": 0.9459984669999999,
-        "eht_v": 11868.2195,
-        "drive_peak_v": 455.080674,
-        "deck_sha256": "56385dd2f03ebdbc22cc300e07d7ea247381f6cb77cd318c6b256e6c03430bcd"
+        "feed_v": 42.21875,
+        "current_pp_a": 0.946007272,
+        "eht_v": 11915.8706,
+        "drive_peak_v": 453.601847,
+        "deck_sha256": "34577911a297a2ada451702c49b9843120ce6a3b0a35816d37bad715cdafeea9"
       },
-      "first_within_r5_equivalent_position": 0.538181818181818,
+      "first_within_r5_equivalent_position": 0.5425314581791267,
       "bracket_width_v": 0.0078125
     },
     {
@@ -153,22 +153,22 @@
     },
     {
       "link_pair": "E3+E4",
-      "centering_coil_l_h": 0.02,
+      "centering_coil_l_h": 0.016,
       "last_below": {
-        "feed_v": 42.2734375,
-        "current_pp_a": 0.9458231539999999,
-        "eht_v": 11867.4202,
-        "drive_peak_v": 454.985889,
-        "deck_sha256": "a0b221511746989ae3f12ae415ff43480314540269e2ff5e8c973eb443fa6b93"
+        "feed_v": 42.2109375,
+        "current_pp_a": 0.9458699269999999,
+        "eht_v": 11914.784,
+        "drive_peak_v": 453.567338,
+        "deck_sha256": "66f878d75bf732316415a61d78282e31df01841f56039f7c34c1de3705eb552f"
       },
       "first_within": {
-        "feed_v": 42.28125,
-        "current_pp_a": 0.9460064699999999,
-        "eht_v": 11868.9002,
-        "drive_peak_v": 455.05888,
-        "deck_sha256": "7936d2bf2c8e5b07a951e5f0105c3f8f8c4c522e59f4fe9dc556145d48bfad21"
+        "feed_v": 42.21875,
+        "current_pp_a": 0.9460286019999999,
+        "eht_v": 11915.8069,
+        "drive_peak_v": 453.610721,
+        "deck_sha256": "9406c4757343b15704dbc993c3b00cf85e278a229d176604a5864bbba15ff045"
       },
-      "first_within_r5_equivalent_position": 0.538181818181818,
+      "first_within_r5_equivalent_position": 0.5425314581791267,
       "bracket_width_v": 0.0078125
     },
     {
@@ -213,15 +213,15 @@
     }
   ],
   "threshold_feed_range_v": [
-    42.28125,
+    42.21875,
     42.5703125
   ],
   "pair_current_difference_a": {
-    "0.02": 1.4386999999893568e-05,
+    "0.016": 1.9425999999933552e-05,
     "0.08": -1.6167999999927574e-05,
     "0.32": -1.3637999999982497e-05
   },
-  "maximum_absolute_pair_difference_a": 1.6167999999927574e-05,
-  "coil_current_span_a": 0.0060241439999999535,
+  "maximum_absolute_pair_difference_a": 1.9425999999933552e-05,
+  "coil_current_span_a": 0.007266145000000002,
   "interpretation": "At the sampled rail crossing, swapping the E1+E2 and E3+E4 links scarcely changes TBY7 current under this symmetric bridge. Changing the exploratory coil inductance moves current across the transferred class lower bound, but each sampled coil/link case has a separate class-current crossing within the 41-43 V screen. This isolates L1/L2 as the material uncertainty for this conditional crossing; neither link state nor inductance is source-qualified for the installed board."
 }

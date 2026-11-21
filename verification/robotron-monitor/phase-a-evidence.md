@@ -4647,13 +4647,12 @@ describes a centring pot isolated from the horizontal-yoke terminals by
 Robotron L1/L2 specification: its tube, yoke and power stage differ. The
 [reproducible unequal-choke screen](reference/k7222-11/t3-brimar-asymmetric-choke-screen.json)
 places both 16/70 mH assignments into the same conditional TBY7 stage and
-checks both E1+E2 and E3+E4 link pairs. It leaves the shared stage model and
-the earlier receipts unchanged.
+checks both E1+E2 and E3+E4 link pairs. The shared stage model is unchanged.
 
 At the previous 42.504 V crossing, the four yoke-current spans are
-**0.94928–0.95084 A peak-to-peak**. Swapping the links at fixed choke
-assignment changes current by at most **25 µA peak-to-peak**; swapping the
-unequal chokes changes it by about **1.56 mA peak-to-peak**. Each case crosses
+**0.94927–0.95087 A peak-to-peak**. Swapping the links at fixed choke
+assignment changes current by at most **27 µA peak-to-peak**; swapping the
+unequal chokes changes it by about **1.60 mA peak-to-peak**. Each case crosses
 the transferred TBY7 lower-current proxy inside the R5-equivalent range,
 at **42.266–42.352 V**, with **11.717–11.916 kV** sampled EHT. Thus the
 earlier symmetric-bridge link insensitivity survives this *one* asymmetric
@@ -4697,12 +4696,28 @@ do not qualify this repeated field waveform.
 The [link disposition](reference/k7222-11/t3-centering-link-disposition.json)
 compares E1+E2 with E3+E4 at the same 42.504 V R5-equivalent feed in three
 symmetric and two unequal L1/L2 cases. The maximum relative change is
-**0.0026%** in yoke current, **0.0196%** in sampled EHT and **0.0081%** in
+**0.0028%** in yoke current, **0.0081%** in sampled EHT and **0.0043%** in
 differential drive peak. All are below A1's 2% sensitivity budget. Keep
 E1+E2 as the labelled default and E3+E4 as a bounded alternative for this
 conditional TBY7 stage; an installed-link claim or a native-frame result
 does not follow. L1/L2 electrical behavior and the T3 return remain
 unverified; the link-pair difference is small only within these five cases.
+
+The live exploratory L1/L2 lower case now includes the **16 mH** value from
+the different-circuit RCA comparison, while the 80 mH nominal and 320 mH
+engineering upper case stay unchanged. The refreshed
+[isolated bridge check](reference/k7222-11/centering-bridge-check.json)
+measures **12.45%** bridge-to-yoke AC loading at 16 mH, against 2.50% at
+80 mH. The refreshed [return screen](reference/k7222-11/t3-centering-return-screen.json)
+and [TBY7 link sweep](reference/k7222-11/t3-brimar-link-sensitivity.json)
+find a **42.219–42.570 V** R5-equivalent current-crossing range; changing
+the coil case spans **7.266 mA p-p** at the old crossing. The
+[link disposition](reference/k7222-11/t3-centering-link-disposition.json)
+still keeps both E1–E4 pairs as conditional alternatives below the 2%
+sensitivity budget. These screens were regenerated with the current ngspice
+binary; the unequal-choke measurements shifted slightly without changing the
+conditional decision. This widens the tested envelope but is not an installed
+L1/L2 bound, an X2:4 waveform qualification or a T3 ratio derivation.
 
 The [Philips AT2140/16 maker sheet](https://bitsavers.org/components/philips/_dataBooks/1987_C20_Philips_Wirewound_Components_for_TV_and_Monitors.pdf)
 is a useful same-era line-transformer class, but it pairs an 8 µs flyback
