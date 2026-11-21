@@ -4987,3 +4987,25 @@ the corrected external pins with the active legacy section order give only
 120.248 V in that isolated bench. This is a genuine model-qualification
 failure pending tap-order selection and stage regeneration, not a regression
 to hide by changing the acceptance floor.
+
+### A5: 41P/R5 rail movement does not close the conditional C21 gap (2026-11-21)
+
+The [source-order rail/C21 screen](reference/k7222-11/t3-source-order-rail-c21-screen.json)
+holds the source-corrected booster pins, visible-order T3 section hypothesis,
+one HV/G1 sign-compatible polarity, TBY7 yoke, prescribed base pulse and
+return/link case fixed. It initializes C21 to a 65 V differential at each
+rail point, runs 20 ms, and samples the final 1 ms. The 39–43 V 41P interval
+is the cross-revision operating comparator carried through the source-read
+R5 divider equation, not an installed .11 rail measurement.
+
+Across 39, 41, 42.504 and 43 V, sampled C21 differentials are respectively
+**26.099**, **24.271**, **23.722** and **23.983 V**. All four EHT samples
+lie within 11–12 kV. The 42.504 and 43 V cases also meet the transferred
+TBY7 lower-current proxy at **0.9465** and **0.9568 A p-p**, but still miss
+the documented **60–70 V across C21**. The 39 and 41 V cases have roughly
+−0.47 V C21 same-phase drift over the last millisecond, so this is not a
+periodic-state proof. Their C21 readings are far below the source band even
+from a correct 65 V initial differential. R5-equivalent feed movement alone
+does not reconcile this conditional graph with all three sampled targets.
+The next discrimination needs a source-bounded X2:4/collector drive waveform,
+other return/link cases and T3 winding/boost alternatives.
