@@ -5114,3 +5114,19 @@ synthetic-parameter compilation test confirms all 20 candidate ports and
 eight relative-polarity candidates. This is a structural migration step,
 not a fitted transformer or active schematic correction. Its assumed
 continuity, section values, return and cold end still need qualification.
+
+The [source-visible wrapper comparison](reference/k7222-11/page4-t3-visible-wrapper-comparison.json)
+now generates a separate 20-pin KiCad T3 interface from the historical sheet
+and checks a fresh netlist export. All **9/9 scoped checks pass**: the exported
+ports match the page-4 inventory and graph; X3:1 reaches V21's anode while
+its cathode remains on EHT; X1:2 reaches X2:3 and X1:3 does not; and the
+previously verified X2:10–X1:15 and X2:11–X1:13 conductors remain intact.
+The report records the graph-to-export pin permutation so a later magnetic
+subcircuit can connect without guessing symbol order. A regression check
+changes the X1:2 connection and confirms that the comparison fails.
+
+This is an **external-interface candidate**, not a fitted or active T3. It
+keeps X1:1, X1:3 and X1:7 on separate external nets pending full conductor
+verification, and leaves the manual's connection 16 unmapped. No section
+turns, polarity, cold-end position, losses or parasitics are inferred from
+the passing export. The old 19-port numerical screens remain historical.
