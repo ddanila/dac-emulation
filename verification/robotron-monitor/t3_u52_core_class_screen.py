@@ -101,7 +101,7 @@ def run(ngspice, robotron_pdf, fonox_pdf):
     vrms = 4.442882938 * loss['frequency_hz'] * turns * area * loss['flux_amplitude_t']
     return dict(
         format='dac-monitor-t3-u52-core-class-screen-v1',
-        qualification='cross-revision U52/54 and independent U52/H21 class geometry; area/path-only 4–5 ms prescribed-drive sensitivity with provisional B-H curve, T3 graph and TBY7 yoke, not a .11 core identification or A5 freeze',
+        qualification='cross-revision U52/54 and independent U52/H21 class geometry; area/path-only 4–5 ms prescribed-drive sensitivity with the coupled model’s provisional B-H origin slope, T3 graph and TBY7 yoke, not a .11 core identification or A5 freeze',
         source_read_sha256=sha(SOURCE),
         source_pdf_sha256=dict(robotron=sha(robotron_pdf), fonox=sha(fonox_pdf)),
         input_sha256={str(path.relative_to(ROOT)): sha(path) for path in
@@ -118,6 +118,7 @@ def run(ngspice, robotron_pdf, fonox_pdf):
                               centering_coil_l_h=.08, prescribed_base_edge_ns=200,
                               nominal_max_step_ns=50, refined_max_step_ns=25,
                               provisional_bh_and_loss_unchanged=True),
+        backend_semantics='The passive coupled model uses only the B-H origin slope to set Lmag=N^2*A_e*(dB/dH)/l_e; its nonlinear B-H points do not affect these stage cases. The fixed loss shunt is not rescaled with core volume.',
         class_lower_current_pp_a=lower, manual_eht_bounds_v=eht,
         prior_boundary_feed_v=crossing,
         catalog_al_nh_per_turn2=dict(nominal=al,
@@ -131,7 +132,7 @@ def run(ngspice, robotron_pdf, fonox_pdf):
                                     active_shunt_ohm=active_core['loss_ohm']['value'],
                                     scope='15 kHz, 200 mT sine, 100 C catalog maximum only; not actual 16 kHz pulse loss'),
         geometries=rows,
-        interpretation='The U52 area-only and area-plus-path sensitivities miss the 11–12 kV sampled EHT band at 41, 42.504 and 43 V; the full-geometry case also misses the transferred TBY7 lower-current bound. The 25 ns crossing cases retain these outcomes. But the catalog AL is for a U52/H21 set with no intentional gap specified and differs from the provisional B-H model; changing geometry while holding that curve is not a class-valid replacement. The cross-revision U52/54 designation does not prove the .11 core or FONOX U52 identity. A joint core material/gap, winding and return argument remains necessary.')
+        interpretation='The U52 area-only and area-plus-path sensitivities miss the 11–12 kV sampled EHT band at 41, 42.504 and 43 V; the full-geometry case also misses the transferred TBY7 lower-current bound. The 25 ns crossing cases retain these outcomes. The catalog AL is for a U52/H21 set with no intentional gap specified and differs from the provisional model origin slope; changing geometry while holding that slope and loss shunt is not a class-valid replacement. The cross-revision U52/54 designation does not prove the .11 core or FONOX U52 identity. A joint core material/gap, winding and return argument remains necessary.')
 
 
 if __name__ == '__main__':

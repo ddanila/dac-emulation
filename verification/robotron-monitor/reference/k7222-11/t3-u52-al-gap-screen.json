@@ -1,0 +1,257 @@
+{
+  "format": "dac-monitor-t3-u52-al-gap-screen-v1",
+  "qualification": "conditional linear coupled-T3 magnetizing sensitivity on U52-class geometry and TBY7 yoke, 4\u20135 ms prescribed drive; not an identified .11 core, physical gap, winding ratio or A5 freeze",
+  "source_pdf_sha256": {
+    "robotron": "887787a48f36e84ce92edbd39acf2469e6a64f755e22d12d80f687f376f492a6",
+    "fonox": "24bff43f4887ac88bf1ced33961aae4f1703f24fcb12ca20a54bd2954e69f889"
+  },
+  "source_read_sha256": "0cfa73030b6fd0fb9e461040b4183a21de8c7366eb33a7f08f2da3564d884756",
+  "input_sha256": {
+    "reference/k7222-11/t3-brimar-rail-boundary-screen.json": "f4ddaf7ae37792119a7adc0a6dfd532d80c8c79c11a4ca922d04011f0a8b26a6",
+    "reference/k7222-11/a5-yoke-class-boundary.json": "603f687194cc18548a0f06206845088ce25c88b62c4902745fe07ee56adae8f8",
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "c3d0cfa7dd5786827ebd0eac4eac5f68e7a99422b8a22c158fcd94df3bdac4ca",
+    "reference/k7222-11/t3-u52-core-class-screen.json": "283a3b80574003b001106c31e598f404902c2c581f363bc6ecf7b588fd2dede7",
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "circuits/k7222-11-centering-models.cir": "b002db59e7ac0234ea3578c0598a9fc5d2c9f7985669ad401fa01b58df353282",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "magnetics.py": "722c379dcc2730ea4f5a4464102e28fe8af95f5d009aaef94faefdf3835978e7",
+    "steady_supply.py": "a459e23925c690da6e31437d2c79557cd7c97482ca0ede351bf6b724da073e75",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc",
+    "t3_brimar_rail_boundary_screen.py": "350a92a8f758c6c32bef70f659c6547fd12ce771629d7c7a0d44527ebe13b82c",
+    "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "t3_u52_core_class_screen.py": "d475488267aef1fe5cbc4d3f4c6eb69d5fe16b71b2991325914fca357764814a",
+    "t3_u52_al_gap_screen.py": "740a6e7abb385b6f0654d96b9c75b7965310fdc01f8e6807e34ec73ec8a66ad8"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_conditions": {
+    "core_area_m2": 9.499999999999999e-05,
+    "core_path_length_m": 0.148,
+    "yoke_type": "TBY7",
+    "yoke_line_l_h": 0.0041,
+    "yoke_line_r_ohm": 8.8,
+    "centering_link_pair": "E1+E2",
+    "centering_coil_l_h": 0.08,
+    "prescribed_base_edge_ns": 200,
+    "provisional_turns_and_loss_unchanged": true
+  },
+  "backend_semantics": "The passive coupled model uses only the B-H origin slope for Lmag=N^2*AL; scaling H changes effective AL without a nonlinear saturation or material-loss model.",
+  "class_lower_current_pp_a": 0.9459574468085108,
+  "manual_eht_bounds_v": [
+    11000,
+    12000
+  ],
+  "prior_boundary_feed_v": 42.50390625,
+  "active_model_al_nh_per_turn2": 374.99999999999994,
+  "catalog_al_nh_per_turn2": {
+    "nominal": 1180,
+    "bounds": [
+      885.0,
+      1475.0
+    ]
+  },
+  "extra_reluctance_equivalent_gap": {
+    "equation": "g_eff=mu0*A_e*(1/AL_target - 1/AL_catalog)",
+    "target_al_nh_per_turn2": 374.99999999999994,
+    "catalog_al_cases_nh_per_turn2": [
+      885.0,
+      1180,
+      1475.0
+    ],
+    "gap_mm": [
+      0.18345481168081415,
+      0.21717812265155206,
+      0.23741210923399478
+    ],
+    "limitations": "Net extra-reluctance air-gap proxy only. Fringing, two-pole distribution, actual .11 core/material and winding are unknown; this is not an installed gap measurement."
+  },
+  "cases": [
+    {
+      "effective_al_nh_per_turn2": 374.99999999999994,
+      "normalized_origin_h_scale": 0.3423423423423424,
+      "cases": [
+        {
+          "feed_v": 41.0,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.913942491,
+          "eht_at_collector_peak_v": 11511.5163,
+          "drive_peak_v": 443.159867,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": true,
+          "normalized_deck_sha256": "9f7cc22088a802684f26c05642dc54246c41744ccc7cfa232b825de1e909757c"
+        },
+        {
+          "feed_v": 42.50390625,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.945975692,
+          "eht_at_collector_peak_v": 11722.0144,
+          "drive_peak_v": 457.655189,
+          "current_in_transferred_class": true,
+          "sampled_eht_in_manual_band": true,
+          "normalized_deck_sha256": "e5222ffa3df9a3bf0680c269a86bab5dc2c0bb219bce3ec2ef11a32edbf116ec"
+        },
+        {
+          "feed_v": 43.0,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.956369797,
+          "eht_at_collector_peak_v": 11792.5327,
+          "drive_peak_v": 461.780745,
+          "current_in_transferred_class": true,
+          "sampled_eht_in_manual_band": true,
+          "normalized_deck_sha256": "99b1df55e59b9846c1cebf1da2b634c7d52d071cbc1ab9c5e258c76eb89403e1"
+        },
+        {
+          "feed_v": 42.50390625,
+          "max_step_ns": 25,
+          "yoke_current_pp_a": 0.946044101,
+          "eht_at_collector_peak_v": 11723.8938,
+          "drive_peak_v": 457.547416,
+          "current_in_transferred_class": true,
+          "sampled_eht_in_manual_band": true,
+          "normalized_deck_sha256": "a9a7edb68c64a2a480f95e577e0eef4f419678bd604bb1a46e1eeae3422c3475"
+        }
+      ]
+    },
+    {
+      "effective_al_nh_per_turn2": 885.0,
+      "normalized_origin_h_scale": 0.14506031455184,
+      "cases": [
+        {
+          "feed_v": 41.0,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.871815673,
+          "eht_at_collector_peak_v": 10321.403,
+          "drive_peak_v": 293.684794,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "783a411fa91d7be26a760d3de2f06b1e111b95a56c12da505683c913645a458b"
+        },
+        {
+          "feed_v": 42.50390625,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.903768001,
+          "eht_at_collector_peak_v": 10452.6767,
+          "drive_peak_v": 298.002922,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "0fd6aa37cfb231d9fff57e273012f5fa7cf33a6c242b3fce5119f30bcce17da9"
+        },
+        {
+          "feed_v": 43.0,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.914216829,
+          "eht_at_collector_peak_v": 10493.9701,
+          "drive_peak_v": 299.280645,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "d065df12bc5b52ad70fa1e6f5784a351839a32f7b6e158a38a5c95c13842dcf3"
+        },
+        {
+          "feed_v": 42.50390625,
+          "max_step_ns": 25,
+          "yoke_current_pp_a": 0.903729955,
+          "eht_at_collector_peak_v": 10451.2624,
+          "drive_peak_v": 298.023989,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "3dedb0e1e50620e4a1f77bf22858c1d0c20ddbf72900ee5e9855deee0ff1e71a"
+        }
+      ]
+    },
+    {
+      "effective_al_nh_per_turn2": 1180,
+      "normalized_origin_h_scale": 0.10879523591387999,
+      "cases": [
+        {
+          "feed_v": 41.0,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.8631900990000001,
+          "eht_at_collector_peak_v": 8882.61916,
+          "drive_peak_v": 335.781862,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "95404052e615e5664f91c6abcc88688ac029892f520c7734b49b51e0858f4fc7"
+        },
+        {
+          "feed_v": 42.50390625,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.894443138,
+          "eht_at_collector_peak_v": 9291.30341,
+          "drive_peak_v": 333.67478,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "6594f3a1ae806725b47b8b76311357b2ba332d10bc2e0eb6b5fc015a8aac5f24"
+        },
+        {
+          "feed_v": 43.0,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.904760244,
+          "eht_at_collector_peak_v": 9422.76885,
+          "drive_peak_v": 332.878443,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "a199b6c179633711c1a62f0849c23cc55eb5d084b607629a8be068f2fefb57b7"
+        },
+        {
+          "feed_v": 42.50390625,
+          "max_step_ns": 25,
+          "yoke_current_pp_a": 0.89429742,
+          "eht_at_collector_peak_v": 9282.21805,
+          "drive_peak_v": 333.679694,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "7a3ba8873d6a703a10dadc3cba7c5fa3350705cff0652c0e35800e6dec91f78b"
+        }
+      ]
+    },
+    {
+      "effective_al_nh_per_turn2": 1475.0,
+      "normalized_origin_h_scale": 0.087036188731104,
+      "cases": [
+        {
+          "feed_v": 41.0,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.864973207,
+          "eht_at_collector_peak_v": 10922.7496,
+          "drive_peak_v": 275.498031,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "6eab7947001d553854d1e74c9c38d1346c60b6310b77a897fe2048aca71656aa"
+        },
+        {
+          "feed_v": 42.50390625,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.896486511,
+          "eht_at_collector_peak_v": 11005.0028,
+          "drive_peak_v": 276.294639,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": true,
+          "normalized_deck_sha256": "ad2941a6b5adae8d98f21e0e1c6bc0b03abef2037c02ccced149dc79457d02a7"
+        },
+        {
+          "feed_v": 43.0,
+          "max_step_ns": 50,
+          "yoke_current_pp_a": 0.906884825,
+          "eht_at_collector_peak_v": 11024.7665,
+          "drive_peak_v": 276.006794,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": true,
+          "normalized_deck_sha256": "4491cdd0c48713f49f761bd473bd9bfb573879c9e60c5d3d8b1ee1802fd27c1b"
+        },
+        {
+          "feed_v": 42.50390625,
+          "max_step_ns": 25,
+          "yoke_current_pp_a": 0.896342727,
+          "eht_at_collector_peak_v": 11002.0496,
+          "drive_peak_v": 276.18347,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": true,
+          "normalized_deck_sha256": "319909f6367621af1f91e0daafa9ebef87ade9112200f05c64f9813d72385c43"
+        }
+      ]
+    }
+  ],
+  "interpretation": "The 375 nH/turn\u00b2 effective-AL case exactly reproduces the prior conditional TBY7 rail crossing even on U52 geometry, because the coupled backend depends on N\u00b2*AL rather than geometry separately. All sampled FONOX catalog AL cases miss the transferred TBY7 lower current at 41, 42.504 and 43 V; EHT is nonmonotone and the 1475 nH case can enter its band without the current match. An excess-reluctance equivalent gap of 0.183\u20130.237 mm would map the catalog AL spread to the conditional 375 nH value, but the .11 core/gap and T3 graph remain unknown. This identifies an effective magnetic parameter for the fallback sensitivity, not a frozen physical core or winding design."
+}

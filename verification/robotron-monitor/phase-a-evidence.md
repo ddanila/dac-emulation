@@ -4804,3 +4804,23 @@ reference conditions; it does not bound the real 16 kHz flyback pulse loss.
 The U52 dimensions are therefore a class sensitivity, not new live T3
 parameters. A5 still needs a joint core/gap, turns, tap/return and parasitic
 argument before freezing the fallback.
+
+The passive coupled backend uses only the B–H **origin slope** to set
+magnetizing inductance; its remaining nonlinear curve points do not affect
+these stage runs, and the fixed loss shunt does not scale with core volume.
+The [inductance-factor/gap screen](reference/k7222-11/t3-u52-al-gap-screen.json)
+therefore fixes the U52-class **95 mm² / 148 mm** geometry and varies the
+effective factor directly. At **375 nH/turn²**, it reproduces the prior
+conditional TBY7 rail crossing exactly. At the FONOX catalog corners
+**885, 1,180 and 1,475 nH/turn²**, every sampled 41, 42.504 and 43 V case
+misses the transferred lower yoke-current proxy. EHT is nonmonotone:
+the 1,475 nH case can enter 11–12 kV while still missing current. The
+25 ns reruns preserve these distinctions.
+
+Treating the catalog set as the no-extra-reluctance reference, the standard
+series-reluctance equation gives **0.183–0.237 mm** net air-gap equivalent
+to reduce its factor to the conditional 375 nH value. That number includes
+unknown pole gaps and ignores fringing; it is not a measured or sourced
+K7222.11 gap. The screen identifies an effective magnetizing parameter
+for the next fallback attempt, while winding ratios, return graph, core
+identity and operating-point validation remain open.

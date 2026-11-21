@@ -433,7 +433,9 @@ function-derived/equivalent T3 fallback still needs A5-derived ratios and
 class-bounded loss and parasitics. A cross-revision U52/54 core statement and
 an independent U52/H21 catalog now bound a class geometry, but the .11 core,
 gap and material remain unidentified; an area/path-only stage screen misses
-the sampled EHT band and cannot replace a joint magnetic model. Switching
+the sampled EHT band. A conditional effective-inductance screen shows that
+an extra-reluctance gap proxy can reproduce the prior rail case, but cannot
+identify a physical core or winding. Switching
 to the fallback alone cannot close A5.
 
 A1's full-page source comparisons, A2's sourced joint device bounds and
