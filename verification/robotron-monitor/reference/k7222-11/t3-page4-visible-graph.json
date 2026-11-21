@@ -1,0 +1,40 @@
+{
+  "format": "dac-monitor-winding-graph-v1",
+  "id": "k7222-11-t3-page4-visible-terminal-order-candidate",
+  "historical_topology_verified": false,
+  "anchor": "drive",
+  "source_terminal_read_file": "page4-t3-terminal-identity-source-read.json",
+  "source_terminal_read_sha256": "b79db095bd3922e075e9709a1a2bb25800d42583fb70266b9b1a33ffaa6eded1",
+  "groups": [
+    {
+      "id": "drive",
+      "taps": ["X2_7", "X2_13", "X2_11", "X2_12", "X2_10", "X2_4"],
+      "evidence": {"file": "older.pdf", "page": 4},
+      "assumption": "Visible X2 positions are treated as a continuous ordered winding for this candidate; the scan does not specify section turns or polarity."
+    },
+    {
+      "id": "auxiliary",
+      "taps": ["X2_5", "X2_6", "X2_3"],
+      "evidence": {"file": "older.pdf", "page": 4},
+      "assumption": "Visible X2 auxiliary positions are treated as one ordered winding; turns and polarity remain unverified."
+    },
+    {
+      "id": "high_voltage",
+      "taps": ["X3_1", "X1_1", "X1_2", "X1_3", "X1_5", "X1_7"],
+      "evidence": {"file": "older.pdf", "page": 4},
+      "assumption": "The drawn upper bank is treated as one continuous ordered winding from the X3:1 V21-anode pad through the five X1 taps. This is a topology hypothesis, not factory winding data or an identification of the manual's connection 16."
+    },
+    {
+      "id": "lower_taps",
+      "taps": ["X1_9", "X1_12", "X1_13", "X1_10", "X1_15"],
+      "evidence": {"file": "older.pdf", "page": 4},
+      "assumption": "Visible lower X1 positions are treated as one ordered winding; section turns and polarity remain unverified."
+    }
+  ],
+  "limitations": [
+    "The 20 magnetic terminal labels match the scoped page-4 visual inventory; X3:2 is V21's rectified output, not a winding terminal.",
+    "The source draws X1:2 to X2:3, X2:10 to X1:15, and X2:11 to X1:13; these conductor equalities belong to the external node map and are not created by this magnetic graph.",
+    "X1:16 is not visible on page 4, while the manual mentions winding connections 1 and 16 without a complete connector-prefix map. Its physical role remains an alternative to resolve.",
+    "Tap order, turns, polarity, return and cold-end position remain conditional; this graph is not a qualified .11 transformer."
+  ]
+}

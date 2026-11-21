@@ -1,4 +1,4 @@
-import copy,json,sys,tempfile,unittest
+import copy,hashlib,json,sys,tempfile,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 import transformer_candidates as tc
@@ -19,6 +19,40 @@ class TransformerCandidateTests(unittest.TestCase):
         broken=copy.deepcopy(self.graph);broken['groups'][0]['taps'][1]=broken['groups'][0]['taps'][0]
         with self.assertRaises(ValueError):tc.enumerate_candidates(broken)
         with self.assertRaises(ValueError):tc.compile_model(self.graph,candidates[0],{})
+
+    def test_page4_visible_x3_terminal_graph_is_complete_but_conditional(self):
+        source_path=ROOT/'reference/k7222-11/page4-t3-terminal-identity-source-read.json'
+        graph_path=ROOT/'reference/k7222-11/t3-page4-visible-graph.json'
+        source=json.loads(source_path.read_text())
+        graph=json.loads(graph_path.read_text())
+        self.assertEqual(graph['source_terminal_read_sha256'],hashlib.sha256(source_path.read_bytes()).hexdigest())
+        expected={pin.replace(':','_') for group in source['page4_visible_magnetic_terminals'].values()
+                  for pin in group}
+        actual=[pin for group in graph['groups'] for pin in group['taps']]
+        self.assertEqual(len(actual),20)
+        self.assertEqual(set(actual),expected)
+        self.assertNotIn('X3_2',actual)
+        self.assertNotIn('X1_16',actual)
+        candidates=tc.enumerate_candidates(graph)
+        self.assertEqual(len(candidates),8)
+        self.assertTrue(all(not item['historical_topology_verified'] for item in candidates))
+
+        def bound(value):
+            return dict(value=value,minimum=value/2,maximum=value*2,
+                        evidence='assumed-bound',rationale='Synthetic compilation check only.')
+        section={name:bound(value) for name,value in
+                 dict(turns=2,resistance_ohm=.1,leakage_h=1e-6,capacitance_f=1e-11).items()}
+        parameters=dict(format='dac-monitor-magnetic-parameters-v1',
+                        rationale='Synthetic port compilation check; not a T3 fit.',
+                        groups={group['id']:[copy.deepcopy(section) for _ in group['taps'][1:]]
+                                for group in graph['groups']},
+                        core=dict(area_m2=bound(1e-4),length_m=bound(.05),
+                                  loss_ohm=bound(10000),
+                                  h_a_per_m=[-100000,-1000,-200,0,200,1000,100000],
+                                  b_t=[-.5,-.3,-.2,0,.2,.3,.5]))
+        _,metadata=tc.compile_model(graph,candidates[0],parameters,backend='coupled')
+        self.assertEqual(len(metadata['ports']),20)
+        self.assertEqual(metadata['ports'],actual)
 
     def test_taps_polarity_and_loading_use_shared_core(self):
         graph=copy.deepcopy(self.graph);graph['groups']=graph['groups'][:1]+graph['groups'][2:3]

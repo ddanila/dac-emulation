@@ -18,6 +18,13 @@
     "v21_cathode_net": "EHT/UG3",
     "t3_upper_right_bank": ["X1:1", "X1:2", "X1:3", "X1:5", "X1:7"]
   },
+  "page4_visible_magnetic_terminals": {
+    "x2_drive_booster_left": ["X2:7", "X2:13", "X2:11", "X2:12", "X2:10", "X2:4"],
+    "x2_auxiliary_right": ["X2:5", "X2:6", "X2:3"],
+    "x1_upper_right": ["X1:1", "X1:2", "X1:3", "X1:5", "X1:7"],
+    "x1_lower_right": ["X1:9", "X1:12", "X1:13", "X1:10", "X1:15"],
+    "x3_hv_anode": ["X3:1"]
+  },
   "drawn_conductor_pairs": [["X1:2", "X2:3"]],
   "reading_notes": [
     "The V21 pad prefixes read X3 in the .11 scan; the separate upper winding bank reads X1 and includes both X1:2 and X1:3.",
@@ -25,6 +32,7 @@
     "The existing t3-hv-terminal-read.json assigns the V21 pads to X1:1/X1:2 and calls X1:2 the rectified output. That identification is superseded by this source read."
   ],
   "unresolved": [
+    "The manual's high-voltage winding connection numbers 1 and 16 are not mapped to a complete connector-prefix and tap list by page 19. X1:16 is not a visible page-4 terminal label; its physical role is not ruled out by this scoped scan inventory alone.",
     "The winding section and electrical relationship between X3:1, X1:1 and the other upper-bank terminals require an explicit corrected graph; distinct printed labels alone do not prove isolated electrical nodes.",
     "Turns, polarities, other internal continuities and the complete page-4 second netlist remain open."
   ]

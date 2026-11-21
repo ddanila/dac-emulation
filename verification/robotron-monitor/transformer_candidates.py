@@ -27,7 +27,7 @@ def validate(graph):
         if not isinstance(name,str) or not re.fullmatch('[a-z][a-z0-9_]*',name) or name in ids:
             raise ValueError('duplicate/invalid winding identity')
         ids.add(name)
-        if not 2<=len(taps)<=16 or any(not isinstance(t,str) or not re.fullmatch('X[12]_[0-9]{1,2}',t) for t in taps):
+        if not 2<=len(taps)<=16 or any(not isinstance(t,str) or not re.fullmatch('X[123]_[0-9]{1,2}',t) for t in taps):
             raise ValueError('invalid winding terminals')
         if len(set(taps))!=len(taps) or terminals.intersection(taps):raise ValueError('duplicate winding terminal')
         terminals.update(taps);sections+=len(taps)-1
