@@ -5048,3 +5048,24 @@ does not fix the sequence of winding sections between these nodes, their
 turns or polarity. This scoped read followed model inspection and does not
 close A1's independent full-page second netlist. X2:4 drive and the rest of
 the T3 graph still require bounding.
+
+### A5: prescribed V18 base-high movement leaves the C21 gap (2026-11-21)
+
+The [source-order base-level screen](reference/k7222-11/t3-source-order-base-level-screen.json)
+keeps the page-4-corrected booster wiring, two checked internal conductor
+links, positive lower/upper tap signs, tied upper return, HV-only-grounded
+cold end, TBY7 class winding, 42.504 V rail and E1+E2/80 mH centring case.
+It changes only the high level of the **prescribed** V18 base source from
+**0.8 to 1.8 V**, retaining its −2.7 V low level and 46.5 µs on time. The
+1.3 V case reproduces the preceding return screen within the declared
+numerical tolerances.
+
+At 20 ms, the three sampled EHT values are **11.703–11.724 kV** and yoke
+currents **0.9460–0.9465 A p-p**; all meet their conditional comparison
+bands. C21 remains **23.701–23.722 V**, so **zero of three** cases meets
+all three sampled targets. The final-millisecond C21 phase drift remains
+−0.076 to −0.028 V. This excludes that *one* base-high perturbation as a
+solution within this assumed graph, but the chosen levels are engineering
+probes, not source-derived bounds. The installed base waveform, loaded
+X2:7–X2:4 differential pulse, other winding/return alternatives and
+periodic state remain unqualified.
