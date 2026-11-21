@@ -1,0 +1,178 @@
+{
+  "format": "dac-monitor-t3-brimar-boost-boundary-screen-v1",
+  "qualification": "conditional K7222.11 T3/Brimar TBY7 prescribed-base stage; page-4 handwritten C21 annotation is a source check, while K7222.25 AE9VT description is cross-revision corroboration; neither is a periodic installed-state score",
+  "source": {
+    "k7222_11_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "k7222_11_c21_annotation_pdf_page": 4,
+    "k7222_25_pdf_sha256": "e810e4722d889a7e357e192486da3a8004b1fd08aca1c0dcef4f3bbc5b66021d"
+  },
+  "input_sha256": {
+    "reference/k7222-11/k7222-25-horizontal-source-read.json": "8522e96b61c0261e49aa21c2a22973f439f0190ae5e2ad8d80eb2e20a9a292e6",
+    "reference/k7222-11/t3-brimar-return-boundary-screen.json": "b96af67b55ff32dad5dce98f612bda10eda664b3d641261e11434bb8f08e3401",
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "c3d0cfa7dd5786827ebd0eac4eac5f68e7a99422b8a22c158fcd94df3bdac4ca",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/t3-initial-parameters.json": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "circuits/k7222-11-centering-models.cir": "b002db59e7ac0234ea3578c0598a9fc5d2c9f7985669ad401fa01b58df353282",
+    "steady_supply.py": "a459e23925c690da6e31437d2c79557cd7c97482ca0ede351bf6b724da073e75",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc",
+    "t3_brimar_rail_boundary_screen.py": "350a92a8f758c6c32bef70f659c6547fd12ce771629d7c7a0d44527ebe13b82c",
+    "t3_brimar_return_boundary_screen.py": "3526231082173cc28e82eb025a30d41eda5e820fa24ebe269afd0793128d4dc1",
+    "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "t3_stage_refinement_screen.py": "876a3f7d615cc95ff5ba0f4e5745d224678ee1c9404ded9ed46c14590ba0e48a",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_loaded_return_screen.py": "d699fecb27e8a8157b94fa8e56fc867a8250a83628d66c8a1a41a4013d519c66",
+    "t3_tp17_path_sweep.py": "90f13dd629d010f0b9ef37e4f32ef12c3568abb9f1ffffc79b876d4ced196b2d",
+    "t3_brimar_boost_boundary_screen.py": "86a76beea8043a0ea0d417ddb59ffeba99cbf5b691006093f84a48adf0a7a4df"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_conditions": {
+    "feed_v": 42.50390625,
+    "yoke": "TBY7",
+    "centering_link_pair": "E1+E2",
+    "centering_coil_l_h": 0.08,
+    "max_step_ns": 50,
+    "initial_boost_node_v": 65,
+    "initial_c21_differential_v": 22.49609375
+  },
+  "source_annotated_c21_voltage_v": [
+    60,
+    70
+  ],
+  "later_ae9vt_c21_corrob_v": [
+    60,
+    70
+  ],
+  "cases": [
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_floating",
+      "normalized_deck_sha256": "9ffdc17f9ae5a609f163bb4bc1238f2bf49181baaaeac6c6cecc5c17518f6676",
+      "sample_count": 2650,
+      "yoke_current_pp_a": 0.9474285739999999,
+      "eht_at_collector_peak_v": 11569.109,
+      "boost_node_at_collector_peak_v": 66.2003771,
+      "boost_node_range_v": [
+        66.2003771,
+        66.3200138
+      ],
+      "c21_voltage_at_collector_peak_v": 23.6964709,
+      "c21_voltage_range_v": [
+        23.6964709,
+        23.8161076
+      ],
+      "prior_current_and_eht_match": true,
+      "within_source_annotated_c21_voltage_band": false,
+      "current_eht_and_c21_match": false
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "hv_only_grounded",
+      "normalized_deck_sha256": "c2ca9f30a1222d95faf8799ebe7c018eb60d88c55aa00e51f168eb343a904eb2",
+      "sample_count": 2614,
+      "yoke_current_pp_a": 0.945975692,
+      "eht_at_collector_peak_v": 11722.0144,
+      "boost_node_at_collector_peak_v": 66.1737331,
+      "boost_node_range_v": [
+        66.1712461,
+        66.2894497
+      ],
+      "c21_voltage_at_collector_peak_v": 23.6698269,
+      "c21_voltage_range_v": [
+        23.6673398,
+        23.7855435
+      ],
+      "prior_current_and_eht_match": true,
+      "within_source_annotated_c21_voltage_band": false,
+      "current_eht_and_c21_match": false
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_grounded",
+      "normalized_deck_sha256": "2be93574c37caf9cf8450a90e8a7271ce7a7701b23fb2bb29a327ffacc775678",
+      "sample_count": 2557,
+      "yoke_current_pp_a": 0.0479056237,
+      "eht_at_collector_peak_v": 1205.38669,
+      "boost_node_at_collector_peak_v": 41.4981378,
+      "boost_node_range_v": [
+        41.4981312,
+        41.6237844
+      ],
+      "c21_voltage_at_collector_peak_v": -1.00576844,
+      "c21_voltage_range_v": [
+        -1.00577507,
+        -0.880121864
+      ],
+      "prior_current_and_eht_match": false,
+      "within_source_annotated_c21_voltage_band": false,
+      "current_eht_and_c21_match": false
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_floating",
+      "normalized_deck_sha256": "c5745019aca2133fb0d6d5f199282a6db7321ea0d636b213f1141c05cb16ba9b",
+      "sample_count": 2625,
+      "yoke_current_pp_a": 0.982132354,
+      "eht_at_collector_peak_v": 19.6104988,
+      "boost_node_at_collector_peak_v": 67.4107277,
+      "boost_node_range_v": [
+        67.4047415,
+        67.5438204
+      ],
+      "c21_voltage_at_collector_peak_v": 24.9068214,
+      "c21_voltage_range_v": [
+        24.9008352,
+        25.0399142
+      ],
+      "prior_current_and_eht_match": false,
+      "within_source_annotated_c21_voltage_band": false,
+      "current_eht_and_c21_match": false
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "hv_only_grounded",
+      "normalized_deck_sha256": "7cc245c8ec78b978f76674a2366415a746e7e732ddb8b4fedfb21752858757af",
+      "sample_count": 2611,
+      "yoke_current_pp_a": 0.945991204,
+      "eht_at_collector_peak_v": 11722.9827,
+      "boost_node_at_collector_peak_v": 66.1712691,
+      "boost_node_range_v": [
+        66.1712691,
+        66.28947
+      ],
+      "c21_voltage_at_collector_peak_v": 23.6673628,
+      "c21_voltage_range_v": [
+        23.6673628,
+        23.7855637
+      ],
+      "prior_current_and_eht_match": true,
+      "within_source_annotated_c21_voltage_band": false,
+      "current_eht_and_c21_match": false
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_grounded",
+      "normalized_deck_sha256": "a114421b79c55cef0b73aa458d6ac6a6bd3eb84d42de872057820c1ee9f59b1d",
+      "sample_count": 2614,
+      "yoke_current_pp_a": 0.945968833,
+      "eht_at_collector_peak_v": 11722.9686,
+      "boost_node_at_collector_peak_v": 66.1712746,
+      "boost_node_range_v": [
+        66.1712746,
+        66.2894756
+      ],
+      "c21_voltage_at_collector_peak_v": 23.6673684,
+      "c21_voltage_range_v": [
+        23.6673684,
+        23.7855694
+      ],
+      "prior_current_and_eht_match": true,
+      "within_source_annotated_c21_voltage_band": false,
+      "current_eht_and_c21_match": false
+    }
+  ],
+  "joint_matches": 0,
+  "interpretation": "The .11 page-4 annotation and later AE9VT manual refer to voltage across C21. The four return wirings that previously met sampled current and EHT give only about 23.67\u201323.70 V across C21 at the collector peak, despite about 66.2 V at the boost node relative to ground. None of the six conditional cases meets all three sampled checks. The deck initializes the 220 uF C21 boost node at 65 V and runs only 5 ms, so this is not a settled booster measurement and cannot reject a physical return graph. The active stage cannot yet be called document-consistent; the result does not identify the winding graph or supply a T3 ratio."
+}

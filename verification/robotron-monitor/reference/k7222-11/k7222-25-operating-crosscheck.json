@@ -1,13 +1,13 @@
 {
-  "format": "dac-monitor-k7222-25-operating-crosscheck-v1",
+  "format": "dac-monitor-k7222-25-operating-crosscheck-v2",
   "qualification": "same-named-yoke cross-revision timing, rail and boost comparison; no K7222.11 T3 ratio, tap map, installed yoke current or source-driven waveform qualification",
   "input_sha256": {
-    "reference/k7222-11/k7222-25-horizontal-source-read.json": "7c59a04742e4d7aa8d1ec5779c426645a3ab0cd42565bd5d7cdc80cae99e9c0f",
+    "reference/k7222-11/k7222-25-horizontal-source-read.json": "8522e96b61c0261e49aa21c2a22973f439f0190ae5e2ad8d80eb2e20a9a292e6",
     "reference/k7222-11/design-point.json": "4a2dd2eefaeca3de19f8015288c354a7cb79b20582763698654734dfbbcb49ec",
     "reference/k7222-11/assembly.json": "e3883360002705d7a0c69a682768fe9f067940e2b9c016a8790de23defc6fc9d",
     "reference/k7222-11/t3-brimar-rail-boundary-screen.json": "f4ddaf7ae37792119a7adc0a6dfd532d80c8c79c11a4ca922d04011f0a8b26a6",
     "reference/k7222-11/t3-brimar-link-sensitivity.json": "db315c73065d294b2a9501e4fdadf1ba1a552764f028caf58721b9f04fd2727f",
-    "k7222_25_operating_crosscheck.py": "3592fe260fb5778fdb1500006e7835355b20e4ef23189d1ee6c506cc982a875f"
+    "k7222_25_operating_crosscheck.py": "d91414f163bf0146fc4ed9103eedee2e93a12d8c8961475d709da95127541a78"
   },
   "source_pdf_sha256": "e810e4722d889a7e357e192486da3a8004b1fd08aca1c0dcef4f3bbc5b66021d",
   "k7222_25_yoke_type": "AE9VT",
@@ -33,18 +33,30 @@
     39,
     43
   ],
-  "k7222_25_boost_v": [
+  "k7222_25_c21_differential_voltage_v": [
     60,
     70
   ],
-  "k7222_11_design_uses_same_boost_premise": true,
+  "legacy_design_point_treats_c21_voltage_as_trace_node": true,
+  "corrected_conditional_trace_node_v": [
+    99,
+    113
+  ],
+  "corrected_conditional_ideal_collector_peak_v": [
+    550.9475556500191,
+    628.8593311964864
+  ],
+  "corrected_conditional_eht_to_collector_ratio": [
+    17.49198819880922,
+    21.780657481712858
+  ],
   "conditional_tby7_nominal_crossing_feed_v": 42.50390625,
   "conditional_tby7_choke_sweep_crossing_feed_v": [
     42.21875,
     42.5703125
   ],
   "crossing_inside_k7222_25_41p_range": true,
-  "finding": "The later Robotron stage names AE9VT and independently gives the 60-70 V boost premise used by the partial .11 design point. The conditional TBY7 rail crossings fit its 39-43 V 41P range. This supports the operating-scale comparison, but the .25 tap function cannot assign .11 terminals or turns.",
+  "finding": "The later Robotron stage names AE9VT and independently gives 60-70 V across C21; the .11 page-4 annotation agrees. C21 lies between 41P and the boost node in the .11 graph, so the partial design point incorrectly used its differential voltage as the trace-node voltage. The corrected conditional trace-node range is 99-113 V, not 60-70 V. The TBY7 rail crossings fit the later 39-43 V 41P range, but neither revision qualifies the .11 T3 graph or actual collector pulse.",
   "excluded_transfer": [
     "The preceding non-.25 paragraph gives a 110 uH yoke and 18 V boost; it does not describe the explicitly marked K7222.25 stage.",
     "The manual gives no AE9VT inductance, resistance, current sensitivity or axial field profile.",
