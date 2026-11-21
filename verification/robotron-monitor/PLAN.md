@@ -415,6 +415,9 @@ cannot establish a T3 winding ratio. The active T3 values remain placeholders.
 
 The [Brimar TBY7 class](reference/k7222-11/yoke-brimar-110deg-comparator.json)
 provides a bounded comparator, not an installed AE9VT identification. The
+[K7222.25 operating crosscheck](reference/k7222-11/k7222-25-operating-crosscheck.json)
+names AE9VT and corroborates the 39–43 V 41P and 60–70 V boost scales in a
+later Robotron stage; it does not supply .11 winding ratios or tap order. The
 [conditional R5 rail screen](reference/k7222-11/t3-brimar-rail-boundary-screen.json)
 crosses its lower-current proxy near 42.504 V with 11.72 kV sampled EHT;
 the [six-scenario link/choke screen](reference/k7222-11/t3-brimar-link-sensitivity.json)

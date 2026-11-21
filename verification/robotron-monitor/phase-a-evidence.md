@@ -4719,6 +4719,24 @@ binary; the unequal-choke measurements shifted slightly without changing the
 conditional decision. This widens the tested envelope but is not an installed
 L1/L2 bound, an X2:4 waveform qualification or a T3 ratio derivation.
 
+### A5: AE9VT cross-revision operating comparison (2026-11-21)
+
+The [Robotron PC service manual](https://www.sax.de/~zander/pc1715/doku/pc_serv.pdf)
+explicitly describes the later K7222.25 horizontal stage with an AE9VT yoke.
+Its [source read](reference/k7222-11/k7222-25-horizontal-source-read.json)
+records a 39–43 V 41P rail, 60–70 V boost at C21 and horizontal-amplitude
+selection through transformer taps 2, 3 and 4. The same manual's K7222.25
+timing column gives 46.2 µs trace, 16.2 µs retrace and a 19.5 ms field,
+versus the .11 design point's 46.5 µs, 16.0 µs and 19.5 ms. The
+[crosscheck](reference/k7222-11/k7222-25-operating-crosscheck.json) verifies
+that the current conditional TBY7 rail crossings, 42.219–42.570 V, lie
+inside the later model's 39–43 V range and that the partial .11 design point
+uses the same boost scale. This is independent AE9VT-family operating context,
+not an AE9VT current or field specification, a .11 transformer tap map or a
+T3 turns ratio. The earlier generic 110 µH/18 V paragraph describes a
+different horizontal stage; K7222.25 L1/L2 filter 41P and are not the .11
+page-9 centering chokes.
+
 The [Philips AT2140/16 maker sheet](https://bitsavers.org/components/philips/_dataBooks/1987_C20_Philips_Wirewound_Components_for_TV_and_Monitors.pdf)
 is a useful same-era line-transformer class, but it pairs an 8 µs flyback
 with a 475 µH/90° yoke. The K7222.11 manual calls for 16 µs retrace and
