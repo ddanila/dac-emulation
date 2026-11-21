@@ -412,7 +412,10 @@ core area is changed from 150 to 113 mm²; effective area and material remain
 unqualified. Its full-stage check then reaches 12.38 kV EHT and 11.89 µs
 retrace, missing both source-guideline ranges at 50/25 ns. C27/C30 at their
 documented +10% limits still give 12.154 kV and 12.091 µs; the capacitor
-tolerances alone cannot restore both checks. The installed
+tolerances alone cannot restore both checks. A
+[16-case drive/HV turn screen](reference/k7222-11/t3-drive-hv-turn-joint-sensitivity.json)
+at the same core-area comparator finds no joint stage match; only one case
+reaches the EHT window and it has short retrace. The installed
 tube/yoke geometry also lacks
 enough evidence to fix deflection current. A joint horizontal/vertical class
 screen finds three broad-family current matches but none against the sampled

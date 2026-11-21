@@ -4172,3 +4172,29 @@ rules out fixing the smaller-core candidate by C27/C30 tolerance alone;
 the winding, effective core geometry/material and return graph need joint
 reconsideration. These are prescribed-drive stage results, not installed
 transformer measurements.
+
+### A5: joint drive/HV turns screen at the smaller core (2026-11-21)
+
+The [joint turn screen](reference/k7222-11/t3-drive-hv-turn-joint-sensitivity.json)
+holds the conditional 113.10 mm² core area, 10 nF C27, populated 1 nF C30,
+prescribed 200 ns V18 base edge and the existing unverified return graph.
+It varies the five assumed drive sections from a total of 64 to 72, 80 and
+88 turns and the HV winding across 1,768, 2,035, 2,300 and 2,409 turns.
+The HV endpoints come from cross-revision ÜHA78 accounts; the intermediate
+2,035-turn value and all drive counts are engineering sensitivity points,
+not .11 winding readings. Winding resistance, leakage, capacitance and
+the B–H curve are held fixed to isolate turn sensitivity, so the cases are
+not complete winding designs.
+
+All 16 prescribed-drive 50 ns cases reach 5 ms. None meets TP17, final EHT,
+retrace and the final-two-line periodicity condition jointly. Six meet the
+periodicity condition, and three have 15 rather than 16 counted flyback
+pulses. Only the 72-drive/1,768-HV-turn case reaches the
+11–12 kV EHT window (11.920 kV), but its 11.662 µs retrace misses the
+12.8–19.2 µs window. Higher HV turns do not monotonically raise loaded
+EHT in this coupled circuit, so an ideal turns ratio cannot be fitted from
+the collector peak alone. This finite screen does not rule out a different
+return graph, material curve, capacitance, winding losses or connected drive.
+It does rule out freezing any of these sampled turn pairs as the A5 fallback.
+The next step is a source re-read of the series/tap return and a bounded
+magnetic model before another joint fallback attempt.
