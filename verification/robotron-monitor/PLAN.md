@@ -398,8 +398,12 @@ failure, restore the component-level stage and re-run the gates from there.
 **Goal blocked reason (2026-11-21): Phase A cannot meet its six-item completion
 rule while A1, A2, A5 and A6 remain open; A5 is the critical dependency.** Its
 T3 design point is not qualified or bounded. The .11 scans do not resolve T3's
-return, tap order or high-voltage cold end. The four polarity candidates
-retained by function checks depend on an unverified winding graph, so they
+return, tap order or high-voltage cold end. The function-only core retains one
+conditional HV/G1 sign pair but assigns only six of 19 terminals; four
+full-graph candidates still depend on unverified winding continuity. A
+[TV ÜHA78 bridge report](reference/k7222-11/t3-tv-variant-source-read.json)
+cannot supply the missing .11 pin map: its X1:1–X1:2 bridge would bypass the
+.11 source-drawn V21 rectifier, so that bridge is excluded. These results
 cannot establish the ratios or signs of the installed transformer. The active
 winding values still have assumed bounds, and the permitted function-derived
 or equivalent-transformer fallback has not been parameterized with A5 ratios,
