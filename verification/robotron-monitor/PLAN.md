@@ -399,15 +399,21 @@ failure, restore the component-level stage and re-run the gates from there.
 produce a bounded, document-consistent design point because the active
 19-port T3 model conflicts with the .11 page-4 terminal labels: it omits
 X3:1 and X1:2, joins X1:3 to X2:3 where the drawing joins X1:2, and includes
-X1:16 without a resolved page-4 mapping. The 20-terminal correction now has
-a source-checked KiCad interface candidate, but no qualified winding
-parameters or active connected wrapper. Consequently the existing numerical
-T3 screens cannot establish the installed EHT, C21 boost or winding ratios.
-A1, A2 and A6 also remain
-open; A3 and A4 are done. This is an evidence and model-qualification gap,
-not an external dependency or approval wait. The immediate unblock is to
-resolve X1:16's mapping, rebuild and compare the wrapper, then rerun the
-affected screens with bounded drive, returns and yoke transfer.
+X1:16 without a resolved page-4 mapping. A separate, source-checked 20-pin
+KiCad candidate corrects the visible external connections, but its winding
+sections, turns, return and drive are still hypotheses; it is not the active
+connected wrapper. In the corrected 20-port prescribed-drive screens, neither
+the eight-sign screen (seven completed cases) nor the five-point booster-turn
+screen finds a case that jointly matches sampled EHT, TBY7 current and C21.
+Those screens are conditional sensitivities, not an installed winding ratio or
+periodic operating point. The permitted equivalent-T3 fallback also needs
+A5-derived ratios and bounded losses and parasitics, which are not yet
+qualified. A1, A2 and A6 remain open; A3 and A4 are done. This is an internal
+source, model and evidence gap, not an external dependency or approval wait.
+To unblock A5, resolve or bound the X1:16 mapping and internal graph, promote
+and compare a source-corrected connected wrapper, then qualify the drive,
+returns, yoke transfer and settled C21 voltage before selecting T3 parameters
+or the equivalent fallback.
 
 The .11 scan still does not settle T3's full return graph, tap order or
 high-voltage cold end. The
