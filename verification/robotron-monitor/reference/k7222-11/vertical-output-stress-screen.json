@@ -1,6 +1,6 @@
 {
-  "format": "dac-monitor-vertical-output-stress-screen-v1",
-  "qualification": "diagnostic only; synthetic sync, ideal rails, hypothetical yoke, nominal models, no case temperature or SOA qualification",
+  "format": "dac-monitor-vertical-output-stress-screen-v2",
+  "qualification": "diagnostic only; synthetic sync, ideal rails, hypothetical yoke, nominal models; thermal envelope assumes sustained mean power and BD139/BD140 class, with no installed case temperature or SOA qualification",
   "source": {
     "st_bd139_bd140": "https://www.st.com/resource/en/datasheet/bd139.pdf",
     "ratings": {
@@ -9,7 +9,10 @@
       "ic_a": 1.5,
       "ib_a": 0.5,
       "ptot_w_at_25c_ambient": 1.25,
-      "ptot_w_at_25c_case": 12.5
+      "ptot_w_at_25c_case": 12.5,
+      "junction_max_c": 150.0,
+      "rth_junction_case_max_c_per_w": 10.0,
+      "rth_junction_ambient_max_c_per_w": 100.0
     }
   },
   "simulation": {
@@ -26,10 +29,10 @@
   "inputs": {
     "stage_hashes": {
       "schematic": "fd88c461fa263880ca4aa9f156995f539da9c61a33987459feed16563df7205c",
-      "models": "d242521c5f43445c9ef9801fd5aecc829850604580f774d3f69c42047b9a9d1a",
+      "models": "fc2ef20aafa92e42364924e1e6631150d5f7e3689d46ad48dc6331449c7f6015",
       "bench": "600c2bffddaa00c7d0d41d093077ec4547361b0887d87444f621e34c86d2cf31",
       "inventory": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
-      "profile": "0c01057c2e74625bfd9d27eada55c670bfdbf325572413ec1a4b1846d3473b0a",
+      "profile": "d842ca62005b34934b1af526815f269ab74f586388a98d2b2397658ddde94879",
       "runner": "db063d9fe73fe3c635631a39d922c9fd87a84160fd952a9fdcc180cf594bf12e",
       "lab": "20e32785a018edb22e70d28b5017155f04a3966b1e37c675f9b3520e929b2cf8",
       "optics": "afb3e7d70a50a907bb243e8c67097ddd04013c47dd3510f9ed24aaca08bd6580",
@@ -41,10 +44,10 @@
       "model_0": "b3283dcda3155ecf232888a82cd999fe8ae1019eb35e5ca51074a21ddf4d6c9e",
       "model_1": "707af9030fb2e2978949981f68b4441a578e3ce8ecd16cf2bf1791ca07318443",
       "model_2": "3a20130fbb779cf47db557f5e3e6910772cdc0bcc9157e7c1cdbb5fae6e368df",
-      "deck": "a5c3215ff083f7cca9c64b93ce89b51ef560296e39197a6e132af4c201acae40"
+      "deck": "c9fdc5d890a51906bed505ccb683c6e39b7e98f7c4c81cc29e5a37fa9a1074e9"
     },
-    "stress_deck_sha256": "3af923286fb99f116d7b5e375ed2c89b31401bc2a2fb076dbc6e419810ad2f73",
-    "script_sha256": "16c37b977ef92373815f86d2197348089d2cee83c3d02f218b0d91f2bd8cd7d6"
+    "stress_deck_sha256": "68a7940b071055aea34c56dda7b9e337c19086cf331cd1ebb668ce9faef1b423",
+    "script_sha256": "5fcb3fbdbed19b5f97e21cdd0c9eadb625971ad183f43a2495b0e3fad4f6a9d0"
   },
   "devices": {
     "V27": {
@@ -107,6 +110,20 @@
           "base_current_0p5a": true,
           "mean_collector_power_1p25w_free_air": false
         }
+      },
+      "thermal_if_sustained_at_final_two_field_mean": {
+        "25": {
+          "free_air_junction_c_at_rth_max": 202.47664208598488,
+          "free_air_within_junction_limit_at_rth_max": false,
+          "maximum_total_junction_to_ambient_c_per_w": 70.43180360570452,
+          "maximum_case_to_ambient_c_per_w_after_10c_per_w_junction_case": 60.431803605704516
+        },
+        "70": {
+          "free_air_junction_c_at_rth_max": 247.47664208598488,
+          "free_air_within_junction_limit_at_rth_max": false,
+          "maximum_total_junction_to_ambient_c_per_w": 45.07635430765089,
+          "maximum_case_to_ambient_c_per_w_after_10c_per_w_junction_case": 35.07635430765089
+        }
       }
     },
     "V28": {
@@ -168,6 +185,20 @@
           "collector_current_1p5a": true,
           "base_current_0p5a": true,
           "mean_collector_power_1p25w_free_air": true
+        }
+      },
+      "thermal_if_sustained_at_final_two_field_mean": {
+        "25": {
+          "free_air_junction_c_at_rth_max": 75.11913781208813,
+          "free_air_within_junction_limit_at_rth_max": true,
+          "maximum_total_junction_to_ambient_c_per_w": 249.40572694738484,
+          "maximum_case_to_ambient_c_per_w_after_10c_per_w_junction_case": 239.40572694738484
+        },
+        "70": {
+          "free_air_junction_c_at_rth_max": 120.11913781208813,
+          "free_air_within_junction_limit_at_rth_max": true,
+          "maximum_total_junction_to_ambient_c_per_w": 159.6196652463263,
+          "maximum_case_to_ambient_c_per_w_after_10c_per_w_junction_case": 149.6196652463263
         }
       }
     }

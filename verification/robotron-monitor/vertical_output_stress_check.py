@@ -28,6 +28,10 @@ DEVICE = {
 }
 EXTRA = ' '.join(f'@{q}[{quantity}]' for q in ('q724', 'q726')
                  for quantity in ('ic', 'ib'))
+JUNCTION_MAX_C = 150.
+RTH_JUNCTION_CASE_C_PER_W = 10.
+RTH_JUNCTION_AMBIENT_C_PER_W = 100.
+THERMAL_AMBIENTS_C = (25., 70.)
 
 
 def digest(data):
@@ -84,6 +88,32 @@ def device_metrics(rows, columns, device):
     return metric
 
 
+def thermal_envelope(mean_power_w):
+    """Translate the ST class ratings into conditional mounting requirements."""
+    if mean_power_w <= 0:
+        raise ValueError('thermal calculation needs positive mean power')
+    return {
+        str(round(ambient)): {
+            'free_air_junction_c_at_rth_max': ambient + mean_power_w * RTH_JUNCTION_AMBIENT_C_PER_W,
+            'free_air_within_junction_limit_at_rth_max':
+                ambient + mean_power_w * RTH_JUNCTION_AMBIENT_C_PER_W <= JUNCTION_MAX_C,
+            'maximum_total_junction_to_ambient_c_per_w': (JUNCTION_MAX_C - ambient) / mean_power_w,
+            'maximum_case_to_ambient_c_per_w_after_10c_per_w_junction_case':
+                (JUNCTION_MAX_C - ambient) / mean_power_w - RTH_JUNCTION_CASE_C_PER_W,
+        } for ambient in THERMAL_AMBIENTS_C
+    }
+
+
+def device_summary(rows, final, columns, device):
+    final_metrics = device_metrics(final, columns, device)
+    return {
+        'full_run': device_metrics(rows, columns, device),
+        'final_two_fields': final_metrics,
+        'thermal_if_sustained_at_final_two_field_mean': thermal_envelope(
+            final_metrics['mean_positive_collector_power_w']),
+    }
+
+
 def run():
     profile = json.loads(PROFILE.read_text())
     period = profile['parameters']['sync_period']['nominal']
@@ -127,12 +157,16 @@ def run():
         periodic_error = max(abs(a[yoke] - b[yoke]) for a, b in zip(first, second))
         yoke_span = max(row[yoke] for row in final) - min(row[yoke] for row in final)
         return {
-            'format': 'dac-monitor-vertical-output-stress-screen-v1',
+            'format': 'dac-monitor-vertical-output-stress-screen-v2',
             'qualification': 'diagnostic only; synthetic sync, ideal rails, hypothetical yoke, '
-                             'nominal models, no case temperature or SOA qualification',
+                             'nominal models; thermal envelope assumes sustained mean power and '
+                             'BD139/BD140 class, with no installed case temperature or SOA qualification',
             'source': {'st_bd139_bd140': ST_URL, 'ratings': {
                 'vceo_v': 80, 'vebo_v': 5, 'ic_a': 1.5, 'ib_a': .5,
-                'ptot_w_at_25c_ambient': 1.25, 'ptot_w_at_25c_case': 12.5}},
+                'ptot_w_at_25c_ambient': 1.25, 'ptot_w_at_25c_case': 12.5,
+                'junction_max_c': JUNCTION_MAX_C,
+                'rth_junction_case_max_c_per_w': RTH_JUNCTION_CASE_C_PER_W,
+                'rth_junction_ambient_max_c_per_w': RTH_JUNCTION_AMBIENT_C_PER_W}},
             'simulation': {'stop_s': STOP_S, 'sample_step_s': STEP_S,
                            'synthetic_sync_period_s': period,
                            'final_two_field_start_s': STOP_S - 2 * period,
@@ -144,8 +178,7 @@ def run():
             'inputs': {'stage_hashes': stage['hashes'],
                        'stress_deck_sha256': digest(deck.encode()),
                        'script_sha256': digest(Path(__file__).read_bytes())},
-            'devices': {device: {'full_run': device_metrics(rows, columns, device),
-                                 'final_two_fields': device_metrics(final, columns, device)}
+            'devices': {device: device_summary(rows, final, columns, device)
                         for device in DEVICE},
         }
 

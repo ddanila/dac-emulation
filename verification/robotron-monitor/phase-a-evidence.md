@@ -4665,3 +4665,29 @@ The test run also exposed stale provenance hashes in saved receipts after the
 Tesla MAA723 register and vertical model/profile updates. The affected
 receipts were regenerated or refreshed against the current inputs; their
 computed results and qualification decisions did not change.
+
+### A2: conditional vertical-output thermal envelope (2026-11-21)
+
+The [refreshed vertical stress screen](reference/k7222-11/vertical-output-stress-screen.json)
+reproduces the earlier final-two-field mean collector powers: **1.775 W** at
+V27 and **0.501 W** at V28. The [ST BD139/BD140 sheet](https://www.st.com/resource/en/datasheet/bd139.pdf)
+gives a 150 °C maximum junction temperature, 100 °C/W maximum junction-to-ambient
+and 10 °C/W maximum junction-to-case thermal resistance. At those class maxima,
+the conditional V27 result would imply **202.5 °C** junction at 25 °C ambient,
+or **247.5 °C** at 70 °C. To remain at or below 150 °C with this mean power,
+its total junction-to-ambient resistance must be at most **70.4 °C/W** at 25 °C
+or **45.1 °C/W** at 70 °C. Assuming the sheet's 10 °C/W junction-to-case limit,
+the corresponding case-to-ambient limits are **60.4** and **35.1 °C/W**.
+The lower-power V28 remains below 150 °C at the sheet's 100 °C/W free-air
+maximum in both ambient scenarios.
+
+These are conditional cooling requirements for the BD139/BD140 *class*, not
+an installed device or heatsink identification. The source circuit has a
+hypothetical yoke and synthetic sync, and the calculation assumes its nominal
+electrical mean power persists at thermal equilibrium. Junction temperature,
+transient safe operating area, joint device bounds and the real mounting
+remain open. The result narrows the A2 decision: a free-air BD139-class V27
+cannot be accepted at the screened mean power without a lower actual thermal
+resistance, cooling, or a different bounded output-device equivalent. The
+sheet's 10 µs–1 ms pulse SOA curves are for single, nonrepetitive pulses and
+do not qualify this repeated field waveform.
