@@ -481,6 +481,9 @@ each. All complete at 20 ms, but C21 stays at 1.80–23.75 V and no case
 jointly meets sampled EHT, TBY7 current and C21. Changing that one assumed
 turn span cannot close this conditional gap; other section, return and
 installed-drive alternatives remain open.
+Both 20-port screens were regenerated after the connected adapter change;
+their input hashes match the current files and their numerical results are
+unchanged. This establishes reproducibility of these conditional screens only.
 
 A scoped [page-4 booster comparison](reference/k7222-11/page4-booster-comparison.json)
 found that the model had exchanged T3 X2:10 and X2:13: the source connects
