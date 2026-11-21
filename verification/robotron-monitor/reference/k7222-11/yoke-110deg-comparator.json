@@ -1,0 +1,204 @@
+{
+  "format": "dac-monitor-yoke-110deg-comparator-v1",
+  "qualification": "cross-neck class sensitivity only; not an installed AE9VT value or geometry freeze",
+  "source": {
+    "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf",
+    "sha256": "60ac727815c7493e8df4530fb909bc74c35b9120f3eddbdefe7a758bf536e417",
+    "selection_guide_printed_page": 7,
+    "datasheet_printed_pages": [
+      401,
+      404,
+      406
+    ]
+  },
+  "input_hashes": {
+    "profile": "4553f3d817ed5d094cea2df8d49343bed890c1b70dc9911b998c6f10e5b98f78",
+    "older_class": "8e25e47949c55870840fc8245ec36b29abdf3f5e98d23cdcf449c54314fb0ffe",
+    "yoke_geometry": "c141ddafd26c444b0c155bf1c3f31a01fdade73db53a95cc98428df58e2ef175",
+    "axial_trial": "caa31ff0a75b571e1542d1b92f39def985452b805001f64acfb5f9776b5ce310",
+    "joint_trial": "c223aad2e95437242edf850f1e891fd86ea96b49b658a74f1ecfd3980d32d82c",
+    "script": "b1e4bf7e96a9955e134920da591bff73e8939211915ba957fbd78589d1e13e1d"
+  },
+  "reference": {
+    "type": "AT1039/03",
+    "angle_degrees": 110,
+    "diagonal_mm": 310,
+    "neck_diameter_mm": 28.6,
+    "eht_v": 17000,
+    "scan_width_mm": 230,
+    "scan_height_mm": 170,
+    "line_inductance_h": 0.000228,
+    "line_resistance_ohm": 0.41,
+    "line_current_pp_a": 7.95,
+    "field_inductance_h": 0.00918,
+    "field_resistance_ohm": 10.2,
+    "field_current_pp_a": 1.21,
+    "current_tolerance_fraction": 0.05,
+    "line_connection": "parallel",
+    "field_connection": "series"
+  },
+  "target": {
+    "width_mm": 210,
+    "width_tolerance_mm": 20,
+    "height_mm": 145,
+    "height_tolerance_mm": 15,
+    "eht_v": [
+      11000,
+      12000
+    ]
+  },
+  "transfer_equation": "I_target_pp = I_reference_pp * target_scan_mm/reference_scan_mm * sqrt(target_EHT/17000 V)",
+  "transfer_assumptions": [
+    "First-order linearized deflection scaling across different CRTs",
+    "Manufacturer +/-5% current tolerance and Robotron picture/EHT windows",
+    "Philips 28.6 mm-neck field shape is not AE9VT or B31G22 geometry"
+  ],
+  "transferred_current_nominal_pp_a": {
+    "horizontal": 5.970119811415835,
+    "vertical": 0.8488460081742293
+  },
+  "transferred_current_bounds_pp_a": {
+    "horizontal": [
+      5.018667006491358,
+      7.013302800854287
+    ],
+    "vertical": [
+      0.7070909657022445,
+      1.0046433016984018
+    ]
+  },
+  "earlier_90deg_family_current_bounds_pp_a": {
+    "horizontal": [
+      1.9500592200585802,
+      5.732101167315175
+    ],
+    "vertical": [
+      0.1455289203789634,
+      0.7323076923076922
+    ]
+  },
+  "geometry_assumptions": {
+    "inner_neck_radius_m": 0.009,
+    "screen_z_m": [
+      0.23,
+      0.235,
+      0.25
+    ],
+    "common_field_length_m": [
+      0.02,
+      0.025,
+      0.0275
+    ],
+    "catalog_electrical_windings": true,
+    "remaining_magnetic_geometry_from": "profiles/k7222-11-yoke-geometry.json"
+  },
+  "cases": [
+    {
+      "screen_z_m": 0.23,
+      "common_field_length_m": 0.02,
+      "horizontal_width_reached": true,
+      "horizontal_maximum_half_width_m": 0.12704112339429094,
+      "horizontal_current_pp_a": 8.449929164096591,
+      "vertical_current_pp_a": 1.4425813767313964,
+      "horizontal_in_own_proxy": false,
+      "vertical_in_own_proxy": false,
+      "joint_own_proxy_match": false
+    },
+    {
+      "screen_z_m": 0.23,
+      "common_field_length_m": 0.025,
+      "horizontal_width_reached": false,
+      "horizontal_maximum_half_width_m": 0.10111540034489941,
+      "horizontal_current_pp_a": null,
+      "vertical_current_pp_a": 1.3092684480547914,
+      "horizontal_in_own_proxy": false,
+      "vertical_in_own_proxy": false,
+      "joint_own_proxy_match": false
+    },
+    {
+      "screen_z_m": 0.23,
+      "common_field_length_m": 0.0275,
+      "horizontal_width_reached": false,
+      "horizontal_maximum_half_width_m": 0.09141402105230614,
+      "horizontal_current_pp_a": null,
+      "vertical_current_pp_a": 1.2584861555695541,
+      "horizontal_in_own_proxy": false,
+      "vertical_in_own_proxy": false,
+      "joint_own_proxy_match": false
+    },
+    {
+      "screen_z_m": 0.235,
+      "common_field_length_m": 0.02,
+      "horizontal_width_reached": true,
+      "horizontal_maximum_half_width_m": 0.13092377437890923,
+      "horizontal_current_pp_a": 8.255234195600863,
+      "vertical_current_pp_a": 1.4025437405705456,
+      "horizontal_in_own_proxy": false,
+      "vertical_in_own_proxy": false,
+      "joint_own_proxy_match": false
+    },
+    {
+      "screen_z_m": 0.235,
+      "common_field_length_m": 0.025,
+      "horizontal_width_reached": false,
+      "horizontal_maximum_half_width_m": 0.10440292498374318,
+      "horizontal_current_pp_a": null,
+      "vertical_current_pp_a": 1.2724915406107913,
+      "horizontal_in_own_proxy": false,
+      "vertical_in_own_proxy": false,
+      "joint_own_proxy_match": false
+    },
+    {
+      "screen_z_m": 0.235,
+      "common_field_length_m": 0.0275,
+      "horizontal_width_reached": false,
+      "horizontal_maximum_half_width_m": 0.09445484856276631,
+      "horizontal_current_pp_a": null,
+      "vertical_current_pp_a": 1.2229209813475614,
+      "horizontal_in_own_proxy": false,
+      "vertical_in_own_proxy": false,
+      "joint_own_proxy_match": false
+    },
+    {
+      "screen_z_m": 0.25,
+      "common_field_length_m": 0.02,
+      "horizontal_width_reached": true,
+      "horizontal_maximum_half_width_m": 0.14239717888368567,
+      "horizontal_current_pp_a": 7.709080929038698,
+      "vertical_current_pp_a": 1.2934749558568008,
+      "horizontal_in_own_proxy": false,
+      "vertical_in_own_proxy": false,
+      "joint_own_proxy_match": false
+    },
+    {
+      "screen_z_m": 0.25,
+      "common_field_length_m": 0.025,
+      "horizontal_width_reached": true,
+      "horizontal_maximum_half_width_m": 0.11416402649216013,
+      "horizontal_current_pp_a": 6.990383628697797,
+      "vertical_current_pp_a": 1.1723964968323715,
+      "horizontal_in_own_proxy": true,
+      "vertical_in_own_proxy": false,
+      "joint_own_proxy_match": false
+    },
+    {
+      "screen_z_m": 0.25,
+      "common_field_length_m": 0.0275,
+      "horizontal_width_reached": false,
+      "horizontal_maximum_half_width_m": 0.1034980840592525,
+      "horizontal_current_pp_a": null,
+      "vertical_current_pp_a": 1.1261684420704843,
+      "horizontal_in_own_proxy": false,
+      "vertical_in_own_proxy": false,
+      "joint_own_proxy_match": false
+    }
+  ],
+  "horizontal_width_reached_count": 4,
+  "horizontal_own_proxy_match_count": 1,
+  "joint_own_proxy_match_count": 0,
+  "interpretation": "The 110-degree comparator permits more horizontal current than the earlier 90-degree family envelope, but no sampled common-field geometry meets both its own horizontal and vertical transferred-current bounds. Its 28.6 mm neck prevents using it as an installed AE9VT bound.",
+  "unresolved": [
+    "Installed AE9VT winding and axis-specific field extent are unsourced",
+    "B31G22 gun-to-screen distance and inner neck radius are unsourced"
+  ]
+}
