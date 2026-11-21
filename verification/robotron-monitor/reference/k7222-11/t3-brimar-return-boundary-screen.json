@@ -1,0 +1,286 @@
+{
+  "format": "dac-monitor-t3-brimar-return-boundary-screen-v1",
+  "qualification": "conditional 4\u20135 ms prescribed-base stage and TBY7 comparator; unverified T3 graph/returns and exploratory centring chokes; not installed AE9VT, periodic operation or an A5 freeze",
+  "source": {
+    "k7222_11_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "brimar_pdf_sha256": "eb327b3bde53b62472190bd1fd968bc8b1687a082ed991bc0adc0b836801ae01"
+  },
+  "input_sha256": {
+    "reference/k7222-11/t3-brimar-rail-boundary-screen.json": "f4ddaf7ae37792119a7adc0a6dfd532d80c8c79c11a4ca922d04011f0a8b26a6",
+    "reference/k7222-11/a5-yoke-class-boundary.json": "603f687194cc18548a0f06206845088ce25c88b62c4902745fe07ee56adae8f8",
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "c3d0cfa7dd5786827ebd0eac4eac5f68e7a99422b8a22c158fcd94df3bdac4ca",
+    "reference/k7222-11/t3-cold-return-matrix.json": "8c2154decbcc8da9ce172686a0d73488031afe188b59308eac0aa071e0504bd2",
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "circuits/k7222-11-centering-models.cir": "b002db59e7ac0234ea3578c0598a9fc5d2c9f7985669ad401fa01b58df353282",
+    "steady_supply.py": "a459e23925c690da6e31437d2c79557cd7c97482ca0ede351bf6b724da073e75",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc",
+    "t3_brimar_rail_boundary_screen.py": "350a92a8f758c6c32bef70f659c6547fd12ce771629d7c7a0d44527ebe13b82c",
+    "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "t3_loaded_return_screen.py": "d699fecb27e8a8157b94fa8e56fc867a8250a83628d66c8a1a41a4013d519c66",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_tp17_path_sweep.py": "90f13dd629d010f0b9ef37e4f32ef12c3568abb9f1ffffc79b876d4ced196b2d",
+    "t3_brimar_return_boundary_screen.py": "4a939315e9113a6100aa93b114ec978e1c092830f0f83ee1374c67d658df9311"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_conditions": {
+    "yoke_type": "TBY7",
+    "yoke_line_l_h": 0.0041,
+    "yoke_line_r_ohm": 8.8,
+    "centering_link_pair": "E1+E2",
+    "centering_coil_l_h": 0.08,
+    "r4_position": 0.5,
+    "prescribed_base_edge_ns": 200,
+    "max_step_ns": 50
+  },
+  "class_lower_current_pp_a": 0.9459574468085108,
+  "manual_eht_bounds_v": [
+    11000,
+    12000
+  ],
+  "prior_boundary_feed_v": 42.50390625,
+  "cases": [
+    {
+      "upper_return_tied": true,
+      "cold_mode": "hv_only_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "0"
+      },
+      "feed_v": 41.0,
+      "r5_equivalent_position": 0.63,
+      "yoke_current_pp_a": 0.913942491,
+      "eht_at_collector_peak_v": 11511.5163,
+      "drive_peak_v": 443.159867,
+      "reaches_class_lower_current": false,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "41cc8fcdcf9835f77e018e56a126078ad3a50156e1ccb46496668a71b18fa811"
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "hv_only_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "0"
+      },
+      "feed_v": 42.50390625,
+      "r5_equivalent_position": 0.5227901847256685,
+      "yoke_current_pp_a": 0.945975692,
+      "eht_at_collector_peak_v": 11722.0144,
+      "drive_peak_v": 457.655189,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "2337ec1d46853855afcadc8287d556d8a0410aed6eda649caa811f52c96dce3b"
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "hv_only_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "0"
+      },
+      "feed_v": 43.0,
+      "r5_equivalent_position": 0.4890697674418607,
+      "yoke_current_pp_a": 0.956369797,
+      "eht_at_collector_peak_v": 11792.5327,
+      "drive_peak_v": 461.780745,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "9e61a1772d030c61522d758d1bbd61c4ca84327d6f4f59378be8c7fec125c652"
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "0",
+        "X1_16": "0"
+      },
+      "feed_v": 41.0,
+      "r5_equivalent_position": 0.63,
+      "yoke_current_pp_a": 0.047420993609999997,
+      "eht_at_collector_peak_v": 1198.82633,
+      "drive_peak_v": 156.815358,
+      "reaches_class_lower_current": false,
+      "sampled_eht_in_manual_band": false,
+      "normalized_deck_sha256": "75d1efbef089fd9ee707b63ed51a33c17aa912f276484d0b875be4c5b8779d82"
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "0",
+        "X1_16": "0"
+      },
+      "feed_v": 42.50390625,
+      "r5_equivalent_position": 0.5227901847256685,
+      "yoke_current_pp_a": 0.0479056237,
+      "eht_at_collector_peak_v": 1205.38669,
+      "drive_peak_v": 158.226249,
+      "reaches_class_lower_current": false,
+      "sampled_eht_in_manual_band": false,
+      "normalized_deck_sha256": "200d60d204bb41e182a15ee8c2999777119190164f29a3f5835e104db6b5c217"
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper2",
+        "X2_3": "h_upper2",
+        "X1_7": "0",
+        "X1_16": "0"
+      },
+      "feed_v": 43.0,
+      "r5_equivalent_position": 0.4890697674418607,
+      "yoke_current_pp_a": 0.04805773104,
+      "eht_at_collector_peak_v": 1207.67692,
+      "drive_peak_v": 158.829578,
+      "reaches_class_lower_current": false,
+      "sampled_eht_in_manual_band": false,
+      "normalized_deck_sha256": "5edba1bfa70558a0c47d35022dd2c4002867c631039924ff0e799cd7742a98a9"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "hv_only_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "0"
+      },
+      "feed_v": 41.0,
+      "r5_equivalent_position": 0.63,
+      "yoke_current_pp_a": 0.913964231,
+      "eht_at_collector_peak_v": 11511.1398,
+      "drive_peak_v": 443.135917,
+      "reaches_class_lower_current": false,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "f57afa4cda3b1accbc68108c66d8b595341ee49d08aa531627735dbebdfa2798"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "hv_only_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "0"
+      },
+      "feed_v": 42.50390625,
+      "r5_equivalent_position": 0.5227901847256685,
+      "yoke_current_pp_a": 0.945991204,
+      "eht_at_collector_peak_v": 11722.9827,
+      "drive_peak_v": 457.645855,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "0df262ae59aea85395812782e6dfa3f7c6379553a1ace59e292b2ecaebd30a9a"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "hv_only_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "h_hvcold",
+        "X1_16": "0"
+      },
+      "feed_v": 43.0,
+      "r5_equivalent_position": 0.4890697674418607,
+      "yoke_current_pp_a": 0.956356137,
+      "eht_at_collector_peak_v": 11792.6372,
+      "drive_peak_v": 461.792269,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "21cd980886e08461e077c004f42ffe6b11e90aa92ed50102c664d9f18149b87b"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "0",
+        "X1_16": "0"
+      },
+      "feed_v": 41.0,
+      "r5_equivalent_position": 0.63,
+      "yoke_current_pp_a": 0.913931423,
+      "eht_at_collector_peak_v": 11511.4239,
+      "drive_peak_v": 443.152739,
+      "reaches_class_lower_current": false,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "207e23dd3ce28c55922cc6c1811a7ef3e39670430e9c2074b67962a5f2b49dac"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "0",
+        "X1_16": "0"
+      },
+      "feed_v": 42.50390625,
+      "r5_equivalent_position": 0.5227901847256685,
+      "yoke_current_pp_a": 0.945968833,
+      "eht_at_collector_peak_v": 11722.9686,
+      "drive_peak_v": 457.675712,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "1132e864df13e736b702ea9d7f5d41545a1c9b3759d63e89db62b9256511f2e8"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_grounded",
+      "variant_pins": {
+        "X1_3": "h_upper_return",
+        "X2_3": "h_upper2",
+        "X1_7": "0",
+        "X1_16": "0"
+      },
+      "feed_v": 43.0,
+      "r5_equivalent_position": 0.4890697674418607,
+      "yoke_current_pp_a": 0.9563909389999999,
+      "eht_at_collector_peak_v": 11793.6957,
+      "drive_peak_v": 461.792209,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "b5233dc65f134d46116ebb4dbdcb151ae19ca597d7c2c43973bb3a0f20cf6794"
+    }
+  ],
+  "at_prior_crossing": [
+    {
+      "upper_return_tied": true,
+      "cold_mode": "hv_only_grounded",
+      "current_and_eht_screen_match": true
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_grounded",
+      "current_and_eht_screen_match": false
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "hv_only_grounded",
+      "current_and_eht_screen_match": true
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_grounded",
+      "current_and_eht_screen_match": true
+    }
+  ],
+  "interpretation": "At the prior nominal return crossing, three of four conditional return wirings meet the transferred TBY7 lower-current and sampled EHT bands. The tied X1:3/X2:3 plus shared-grounded X1:16/X1:7 combination collapses both outputs. The open-upper-return version of that same cold-end connection does not. This interaction rejects that one pairing only within the assumed graph, stage and rail; it cannot identify the installed return or fix a winding ratio."
+}
