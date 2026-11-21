@@ -1,0 +1,140 @@
+{
+  "format": "dac-monitor-a5-yoke-class-boundary-v1",
+  "qualification": "class-typical electrical/current boundary, not installed AE9VT identity, B31G22 field geometry or a frozen A5 design point",
+  "source": {
+    "url": "https://tubedata.altanatubes.com.br/other/Brimar/Brimar_IndustrialCathodeRayTubes_DataSection_Issue3.pdf",
+    "sha256": "eb327b3bde53b62472190bd1fd968bc8b1687a082ed991bc0adc0b836801ae01",
+    "selection_table_printed_page": 8,
+    "scan_coil_sheets": "TBY3/TBY5/TBY7 page 1"
+  },
+  "input_hashes": {
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "c3d0cfa7dd5786827ebd0eac4eac5f68e7a99422b8a22c158fcd94df3bdac4ca",
+    "reference/k7222-11/design-point.json": "4a2dd2eefaeca3de19f8015288c354a7cb79b20582763698654734dfbbcb49ec",
+    "reference/k7222-11/class-typical-register.json": "d835fd1738112c66b629ad68511eb49e4110a6d67c66724057dec2b83f8c9136",
+    "reference/k7222-11/t3-yoke-brimar-stage-screen.json": "27d832bdeba12ee1d84d182dc2eff6f7b13ee82c10893d55154d4143915bb458",
+    "a5_yoke_class_boundary.py": "0f9800c665477b9b0dcaacb529c25169fabb3105f51f913961de248476e411f0"
+  },
+  "comparator_type": "TBY7",
+  "target": {
+    "width_mm": 210,
+    "width_tolerance_mm": 20,
+    "height_mm": 145,
+    "height_tolerance_mm": 15,
+    "eht_v": [
+      11000,
+      12000
+    ]
+  },
+  "transfer_equation": "I_target_pp = I_M31-120_pp * target_scan_mm/Brimar_235x165mm_raster_mm * sqrt(target_EHT/11000V)",
+  "transfer_uncertainty": "Declared +/-10% model-transfer allowance; Brimar states 5%/8% inductance tolerance, not full-scan current tolerance. The 235 x 165 mm raster-distortion figure is a size proxy, not a guaranteed full-scan specification.",
+  "axes": {
+    "horizontal": {
+      "winding": {
+        "inductance_h": 0.0041,
+        "inductance_bounds_h": [
+          0.003895,
+          0.004305
+        ],
+        "resistance_ohm": 8.8,
+        "resistance_bounds_ohm": [
+          8.36,
+          9.24
+        ]
+      },
+      "current_pp_a": {
+        "nominal": 1.1878110533934791,
+        "bounds": [
+          0.9459574468085108,
+          1.4618078564381878
+        ]
+      },
+      "current_peak_a": {
+        "nominal": 0.5939055266967396,
+        "bounds": [
+          0.4729787234042554,
+          0.7309039282190939
+        ]
+      },
+      "trace_s": 4.65e-05,
+      "nominal_ideal_rl_voltage_v": {
+        "inductive_v": 104.73172728845731,
+        "start_v": 99.505358653526,
+        "end_v": 109.95809592338861
+      },
+      "independent_corner_ideal_rl_voltage_v": {
+        "inductive_v": [
+          79.23665065202472,
+          135.33511445089027
+        ],
+        "start_v": [
+          74.8663272477694,
+          129.22475761097866
+        ],
+        "end_v": [
+          83.1907527796843,
+          142.0886667476347
+        ]
+      },
+      "voltage_scope": "Yoke winding only, centred linear trace; excludes S-correction capacitors, centring bridge, flyback, leakage and stage loading"
+    },
+    "vertical": {
+      "winding": {
+        "inductance_h": 0.032,
+        "inductance_bounds_h": [
+          0.02944,
+          0.03456
+        ],
+        "resistance_ohm": 16,
+        "resistance_bounds_ohm": [
+          14.72,
+          17.28
+        ]
+      },
+      "current_pp_a": {
+        "nominal": 0.44926919352184264,
+        "bounds": [
+          0.35454545454545455,
+          0.5570484990582331
+        ]
+      },
+      "current_peak_a": {
+        "nominal": 0.22463459676092132,
+        "bounds": [
+          0.17727272727272728,
+          0.27852424952911653
+        ]
+      },
+      "trace_s": 0.018,
+      "nominal_ideal_rl_voltage_v": {
+        "inductive_v": 0.7987007884832759,
+        "start_v": -2.7954527596914653,
+        "end_v": 4.392854336658017
+      },
+      "independent_corner_ideal_rl_voltage_v": {
+        "inductive_v": [
+          0.5798787878787879,
+          1.0695331181918075
+        ],
+        "start_v": [
+          -3.9018152645145574,
+          -1.9287272727272726
+        ],
+        "end_v": [
+          3.1893333333333334,
+          5.8824321500549415
+        ]
+      },
+      "voltage_scope": "Yoke winding only, centred linear trace; excludes S-correction capacitors, centring bridge, flyback, leakage and stage loading"
+    }
+  },
+  "conditional_stage": {
+    "status": "prescribed-drive, unverified T3 graph and return, nonperiodic 4\u20135 ms sample",
+    "source_report": "reference/k7222-11/t3-yoke-brimar-stage-screen.json",
+    "sampled_yoke_current_pp_a": 0.913942491,
+    "below_class_lower_bound_pp_a": 0.03201495580851077,
+    "nominal_current_shortfall_fraction": 0.23056576347817193,
+    "sampled_eht_v": 11511.5163,
+    "sampled_drive_peak_v": 443.159867
+  },
+  "next_use": "Use as a bounded class candidate for A5/B3 T3 and yoke sensitivity; preserve the active yoke and ray profile until its field geometry and the T3 drive/return are bounded."
+}
