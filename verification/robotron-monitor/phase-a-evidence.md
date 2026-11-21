@@ -4198,3 +4198,28 @@ return graph, material curve, capacitance, winding losses or connected drive.
 It does rule out freezing any of these sampled turn pairs as the A5 fallback.
 The next step is a source re-read of the series/tap return and a bounded
 magnetic model before another joint fallback attempt.
+
+### A5: cross-revision series-section count does not resolve the return (2026-11-21)
+
+A [firsthand BAB2/ÜHA78 repair account, post 012](https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=10899)
+describes a 120-turn section and a primary winding in an opposing series
+path with the HV winding. It does not identify the `.11` T3 pin map, and
+the page-4 scan still does not prove which of X1:3, X1:7, X1:16 and X2:3
+forms that path. The active scan-order hypothesis assigns 33 turns to its
+X1:3–X1:7 `upper_taps` group and 12.5 turns to its X2:5–X2:3 auxiliary
+group. Neither count is sourced as the installed winding.
+
+The [series-section sensitivity](reference/k7222-11/t3-series-section-turn-sensitivity.json)
+conditionally assigns 33, 60, 90 or 120 turns to the candidate upper-tap
+group while retaining the 12.5-turn auxiliary, 1,768-turn HV winding,
+113.10 mm² core-area comparator and prescribed 200 ns base edge. All four
+50 ns runs reach 5 ms. Changing 33 to 120 upper turns moves final EHT
+from 12,379.8 to 12,373.5 V and median retrace from 11.8952 to
+11.9003 µs. Neither manual window is restored; the 90-turn case also
+misses the final-two-line periodicity check. The small response does not
+prove the repair account wrong: the 120 turns may map to a different
+internal section, with different coupling, sign or return. It means this
+particular assignment cannot qualify the current A5 graph or fix its
+smaller-core stage mismatch. The function-derived fallback must carry the
+series-compensation alternative explicitly instead of copying this tap
+count into the installed model.

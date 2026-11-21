@@ -415,7 +415,10 @@ documented +10% limits still give 12.154 kV and 12.091 µs; the capacitor
 tolerances alone cannot restore both checks. A
 [16-case drive/HV turn screen](reference/k7222-11/t3-drive-hv-turn-joint-sensitivity.json)
 at the same core-area comparator finds no joint stage match; only one case
-reaches the EHT window and it has short retrace. The installed
+reaches the EHT window and it has short retrace. A
+[120-turn series-section assignment](reference/k7222-11/t3-series-section-turn-sensitivity.json)
+from a cross-revision repair account changes EHT by only 6 V in the
+candidate graph and also fails both windows. The installed
 tube/yoke geometry also lacks
 enough evidence to fix deflection current. A joint horizontal/vertical class
 screen finds three broad-family current matches but none against the sampled

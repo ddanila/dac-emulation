@@ -1,0 +1,119 @@
+{
+  "format": "dac-monitor-t3-series-section-turn-sensitivity-v1",
+  "qualification": "conditional cross-revision 120-turn series-section interpretation in the unverified scan-order graph; not original K7222.11 internal continuity, turns or operating point",
+  "source": {
+    "url": "https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=10899",
+    "post": "012",
+    "date": "2014-05-14",
+    "reading": "A BAB2 repairer describes 120 turns and the primary winding in series with the HV winding in opposite winding sense.",
+    "limit": "The post does not identify a K7222.11 pin-to-pin map or assign the 120 turns to X1:3\u2013X1:7."
+  },
+  "inputs_sha256": {
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "t3_stage_refinement_screen.py": "876a3f7d615cc95ff5ba0f4e5745d224678ee1c9404ded9ed46c14590ba0e48a"
+  },
+  "assumptions": {
+    "core_area_m2": 0.00011309733552923255,
+    "prescribed_base_edge_ns": 200,
+    "hv_turns": 1768,
+    "drive_total_turns": 64,
+    "c27_nf": 10,
+    "c30_nf": 1,
+    "only_changed_parameter": "upper_taps second-section turns to make upper_taps group total 33/60/90/120; existing auxiliary group and all other parameters fixed",
+    "interpretation": "If the cross-revision 120-turn statement maps instead to the whole upper-plus-auxiliary series chain, this screen does not implement it; this is a conditional assignment test only."
+  },
+  "cases": [
+    {
+      "upper_total_turns": 33,
+      "upper_sections_turns": [
+        3,
+        30
+      ],
+      "auxiliary_total_turns": 12.5,
+      "hv_turns": 1768,
+      "normalized_deck_sha256": "c261fd245c75e2ac257e213b523d4c97a5ca3fa9e52514469305def480404a33",
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": true,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 84.6911632,
+        "eht_final_v": 12379.7835,
+        "collector_peak_v": 492.841358,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.89520567603875
+      }
+    },
+    {
+      "upper_total_turns": 60,
+      "upper_sections_turns": [
+        3,
+        57
+      ],
+      "auxiliary_total_turns": 12.5,
+      "hv_turns": 1768,
+      "normalized_deck_sha256": "7bd6e9f9a601c0193a544752ab6d1383777d99cb85a9c87073c797338d5cc8dc",
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": true,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 84.68352100000001,
+        "eht_final_v": 12378.7189,
+        "collector_peak_v": 492.850406,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.896311252021942
+      }
+    },
+    {
+      "upper_total_turns": 90,
+      "upper_sections_turns": [
+        3,
+        87
+      ],
+      "auxiliary_total_turns": 12.5,
+      "hv_turns": 1768,
+      "normalized_deck_sha256": "06f9ee501275009342f62202d650e2492c1fa571a00ca2850ef01e6660c5b0a5",
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": false,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 84.7278062,
+        "eht_final_v": 12376.7188,
+        "collector_peak_v": 493.043503,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.897810279346519
+      }
+    },
+    {
+      "upper_total_turns": 120,
+      "upper_sections_turns": [
+        3,
+        117
+      ],
+      "auxiliary_total_turns": 12.5,
+      "hv_turns": 1768,
+      "normalized_deck_sha256": "3288bb91a27f9922ad6e965d01da3f9af8be5b81e2ffd49b6cd570ff479cd15b",
+      "median_step_ns": 49.99999999970306,
+      "last_two_lines_periodic": true,
+      "stage_check_pass": false,
+      "metrics": {
+        "sync_swing_v": 84.7943626,
+        "eht_final_v": 12373.5271,
+        "collector_peak_v": 493.274875,
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.900262557106284
+      }
+    }
+  ],
+  "screen_summary": {
+    "case_count": 4,
+    "completed_cases": 4,
+    "stage_window_matches": 0,
+    "periodic_final_two_lines": 3,
+    "eht_change_v_from_33_to_120": -6.2564000000002125,
+    "retrace_change_us_from_33_to_120": 0.005056881067535102,
+    "conclusion": "Assigning the cross-revision 120-turn figure to this candidate upper-tap group barely moves EHT or retrace and does not restore either stage window. This does not establish the true pin map; it makes this particular count assignment ineffective as an A5 fix."
+  },
+  "next": "Keep the BAB2 120-turn observation as a cross-revision topology comparator. Re-read the .11 X1/X2 external bridge and internal coil segmentation, then test a function-derived series-compensated equivalent with explicitly bounded polarity and core loss."
+}
