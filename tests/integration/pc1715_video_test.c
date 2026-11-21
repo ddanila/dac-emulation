@@ -21,10 +21,21 @@ static void configure(pc1715 *m, unsigned flags) {
   wr(m, 0x19, 0x80);
   wr(m, 0x18, 255);
   wr(m, 0x18, 255);
-  wr(m, 0x22, 31);
+  wr(m, 0x34, 0x3e);
   wr(m, 0x19, 0x23);
 }
 static void run(pc1715 *m) { pc1715_run(m, PC1715_CLOCK_HZ / 20); }
+static unsigned floppy_writes, floppy_waits;
+static int card_wait(void *p, uint16_t a, int writing) {
+  (void)p;
+  if (writing && (a & 0xfc) == 0x20) floppy_waits++;
+  return 0;
+}
+static void card_write(void *p, uint16_t a, uint8_t d) {
+  (void)p;
+  assert((a & 0xfc) == 0x20 && d == 0xef);
+  floppy_writes++;
+}
 static uint64_t signals, lastdot;
 static unsigned pulses, previous = 1;
 static void observe_signal(void *p, uint64_t dot, unsigned lit, unsigned high,
@@ -50,6 +61,37 @@ int main(void) {
   glyphs[128 + 1] = 0x40;
   glyphs[2048 + 1] = 0x01;
   assert(pc1715_video_load(m, glyphs, 4096) == 0);
+  /* Service manual pp.15-16: KRFD=20..23, BWSCS=34..37.
+   * Sheet 2 A23.2/A22.4/X12: D1..D5 -> AB11..15, D0 unused at 80 columns.
+   * Check every block and every alias independently of firmware constants. */
+  for (unsigned block = 0; block < 32; block++) {
+    pc1715_reset(m);
+    memset(m->ram, 0, sizeof m->ram);
+    memset(m->ram + block * 2048, 1, 2048);
+    configure(m, 0);
+    wr(m, 0xab34 | (block & 3), (block << 1) | (block & 1));
+    for (unsigned a = 0x20; a <= 0x23; a++)
+      assert(!pc1715_video_write(m, a, 0xef));
+    assert(m->video.latch == ((block << 1) | (block & 1)));
+    run(m);
+    assert(m->video.pixels[0] == 0xffaaaaaa);
+    assert(m->video.pixels[1] == 0xff000000);
+    assert(!m->video.underruns);
+  }
+  /* With video enabled, CPU I/O still reaches the floppy card and its WAIT
+   * callback. Video must not swallow KRFD writes or change the screen bank. */
+  pc1715_reset(m);
+  const uint8_t program[] = {0x3e,0xef,0xd3,0x20,0xd3,0x21,
+                            0xd3,0x22,0xd3,0x23,0x76};
+  memcpy(m->rom, program, sizeof program);
+  pc1715_card card = {.wait=card_wait, .write=card_write};
+  pc1715_attach(m, &card);
+  wr(m, 0x34, 0x3e);
+  run(m);
+  assert(floppy_writes == 4 && floppy_waits == 4 && m->video.latch == 0x3e);
+  memset(&m->card, 0, sizeof m->card);
+  memcpy(m->rom, rom, sizeof rom);
+  pc1715_reset(m);
   memset(m->ram + 0xf800, 1, 2048);
   configure(m, 0);
   run(m);
@@ -60,7 +102,7 @@ int main(void) {
   assert(m->video.fetches > 1920 && !m->video.underruns);
   assert(status(m) & 32);
   assert(!(status(m) & 32));
-  wr(m, 0x23, 31 | 64);
+  wr(m, 0x37, 0x3e | 64);
   run(m);
   assert(m->video.pixels[7] == 0xffaaaaaa && m->video.pixels[0] == 0xff000000);
   /* Invisible field consumes one FIFO byte but retains a visible character. */
@@ -71,7 +113,7 @@ int main(void) {
   assert(m->video.pixels[0] == 0xffffffff); /* bank latch XOR GPA0 */
   assert(m->video.pixels[8] == 0xffffffff);
   /* Reverse field and visible-attribute blanking. */
-  wr(m, 0x22, 31);
+  wr(m, 0x34, 0x3e);
   m->ram[0xf800] = 0x90;
   run(m);
   assert(m->video.pixels[0] == 0xff000000 && m->video.pixels[1] == 0xffaaaaaa);

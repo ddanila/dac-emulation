@@ -53,7 +53,7 @@ int pc1715_video_write(pc1715 *m, uint16_t address, uint8_t data) {
   unsigned a = address & 255;
   if (!v->enabled)
     return 0;
-  if ((a & 0xfc) == 0x20) {
+  if ((a & 0xfc) == 0x34) {
     v->latch = data;
     return 1;
   }
@@ -116,7 +116,8 @@ int pc1715_video_write(pc1715 *m, uint16_t address, uint8_t data) {
 }
 static void vfetch(pc1715 *m) {
   pc1715_video *v = &m->video;
-  uint16_t address = ((v->latch & 31) << 11) | (v->stream++ & 2047);
+  /* A23.2 D1..D5 drive A22.4 -> AB11..AB15; X12 selects counter AB10. */
+  uint16_t address = ((v->latch & 0x3e) << 10) | (v->stream++ & 2047);
   uint8_t code = m->ram[address];
   v->fetches++;
   if (v->row >= vrows(v))
