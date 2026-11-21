@@ -412,6 +412,11 @@ effect-bounds E1+E2 versus E3+E4 only within five conditional TBY7 cases;
 the installed pair remains unknown and both stay as labelled alternatives.
 Without a bounded X2:4 waveform, the documented EHT and collector pulse
 cannot establish a T3 winding ratio. The active T3 values remain placeholders.
+The [corrected HV-winding comparator](reference/k7222-11/t3-hv-winding-comparator.json)
+puts the conditional EHT/collector *voltage* proxy at 17.49–21.78; it is not
+an HV/drive turns ratio. The source-unqualified return voltage, loaded drive
+pulse and .11 winding graph prevent converting it to physical turns. The
+cross-revision 2,409-turn ÜHA78 winding therefore cannot close this gap.
 
 The [Brimar TBY7 class](reference/k7222-11/yoke-brimar-110deg-comparator.json)
 provides a bounded comparator, not an installed AE9VT identification. The
@@ -452,18 +457,18 @@ neither result identifies a .11 core or winding. Switching to the fallback
 alone cannot close A5.
 
 **Phase A completion is blocked at A5.** The corrected 99–113 V trace-node
-range gives only a conditional HV/collector ratio: the settled C21 voltage,
-collector/drive pulse, T3 tap/return graph and installed yoke transfer are
-not qualified. The current conditional stage cannot validate a T3 ratio, and
-the allowed equivalent fallback still lacks A5-derived ratios and bounded
-loss/parasitics. A1's full-page source comparisons, A2's sourced joint device
-bounds and stress checks, and A6's remaining class-typical transfers are also
-open; A3 and A4 are done. This is an internal evidence and implementation gap,
-not an external wait or approval request. To unblock A5, carry unreadable
-connections and both link pairs as labelled bounded alternatives, bound L1/L2
-and the field/current transfer, qualify settled C21 voltage and the actual
-collector/drive pulse, then parameterize the fallback and close the other
-open rows below. Detailed findings and receipts are in
+range gives only a conditional HV/collector voltage proxy: the settled
+C21 voltage, collector/drive pulse, T3 tap/return graph and installed yoke
+transfer are not qualified. The current conditional stage cannot validate a
+T3 ratio, and the allowed equivalent fallback still lacks A5-derived ratios
+and bounded loss/parasitics. A1's full-page source comparisons, A2's sourced
+joint device bounds and stress checks, and A6's remaining class-typical
+transfers are also open; A3 and A4 are done. This is an internal evidence and
+implementation gap, not an external wait or approval request. To unblock A5,
+carry unreadable connections and both link pairs as labelled bounded
+alternatives, bound L1/L2 and the field/current transfer, qualify settled C21
+voltage and the actual collector/drive pulse, then parameterize the fallback
+and close the other open rows below. Detailed findings and receipts are in
 [phase-a-evidence.md](phase-a-evidence.md).
 
 **Keep this section short.** It holds one row per item: what is still unmet
