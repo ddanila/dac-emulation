@@ -1,0 +1,12 @@
+{
+  "format": "dac-monitor-t3-drive-order-variant-v1",
+  "id": "page4-visible-x2-order",
+  "base_graph_file": "t3-winding-hypothesis.json",
+  "base_graph_sha256": "6ec005383d08fe5a941c81e6f94cb753678c47b3a9e10cc4804ddbfe6f41857e",
+  "source_read_file": "page4-booster-source-netlist.json",
+  "source_read_sha256": "50916a1d2f7cb6bc5f1da50b71f4d22a0b33eaa0ed83874ad6a1ebeafee5d8d3",
+  "drive_taps": ["X2_7", "X2_13", "X2_11", "X2_12", "X2_10", "X2_4"],
+  "qualification": "visible external X2 terminal order only; T3 internal winding continuity and section turns remain unverified",
+  "section_parameter_transfer": "The base graph's five numerical drive sections are applied by position to this alternative. That transfer is an explicit exploratory assumption, not a sourced per-terminal turn count.",
+  "reason_retained": "With the corrected external booster pins, this candidate restores the earlier conditional stage behavior; the legacy electrical section order collapses in the paired 5 ms screen. Neither outcome identifies the installed internal graph."
+}

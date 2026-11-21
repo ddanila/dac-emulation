@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parent
 REF = ROOT / 'reference/k7222-11'
 OUTPUT = REF / 't3-booster-pin-order-screen.json'
 SOURCE_COMPARISON = REF / 'page4-booster-comparison.json'
+SOURCE_READ = REF / 'page4-booster-source-netlist.json'
+SOURCE_ORDER_VARIANT = REF / 't3-source-order-variant.json'
 
 
 def sha(path):
@@ -21,11 +23,20 @@ def sha(path):
 
 
 def source_order_inputs(inputs, transcription):
+    variant = json.loads(SOURCE_ORDER_VARIANT.read_text())
+    if (variant['format'] != 'dac-monitor-t3-drive-order-variant-v1' or
+            variant['base_graph_file'] != boost.stage.GRAPH.name or
+            variant['base_graph_sha256'] != sha(boost.stage.GRAPH) or
+            variant['source_read_file'] != SOURCE_READ.name or
+            variant['source_read_sha256'] != sha(SOURCE_READ)):
+        raise ValueError('source-order variant provenance changed')
     graph = copy.deepcopy(inputs[0])
     drive = next(group for group in graph['groups'] if group['id'] == 'drive')
     if drive['taps'] != ['X2_7', 'X2_10', 'X2_11', 'X2_12', 'X2_13', 'X2_4']:
         raise ValueError('legacy drive order changed')
-    drive['taps'] = ['X2_7', 'X2_13', 'X2_11', 'X2_12', 'X2_10', 'X2_4']
+    if variant['drive_taps'] != ['X2_7', 'X2_13', 'X2_11', 'X2_12', 'X2_10', 'X2_4']:
+        raise ValueError('source-order pin sequence changed')
+    drive['taps'] = variant['drive_taps']
     drive['assumption'] = ('Candidate section order follows visible page-4 terminal '
                            'positions; internal winding continuity is still unverified.')
     candidate = next(row for row in transformer_candidates.enumerate_candidates(graph)
@@ -66,6 +77,10 @@ def run(ngspice):
         ngspice, prior_inputs, feed, yoke, initial_boost_node_v=initial)
     results['corrected_pins_legacy_sections'] = boost.measure(
         ngspice, inputs, feed, yoke, initial_boost_node_v=initial)
+    long_results = {}
+    long_results['corrected_pins_legacy_sections'] = boost.measure(
+        ngspice, inputs, feed, yoke, initial_boost_node_v=initial,
+        stop_s=.020, window_start_s=.019)
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory) / 'source-order-transcription.json'
         path.write_text(json.dumps(alternate_transcription))
@@ -74,14 +89,18 @@ def run(ngspice):
             boost.stage.TRANSCRIPTION = path
             results['corrected_pins_source_order_sections'] = boost.measure(
                 ngspice, source_inputs, feed, yoke, initial_boost_node_v=initial)
+            long_results['corrected_pins_source_order_sections'] = boost.measure(
+                ngspice, source_inputs, feed, yoke, initial_boost_node_v=initial,
+                stop_s=.020, window_start_s=.019)
         finally:
             boost.stage.TRANSCRIPTION = saved
-    files = (SOURCE_COMPARISON, boost.stage.GRAPH, boost.stage.PARAMETERS,
+    files = (SOURCE_COMPARISON, SOURCE_READ, SOURCE_ORDER_VARIANT,
+             boost.stage.GRAPH, boost.stage.PARAMETERS,
              boost.stage.TRANSCRIPTION, boost.stage.MODELS, boost.rail.CATALOG,
              ROOT / 't3_brimar_boost_boundary_screen.py', Path(__file__))
     return {
-        'format': 'dac-monitor-t3-booster-pin-order-screen-v1',
-        'qualification': 'three prescribed-drive 5 ms TBY7 cases; source-corrected external pins, but no internal winding or periodic operating-point qualification',
+        'format': 'dac-monitor-t3-booster-pin-order-screen-v2',
+        'qualification': 'three prescribed-drive 5 ms TBY7 cases plus two 20 ms source-corrected cases; no internal winding or periodic operating-point qualification',
         'input_sha256': {str(path.relative_to(ROOT)): sha(path) for path in files},
         'ngspice_sha256': sha(ngspice),
         'conditions': {'feed_v': feed, 'initial_c21_differential_v': 65,
@@ -94,12 +113,15 @@ def run(ngspice):
                                                   if group['id'] == 'drive')},
         'candidate_polarity': inputs[2]['polarity'],
         'cases': results,
+        'long_case_window_s': [0.019, 0.020],
+        'long_cases': long_results,
         'interpretation': ('The source-corrected external pin assignment alone changes '
                            'this conditional stage strongly under the legacy section '
                            'order. Reordering the hypothetical internal sections to '
                            'match the visible tap positions restores the pre-correction '
                            'electrical result. That is an isomorphic conditional model, '
-                           'not evidence of actual T3 internal continuity or settled boost.'),
+                           'not evidence of actual T3 internal continuity or a periodic '
+                           'installed-stage boost.'),
     }
 
 
@@ -113,3 +135,5 @@ if __name__ == '__main__':
     args.output.write_text(json.dumps(report, indent=2) + '\n')
     for name, row in report['cases'].items():
         print(name, row['eht_at_collector_peak_v'], row['c21_voltage_at_collector_peak_v'])
+    for name, row in report['long_cases'].items():
+        print('20ms', name, row['eht_at_collector_peak_v'], row['c21_voltage_at_collector_peak_v'])

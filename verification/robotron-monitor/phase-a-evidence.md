@@ -4945,8 +4945,10 @@ The active [legacy T3 graph](reference/k7222-11/t3-winding-hypothesis.json)
 had called its `X2:7–10–11–12–13–4` drive-section order the page's visual
 order. It is now explicitly a **legacy electrical hypothesis**: the visible
 external pin order is `X2:7–13–11–12–10–4`, while internal continuity and
-relative polarity are not proved by the scan. The
-[paired 5 ms screen](reference/k7222-11/t3-booster-pin-order-screen.json)
+relative polarity are not proved by the scan. A durable
+[visible-order variant](reference/k7222-11/t3-source-order-variant.json)
+records this order without claiming per-terminal turns. The
+[paired screen](reference/k7222-11/t3-booster-pin-order-screen.json)
 keeps the 42.504 V rail, TBY7 class yoke, prescribed drive, one return case
 and a 65 V initial C21 differential fixed. The old external pins give
 **1.127 A p-p**, **12.176 kV** EHT and **38.267 V** across C21 at the sampled
@@ -4954,15 +4956,32 @@ collector peak. Corrected external pins with the legacy internal section
 order give **0.0648 A p-p**, **2.934 kV** and **−4.823 V**. Corrected pins
 with the visible source-order section hypothesis reproduce the old result
 numerically; that is an isomorphic conditional electrical model, not
-evidence that the installed T3 has this internal winding order.
+evidence that the installed T3 has this internal winding order. At 20 ms,
+the corrected legacy order still gives only **3.572 kV EHT**, **0.0644 A p-p**
+and **−4.824 V** across C21. The corrected visible-order alternative gives
+**11.708 kV**, **0.9465 A p-p** and **23.722 V**. Its last-1-ms same-phase
+C21 drift is −0.046 V, so the 60–70 V gap is not solely a 5 ms startup
+sampling artifact in that conditional case.
+
+The [source-order polarity screen](reference/k7222-11/t3-source-order-polarity-screen.json)
+reruns both isolated diode-function checks for all 16 relative-sign choices
+with the visible-order variant and then simulates the four compatible choices
+to 20 ms at the same TBY7/42.504 V/65 V-start condition. Both upper-tap signs
+with positive lower-tap sign reach about **11.708 kV** and **0.9465 A p-p**,
+but only **23.722 V** across C21. Both negative lower-tap cases fall near
+**4.384–4.386 kV**, **0.0801–0.0804 A p-p** and **−1.11 V** across C21.
+Thus **zero of four** source-order sign-compatible candidates match the
+sampled EHT, current and C21 bands together. This is a fixed prescribed-drive
+and single-return stage screen, not a rejection of all possible T3 graphs,
+installed centring links, yoke transfer or periodic operating points.
 
 All earlier T3 numerical stage reports used the old external assignment.
 Their values remain historical probes and do not qualify the corrected
 source-connected model, even when the isomorphic source-order case happens
-to reproduce them. A5 must now screen source-corrected internal alternatives,
+to reproduce them. A5 must continue screening source-corrected internal alternatives,
 then qualify a settled C21 voltage and the actual X2:4/collector pulse before
 deriving winding ratios. The 60–70 V C21 source annotation remains unmet in
-these three 5 ms cases; no periodic installed-stage claim follows.
+the paired and four-sign 20 ms cases; no periodic installed-stage claim follows.
 The old `test_t3_output_stage_sweep` now fails its 370 V collector-floor check:
 the corrected external pins with the active legacy section order give only
 120.248 V in that isolated bench. This is a genuine model-qualification
