@@ -12,8 +12,10 @@ SOURCE = ROOT / 'reference/k7222-11/page10-feedback-source-netlist.json'
 INVENTORY = ROOT / 'reference/k7222-11/inventory.json'
 SHEET = ROOT / 'circuits/k7222-11-vertical-output.kicad_sch'
 NAMES = {'AMP_INV': 'amp_inv', 'THRESHOLD_LOWER': 'threshold_lower',
-         'THRESHOLD_UPPER': 'threshold_upper', 'Y2_RETURN': 'y2'}
-PIN = {'A3:4': '2'}  # Physical DIP pin 4 is model pin 2.
+         'THRESHOLD_UPPER': 'threshold_upper', 'Y2_RETURN': 'y2',
+         'ZERO_RETURN': '0'}
+PIN = {'A3:4': '2',  # Physical DIP pin 4 is model pin 2.
+       'V25:A': '1', 'V25:K': '2', 'V23:A': '1', 'V23:K': '2'}
 
 
 def sha(path):
@@ -36,7 +38,9 @@ def compare(source, xml):
     required = {('012-6931:' + part, pin) for part, pin in [
         ('A3', '2'), ('R43', '2'), ('R45', '1'), ('R45', '2'),
         ('R46', '1'), ('R46', '2'), ('R47', '1'), ('R47', '2'),
-        ('R27', '1'), ('X2', '4')]}
+        ('R27', '1'), ('X2', '4'), ('V25', '1'), ('V25', '2'),
+        ('V23', '1'), ('V23', '2'), ('R53', '2'), ('R52', '2'),
+        ('R51', '1'), ('R51', '2')]}
     if set(expected) != required:
         raise ValueError('feedback read omitted a required source terminal')
 
@@ -70,13 +74,14 @@ def compare(source, xml):
                      {str(value), f'{value/1000:g}k'}
                      for part, value in source['resistor_values_ohm'].items()}
     return dict(format='dac-monitor-page10-feedback-comparison-v1',
-                qualification='partial A1 check of A3 feedback and Y2 return; whole page 10 remains open',
+                qualification='partial A1 check of A3 feedback, diode thresholds and Y2 return; C23 source conflict and whole page 10 remain open',
                 source_netlist_sha256=sha(SOURCE),
                 source_pdf_sha256=source['source']['pdf_sha256'],
                 inventory_sha256=sha(INVENTORY), sheet_sha256=sha(SHEET),
                 source_pins=len(expected), matched_pins=len(expected) - len(mismatches),
                 missing_source_parts=missing, missing_or_changed_pins=mismatches,
                 resistor_values_match=value_matches,
+                unsettled_source_conflicts=source['unsettled_source_conflicts'],
                 passed=not missing and not mismatches and all(value_matches.values()))
 
 
@@ -84,6 +89,10 @@ def run(source_pdf):
     source = json.loads(SOURCE.read_text())
     if sha(source_pdf) != source['source']['pdf_sha256']:
         raise ValueError('source PDF differs from recorded page-10 reading')
+    for conflict in source['unsettled_source_conflicts']:
+        manual = source_pdf.with_name(conflict['operation_manual_file'])
+        if sha(manual) != conflict['operation_manual_pdf_sha256']:
+            raise ValueError('operating manual differs from recorded C23 reading')
     with tempfile.TemporaryDirectory() as directory:
         xml = Path(directory) / 'live.xml'
         subprocess.run(['kicad-cli', 'sch', 'export', 'netlist', '--format',

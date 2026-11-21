@@ -2068,12 +2068,26 @@ parameters are changed to match TP8.
 
 The 300 dpi page-10 view, enlarged 600 dpi feedback crop and page-14 parts
 list support a [scoped source read](reference/k7222-11/page10-feedback-source-netlist.json)
-of A3's inverting input, R43, R45/R46/R47 and the Y2 return. A
+of A3's inverting input, R43, R45/R46/R47 and the Y2 return. An independent
+300 dpi crop and 600 dpi enlargement extend this to V25/V23 diode directions,
+R53/R52 threshold inputs and R51's ground return. A
 [fresh KiCad export comparison](reference/k7222-11/page10-feedback-comparison.json)
-matches all ten selected terminals and the printed 5.6 kΩ, 5.6 kΩ and
-1.5 kΩ values. A mutation moving R46's Y2 end to the inverting input fails
-the comparison. This is a partial cross-check, not the independent full
+matches all 18 selected terminals and the printed 5.6 kΩ, 5.6 kΩ and
+1.5 kΩ values. Mutations moving R46's Y2 end or reversing V23 fail the
+comparison. This is a partial cross-check, not the independent full
 page-9/10 netlist required by A1.
+
+The new read also exposes a source conflict outside those 18 terminals. The
+page-10 schematic's continuous line joins A3 physical pin 6 and C23's upper
+terminal; an 800 dpi crop confirms the junction. The operating manual's
+printed page 13, Fig. 12 instead joins C23 to the 7.15 V A2 reference and
+says R59/R60 use that constant reference. The active KiCad circuit follows
+the manual: A3 pin 6 is on `n16`, C23 is on `vertical_reference`. The
+[source read](reference/k7222-11/page10-feedback-source-netlist.json) records
+both PDF hashes and image hashes. C23 is excluded from the matching-pin count
+and remains an A1 conflict to settle by circuit function or a bounded
+alternative; this local pass does not endorse either depiction as a fully
+qualified page-10 netlist.
 
 The nearby printed label is R46. Page 9 already places R44 in the A2
 ramp-output divider, where the live integrator assembles it as R613 with

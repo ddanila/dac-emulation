@@ -1,6 +1,6 @@
 {
   "format": "dac-monitor-page10-feedback-source-netlist-v1",
-  "qualification": "partial page-10 source read of the A3 inverting-feedback and Y2 sense path; whole page remains open",
+  "qualification": "partial page-10 source read of the A3 inverting-feedback, diode threshold and Y2 sense path; C23 source conflict and whole page remain open",
   "source": {
     "file": "older.pdf",
     "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
@@ -10,20 +10,38 @@
       {"description": "300 dpi full page 10, including the inverting input and Y2 return", "sha256": "1e0998b2ec8568e3ccff1ab9a55d11d10bf0a729770d12d0d28edcf7ebff344e"},
       {"description": "600 dpi enlarged page-10 R43/R45/R46/R47 feedback crop", "sha256": "f538b436e615c6603414efd07f58553ef1108cf0c46a87694c252b53da5cf2df"},
       {"description": "300 dpi page-14 printed resistor parts list", "sha256": "5dfd346d9ead1c2ea6b979088e69171ad211bf61d2953fb2459074561a3adb90"},
-      {"description": "300 dpi page-9 R44/R40 ramp-output divider", "sha256": "76a5fd4139d7f75b3692e2c1f1574fdadff6373b96bec88487b946d121f60496"}
+      {"description": "300 dpi page-9 R44/R40 ramp-output divider", "sha256": "76a5fd4139d7f75b3692e2c1f1574fdadff6373b96bec88487b946d121f60496"},
+      {"description": "300 dpi page-10 feedback and diode crop, independently read", "sha256": "80b93a036ab328e409d19b4c15b311304fa4b004080a0dac2a0cce0d8fd15441"},
+      {"description": "600 dpi page-10 feedback and diode crop", "sha256": "f538b436e615c6603414efd07f58553ef1108cf0c46a87694c252b53da5cf2df"},
+      {"description": "800 dpi page-10 A3 pin 6 to C23 path crop", "sha256": "b9769c74d05c08bc1c0c8b76acef043ea1cd382dae4dace95a2902fd9a4fdbfe"},
+      {"description": "200 dpi operating-manual PDF page 15, printed page 13 Fig. 12", "sha256": "fb108ced89f36f664007dc0ffbb5688f6a9591640accc86b07152c25469cc006"}
     ]
   },
-  "scope": ["012-6931:A3", "012-6931:R43", "012-6931:R45", "012-6931:R46", "012-6931:R47", "012-6931:R27", "012-6931:X2"],
+  "scope": ["012-6931:A3", "012-6931:R43", "012-6931:R45", "012-6931:R46", "012-6931:R47", "012-6931:R27", "012-6931:X2", "012-6931:V25", "012-6931:V23", "012-6931:R53", "012-6931:R52", "012-6931:R51"],
   "reading_notes": [
     "R47 spans the A3 physical pin 4 inverting-input line after R43 and the Y2 return. R45 and R46 join their respective lower and upper threshold nodes to Y2.",
     "The page-14 parts list gives R45 and R46 as 5.6 kilohms each and R47 as 1.5 kilohms. R44 is a different 160-ohm resistor on page 9 in the A2 ramp-output divider, already assembled there as R613; no second R44 is drawn here.",
-    "R27 connects Y2 to the 0 V return and X2:4 carries Y2, as established by the earlier output-pair read."
+    "R27 connects Y2 to the 0 V return and X2:4 carries Y2, as established by the earlier output-pair read.",
+    "Independent 300 and 600 dpi page-10 reads show V25 from the A3 inverting line (anode) down to the upper threshold line (cathode), with R53 entering that upper line and R46 returning it to Y2. V23 has its cathode on the same upper line and anode on the lower threshold line.",
+    "R52 enters the lower threshold line, which also joins the top of R51 and R45. R51 returns to ground. R27 returns Y2 to ground. The far ends of R52 and R53 lie outside this local read.",
+    "Resistor pin 1 is the top or left terminal and pin 2 the bottom or right terminal in this read. V25 and V23 use anode/cathode source terminals, translated to KiCad diode pin numbers only in the comparator."
   ],
   "nets": {
-    "AMP_INV": ["A3:4", "R43:2", "R47:1"],
-    "THRESHOLD_LOWER": ["R45:1"],
-    "THRESHOLD_UPPER": ["R46:1"],
-    "Y2_RETURN": ["R45:2", "R46:2", "R47:2", "R27:1", "X2:4"]
+    "AMP_INV": ["A3:4", "R43:2", "R47:1", "V25:A"],
+    "THRESHOLD_LOWER": ["R45:1", "R52:2", "R51:1", "V23:A"],
+    "THRESHOLD_UPPER": ["R46:1", "R53:2", "V25:K", "V23:K"],
+    "Y2_RETURN": ["R45:2", "R46:2", "R47:2", "R27:1", "X2:4"],
+    "ZERO_RETURN": ["R51:2"]
   },
+  "unsettled_source_conflicts": [
+    {
+      "terminals": ["A3:6", "C23:1"],
+      "page_10_scan": "The 300/600/800 dpi page-10 schematic views show a continuous trace from A3 physical pin 6 to C23's upper terminal and a (17M) branch; C23's lower terminal goes to 0 V.",
+      "operation_manual_file": "older-operation.pdf",
+      "operation_manual_pdf_sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
+      "operation_manual": "older-operation.pdf printed page 13, Fig. 12, draws C23 from the 7.15 V A2 reference to 0 V, separate from the A3 negative supply. The accompanying text says R59/R60 take this constant A2 reference.",
+      "current_model": "A3 model pin 4 (physical pin 6) is n16; C23 pin 1 is vertical_reference from A2. The diode/threshold comparison excludes C23 until the conflicting source depictions are resolved by circuit function or a bounded alternative."
+    }
+  ],
   "resistor_values_ohm": {"R45": 5600, "R46": 5600, "R47": 1500}
 }
