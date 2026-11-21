@@ -395,14 +395,17 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-21)
 
-**Goal blocked reason (2026-11-21): Phase A cannot be signed off.** A5 requires
-a source-bounded T3 winding graph and ratio, and neither the component model
-nor the permitted equivalent fallback has them. The default 19-port model
-conflicts with the .11 page-4 drawing: it omits X3:1
-and X1:2, joins X1:3 to X2:3 where the drawing joins X1:2, and includes
-X1:16 without a resolved page-4 mapping. An opt-in 20-port connected assembly
-corrects the visible external pins, but its winding sections, turns, return
-and drive are provisional. The corrected [eight-sign screen](reference/k7222-11/t3-page4-visible-stage-screen.json)
+**Goal blocked reason (2026-11-21): Phase A cannot be signed off.** The decisive
+A5 gap is source evidence for T3's internal winding joins, tap order, high-voltage
+cold end and the mapping of manual-only X1:16 to the .11 page-4 terminals.
+Without that graph, neither the component model nor the permitted equivalent
+fallback has A5-derived winding ratios. The default 19-port model conflicts
+with the .11 page-4 drawing: it omits X3:1 and X1:2, joins X1:3 to X2:3
+where the drawing joins X1:2, and includes X1:16 without a resolved page-4
+mapping. An opt-in 20-port connected assembly corrects the visible external
+pins, but its winding sections, turns, return and drive are provisional.
+Conditional simulations can reject sampled assumptions; they cannot establish
+the missing physical connection. The corrected [eight-sign screen](reference/k7222-11/t3-page4-visible-stage-screen.json)
 (seven completed cases) and [five-point booster screen](reference/k7222-11/t3-page4-booster-turn-screen.json)
 find no case jointly matching sampled EHT, TBY7 current and C21. The
 [drive audit](reference/k7222-11/t3-drive-voltage-audit.json) cannot turn the
@@ -418,14 +421,14 @@ about 18.5–18.8 V and 10.37–10.39 kV. A [paired 65 V C21-start check](refere
 also reaches 18.5–18.8 V in that window, so the missing boost is not
 explained by the unseeded start in this candidate. A [five-factor connected booster screen](reference/k7222-11/t3-page4-connected-booster-turn-screen.json)
 finds no sampled 1.75–28-turn section choice with joint C21, EHT and yoke
-agreement. The equivalent fallback also lacks A5-derived ratios and bounded
-loss/parasitics. No corrected
-connected result qualifies the design point yet. A [V4 charge-corner check](reference/k7222-11/t3-page4-connected-v4-boundary-screen.json)
+agreement. The equivalent fallback also lacks bounded loss/parasitics. No
+corrected connected result qualifies the design point yet. A [V4 charge-corner check](reference/k7222-11/t3-page4-connected-v4-boundary-screen.json)
 also aborts in all three registered proxy cases exactly at simultaneous
 video/BSYN source pre-edges, so the reported trouble node alone cannot select
-a faulty part or a T3 ratio. A1 still needs independent full-page
-netlist comparisons for pages 3, 4, 9, 10 and 18 despite the checked X9
-connector seam; A2 still needs joint device bounds and stress qualification;
+a faulty part or a T3 ratio. A1 has no open frame-path part reviews, but still
+needs independent full-page netlist comparisons for pages 3, 4, 9, 10 and 18
+despite the checked X9 connector seam; A2 still needs joint device bounds and
+stress qualification;
 A6 still needs several cited class transfers. A3 and A4 are done. This is an
 internal source, model and evidence gap, not an external dependency or
 approval wait. To unblock Phase A, resolve or bound the T3 graph and X1:16
