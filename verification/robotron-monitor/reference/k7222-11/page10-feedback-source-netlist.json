@@ -33,14 +33,14 @@
     "Y2_RETURN": ["R45:2", "R46:2", "R47:2", "R27:1", "X2:4"],
     "ZERO_RETURN": ["R51:2"]
   },
-  "unsettled_source_conflicts": [
+  "source_conflicts": [
     {
       "terminals": ["A3:6", "C23:1"],
       "page_10_scan": "The 300/600/800 dpi page-10 schematic views show a continuous trace from A3 physical pin 6 to C23's upper terminal and a (17M) branch; C23's lower terminal goes to 0 V.",
       "operation_manual_file": "older-operation.pdf",
       "operation_manual_pdf_sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
       "operation_manual": "older-operation.pdf printed page 13, Fig. 12, draws C23 from the 7.15 V A2 reference to 0 V, separate from the A3 negative supply. The accompanying text says R59/R60 take this constant A2 reference.",
-      "current_model": "A3 model pin 4 (physical pin 6) is n16; C23 pin 1 is vertical_reference from A2. The diode/threshold comparison excludes C23 until the conflicting source depictions are resolved by circuit function or a bounded alternative."
+      "current_model": "A3 model pin 4 (physical pin 6) is n16; C23 pin 1 is vertical_reference from A2. C23 is excluded from the diode/threshold pin comparison because the documents disagree; its topology is evaluated separately in page10-c23-conflict-screen.json."
     }
   ],
   "resistor_values_ohm": {"R45": 5600, "R46": 5600, "R47": 1500}
