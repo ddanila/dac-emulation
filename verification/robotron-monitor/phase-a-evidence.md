@@ -4638,3 +4638,30 @@ must not be transferred into the AE9VT A6 register. The
 names AE 9VT 6802.01 as the cross-revision replacement, but likewise gives
 no axis-specific electrical or field limits. A5 still needs a direct
 AE9VT/B31G22 transfer or a clearly bounded equivalent field model.
+
+### A5: unequal centring-choke class screen (2026-11-21)
+
+An [RCA-supplied 1954 tricolor deflection report](https://www.worldradiohistory.com/Archive-Service-Magazine/50s/Service-1954-03.pdf)
+describes a centring pot isolated from the horizontal-yoke terminals by
+**16 mH and 70 mH** chokes. This is a functional class comparison, not a
+Robotron L1/L2 specification: its tube, yoke and power stage differ. The
+[reproducible unequal-choke screen](reference/k7222-11/t3-brimar-asymmetric-choke-screen.json)
+places both 16/70 mH assignments into the same conditional TBY7 stage and
+checks both E1+E2 and E3+E4 link pairs. It leaves the shared stage model and
+the earlier receipts unchanged.
+
+At the previous 42.504 V crossing, the four yoke-current spans are
+**0.94928–0.95084 A peak-to-peak**. Swapping the links at fixed choke
+assignment changes current by at most **25 µA peak-to-peak**; swapping the
+unequal chokes changes it by about **1.56 mA peak-to-peak**. Each case crosses
+the transferred TBY7 lower-current proxy inside the R5-equivalent range,
+at **42.266–42.352 V**, with **11.717–11.916 kV** sampled EHT. Thus the
+earlier symmetric-bridge link insensitivity survives this *one* asymmetric
+class pair. The magazine's 16/70 mH values are not installed bounds, the
+T3 graph and drive remain unverified, and no periodic AE9VT/B31G22 result
+follows. L1/L2 electrical and installed-link qualifications remain open.
+
+The test run also exposed stale provenance hashes in saved receipts after the
+Tesla MAA723 register and vertical model/profile updates. The affected
+receipts were regenerated or refreshed against the current inputs; their
+computed results and qualification decisions did not change.
