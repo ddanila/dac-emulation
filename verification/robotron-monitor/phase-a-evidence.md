@@ -5155,3 +5155,31 @@ now-superseded 19-port graph or earlier sheet hashes; the remaining legacy
 stage and V21 sensitivity comparisons also need requalification. This red
 suite cannot be used as Phase A acceptance, and its historical assertions
 must not be updated merely to make them green.
+
+### A5: corrected 20-port T3 polarity stage screen (2026-11-21)
+
+The [20-port source-visible stage screen](reference/k7222-11/t3-page4-visible-stage-screen.json)
+uses the committed KiCad export for every T3 external node, including
+X3:1 at V21's anode and X1:2 joined to X2:3. It maps the prior
+cross-revision **1,768-turn** overwind assumption to X3:1–X1:1, inserts
+two **assumed one-turn** sections from X1:1 to X1:3, and transfers the
+prior 3/30-turn upper taps to X1:3–X1:5–X1:7. The prior source-order
+drive sections, AC-loss parameters, class-typical 0.92 overwind coupling,
+TBY7 yoke, E1+E2 centring choice, 42.504 V rail and prescribed V18 base
+drive are held fixed. These transfers are explicit sensitivity choices,
+not recovered `.11` winding data.
+
+All eight relative-polarity candidates are attempted to 20 ms. **Seven
+complete, one aborts** at the HV-anode node with a timestep failure, and
+**none of the seven** meets sampled EHT, yoke current and 60–70 V across
+C21 together. The positive HV/lower-tap signs reach **11.680 kV EHT,
+0.9471 A p-p yoke current and 23.750 V across C21** in one auxiliary sign;
+the opposite auxiliary sign gives **11.746 kV, 0.9459 A and 23.705 V**.
+The negative lower-tap signs collapse sampled current to about 0.080 A
+and C21 to about −1.11 V. These numbers remain conditional: the current
+comparison uses a transferred TBY7 class, the winding sections and drive
+are unqualified, and a 20 ms sample is not a proven periodic field. The
+aborted sign is unscored, not rejected. The corrected external interface
+therefore preserves the C21 discrepancy for this *one* parameter transfer;
+it neither proves the installed sign nor excludes other section/return
+graphs or the allowed A5 equivalent fallback.
