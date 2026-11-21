@@ -5258,7 +5258,11 @@ field, sustained state, source-bounded winding or A5 ratio. The existing
 `test_steady_supply.py` selection passes 14 of 15 tests; its remaining
 failure compares a saved HV-divider report against a changed historical
 sheet hash. No numerical connected score is claimed from that test run.
-The saved 20-port numerical stage reports now carry pre-integration input
-hashes, including the earlier wrapper comparison and `steady_supply.py`.
-Their numerical values remain historical sensitivities; regenerate the
-affected screens before treating them as current reproducibility evidence.
+The saved 20-port numerical stage reports were refreshed after the connected
+adapter and wrapper comparison changed. All recorded input hashes match the
+current files. On the same ngspice binary, both complete reports have the
+same numerical values, statuses and metadata as before; only input-hash
+receipts changed. The eight-sign screen remains 7 complete/1 solver abort/0
+joint matches, and the booster sweep remains 5 complete/0 joint matches.
+This restores reproducibility of those *conditional prescribed-drive*
+sensitivities; it does not qualify the installed T3 or a periodic field.

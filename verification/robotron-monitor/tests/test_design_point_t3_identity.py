@@ -45,6 +45,12 @@ class DesignPointT3IdentityTests(unittest.TestCase):
         self.assertEqual(stage["joint_sampled_match_count"], 0)
         self.assertEqual(booster["complete_count"], 5)
         self.assertEqual(booster["joint_sampled_match_count"], 0)
+        for report in (stage, booster):
+            for relative, expected in report["input_sha256"].items():
+                self.assertEqual(
+                    hashlib.sha256((ROOT / relative).read_bytes()).hexdigest(),
+                    expected, relative,
+                )
 
         for key in (
             "conditional_t3_hv_turn_scale",
