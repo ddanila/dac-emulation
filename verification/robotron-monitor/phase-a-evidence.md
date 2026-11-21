@@ -5009,3 +5009,26 @@ from a correct 65 V initial differential. R5-equivalent feed movement alone
 does not reconcile this conditional graph with all three sampled targets.
 The next discrimination needs a source-bounded X2:4/collector drive waveform,
 other return/link cases and T3 winding/boost alternatives.
+
+### A5: six corrected T3 return cases retain the C21 mismatch (2026-11-21)
+
+The [source-order return/C21 screen](reference/k7222-11/t3-source-order-return-c21-screen.json)
+uses the same page-4-corrected booster pins and visible-order T3 hypothesis
+as the rail screen. At the 42.504 V 41P rail and a correct 65 V initial C21
+differential, it carries tied/open X1:3-to-X2:3 and three HV cold-end modes
+as six labelled conditional cases through 20 ms. It keeps prescribed drive,
+TBY7 and E1+E2/80 mH centring fixed. The tied/HV-only-grounded case
+reproduces the earlier four-sign screen within its numerical tolerances.
+
+Four cases meet the **sampled** 11–12 kV EHT and transferred TBY7 current
+bands but give only **23.722–24.119 V** across C21. The tied/shared-grounded
+case gives **1.269 kV**, **0.0476 A p-p** and **−1.005 V** across C21. The
+open/shared-floating case moves C21 toward the annotation at **52.850 V**,
+but EHT collapses to about **117 V**. Thus **zero of six** cases meets EHT,
+current and C21 together. The tied/shared-floating and open/shared-floating
+C21 voltages still drift about −0.43 and −0.40 V over the final millisecond;
+these 20 ms samples do not prove a periodic state. Within this fixed-drive,
+fixed-yoke conditional graph, changing only these return connections cannot
+close the C21 gap while retaining EHT. The X1:15 external relationship to
+the booster branch, internal T3 section order/turns and actual X2:4 drive
+remain source/functional checks before any ratio can be frozen.
