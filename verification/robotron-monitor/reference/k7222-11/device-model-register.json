@@ -86,6 +86,10 @@
       "companion": "reference/k7222-11/centering-bridge-check.json",
       "use": "Page 9 gives L1/L2 source topology and 12P, R2=150 ohm and R4=1000 ohm. The 16 kHz nominal 4 mH yoke and a 5% isolated AC loading objective give 80 mH per choke as an engineering nominal; 0.5-15 ohm series resistance is bounded by the allowable DC drop relative to R2, not an original winding measurement."
     },
+    "rca_1954_centering_choke_comparator": {
+      "file": "reference/k7222-11/t3-brimar-asymmetric-choke-screen.json",
+      "use": "SERVICE March 1954 RCA-supplied tricolor circuit uses a 16/70 mH horizontal-centering choke pair. The 16 mH value motivates a wider exploratory lower case; this different tube, yoke and power stage cannot bound installed K7222.11 chokes."
+    },
     "horizontal_t1_design": {
       "file": "reference/k7222-11/horizontal-t1-design.json",
       "use": "Documented C16=100 nF +/-10% and 14.338-16.338 kHz generator range give a 0.989 mH ideal LC half-winding scale at 16 kHz. The source-connected autonomous stage with its provisional transistors requires about 1.45 mH per half for 15.89 kHz; winding resistance and independent T1 coupling remain bounded candidates, not original measurements."
@@ -144,9 +148,9 @@
       "model": "CENTERING_CHOKE",
       "model_file": "circuits/k7222-11-centering-models.cir",
       "member_ids": ["012-6931:L1", "012-6931:L2"],
-      "sources": ["page9_centering_design"],
+      "sources": ["page9_centering_design", "rca_1954_centering_choke_comparator"],
       "parameters": {
-        "L": {"assembly_key": "centering_coil_l_h", "nominal": 0.08, "bounds": [0.02, 0.32], "unit": "H", "tier": "design-derived nominal; exploratory bounds", "basis": "At 16 kHz, nominal 4 mH yoke impedance is about 402 ohm; 80 mH gives about 8.04 kohm, then the isolated bridge model draws 2.5% of baseline yoke AC current. 20-320 mH tests 10% to 0.6% loading; the installed value is unknown."},
+        "L": {"assembly_key": "centering_coil_l_h", "nominal": 0.08, "bounds": [0.016, 0.32], "unit": "H", "tier": "design-derived nominal; exploratory bounds", "basis": "At 16 kHz, nominal 4 mH yoke impedance is about 402 ohm; 80 mH gives about 8.04 kohm, then the isolated bridge model draws 2.5% of baseline yoke AC current. The 16 mH lower case includes a different-circuit centering-choke comparator and loads the isolated yoke source by 12.45%; 320 mH is an engineering upper case. Neither bounds the installed value."},
         "RDC": {"assembly_key": "centering_coil_r_ohm", "nominal": 5, "bounds": [0.5, 15], "unit": "ohm", "tier": "design-derived DC budget", "basis": "Two chokes at the 15 ohm upper bound add 30 ohm relative to the printed 150 ohm R2; nominal 5 ohm each leaves a 10 ohm added drop. This is a functional budget, not a measured winding resistance."}
       },
       "comparison_targets": {

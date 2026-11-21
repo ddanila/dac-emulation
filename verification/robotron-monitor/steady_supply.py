@@ -71,7 +71,7 @@ ASSEMBLY_BOUNDS = {
     'centering_horizontal_strap_pair': (0., 0., 1., 'E1+E2=0; E3+E4=1'),
     'centering_r4_total_ohm': (1000., 900., 1100., 'ohm'),
     'centering_r2_ohm': (150., 142.5, 157.5, 'ohm'),
-    'centering_coil_l_h': (.08, .02, .32, 'H'),
+    'centering_coil_l_h': (.08, .016, .32, 'H'),
     'centering_coil_r_ohm': (5., .5, 15., 'ohm'),
     'brightness_position': (.5, 0., 1., 'fraction'),
     'brightness_pot_r': (10000., 5000., 10000., 'ohm'),
