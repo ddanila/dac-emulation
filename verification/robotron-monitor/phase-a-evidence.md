@@ -3965,3 +3965,26 @@ applied directly to this 16 kHz pulse or unverified core. The resulting
 0.723 W is model-imposed resistor dissipation, not a measured or
 source-bounded .11 loss; it narrows the next fallback calculation to
 waveform/material/volume transfer rather than an assumed flux amplitude.
+
+### A5: grounded footpoint does not select the X1:16 return (2026-11-21)
+
+In a [firsthand ÜHA78 repair discussion](https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=6955),
+post 000 says a winding on the primary spool is originally in series with
+the high-voltage winding. Post 006 calls the original K7222 high-voltage
+footpoint grounded, and post 007 annotates the X1 secondary and X2 primary
+windings on a K7222 schematic. The [source read](reference/k7222-11/t3-series-return-source-read.json)
+records the retrieved page and image hashes. The discussion does not name
+X1:16 as the ground terminal or identify the .11 revision.
+
+The [series-return audit](reference/k7222-11/t3-series-return-audit.json)
+traces the *current hypothetical graph*: X1:1 → X1:16 → X1:7 → X1:3 →
+X2:3 → X2:5 → 00, through the HV, upper-tap and auxiliary winding groups.
+X1:16 is an ungrounded intermediate node (`h_hvcold`) in that candidate,
+while X2:5 is the grounded end. Opening either the X1:3/X2:3 bridge or
+X2:5 ground breaks the path in the regression test. Thus a repairer's
+"grounded footpoint" is compatible with a *series chain* even when X1:16
+is not directly grounded; it cannot by itself select the `X1:16=0`
+variant in the [earlier return matrix](reference/k7222-11/t3-cold-return-matrix.json).
+This is a topology interpretation of an unverified graph, not proof of
+internal .11 continuity, turn count or polarity. The function-only T3
+fallback must keep the series-return alternative explicit.
