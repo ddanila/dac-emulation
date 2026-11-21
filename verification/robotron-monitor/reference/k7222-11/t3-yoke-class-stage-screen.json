@@ -1,0 +1,400 @@
+{
+  "format": "dac-monitor-t3-yoke-class-stage-screen-v1",
+  "qualification": "conditional 4\u20135 ms prescribed-base stage with unverified T3 graph, E1+E2 centring links and nominal 80 mH chokes; 90-degree catalog class is a sensitivity comparator, not the installed 110-degree AE9VT winding or an A5 turns-ratio qualification",
+  "source": {
+    "catalog_url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf",
+    "catalog_sha256": "60ac727815c7493e8df4530fb909bc74c35b9120f3eddbdefe7a758bf536e417",
+    "class_scope": "Philips 1987 31 cm, 90-degree, 20 mm-neck, 12 kV monochrome deflection units",
+    "class_report_sha256": "8e25e47949c55870840fc8245ec36b29abdf3f5e98d23cdcf449c54314fb0ffe",
+    "centering_source_netlist_sha256": "b499fbeaee2b5682e22c4879577b8038ec6a4077785d88444b5af277be738230",
+    "centering_sheet_sha256": "130641bcee2abb40d691465b34cc890f6ace85cd8f1fa4690df13ba14ac80e74"
+  },
+  "inputs_sha256": {
+    "reference/k7222-11/yoke-class-comparator.json": "8e25e47949c55870840fc8245ec36b29abdf3f5e98d23cdcf449c54314fb0ffe",
+    "reference/k7222-11/t3-centering-return-screen.json": "e8b8826d3f8dea325485e84533b03bb4ecea9278fd9793cac7fb3d727b90415f",
+    "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "t3_yoke_class_stage_screen.py": "d1c18ebee2b30db024fe28bf34877e8fe557540708e53b3da19c45363b0367b1"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_inputs": {
+    "centering_link_pair": "E1+E2",
+    "centering_coil_l_h": 0.08,
+    "centering_r4_position": 0.5,
+    "prescribed_base_edge_ns": 200,
+    "max_step_ns": 50
+  },
+  "active_4mh_yoke_case": {
+    "link_pair": "E1+E2",
+    "coil_l_h": 0.08,
+    "normalized_deck_sha256": "622fabc13ed46c7cd7fd2bada37dd11ef9eb27f9a50570ad5738e3407fdc168c",
+    "final_two_line_samples": 2610,
+    "collector_peak_v": 459.64587,
+    "return_at_collector_peak_v": 15.7720077,
+    "drive_at_collector_peak_v": 443.873862,
+    "h2_at_collector_peak_v": -59.6144398,
+    "drive_peak_v": 443.873862,
+    "h2_range_v": [
+      -59.7004594,
+      15.4619542
+    ],
+    "return_range_v": [
+      15.7720077,
+      72.1213197
+    ],
+    "eht_at_collector_peak_v": 11549.4405,
+    "eht_at_window_end_v": 11542.09,
+    "yoke_current_range_a": [
+      -0.451621859,
+      0.487848827
+    ]
+  },
+  "class_cases": [
+    {
+      "catalog_type": "AT1077/05",
+      "line_inductance_h": 0.000475,
+      "line_resistance_ohm": 0.8,
+      "catalog_line_full_scan_app": 2.9,
+      "model_yoke_current_app": 7.9955075099999995,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "4275bbff5a8054ae5684101d436bcba84ae45c03c9ca0d7e35fea0eb0105ffbd",
+      "final_two_line_samples": 2563,
+      "collector_peak_v": 289.448619,
+      "return_at_collector_peak_v": 15.5901473,
+      "drive_at_collector_peak_v": 273.858471,
+      "h2_at_collector_peak_v": -117.389044,
+      "drive_peak_v": 273.858471,
+      "h2_range_v": [
+        -117.783181,
+        92.142089
+      ],
+      "return_range_v": [
+        15.5901473,
+        50.6720202
+      ],
+      "eht_at_collector_peak_v": 8790.96317,
+      "eht_at_window_end_v": 8808.07199,
+      "yoke_current_range_a": [
+        -3.74361158,
+        4.25189593
+      ]
+    },
+    {
+      "catalog_type": "AT1077/06",
+      "line_inductance_h": 0.000475,
+      "line_resistance_ohm": 0.8,
+      "catalog_line_full_scan_app": 2.9,
+      "model_yoke_current_app": 7.9955075099999995,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "4275bbff5a8054ae5684101d436bcba84ae45c03c9ca0d7e35fea0eb0105ffbd",
+      "final_two_line_samples": 2563,
+      "collector_peak_v": 289.448619,
+      "return_at_collector_peak_v": 15.5901473,
+      "drive_at_collector_peak_v": 273.858471,
+      "h2_at_collector_peak_v": -117.389044,
+      "drive_peak_v": 273.858471,
+      "h2_range_v": [
+        -117.783181,
+        92.142089
+      ],
+      "return_range_v": [
+        15.5901473,
+        50.6720202
+      ],
+      "eht_at_collector_peak_v": 8790.96317,
+      "eht_at_window_end_v": 8808.07199,
+      "yoke_current_range_a": [
+        -3.74361158,
+        4.25189593
+      ]
+    },
+    {
+      "catalog_type": "AT1077/07",
+      "line_inductance_h": 0.000118,
+      "line_resistance_ohm": 0.22,
+      "catalog_line_full_scan_app": 5.8,
+      "model_yoke_current_app": 11.08612802,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "f898fbafb65ffd11d85790954922406ab8da8c6f2ce8444d0ee690dd5a019123",
+      "final_two_line_samples": 2609,
+      "collector_peak_v": 576.131188,
+      "return_at_collector_peak_v": 4.07337287,
+      "drive_at_collector_peak_v": 572.057815,
+      "h2_at_collector_peak_v": -68.3318905,
+      "drive_peak_v": 572.057815,
+      "h2_range_v": [
+        -80.7226663,
+        88.1182098
+      ],
+      "return_range_v": [
+        4.00310779,
+        64.9933257
+      ],
+      "eht_at_collector_peak_v": 10017.388,
+      "eht_at_window_end_v": 10053.4057,
+      "yoke_current_range_a": [
+        -6.00319342,
+        5.0829346
+      ]
+    },
+    {
+      "catalog_type": "AT1077/15",
+      "line_inductance_h": 0.00023999999999999998,
+      "line_resistance_ohm": 0.42,
+      "catalog_line_full_scan_app": 4.2,
+      "model_yoke_current_app": 11.166489200000001,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "2b6817cb32666613391f82d421f7e8fb9daf836aa1e38143d6636e429aace3d3",
+      "final_two_line_samples": 2607,
+      "collector_peak_v": 238.248269,
+      "return_at_collector_peak_v": 38.6047407,
+      "drive_at_collector_peak_v": 199.643528,
+      "h2_at_collector_peak_v": 54.9011516,
+      "drive_peak_v": 199.643528,
+      "h2_range_v": [
+        -116.492065,
+        115.213932
+      ],
+      "return_range_v": [
+        38.6037508,
+        68.0660276
+      ],
+      "eht_at_collector_peak_v": 5460.39849,
+      "eht_at_window_end_v": 5462.84957,
+      "yoke_current_range_a": [
+        -6.18566981,
+        4.98081939
+      ]
+    },
+    {
+      "catalog_type": "AT1077/16",
+      "line_inductance_h": 0.00016999999999999999,
+      "line_resistance_ohm": 0.35,
+      "catalog_line_full_scan_app": 4.92,
+      "model_yoke_current_app": 11.05890659,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "afc1cb4a3d0611176d837e0aea7bdc7a9784f3ec60854fe0ae00cecd4a796e38",
+      "final_two_line_samples": 2614,
+      "collector_peak_v": 540.158705,
+      "return_at_collector_peak_v": 7.75389615,
+      "drive_at_collector_peak_v": 532.404808,
+      "h2_at_collector_peak_v": -26.131903,
+      "drive_peak_v": 532.404808,
+      "h2_range_v": [
+        -101.96307,
+        91.3864087
+      ],
+      "return_range_v": [
+        7.75389615,
+        68.7763029
+      ],
+      "eht_at_collector_peak_v": 10350.3909,
+      "eht_at_window_end_v": 10447.8616,
+      "yoke_current_range_a": [
+        -6.18415862,
+        4.87474797
+      ]
+    },
+    {
+      "catalog_type": "AT1077/20",
+      "line_inductance_h": 0.000145,
+      "line_resistance_ohm": 0.25,
+      "catalog_line_full_scan_app": 5.3,
+      "model_yoke_current_app": 10.73935247,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "970e692ab475bd7c0521b825e51122e6990eea8e4b9b46d77daddb4981d0cf81",
+      "final_two_line_samples": 2619,
+      "collector_peak_v": 601.420747,
+      "return_at_collector_peak_v": 1.51181671,
+      "drive_at_collector_peak_v": 599.90893,
+      "h2_at_collector_peak_v": -51.0803184,
+      "drive_peak_v": 599.90893,
+      "h2_range_v": [
+        -92.5315984,
+        87.4508418
+      ],
+      "return_range_v": [
+        1.49363663,
+        67.4047703
+      ],
+      "eht_at_collector_peak_v": 10544.3153,
+      "eht_at_window_end_v": 10625.5852,
+      "yoke_current_range_a": [
+        -6.10527204,
+        4.63408043
+      ]
+    },
+    {
+      "catalog_type": "AT1077/22",
+      "line_inductance_h": 0.000112,
+      "line_resistance_ohm": 0.2,
+      "catalog_line_full_scan_app": 6.1,
+      "model_yoke_current_app": 11.245517280000001,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "23d4d850798c9cc0e0053b12e64a5dce9c20ea6f08a6104a565db2afcdf11a98",
+      "final_two_line_samples": 2605,
+      "collector_peak_v": 560.2827,
+      "return_at_collector_peak_v": 5.60052546,
+      "drive_at_collector_peak_v": 554.682175,
+      "h2_at_collector_peak_v": -70.7962183,
+      "drive_peak_v": 554.682175,
+      "h2_range_v": [
+        -77.9498054,
+        88.726221
+      ],
+      "return_range_v": [
+        5.58318581,
+        64.3133115
+      ],
+      "eht_at_collector_peak_v": 9799.60338,
+      "eht_at_window_end_v": 9823.95978,
+      "yoke_current_range_a": [
+        -5.9837128,
+        5.26180448
+      ]
+    },
+    {
+      "catalog_type": "AT1077/23",
+      "line_inductance_h": 0.00023999999999999998,
+      "line_resistance_ohm": 0.42,
+      "catalog_line_full_scan_app": 4.2,
+      "model_yoke_current_app": 11.166489200000001,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "2b6817cb32666613391f82d421f7e8fb9daf836aa1e38143d6636e429aace3d3",
+      "final_two_line_samples": 2607,
+      "collector_peak_v": 238.248269,
+      "return_at_collector_peak_v": 38.6047407,
+      "drive_at_collector_peak_v": 199.643528,
+      "h2_at_collector_peak_v": 54.9011516,
+      "drive_peak_v": 199.643528,
+      "h2_range_v": [
+        -116.492065,
+        115.213932
+      ],
+      "return_range_v": [
+        38.6037508,
+        68.0660276
+      ],
+      "eht_at_collector_peak_v": 5460.39849,
+      "eht_at_window_end_v": 5462.84957,
+      "yoke_current_range_a": [
+        -6.18566981,
+        4.98081939
+      ]
+    },
+    {
+      "catalog_type": "AT1078/01",
+      "line_inductance_h": 0.00031,
+      "line_resistance_ohm": 0.66,
+      "catalog_line_full_scan_app": 3.4,
+      "model_yoke_current_app": 9.59408559,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "d8306dee9795ca7f0b8b0de20dd49f761624d80df54b4bbf73127b2e46c6caed",
+      "final_two_line_samples": 2604,
+      "collector_peak_v": 245.424819,
+      "return_at_collector_peak_v": 27.2379304,
+      "drive_at_collector_peak_v": 218.186889,
+      "h2_at_collector_peak_v": 53.6591798,
+      "drive_peak_v": 218.186889,
+      "h2_range_v": [
+        -102.83054,
+        116.32733
+      ],
+      "return_range_v": [
+        27.2379304,
+        57.6464401
+      ],
+      "eht_at_collector_peak_v": 6096.56658,
+      "eht_at_window_end_v": 6130.34704,
+      "yoke_current_range_a": [
+        -5.2938514,
+        4.30023419
+      ]
+    },
+    {
+      "catalog_type": "AT1078/02",
+      "line_inductance_h": 0.00047999999999999996,
+      "line_resistance_ohm": 0.9,
+      "catalog_line_full_scan_app": 2.96,
+      "model_yoke_current_app": 7.98483843,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "aafa8ac14cef281e3bdec86bca289419e488de65a3252d5da04a96affb53513c",
+      "final_two_line_samples": 2563,
+      "collector_peak_v": 304.228568,
+      "return_at_collector_peak_v": 14.2264915,
+      "drive_at_collector_peak_v": 290.002076,
+      "h2_at_collector_peak_v": -120.215657,
+      "drive_peak_v": 290.002076,
+      "h2_range_v": [
+        -120.595727,
+        92.1218268
+      ],
+      "return_range_v": [
+        14.2264915,
+        51.1333511
+      ],
+      "eht_at_collector_peak_v": 9031.34494,
+      "eht_at_window_end_v": 9061.03715,
+      "yoke_current_range_a": [
+        -3.73105867,
+        4.25377976
+      ]
+    },
+    {
+      "catalog_type": "AT1078/19",
+      "line_inductance_h": 0.000245,
+      "line_resistance_ohm": 0.53,
+      "catalog_line_full_scan_app": 3.9,
+      "model_yoke_current_app": 11.06369132,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "81d27063ad2ce38598f0c082ee9418f8a91eee3b498232d6fb713e2373d08866",
+      "final_two_line_samples": 2604,
+      "collector_peak_v": 222.415558,
+      "return_at_collector_peak_v": 39.739096,
+      "drive_at_collector_peak_v": 182.676462,
+      "h2_at_collector_peak_v": 54.1249709,
+      "drive_peak_v": 182.676462,
+      "h2_range_v": [
+        -115.526147,
+        117.268642
+      ],
+      "return_range_v": [
+        38.8988546,
+        67.4483851
+      ],
+      "eht_at_collector_peak_v": 4965.67058,
+      "eht_at_window_end_v": 4971.85772,
+      "yoke_current_range_a": [
+        -6.17487368,
+        4.88881764
+      ]
+    }
+  ],
+  "class_case_envelope": {
+    "drive_peak_v": [
+      182.676462,
+      599.90893
+    ],
+    "eht_at_collector_peak_v": [
+      4965.67058,
+      10544.3153
+    ],
+    "model_yoke_current_app": [
+      7.98483843,
+      11.245517280000001
+    ]
+  },
+  "class_cases_reaching_11kv_at_collector_peak": 0,
+  "interpretation": "The source-paired class windings change the conditional collector, EHT, X2:4 differential pulse and yoke current substantially from the active 4 mH candidate. This rejects use of the active-stage pulse as a winding-ratio bound across even this limited class comparison. Catalog full-scan currents are for different reference tubes and are listed for context, not used as installed AE9VT acceptance limits. Source-bounded 110-degree/20 mm-neck yoke and T3 data remain needed."
+}
