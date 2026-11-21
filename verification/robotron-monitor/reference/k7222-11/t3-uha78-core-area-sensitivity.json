@@ -1,0 +1,87 @@
+{
+  "format": "dac-monitor-t3-uha78-core-area-sensitivity-v1",
+  "qualification": "firsthand UHA78 leg-diameter comparator and conditional prescribed-drive T3 stage only; not installed K7222.11 core area, material, loss, winding graph or Phase B score",
+  "source": {
+    "url": "https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=22157",
+    "post": "005",
+    "date": "2024-07-03",
+    "reading": "UHA78 core diameter 12 mm; maximum coil diameter 50 mm and width 20 mm",
+    "relevance": "firsthand part-family geometry, not a manufacturer drawing or K7222.11 identification"
+  },
+  "inputs_sha256": {
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "reference/k7222-11/t3-drive-pulse-screen.json": "8546a50e04b3182455d43a11dda90f8f51a50539f270a46d79b7cb236e2c23fb",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38"
+  },
+  "diameter_m": 0.012,
+  "circle_area_m2": 0.00011309733552923255,
+  "active_core_area_m2": 0.00015,
+  "stage_change": "core.area_m2.value only; evidence/rationale/bound metadata adjusted for temporary compiler input; all other magnetic, circuit, drive and solver inputs held fixed",
+  "baseline_cases": [
+    {
+      "max_step_ns": 50,
+      "collector_peak_v": 459.040901,
+      "differential_peak_v": 443.164114,
+      "eht_at_collector_peak_v": 11486.5585,
+      "conditional_core_flux_t": {
+        "minimum": -0.197736047,
+        "maximum": 0.16891443,
+        "peak_to_peak": 0.366650477,
+        "maximum_absolute": 0.197736047
+      },
+      "mean_loss_shunt_power_w": 0.7227620166860115
+    },
+    {
+      "max_step_ns": 25,
+      "collector_peak_v": 458.910887,
+      "differential_peak_v": 443.020477,
+      "eht_at_collector_peak_v": 11490.0751,
+      "conditional_core_flux_t": {
+        "minimum": -0.197817835,
+        "maximum": 0.168843722,
+        "peak_to_peak": 0.366661557,
+        "maximum_absolute": 0.197817835
+      },
+      "mean_loss_shunt_power_w": 0.7226317412301256
+    }
+  ],
+  "circle_area_cases": [
+    {
+      "max_step_ns": 50,
+      "normalized_reference_deck_sha256": "65a9f0fa83d9397c08ad657c41fc78038daab69091f160bbe23974d59f82825a",
+      "collector_peak_v": 492.841358,
+      "differential_peak_v": 481.191589,
+      "eht_at_collector_peak_v": 12409.6558,
+      "conditional_core_flux_t": {
+        "minimum": -0.279016679,
+        "maximum": 0.217032305,
+        "peak_to_peak": 0.49604898399999997,
+        "maximum_absolute": 0.279016679
+      },
+      "flux_voltage_integral_error_t": 5.410282785688698e-05,
+      "mean_loss_shunt_power_w": 0.7920179508289887
+    },
+    {
+      "max_step_ns": 25,
+      "normalized_reference_deck_sha256": "93a6452a9eac13941268daf01162797531e301c2cf56d332379e80921dbfa5d8",
+      "collector_peak_v": 493.106785,
+      "differential_peak_v": 481.488955,
+      "eht_at_collector_peak_v": 12411.7585,
+      "conditional_core_flux_t": {
+        "minimum": -0.279024751,
+        "maximum": 0.217093725,
+        "peak_to_peak": 0.49611847600000003,
+        "maximum_absolute": 0.279024751
+      },
+      "flux_voltage_integral_error_t": 1.87285985374044e-05,
+      "mean_loss_shunt_power_w": 0.7922683433453142
+    }
+  ],
+  "refinement_fractional_changes": {
+    "collector_peak_v": 0.0005385647849789187,
+    "differential_peak_v": 0.000617978382826542,
+    "eht_at_collector_peak_v": 0.00016944063831322853,
+    "mean_loss_shunt_power_w": 0.0003161450015916109
+  },
+  "interpretation": "At the reported family core diameter, the conditional stage shifts appreciably and the model flux reaches 0.279 T, crossing the candidate B-H 0.2 T knee. The original 150 mm2 area exceeds the circular 12 mm leg area. A5 cannot hold the 150 mm2 value or its 0.198 T flux as a qualified installed design point; bound core geometry and material, then screen the revised stage and T3 ratios. The source diameter is a cross-revision comparator, not a factory .11 core tolerance."
+}

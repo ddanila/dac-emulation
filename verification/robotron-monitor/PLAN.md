@@ -405,7 +405,11 @@ winding values still have assumed bounds, and the permitted function-derived
 or equivalent-transformer fallback has not been parameterized with A5 ratios,
 loss and parasitic bounds. The existing EHT-to-collector voltage proxy cannot
 bound the HV/drive turns ratio until X2:4's full return path and the voltage
-across X2:7–X2:4 are bounded. The installed tube/yoke geometry also lacks
+across X2:7–X2:4 are bounded. A
+[12 mm ÜHA78 core comparison](reference/k7222-11/t3-uha78-core-area-sensitivity.json)
+raises the conditional stage's peak model flux from 0.198 to 0.279 T when its
+core area is changed from 150 to 113 mm²; effective area and material remain
+unqualified. The installed tube/yoke geometry also lacks
 enough evidence to fix deflection current. A joint horizontal/vertical class
 screen finds three broad-family current matches but none against the sampled
 winding's own transferred bounds; it cannot identify the installed winding or
