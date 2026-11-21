@@ -11,12 +11,14 @@
   "inputs_sha256": {
     "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
     "reference/k7222-11/t3-drive-pulse-screen.json": "8546a50e04b3182455d43a11dda90f8f51a50539f270a46d79b7cb236e2c23fb",
-    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38"
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "reference/k7222-11/inventory.json": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
+    "t3_stage_refinement_screen.py": "876a3f7d615cc95ff5ba0f4e5745d224678ee1c9404ded9ed46c14590ba0e48a"
   },
   "diameter_m": 0.012,
   "circle_area_m2": 0.00011309733552923255,
   "active_core_area_m2": 0.00015,
-  "stage_change": "core.area_m2.value only; evidence/rationale/bound metadata adjusted for temporary compiler input; all other magnetic, circuit, drive and solver inputs held fixed",
+  "stage_change": "For the base comparison, core.area_m2.value only; evidence/rationale/bound metadata adjusted for temporary compiler input. The subsequent capacitor screen changes C27 or C30 explicitly; all other magnetic, circuit, drive and solver inputs held fixed.",
   "baseline_cases": [
     {
       "max_step_ns": 50,
@@ -83,5 +85,578 @@
     "eht_at_collector_peak_v": 0.00016944063831322853,
     "mean_loss_shunt_power_w": 0.0003161450015916109
   },
-  "interpretation": "At the reported family core diameter, the conditional stage shifts appreciably and the model flux reaches 0.279 T, crossing the candidate B-H 0.2 T knee. The original 150 mm2 area exceeds the circular 12 mm leg area. A5 cannot hold the 150 mm2 value or its 0.198 T flux as a qualified installed design point; bound core geometry and material, then screen the revised stage and T3 ratios. The source diameter is a cross-revision comparator, not a factory .11 core tolerance."
+  "interpretation": "At the reported family core diameter, the conditional stage shifts appreciably and model flux reaches 0.279 T, crossing the candidate B-H 0.2 T breakpoint. At 50/25 ns with a prescribed 200 ns base edge, it remains periodic and meets TP17 and solver-budget checks, but final EHT is about 12.38 kV (outside 11-12 kV) and retrace about 11.89 us (outside 12.8-19.2 us). The original 150 mm2 candidate meets both. Raising C27 through the inventory-supported +10% value (11 nF) and C30 to its +10% value (1.1 nF, if populated) still gives 12.154 kV and 12.091 us. A 15 nF C27 exploratory case passes both, but is 50% above its documented 10 nF nominal and cannot be selected as a .11 value. A5 needs a joint geometry, winding, loss and capacitance design check; this cross-revision diameter report alone cannot select the installed model.",
+  "full_stage_cases": [
+    {
+      "prescribed_base_edge_ns": 200,
+      "max_step_ns": 50,
+      "normalized_deck_sha256": "c261fd245c75e2ac257e213b523d4c97a5ca3fa9e52514469305def480404a33",
+      "median_accepted_step_s": 4.999999999970306e-08,
+      "solver_budget_median_at_least_20_ns": true,
+      "last_two_lines": {
+        "period_s": 6.25e-05,
+        "line_intervals_s": [
+          [
+            0.004875,
+            0.0049375
+          ],
+          [
+            0.0049375,
+            0.005
+          ]
+        ],
+        "phase_samples": 2624,
+        "phase_selection": "union of accepted sample phases in both final lines, plus endpoints",
+        "waveforms": {
+          "collector": {
+            "earlier_swing": 493.77788937,
+            "max_pointwise_difference_fraction_of_swing": 0.0007582533075505391
+          },
+          "yoke_current": {
+            "earlier_swing": 0.9531274249999999,
+            "max_pointwise_difference_fraction_of_swing": 0.000153540178544115
+          },
+          "core_flux": {
+            "earlier_swing": 0.495849133,
+            "max_pointwise_difference_fraction_of_swing": 0.0004320032270990994
+          }
+        },
+        "all_three_under_0_1_percent": true
+      },
+      "stage_metrics": {
+        "sample_count": 21008,
+        "sample_window_s": [
+          0.00400004238,
+          0.005
+        ],
+        "collector_peak_v": 492.841358,
+        "collector_min_v": -1.09996337,
+        "eht_peak_v": 12414.7806,
+        "eht_final_v": 12379.7835,
+        "eht_same_phase_drift_v_over_16_lines": -2.0922000000009575,
+        "feedback_swing_v": 60.7108992,
+        "sync_swing_v": 84.6911632,
+        "yoke_current_range_a": [
+          -0.475844407,
+          0.477372501
+        ],
+        "boost_range_v": [
+          63.6127186,
+          63.8023492
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.89520567603875
+      },
+      "snapshot_tp17_eht_retrace_in_guideline": false
+    },
+    {
+      "prescribed_base_edge_ns": 200,
+      "max_step_ns": 25,
+      "normalized_deck_sha256": "cf8d562725f1c546448c8a931cf677918de96018cbfc19d07036bc60bc947f3d",
+      "median_accepted_step_s": 2.499999999985153e-08,
+      "solver_budget_median_at_least_20_ns": true,
+      "last_two_lines": {
+        "period_s": 6.25e-05,
+        "line_intervals_s": [
+          [
+            0.004875,
+            0.0049375
+          ],
+          [
+            0.0049375,
+            0.005
+          ]
+        ],
+        "phase_samples": 5123,
+        "phase_selection": "union of accepted sample phases in both final lines, plus endpoints",
+        "waveforms": {
+          "collector": {
+            "earlier_swing": 493.96742881,
+            "max_pointwise_difference_fraction_of_swing": 0.0007772014372128722
+          },
+          "yoke_current": {
+            "earlier_swing": 0.953246441,
+            "max_pointwise_difference_fraction_of_swing": 0.0001357477353669723
+          },
+          "core_flux": {
+            "earlier_swing": 0.495913392,
+            "max_pointwise_difference_fraction_of_swing": 0.00044369863678599044
+          }
+        },
+        "all_three_under_0_1_percent": true
+      },
+      "stage_metrics": {
+        "sample_count": 41011,
+        "sample_window_s": [
+          0.00400001173,
+          0.005
+        ],
+        "collector_peak_v": 493.106785,
+        "collector_min_v": -1.05853098,
+        "eht_peak_v": 12416.6442,
+        "eht_final_v": 12382.0596,
+        "eht_same_phase_drift_v_over_16_lines": -2.103499999999258,
+        "feedback_swing_v": 60.744059699999994,
+        "sync_swing_v": 84.72975980000001,
+        "yoke_current_range_a": [
+          -0.475841598,
+          0.477440962
+        ],
+        "boost_range_v": [
+          63.6121013,
+          63.8023695
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.891002549074653
+      },
+      "snapshot_tp17_eht_retrace_in_guideline": false
+    }
+  ],
+  "full_stage_both_steps_meet_checks": false,
+  "conditional_c27_screen": [
+    {
+      "c27_nf": 10,
+      "c30_nf": 1,
+      "case": {
+        "max_step_ns": 50,
+        "normalized_deck_sha256": "c261fd245c75e2ac257e213b523d4c97a5ca3fa9e52514469305def480404a33",
+        "last_two_lines": {
+          "period_s": 6.25e-05,
+          "line_intervals_s": [
+            [
+              0.004875,
+              0.0049375
+            ],
+            [
+              0.0049375,
+              0.005
+            ]
+          ],
+          "phase_samples": 2624,
+          "phase_selection": "union of accepted sample phases in both final lines, plus endpoints",
+          "waveforms": {
+            "collector": {
+              "earlier_swing": 493.77788937,
+              "max_pointwise_difference_fraction_of_swing": 0.0007582533075505391
+            },
+            "yoke_current": {
+              "earlier_swing": 0.9531274249999999,
+              "max_pointwise_difference_fraction_of_swing": 0.000153540178544115
+            },
+            "core_flux": {
+              "earlier_swing": 0.495849133,
+              "max_pointwise_difference_fraction_of_swing": 0.0004320032270990994
+            }
+          },
+          "all_three_under_0_1_percent": true
+        },
+        "stage_metrics": {
+          "sample_count": 21008,
+          "sample_window_s": [
+            0.00400004238,
+            0.005
+          ],
+          "collector_peak_v": 492.841358,
+          "collector_min_v": -1.09996337,
+          "eht_peak_v": 12414.7806,
+          "eht_final_v": 12379.7835,
+          "eht_same_phase_drift_v_over_16_lines": -2.0922000000009575,
+          "feedback_swing_v": 60.7108992,
+          "sync_swing_v": 84.6911632,
+          "yoke_current_range_a": [
+            -0.475844407,
+            0.477372501
+          ],
+          "boost_range_v": [
+            63.6127186,
+            63.8023492
+          ],
+          "flyback_pulse_count": 16,
+          "flyback_width_us_at_10pct_swing_median": 11.89520567603875
+        },
+        "snapshot_tp17_eht_retrace_in_guideline": false
+      }
+    },
+    {
+      "c27_nf": 11,
+      "c30_nf": 1,
+      "case": {
+        "max_step_ns": 50,
+        "normalized_deck_sha256": "ce0edf5bcd61dfc377b78c7d8c3173742301519ddd3bced9ef3fa31cbfe65254",
+        "last_two_lines": {
+          "period_s": 6.25e-05,
+          "line_intervals_s": [
+            [
+              0.004875,
+              0.0049375
+            ],
+            [
+              0.0049375,
+              0.005
+            ]
+          ],
+          "phase_samples": 2616,
+          "phase_selection": "union of accepted sample phases in both final lines, plus endpoints",
+          "waveforms": {
+            "collector": {
+              "earlier_swing": 495.65486524,
+              "max_pointwise_difference_fraction_of_swing": 0.0025161535752108136
+            },
+            "yoke_current": {
+              "earlier_swing": 0.952356913,
+              "max_pointwise_difference_fraction_of_swing": 8.162802384791768e-05
+            },
+            "core_flux": {
+              "earlier_swing": 0.495064278,
+              "max_pointwise_difference_fraction_of_swing": 0.00020085583714388362
+            }
+          },
+          "all_three_under_0_1_percent": false
+        },
+        "stage_metrics": {
+          "sample_count": 21029,
+          "sample_window_s": [
+            0.00400002924,
+            0.005
+          ],
+          "collector_peak_v": 494.587952,
+          "collector_min_v": -1.13538724,
+          "eht_peak_v": 12221.3309,
+          "eht_final_v": 12178.7497,
+          "eht_same_phase_drift_v_over_16_lines": -20.656300000000556,
+          "feedback_swing_v": 60.9340128,
+          "sync_swing_v": 85.4388164,
+          "yoke_current_range_a": [
+            -0.474905993,
+            0.477513587
+          ],
+          "boost_range_v": [
+            63.726574,
+            63.9234987
+          ],
+          "flyback_pulse_count": 16,
+          "flyback_width_us_at_10pct_swing_median": 12.070273483430656
+        },
+        "snapshot_tp17_eht_retrace_in_guideline": false
+      }
+    },
+    {
+      "c27_nf": 12,
+      "c30_nf": 1,
+      "case": {
+        "max_step_ns": 50,
+        "normalized_deck_sha256": "aff8dd7876c34a92e54fd3a2908c7b7d9d1f965e3db0550159072b23a2952c37",
+        "last_two_lines": {
+          "period_s": 6.25e-05,
+          "line_intervals_s": [
+            [
+              0.004875,
+              0.0049375
+            ],
+            [
+              0.0049375,
+              0.005
+            ]
+          ],
+          "phase_samples": 2608,
+          "phase_selection": "union of accepted sample phases in both final lines, plus endpoints",
+          "waveforms": {
+            "collector": {
+              "earlier_swing": 489.85779074,
+              "max_pointwise_difference_fraction_of_swing": 0.0019266441479744195
+            },
+            "yoke_current": {
+              "earlier_swing": 0.949697554,
+              "max_pointwise_difference_fraction_of_swing": 0.003663156102430004
+            },
+            "core_flux": {
+              "earlier_swing": 0.49330436099999997,
+              "max_pointwise_difference_fraction_of_swing": 0.0008176620437360479
+            }
+          },
+          "all_three_under_0_1_percent": false
+        },
+        "stage_metrics": {
+          "sample_count": 21022,
+          "sample_window_s": [
+            0.00400000613,
+            0.005
+          ],
+          "collector_peak_v": 489.736905,
+          "collector_min_v": -1.15043144,
+          "eht_peak_v": 11960.4482,
+          "eht_final_v": 11922.6604,
+          "eht_same_phase_drift_v_over_16_lines": -24.10269999999946,
+          "feedback_swing_v": 60.3284645,
+          "sync_swing_v": 84.7932564,
+          "yoke_current_range_a": [
+            -0.47472285,
+            0.478623092
+          ],
+          "boost_range_v": [
+            63.8268737,
+            64.0286518
+          ],
+          "flyback_pulse_count": 16,
+          "flyback_width_us_at_10pct_swing_median": 12.295364383055254
+        },
+        "snapshot_tp17_eht_retrace_in_guideline": false
+      }
+    },
+    {
+      "c27_nf": 13,
+      "c30_nf": 1,
+      "case": {
+        "max_step_ns": 50,
+        "normalized_deck_sha256": "6548fcaf865934e9cd05f71f46c16c8da0b23265ce44e983d28d6cc799d794b5",
+        "last_two_lines": {
+          "period_s": 6.25e-05,
+          "line_intervals_s": [
+            [
+              0.004875,
+              0.0049375
+            ],
+            [
+              0.0049375,
+              0.005
+            ]
+          ],
+          "phase_samples": 2613,
+          "phase_selection": "union of accepted sample phases in both final lines, plus endpoints",
+          "waveforms": {
+            "collector": {
+              "earlier_swing": 484.15766526,
+              "max_pointwise_difference_fraction_of_swing": 0.001087690732591189
+            },
+            "yoke_current": {
+              "earlier_swing": 0.947893384,
+              "max_pointwise_difference_fraction_of_swing": 0.00012156296060934347
+            },
+            "core_flux": {
+              "earlier_swing": 0.49176506200000003,
+              "max_pointwise_difference_fraction_of_swing": 0.00010701905944479547
+            }
+          },
+          "all_three_under_0_1_percent": false
+        },
+        "stage_metrics": {
+          "sample_count": 20967,
+          "sample_window_s": [
+            0.00400003246,
+            0.005
+          ],
+          "collector_peak_v": 483.042212,
+          "collector_min_v": -1.16881603,
+          "eht_peak_v": 11720.8092,
+          "eht_final_v": 11712.3648,
+          "eht_same_phase_drift_v_over_16_lines": 20.02009999999973,
+          "feedback_swing_v": 59.5445594,
+          "sync_swing_v": 83.8076971,
+          "yoke_current_range_a": [
+            -0.472342052,
+            0.475598053
+          ],
+          "boost_range_v": [
+            63.915248,
+            64.1141709
+          ],
+          "flyback_pulse_count": 16,
+          "flyback_width_us_at_10pct_swing_median": 12.551730556577875
+        },
+        "snapshot_tp17_eht_retrace_in_guideline": false
+      }
+    },
+    {
+      "c27_nf": 14,
+      "c30_nf": 1,
+      "case": {
+        "max_step_ns": 50,
+        "normalized_deck_sha256": "36f145cbb8f2bb6c26b5315393af253d322522098c9ecaa8732c6c94482fec52",
+        "last_two_lines": {
+          "period_s": 6.25e-05,
+          "line_intervals_s": [
+            [
+              0.004875,
+              0.0049375
+            ],
+            [
+              0.0049375,
+              0.005
+            ]
+          ],
+          "phase_samples": 2630,
+          "phase_selection": "union of accepted sample phases in both final lines, plus endpoints",
+          "waveforms": {
+            "collector": {
+              "earlier_swing": 480.81775959,
+              "max_pointwise_difference_fraction_of_swing": 0.004925746295628234
+            },
+            "yoke_current": {
+              "earlier_swing": 0.943738281,
+              "max_pointwise_difference_fraction_of_swing": 0.005538722800215103
+            },
+            "core_flux": {
+              "earlier_swing": 0.48955846700000005,
+              "max_pointwise_difference_fraction_of_swing": 0.0018507993403159026
+            }
+          },
+          "all_three_under_0_1_percent": false
+        },
+        "stage_metrics": {
+          "sample_count": 21088,
+          "sample_window_s": [
+            0.00400000671,
+            0.005
+          ],
+          "collector_peak_v": 488.299422,
+          "collector_min_v": -1.20273559,
+          "eht_peak_v": 11526.7715,
+          "eht_final_v": 11524.5941,
+          "eht_same_phase_drift_v_over_16_lines": 36.61880000000019,
+          "feedback_swing_v": 60.2182032,
+          "sync_swing_v": 83.5526191,
+          "yoke_current_range_a": [
+            -0.473296334,
+            0.477601361
+          ],
+          "boost_range_v": [
+            64.0554036,
+            64.2694298
+          ],
+          "flyback_pulse_count": 16,
+          "flyback_width_us_at_10pct_swing_median": 12.788267566748827
+        },
+        "snapshot_tp17_eht_retrace_in_guideline": false
+      }
+    },
+    {
+      "c27_nf": 15,
+      "c30_nf": 1,
+      "case": {
+        "max_step_ns": 50,
+        "normalized_deck_sha256": "d8f0dcda538b07a731b866df78f25d94f639df6a6683163deb679686df06efa5",
+        "last_two_lines": {
+          "period_s": 6.25e-05,
+          "line_intervals_s": [
+            [
+              0.004875,
+              0.0049375
+            ],
+            [
+              0.0049375,
+              0.005
+            ]
+          ],
+          "phase_samples": 2629,
+          "phase_selection": "union of accepted sample phases in both final lines, plus endpoints",
+          "waveforms": {
+            "collector": {
+              "earlier_swing": 474.40138522,
+              "max_pointwise_difference_fraction_of_swing": 0.0039181259328246645
+            },
+            "yoke_current": {
+              "earlier_swing": 0.9392928309999999,
+              "max_pointwise_difference_fraction_of_swing": 0.00784951600552139
+            },
+            "core_flux": {
+              "earlier_swing": 0.486402473,
+              "max_pointwise_difference_fraction_of_swing": 0.0023034945548087407
+            }
+          },
+          "all_three_under_0_1_percent": false
+        },
+        "stage_metrics": {
+          "sample_count": 21081,
+          "sample_window_s": [
+            0.00400001474,
+            0.005
+          ],
+          "collector_peak_v": 473.527984,
+          "collector_min_v": -1.22203353,
+          "eht_peak_v": 11121.8099,
+          "eht_final_v": 11120.3294,
+          "eht_same_phase_drift_v_over_16_lines": 32.07060000000092,
+          "feedback_swing_v": 58.4144276,
+          "sync_swing_v": 82.06281879999999,
+          "yoke_current_range_a": [
+            -0.470567821,
+            0.476035161
+          ],
+          "boost_range_v": [
+            64.0670321,
+            64.2750538
+          ],
+          "flyback_pulse_count": 16,
+          "flyback_width_us_at_10pct_swing_median": 13.088974202464868
+        },
+        "snapshot_tp17_eht_retrace_in_guideline": true
+      }
+    }
+  ],
+  "documented_capacitor_tolerance_upper_case": {
+    "c27_nf": 11,
+    "c30_nf": 1.1,
+    "c30_population": "conditional populated",
+    "c27_inventory_tolerance_percent": 10,
+    "c30_inventory_tolerance_percent": 10,
+    "case": {
+      "max_step_ns": 50,
+      "normalized_deck_sha256": "d7880aba2959fae93a7d335fd8916397f80dcedc6a8bd09add74d056869e9c23",
+      "last_two_lines": {
+        "period_s": 6.25e-05,
+        "line_intervals_s": [
+          [
+            0.004875,
+            0.0049375
+          ],
+          [
+            0.0049375,
+            0.005
+          ]
+        ],
+        "phase_samples": 2618,
+        "phase_selection": "union of accepted sample phases in both final lines, plus endpoints",
+        "waveforms": {
+          "collector": {
+            "earlier_swing": 495.22123198,
+            "max_pointwise_difference_fraction_of_swing": 0.0013699382198423193
+          },
+          "yoke_current": {
+            "earlier_swing": 0.952215585,
+            "max_pointwise_difference_fraction_of_swing": 6.503984388627306e-05
+          },
+          "core_flux": {
+            "earlier_swing": 0.494940615,
+            "max_pointwise_difference_fraction_of_swing": 0.00016881135770522443
+          }
+        },
+        "all_three_under_0_1_percent": false
+      },
+      "stage_metrics": {
+        "sample_count": 21008,
+        "sample_window_s": [
+          0.00400000802,
+          0.005
+        ],
+        "collector_peak_v": 494.235853,
+        "collector_min_v": -1.13772798,
+        "eht_peak_v": 12197.2604,
+        "eht_final_v": 12154.4945,
+        "eht_same_phase_drift_v_over_16_lines": -22.03060000000005,
+        "feedback_swing_v": 60.8861967,
+        "sync_swing_v": 85.4178115,
+        "yoke_current_range_a": [
+          -0.474798082,
+          0.477473428
+        ],
+        "boost_range_v": [
+          63.7378382,
+          63.9347144
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 12.091201990329075
+      },
+      "snapshot_tp17_eht_retrace_in_guideline": false
+    }
+  }
 }

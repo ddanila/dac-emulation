@@ -4143,3 +4143,32 @@ turns or a fallback, A5 needs a bounded effective core area and material
 curve followed by a stage sweep. The 12 mm comparison supplies one useful
 geometry constraint, but its revision and cross-section uncertainty keep
 A5 and the T3 part of A6 open.
+
+The same report now includes the complete conditional stage checks with the
+200 ns prescribed base edge. At 50/25 ns maximum steps, TP17 is
+84.69/84.73 Vpp and the final EHT is 12.380/12.382 kV. Sixteen flyback
+pulses occur in the sampled millisecond, and the final two line waveforms
+agree within 0.1%, with median accepted steps of 50/25 ns. The median
+flyback widths are 11.895/11.891 µs. Thus the smaller-core case misses both
+the 11–12 kV EHT guideline and the 12.8–19.2 µs retrace range while the
+original 150 mm² candidate meets those two checks at 11.481 kV and
+13.100 µs. Geometry affects the result enough that matching TP17 and
+numerical periodicity cannot qualify the fallback. A bounded joint core,
+capacitance and winding-ratio screen is the next A5 attempt; the reported
+diameter alone does not justify changing the live transformer model.
+
+The follow-on C27 sweep holds the 113.10 mm² core and the candidate's 1 nF
+C30 fixed. C27 at 10/11/12/13/14/15 nF gives 50 ns final EHT of
+12.380/12.179/11.923/11.712/11.525/11.120 kV and retrace of
+11.895/12.070/12.295/12.552/12.788/13.089 µs. Only the 15 nF case
+passes both windows; 14 nF misses the retrace lower edge by 0.012 µs.
+The [inventory](reference/k7222-11/inventory.json) prints C27 as 10 nF
+±10% and C30 as 1 nF ±10%. At the **upper documented values** (11 and
+1.1 nF, with C30 conditionally populated), the stage still gives
+12.154 kV and 12.091 µs. The passing 15 nF C27 trial is 50% above its
+printed nominal and cannot be adopted as a source value. Removing C30
+would reduce tuning capacitance further. This bounded capacitor check
+rules out fixing the smaller-core candidate by C27/C30 tolerance alone;
+the winding, effective core geometry/material and return graph need joint
+reconsideration. These are prescribed-drive stage results, not installed
+transformer measurements.
