@@ -1,0 +1,79 @@
+{
+  "format": "dac-monitor-t3-centering-link-disposition-v1",
+  "qualification": "effect-bounded choice in one conditional prescribed-drive TBY7 stage; not installed-link identification, source-qualified L1/L2 behavior, TP17, or a connected native-frame result",
+  "input_sha256": {
+    "t3-brimar-link-sensitivity.json": "a9abae0b1c626ce82f4355aac9f0951ac61e9f4738d0ed445ed5b82ffbb462e2",
+    "t3-brimar-asymmetric-choke-screen.json": "38455c37aaf019e137166fe8a010af9e54c6e040a507fb50944fdaa54ac1314b"
+  },
+  "script_sha256": "a5247ec52a547442600bf7c5444c400f56e6aba7dc3a6b71d3ffbec14bc4c6ce",
+  "sensitivity_limit_fraction": 0.02,
+  "fixed_feed_v": 42.50390625,
+  "comparisons": [
+    {
+      "source_report": "t3-brimar-link-sensitivity.json",
+      "l1_h": 0.02,
+      "l2_h": 0.02,
+      "default_pair": "E1+E2",
+      "alternative_pair": "E3+E4",
+      "relative_change": {
+        "current_pp_a": 1.5134719941610476e-05,
+        "eht_v": 0.0001574246520364599,
+        "drive_peak_v": 8.086666948421214e-05
+      }
+    },
+    {
+      "source_report": "t3-brimar-link-sensitivity.json",
+      "l1_h": 0.08,
+      "l2_h": 0.08,
+      "default_pair": "E1+E2",
+      "alternative_pair": "E3+E4",
+      "relative_change": {
+        "current_pp_a": 1.7091348262601628e-05,
+        "eht_v": 8.042986195279848e-05,
+        "drive_peak_v": 1.4563365958029472e-05
+      }
+    },
+    {
+      "source_report": "t3-brimar-link-sensitivity.json",
+      "l1_h": 0.32,
+      "l2_h": 0.32,
+      "default_pair": "E1+E2",
+      "alternative_pair": "E3+E4",
+      "relative_change": {
+        "current_pp_a": 1.443786339264238e-05,
+        "eht_v": 2.1034707361373762e-05,
+        "drive_peak_v": 2.3326879410347237e-05
+      }
+    },
+    {
+      "source_report": "t3-brimar-asymmetric-choke-screen.json",
+      "l1_h": 0.016,
+      "l2_h": 0.07,
+      "default_pair": "E1+E2",
+      "alternative_pair": "E3+E4",
+      "relative_change": {
+        "current_pp_a": 2.597978346832607e-05,
+        "eht_v": 1.4925151261040762e-05,
+        "drive_peak_v": 3.0254014294123236e-05
+      }
+    },
+    {
+      "source_report": "t3-brimar-asymmetric-choke-screen.json",
+      "l1_h": 0.07,
+      "l2_h": 0.016,
+      "default_pair": "E1+E2",
+      "alternative_pair": "E3+E4",
+      "relative_change": {
+        "current_pp_a": 1.4640930927205527e-05,
+        "eht_v": 0.00019521574653544928,
+        "drive_peak_v": 4.741256575127779e-05
+      }
+    }
+  ],
+  "maximum_relative_change": {
+    "current_pp_a": 2.597978346832607e-05,
+    "eht_v": 0.00019521574653544928,
+    "drive_peak_v": 8.086666948421214e-05
+  },
+  "disposition": "Keep E1+E2 as the explicit default and E3+E4 as a bounded model alternative for the conditional stage. Their measured current, sampled EHT and drive-peak effects are below the Phase A 2% sensitivity budget at all five screened choke assignments. The installed links remain unknown; this does not qualify T3 ratios or a native connected result."
+}
