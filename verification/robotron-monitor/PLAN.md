@@ -395,9 +395,20 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-21)
 
-**Goal blocked reason (2026-11-21): Phase A does not meet its six-item
-completion rule.** A5 cannot yet produce a bounded, document-consistent
-design point. The .11 scan does not settle T3's full return graph, tap order or
+**Goal blocked reason (2026-11-21): Phase A cannot be signed off.** A5 cannot
+produce a bounded, document-consistent design point because the active
+19-port T3 model conflicts with the .11 page-4 terminal labels: it omits
+X3:1 and X1:2, joins X1:3 to X2:3 where the drawing joins X1:2, and includes
+X1:16 without a resolved page-4 mapping. The 20-terminal correction is only
+a structural candidate, with no qualified winding parameters or active KiCad
+wrapper. Consequently the existing numerical T3 screens cannot establish
+the installed EHT, C21 boost or winding ratios. A1, A2 and A6 also remain
+open; A3 and A4 are done. This is an evidence and model-qualification gap,
+not an external dependency or approval wait. The immediate unblock is to
+resolve X1:16's mapping, rebuild and compare the wrapper, then rerun the
+affected screens with bounded drive, returns and yoke transfer.
+
+The .11 scan still does not settle T3's full return graph, tap order or
 high-voltage cold end. The
 [historical function-only core](reference/k7222-11/t3-functional-core.json) assigns six
 of 19 terminals and cannot determine winding ratios; the cross-revision
