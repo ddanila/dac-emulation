@@ -1,0 +1,74 @@
+{
+  "format": "dac-monitor-t3-series-return-audit-v1",
+  "qualification": "candidate-graph DC-continuity check and cross-revision repair comparator; no .11 internal-winding proof",
+  "inputs_sha256": {
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "reference/k7222-11/t3-series-return-source-read.json": "fdf76698538fbd5db89e6e7b13288a530ff22c5dce0a1171060f43eddf397f06",
+    "t3_series_return_audit.py": "14405621b54efe2176477dc656a88ee707e52363753f3ceb5070a7f7a151db1d"
+  },
+  "source": {
+    "format": "dac-monitor-t3-series-return-source-read-v1",
+    "qualification": "cross-revision repair discussion and annotated K7222 schematic; not a K7222.11 factory pin map",
+    "discussion_url": "https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=6955",
+    "retrieved_html_sha256": "f43e84ba9b10988a255219496f2442adbc95950c96ba5717e5fd818b21f8af3c",
+    "annotated_schematic_url": "https://www.robotrontechnik.de/ablage/forum/K7222_HK.jpg",
+    "retrieved_image_sha256": "982c5d4fc5e97fc44c66edcfafab29f9e0266f02447d1a04b1b92dc8eef0d10a",
+    "observations": [
+      {
+        "post": "000, 6 March 2011, R\u00fcdiger",
+        "reading": "The author says one winding on the \u00dcHA78 primary spool is originally in series with the high-voltage coil."
+      },
+      {
+        "post": "006, 6 March 2011, R\u00fcdiger",
+        "reading": "The author calls the original K7222 high-voltage coil footpoint grounded, without assigning that footpoint to X1:16."
+      },
+      {
+        "post": "007, 7 March 2011, R\u00fcdiger",
+        "reading": "The author's annotated K7222 schematic labels relevant X1 secondary windings red and an X2 primary-spool winding green."
+      }
+    ],
+    "interpretation_limit": "The author discusses a K7222 repair without fixing the .11/.21 revision. A grounded end of a series chain does not establish that the intermediate X1:16 terminal itself is grounded. The photograph does not determine the .11 internal continuity or turn count."
+  },
+  "candidate_port_nets": {
+    "X1_1": "h_hvac",
+    "X1_16": "h_hvcold",
+    "X1_7": "h_hvcold",
+    "X1_3": "h_upper2",
+    "X2_3": "h_upper2",
+    "X2_5": "0"
+  },
+  "x1_16_directly_grounded": false,
+  "eht_to_ground_path": [
+    "X1_1",
+    "X1_16",
+    "NET:h_hvcold",
+    "X1_7",
+    "X1_5",
+    "X1_3",
+    "NET:h_upper2",
+    "X2_3",
+    "X2_6",
+    "X2_5",
+    "NET:0"
+  ],
+  "path_edge_types": [
+    "winding:high_voltage",
+    "external-net",
+    "external-net",
+    "winding:upper_taps",
+    "winding:upper_taps",
+    "external-net",
+    "external-net",
+    "winding:auxiliary",
+    "winding:auxiliary",
+    "external-net"
+  ],
+  "winding_groups_on_path": [
+    "auxiliary",
+    "high_voltage",
+    "upper_taps"
+  ],
+  "interpretation": "The candidate has an EHT-to-ground DC winding chain even though X1:16 is an ungrounded intermediate tap. The repair statement that the footpoint is grounded therefore cannot select the X1:16=0 variant. It is compatible with a series-winding return but does not prove the K7222.11 internal graph or polarity.",
+  "passed": true
+}
