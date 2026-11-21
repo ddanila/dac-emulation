@@ -5266,3 +5266,20 @@ receipts changed. The eight-sign screen remains 7 complete/1 solver abort/0
 joint matches, and the booster sweep remains 5 complete/0 joint matches.
 This restores reproducibility of those *conditional prescribed-drive*
 sensitivities; it does not qualify the installed T3 or a periodic field.
+
+### A5: differential-drive audit uses the corrected V21 pads (2026-11-21)
+
+The refreshed [drive-voltage audit](reference/k7222-11/t3-drive-voltage-audit.json)
+checks the page-4-visible 20-port export against the scoped X2:4/C31/C32-to-H2
+return read. It records V21 anode/cathode as **X3:1/X3:2**, the drawn
+**X1:2–X2:3** conductor, and the unchanged X2:7/X2:4 drive nets. The
+required drive voltage is `V(X2:7)-V(X2:4)`, while the required HV winding
+voltage is `V(X3:1)-V(HV cold end)`. The latter end is not mapped by the .11
+source, and the H2-coupled X2:4 waveform is not bounded. Therefore the
+17.49–21.78 EHT/ideal-collector result remains only a voltage proxy; the
+older 1,120–1,393-turn scale is a 19-port sensitivity, not a 20-port design
+value. The audit's saved result and focused test pass. A
+[K7222.25 ÜHA78 repair guide](https://www.sax.de/~zander/zubehoer/k7222/uha78rep.pdf)
+describes a separate two-lead replacement overwind and reroutes
+its cold end to chassis; that cross-revision procedure supplies no .11
+connection-16 identity.
