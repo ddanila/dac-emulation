@@ -37,16 +37,13 @@ static void vrequest(pc1715_video *v) {
   v->burst = v->fetch_wait = 0;
 }
 int pc1715_video_read(pc1715 *m, uint16_t address, uint8_t *data) {
-  pc1715_video *v = &m->video;
-  unsigned a = address & 255;
-  if (!v->enabled || (a & 0xfc) != 0x18)
-    return 0;
-  if (a & 1) {
-    *data = v->status;
-    v->status &= 0x44;
-  } else
-    *data = 0; /* no light pen connected */
-  return 1;
+  /* ZRE sheet 2: A23.1 DS8282 is one-way DB -> CRT D0..D7.
+   * No CRT status/light-pen return path to the CPU. Leave the bus unclaimed;
+   * its value is determined by the surrounding bus model, not the 8275. */
+  (void)m;
+  (void)address;
+  (void)data;
+  return 0;
 }
 int pc1715_video_write(pc1715 *m, uint16_t address, uint8_t data) {
   pc1715_video *v = &m->video;
