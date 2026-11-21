@@ -1,5 +1,5 @@
 {
-  "format": "dac-monitor-t3-brimar-return-boundary-screen-v1",
+  "format": "dac-monitor-t3-brimar-return-boundary-screen-v2",
   "qualification": "conditional 4\u20135 ms prescribed-base stage and TBY7 comparator; unverified T3 graph/returns and exploratory centring chokes; not installed AE9VT, periodic operation or an A5 freeze",
   "source": {
     "k7222_11_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
@@ -23,7 +23,7 @@
     "t3_loaded_return_screen.py": "d699fecb27e8a8157b94fa8e56fc867a8250a83628d66c8a1a41a4013d519c66",
     "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
     "t3_tp17_path_sweep.py": "90f13dd629d010f0b9ef37e4f32ef12c3568abb9f1ffffc79b876d4ced196b2d",
-    "t3_brimar_return_boundary_screen.py": "4a939315e9113a6100aa93b114ec978e1c092830f0f83ee1374c67d658df9311"
+    "t3_brimar_return_boundary_screen.py": "dd7fa47d638a62c1e56a375ef791eb2dd48825f10a2bb34607baff0dd1da19bc"
   },
   "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
   "fixed_conditions": {
@@ -260,6 +260,99 @@
       "normalized_deck_sha256": "b5233dc65f134d46116ebb4dbdcb151ae19ca597d7c2c43973bb3a0f20cf6794"
     }
   ],
+  "half_step_cases": [
+    {
+      "upper_return_tied": true,
+      "cold_mode": "hv_only_grounded",
+      "max_step_ns": 25,
+      "feed_v": 42.50390625,
+      "yoke_current_pp_a": 0.946044101,
+      "eht_at_collector_peak_v": 11723.8938,
+      "drive_peak_v": 457.547416,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "bafaab69be2d99131e5961323b3913b506af22becd89580f7847e92b9cd7d966"
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_grounded",
+      "max_step_ns": 25,
+      "feed_v": 42.50390625,
+      "yoke_current_pp_a": 0.04792488539,
+      "eht_at_collector_peak_v": 1195.45821,
+      "drive_peak_v": 158.976803,
+      "reaches_class_lower_current": false,
+      "sampled_eht_in_manual_band": false,
+      "normalized_deck_sha256": "da5a40b7dc59e5fb277eaa401b0ff18662fbfaf4123305611f6f15fe4dd415a3"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "hv_only_grounded",
+      "max_step_ns": 25,
+      "feed_v": 42.50390625,
+      "yoke_current_pp_a": 0.946056038,
+      "eht_at_collector_peak_v": 11724.1005,
+      "drive_peak_v": 457.555103,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "510da41a7b370605e01228d3ffd0c4e9248f9ee035e09bbb34a249fa95df5131"
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_grounded",
+      "max_step_ns": 25,
+      "feed_v": 42.50390625,
+      "yoke_current_pp_a": 0.9460496860000001,
+      "eht_at_collector_peak_v": 11724.0066,
+      "drive_peak_v": 457.543508,
+      "reaches_class_lower_current": true,
+      "sampled_eht_in_manual_band": true,
+      "normalized_deck_sha256": "78715b3129220b504511e4c813760c2ba43c749887c640c10cc5d98ddbd7d924"
+    }
+  ],
+  "half_step_comparison": [
+    {
+      "upper_return_tied": true,
+      "cold_mode": "hv_only_grounded",
+      "fractional_changes": {
+        "yoke_current_pp_a": 7.23158116837182e-05,
+        "eht_at_collector_peak_v": 0.00016033080457568839,
+        "drive_peak_v": 0.00023548951828886348
+      },
+      "same_current_and_eht_disposition": true
+    },
+    {
+      "upper_return_tied": true,
+      "cold_mode": "shared_grounded",
+      "fractional_changes": {
+        "yoke_current_pp_a": 0.00040207575880075986,
+        "eht_at_collector_peak_v": 0.008236759275979756,
+        "drive_peak_v": 0.004743549219826313
+      },
+      "same_current_and_eht_disposition": true
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "hv_only_grounded",
+      "fractional_changes": {
+        "yoke_current_pp_a": 6.853552097088379e-05,
+        "eht_at_collector_peak_v": 9.535116007635056e-05,
+        "drive_peak_v": 0.000198301806972575
+      },
+      "same_current_and_eht_disposition": true
+    },
+    {
+      "upper_return_tied": false,
+      "cold_mode": "shared_grounded",
+      "fractional_changes": {
+        "yoke_current_pp_a": 8.547110346504129e-05,
+        "eht_at_collector_peak_v": 8.854412524831515e-05,
+        "drive_peak_v": 0.00028885954953187804
+      },
+      "same_current_and_eht_disposition": true
+    }
+  ],
+  "all_dispositions_stable_at_25ns": true,
   "at_prior_crossing": [
     {
       "upper_return_tied": true,
@@ -282,5 +375,5 @@
       "current_and_eht_screen_match": true
     }
   ],
-  "interpretation": "At the prior nominal return crossing, three of four conditional return wirings meet the transferred TBY7 lower-current and sampled EHT bands. The tied X1:3/X2:3 plus shared-grounded X1:16/X1:7 combination collapses both outputs. The open-upper-return version of that same cold-end connection does not. This interaction rejects that one pairing only within the assumed graph, stage and rail; it cannot identify the installed return or fix a winding ratio."
+  "interpretation": "At the prior nominal return crossing, three of four conditional return wirings meet the transferred TBY7 lower-current and sampled EHT bands. The tied X1:3/X2:3 plus shared-grounded X1:16/X1:7 combination collapses both outputs; the open-upper-return version does not. All four current/EHT dispositions persist when the maximum step is halved from 50 to 25 ns. This interaction rejects that one pairing only within the assumed graph, stage and rail; it cannot identify the installed return or fix a winding ratio."
 }

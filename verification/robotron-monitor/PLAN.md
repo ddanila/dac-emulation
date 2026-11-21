@@ -428,7 +428,7 @@ yoke currents, T3 ratios or a sustained operating point. The permitted
 conditional [return boundary screen](reference/k7222-11/t3-brimar-return-boundary-screen.json)
 rejects the tied upper return plus jointly grounded HV cold ends in this
 conditional stage, but three return wirings still pass its sampled current
-and EHT checks. The permitted
+and EHT checks at both 50 and 25 ns maximum steps. The permitted
 function-derived/equivalent T3 fallback still needs A5-derived ratios and
 class-bounded loss and parasitics; switching to that fallback alone cannot
 close A5.

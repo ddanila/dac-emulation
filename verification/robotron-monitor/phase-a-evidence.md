@@ -4764,3 +4764,11 @@ connection. All outcomes use the scan-order T3 graph, exploratory centring
 chokes, a class-comparator yoke and a 4–5 ms prescribed-drive window. The
 screen cannot qualify periodic operation, a T3 turns ratio or the AE9VT
 winding.
+
+A 25 ns maximum-step rerun of all four wirings at the 42.504 V crossing
+preserves each current/EHT pass or fail outcome. For the three passing
+wirings, sampled current and EHT each shift by under **0.017%** relative
+to the 50 ns cases. The failing wiring changes by **0.040%** in current
+and **0.824%** in EHT, still far from either band. This removes a simple
+time-step explanation for the conditional split; it does not test a longer
+periodic state or validate the assumed graph.
