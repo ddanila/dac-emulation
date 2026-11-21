@@ -1,0 +1,58 @@
+{
+  "format": "dac-monitor-page9-integrator-crossing-comparison-v1",
+  "qualification": "scoped source-to-fresh-KiCad electrical comparison; physical R35 wiper is collapsed in the model and the full page-9 review stays open",
+  "source_read_sha256": "195c7659b5668cfd9d23b3b84f31005707d5c2f92b243cb2a295afaa76050635",
+  "integrator_sheet_sha256": "fcc4105a85343558459544a6a0e19538b2b82691860eb9517956c0992e9c65ea",
+  "source_nets": {
+    "A2_INVERTING": [
+      "A2:7",
+      "R34:left",
+      "C22:left"
+    ],
+    "HEIGHT_TRIM": [
+      "R34:right",
+      "R35:left"
+    ],
+    "00": [
+      "R35:right",
+      "R35:wiper"
+    ],
+    "RAMP_FEEDBACK": [
+      "C22:right"
+    ]
+  },
+  "assembled_nodes": {
+    "A2": [
+      "0",
+      "ramp_inv",
+      "ramp_noninv",
+      "vertical_reference",
+      "0",
+      "ramp_raw",
+      "p12",
+      "p12",
+      "ramp_comp",
+      "ramp_limit"
+    ],
+    "R34": [
+      "ramp_inv",
+      "height_trim"
+    ],
+    "R35": [
+      "height_trim",
+      "0"
+    ],
+    "C22": [
+      "ramp_inv",
+      "vertical_ramp"
+    ]
+  },
+  "electrical_crossing_matches": true,
+  "source_physical_terminals": 8,
+  "assembled_electrical_terminals": 7,
+  "physical_scope_gap": "R35 wiper is tied to its right-hand end at 00 in the source, but the KiCad variable-resistance equivalent exports only two R35 pins.",
+  "remaining": [
+    "Preserve or explicitly reconcile the physical R35 wiper in the full pin-to-pin page-9 comparison.",
+    "Complete the independent source netlist and functional checks for the rest of page 9."
+  ]
+}

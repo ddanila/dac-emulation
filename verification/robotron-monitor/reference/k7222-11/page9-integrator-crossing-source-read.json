@@ -1,0 +1,30 @@
+{
+  "format": "dac-monitor-page9-integrator-crossing-source-read-v1",
+  "qualification": "Independent, scoped page-9 image read of the A2 height-control and feedback crossing; not a complete page-9 netlist",
+  "source": {
+    "file": "older.pdf",
+    "pdf_page": 9,
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "views": [
+      {
+        "path": "build/monitor/phase-a/page9-a2-600.png",
+        "sha256": "2098286d8dd5d2b3f6eb3bbd5291f56845978d07cdcf2ec95b17139e328863b8"
+      },
+      {
+        "path": "build/monitor/phase-a/page9-a2-1200.png",
+        "sha256": "449f3d31ef8730f7ce3897417c1e36d3bae948667c574b75552e51760809389c"
+      }
+    ]
+  },
+  "source_nets": {
+    "A2_INVERTING": ["A2:7", "R34:left", "C22:left"],
+    "HEIGHT_TRIM": ["R34:right", "R35:left"],
+    "00": ["R35:right", "R35:wiper"],
+    "RAMP_FEEDBACK": ["C22:right"]
+  },
+  "crossing_read": "The R34-to-R35 line and C22 feedback line cross the vertical 12P rail without junction dots. R35's wiper is visibly joined to its right-hand end and 00, not to 12P.",
+  "limits": [
+    "This read covers only A2:7, R34, R35 and C22; the rest of page 9 remains open.",
+    "The source drawing shows three physical R35 terminals; a two-terminal variable-resistance equivalent may preserve the electrical network but cannot satisfy the physical pin comparison."
+  ]
+}

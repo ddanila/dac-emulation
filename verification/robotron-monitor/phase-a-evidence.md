@@ -5452,3 +5452,16 @@ intermediate turn count or another return graph. They show that changing the
 three assumed booster sections alone cannot select an A5 design point from
 the sampled candidates; the source-unqualified return, drive, yoke and other
 winding sections remain coupled alternatives.
+
+### A1: page-9 A2 height/feedback crossing (2026-11-21)
+
+An independent [600 and 1200 dpi source read](reference/k7222-11/page9-integrator-crossing-source-read.json)
+checks the page-9 A2:7, R34, R35 and C22 branch. The R34-to-R35 height
+control and C22 feedback lines cross the 12P rail without junction dots;
+R35's wiper is tied to its right-hand end at 00. A [fresh KiCad comparison](reference/k7222-11/page9-integrator-crossing-comparison.json)
+matches the three electrical component branches and A2 inverting input and
+confirms that none of R34, R35 or C22 joins 12P at those crossings. The source
+has eight physical terminals in this scope. The model exports seven because
+its two-terminal R35 variable-resistance equivalent collapses the tied
+wiper. The full page-9 pin comparison remains open, and this result does not
+qualify the vertical stage's functional response or R35's installed setting.
