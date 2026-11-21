@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+from unittest.mock import patch
 
 import t3_brimar_rail_boundary_screen as rail
 import t3_drive_pulse_screen as pulse
@@ -19,6 +20,19 @@ OUTPUT = REF / 't3-brimar-return-boundary-screen.json'
 
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def half_step_case(ngspice, inputs, feed, yoke):
+    """Refine only the transient maximum step in the same centred-stage deck."""
+    original = rail.centering.replace_once
+
+    def refine(deck, old, new):
+        if old == 'tran 100n 5m 4m' and new == 'tran 50n 5m 4m':
+            new = 'tran 25n 5m 4m'
+        return original(deck, old, new)
+
+    with patch.object(rail.centering, 'replace_once', refine):
+        return rail.rail_case(ngspice, inputs, feed, yoke)
 
 
 def run(ngspice, source_pdf):
@@ -39,6 +53,7 @@ def run(ngspice, source_pdf):
     by_id = {part['source_id']: part for part in transcription['components']}
     parts += [by_id['012-6921:' + name] for name in tp17.SOURCE_PARTS]
     rows = []
+    refined_rows = []
     for joined in (True, False):
         for cold_mode in ('hv_only_grounded', 'shared_grounded'):
             selected, pins = returns.variant_parts(parts, transcription['ports'],
@@ -55,6 +70,15 @@ def run(ngspice, source_pdf):
                                  reaches_class_lower_current=observed['yoke_current_pp_a'] >= lower,
                                  sampled_eht_in_manual_band=eht[0] <= observed['eht_at_collector_peak_v'] <= eht[1],
                                  normalized_deck_sha256=observed['normalized_deck_sha256']))
+            refined = half_step_case(ngspice, variant_inputs, crossing, yoke)
+            refined_rows.append(dict(upper_return_tied=joined, cold_mode=cold_mode,
+                                     max_step_ns=25, feed_v=crossing,
+                                     yoke_current_pp_a=refined['yoke_current_pp_a'],
+                                     eht_at_collector_peak_v=refined['eht_at_collector_peak_v'],
+                                     drive_peak_v=refined['drive_peak_v'],
+                                     reaches_class_lower_current=refined['yoke_current_pp_a'] >= lower,
+                                     sampled_eht_in_manual_band=eht[0] <= refined['eht_at_collector_peak_v'] <= eht[1],
+                                     normalized_deck_sha256=refined['normalized_deck_sha256']))
     nominal = next(row for row in rows if row['upper_return_tied'] and
                    row['cold_mode'] == 'hv_only_grounded' and row['feed_v'] == crossing)
     prior = saved['threshold']['first_within']
@@ -62,8 +86,24 @@ def run(ngspice, source_pdf):
             abs(nominal['eht_at_collector_peak_v'] - prior['eht_at_collector_peak_v']) > .01):
         raise ValueError('nominal return differs from saved rail boundary')
     at_crossing = [row for row in rows if row['feed_v'] == crossing]
+    by_return = {(row['upper_return_tied'], row['cold_mode']): row
+                 for row in at_crossing}
+    refinement = []
+    for row in refined_rows:
+        original = by_return[row['upper_return_tied'], row['cold_mode']]
+        changes = {name: abs(row[name] - original[name]) / abs(original[name])
+                   for name in ('yoke_current_pp_a', 'eht_at_collector_peak_v',
+                                'drive_peak_v')}
+        same_disposition = (row['reaches_class_lower_current'] ==
+                            original['reaches_class_lower_current'] and
+                            row['sampled_eht_in_manual_band'] ==
+                            original['sampled_eht_in_manual_band'])
+        refinement.append(dict(upper_return_tied=row['upper_return_tied'],
+                               cold_mode=row['cold_mode'],
+                               fractional_changes=changes,
+                               same_current_and_eht_disposition=same_disposition))
     return dict(
-        format='dac-monitor-t3-brimar-return-boundary-screen-v1',
+        format='dac-monitor-t3-brimar-return-boundary-screen-v2',
         qualification='conditional 4–5 ms prescribed-base stage and TBY7 comparator; unverified T3 graph/returns and exploratory centring chokes; not installed AE9VT, periodic operation or an A5 freeze',
         source=dict(k7222_11_pdf_sha256=rail.SOURCE_PDF_SHA,
                     brimar_pdf_sha256=catalog['source']['sha256']),
@@ -85,12 +125,15 @@ def run(ngspice, source_pdf):
                               prescribed_base_edge_ns=200, max_step_ns=50),
         class_lower_current_pp_a=lower, manual_eht_bounds_v=eht,
         prior_boundary_feed_v=crossing, cases=rows,
+        half_step_cases=refined_rows, half_step_comparison=refinement,
+        all_dispositions_stable_at_25ns=all(row['same_current_and_eht_disposition']
+                                             for row in refinement),
         at_prior_crossing=[dict(upper_return_tied=row['upper_return_tied'],
                                 cold_mode=row['cold_mode'],
                                 current_and_eht_screen_match=(row['reaches_class_lower_current'] and
                                                               row['sampled_eht_in_manual_band']))
                            for row in at_crossing],
-        interpretation='At the prior nominal return crossing, three of four conditional return wirings meet the transferred TBY7 lower-current and sampled EHT bands. The tied X1:3/X2:3 plus shared-grounded X1:16/X1:7 combination collapses both outputs. The open-upper-return version of that same cold-end connection does not. This interaction rejects that one pairing only within the assumed graph, stage and rail; it cannot identify the installed return or fix a winding ratio.')
+        interpretation='At the prior nominal return crossing, three of four conditional return wirings meet the transferred TBY7 lower-current and sampled EHT bands. The tied X1:3/X2:3 plus shared-grounded X1:16/X1:7 combination collapses both outputs; the open-upper-return version does not. All four current/EHT dispositions persist when the maximum step is halved from 50 to 25 ns. This interaction rejects that one pairing only within the assumed graph, stage and rail; it cannot identify the installed return or fix a winding ratio.')
 
 
 if __name__ == '__main__':
