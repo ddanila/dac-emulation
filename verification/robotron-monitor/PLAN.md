@@ -397,41 +397,34 @@ failure, restore the component-level stage and re-run the gates from there.
 
 **Goal blocked reason (2026-11-21): Phase A does not meet its six-item
 completion rule.** A5 is the critical dependency. The .11 scan does not
-settle T3's return, tap order or high-voltage cold end; the
-[function-only core](reference/k7222-11/t3-functional-core.json) assigns only
-six of 19 terminals and cannot determine winding ratios. The cross-revision
+settle T3's return, tap order or high-voltage cold end. The
+[function-only core](reference/k7222-11/t3-functional-core.json) assigns six
+of 19 terminals and cannot determine winding ratios; the cross-revision
 [TV ÜHA78 bridge](reference/k7222-11/t3-tv-variant-source-read.json) would
-bypass the .11 V21 rectifier, so it cannot identify the installed pin map.
-The H2-coupled T3 drive waveform also lacks *source-qualified* L1/L2 and
-installed E1–E4 bounds. A new [Brimar 31 cm/110°/20 mm-neck class](reference/k7222-11/yoke-brimar-110deg-comparator.json)
-removes the missing-class-source gap: its TBY7 winding gives 11.51 kV in the
-[conditional T3 stage](reference/k7222-11/t3-yoke-brimar-stage-screen.json).
-Its 8.8 Ω line resistance differs from the active 2 Ω, and the sampled
-0.914 A yoke span is below its transferred 0.946 A lower proxy. A
-[reduced-ray geometry screen](reference/k7222-11/yoke-brimar-geometry-screen.json)
-finds no joint current match in nine sampled common-field geometries. Its
-matched sensitivity uses an unverified axis-specific field and a 250 mm
-gun-to-screen path near the B31-G family's 253 mm maximum overall length.
-This neither identifies AE9VT nor qualifies a periodic drive or T3 ratio.
-The active T3 values therefore remain placeholders, and the permitted
-function-derived or equivalent-transformer fallback still has no defensible
-A5 ratios, installed yoke currents, or bounded loss and parasitics. A
-[TBY7 class boundary](reference/k7222-11/a5-yoke-class-boundary.json)
-now supplies a labelled current/trace-voltage candidate for the fallback;
-it does not replace the installed field model. A
+bypass the .11 V21 rectifier and cannot supply the missing pin map. The
+H2-coupled X2:4 drive waveform has no source-qualified L1/L2 or installed
+E1–E4 bounds, so the documented EHT and collector pulse do not establish a
+T3 winding ratio. The active T3 values remain placeholders.
+
+The [Brimar TBY7 class](reference/k7222-11/yoke-brimar-110deg-comparator.json)
+provides a bounded comparator, not an installed AE9VT identification. The
 [conditional R5 rail screen](reference/k7222-11/t3-brimar-rail-boundary-screen.json)
-crosses the class lower-current proxy near 42.504 V while sampled EHT is
-11.72 kV, but it cannot select the T3 graph or a sustained operating point.
+crosses its lower-current proxy near 42.504 V with 11.72 kV sampled EHT;
+the [six-scenario link/choke screen](reference/k7222-11/t3-brimar-link-sensitivity.json)
+keeps that crossing within 42.281–42.570 V. Both use an unverified T3 graph,
+exploratory L1/L2 and a prescribed drive. Neither establishes installed
+yoke currents, T3 ratios or a sustained operating point. The permitted
+function-derived/equivalent T3 fallback still needs A5-derived ratios and
+class-bounded loss and parasitics.
 
 A1's full-page source comparisons, A2's sourced joint device bounds and
 stress checks, and A6's remaining class-typical transfers are also open;
-A3 and A4 are done. This is an internal evidence and implementation gap, not
-an external wait or an approval request. To unblock A5, carry unreadable
-connections as labelled bounded alternatives, use the Brimar paired class
-as a bounded yoke candidate, bound L1/L2 and the installed link pair, then
-bound the installed field geometry/current transfer, parameterize the
-fallback and close the other open rows below. Detailed
-findings and receipts are in [phase-a-evidence.md](phase-a-evidence.md).
+A3 and A4 are done. This is an internal evidence and implementation gap,
+not an external wait or approval request. To unblock A5, carry unreadable
+connections as labelled bounded alternatives, bound L1/L2 and the installed
+link pair and field/current transfer, then parameterize the fallback and
+close the other open rows below. Detailed findings and receipts are in
+[phase-a-evidence.md](phase-a-evidence.md).
 
 **Keep this section short.** It holds one row per item: what is still unmet
 and the next step. Results, numbers and source reads go in
