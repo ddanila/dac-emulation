@@ -2264,7 +2264,8 @@
         "output_150ma_v": {"minimum": 4.9, "conditions": "engineering proxy for uA723 150 mA capability at 12 V input; no 4.9 V data-sheet limit"}
       },
       "model_response_report": "reference/k7222-11/maa723-model-check.json",
-      "remaining": ["Check the K7222.11 MAA723 suffix and page-9 functional pin map", "Qualify connected vertical-stage voltage/current/thermal stress and joint parameter bounds", "Examine the internal 30 pF pole, pass/current-limit transistor and diode curves, and their implicit SPICE defaults; no transistor-level MAA723 identity is claimed"]
+      "internal_parameter_register": "reference/k7222-11/class-typical-register.json#012-6931:A2.M723_*",
+      "remaining": ["Check the K7222.11 MAA723 suffix and page-9 functional pin map", "Qualify connected vertical-stage voltage/current/thermal stress and joint parameter bounds", "Test the bounded internal pass/current-limit/clamp models and 30 pF pole jointly, including temperature; no transistor-level MAA723 identity is claimed"]
     }
   ]
 }
