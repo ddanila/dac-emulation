@@ -7,11 +7,6 @@
 static void wr(pc1715 *m, unsigned a, unsigned d) {
   assert(pc1715_video_write(m, a, d));
 }
-static uint8_t status(pc1715 *m) {
-  uint8_t d;
-  assert(pc1715_video_read(m, 0x1b, &d));
-  return d;
-}
 static void configure(pc1715 *m, unsigned flags) {
   wr(m, 0x1b, 0);
   wr(m, 0x1a, 79);
@@ -100,8 +95,23 @@ int main(void) {
   assert(m->video.pixels[641] == 0xffaaaaaa);
   assert(m->video.pixels[640] == 0xff000000);
   assert(m->video.fetches > 1920 && !m->video.underruns);
-  assert(status(m) & 32);
-  assert(!(status(m) & 32));
+  assert(m->video.status & 32);
+  /* CPU reads cannot observe/clear internal status through A23.1. */
+  for (unsigned a = 0x18; a <= 0x1b; a++) {
+    uint8_t value = 0xa5;
+    assert(!pc1715_video_read(m, 0xab00 | a, &value));
+    assert(value == 0xa5 && (m->video.status & 32));
+  }
+  const uint8_t read_program[] = {0xdb,0x19,0x32,0x00,0xf0,0x76};
+  memcpy(m->rom, read_program, sizeof read_program);
+  m->cpu.cpu.pc = 0;
+  /* Reset CPU instruction state with the usual machine reset, then restart CRT. */
+  pc1715_reset(m);
+  configure(m, 0);
+  run(m);
+  assert(m->ram[0xf000] == 0xff && m->unclaimed_reads == 1);
+  assert(m->video.status & 32);
+  memcpy(m->rom, rom, sizeof rom);
   wr(m, 0x37, 0x3e | 64);
   run(m);
   assert(m->video.pixels[7] == 0xffaaaaaa && m->video.pixels[0] == 0xff000000);
@@ -129,7 +139,7 @@ int main(void) {
   run(m);
   for (unsigned x = 0; x < 8; x++)
     assert(m->video.pixels[11 * 640 + x] == 0xffaaaaaa);
-  /* FIFO overflow on seventeenth invisible attribute, sticky until status read.
+  /* FIFO overflow on seventeenth invisible attribute; inspect internal state.
    */
   for (unsigned i = 0; i < 17; i++) {
     m->ram[0xf800 + 2 * i] = 0x80;
@@ -137,8 +147,7 @@ int main(void) {
   }
   configure(m, 0);
   run(m);
-  assert(m->video.overflows && (status(m) & 1));
-  assert(!(status(m) & 1));
+  assert(m->video.overflows && (m->video.status & 1));
   /* Actual refresh slots gate DMA. Suppressing refresh must cause underrun. */
   pc1715_reset(m);
   configure(m, 0);

@@ -113,14 +113,17 @@ boot ROM. Reset retains the installed glyph pair/configuration. `dac_video`,
 added. The raster is updated during scanout, not by interpreting program IDs or
 re-reading screen RAM on a host video call.
 
-The opt-in device owns 18h/1Ah parameters, 19h/1Bh commands/status and the
+The opt-in device owns 18h/1Ah parameters, 19h/1Bh commands and the
 34h–37h screen/glyph latch aliases. The latch's D1–D5 bits select a 2 KiB
 main-RAM block (D0 is bypassed by X12 in 80-column mode); its DB6 XOR GPA0 selects the character generator. Glyph addresses
 are `scanline*128+code`, D7 first. Frame prefetch resets the low 11-bit display
 address counter, independent of CPU ROM overlay. Fetches take available CPU
 refresh slots; without refresh, the 8275 row buffer underruns. Burst spacing,
-invisible-attribute FIFO, field attributes, cursor and status read/clear are
-modelled. There is no W/M CAS map, private video RAM or DMA controller.
+invisible-attribute FIFO, field attributes, cursor and internal status are
+modelled. CPU reads cannot access CRT status: ZRE sheet 2 A23.1 is a
+unidirectional DS8282 latch from DB0–DB7 to the CRT. Reads remain unclaimed
+and do not clear internal flags. The default floating-bus model returns FFh;
+this is not a measured value for every physical board. There is no W/M CAS map, private video RAM or DMA controller.
 
 The independent 13.824 MHz video oscillator is advanced against the existing
 nominal 2.458 MHz CPU clock with an integer fractional accumulator. The optional
@@ -145,7 +148,7 @@ build/pc1715-crt-capture boot.bin glyphs.bin build/crt-capture 242 clean
 
 The runner executes actual Z80 firmware, initializes RAM with deterministic
 pseudorandom data and captures PPM frames plus JSON counters/transitions. Its
-optional `screen`, `work`, `alias`, `dead` and `reset` cases support the companion
+optional `screen`, `work`, `alias`, `dead`, `reset` and `status-low` cases support the companion
 [ravi ROM kit](https://github.com/ddanila/ravi/tree/main/firmware/robotron1715-crt).
 The runner observes that kit's documented IX/IY allocation convention; the
 emulator itself has no knowledge of diagnostic screens or firmware addresses.
@@ -168,3 +171,9 @@ Device regressions now exercise all 32 screen blocks, all four latch aliases,
 ignored D0, upper I/O address bits, and CPU-driven floppy writes reaching the
 card and WAIT callback while video is enabled. The existing glyph-bank XOR,
 attribute, refresh, timing and reset tests remain active.
+
+The `status-low` capture case injects zero for otherwise unclaimed CRT reads.
+It reproduces CRT diagnostic 1.1's repeated initialization when its expected
+frame flag never arrives. The capture reports CPU reads and display-start
+commands so qualification can reject both invisible polling and reinitialization.
+CRT diagnostic 1.2 uses a CPU delay and performs no input instructions.

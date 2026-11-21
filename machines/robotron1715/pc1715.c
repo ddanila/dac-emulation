@@ -28,7 +28,7 @@ static uint8_t input(void *p, uint16_t a) {
   pc1715 *m = p;
   if (!m->io_active) {
     if (!m->card_offline && !(m->onboard && (a&255)>=8 && (a&255)<=15) &&
-        !(m->video.enabled && ((a&0xfc)==0x18 || (a&0xfc)==0x34)) && m->card.wait && m->card.wait(m->card.user, a, 0)) {
+        m->card.wait && m->card.wait(m->card.user, a, 0)) {
       m->io_waiting = 1;
       return 0xff;
     }

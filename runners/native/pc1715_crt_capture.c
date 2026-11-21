@@ -1,11 +1,19 @@
 /* Actual boot-ROM execution with optional RAM faults and native raster capture.
  * Usage: boot glyphs output-directory seconds
- * [clean|screen|work|alias|dead|reset]. */
+ * [clean|screen|work|alias|dead|reset|status-low]. */
 #include "../../machines/robotron1715/pc1715.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 static const char *fault;
+static void (*machine_output)(void *, uint16_t, uint8_t);
+static unsigned display_starts;
+static void observe_output(void *p, uint16_t a, uint8_t d) {
+  pc1715 *m = p;
+  if (!m->io_active && (a & 0xfd) == 0x19 && (d >> 5) == 1)
+    display_starts++;
+  machine_output(p, a, d);
+}
 static unsigned bad(unsigned a) {
   return !strcmp(fault, "dead") || (!strcmp(fault, "screen") && a >= 0xf800) ||
          (!strcmp(fault, "work") && a >= 0xf700 && a < 0xf800);
@@ -31,7 +39,16 @@ static void load(const char *path, void *p, size_t n) {
   }
   fclose(f);
 }
-static unsigned unexpected;
+static unsigned unexpected, status_reads;
+static int external_read(void *p, uint16_t a, uint8_t *d) {
+  (void)p;
+  if (!strcmp(fault, "status-low") && (a & 0xfc) == 0x18) {
+    status_reads++;
+    *d = 0; /* fault injection, not a specified physical floating-bus value */
+    return 1;
+  }
+  return 0;
+}
 static void external_write(void *p, uint16_t a, uint8_t d) {
   (void)p;
   (void)a;
@@ -60,7 +77,8 @@ int main(int argc, char **argv) {
   fault = argc == 6 ? argv[5] : "clean";
   if (strcmp(fault, "clean") && strcmp(fault, "screen") &&
       strcmp(fault, "work") && strcmp(fault, "alias") &&
-      strcmp(fault, "dead") && strcmp(fault, "reset"))
+      strcmp(fault, "dead") && strcmp(fault, "reset") &&
+      strcmp(fault, "status-low"))
     return 2;
   pc1715 *m = calloc(1, sizeof(*m));
   if (!m)
@@ -71,7 +89,7 @@ int main(int argc, char **argv) {
   load(argv[2], glyphs, 4096);
   pc1715_load(m, rom, 2048);
   pc1715_video_load(m, glyphs, 4096);
-  pc1715_card card = {.write = external_write};
+  pc1715_card card = {.write = external_write, .read = external_read};
   pc1715_attach(m, &card);
   uint32_t random = 0x1715abcd;
   for (unsigned i = 0; i < 65536; i++) {
@@ -82,6 +100,8 @@ int main(int argc, char **argv) {
   }
   m->cpu.bus.read = read_ram;
   m->cpu.bus.write = write_ram;
+  machine_output = m->cpu.bus.output;
+  m->cpu.bus.output = observe_output;
   uint64_t until = (uint64_t)(atof(argv[4]) * PC1715_CLOCK_HZ), started = 0;
   unsigned previous = 255, index = 0, saved = 0, reset_done = 0;
   uint64_t checkpoint = 10ull * PC1715_CLOCK_HZ;
@@ -91,6 +111,8 @@ int main(int argc, char **argv) {
       pc1715_reset(m);
       m->cpu.bus.read = read_ram;
       m->cpu.bus.write = write_ram;
+  machine_output = m->cpu.bus.output;
+  m->cpu.bus.output = observe_output;
       previous = 255;
       reset_done = 1;
     }
@@ -119,13 +141,13 @@ int main(int argc, char **argv) {
   }
   printf("],\"frames\":%llu,\"fetches\":%llu,\"underruns\":%llu,\"overflows\":%"
          "llu,\"unexpected_io\":%u,\"unclaimed_reads\":%llu,\"rom_enabled\":%u,"
-         "\"pc\":%u,\"sp\":%u}\n",
+         "\"pc\":%u,\"sp\":%u,\"io_reads\":%llu,\"status_reads\":%u,\"display_starts\":%u}\n",
          (unsigned long long)m->video.frames,
          (unsigned long long)m->video.fetches,
          (unsigned long long)m->video.underruns,
          (unsigned long long)m->video.overflows, unexpected,
          (unsigned long long)m->unclaimed_reads, m->rom_enabled, m->cpu.cpu.pc,
-         m->cpu.cpu.sp);
+         m->cpu.cpu.sp, (unsigned long long)m->io_reads, status_reads, display_starts);
   free(m);
   return 0;
 }
