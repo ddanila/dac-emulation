@@ -395,78 +395,25 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-21)
 
-**Goal blocked reason (2026-11-21): Phase A cannot meet its six-item completion
-rule while A1, A2, A5 and A6 remain open; A5 is the critical dependency.** Its
-T3 design point is not qualified or bounded. The .11 scans do not resolve T3's
-return, tap order or high-voltage cold end. The function-only core retains one
-conditional HV/G1 sign pair but assigns only six of 19 terminals; four
-full-graph candidates still depend on unverified winding continuity. A
-[TV ÜHA78 bridge report](reference/k7222-11/t3-tv-variant-source-read.json)
-cannot supply the missing .11 pin map: its X1:1–X1:2 bridge would bypass the
-.11 source-drawn V21 rectifier, so that bridge is excluded. These results
-cannot establish the ratios or signs of the installed transformer. The active
-winding values still have assumed bounds, and the permitted function-derived
-or equivalent-transformer fallback has not been parameterized with A5 ratios,
-loss and parasitic bounds. The existing EHT-to-collector voltage proxy cannot
-bound the HV/drive turns ratio until X2:4's full return path and the voltage
-across X2:7–X2:4 are bounded. A
-[12 mm ÜHA78 core comparison](reference/k7222-11/t3-uha78-core-area-sensitivity.json)
-raises the conditional stage's peak model flux from 0.198 to 0.279 T when its
-core area is changed from 150 to 113 mm²; effective area and material remain
-unqualified. Its full-stage check then reaches 12.38 kV EHT and 11.89 µs
-retrace, missing both source-guideline ranges at 50/25 ns. C27/C30 at their
-documented +10% limits still give 12.154 kV and 12.091 µs; the capacitor
-tolerances alone cannot restore both checks. A
-[16-case drive/HV turn screen](reference/k7222-11/t3-drive-hv-turn-joint-sensitivity.json)
-at the same core-area comparator finds no joint stage match; only one case
-reaches the EHT window and it has short retrace. A
-[120-turn series-section assignment](reference/k7222-11/t3-series-section-turn-sensitivity.json)
-from a cross-revision repair account changes EHT by only 6 V in the
-candidate graph and also fails both windows. The installed
-tube/yoke geometry also lacks
-enough evidence to fix deflection current. A joint horizontal/vertical class
-screen finds three broad-family current matches but none against the sampled
-winding's own transferred bounds; it cannot identify the installed winding or
-geometry. An [angle-matched 110° comparator](reference/k7222-11/yoke-110deg-comparator.json)
-also finds no joint match in nine conditional geometries, and its 28.6 mm
-neck cannot identify AE9VT on B31G22. Marking A5 complete now would present
-these assumptions as a
-qualified design point. A1, A2 and A6 have separate unmet conditions in the
-table below; A3 and A4 are done. The
-[conditional AC-loss stage](reference/k7222-11/t3-stage-refinement-screen.json)
-meets TP17/EHT, final-two-line periodicity and the solver budget at 50/25 ns,
-but its return graph, loss and prescribed 200 ns base-drive edge are
-unqualified. The [loaded T2/L4 screen](reference/k7222-11/t2-l4-output-stage-sweep.json)
-has no joint TP15/EHT match in 24 cases. The
-[ideal-TP15 screen](reference/k7222-11/tp15-equivalent-output-stage.json)
-reaches the EHT range only with V18 reverse-base excursions beyond the 9 V
-class comparator. The [exploratory L4 bridge](reference/k7222-11/t2-l4-topology-sensitivity.json)
-keeps that excursion within the comparator but reaches only 9.92 kV EHT;
-its [bounded drive/turn screen](reference/k7222-11/t2-l4-bridge-drive-sensitivity.json)
-finds no joint EHT/stress match in seven sampled cases.
-The [connected Q201-retaining run](reference/k7222-11/t3-connected-ac-loss-39ms-diagnostic.json)
-aborts at the 39 ms field boundary; the [one-factor screen](reference/k7222-11/t3-horizontal-boundary-isolation.json)
-shows sensitivity to the Q201 branch without establishing its cause. The
-[Q201-off diagnostic](reference/k7222-11/t3-q201-off-four-fields.json) reaches
-78 ms only after removing a printed transistor. Its EHT falls to about
-10.45 kV, flyback count drifts, and V18's base reaches −19.19 V against a
-9 V reverse-bias class comparator. Neither run establishes a sustained,
-source-circuit operating point. They cannot select A5 winding values or
-serve as Phase B connected-stage scores.
+**Goal blocked reason (2026-11-21): Phase A does not meet its six-item
+completion rule.** A5 is the critical dependency: the .11 scan does not
+settle T3's return, tap order or high-voltage cold end. The
+[function-only core](reference/k7222-11/t3-functional-core.json) assigns only
+six of 19 terminals; its remaining signs do not determine winding ratios.
+The cross-revision [TV ÜHA78 bridge](reference/k7222-11/t3-tv-variant-source-read.json)
+would bypass the .11 V21 rectifier and cannot identify the installed pin map.
+The active T3 values retain assumed bounds, while the plan's permitted
+function-derived or equivalent-transformer fallback still lacks A5-derived
+ratios and bounded loss, parasitics and yoke currents. Conditional stage
+matches and failed connected runs cannot qualify that design point.
 
-The unblock path is to carry the unreadable graph as labelled bounded
-alternatives or implement the plan's function-derived/equivalent-transformer
-fallback, then derive every T3 ratio and yoke value with a tier and argument,
-bound loss and parasitics, and list candidates retained by rectifier function.
-Phase A remains incomplete until that A5 design point and the independent A1,
-A2 and A6 closeout conditions in the table are recorded; a passing diagnostic
-or another partial source read does not close them.
-Connected T2/L4, Q201 and field-periodicity validation belongs to Phase B;
-those failed runs do not make the Phase A design point valid or create a
-measurement gate. The source connections and device bounds still belong to A1
-and A2; A6 also needs its own closeout. This is an internal evidence and
-implementation gap, not an external wait or a request for approval. The
-detailed receipts are in
+A1's full-page source comparisons, A2's sourced joint device bounds and
+stress checks, and A6's remaining class-typical transfers are also open;
+A3 and A4 are done. This is an internal evidence and implementation gap, not
+an external wait or an approval request. The unblock path is to carry
+unreadable connections as labelled bounded alternatives, parameterize the A5
+fallback from documented function and class-typical bounds, then close the
+other open rows below. The detailed findings and receipts are in
 [phase-a-evidence.md](phase-a-evidence.md).
 
 **Keep this section short.** It holds one row per item: what is still unmet
@@ -482,7 +429,7 @@ next step changes. The narrative that used to follow is in
 | A2 | All 64 frame-path instances have provisional register rows; none is fully qualified. The [board-device](reference/k7222-11/a2-implicit-default-audit.json) and [MAA723 internal-device](reference/k7222-11/a2-internal-device-audit.json) audits find zero screened implicit defaults; the latter has 48 provisional A6 parameter bounds. The [nine-case corner screen](reference/k7222-11/maa723-internal-corner-screen.json) passes sourced 25 °C comparisons, but four low-pass corners deliver only about 62 mA in a 9.5 V/6.5 V intended-150 mA engineering probe. Its pass-device attribution isolates the provisional BF/IKF lower bounds; restoring both nominal values gives about 150 mA, while the registered drive upper bound does not rescue their low corner. The [vertical stress screen](reference/k7222-11/vertical-output-stress-screen.json) puts V27 mean collector power at 1.775 W, above the BD139 free-air comparator; horizontal V18 exceeds its reverse-base comparator; T3 remains assumed-bound. The period SU 165 limits check only V18's handwritten candidate, not its installed identity or reverse-base rating. Other device identity, joint, temperature and stress conditions are open. | Source MAA723 pass/drive behavior or build an externally bounded equivalent; then qualify joint bounds, temperature and connected stress, including V27/V28 thermal/SOA and horizontal V18 drive. |
 | A3 | Done: all 17 source-hashed shapes, 2 kByte timing, bounded EO2-equivalent bandwidth/probe loading and the declared grid stimulus are machine-checkable. TP8's 17 V crest is checkable; its separate 10 V annotation stays `reference-incomplete` with an explicit G4 explanation if it remains unresolved. A sustained connected score belongs to Phase B. | None for the Phase A method. |
 | A4 | Done. | None. |
-| A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. The T3 return/tap alternatives, winding ratios, upper/lower tap signs and installed tube/yoke geometry lack complete bounded arguments. The [function-only T3 core](reference/k7222-11/t3-functional-core.json) retains one of four HV/G1 sign combinations without assuming the scan-order tap graph, but assigns only six of 19 terminals. The [full-graph screens](reference/k7222-11/t3-g1-polarity-filter.json) retain four of 16 candidates within the unverified graph; neither result qualifies turns or returns. A [series-return audit](reference/k7222-11/t3-series-return-audit.json) shows that the current graph reaches ground through X2:5 while X1:16 is not directly grounded, so a cross-revision grounded-footpoint report cannot select X1:16=0. A [scoped X2:4 return read](reference/k7222-11/page4-t3-x2-return-comparison.json), [drive-voltage audit](reference/k7222-11/t3-drive-voltage-audit.json) and [conditional pulse screen](reference/k7222-11/t3-drive-pulse-screen.json) show that the existing EHT/collector proxy cannot fix an HV/drive ratio without a source-bounded X2:4 waveform. A [core-loss material comparator](reference/k7222-11/t3-core-loss-comparator.json) gives a 25 kHz/200 mT reference; the [conditional stage](reference/k7222-11/t3-drive-pulse-screen.json) now resolves 0.198 T maximum absolute flux and 0.723 W in its assumed 10 kΩ loss shunt, but neither qualifies installed 16 kHz loss. The active horizontal 4 mH/2 ohm winding lies outside a cited 31 cm/90° yoke family. The [B31-G axial screen](reference/k7222-11/yoke-axial-geometry-screen.json) finds the active 280 mm gun-to-screen path longer than the family's 253 mm maximum overall length. A [neck-clearance screen](reference/k7222-11/yoke-neck-clearance-screen.json) finds the active 10 mm inner radius equals the family's approximate outside neck radius; at a 230 mm path and 25 mm field, full width requires an inner radius of at least 9.365 mm. A [joint screen](reference/k7222-11/yoke-joint-geometry-screen.json) finds three broad-family current matches but zero matches to the sampled winding's own transferred horizontal and vertical bounds. These proxies do not identify the installed AE9VT winding or B31G22 geometry. | Complete the page-4 X2:4 return path and bound the differential drive pulse, T3 graph and loss; obtain class-bounded B31G22 gun-to-screen distance, inner neck clearance and AE9VT axial field extent, then derive ratios and currents, resolve remaining tap signs and check consistency. Connected EHT/lock and operating-point stress belong to Phase B. |
+| A5 | [design-point.json](reference/k7222-11/design-point.json) is partial. The T3 return/tap alternatives, winding ratios, upper/lower tap signs and installed tube/yoke geometry lack complete bounded arguments. The [function-only T3 core](reference/k7222-11/t3-functional-core.json) retains one of four HV/G1 sign combinations without assuming the scan-order tap graph, but assigns only six of 19 terminals. The [full-graph screens](reference/k7222-11/t3-g1-polarity-filter.json) retain four of 16 candidates within the unverified graph; neither result qualifies turns or returns. A [series-return audit](reference/k7222-11/t3-series-return-audit.json) shows that the current graph reaches ground through X2:5 while X1:16 is not directly grounded, so a cross-revision grounded-footpoint report cannot select X1:16=0. A [scoped X2:4 return read](reference/k7222-11/page4-t3-x2-return-comparison.json), [drive-voltage audit](reference/k7222-11/t3-drive-voltage-audit.json) and [conditional pulse screen](reference/k7222-11/t3-drive-pulse-screen.json) show that the existing EHT/collector proxy cannot fix an HV/drive ratio without a source-bounded X2:4 waveform. A [core-loss material comparator](reference/k7222-11/t3-core-loss-comparator.json) gives a 25 kHz/200 mT reference; the [conditional stage](reference/k7222-11/t3-drive-pulse-screen.json) now resolves 0.198 T maximum absolute flux and 0.723 W in its assumed 10 kΩ loss shunt, but neither qualifies installed 16 kHz loss. The active horizontal 4 mH/2 ohm winding lies outside a cited 31 cm/90° yoke family. The [B31-G axial screen](reference/k7222-11/yoke-axial-geometry-screen.json) finds the active 280 mm gun-to-screen path longer than the family's 253 mm maximum overall length. A [neck-clearance screen](reference/k7222-11/yoke-neck-clearance-screen.json) finds the active 10 mm inner radius equals the family's approximate outside neck radius; at a 230 mm path and 25 mm field, full width requires an inner radius of at least 9.365 mm. A [joint screen](reference/k7222-11/yoke-joint-geometry-screen.json) finds three broad-family current matches but zero matches to the sampled winding's own transferred horizontal and vertical bounds. These proxies do not identify the installed AE9VT winding or B31G22 geometry. | Finish the page-4 X2:4 return path if legible; carry unreadable returns and tap signs as labelled bounded alternatives. Parameterize the function-derived/equivalent T3 fallback with A5-derived ratios and class-bounded loss and parasitics; bound B31G22/AE9VT geometry and yoke currents, then check document consistency. Connected EHT/lock and operating-point stress belong to Phase B. |
 | A6 | The [register](reference/k7222-11/class-typical-register.json) now bounds live heater cold resistance and electrical temperature slope with a pure-tungsten class comparator, and records a same-size Philips yoke electrical/current class. B31G22 material and thermal transfer, emission, G4 effect on cut-off, T3 parasitics, installed AE9VT sensitivity/geometry and the measuring cable remain unqualified. | Add cited bounds for the remaining families and re-run the stage checks they affect. |
 
 Order: A5 (T3 graph or its fallback), A2, A1, A6, then B1. Phase C waits
