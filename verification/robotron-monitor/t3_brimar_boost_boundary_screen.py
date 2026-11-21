@@ -32,7 +32,8 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def measure(ngspice, inputs, feed_v, yoke):
+def measure(ngspice, inputs, feed_v, yoke, *, initial_boost_node_v=65,
+            stop_s=.005, window_start_s=.004):
     """Use the centring screen's stage substitutions, adding only a boost probe."""
     graph, parameters, candidate, parts, l3_r, l3_l, _ = inputs
     with tempfile.TemporaryDirectory() as directory:
@@ -46,10 +47,12 @@ def measure(ngspice, inputs, feed_v, yoke):
         deck = centering.replace_once(deck, flux, coupled)
         deck = centering.replace_once(deck, '.ic v(h_boost)=65',
                                       '.param horizontal_brightness_fraction=0.5\n'
-                                      'Rug1 ug1 0 1G\n.ic v(h_boost)=65')
+                                      f'Rug1 ug1 0 1G\n.ic v(h_boost)={initial_boost_node_v:.12g}')
         deck = centering.replace_once(deck, 'reltol=.001',
                                       f'reltol={refinement.RELTOL:g}')
-        deck = centering.replace_once(deck, 'tran 100n 5m 4m', 'tran 50n 5m 4m')
+        deck = centering.replace_once(
+            deck, 'tran 100n 5m 4m',
+            f'tran 50n {stop_s * 1000:g}m {window_start_s * 1000:g}m')
         deck = centering.replace_once(deck, '1u 20n 20n 46.5u',
                                       '1u 200n 200n 46.5u')
         deck = centering.replace_once(deck, 'Rhorizontal hy1 h_winding 2',
@@ -96,9 +99,9 @@ def measure(ngspice, inputs, feed_v, yoke):
     expected = ['time', 'v(h_hot)', 'v(h_return)', 'v(h_hot,h_return)',
                 'v(hy2)', 'v(eht)', 'i(Lhorizontal)', 'v(h_boost)',
                 'v(h_boost,h_feed)']
-    if header != expected or not rows or abs(rows[-1][0] - pulse.END_S) > 1e-9:
+    if header != expected or not rows or abs(rows[-1][0] - stop_s) > 1e-9:
         raise ValueError('incomplete boost trace')
-    last = [row for row in rows if row[0] >= pulse.WINDOW_START_S]
+    last = [row for row in rows if row[0] >= stop_s - .000125]
     if len(last) < 1000 or any(len(row) != 9 or not all(map(math.isfinite, row))
                                for row in last):
         raise ValueError('invalid final two-line boost trace')
@@ -111,7 +114,9 @@ def measure(ngspice, inputs, feed_v, yoke):
                                     max(row[7] for row in last)],
                 c21_voltage_at_collector_peak_v=collector[8],
                 c21_voltage_range_v=[min(row[8] for row in last),
-                                     max(row[8] for row in last)])
+                                     max(row[8] for row in last)],
+                c21_window_phase_drift_v=rows[-1][8]-rows[0][8],
+                eht_window_phase_drift_v=rows[-1][5]-rows[0][5])
 
 
 def run(ngspice, source_pdf, later_pdf):

@@ -4868,13 +4868,26 @@ passed those two checks give **23.667–23.696 V across C21**, while their
 boost nodes sit near **66.17–66.20 V to ground**. The tied/shared-grounded
 case gives −1.006 V across C21 and the open/shared-floating case 24.907 V;
 both already fail the current/EHT checks. All six miss the handwritten
-C21 band at the sampled collector peak. The stable final-two-line ranges
+C21 band at the sampled collector peak. The final-two-line ranges
 for the four earlier passes also stay near 23.67–23.82 V, so the discrepancy
 is not a single peak-sampling artifact. The deck initializes the boost node
 at 65 V, hence C21 at only 22.496 V across its terminals at the 42.504 V
 feed, and runs only 5 ms with C21 = 220 µF. These samples do not establish
 settled booster voltage, reject a physical return wiring or indicate an
 installed fault.
+
+The [initial-state settling screen](reference/k7222-11/t3-brimar-boost-settling-screen.json)
+uses the tied-upper-return, HV-only-grounded case that passed the sampled
+current and EHT checks. Starting C21 at the correct **65 V differential**
+(107.504 V boost node) gives **38.268 V across C21** and **12.176 kV EHT**
+at 5 ms, so the initial condition matters during that short run. After
+20 ms, the original 22.496 V and corrected 65 V differential starts give
+**23.707 V** and **23.722 V** across C21 respectively. Their last-1-ms
+same-phase C21 drifts are below **0.046 V**; sampled EHT is 11.694 and
+11.708 kV. In this conditional graph, the C21 mismatch is therefore not
+an artifact of starting 42.5 V too low. It remains a model discrepancy,
+not evidence against an installed T3 return: the drive, graph, yoke and
+centring chokes are provisional, and the run is not a locked-field test.
 
 The earlier design-point calculation multiplied the 60–70 V **capacitor
 differential** by the ideal flyback factor as if it were the trace node
@@ -4894,5 +4907,5 @@ observed collector waveform or a qualified winding ratio. Older 2,035-turn
 stage cases remain historical exploratory comparisons. The active stage's
 roughly 459 V sampled collector peak and 11.7 kV EHT cannot be called
 document-consistent while its C21 voltage is about 24 V. The next A5 step
-must qualify settled C21 voltage, the source-connected collector/drive pulse
+must qualify source-connected periodic C21 voltage, the collector/drive pulse
 and the booster/tap graph before using any turn-count inference.
