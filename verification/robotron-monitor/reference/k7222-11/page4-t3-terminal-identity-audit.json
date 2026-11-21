@@ -1,0 +1,63 @@
+{
+  "format": "dac-monitor-page4-t3-terminal-identity-audit-v1",
+  "qualification": "source-visible contradiction audit of the current 19-port candidate; no corrected electrical graph or simulation result",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "source_page_sha256": "7704358ec71269bb02afb8ec28c3c00f6596c911b6049a3b6fa2cbe998e62ab5",
+  "input_sha256": {
+    "reference/k7222-11/page4-t3-terminal-identity-source-read.json": "b1de3702ab537f8cd51050f98abf9888e67fa7ac608247f93543afe56da29944",
+    "reference/k7222-11/t3-hv-terminal-read.json": "16d3efcdd886f8f40dc72b87fd988767312c47969b5d2876c92d7e690373400d",
+    "reference/k7222-11/horizontal-output-transcription.json": "0b056b42807752c34b86f4dc14886a5c90a92b085c5b28c11404a9806087a737",
+    "reference/k7222-11/t3-winding-hypothesis.json": "6ec005383d08fe5a941c81e6f94cb753678c47b3a9e10cc4804ddbfe6f41857e",
+    "page4_t3_terminal_identity_audit.py": "fc8e0bbdc0e9489a1d1865a7de2af7185cb4321cb87b74da645eb55c1a76ff51"
+  },
+  "visible_labels": {
+    "v21_anode_pad": "X3:1",
+    "v21_cathode_pad": "X3:2",
+    "v21_cathode_net": "EHT/UG3",
+    "t3_upper_right_bank": [
+      "X1:1",
+      "X1:2",
+      "X1:3",
+      "X1:5",
+      "X1:7"
+    ]
+  },
+  "drawn_conductor_pairs": [
+    [
+      "X1:2",
+      "X2:3"
+    ]
+  ],
+  "current_model": {
+    "port_count": 19,
+    "upper_tap_group": [
+      "X1_3",
+      "X1_5",
+      "X1_7"
+    ],
+    "x1_3_net": "h_upper2",
+    "x2_3_net": "h_upper2",
+    "v21_nets": [
+      "h_hvac",
+      "eht"
+    ],
+    "old_read_diode_pads": {
+      "kind": "rectifier",
+      "part": "V21",
+      "anode": "X1:1",
+      "cathode": "X1:2"
+    }
+  },
+  "mismatches": {
+    "x1_2_missing_from_magnetic_ports": true,
+    "x1_2_missing_from_upper_tap_group": true,
+    "x1_3_tied_to_x2_3_instead": true,
+    "old_read_mislabels_v21_pads": true
+  },
+  "migration_required": true,
+  "consequence": "The existing 19-port T3 stage and HV comparison use a misidentified diode pad and omit the separate X1:2 terminal. They cannot qualify the source-connected .11 winding graph or a design-point ratio. Rebuild the T3 wrapper/return and re-run affected screens.",
+  "unresolved": [
+    "The winding section and electrical relationship between X3:1, X1:1 and the other upper-bank terminals require an explicit corrected graph; distinct printed labels alone do not prove isolated electrical nodes.",
+    "Turns, polarities, other internal continuities and the complete page-4 second netlist remain open."
+  ]
+}
