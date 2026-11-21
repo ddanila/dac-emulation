@@ -3927,3 +3927,28 @@ not a /06 factory limit. A broad family-envelope match cannot qualify the
 specific winding as the installed part or calibrate its current. The gun
 location, inner glass clearance, axis-specific AE9VT field profile and winding
 remain unknown, so the active design point cannot be frozen from this screen.
+
+### A5/A6: T3 core-loss reference-condition comparator (2026-11-21)
+
+The [core-loss comparator](reference/k7222-11/t3-core-loss-comparator.json)
+uses the provisional coupled-source T3 candidate's 36-turn first winding,
+150 mm² core area, 80 mm magnetic path and 10 kΩ parallel core-loss shunt.
+At a hypothetical 25 kHz sine flux of 200 mT peak and 100 °C, its 12 cm³
+core and 120 V RMS first-winding voltage make that shunt dissipate 1.439 W.
+[TDK N87](https://www.tdk-electronics.tdk.com/download/187238/990c299b916e9f3eb7e44ad563b7f0b9/pdf-n87.pdf)
+lists a **typical** 57 kW/m³ loss at that reference condition, or 0.684 W
+for the candidate volume (21.0 kΩ equivalent shunt).
+[Ferroxcube 3C90](https://www.ferroxcube.com/en-global/download/download/11)
+lists **at most** 80 kW/m³, or 0.960 W (at least 15.0 kΩ equivalent shunt).
+The candidate resistor is thus more lossy than either modern material at
+the *same imposed sine flux*. The [calculation](t3_core_loss_comparator.py)
+checks that the model's loss shunt crosses the first winding.
+
+Neither manufacturer identifies the .11 T3 material. The candidate core
+dimensions are assumed-bound, the monitor runs at about 16 kHz with a
+nonsinusoidal flyback pulse, and its operating flux and temperature are not
+established. This comparison cannot set the live 10 kΩ resistor, derive an
+operating loss bound or close A5/A6. It gives a sourced reference condition
+for the next bounded fallback: first calculate the candidate's actual
+first-winding flux and voltage, then transfer a material-loss range only
+with explicit waveform, volume and temperature assumptions.
