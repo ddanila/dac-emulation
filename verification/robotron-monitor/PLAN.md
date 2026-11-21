@@ -396,16 +396,22 @@ failure, restore the component-level stage and re-run the gates from there.
 ## Status (2026-11-21)
 
 **Goal blocked reason (2026-11-21): Phase A does not meet its six-item
-completion rule.** A5 is the critical dependency. The .11 scan does not
-settle T3's return, tap order or high-voltage cold end. The
+completion rule.** A5 cannot yet produce a bounded, document-consistent
+design point. The .11 scan does not settle T3's return, tap order or
+high-voltage cold end. The
 [function-only core](reference/k7222-11/t3-functional-core.json) assigns six
 of 19 terminals and cannot determine winding ratios; the cross-revision
 [TV ÜHA78 bridge](reference/k7222-11/t3-tv-variant-source-read.json) would
 bypass the .11 V21 rectifier and cannot supply the missing pin map. The
-H2-coupled X2:4 drive waveform has no source-qualified L1/L2 bounds. Both
-E1–E4 link pairs are effect-bounded in conditional TBY7 screens, but the
-installed pair remains unknown. The documented EHT and collector pulse do not
-establish a T3 winding ratio. The active T3 values remain placeholders.
+H2-coupled X2:4 drive waveform has no source-qualified L1/L2 electrical
+bounds. The 16/70 mH values in the
+[unequal-choke screen](reference/k7222-11/t3-brimar-asymmetric-choke-screen.json)
+come from a different tricolor circuit and do not bound the installed chokes.
+The [link disposition](reference/k7222-11/t3-centering-link-disposition.json)
+effect-bounds E1+E2 versus E3+E4 only within five conditional TBY7 cases;
+the installed pair remains unknown and both stay as labelled alternatives.
+Without a bounded X2:4 waveform, the documented EHT and collector pulse
+cannot establish a T3 winding ratio. The active T3 values remain placeholders.
 
 The [Brimar TBY7 class](reference/k7222-11/yoke-brimar-110deg-comparator.json)
 provides a bounded comparator, not an installed AE9VT identification. The
@@ -416,7 +422,8 @@ keeps that crossing within 42.281–42.570 V. Both use an unverified T3 graph,
 exploratory L1/L2 and a prescribed drive. Neither establishes installed
 yoke currents, T3 ratios or a sustained operating point. The permitted
 function-derived/equivalent T3 fallback still needs A5-derived ratios and
-class-bounded loss and parasitics.
+class-bounded loss and parasitics; switching to that fallback alone cannot
+close A5.
 
 A1's full-page source comparisons, A2's sourced joint device bounds and
 stress checks, and A6's remaining class-typical transfers are also open;
