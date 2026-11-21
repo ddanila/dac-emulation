@@ -1,0 +1,224 @@
+{
+  "format": "dac-monitor-t3-brimar-rail-boundary-screen-v1",
+  "qualification": "conditional prescribed-base 4\u20135 ms T3 stage; not periodic, not installed AE9VT, not an A5 winding-ratio freeze",
+  "source": {
+    "k7222_11_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "r5_schematic_pdf_page": 10,
+    "r5_parts_pdf_page": 13,
+    "brimar_pdf_sha256": "eb327b3bde53b62472190bd1fd968bc8b1687a082ed991bc0adc0b836801ae01"
+  },
+  "input_hashes": {
+    "reference/k7222-11/a5-yoke-class-boundary.json": "603f687194cc18548a0f06206845088ce25c88b62c4902745fe07ee56adae8f8",
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "c3d0cfa7dd5786827ebd0eac4eac5f68e7a99422b8a22c158fcd94df3bdac4ca",
+    "reference/k7222-11/t3-yoke-brimar-stage-screen.json": "27d832bdeba12ee1d84d182dc2eff6f7b13ee82c10893d55154d4143915bb458",
+    "reference/k7222-11/inventory.json": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
+    "reference/k7222-11/design-point.json": "4a2dd2eefaeca3de19f8015288c354a7cb79b20582763698654734dfbbcb49ec",
+    "steady_supply.py": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b",
+    "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_brimar_rail_boundary_screen.py": "350a92a8f758c6c32bef70f659c6547fd12ce771629d7c7a0d44527ebe13b82c"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_conditions": {
+    "yoke_type": "TBY7",
+    "yoke_line_l_h": 0.0041,
+    "yoke_line_r_ohm": 8.8,
+    "centering_link_pair": "E1+E2",
+    "centering_coil_l_h": 0.08,
+    "r4_position": 0.5,
+    "prescribed_base_edge_ns": 200,
+    "max_step_ns": 50,
+    "nominal_feed_v": 41
+  },
+  "source_derived_r5_scale_equation": "feed_v = 41 * (2400+1000*0.63)/(2400+1000*position)",
+  "class_current_bounds_pp_a": [
+    0.9459574468085108,
+    1.4618078564381878
+  ],
+  "manual_eht_bounds_v": [
+    11000,
+    12000
+  ],
+  "cases": [
+    {
+      "feed_v": 39.0,
+      "r5_equivalent_position": 0.7853846153846152,
+      "yoke_current_pp_a": 0.870894478,
+      "eht_at_collector_peak_v": 11223.1523,
+      "drive_peak_v": 421.718434,
+      "normalized_deck_sha256": "d0c8ca181c05d071f60fd0a35181e280b4fd76dac4af504aaa3402c0f0ef313a",
+      "full_stage_observation": {
+        "link_pair": "E1+E2",
+        "coil_l_h": 0.08,
+        "normalized_deck_sha256": "d0c8ca181c05d071f60fd0a35181e280b4fd76dac4af504aaa3402c0f0ef313a",
+        "final_two_line_samples": 2632,
+        "collector_peak_v": 436.751913,
+        "return_at_collector_peak_v": 15.0334785,
+        "drive_at_collector_peak_v": 421.718434,
+        "h2_at_collector_peak_v": -56.3466946,
+        "drive_peak_v": 421.718434,
+        "h2_range_v": [
+          -56.423503,
+          14.598649
+        ],
+        "return_range_v": [
+          15.0334785,
+          68.6755033
+        ],
+        "eht_at_collector_peak_v": 11223.1523,
+        "eht_at_window_end_v": 11218.0406,
+        "yoke_current_range_a": [
+          -0.413048429,
+          0.457846049
+        ]
+      },
+      "within_class_current_bounds": false,
+      "within_manual_eht_band_at_sample": true
+    },
+    {
+      "feed_v": 41.0,
+      "r5_equivalent_position": 0.63,
+      "yoke_current_pp_a": 0.913942491,
+      "eht_at_collector_peak_v": 11511.5163,
+      "drive_peak_v": 443.159867,
+      "normalized_deck_sha256": "41cc8fcdcf9835f77e018e56a126078ad3a50156e1ccb46496668a71b18fa811",
+      "full_stage_observation": {
+        "link_pair": "E1+E2",
+        "coil_l_h": 0.08,
+        "normalized_deck_sha256": "41cc8fcdcf9835f77e018e56a126078ad3a50156e1ccb46496668a71b18fa811",
+        "final_two_line_samples": 2610,
+        "collector_peak_v": 459.000978,
+        "return_at_collector_peak_v": 15.8411103,
+        "drive_at_collector_peak_v": 443.159867,
+        "h2_at_collector_peak_v": -59.2125099,
+        "drive_peak_v": 443.159867,
+        "h2_range_v": [
+          -59.2966981,
+          15.2490993
+        ],
+        "return_range_v": [
+          15.8411103,
+          72.1142109
+        ],
+        "eht_at_collector_peak_v": 11511.5163,
+        "eht_at_window_end_v": 11505.26,
+        "yoke_current_range_a": [
+          -0.433987191,
+          0.4799553
+        ]
+      },
+      "within_class_current_bounds": false,
+      "within_manual_eht_band_at_sample": true
+    },
+    {
+      "feed_v": 43.0,
+      "r5_equivalent_position": 0.4890697674418607,
+      "yoke_current_pp_a": 0.956369797,
+      "eht_at_collector_peak_v": 11792.5327,
+      "drive_peak_v": 461.780745,
+      "normalized_deck_sha256": "9e61a1772d030c61522d758d1bbd61c4ca84327d6f4f59378be8c7fec125c652",
+      "full_stage_observation": {
+        "link_pair": "E1+E2",
+        "coil_l_h": 0.08,
+        "normalized_deck_sha256": "9e61a1772d030c61522d758d1bbd61c4ca84327d6f4f59378be8c7fec125c652",
+        "final_two_line_samples": 2631,
+        "collector_peak_v": 478.733169,
+        "return_at_collector_peak_v": 16.9524242,
+        "drive_at_collector_peak_v": 461.780745,
+        "h2_at_collector_peak_v": -61.7307233,
+        "drive_peak_v": 461.780745,
+        "h2_range_v": [
+          -61.8226375,
+          15.9039194
+        ],
+        "return_range_v": [
+          16.9524242,
+          75.5586018
+        ],
+        "eht_at_collector_peak_v": 11792.5327,
+        "eht_at_window_end_v": 11785.3986,
+        "yoke_current_range_a": [
+          -0.454767199,
+          0.501602598
+        ]
+      },
+      "within_class_current_bounds": true,
+      "within_manual_eht_band_at_sample": true
+    }
+  ],
+  "threshold": {
+    "last_below": {
+      "feed_v": 42.501953125,
+      "r5_equivalent_position": 0.5229244979550571,
+      "yoke_current_pp_a": 0.945937491,
+      "eht_at_collector_peak_v": 11721.7365,
+      "drive_peak_v": 457.640621,
+      "normalized_deck_sha256": "ca80da54115d9c629590f0ad53075832144a3ac041e66dadf985b7d13b2b46d0",
+      "full_stage_observation": {
+        "link_pair": "E1+E2",
+        "coil_l_h": 0.08,
+        "normalized_deck_sha256": "ca80da54115d9c629590f0ad53075832144a3ac041e66dadf985b7d13b2b46d0",
+        "final_two_line_samples": 2614,
+        "collector_peak_v": 474.264483,
+        "return_at_collector_peak_v": 16.6238615,
+        "drive_at_collector_peak_v": 457.640621,
+        "h2_at_collector_peak_v": -61.1640662,
+        "drive_peak_v": 457.640621,
+        "h2_range_v": [
+          -61.2526935,
+          15.7441644
+        ],
+        "return_range_v": [
+          16.6226148,
+          74.7040907
+        ],
+        "eht_at_collector_peak_v": 11721.7365,
+        "eht_at_window_end_v": 11714.7971,
+        "yoke_current_range_a": [
+          -0.449631417,
+          0.496306074
+        ]
+      },
+      "within_class_current_bounds": false,
+      "within_manual_eht_band_at_sample": true
+    },
+    "first_within": {
+      "feed_v": 42.50390625,
+      "r5_equivalent_position": 0.5227901847256685,
+      "yoke_current_pp_a": 0.945975692,
+      "eht_at_collector_peak_v": 11722.0144,
+      "drive_peak_v": 457.655189,
+      "normalized_deck_sha256": "2337ec1d46853855afcadc8287d556d8a0410aed6eda649caa811f52c96dce3b",
+      "full_stage_observation": {
+        "link_pair": "E1+E2",
+        "coil_l_h": 0.08,
+        "normalized_deck_sha256": "2337ec1d46853855afcadc8287d556d8a0410aed6eda649caa811f52c96dce3b",
+        "final_two_line_samples": 2614,
+        "collector_peak_v": 474.280139,
+        "return_at_collector_peak_v": 16.6249496,
+        "drive_at_collector_peak_v": 457.655189,
+        "h2_at_collector_peak_v": -61.1658655,
+        "drive_peak_v": 457.655189,
+        "h2_range_v": [
+          -61.2528328,
+          15.7448543
+        ],
+        "return_range_v": [
+          16.6249496,
+          74.7074127
+        ],
+        "eht_at_collector_peak_v": 11722.0144,
+        "eht_at_window_end_v": 11715.0781,
+        "yoke_current_range_a": [
+          -0.449643402,
+          0.49633229
+        ]
+      },
+      "within_class_current_bounds": true,
+      "within_manual_eht_band_at_sample": true
+    },
+    "feed_bracket_width_v": 0.001953125
+  },
+  "interpretation": "Within this unverified T3 graph and prescribed drive, raising only the 41P feed from 41 to 43 V moves TBY7 current into the transferred class lower bound while sampled EHT remains within 11\u201312 kV. The rail change corresponds to an R5-equivalent position inside physical travel. This conditional match does not establish AE9VT current, periodic operation, the remaining rail responses, or a T3 turns ratio."
+}
