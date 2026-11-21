@@ -5230,3 +5230,35 @@ rejects a stale predecessor report; and the older 1,768-turn stage's
 collector-peak assertion misses its current output. These results do not
 requalify the 19-port graph. Historical report regeneration and the numerical
 stage mismatch remain separate from the corrected 20-port A5 qualification.
+
+### A5: source-visible T3 can enter the connected assembly (2026-11-21)
+
+The connected assembler now has an explicit `page4-visible-20-port` T3
+interface. It exports the committed page-4 KiCad candidate, checks the source
+read, graph and wrapper hashes, reorders its 20 exported pin nets into the
+magnetic graph's port order, and binds a separately archived copy of the
+[provisional transferred section parameters](reference/k7222-11/t3-page4-provisional-parameters.json).
+The parameter file is JSON-equivalent to the earlier corrected stage screen's
+`parameter_transfer`. The connected deck calls the matching
+`T3_PAGE4_INTERFACE` subcircuit. Its metadata and run report identify the
+selected interface, and calibration-freeze use or the old grounded-cold-end
+variant is rejected for this candidate. The interface requires the coupled
+magnetic backend: a 5 µs flux-backend trial aborted near startup with a
+sub-attosecond timestep at the horizontal rectifier, whereas the transferred
+parameter screen used the coupled model. Select it with
+`--t3-interface page4-visible-20-port --magnetic-backend coupled`.
+The default connected path remains
+the historical 19-port model until the 20-port graph, drive and returns can
+be qualified; choosing the new path is an experimental connected diagnostic.
+
+All three new connected-interface tests pass, including actual KiCad export,
+port-order/model binding and a **5 µs ngspice coupled-backend solve with 59
+data rows**. This short solve checks integration and syntax, not a flyback
+field, sustained state, source-bounded winding or A5 ratio. The existing
+`test_steady_supply.py` selection passes 14 of 15 tests; its remaining
+failure compares a saved HV-divider report against a changed historical
+sheet hash. No numerical connected score is claimed from that test run.
+The saved 20-port numerical stage reports now carry pre-integration input
+hashes, including the earlier wrapper comparison and `steady_supply.py`.
+Their numerical values remain historical sensitivities; regenerate the
+affected screens before treating them as current reproducibility evidence.

@@ -29,6 +29,9 @@ ROOT = Path(__file__).resolve().parent
 OUTPUT_CONTRACTS = dict(HORIZONTAL_CHOKE=2, HORIZONTAL_LINEARITY=2,
     HORIZONTAL_COMPENSATION=2, HORIZONTAL_BRIGHTNESS=3, HORIZONTAL_FOCUS=3,
     T3_CANDIDATE=19)
+PAGE4_OUTPUT_CONTRACTS = {name: count for name, count in OUTPUT_CONTRACTS.items()
+                          if name != 'T3_CANDIDATE'} | {'T3_PAGE4_INTERFACE': 20}
+T3_INTERFACES = ('historical-19-port', 'page4-visible-20-port')
 CONTRAST_TOPOLOGIES = ('detailed-page3-4', 'manual-fig6-equivalent')
 MAGNETIC_BACKENDS = ('flux', 'coupled')
 T3_RETURN_VARIANTS = ('schematic', 'hv-only-grounded')
@@ -204,21 +207,30 @@ def heater_equilibrium():
                 electrical_replay_verified=False)
 
 
-def assembly_sheets():
+def assembly_sheets(t3_interface='historical-19-port'):
     """The schematic set actually solved with ideal converter rails."""
+    if t3_interface not in T3_INTERFACES:
+        raise ValueError('unknown T3 interface')
     sheets = [(s,b,c) for s,b,c in full_path_audit.SHEETS
-              if s not in ('k7222-11-converter.kicad_sch','k7222-11-power-input.kicad_sch','k7222-11-horizontal-output.kicad_sch')]
-    sheets += [('k7222-11-horizontal-output.kicad_sch','012-6921',OUTPUT_CONTRACTS),
+              if s not in ('k7222-11-converter.kicad_sch','k7222-11-power-input.kicad_sch',
+                           'k7222-11-horizontal-output.kicad_sch',
+                           'k7222-11-horizontal-output-page4.kicad_sch')]
+    output_sheet = ('k7222-11-horizontal-output-page4.kicad_sch'
+                    if t3_interface == 'page4-visible-20-port'
+                    else 'k7222-11-horizontal-output.kicad_sch')
+    contracts = (PAGE4_OUTPUT_CONTRACTS if t3_interface == 'page4-visible-20-port'
+                 else OUTPUT_CONTRACTS)
+    sheets += [(output_sheet,'012-6921',contracts),
                ('1715w-output.kicad_sch','1715w',{'S37_DRIVER':3})]
     return sheets
 
 
-def assemble(output, *, yoke_path=None):
+def assemble(output, *, yoke_path=None, t3_interface='historical-19-port'):
     """Export and archive sheets once. No independent stage benches are included."""
     out = Path(output).resolve(); out.mkdir(parents=True, exist_ok=False)
     inv = json.loads((ROOT/'reference/k7222-11/inventory.json').read_text())
     cpu = json.loads((ROOT/'reference/1715w/output.json').read_text())
-    sheets=assembly_sheets()
+    sheets=assembly_sheets(t3_interface)
     components=[]; hashes={}
     def archive(name):
         raw=(ROOT/name).read_bytes(); dest=out/name
@@ -234,6 +246,36 @@ def assemble(output, *, yoke_path=None):
         if board=='1715w':
             for part in parts:part['nodes']=['computer_return' if n=='0' else n for n in part['nodes']]
         components += parts
+    page4_graph = page4_parameters = None
+    if t3_interface == 'page4-visible-20-port':
+        source_name = 'reference/k7222-11/page4-t3-terminal-identity-source-read.json'
+        graph_name = 'reference/k7222-11/t3-page4-visible-graph.json'
+        parameters_name = 'reference/k7222-11/t3-page4-provisional-parameters.json'
+        wrapper_name = 'reference/k7222-11/page4-t3-visible-wrapper-comparison.json'
+        screen_name = 'reference/k7222-11/t3-page4-visible-stage-screen.json'
+        source = json.loads((ROOT/source_name).read_text())
+        page4_graph = json.loads((ROOT/graph_name).read_text())
+        page4_parameters = json.loads((ROOT/parameters_name).read_text())
+        wrapper = json.loads((ROOT/wrapper_name).read_text())
+        screen = json.loads((ROOT/screen_name).read_text())
+        sheet_name = 'circuits/k7222-11-horizontal-output-page4.kicad_sch'
+        if (not wrapper['passed'] or
+                page4_graph['source_terminal_read_sha256'] != lab.digest((ROOT/source_name).read_bytes()) or
+                wrapper['source_sha256'] != lab.digest((ROOT/source_name).read_bytes()) or
+                wrapper['graph_sha256'] != lab.digest((ROOT/graph_name).read_bytes()) or
+                wrapper['candidate_sheet_sha256'] != hashes[sheet_name] or
+                screen['parameter_transfer'] != page4_parameters):
+            raise ValueError('source-visible 20-port T3 inputs differ from checked candidate')
+        ports = [port for group in page4_graph['groups'] for port in group['taps']]
+        t3 = next(part for part in components if part['source_id'] == '012-6921:T3')
+        if (len(t3['nodes']) != 20 or set(ports) != set(wrapper['ports_in_export_order']) or
+                source['visible_labels']['v21_anode_pad'] != 'X3:1' or
+                source['visible_labels']['v21_cathode_pad'] != 'X3:2'):
+            raise ValueError('source-visible 20-port T3 identity changed')
+        pins = dict(zip(wrapper['ports_in_export_order'], t3['nodes']))
+        if pins != wrapper['exported_nodes']:
+            raise ValueError('connected T3 nodes differ from checked KiCad export')
+        t3['nodes'] = [pins[port] for port in ports]
     if len({c['reference'] for c in components})!=len(components):raise ValueError('duplicate assembly reference')
     params={k:v[0] for k,v in signal_path.BOUNDS.items()}
     params.update({k:v[0] for k,v in ASSEMBLY_BOUNDS.items()});models=[]
@@ -292,9 +334,13 @@ def assemble(output, *, yoke_path=None):
                  'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py','collection.py','beam_feedback.py','energy_ledger.py','energy_validation.py',
                  'service_score.py','calibration_contract.py','calibration_measurements.py','grid_geometry.py','phase_a_gates.py'):
         archive(name)
+    if t3_interface == 'page4-visible-20-port':
+        for name in (source_name, graph_name, parameters_name, wrapper_name, screen_name):
+            archive(name)
     return dict(components=components,parameters=params,models=texts,hashes=hashes,yoke=yoke,
-                magnetic_graph=json.loads((out/'reference/k7222-11/t3-winding-hypothesis.json').read_text()),
-                magnetic_parameters=json.loads((out/'reference/k7222-11/t3-initial-parameters.json').read_text()),
+                t3_interface=t3_interface,
+                magnetic_graph=(page4_graph or json.loads((out/'reference/k7222-11/t3-winding-hypothesis.json').read_text())),
+                magnetic_parameters=(page4_parameters or json.loads((out/'reference/k7222-11/t3-initial-parameters.json').read_text())),
                 coverage=reference.coverage(inv,[c for c in components if not c['source_id'].startswith('1715w:')]))
 
 
@@ -417,6 +463,11 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     return_variant=assembly.get('t3_return_variant','schematic')
     if return_variant not in T3_RETURN_VARIANTS:
         raise ValueError('unknown T3 return variant')
+    t3_interface=assembly.get('t3_interface','historical-19-port')
+    if t3_interface not in T3_INTERFACES or (t3_interface == 'page4-visible-20-port' and return_variant != 'schematic'):
+        raise ValueError('unsupported T3 interface/return combination')
+    if t3_interface == 'page4-visible-20-port' and magnetic_backend != 'coupled':
+        raise ValueError('20-port provisional T3 requires the coupled magnetic backend')
     initial_voltages=dict(initial_voltages or {})
     for node,value in initial_voltages.items():
         if node not in INITIAL_VOLTAGE_BOUNDS or type(value) not in (int,float) or not math.isfinite(value) or not INITIAL_VOLTAGE_BOUNDS[node][0]<=value<=INITIAL_VOLTAGE_BOUNDS[node][1]:
@@ -424,8 +475,10 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     if selection['status']!='complete':raise ValueError('no static source field')
     graph=assembly.get('magnetic_graph') or json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
     parameters=assembly.get('magnetic_parameters') or json.loads((ROOT/'reference/k7222-11/t3-initial-parameters.json').read_text())
-    magnetic,meta=transformer_candidates.compile_model(graph,candidate,parameters,
-                                                        backend=magnetic_backend)
+    magnetic,meta=transformer_candidates.compile_model(
+        graph,candidate,parameters,
+        name=('T3_PAGE4_INTERFACE' if t3_interface == 'page4-visible-20-port'
+              else 'T3_CANDIDATE'),backend=magnetic_backend)
     thermal=heater_equilibrium(); period=selection['period_ticks']/selection['clock_hz']
     p={k:v[0] for k,v in ASSEMBLY_BOUNDS.items()} | assembly['parameters']
     rail_scale=r5_rail_scale(p['width_r5_position'])
@@ -449,6 +502,8 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     contrast_topology = assembly.get('contrast_topology', 'detailed-page3-4')
     components = contrast_stage_components(assembly['components'], contrast_topology)
     title = f'Experimental steady-supply K7222 {label}; unqualified hypothesis'
+    if t3_interface == 'page4-visible-20-port':
+        title += '; page-4-visible 20-port provisional T3'
     if magnetic_backend == 'coupled':
         title += ('; T3 class-typical overwind equivalent'
                   if 'high_voltage_coupling' in parameters else
@@ -512,6 +567,8 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         'Finite 1 Gohm DC leakage at isolated C19 midpoint and horizontal yoke; not a source component.',
         'L4 uses a passive three-winding same-terminal-polarity hypothesis; coupling defaults to zero. Factory coupling/polarity remain unresolved.',
         'Exploratory solver tolerances require independent refinement; completion is not acceptance.']
+    if t3_interface == 'page4-visible-20-port':
+        assumptions.append('T3 has the source-visible 20-port external interface, but its internal section order, transferred turns, return, loss and drive are unqualified; no installed winding is selected.')
     text='\n'.join(lines)+'\n'
     equivalent_stages = []
     if magnetic_backend == 'coupled':
@@ -529,6 +586,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     metadata=dict(candidate=meta,thermal=thermal,period_s=period,source_kind=source_kind,
         contrast_topology=contrast_topology,
         magnetic_backend=magnetic_backend,t3_return_variant=return_variant,
+        t3_interface=t3_interface,
         t3_return_pins=assembly.get('t3_return_pins'),
         equivalent_stages=equivalent_stages,
         simulated_fields=fields,retained_fields=4,assumptions=assumptions,
@@ -723,7 +781,7 @@ def score_trial(trial, metadata):
                 point_statuses={str(point['test_point']):point['status'] for point in result['points']})
 
 
-def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None, calibration_freeze=None, contrast_topology='detailed-page3-4', magnetic_backend='flux', t3_return_variant='schematic'):
+def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None, calibration_freeze=None, contrast_topology='detailed-page3-4', magnetic_backend='flux', t3_return_variant='schematic', t3_interface='historical-19-port'):
     """Archive and screen the assembled hypotheses under a single wall budget.
 
     No successful solve or plausible picture is promoted to a verified frame.
@@ -737,6 +795,12 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         raise ValueError('unknown T3 magnetic backend')
     if t3_return_variant not in T3_RETURN_VARIANTS:
         raise ValueError('unknown T3 return variant')
+    if t3_interface not in T3_INTERFACES or (t3_interface == 'page4-visible-20-port' and t3_return_variant != 'schematic'):
+        raise ValueError('unsupported T3 interface/return combination')
+    if t3_interface == 'page4-visible-20-port' and magnetic_backend != 'coupled':
+        raise ValueError('20-port provisional T3 requires the coupled magnetic backend')
+    if calibration_freeze is not None and t3_interface != 'historical-19-port':
+        raise ValueError('current calibration freeze does not bind the 20-port T3 interface')
     if calibration_freeze is not None and magnetic_backend != 'flux':
         raise ValueError('current calibration freeze does not bind an equivalent T3 backend')
     if calibration_freeze is not None and t3_return_variant != 'schematic':
@@ -748,7 +812,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         qualification='experimental-connected-electrical-screen',full_monitor_qualified=False,
         specimen_validated=False,validation_reserved_s=wall_budget_hours*1200,mode='steady-supply-frame',outputs={},candidates=[],blockers=[],
         contrast_topology=contrast_topology,magnetic_backend=magnetic_backend,
-        t3_return_variant=t3_return_variant,
+        t3_return_variant=t3_return_variant,t3_interface=t3_interface,
         equivalent_stages=([T3_EQUIVALENT_LABEL] if magnetic_backend == 'coupled' else [])+
                           ([T3_GROUNDED_GRAPH_LABEL] if magnetic_backend != 'coupled' and t3_return_variant=='hv-only-grounded' else [])+
                           (['manual-fig6-contrast-control']
@@ -787,7 +851,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         if selection['status']!='complete':raise ValueError(selection['reason'])
         if not any(e[1] for e in selection['events']):
             raise ValueError('selected capture has no active VIDEO; check boot ROM and character generator provenance')
-        assembly=assemble(out/'assembly',yoke_path=yoke_path)
+        assembly=assemble(out/'assembly',yoke_path=yoke_path,t3_interface=t3_interface)
         assembly['contrast_topology']=contrast_topology
         assembly['capture_sha256']=report['capture_sha256']
         assembly['source_kind']=source_kind
@@ -823,7 +887,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
                 horizontal_tank_l=assembly['parameters']['horizontal_tank_l'],
                 contrast_topology=contrast_topology)
             candidate=selected_candidate
-        graph=json.loads((out/'assembly/reference/k7222-11/t3-winding-hypothesis.json').read_text())
+        graph=assembly['magnetic_graph']
         candidates=sorted(transformer_candidates.enumerate_candidates(graph),key=lambda c:c['id'])
         if candidate!='auto':
             candidates=[c for c in candidates if c['id']==candidate]

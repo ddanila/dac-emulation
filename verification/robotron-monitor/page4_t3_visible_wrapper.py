@@ -151,7 +151,7 @@ def compare(xml, original_xml, source, graph, sheet=CANDIDATE_SHEET):
         'unresolved': [
             'Manual connection 16 has no established page-4 connector-prefix mapping.',
             'X1:1, X1:3 and X1:7 are isolated in this external interface pending full conductor/return verification; the graph treats their magnetic continuity only as hypotheses.',
-            'The 20-port wrapper is not wired to a qualified magnetic parameter set or the active connected solver.',
+            'The 20-port wrapper has an opt-in connected path with provisional magnetic parameters, but no qualified magnetic parameter set or default connected selection.',
         ],
     }
 
