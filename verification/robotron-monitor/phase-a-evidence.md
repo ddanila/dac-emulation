@@ -4538,3 +4538,28 @@ not periodic. The next A5 check must reconcile the bounded drive/boost and
 tap alternatives with the class current boundary, then choose a labelled
 field equivalent or source-bounded installed geometry before any yoke
 freeze. The active `design-point.json` and ray profile remain partial.
+
+### A5: R5-equivalent rail can cross the TBY7 lower-current proxy (2026-11-21)
+
+The [reproducible conditional rail screen](reference/k7222-11/t3-brimar-rail-boundary-screen.json)
+keeps the same TBY7 winding, unverified T3 graph, prescribed V18 base drive,
+E1+E2 centring-link scenario and 80 mH chokes as the preceding stage check.
+It changes only the 41P feed from 39 to 43 V. Page-10 R5/R6 feedback topology
+and the page-13 parts values (R5 = 1 kΩ, R6 = 2.4 kΩ) give the active
+R5-equivalent scale `Vfeed = 41 × 3030/(2400 + 1000p)`, anchored at the
+model's chosen nominal `p = 0.63`. The anchor is a model choice, not a
+factory R5 setting. The 39, 41 and 43 V cases correspond to `p = 0.785`,
+0.630 and 0.489, all inside physical travel.
+
+The saved 41 V case is reproduced: 0.914 A p-p TBY7 current and 11.512 kV
+EHT at the sampled collector pulse. At 39 V it gives 0.871 A p-p and
+11.223 kV; at 43 V it gives 0.956 A p-p and 11.793 kV. Bisection of the
+class proxy's 0.946 A p-p lower bound brackets the crossing at
+42.502–42.504 V (`p ≈ 0.523`), with sampled EHT about 11.722 kV. This
+means a modest R5-equivalent rail change can close the **conditional**
+lower-current shortfall without retuning T3 turns. It does not demonstrate
+the nominal 210 mm picture, installed AE9VT current or a periodic field.
+The 12 V centring rail and base drive were held fixed, and the 4–5 ms
+stage has no source-qualified X2:4 waveform or T3 internal return. A5 must
+still bound the tap/boost alternatives and source-coupled field transfer;
+the current crossing alone cannot select a winding graph or HV ratio.
