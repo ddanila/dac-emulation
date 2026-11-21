@@ -435,6 +435,12 @@ A [four-sign source-order screen](reference/k7222-11/t3-source-order-polarity-sc
 finds no joint sampled EHT/current/C21 match. These are fixed prescribed-drive,
 single-return cases, so A5 must still bound the drive, returns and installed
 yoke transfer before pruning the remaining graph alternatives.
+The [source-corrected 39–43 V rail screen](reference/k7222-11/t3-source-order-rail-c21-screen.json)
+keeps C21 at only 23.72–26.10 V across four 20 ms cases; 42.504–43 V meets
+sampled EHT and transferred TBY7 current while still missing C21. R5-equivalent
+rail movement within that comparator interval does not close this conditional
+discrepancy. The actual X2:4 drive and winding/return alternatives remain the
+next A5 discriminants.
 
 The [Brimar TBY7 class](reference/k7222-11/yoke-brimar-110deg-comparator.json)
 provides a bounded comparator, not an installed AE9VT identification. The
