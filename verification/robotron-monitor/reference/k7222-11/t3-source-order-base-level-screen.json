@@ -1,0 +1,145 @@
+{
+  "format": "dac-monitor-t3-source-order-base-level-screen-v1",
+  "qualification": "three 20 ms prescribed V18 base-high sensitivity cases at one source-order T3 sign/return/TBY7 condition; no installed base drive or periodic qualification",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "input_sha256": {
+    "reference/k7222-11/page4-booster-comparison.json": "b7b28dae74aa2f8009eacfcf18c152e47fb13db38cd3fdf6fee710ef0692aef2",
+    "reference/k7222-11/page4-booster-source-netlist.json": "50916a1d2f7cb6bc5f1da50b71f4d22a0b33eaa0ed83874ad6a1ebeafee5d8d3",
+    "reference/k7222-11/t3-source-order-variant.json": "20c4e7754e5505f5e3d9acc8cad1be634df1e01362a2610aea1b99d068954933",
+    "reference/k7222-11/page4-t3-internal-links-comparison.json": "b61f69cb52e9647ec703456a82ce37580e1a1827fcdc73732fe63785fe66f9a5",
+    "reference/k7222-11/t3-source-order-polarity-screen.json": "eb53f8276f4d2005bebf22ffe10f894017c690504c96a26bc96e54125f0574d5",
+    "reference/k7222-11/t3-source-order-return-c21-screen.json": "65cacc871b02777eaaf5cedc040462686bd0f7600fb4113f17bdf3513f1760dd",
+    "reference/k7222-11/t3-winding-hypothesis.json": "6ec005383d08fe5a941c81e6f94cb753678c47b3a9e10cc4804ddbfe6f41857e",
+    "reference/k7222-11/t3-initial-parameters.json": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+    "reference/k7222-11/horizontal-output-transcription.json": "0b056b42807752c34b86f4dc14886a5c90a92b085c5b28c11404a9806087a737",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "bb8d3b08215561925553c6b0e7f87d30573569191fa90e0723639c08e37c6bba",
+    "circuits/k7222-11-centering-models.cir": "b002db59e7ac0234ea3578c0598a9fc5d2c9f7985669ad401fa01b58df353282",
+    "t3_brimar_boost_boundary_screen.py": "961f9e6ffb1092325b3c8276fbaa2bc56569a114a34ee23708fa7744f1b9190a",
+    "t3_booster_pin_order_screen.py": "a429568cfab5a5d14459906aa75af98df2a717e7df3d671f885f847813a7277f",
+    "t3_source_order_base_level_screen.py": "981a90a76baffa223dcd0d96dd4d1d8b36cebd3de6f222ed7347ed385c4f924f"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "candidate_id": "t3-45494f3600563014",
+  "candidate_polarity": {
+    "drive": 1,
+    "auxiliary": 1,
+    "high_voltage": -1,
+    "lower_taps": 1,
+    "upper_taps": 1
+  },
+  "fixed_conditions": {
+    "feed_v": 42.504,
+    "initial_c21_differential_v": 65,
+    "upper_return_tied": true,
+    "cold_mode": "hv_only_grounded",
+    "yoke_type": "TBY7",
+    "centering_link_pair": "E1+E2",
+    "base_low_v": -2.7,
+    "base_on_time_us": 46.5,
+    "base_period_us": 62.5,
+    "window_s": [
+      0.019,
+      0.02
+    ]
+  },
+  "targets": {
+    "eht_v": [
+      11000,
+      12000
+    ],
+    "yoke_current_pp_a": [
+      0.9459574468085108,
+      1.4618078564381878
+    ],
+    "c21_differential_v": [
+      60,
+      70
+    ]
+  },
+  "cases": [
+    {
+      "prescribed_base_high_v": 0.8,
+      "observed": {
+        "normalized_deck_sha256": "9672976c49b7f0a52bb775953daa3667bc7d73339184d201f7b75328fb792524",
+        "sample_count": 2633,
+        "yoke_current_pp_a": 0.946033464,
+        "eht_at_collector_peak_v": 11724.0307,
+        "boost_node_at_collector_peak_v": 66.2051191,
+        "boost_node_range_v": [
+          66.2029674,
+          66.327872
+        ],
+        "c21_voltage_at_collector_peak_v": 23.7011191,
+        "c21_voltage_range_v": [
+          23.6989674,
+          23.823872
+        ],
+        "c21_window_phase_drift_v": -0.07587529999999987,
+        "eht_window_phase_drift_v": -21.284300000001167
+      },
+      "sampled_checks": {
+        "eht": true,
+        "yoke_current": true,
+        "c21": false
+      },
+      "joint_sampled_match": false
+    },
+    {
+      "prescribed_base_high_v": 1.3,
+      "observed": {
+        "normalized_deck_sha256": "a6f2c0cc0a50584b3d2eda0ef276236a7bc4dd3868c6c6600450080b1ae57bde",
+        "sample_count": 2611,
+        "yoke_current_pp_a": 0.9464727820000001,
+        "eht_at_collector_peak_v": 11708.2803,
+        "boost_node_at_collector_peak_v": 66.2264302,
+        "boost_node_range_v": [
+          66.2251347,
+          66.3457198
+        ],
+        "c21_voltage_at_collector_peak_v": 23.7224302,
+        "c21_voltage_range_v": [
+          23.7211347,
+          23.8417198
+        ],
+        "c21_window_phase_drift_v": -0.045870799999999434,
+        "eht_window_phase_drift_v": -16.752800000000207
+      },
+      "sampled_checks": {
+        "eht": true,
+        "yoke_current": true,
+        "c21": false
+      },
+      "joint_sampled_match": false
+    },
+    {
+      "prescribed_base_high_v": 1.8,
+      "observed": {
+        "normalized_deck_sha256": "44f72fd5d253362cd7e1bb2f0ea2891de5a0bd46355ed97675bd6ba197c99ef2",
+        "sample_count": 2656,
+        "yoke_current_pp_a": 0.9462391370000001,
+        "eht_at_collector_peak_v": 11702.9375,
+        "boost_node_at_collector_peak_v": 66.2199106,
+        "boost_node_range_v": [
+          66.2190896,
+          66.3385716
+        ],
+        "c21_voltage_at_collector_peak_v": 23.7159106,
+        "c21_voltage_range_v": [
+          23.7150896,
+          23.8345716
+        ],
+        "c21_window_phase_drift_v": -0.028460300000002547,
+        "eht_window_phase_drift_v": -13.082499999998618
+      },
+      "sampled_checks": {
+        "eht": true,
+        "yoke_current": true,
+        "c21": false
+      },
+      "joint_sampled_match": false
+    }
+  ],
+  "joint_sampled_match_count": 0,
+  "interpretation": "Changing only the prescribed base-high level across these engineering perturbations does not resolve the conditional C21 gap. The range is not source-bounded; the X2:4/collector drive waveform and T3 winding graph still require qualification."
+}
