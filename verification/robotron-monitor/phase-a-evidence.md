@@ -4393,3 +4393,34 @@ show that the active 4 mH pulse cannot supply an A5 turns-ratio bound across
 even this limited class transfer. A source-bounded 110°/20 mm-neck winding
 and its matching drive/current operating point must precede the fallback
 ratio and loss parameterization.
+
+### A5: angle-matched yoke-family stage screen and catalog discrepancy (2026-11-21)
+
+The [110° class stage screen](reference/k7222-11/t3-yoke-110deg-stage-screen.json)
+uses all five 110° source-paired line windings on the [Philips T16 selection
+page](https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf)
+(printed page 7; source SHA-256 in the report). AT1039/03 is closest in
+screen size at 31 cm; AT1039/21, /00, AT1038/42 and AT1039/01 are 36–38 cm
+comparators. Every row specifies a **28.6 mm neck** and 17 kV reference,
+not the roughly 20 mm B31-G neck or the installed AE9VT.
+
+A second manufacturer [quick-reference table](https://bms.isjtr.ro/other/Mullard/Mullard_QuickReferenceGuide_Part1_1985.pdf)
+(Mullard 1985, printed page 132, PDF page 134) prints **0.14 Ω** for the
+parallel AT1039/03 line coils, whereas the later Philips selection guide
+and detailed AT1039/03 sheet print **0.41 Ω**. Both primary documents are
+hash-checked by the screen. The later detailed value is used for the five
+catalog cases; 0.14 Ω is a separate labelled sensitivity. It moves that
+case's conditional drive peak by −1.07 V and EHT at the sampled pulse by
++7.49 V, which does not resolve the physical discrepancy. The quick guide's
+20 mm packing-piece footnote marks **AT1071/03**, a 90° unit, so it does not
+make any listed 110° coil a 20 mm-neck source match.
+
+With the same unverified T3 graph, E1+E2 links, 80 mH centring chokes and
+prescribed drive as the previous sweep, these five paired windings produce
+209–698 V differential T3 pulse peaks, 6.86–13.20 kV EHT at the sampled
+collector pulse and 6.59–11.28 A final-two-line model yoke-current ranges.
+None lands in the manual's 11–12 kV EHT band at that pulse. These are
+conditional circuit sensitivities, not steady connected acceptance tests;
+the catalog's 17 kV full-scan currents are not AE9VT limits. A 110°,
+20 mm-neck electrical and field-profile source—or installed AE9VT evidence—
+is still needed before freezing the A5 fallback and its drive ratio.

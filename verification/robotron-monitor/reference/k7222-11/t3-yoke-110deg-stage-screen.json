@@ -1,0 +1,275 @@
+{
+  "format": "dac-monitor-t3-yoke-110deg-stage-screen-v1",
+  "qualification": "conditional 4\u20135 ms prescribed-base stage; 110-degree/28.6 mm-neck catalog class is not the installed 20 mm-neck AE9VT, and the T3 graph and centring links remain unverified",
+  "source": {
+    "philips_url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1987_T16_Philips_Monochrome_Tubes_and_Deflection_Units.pdf",
+    "philips_sha256": "60ac727815c7493e8df4530fb909bc74c35b9120f3eddbdefe7a758bf536e417",
+    "philips_selection_guide_printed_page": 7,
+    "mullard_url": "668b1f6cf9a11b21b83f8d62ae9401aa62d390630366316511471a28e230aa1a",
+    "mullard_sha256": "668b1f6cf9a11b21b83f8d62ae9401aa62d390630366316511471a28e230aa1a",
+    "mullard_pdf_page": 134,
+    "mullard_printed_page": 132,
+    "mullard_at1039_03_line_resistance_ohm": 0.14,
+    "philips_at1039_03_line_resistance_ohm": 0.41,
+    "discrepancy_resolution": "The older Mullard quick-reference table prints 0.14 ohm for AT1039/03 parallel line coils, while the later Philips T16 selection guide and detailed AT1039/03 sheet print 0.41 ohm. The screen uses the detailed 1987 value; neither source identifies AE9VT.",
+    "centering_source_netlist_sha256": "b499fbeaee2b5682e22c4879577b8038ec6a4077785d88444b5af277be738230"
+  },
+  "inputs_sha256": {
+    "reference/k7222-11/t3-centering-return-screen.json": "e8b8826d3f8dea325485e84533b03bb4ecea9278fd9793cac7fb3d727b90415f",
+    "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "yoke_110deg_comparator.py": "b1e4bf7e96a9955e134920da591bff73e8939211915ba957fbd78589d1e13e1d",
+    "t3_yoke_110deg_stage_screen.py": "f0616c2c9f6c56db983d0cdf9b10f792d5bbfaa37656f11865b04e9f55f9d5d2"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_inputs": {
+    "centering_link_pair": "E1+E2",
+    "centering_coil_l_h": 0.08,
+    "centering_r4_position": 0.5,
+    "prescribed_base_edge_ns": 200,
+    "max_step_ns": 50
+  },
+  "active_4mh_yoke_case": {
+    "link_pair": "E1+E2",
+    "coil_l_h": 0.08,
+    "normalized_deck_sha256": "622fabc13ed46c7cd7fd2bada37dd11ef9eb27f9a50570ad5738e3407fdc168c",
+    "final_two_line_samples": 2610,
+    "collector_peak_v": 459.64587,
+    "return_at_collector_peak_v": 15.7720077,
+    "drive_at_collector_peak_v": 443.873862,
+    "h2_at_collector_peak_v": -59.6144398,
+    "drive_peak_v": 443.873862,
+    "h2_range_v": [
+      -59.7004594,
+      15.4619542
+    ],
+    "return_range_v": [
+      15.7720077,
+      72.1213197
+    ],
+    "eht_at_collector_peak_v": 11549.4405,
+    "eht_at_window_end_v": 11542.09,
+    "yoke_current_range_a": [
+      -0.451621859,
+      0.487848827
+    ]
+  },
+  "class_cases": [
+    {
+      "catalog_type": "AT1039/03",
+      "reference_diagonal_cm": 31,
+      "orientation": "landscape",
+      "neck_diameter_mm": 28.6,
+      "catalog_note": null,
+      "line_inductance_h": 0.00022799999999999999,
+      "line_resistance_ohm": 0.41,
+      "catalog_full_scan_app_at_17kv": 7.95,
+      "model_yoke_current_app": 11.198851900000001,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "d9aff2dd70acca006fe9b551c4b4b00fbcb9ea5ef501834cd4911830de2e690d",
+      "final_two_line_samples": 2601,
+      "collector_peak_v": 247.29258,
+      "return_at_collector_peak_v": 37.8820016,
+      "drive_at_collector_peak_v": 209.410578,
+      "h2_at_collector_peak_v": 75.456822,
+      "drive_peak_v": 209.410578,
+      "h2_range_v": [
+        -115.803396,
+        109.550416
+      ],
+      "return_range_v": [
+        37.8820016,
+        68.7825487
+      ],
+      "eht_at_collector_peak_v": 6863.01702,
+      "eht_at_window_end_v": 6863.24257,
+      "yoke_current_range_a": [
+        -6.16519959,
+        5.03365231
+      ]
+    },
+    {
+      "catalog_type": "AT1039/21",
+      "reference_diagonal_cm": 36,
+      "orientation": "landscape",
+      "neck_diameter_mm": 28.6,
+      "catalog_note": "flat square application",
+      "line_inductance_h": 0.000205,
+      "line_resistance_ohm": 0.33,
+      "catalog_full_scan_app_at_17kv": 7.64,
+      "model_yoke_current_app": 11.2780648,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "a5cdbe2a752b1ba8f9210db616fc323ed83888447082d7d67b3de2f80f1c41de",
+      "final_two_line_samples": 2579,
+      "collector_peak_v": 377.732672,
+      "return_at_collector_peak_v": 24.8998782,
+      "drive_at_collector_peak_v": 352.832794,
+      "h2_at_collector_peak_v": 13.1422368,
+      "drive_peak_v": 352.832794,
+      "h2_range_v": [
+        -112.451283,
+        99.8722817
+      ],
+      "return_range_v": [
+        24.8998782,
+        69.3067082
+      ],
+      "eht_at_collector_peak_v": 8530.17919,
+      "eht_at_window_end_v": 8601.44889,
+      "yoke_current_range_a": [
+        -6.19877107,
+        5.07929373
+      ]
+    },
+    {
+      "catalog_type": "AT1039/00",
+      "reference_diagonal_cm": 38,
+      "orientation": "portrait",
+      "neck_diameter_mm": 28.6,
+      "catalog_note": null,
+      "line_inductance_h": 0.000225,
+      "line_resistance_ohm": 0.39,
+      "catalog_full_scan_app_at_17kv": 5.6,
+      "model_yoke_current_app": 11.24142831,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "61a2a6ea4200bd59515bf98c2dd586de885134cc781c4732596ad851d210af33",
+      "final_two_line_samples": 2588,
+      "collector_peak_v": 255.541774,
+      "return_at_collector_peak_v": 37.9625566,
+      "drive_at_collector_peak_v": 217.579217,
+      "h2_at_collector_peak_v": 31.7888153,
+      "drive_peak_v": 217.579217,
+      "h2_range_v": [
+        -115.721821,
+        108.163853
+      ],
+      "return_range_v": [
+        37.2326801,
+        68.9280687
+      ],
+      "eht_at_collector_peak_v": 7078.39183,
+      "eht_at_window_end_v": 7109.10327,
+      "yoke_current_range_a": [
+        -6.18011581,
+        5.0613125
+      ]
+    },
+    {
+      "catalog_type": "AT1038/42",
+      "reference_diagonal_cm": 38,
+      "orientation": "landscape",
+      "neck_diameter_mm": 28.6,
+      "catalog_note": null,
+      "line_inductance_h": 0.0007,
+      "line_resistance_ohm": 1.03,
+      "catalog_full_scan_app_at_17kv": 4.12,
+      "model_yoke_current_app": 6.58932141,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "8d5267d7cc125abccfcf0cb5d69ee33ea7a75573199c6982169a0029dcbafb68",
+      "final_two_line_samples": 2634,
+      "collector_peak_v": 680.759565,
+      "return_at_collector_peak_v": -17.6375699,
+      "drive_at_collector_peak_v": 698.397135,
+      "h2_at_collector_peak_v": -164.648837,
+      "drive_peak_v": 698.397135,
+      "h2_range_v": [
+        -164.743667,
+        77.2907959
+      ],
+      "return_range_v": [
+        -17.6562572,
+        63.3320003
+      ],
+      "eht_at_collector_peak_v": 13200.8164,
+      "eht_at_window_end_v": 13327.428,
+      "yoke_current_range_a": [
+        -3.05755308,
+        3.53176833
+      ]
+    },
+    {
+      "catalog_type": "AT1039/01",
+      "reference_diagonal_cm": 38,
+      "orientation": "landscape",
+      "neck_diameter_mm": 28.6,
+      "catalog_note": null,
+      "line_inductance_h": 0.000206,
+      "line_resistance_ohm": 0.36,
+      "catalog_full_scan_app_at_17kv": 7.2,
+      "model_yoke_current_app": 11.26336503,
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "d001f06ce2369f26c167ae235885014ab60dea1e0d92f7fcd2a69fac3e3f3897",
+      "final_two_line_samples": 2576,
+      "collector_peak_v": 370.75071,
+      "return_at_collector_peak_v": 25.6382058,
+      "drive_at_collector_peak_v": 345.112504,
+      "h2_at_collector_peak_v": 14.1060852,
+      "drive_peak_v": 345.112504,
+      "h2_range_v": [
+        -112.555538,
+        100.269879
+      ],
+      "return_range_v": [
+        25.6382058,
+        69.2858367
+      ],
+      "eht_at_collector_peak_v": 8459.12906,
+      "eht_at_window_end_v": 8530.05934,
+      "yoke_current_range_a": [
+        -6.1939971,
+        5.06936793
+      ]
+    }
+  ],
+  "at1039_03_quick_guide_resistance_case": {
+    "link_pair": "E1+E2",
+    "coil_l_h": 0.08,
+    "normalized_deck_sha256": "a818ca7fb27aad4de00b154e185aaf6e718642450055f95b5c3447bf89750fde",
+    "final_two_line_samples": 2596,
+    "collector_peak_v": 246.890557,
+    "return_at_collector_peak_v": 38.5499731,
+    "drive_at_collector_peak_v": 208.340584,
+    "h2_at_collector_peak_v": 56.4659588,
+    "drive_peak_v": 208.340584,
+    "h2_range_v": [
+      -117.98087,
+      109.361037
+    ],
+    "return_range_v": [
+      38.3900453,
+      69.0959145
+    ],
+    "eht_at_collector_peak_v": 6870.5088,
+    "eht_at_window_end_v": 6870.34467,
+    "yoke_current_range_a": [
+      -6.23338056,
+      5.17951885
+    ]
+  },
+  "at1039_03_resistance_discrepancy_effect": {
+    "drive_peak_difference_v": -1.06999399999998,
+    "eht_at_collector_peak_difference_v": 7.49177999999938
+  },
+  "class_case_envelope": {
+    "drive_peak_v": [
+      209.410578,
+      698.397135
+    ],
+    "eht_at_collector_peak_v": [
+      6863.01702,
+      13200.8164
+    ],
+    "model_yoke_current_app": [
+      6.58932141,
+      11.2780648
+    ]
+  },
+  "class_cases_reaching_11kv_at_collector_peak": 1,
+  "class_cases_in_11_12kv_band_at_collector_peak": 0,
+  "interpretation": "The angle-matched catalog windings show conditional T3 drive, EHT and yoke-current sensitivity under the same assumed transformer. The 31 cm AT1039/03 is the closest catalog row by screen size but still has a 28.6 mm neck and 17 kV reference; the others are 36\u201338 cm. These results constrain neither the installed AE9VT winding nor a T3 turns ratio."
+}
