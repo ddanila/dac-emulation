@@ -1,6 +1,7 @@
 """Compare conditional T3 return alternatives at the TBY7 rail boundary."""
 
 import argparse
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -55,9 +56,18 @@ def run(ngspice, source_pdf):
     rows = []
     refined_rows = []
     for joined in (True, False):
-        for cold_mode in ('hv_only_grounded', 'shared_grounded'):
-            selected, pins = returns.variant_parts(parts, transcription['ports'],
-                                                   joined, cold_mode)
+        for cold_mode in ('shared_floating', 'hv_only_grounded', 'shared_grounded'):
+            if cold_mode == 'shared_floating':
+                selected = copy.deepcopy(parts)
+                t3 = next(part for part in selected if part['source_id'] == '012-6921:T3')
+                nodes = dict(zip(transcription['ports'], t3['nodes']))
+                if not joined:
+                    nodes['X1_3'] = 'h_upper_return'
+                t3['nodes'] = [nodes[port] for port in transcription['ports']]
+                pins = {port: nodes[port] for port in ('X1_3', 'X2_3', 'X1_7', 'X1_16')}
+            else:
+                selected, pins = returns.variant_parts(parts, transcription['ports'],
+                                                       joined, cold_mode)
             variant_inputs = (*inputs[:3], selected, *inputs[4:6], pins)
             for feed in (41., crossing, 43.):
                 observed = rail.rail_case(ngspice, variant_inputs, feed, yoke)
@@ -103,8 +113,8 @@ def run(ngspice, source_pdf):
                                fractional_changes=changes,
                                same_current_and_eht_disposition=same_disposition))
     return dict(
-        format='dac-monitor-t3-brimar-return-boundary-screen-v2',
-        qualification='conditional 4–5 ms prescribed-base stage and TBY7 comparator; unverified T3 graph/returns and exploratory centring chokes; not installed AE9VT, periodic operation or an A5 freeze',
+        format='dac-monitor-t3-brimar-return-boundary-screen-v3',
+        qualification='all six conditional upper-return/cold-end combinations in a 4–5 ms prescribed-base stage and TBY7 comparator; unverified T3 graph/returns and exploratory centring chokes; not installed AE9VT, periodic operation or an A5 freeze',
         source=dict(k7222_11_pdf_sha256=rail.SOURCE_PDF_SHA,
                     brimar_pdf_sha256=catalog['source']['sha256']),
         input_sha256={str(path.relative_to(ROOT)): sha(path) for path in
@@ -133,7 +143,7 @@ def run(ngspice, source_pdf):
                                 current_and_eht_screen_match=(row['reaches_class_lower_current'] and
                                                               row['sampled_eht_in_manual_band']))
                            for row in at_crossing],
-        interpretation='At the prior nominal return crossing, three of four conditional return wirings meet the transferred TBY7 lower-current and sampled EHT bands. The tied X1:3/X2:3 plus shared-grounded X1:16/X1:7 combination collapses both outputs; the open-upper-return version does not. All four current/EHT dispositions persist when the maximum step is halved from 50 to 25 ns. This interaction rejects that one pairing only within the assumed graph, stage and rail; it cannot identify the installed return or fix a winding ratio.')
+        interpretation='At the prior grounded-return crossing, four of six conditional wirings meet the transferred TBY7 lower-current and sampled EHT bands. The tied shared-floating scan hypothesis also meets both; opening its upper return collapses EHT. Conversely, jointly grounding X1:16/X1:7 collapses both outputs only when the upper return remains tied. All six dispositions persist at 25 ns. These interactions reject two pairings only within the assumed graph, stage and rail; they cannot identify the installed return or fix a winding ratio.')
 
 
 if __name__ == '__main__':

@@ -15,6 +15,7 @@ import t3_u52_core_class_screen as core_class
 ROOT = Path(__file__).resolve().parent
 REF = ROOT / 'reference/k7222-11'
 OUTPUT = REF / 't3-u52-al-gap-screen.json'
+SPACER = REF / 't3-gap-spacer-source-read.json'
 MU0_H_PER_M = 4 * math.pi * 1e-7
 
 
@@ -34,10 +35,13 @@ def equivalent_gap_m(area_m2, target_al_nh, catalog_al_nh):
     return MU0_H_PER_M*area_m2*(1/(target_al_nh*1e-9)-1/(catalog_al_nh*1e-9))
 
 
-def run(ngspice, robotron_pdf, fonox_pdf):
+def run(ngspice, robotron_pdf, fonox_pdf, repair_pdf):
     source = json.loads(core_class.SOURCE.read_text())
+    repair = json.loads(SPACER.read_text())
     if sha(robotron_pdf) != source['robotron']['sha256'] or sha(fonox_pdf) != source['fonox']['sha256']:
         raise ValueError('U52 comparison source changed')
+    if sha(repair_pdf) != repair['sha256']:
+        raise ValueError('ÜHA78 spacer source changed')
     saved = json.loads(rail.OUTPUT.read_text())
     prior_core = json.loads(core_class.OUTPUT.read_text())
     catalog = json.loads(rail.CATALOG.read_text())
@@ -100,9 +104,11 @@ def run(ngspice, robotron_pdf, fonox_pdf):
     gaps_mm = [equivalent_gap_m(area, active_al, al)*1000 for al in al_values[1:]]
     return dict(
         format='dac-monitor-t3-u52-al-gap-screen-v1',
-        qualification='conditional linear coupled-T3 magnetizing sensitivity on U52-class geometry and TBY7 yoke, 4–5 ms prescribed drive; not an identified .11 core, physical gap, winding ratio or A5 freeze',
-        source_pdf_sha256=dict(robotron=sha(robotron_pdf), fonox=sha(fonox_pdf)),
+        qualification='conditional linear coupled-T3 magnetizing sensitivity on U52-class geometry and TBY7 yoke, 4–5 ms prescribed drive; cross-revision core spacers observed but no .11 gap dimension, winding ratio or A5 freeze',
+        source_pdf_sha256=dict(robotron=sha(robotron_pdf), fonox=sha(fonox_pdf),
+                               repair=sha(repair_pdf)),
         source_read_sha256=sha(core_class.SOURCE),
+        spacer_source_read_sha256=sha(SPACER),
         input_sha256={str(path.relative_to(ROOT)): sha(path) for path in
                       (rail.OUTPUT, rail.BOUNDARY, rail.CATALOG, core_class.OUTPUT,
                        pulse.ac.PARAMETERS, rail.centering.bridge.MODEL,
@@ -129,9 +135,9 @@ def run(ngspice, robotron_pdf, fonox_pdf):
             target_al_nh_per_turn2=active_al,
             catalog_al_cases_nh_per_turn2=list(al_values[1:]),
             gap_mm=gaps_mm,
-            limitations='Net extra-reluctance air-gap proxy only. Fringing, two-pole distribution, actual .11 core/material and winding are unknown; this is not an installed gap measurement.'),
+            limitations='Net extra-reluctance air-gap proxy only. A K7222.25 ÜHA78 repairer describes two insulation plates between core halves but gives no thickness. Fringing, two-pole distribution, actual .11 core/material and winding are unknown; this is not an installed gap measurement.'),
         cases=rows,
-        interpretation='The 375 nH/turn² effective-AL case exactly reproduces the prior conditional TBY7 rail crossing even on U52 geometry, because the coupled backend depends on N²*AL rather than geometry separately. All sampled FONOX catalog AL cases miss the transferred TBY7 lower current at 41, 42.504 and 43 V; EHT is nonmonotone and the 1475 nH case can enter its band without the current match. An excess-reluctance equivalent gap of 0.183–0.237 mm would map the catalog AL spread to the conditional 375 nH value, but the .11 core/gap and T3 graph remain unknown. This identifies an effective magnetic parameter for the fallback sensitivity, not a frozen physical core or winding design.')
+        interpretation='The 375 nH/turn² effective-AL case exactly reproduces the prior conditional TBY7 rail crossing even on U52 geometry, because the coupled backend depends on N²*AL rather than geometry separately. All sampled FONOX catalog AL cases miss the transferred TBY7 lower current at 41, 42.504 and 43 V; EHT is nonmonotone and the 1475 nH case can enter its band without the current match. An excess-reluctance equivalent gap of 0.183–0.237 mm would map the catalog AL spread to the conditional 375 nH value. The observed cross-revision ÜHA78 insulating plates motivate a physical spacer alternative but cannot set its size or the .11 core. This identifies an effective magnetic parameter for fallback sensitivity, not a frozen physical core or winding design.')
 
 
 if __name__ == '__main__':
@@ -139,9 +145,10 @@ if __name__ == '__main__':
     parser.add_argument('--ngspice', type=Path, required=True)
     parser.add_argument('--robotron-pdf', type=Path, required=True)
     parser.add_argument('--fonox-pdf', type=Path, required=True)
+    parser.add_argument('--repair-pdf', type=Path, required=True)
     parser.add_argument('--output', type=Path, default=OUTPUT)
     args = parser.parse_args()
-    report = run(args.ngspice, args.robotron_pdf, args.fonox_pdf)
+    report = run(args.ngspice, args.robotron_pdf, args.fonox_pdf, args.repair_pdf)
     args.output.write_text(json.dumps(report, indent=2) + '\n')
     print([(row['effective_al_nh_per_turn2'],
             [(c['current_in_transferred_class'], c['sampled_eht_in_manual_band'])

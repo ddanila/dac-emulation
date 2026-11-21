@@ -4750,26 +4750,30 @@ its actual winding and loss roles.
 The [return boundary screen](reference/k7222-11/t3-brimar-return-boundary-screen.json)
 holds the TBY7 winding, E1+E2 centring bridge, 80 mH L1/L2, prescribed
 V18 base pulse and earlier R5-equivalent current crossing fixed while it
-tests both X1:3/X2:3 upper-return states against two HV cold-end wirings.
-At **42.504 V**, the tied upper return with X1:16 and X1:7 both grounded
-produces only **0.0479 A p-p** yoke current and **1.205 kV** sampled EHT.
-The other three cases give **0.94597–0.94599 A p-p** and
-**11.722–11.723 kV**, meeting the transferred TBY7 lower-current and
-manual EHT bands at that sample. At 41 and 43 V the same one pairing
-remains far outside both bands; the other three track one another closely.
+tests both X1:3/X2:3 upper-return states against all three cold-end wirings
+from the earlier source matrix. At **42.504 V**, the tied upper return with
+X1:16 and X1:7 both grounded produces only **0.0479 A p-p** yoke current
+and **1.205 kV** sampled EHT. Opening the upper return while keeping their
+shared cold node floating leaves **0.982 A p-p** current but only
+**19.6 V** sampled EHT. Both pairings miss the joint boundary. The tied,
+shared-floating scan hypothesis gives **0.9474 A p-p** and **11.569 kV**;
+the three other passing grounded cases give **0.94597–0.94599 A p-p** and
+**11.722–11.723 kV**. The four pass the transferred TBY7 lower-current
+and manual EHT bands at that sample.
 
-Thus the rail/yoke boundary discriminates one *combination* of assumed
+Thus the rail/yoke boundary discriminates two *combinations* of assumed
 returns, rather than identifying an installed cold end or upper-return
 connection. All outcomes use the scan-order T3 graph, exploratory centring
 chokes, a class-comparator yoke and a 4–5 ms prescribed-drive window. The
 screen cannot qualify periodic operation, a T3 turns ratio or the AE9VT
 winding.
 
-A 25 ns maximum-step rerun of all four wirings at the 42.504 V crossing
-preserves each current/EHT pass or fail outcome. For the three passing
+A 25 ns maximum-step rerun of all six wirings at the 42.504 V crossing
+preserves each current/EHT pass or fail outcome. For the four passing
 wirings, sampled current and EHT each shift by under **0.017%** relative
-to the 50 ns cases. The failing wiring changes by **0.040%** in current
-and **0.824%** in EHT, still far from either band. This removes a simple
+to the 50 ns cases. The tied/shared-grounded failure changes by **0.040%**
+in current and **0.824%** in EHT; the open/shared-floating failure changes
+by **0.096%** and **0.224%** respectively. This removes a simple
 time-step explanation for the conditional split; it does not test a longer
 periodic state or validate the assumed graph.
 
@@ -4824,3 +4828,15 @@ unknown pole gaps and ignores fringing; it is not a measured or sourced
 K7222.11 gap. The screen identifies an effective magnetizing parameter
 for the next fallback attempt, while winding ratios, return graph, core
 identity and operating-point validation remain open.
+
+A [firsthand illustrated ÜHA78 repair account](https://www.sax.de/~zander/zubehoer/k7222/uha78rep.pdf)
+for a K7222.25 states that two insulating plates sit between the core
+halves and must be retained during reassembly. It also moves a replacement
+high-voltage winding's cold lead from its old solder point to chassis
+ground. The [source read](reference/k7222-11/t3-gap-spacer-source-read.json)
+records the exact pages and PDF hash. The plates support carrying a
+positive spacer/extra-reluctance alternative, but no thickness is given;
+the calculated 0.183–0.237 mm cannot be identified with them. The repair
+ground is a modification, not a factory K7222.11 cold-end map, which is why
+the shared-floating source-scan hypothesis remains in the six-case return
+screen.

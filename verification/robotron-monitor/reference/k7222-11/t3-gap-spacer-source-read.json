@@ -1,0 +1,24 @@
+{
+  "format": "dac-monitor-t3-gap-spacer-source-read-v1",
+  "qualification": "firsthand K7222.25 ÜHA78 repair observation, not a K7222.11 factory core or gap measurement",
+  "url": "https://www.sax.de/~zander/zubehoer/k7222/uha78rep.pdf",
+  "sha256": "19655bfdcb2132cf6348629919ed1bb86c212921fd0273d4664625b47092754a",
+  "author": "Daniel Auerbach",
+  "version": "2.7, 25 April 2015",
+  "monitor_revision": "K7222.25 repair example",
+  "observations": [
+    {
+      "pdf_page": 1,
+      "printed_page": 1,
+      "reading": "The ÜHA78 core is in two halves, with two small insulating plates between them; the plates are to be kept for reassembly.",
+      "limit": "The document gives no plate thickness, effective magnetic gap, core material or K7222.11 identity."
+    },
+    {
+      "pdf_page": 3,
+      "printed_page": 3,
+      "reading": "For the replacement high-voltage winding, the repairer moves its cold-end cable from its old solder location to the chassis-ground screw.",
+      "limit": "This is a repair modification in a K7222.25 example, not a factory .11 pin assignment or proof that X1:16 was originally grounded."
+    }
+  ],
+  "implication": "A positive extra-reluctance or spacer hypothesis is physically motivated for a cross-revision ÜHA78, but the 0.183–0.237 mm effective-gap calculation remains conditional and cannot be identified with these plates."
+}
