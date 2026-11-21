@@ -53,6 +53,9 @@ def case(ngspice, inputs, step_ns, expected_sha):
         deck = stage.deck(graph, parameters, candidate, parts, l3_r, l3_l, trace)
         t3 = next(part for part in parts if part['source_id'] == '012-6921:T3')
         flux = f'v({t3["reference"].lower()}.xshared.flux_b)'
+        first_a = f'v({t3["reference"].lower()}.xshared.l0)'
+        # Xshared's w0n is a port alias; ngspice exposes its mapped tap.
+        first_b = f'v({t3["nodes"][1]})'
         changes = [
             (original, coupled),
             ('.ic v(h_boost)=65',
@@ -62,7 +65,7 @@ def case(ngspice, inputs, step_ns, expected_sha):
             ('tran 100n 5m 4m', f'tran {step_ns}n 5m 4m'),
             ('1u 20n 20n 46.5u', '1u 200n 200n 46.5u'),
             ('i(Lhorizontal) v(h_boost)',
-             'i(Lhorizontal) v(h_boost) ' + flux),
+             'i(Lhorizontal) v(h_boost) ' + ' '.join((flux, first_a, first_b))),
         ]
         for old, new in changes:
             if deck.count(old) != 1:
@@ -78,8 +81,11 @@ def case(ngspice, inputs, step_ns, expected_sha):
         circuit.write_text(deck)
         process = subprocess.run([str(ngspice), '-b', str(circuit)],
                                  capture_output=True, text=True, timeout=120)
-        if process.returncode or 'tran simulation(s) aborted' in process.stdout:
-            raise ValueError('conditional stage did not complete')
+        if (process.returncode or not trace.is_file() or
+                'tran simulation(s) aborted' in process.stdout):
+            problem = [line for line in (process.stdout+'\n'+process.stderr).splitlines()
+                       if any(word in line.lower() for word in ('error', 'warning', 'vector', 'wrdata'))]
+            raise ValueError('conditional stage did not complete: '+str(problem[-12:]))
         with trace.open() as stream:
             header = stream.readline().split()
             rows = [list(map(float, line.split())) for line in stream if line.strip()]
@@ -91,6 +97,24 @@ def case(ngspice, inputs, step_ns, expected_sha):
     last = [row for row in rows if row[0] >= WINDOW_START_S]
     if len(last) < 1000 or any(not all(math.isfinite(x) for x in row) for row in last):
         raise ValueError('invalid final two-line trace')
+    columns = {name: i for i, name in enumerate(header)}
+    if not {flux, first_a, first_b} <= columns.keys():
+        raise ValueError('missing first-winding flux or voltage probes')
+    loss_ohm = parameters['core']['loss_ohm']['value']
+    voltage = lambda row: row[columns[first_a]] - row[columns[first_b]]
+    flux_values = [row[columns[flux]] for row in last]
+    signed_voltage_integral = sum(
+        (voltage(a) + voltage(b)) * (b[0] - a[0]) / 2
+        for a, b in zip(last, last[1:]))
+    mean_square_voltage = sum(
+        (voltage(a)**2 + voltage(b)**2) * (b[0] - a[0]) / 2
+        for a, b in zip(last, last[1:])) / (last[-1][0] - last[0][0])
+    first_turns = parameters['groups']['drive'][0]['turns']['value']
+    core_area = parameters['core']['area_m2']['value']
+    flux_voltage_error = (signed_voltage_integral / (first_turns * core_area)
+                          - (flux_values[-1] - flux_values[0]))
+    if abs(flux_voltage_error) > .0005:
+        raise ValueError('first-winding voltage does not integrate to core flux')
     difference_error = max(abs(row[1] - row[2] - row[3]) for row in last)
     if difference_error > .0002:
         raise ValueError('differential voltage probe is inconsistent')
@@ -107,7 +131,17 @@ def case(ngspice, inputs, step_ns, expected_sha):
                 differential_peak_v=drive_peak[3],
                 differential_minimum_v=min(row[3] for row in last),
                 eht_at_collector_peak_v=collector_peak[4],
-                maximum_probe_difference_error_v=difference_error)
+                maximum_probe_difference_error_v=difference_error,
+                conditional_core_flux_t=dict(minimum=min(flux_values),
+                                             maximum=max(flux_values),
+                                             peak_to_peak=max(flux_values)-min(flux_values),
+                                             maximum_absolute=max(map(abs, flux_values))),
+                loss_window_s=[last[0][0], last[-1][0]],
+                first_winding_voltage_reference=f'{first_a}-{first_b}',
+                flux_voltage_integral_error_t=flux_voltage_error,
+                first_winding_voltage_rms_v=math.sqrt(mean_square_voltage),
+                loss_shunt_ohm=loss_ohm,
+                mean_loss_shunt_power_w=mean_square_voltage/loss_ohm)
 
 
 def run(ngspice):
@@ -142,7 +176,7 @@ def run(ngspice):
         measured_reference='V(X2:7)-V(X2:4) = V(h_hot)-V(h_return)',
         cases=cases, refinement_fractional_change=changes,
         maximum_refinement_change_below_1_percent=max(changes.values()) < .01,
-        interpretation='In this prescribed-drive stage, X2:4 moves substantially during flyback. Collector-to-ground and differential drive peaks are distinct and agree across 50/25 ns steps. The current horizontal-device model differs from the saved refinement deck, so this is a fresh conditional screen. Neither voltage supplies a qualified turns ratio because the graph, loss, rectifier load and source-circuit drive are unqualified.')
+        interpretation='In this prescribed-drive stage, X2:4 moves substantially during flyback. Collector-to-ground and differential drive peaks are distinct and agree across 50/25 ns steps. The current horizontal-device model differs from the saved refinement deck, so this is a fresh conditional screen. The new flux and loss-shunt probes also agree across steps, but their values depend on the unverified graph, core dimensions, loss resistor, rectifier load and prescribed drive. Neither the pulse nor the core-loss result qualifies installed T3 turns or loss.')
 
 
 if __name__ == '__main__':

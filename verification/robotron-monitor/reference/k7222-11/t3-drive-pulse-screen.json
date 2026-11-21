@@ -15,7 +15,7 @@
     "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
     "t3_stage_refinement_screen.py": "876a3f7d615cc95ff5ba0f4e5745d224678ee1c9404ded9ed46c14590ba0e48a",
     "t3_loaded_return_screen.py": "d699fecb27e8a8157b94fa8e56fc867a8250a83628d66c8a1a41a4013d519c66",
-    "t3_drive_pulse_screen.py": "8e4d42ca9ec4db47731bf1a3e8e6986feefabb4dafa8bd2da7f9a31e7507b3a5"
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38"
   },
   "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
   "candidate_id": "t3-fc941ad61c50ce31",
@@ -31,7 +31,7 @@
   "cases": [
     {
       "max_step_ns": 50,
-      "normalized_reference_deck_sha256": "ecc118c5d1b72f74064a535f8615814a6b98e99687c9d7c579b4a25df5101205",
+      "normalized_reference_deck_sha256": "1008b529e6aa9ae78d365ce889d7bbb69e496ab01f26a290c36dd4008757c8c4",
       "saved_refinement_deck_sha256": "45c6ca53463ee5b7fc88afb6019537e7622b27a32b538e026896aafb168d6f60",
       "same_deck_as_saved_refinement": false,
       "sample_count": 20925,
@@ -46,11 +46,26 @@
       "differential_peak_v": 443.164114,
       "differential_minimum_v": -73.1739287,
       "eht_at_collector_peak_v": 11486.5585,
-      "maximum_probe_difference_error_v": 1.0000000258969521e-06
+      "maximum_probe_difference_error_v": 1.0000000258969521e-06,
+      "conditional_core_flux_t": {
+        "minimum": -0.197736047,
+        "maximum": 0.16891443,
+        "peak_to_peak": 0.366650477,
+        "maximum_absolute": 0.197736047
+      },
+      "loss_window_s": [
+        0.00487502226,
+        0.005
+      ],
+      "first_winding_voltage_reference": "v(x1136.xshared.l0)-v(h_boosttap)",
+      "flux_voltage_integral_error_t": 2.383075513282348e-05,
+      "first_winding_voltage_rms_v": 85.01541134912019,
+      "loss_shunt_ohm": 10000,
+      "mean_loss_shunt_power_w": 0.7227620166860115
     },
     {
       "max_step_ns": 25,
-      "normalized_reference_deck_sha256": "1a4a9d947df5ddeaf018a37ca1165f819c977e477f215095da8830f47f741d9e",
+      "normalized_reference_deck_sha256": "cbae5aa9190a1aa730431953c86139cd7b5bc43d39a0b4ab2cfd123dbbe49bf3",
       "saved_refinement_deck_sha256": "353de0ecd0981f91803cddfef0f441d1bccf2cb9cd2f66373eaaab452f45fb47",
       "same_deck_as_saved_refinement": false,
       "sample_count": 40836,
@@ -65,7 +80,22 @@
       "differential_peak_v": 443.020477,
       "differential_minimum_v": -73.1686265,
       "eht_at_collector_peak_v": 11490.0751,
-      "maximum_probe_difference_error_v": 1.0000000543186616e-06
+      "maximum_probe_difference_error_v": 1.0000000543186616e-06,
+      "conditional_core_flux_t": {
+        "minimum": -0.197817835,
+        "maximum": 0.168843722,
+        "peak_to_peak": 0.366661557,
+        "maximum_absolute": 0.197817835
+      },
+      "loss_window_s": [
+        0.00487500222,
+        0.005
+      ],
+      "first_winding_voltage_reference": "v(x1136.xshared.l0)-v(h_boosttap)",
+      "flux_voltage_integral_error_t": 6.525773830604991e-06,
+      "first_winding_voltage_rms_v": 85.00774913089545,
+      "loss_shunt_ohm": 10000,
+      "mean_loss_shunt_power_w": 0.7226317412301256
     }
   ],
   "refinement_fractional_change": {
@@ -74,5 +104,5 @@
     "differential_peak_v": 0.0003241169477904874
   },
   "maximum_refinement_change_below_1_percent": true,
-  "interpretation": "In this prescribed-drive stage, X2:4 moves substantially during flyback. Collector-to-ground and differential drive peaks are distinct and agree across 50/25 ns steps. The current horizontal-device model differs from the saved refinement deck, so this is a fresh conditional screen. Neither voltage supplies a qualified turns ratio because the graph, loss, rectifier load and source-circuit drive are unqualified."
+  "interpretation": "In this prescribed-drive stage, X2:4 moves substantially during flyback. Collector-to-ground and differential drive peaks are distinct and agree across 50/25 ns steps. The current horizontal-device model differs from the saved refinement deck, so this is a fresh conditional screen. The new flux and loss-shunt probes also agree across steps, but their values depend on the unverified graph, core dimensions, loss resistor, rectifier load and prescribed drive. Neither the pulse nor the core-loss result qualifies installed T3 turns or loss."
 }
