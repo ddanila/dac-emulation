@@ -5135,3 +5135,23 @@ keeps X1:1, X1:3 and X1:7 on separate external nets pending full conductor
 verification, and leaves the manual's connection 16 unmapped. No section
 turns, polarity, cold-end position, losses or parasitics are inferred from
 the passing export. The old 19-port numerical screens remain historical.
+
+### A5: multisection HV-overwind coupling compiles (2026-11-21)
+
+The magnetic compiler now accepts a bounded HV-overwind coupling for every
+section of the page-4-visible high-voltage group. In the 20-port structural
+candidate, reduced coupling applies only between an HV section and a section
+outside that group; pairs within the same HV group retain the background
+coupling. A synthetic 20-port ngspice transient completes, and the compiler
+test checks all pair coefficients and rejects a bound at the background
+coupling. The test uses synthetic turns and parasitics, so it is a compiler
+and network check, **not** an A5 winding fit or operating-point result.
+
+For the historical one-section graph, generated XSPICE, flux and coupled
+subcircuits are byte-identical before and after this compiler change. The
+full `make test-monitor` run still reports **17 failures, 2 errors and 8
+skips across 343 tests**. Several failures compare saved reports with the
+now-superseded 19-port graph or earlier sheet hashes; the remaining legacy
+stage and V21 sensitivity comparisons also need requalification. This red
+suite cannot be used as Phase A acceptance, and its historical assertions
+must not be updated merely to make them green.

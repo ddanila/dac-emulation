@@ -450,7 +450,10 @@ and its [fresh comparison](reference/k7222-11/page4-t3-visible-wrapper-compariso
 pass 10/10 scoped export checks, including X3:1–V21 anode,
 X1:2–X2:3 and both booster link pairs. It remains separate from the active
 19-port model; all other component pin nets are unchanged, but it has no
-qualified section parameters. Resolve the manual's
+qualified section parameters. The magnetic compiler now supports bounded
+HV-overwind coupling across multiple candidate sections and passes a
+synthetic 20-port solve; this does not qualify the parameter bounds. Resolve
+the manual's
 connection-16 mapping and source-visible continuity before promoting it.
 
 A scoped [page-4 booster comparison](reference/k7222-11/page4-booster-comparison.json)
