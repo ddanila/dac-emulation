@@ -441,6 +441,11 @@ puts the conditional EHT/collector *voltage* proxy at 17.49–21.78; it is not
 an HV/drive turns ratio. The source-unqualified return voltage, loaded drive
 pulse and .11 winding graph prevent converting it to physical turns. The
 cross-revision 2,409-turn ÜHA78 winding therefore cannot close this gap.
+The refreshed [drive-voltage audit](reference/k7222-11/t3-drive-voltage-audit.json)
+now checks the source-visible X3:1/X3:2 V21 pads and X1:2–X2:3 conductor
+against the 20-port export. It still finds no qualified HV cold end or
+X2:7-to-X2:4 differential flyback pulse, so the historical 1,120–1,393-turn
+scale cannot become a 20-port design value.
 
 A subsequent [page-4 terminal-identity audit](reference/k7222-11/page4-t3-terminal-identity-audit.json)
 found a more immediate A1/A5 model contradiction: V21's pads are labelled

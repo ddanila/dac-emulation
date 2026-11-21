@@ -1,19 +1,25 @@
 {
-  "format": "dac-monitor-t3-drive-voltage-audit-v2",
-  "qualification": "source-read drive pair and scoped X2:4/C31/C32-to-H2 external return; no full page-4 netlist, measured differential pulse or T3 ratio",
+  "format": "dac-monitor-t3-drive-voltage-audit-v3",
+  "qualification": "source-read drive pair and 20-port V21/upper interface with scoped X2:4/C31/C32-to-H2 return; no full page-4 netlist, HV cold-end mapping, differential pulse or T3 ratio",
   "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
   "inputs_sha256": {
     "reference/k7222-11/t3-drive-polarity-source-read.json": "11304942f9d33817151733033946ff165d68eef0cf5815cb92ae9957e9bfb762",
     "reference/k7222-11/page4-t3-x2-return-source-netlist.json": "5d425279509edbb2d69437dee1ee47589a097087acadc9c96332b73a2a84409c",
-    "reference/k7222-11/page4-t3-x2-return-comparison.json": "f0b193a81ae0d3032285e07eaccb7df978a7630bc9a9de9fbe53e781639686d9",
-    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
-    "reference/k7222-11/design-point.json": "f4809a7c7cf9154c12c5bb38e8d6bfc529c22c8a6b9bd8767c019ea89a288fd5",
-    "t3_drive_voltage_audit.py": "d9661d2e692a9cadca7bb2497ca70db4ac33f4f858d1b28ebd8531a4b4565fe9"
+    "reference/k7222-11/page4-t3-x2-return-comparison.json": "94fe25d3ad49fb2b45ae738f43cf010e7c94b6a513305cac2724729e04c28709",
+    "reference/k7222-11/horizontal-output-transcription.json": "0b056b42807752c34b86f4dc14886a5c90a92b085c5b28c11404a9806087a737",
+    "reference/k7222-11/page4-t3-terminal-identity-source-read.json": "b79db095bd3922e075e9709a1a2bb25800d42583fb70266b9b1a33ffaa6eded1",
+    "reference/k7222-11/page4-t3-visible-wrapper-comparison.json": "02e98ec849d595836c0d466bf4a1b104711c5ca98b062104341ebef473be98de",
+    "reference/k7222-11/design-point.json": "9dbda4d41ff91029d0bc3fe4354e6a1a231561dec8bd6385bb3b2a0af5399eff",
+    "t3_drive_voltage_audit.py": "1805e03ea591c6f26ad184477707c8f42dcd3a255ff6aaacfe0cd830fcb9c629"
   },
   "source_read_drive_terminals": [
     "X2:7",
     "X2:4"
   ],
+  "source_read_v21_pads": {
+    "anode": "X3:1",
+    "cathode": "X3:2"
+  },
   "source_read_return_branch": {
     "X2_4_RETURN": [
       "T3:X2:4",
@@ -29,6 +35,9 @@
   "candidate_assembly_nets": {
     "X2:7": "h_hot",
     "X2:4": "h_return",
+    "X3:1": "h_hvac",
+    "X1:2": "h_upper2",
+    "X2:3": "h_upper2",
     "H2/X5:5": "hy2"
   },
   "candidate_return_branches": [
@@ -50,7 +59,8 @@
     }
   ],
   "existing_design_point_equation": "EHT / collector_flyback_peak",
-  "required_drive_voltage": "V(X2:7)-V(X2:4) = V(h_hot)-V(h_return) in the assembly candidate",
-  "conclusion": "EHT divided by collector-to-ground peak is a conditional voltage proxy, not the T3 HV-to-drive turns ratio. X2:4 returns through C31/C32 to H2 at X5:5, but the H2 and X2:4 flyback waveforms are not source-bounded. Neither the corrected 17.49-21.78 collector proxy nor the 1120-1393 turn scale may qualify T3 turns.",
-  "next": "Bound the H2-coupled X2:4 waveform and differential X2:7-to-X2:4 flyback pulse before using EHT to derive an HV/drive ratio; retain the existing turn sweep as an isolated sensitivity only."
+  "required_drive_voltage": "V(X2:7)-V(X2:4) = V(h_hot)-V(h_return) in the source-visible 20-port candidate",
+  "required_hv_voltage": "V(X3:1)-V(HV cold end); the cold-end terminal and its potential are not source-qualified",
+  "conclusion": "EHT divided by the ideal collector-to-ground peak remains only a 17.49-21.78 conditional voltage proxy, not the T3 HV-to-drive turns ratio. V21 anode is X3:1, not X1:1. X2:4 returns through C31/C32 to H2 at X5:5, but the H2/X2:4 flyback waveforms and the HV cold end are not source-bounded. The historical 1120-1393-turn scale from the 19-port graph cannot qualify the 20-port winding.",
+  "next": "Bound the HV cold-end mapping and H2-coupled X2:4 waveform, then the differential X2:7-to-X2:4 flyback pulse and settled rectified loading before deriving an HV/drive ratio; retain the older turn sweep as historical sensitivity only."
 }

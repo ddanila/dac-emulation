@@ -15,6 +15,11 @@ class T3DriveVoltageAuditTests(unittest.TestCase):
         self.assertEqual(saved['source_read_return_branch']['H2_EXTERNAL_RETURN'],
                          ['C31:other_plate', 'C32:other_plate', 'X5:5'])
         self.assertEqual(saved['candidate_assembly_nets']['H2/X5:5'], 'hy2')
+        self.assertEqual(saved['source_read_v21_pads'],
+                         {'anode': 'X3:1', 'cathode': 'X3:2'})
+        self.assertEqual(saved['candidate_assembly_nets']['X1:2'],
+                         saved['candidate_assembly_nets']['X2:3'])
+        self.assertIn('not source-qualified', saved['required_hv_voltage'])
 
 
 if __name__ == '__main__':
