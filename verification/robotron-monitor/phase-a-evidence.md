@@ -3945,10 +3945,23 @@ the *same imposed sine flux*. The [calculation](t3_core_loss_comparator.py)
 checks that the model's loss shunt crosses the first winding.
 
 Neither manufacturer identifies the .11 T3 material. The candidate core
-dimensions are assumed-bound, the monitor runs at about 16 kHz with a
-nonsinusoidal flyback pulse, and its operating flux and temperature are not
-established. This comparison cannot set the live 10 kΩ resistor, derive an
-operating loss bound or close A5/A6. It gives a sourced reference condition
-for the next bounded fallback: first calculate the candidate's actual
-first-winding flux and voltage, then transfer a material-loss range only
-with explicit waveform, volume and temperature assumptions.
+dimensions are assumed-bound; the monitor has a roughly 16 kHz,
+nonsinusoidal flyback pulse, with no qualified source-circuit flux or core
+temperature. The reference-condition calculation cannot set the live 10 kΩ
+resistor, bound operating loss or close A5/A6. The waveform-specific
+candidate result below is the next input to a bounded material transfer.
+
+The updated [conditional drive-pulse screen](reference/k7222-11/t3-drive-pulse-screen.json)
+now records that candidate's core flux and first-winding shunt voltage in the
+same 4–5 ms prescribed-base stage. Over the final two lines, the 50 ns run
+has −0.1977 to +0.1689 T flux, 85.02 V RMS across the first winding's
+10 kΩ loss shunt, and 0.7228 W mean shunt dissipation. The 25 ns run gives
+−0.1978 to +0.1688 T, 85.01 V and 0.7226 W; the loss differs by 0.018%.
+Integrating the recorded first-winding voltage against 36 turns and
+150 mm² core area reproduces the flux change within 0.024 mT in the
+50 ns run. The 0.198 T maximum absolute flux is near the manufacturers'
+200 mT test point, but their 25 kHz sine and 100 °C loss numbers cannot be
+applied directly to this 16 kHz pulse or unverified core. The resulting
+0.723 W is model-imposed resistor dissipation, not a measured or
+source-bounded .11 loss; it narrows the next fallback calculation to
+waveform/material/volume transfer rather than an assumed flux amplitude.
