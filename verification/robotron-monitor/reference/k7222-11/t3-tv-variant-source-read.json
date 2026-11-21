@@ -1,0 +1,32 @@
+{
+  "format": "dac-monitor-t3-tv-variant-source-read-v1",
+  "qualification": "firsthand K7222/ÜHA78 variant comparison; monitor revision and installed .11 winding graph not identified",
+  "source_url": "https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=1415",
+  "retrieved_html_sha256": "8b903fe21ccf64909b6f83c17a7f3a8b801d6b9aab895588a50e2847ab767a00",
+  "observations": [
+    {
+      "post": "018, 2 October 2006, Rüdiger",
+      "reading": "The computer-monitor ÜHA78 has two coil assemblies, one on each core leg; the Combivision TV version has one. This is a repairer's variant description, not a factory drawing."
+    },
+    {
+      "post": "034, 4 October 2006, Rüdiger",
+      "reading": "Only three leads of the yellow coil are used in the computer monitor, with the rest provided by the red coil. The post does not identify a .11 pin map."
+    },
+    {
+      "post": "035, 5 October 2006, Kingstener",
+      "reading": "The writer identifies X1-side L3/L4/L5 including the HV winding as the ÜHA78 and X2-side L1/L2 as the external primary assembly in the schematic he discusses. His TV ÜHA78 has X1:1 bridged to X1:2 and X1:7 connected to X2:3; he says the TV wiring must be changed for the computer monitor. The discussed monitor revision is unstated."
+    }
+  ],
+  "reported_tv_bridges": [
+    ["X1:1", "X1:2"],
+    ["X1:7", "X2:3"]
+  ],
+  "compatibility_with_k7222_11": {
+    "source_read": "reference/k7222-11/page4-t3-hv-comparison.json",
+    "required_external_v21_path": "V21 anode X1:1, cathode X1:2/EHT; these are distinct nodes",
+    "tv_x1_1_x1_2_bridge": "excluded: a direct bridge would bypass the source-drawn V21 EHT rectifier",
+    "tv_x1_7_x2_3_bridge": "not transferred: the post assigns this link to a TV variant and gives no .11 monitor pin map",
+    "monitor_x1_3_x2_3_hypothesis": "unresolved: the post does not prove or disprove the current .11 model hypothesis"
+  },
+  "effect_on_a5": "Reject the TV bridge as an installed .11 candidate; retain source-qualified X1:1/V21/X1:2 separation and continue to carry monitor T3 tap/return alternatives with explicit bounds. No turns, polarity or core-loss bound follows from this account."
+}

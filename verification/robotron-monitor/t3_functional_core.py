@@ -14,6 +14,7 @@ HV = REF / 't3-hv-terminal-read.json'
 G1 = REF / 't3-g1-rectifier-source-read.json'
 TRANSCRIPTION = REF / 'horizontal-output-transcription.json'
 OLD_FILTER = REF / 't3-g1-polarity-filter.json'
+TV_VARIANT = REF / 't3-tv-variant-source-read.json'
 
 
 def sha(path):
@@ -42,6 +43,12 @@ def run(source_pdf):
         dict(kind='rectifier', part='V21', anode='X1:1', cathode='X1:2'),
         dict(kind='output', terminal='X1:2', net='EHT/UG3')]:
         raise ValueError('HV source path changed')
+    tv_variant = json.loads(TV_VARIANT.read_text())
+    tv_bridges = {frozenset(pair) for pair in tv_variant['reported_tv_bridges']}
+    if (len(tv_bridges) != 2 or
+            frozenset(('X1:1', 'X1:2')) not in tv_bridges or
+            frozenset(('X1:7', 'X2:3')) not in tv_bridges):
+        raise ValueError('TV variant bridge evidence changed')
     if reads['g1']['source_edges'] != dict(
             v14_anode_net='h_g1raw', v14_cathode_t3_terminal='X2:6',
             c18_other_terminal='00', manual_tp17_terminal='V14:K'):
@@ -76,6 +83,7 @@ def run(source_pdf):
         source_read_sha256={name: sha(path) for name, path in
                             [('drive', DRIVE), ('hv', HV), ('g1', G1)]},
         transcription_sha256=sha(TRANSCRIPTION), previous_filter_sha256=sha(OLD_FILTER),
+        cross_variant_read_sha256=sha(TV_VARIANT),
         voltage_reference=dict(drive='V(X2:7)-V(X2:4)',
                                high_voltage='V(X1:1)-V(X1:16)',
                                g1_auxiliary='V(X2:6)-V(X2:5)'),
@@ -86,6 +94,12 @@ def run(source_pdf):
         ],
         candidates=candidates,
         retained_candidates=[row for row in candidates if row['retained']],
+        excluded_graph_alternatives=[dict(
+            variant='TV ÜHA78 bridges reported in 2006',
+            reported_bridges=tv_variant['reported_tv_bridges'],
+            excluded=True,
+            reason='The X1:1-to-X1:2 bridge would bypass the .11 source-drawn V21 rectifier between those terminals; the TV X1:7-to-X2:3 link cannot be transferred to an unidentified monitor revision.',
+            source_read='reference/k7222-11/t3-tv-variant-source-read.json')],
         unassigned_assembly_terminals=[pin for pin in ports if pin not in represented],
         crosscheck='The retained pair signs correspond to the earlier four candidates after reversing the HV and auxiliary tap-list orientation; upper/lower signs are not inferred here.',
         unresolved=[

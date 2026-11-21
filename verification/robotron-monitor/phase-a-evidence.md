@@ -4013,6 +4013,22 @@ This is a topology interpretation of an unverified graph, not proof of
 internal .11 continuity, turn count or polarity. The function-only T3
 fallback must keep the series-return alternative explicit.
 
+### A5: TV ÜHA78 bridge is excluded from the .11 candidate set (2026-11-21)
+
+A [firsthand 2006 variant discussion](https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=1415)
+distinguishes a two-coil computer-monitor ÜHA78 from a one-coil Combivision
+TV unit. A participant describes his TV transformer's X1:1–X1:2 bridge and
+X1:7–X2:3 connection, then says its wiring must change for the monitor. The
+[hashed source read](reference/k7222-11/t3-tv-variant-source-read.json) records
+the posts and limits of that comparison. The independently checked .11 page-4
+path has V21 between X1:1 and X1:2/EHT. A direct X1:1–X1:2 bridge would
+bypass V21, so the TV wiring is excluded as an installed .11 graph. The TV
+X1:7–X2:3 connection cannot select the monitor return either: the post does
+not identify the .11 revision or its internal tap order. The present
+X1:3–X2:3 model link remains a bounded hypothesis, not a source-confirmed
+connection. This excludes one misleading cross-variant alternative without
+qualifying the remaining A5 turns, signs or loss.
+
 ### A2: internal-device default audit (2026-11-21)
 
 The [internal-device audit](reference/k7222-11/a2-internal-device-audit.json)
@@ -4247,3 +4263,16 @@ particular assignment cannot qualify the current A5 graph or fix its
 smaller-core stage mismatch. The function-derived fallback must carry the
 series-compensation alternative explicitly instead of copying this tap
 count into the installed model.
+
+### A2: refresh source provenance after V18 candidate review (2026-11-21)
+
+The SU165 candidate and later-revision Robotron source additions changed the
+device-register hash without changing the active V18 model or its BU508AF
+comparison targets. Twenty-one dependent A2 and conditional-stage receipts
+were regenerated from the current files, including the V21, T2/L4 and ideal
+TP15 screens. A structural before/after comparison found only source lists
+and provenance hashes changing; the saved electrical results and conclusions
+are unchanged. `make test-monitor` then passed 330 tests with eight skips.
+This verifies that the evidence chain reflects the current register, not
+that V18's installed identity, reverse-base breakdown or connected stress is
+qualified.
