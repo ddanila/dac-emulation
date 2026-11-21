@@ -1,0 +1,484 @@
+{
+  "format": "dac-monitor-t3-source-order-polarity-screen-v1",
+  "qualification": "isolated HV/G1 sign filter plus 20 ms prescribed-drive TBY7 stage for a source-order X2 variant; no internal-continuity, periodic or installed-stage qualification",
+  "input_sha256": {
+    "reference/k7222-11/page4-booster-comparison.json": "b7b28dae74aa2f8009eacfcf18c152e47fb13db38cd3fdf6fee710ef0692aef2",
+    "reference/k7222-11/page4-booster-source-netlist.json": "50916a1d2f7cb6bc5f1da50b71f4d22a0b33eaa0ed83874ad6a1ebeafee5d8d3",
+    "reference/k7222-11/t3-source-order-variant.json": "20c4e7754e5505f5e3d9acc8cad1be634df1e01362a2610aea1b99d068954933",
+    "reference/k7222-11/t3-winding-hypothesis.json": "6ec005383d08fe5a941c81e6f94cb753678c47b3a9e10cc4804ddbfe6f41857e",
+    "reference/k7222-11/t3-initial-parameters.json": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+    "reference/k7222-11/horizontal-output-transcription.json": "0b056b42807752c34b86f4dc14886a5c90a92b085c5b28c11404a9806087a737",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "bb8d3b08215561925553c6b0e7f87d30573569191fa90e0723639c08e37c6bba",
+    "reference/k7222-11/a5-yoke-class-boundary.json": "fc9e95e29f7e016a9fa377c1c53da9d87a2f885b24f80889d187f51d6c35d515",
+    "t3_flyback_sign.py": "5ae36e8b3168731779ec4b8c096ce4146b8bc2a019a4c750e1807cae3c1b1ba2",
+    "t3_g1_polarity_filter.py": "8d27a8d52e157af3105c7dc193a35c750a9fb7f8ec17a219970eae6a120cc0fa",
+    "t3_booster_pin_order_screen.py": "a429568cfab5a5d14459906aa75af98df2a717e7df3d671f885f847813a7277f",
+    "t3_brimar_boost_boundary_screen.py": "961f9e6ffb1092325b3c8276fbaa2bc56569a114a34ee23708fa7744f1b9190a",
+    "t3_source_order_polarity_screen.py": "b683600b87f225285aeaaeada384365a94741f4e24b2661fbd995e8db2ee9784"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "conditions": {
+    "feed_v": 42.504,
+    "initial_c21_differential_v": 65,
+    "window_s": [
+      0.019,
+      0.02
+    ],
+    "upper_return_tied": true,
+    "cold_mode": "hv_only_grounded",
+    "centering_link_pair": "E1+E2",
+    "yoke_type": "TBY7"
+  },
+  "targets": {
+    "eht_v": [
+      11000,
+      12000
+    ],
+    "yoke_current_pp_a": [
+      0.9459574468085108,
+      1.4618078564381878
+    ],
+    "c21_differential_v": [
+      60,
+      70
+    ]
+  },
+  "candidates": [
+    {
+      "candidate_id": "t3-d7726176ec4fd35f",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": 1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": -3.17701774,
+          "g1_v": -0.028944749
+        },
+        "xspice": {
+          "hv_v": -3.18112127,
+          "g1_v": -0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-6c2a91ecdb8ad53e",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": 1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": -3.17701774,
+          "g1_v": -0.028944749
+        },
+        "xspice": {
+          "hv_v": -3.18112127,
+          "g1_v": -0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-dfe923a4a3e0ddb9",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": 1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": -3.17701774,
+          "g1_v": -0.028944749
+        },
+        "xspice": {
+          "hv_v": -3.18112127,
+          "g1_v": -0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-b22d519e3b13b291",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": 1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": -3.17701774,
+          "g1_v": -0.028944749
+        },
+        "xspice": {
+          "hv_v": -3.18112127,
+          "g1_v": -0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-45494f3600563014",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": 3.17701774,
+          "g1_v": -0.028944749
+        },
+        "xspice": {
+          "hv_v": 3.18112127,
+          "g1_v": -0.0331985496
+        }
+      },
+      "sign_compatible": true,
+      "stage_20ms": {
+        "normalized_deck_sha256": "a6f2c0cc0a50584b3d2eda0ef276236a7bc4dd3868c6c6600450080b1ae57bde",
+        "sample_count": 2611,
+        "yoke_current_pp_a": 0.9464727820000001,
+        "eht_at_collector_peak_v": 11708.2803,
+        "boost_node_at_collector_peak_v": 66.2264302,
+        "boost_node_range_v": [
+          66.2251347,
+          66.3457198
+        ],
+        "c21_voltage_at_collector_peak_v": 23.7224302,
+        "c21_voltage_range_v": [
+          23.7211347,
+          23.8417198
+        ],
+        "c21_window_phase_drift_v": -0.045870799999999434,
+        "eht_window_phase_drift_v": -16.752800000000207
+      },
+      "sampled_checks": {
+        "eht": true,
+        "yoke_current": true,
+        "c21": false
+      },
+      "joint_sampled_match": false
+    },
+    {
+      "candidate_id": "t3-c720bf6dca3af380",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": 3.17701774,
+          "g1_v": -0.028944749
+        },
+        "xspice": {
+          "hv_v": 3.18112127,
+          "g1_v": -0.0331985496
+        }
+      },
+      "sign_compatible": true,
+      "stage_20ms": {
+        "normalized_deck_sha256": "1446522549894c8ec0af50c11fdadece5c6bd51460f61eff73064e303bb79bac",
+        "sample_count": 2608,
+        "yoke_current_pp_a": 0.9464834719999999,
+        "eht_at_collector_peak_v": 11708.1696,
+        "boost_node_at_collector_peak_v": 66.226407,
+        "boost_node_range_v": [
+          66.225115,
+          66.3457126
+        ],
+        "c21_voltage_at_collector_peak_v": 23.722407,
+        "c21_voltage_range_v": [
+          23.721115,
+          23.8417126
+        ],
+        "c21_window_phase_drift_v": -0.0459532999999972,
+        "eht_window_phase_drift_v": -16.851799999998548
+      },
+      "sampled_checks": {
+        "eht": true,
+        "yoke_current": true,
+        "c21": false
+      },
+      "joint_sampled_match": false
+    },
+    {
+      "candidate_id": "t3-0d1f2e3ab0a1f768",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": 3.17701774,
+          "g1_v": -0.028944749
+        },
+        "xspice": {
+          "hv_v": 3.18112127,
+          "g1_v": -0.0331985496
+        }
+      },
+      "sign_compatible": true,
+      "stage_20ms": {
+        "normalized_deck_sha256": "5a392e1e2b3c87a5ecaab876cd3e068130787927ff4ed1cbf7878df9c23f5f7a",
+        "sample_count": 2612,
+        "yoke_current_pp_a": 0.0803739406,
+        "eht_at_collector_peak_v": 4383.90139,
+        "boost_node_at_collector_peak_v": 41.3950564,
+        "boost_node_range_v": [
+          41.3950398,
+          41.5460812
+        ],
+        "c21_voltage_at_collector_peak_v": -1.10894364,
+        "c21_voltage_range_v": [
+          -1.10896019,
+          -0.957918824
+        ],
+        "c21_window_phase_drift_v": -0.00019882000000004396,
+        "eht_window_phase_drift_v": 10.56659000000036
+      },
+      "sampled_checks": {
+        "eht": false,
+        "yoke_current": false,
+        "c21": false
+      },
+      "joint_sampled_match": false
+    },
+    {
+      "candidate_id": "t3-00ff298193cfa1d3",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": 3.17701774,
+          "g1_v": -0.028944749
+        },
+        "xspice": {
+          "hv_v": 3.18112127,
+          "g1_v": -0.0331985496
+        }
+      },
+      "sign_compatible": true,
+      "stage_20ms": {
+        "normalized_deck_sha256": "da6348fcaecf73d4ebba013764139a2590b226822d856fdead7f1a1833ffe18f",
+        "sample_count": 2608,
+        "yoke_current_pp_a": 0.0801132094,
+        "eht_at_collector_peak_v": 4385.64809,
+        "boost_node_at_collector_peak_v": 41.3930826,
+        "boost_node_range_v": [
+          41.3929542,
+          41.5437135
+        ],
+        "c21_voltage_at_collector_peak_v": -1.11091742,
+        "c21_voltage_range_v": [
+          -1.11104581,
+          -0.9602865
+        ],
+        "c21_window_phase_drift_v": -0.0005670299999998019,
+        "eht_window_phase_drift_v": 17.961930000000393
+      },
+      "sampled_checks": {
+        "eht": false,
+        "yoke_current": false,
+        "c21": false
+      },
+      "joint_sampled_match": false
+    },
+    {
+      "candidate_id": "t3-27831d820135ff40",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": 1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": -3.17701774,
+          "g1_v": 0.028944749
+        },
+        "xspice": {
+          "hv_v": -3.18112127,
+          "g1_v": 0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-0441de9c7c4abe6b",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": 1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": -3.17701774,
+          "g1_v": 0.028944749
+        },
+        "xspice": {
+          "hv_v": -3.18112127,
+          "g1_v": 0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-f3cd1dda51747c28",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": 1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": -3.17701774,
+          "g1_v": 0.028944749
+        },
+        "xspice": {
+          "hv_v": -3.18112127,
+          "g1_v": 0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-9c7188158e2701b9",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": 1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": -3.17701774,
+          "g1_v": 0.028944749
+        },
+        "xspice": {
+          "hv_v": -3.18112127,
+          "g1_v": 0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-82c057049941cd98",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": 3.17701774,
+          "g1_v": 0.028944749
+        },
+        "xspice": {
+          "hv_v": 3.18112127,
+          "g1_v": 0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-feb52b23b5f52f5b",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": 3.17701774,
+          "g1_v": 0.028944749
+        },
+        "xspice": {
+          "hv_v": 3.18112127,
+          "g1_v": 0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-87921ade07e52de1",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": 3.17701774,
+          "g1_v": 0.028944749
+        },
+        "xspice": {
+          "hv_v": 3.18112127,
+          "g1_v": 0.0331985496
+        }
+      },
+      "sign_compatible": false
+    },
+    {
+      "candidate_id": "t3-9e4c47620e8a4d17",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "isolated_80ns": {
+        "flux": {
+          "hv_v": 3.17701774,
+          "g1_v": 0.028944749
+        },
+        "xspice": {
+          "hv_v": 3.18112127,
+          "g1_v": 0.0331985496
+        }
+      },
+      "sign_compatible": false
+    }
+  ],
+  "sign_compatible_count": 4,
+  "joint_sampled_match_count": 0,
+  "interpretation": "Both isolated diode functions prune the source-order variant to four relative-polarity candidates. The 20 ms stage cases remain conditional on the internal section order, transferred turns, prescribed drive, return and yoke class; even a joint sampled match would not prove a periodic operating point."
+}

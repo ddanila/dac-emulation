@@ -1,15 +1,17 @@
 {
-  "format": "dac-monitor-t3-booster-pin-order-screen-v1",
-  "qualification": "three prescribed-drive 5 ms TBY7 cases; source-corrected external pins, but no internal winding or periodic operating-point qualification",
+  "format": "dac-monitor-t3-booster-pin-order-screen-v2",
+  "qualification": "three prescribed-drive 5 ms TBY7 cases plus two 20 ms source-corrected cases; no internal winding or periodic operating-point qualification",
   "input_sha256": {
     "reference/k7222-11/page4-booster-comparison.json": "b7b28dae74aa2f8009eacfcf18c152e47fb13db38cd3fdf6fee710ef0692aef2",
+    "reference/k7222-11/page4-booster-source-netlist.json": "50916a1d2f7cb6bc5f1da50b71f4d22a0b33eaa0ed83874ad6a1ebeafee5d8d3",
+    "reference/k7222-11/t3-source-order-variant.json": "20c4e7754e5505f5e3d9acc8cad1be634df1e01362a2610aea1b99d068954933",
     "reference/k7222-11/t3-winding-hypothesis.json": "6ec005383d08fe5a941c81e6f94cb753678c47b3a9e10cc4804ddbfe6f41857e",
     "reference/k7222-11/t3-initial-parameters.json": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
     "reference/k7222-11/horizontal-output-transcription.json": "0b056b42807752c34b86f4dc14886a5c90a92b085c5b28c11404a9806087a737",
     "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
     "reference/k7222-11/yoke-brimar-110deg-comparator.json": "bb8d3b08215561925553c6b0e7f87d30573569191fa90e0723639c08e37c6bba",
     "t3_brimar_boost_boundary_screen.py": "961f9e6ffb1092325b3c8276fbaa2bc56569a114a34ee23708fa7744f1b9190a",
-    "t3_booster_pin_order_screen.py": "fad879a24a7803733a0c22fe897f16deb93d55858aec7e4e89447efd73741c79"
+    "t3_booster_pin_order_screen.py": "a429568cfab5a5d14459906aa75af98df2a717e7df3d671f885f847813a7277f"
   },
   "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
   "conditions": {
@@ -105,5 +107,47 @@
       "eht_window_phase_drift_v": 43.09360000000015
     }
   },
-  "interpretation": "The source-corrected external pin assignment alone changes this conditional stage strongly under the legacy section order. Reordering the hypothetical internal sections to match the visible tap positions restores the pre-correction electrical result. That is an isomorphic conditional model, not evidence of actual T3 internal continuity or settled boost."
+  "long_case_window_s": [
+    0.019,
+    0.02
+  ],
+  "long_cases": {
+    "corrected_pins_legacy_sections": {
+      "normalized_deck_sha256": "fc4d5425ce4ea4847db8e5b16cf33832036172603778a57f9c3c303439556f71",
+      "sample_count": 2563,
+      "yoke_current_pp_a": 0.0643914671,
+      "eht_at_collector_peak_v": 3572.4975,
+      "boost_node_at_collector_peak_v": 37.6800247,
+      "boost_node_range_v": [
+        37.6726358,
+        38.3562394
+      ],
+      "c21_voltage_at_collector_peak_v": -4.82397528,
+      "c21_voltage_range_v": [
+        -4.8313642,
+        -4.14776062
+      ],
+      "c21_window_phase_drift_v": -0.0010899999999995913,
+      "eht_window_phase_drift_v": 9.408010000000104
+    },
+    "corrected_pins_source_order_sections": {
+      "normalized_deck_sha256": "a6f2c0cc0a50584b3d2eda0ef276236a7bc4dd3868c6c6600450080b1ae57bde",
+      "sample_count": 2611,
+      "yoke_current_pp_a": 0.9464727820000001,
+      "eht_at_collector_peak_v": 11708.2803,
+      "boost_node_at_collector_peak_v": 66.2264302,
+      "boost_node_range_v": [
+        66.2251347,
+        66.3457198
+      ],
+      "c21_voltage_at_collector_peak_v": 23.7224302,
+      "c21_voltage_range_v": [
+        23.7211347,
+        23.8417198
+      ],
+      "c21_window_phase_drift_v": -0.045870799999999434,
+      "eht_window_phase_drift_v": -16.752800000000207
+    }
+  },
+  "interpretation": "The source-corrected external pin assignment alone changes this conditional stage strongly under the legacy section order. Reordering the hypothetical internal sections to match the visible tap positions restores the pre-correction electrical result. That is an isomorphic conditional model, not evidence of actual T3 internal continuity or a periodic installed-stage boost."
 }
