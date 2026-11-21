@@ -395,9 +395,10 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-21)
 
-**Goal blocked reason (2026-11-21): Phase A cannot be signed off.** The
-blocking A5 design point has no qualified T3 winding graph or ratio. The
-default 19-port model conflicts with the .11 page-4 drawing: it omits X3:1
+**Goal blocked reason (2026-11-21): Phase A cannot be signed off.** A5 requires
+a source-bounded T3 winding graph and ratio, and neither the component model
+nor the permitted equivalent fallback has them. The default 19-port model
+conflicts with the .11 page-4 drawing: it omits X3:1
 and X1:2, joins X1:3 to X2:3 where the drawing joins X1:2, and includes
 X1:16 without a resolved page-4 mapping. An opt-in 20-port connected assembly
 corrects the visible external pins, but its winding sections, turns, return
@@ -407,20 +408,20 @@ find no case jointly matching sampled EHT, TBY7 current and C21. The
 [drive audit](reference/k7222-11/t3-drive-voltage-audit.json) cannot turn the
 EHT/collector voltage proxy into a turns ratio without a bounded X2:4 drive
 waveform and HV cold end. These prescribed-drive screens do not establish a
-periodic connected operating point. A [connected 20-port startup diagnostic](reference/k7222-11/t3-page4-connected-drive-diagnostic.json)
-also fails to qualify one: the 16 ms trace repeats timestamps and the 20 ms
-solve aborts at input-stage V4/D206 before a settled X2:4 waveform is saved.
-An [input-edge and solver screen](reference/k7222-11/t3-page4-connected-stiffness-screen.json)
-also yields no completed 17 ms trace in four bounded variants.
-The allowed equivalent-T3 fallback also
-lacks A5-derived ratios and bounded loss/parasitics. A1 still needs independent
-full-page netlist comparisons for pages 3, 4, 9, 10 and 18; A2 still needs
-joint device bounds and stress qualification; A6 still needs several cited
-class transfers. A3 and A4 are done. This is an internal source, model and
-evidence gap, not an external dependency or approval wait. To unblock Phase A,
-resolve or bound the T3 graph and X1:16 mapping, qualify the corrected
-connected candidate and drive/return/yoke/C21 behavior, then close A1, A2 and
-A6 against their rows below.
+periodic connected operating point. The [connected 20-port startup diagnostic](reference/k7222-11/t3-page4-connected-drive-diagnostic.json)
+repeats timestamps at 16 ms and aborts at input-stage V4/D206 at 20 ms before
+a settled X2:4 waveform is saved; the [input-edge and solver screen](reference/k7222-11/t3-page4-connected-stiffness-screen.json)
+completes none of four 17 ms variants. The equivalent fallback also lacks
+A5-derived ratios and bounded loss/parasitics. Thus no corrected connected
+result can qualify the design point yet. A1 still needs independent full-page
+netlist comparisons for pages 3, 4, 9, 10 and 18 despite the checked X9
+connector seam; A2 still needs joint device bounds and stress qualification;
+A6 still needs several cited class transfers. A3 and A4 are done. This is an
+internal source, model and evidence gap, not an external dependency or
+approval wait. To unblock Phase A, resolve or bound the T3 graph and X1:16
+mapping, obtain a completing corrected connected run with bounded drive,
+return, yoke and C21 behavior, then close A1, A2 and A6 against their rows
+below.
 The partial [design point](reference/k7222-11/design-point.json) now binds the
 corrected 20-port source read and candidate reports by hash. Its earlier
 19-port turn and polarity lists are explicitly historical, and its
