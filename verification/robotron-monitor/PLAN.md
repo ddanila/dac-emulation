@@ -461,6 +461,12 @@ one-turn bridges. At 20 ms, seven signs solve and one aborts; no completed
 case jointly matches sampled EHT, TBY7 current and C21. The two signs near
 11–12 kV EHT keep C21 near 23.7 V. This is a prescribed-drive sensitivity
 under unqualified section turns and return, not an A5 ratio or sign selection.
+A [five-point booster-section screen](reference/k7222-11/t3-page4-booster-turn-screen.json)
+scales the three provisional X2:13-to-X2:10 sections from 1.75 to 28 turns
+each. All complete at 20 ms, but C21 stays at 1.80–23.75 V and no case
+jointly meets sampled EHT, TBY7 current and C21. Changing that one assumed
+turn span cannot close this conditional gap; other section, return and
+installed-drive alternatives remain open.
 
 A scoped [page-4 booster comparison](reference/k7222-11/page4-booster-comparison.json)
 found that the model had exchanged T3 X2:10 and X2:13: the source connects
