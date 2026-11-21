@@ -1,0 +1,178 @@
+{
+  "format": "dac-monitor-t3-centering-return-screen-v1",
+  "qualification": "conditional 4\u20135 ms prescribed-base stage with unverified T3 graph and 4 mH yoke; a sensitivity screen, not a source-bounded installed H2 waveform or A5 turns ratio",
+  "source_netlist_sha256": "b499fbeaee2b5682e22c4879577b8038ec6a4077785d88444b5af277be738230",
+  "centering_sheet_sha256": "130641bcee2abb40d691465b34cc890f6ace85cd8f1fa4690df13ba14ac80e74",
+  "inputs_sha256": {
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "circuits/k7222-11-centering-models.cir": "b002db59e7ac0234ea3578c0598a9fc5d2c9f7985669ad401fa01b58df353282",
+    "reference/k7222-11/page9-centering-source-netlist.json": "b499fbeaee2b5682e22c4879577b8038ec6a4077785d88444b5af277be738230",
+    "reference/k7222-11/t3-drive-pulse-screen.json": "8546a50e04b3182455d43a11dda90f8f51a50539f270a46d79b7cb236e2c23fb",
+    "steady_supply.py": "c44add9fa1be551b65f30f0328887edd6fb145e46d3b02a9f0dd8021522b0b7b",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_stage_refinement_screen.py": "876a3f7d615cc95ff5ba0f4e5745d224678ee1c9404ded9ed46c14590ba0e48a",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc",
+    "t3_centering_return_screen.py": "78e7df679d8102b4f3cd44e2dbdad82b8afe50d0e5b840a06e45074aa7473739"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_inputs": {
+    "r4_position": 0.5,
+    "coil_r_ohm": 5,
+    "r4_total_ohm": 1000,
+    "r2_ohm": 150,
+    "yoke_l_h": 0.004,
+    "yoke_r_ohm": 2,
+    "prescribed_base_edge_ns": 200,
+    "max_step_ns": 50,
+    "reltol": 0.005
+  },
+  "measured_reference": "V(X2:7)-V(X2:4) = V(h_hot)-V(h_return)",
+  "cases": [
+    {
+      "link_pair": "no_bridge",
+      "coil_l_h": null,
+      "normalized_deck_sha256": "92110db3304177665cc89e1eae8148f6cc05df26f2d41894b2c9fd1f9938a08e",
+      "final_two_line_samples": 2628,
+      "collector_peak_v": 459.040901,
+      "return_at_collector_peak_v": 15.8767872,
+      "drive_at_collector_peak_v": 443.164114,
+      "h2_at_collector_peak_v": -60.5193489,
+      "drive_peak_v": 443.164114,
+      "h2_range_v": [
+        -60.5193489,
+        14.338262
+      ],
+      "return_range_v": [
+        15.8767872,
+        72.1577196
+      ],
+      "eht_at_collector_peak_v": 11486.5585
+    },
+    {
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.02,
+      "normalized_deck_sha256": "395f0da43df77d84c06c529b4291bc52fbe182e4b62cc72e67d063a9317644be",
+      "final_two_line_samples": 2614,
+      "collector_peak_v": 460.438062,
+      "return_at_collector_peak_v": 15.5622364,
+      "drive_at_collector_peak_v": 444.875825,
+      "h2_at_collector_peak_v": -60.0035164,
+      "drive_peak_v": 444.875825,
+      "h2_range_v": [
+        -60.005429,
+        15.7766273
+      ],
+      "return_range_v": [
+        15.5622364,
+        72.0051303
+      ],
+      "eht_at_collector_peak_v": 11726.355
+    },
+    {
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "c40bf0f1ddc5a21128ee2870b3faecfe7615caf921369ede2992a4b07cc0784b",
+      "final_two_line_samples": 2610,
+      "collector_peak_v": 459.64587,
+      "return_at_collector_peak_v": 15.7720077,
+      "drive_at_collector_peak_v": 443.873862,
+      "h2_at_collector_peak_v": -59.6144398,
+      "drive_peak_v": 443.873862,
+      "h2_range_v": [
+        -59.7004594,
+        15.4619542
+      ],
+      "return_range_v": [
+        15.7720077,
+        72.1213197
+      ],
+      "eht_at_collector_peak_v": 11549.4405
+    },
+    {
+      "link_pair": "E1+E2",
+      "coil_l_h": 0.32,
+      "normalized_deck_sha256": "2be28fac27df42ae8efaf4703d5616b31b8131935534054e5478abe66511fe8f",
+      "final_two_line_samples": 2623,
+      "collector_peak_v": 459.215325,
+      "return_at_collector_peak_v": 15.8519465,
+      "drive_at_collector_peak_v": 443.363378,
+      "h2_at_collector_peak_v": -59.0037826,
+      "drive_peak_v": 443.363378,
+      "h2_range_v": [
+        -59.1638929,
+        15.8434154
+      ],
+      "return_range_v": [
+        15.8519465,
+        72.1521714
+      ],
+      "eht_at_collector_peak_v": 11502.506
+    },
+    {
+      "link_pair": "E3+E4",
+      "coil_l_h": 0.02,
+      "normalized_deck_sha256": "dfb7f55924cac1a616f75f48e8cf3c8e0cac8c25943837abb62a1fb68186dfbd",
+      "final_two_line_samples": 2608,
+      "collector_peak_v": 460.430972,
+      "return_at_collector_peak_v": 15.5643284,
+      "drive_at_collector_peak_v": 444.866644,
+      "h2_at_collector_peak_v": -48.1769702,
+      "drive_peak_v": 444.866644,
+      "h2_range_v": [
+        -48.1815744,
+        27.598534
+      ],
+      "return_range_v": [
+        15.5629674,
+        72.0056046
+      ],
+      "eht_at_collector_peak_v": 11725.9395
+    },
+    {
+      "link_pair": "E3+E4",
+      "coil_l_h": 0.08,
+      "normalized_deck_sha256": "41bcedaac59edd532f5dcfdb3b39e884394d0fb5fa47399813f81fc48000649b",
+      "final_two_line_samples": 2617,
+      "collector_peak_v": 459.632159,
+      "return_at_collector_peak_v": 15.7751546,
+      "drive_at_collector_peak_v": 443.857005,
+      "h2_at_collector_peak_v": -47.7849748,
+      "drive_peak_v": 443.857005,
+      "h2_range_v": [
+        -47.8757075,
+        27.2884522
+      ],
+      "return_range_v": [
+        15.7721767,
+        72.121827
+      ],
+      "eht_at_collector_peak_v": 11549.2252
+    },
+    {
+      "link_pair": "E3+E4",
+      "coil_l_h": 0.32,
+      "normalized_deck_sha256": "3a9a9e3445effff7f4b07b869c8d17f9b87f1696d7e3d7314b5cad2e2c15953d",
+      "final_two_line_samples": 2620,
+      "collector_peak_v": 459.219336,
+      "return_at_collector_peak_v": 15.8507418,
+      "drive_at_collector_peak_v": 443.368595,
+      "h2_at_collector_peak_v": -47.1766247,
+      "drive_peak_v": 443.368595,
+      "h2_range_v": [
+        -47.3353739,
+        27.6726926
+      ],
+      "return_range_v": [
+        15.8507418,
+        72.1522128
+      ],
+      "eht_at_collector_peak_v": 11502.6814
+    }
+  ],
+  "maximum_drive_peak_change_from_no_bridge_v": 1.7117110000000366,
+  "interpretation": "The page-9 bridge couples H2 to 12P/00 through unknown chokes and link positions. These seven prescribed-drive cases show how that added path changes X2:4 and the differential pulse under one assumed T3/yoke. They do not establish the physical jumper pair, coil parameters, installed yoke geometry, or the independent source bound needed for an A5 winding ratio."
+}
