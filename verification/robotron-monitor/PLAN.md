@@ -455,6 +455,12 @@ HV-overwind coupling across multiple candidate sections and passes a
 synthetic 20-port solve; this does not qualify the parameter bounds. Resolve
 the manual's
 connection-16 mapping and source-visible continuity before promoting it.
+An [eight-sign 20-port stage screen](reference/k7222-11/t3-page4-visible-stage-screen.json)
+transfers the old 1,768-turn comparator to X3:1–X1:1 and assumes two
+one-turn bridges. At 20 ms, seven signs solve and one aborts; no completed
+case jointly matches sampled EHT, TBY7 current and C21. The two signs near
+11–12 kV EHT keep C21 near 23.7 V. This is a prescribed-drive sensitivity
+under unqualified section turns and return, not an A5 ratio or sign selection.
 
 A scoped [page-4 booster comparison](reference/k7222-11/page4-booster-comparison.json)
 found that the model had exchanged T3 X2:10 and X2:13: the source connects
