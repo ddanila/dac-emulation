@@ -4730,8 +4730,9 @@ timing column gives 46.2 µs trace, 16.2 µs retrace and a 19.5 ms field,
 versus the .11 design point's 46.5 µs, 16.0 µs and 19.5 ms. The
 [crosscheck](reference/k7222-11/k7222-25-operating-crosscheck.json) verifies
 that the current conditional TBY7 rail crossings, 42.219–42.570 V, lie
-inside the later model's 39–43 V range and that the partial .11 design point
-uses the same boost scale. This is independent AE9VT-family operating context,
+inside the later model's 39–43 V range. Its voltage-reference correction is
+documented below: the partial .11 design point used C21's 60–70 V
+**differential** as a trace-node voltage. This is independent AE9VT-family operating context,
 not an AE9VT current or field specification, a .11 transformer tap map or a
 T3 turns ratio. The earlier generic 110 µH/18 V paragraph describes a
 different horizontal stage; K7222.25 L1/L2 filter 41P and are not the .11
@@ -4840,3 +4841,44 @@ the calculated 0.183–0.237 mm cannot be identified with them. The repair
 ground is a modification, not a factory K7222.11 cold-end map, which is why
 the shared-floating source-scan hypothesis remains in the six-case return
 screen.
+
+### A5: C21 voltage reference invalidates the prior boost-ratio proxy (2026-11-21)
+
+The K7222.11 source page 4 labels **C21** “Booster-C” with **60–70 V**
+written at the capacitor. Its source-addressed transcription places C21
+between `h_feed` (41P) and `h_boost`. The later Robotron
+[K7222.25 description](https://www.sax.de/~zander/pc1715/doku/pc_serv.pdf)
+also states **60–70 V across C21** in an AE9VT stage. Thus the comparison
+must use `v(h_boost,h_feed)`, not `v(h_boost)`.
+
+The [six-return differential probe](reference/k7222-11/t3-brimar-boost-boundary-screen.json)
+reuses the TBY7 winding, 42.504 V rail crossing, prescribed drive and
+E1+E2/80 mH centring bridge. It checks its yoke current and EHT against
+the existing return report before reporting C21. The four wirings that
+passed those two checks give **23.667–23.696 V across C21**, while their
+boost nodes sit near **66.17–66.20 V to ground**. The tied/shared-grounded
+case gives −1.006 V across C21 and the open/shared-floating case 24.907 V;
+both already fail the current/EHT checks. All six miss the handwritten
+C21 band at the sampled collector peak. The stable final-two-line ranges
+for the four earlier passes also stay near 23.67–23.82 V, so the discrepancy
+is not a single peak-sampling artifact. The deck initializes the boost node
+at 65 V, hence C21 at only 22.496 V across its terminals at the 42.504 V
+feed, and runs only 5 ms with C21 = 220 µF. These samples do not establish
+settled booster voltage, reject a physical return wiring or indicate an
+installed fault.
+
+The previous partial [design point](reference/k7222-11/design-point.json)
+multiplied the 60–70 V **capacitor differential** by the ideal flyback
+factor as if it were the trace node relative to ground. Its conditional
+333.9–389.6 V collector interval, 28.24–35.94 EHT ratio and consequent
+1,808–2,300-turn sweep are therefore not valid boost-referenced A5 bounds.
+The corrected [cross-revision arithmetic](reference/k7222-11/k7222-25-operating-crosscheck.json)
+adds the 39–43 V 41P comparator to the 60–70 V C21 differential, giving a
+conditional **99–113 V trace-node** interval. Under the *same ideal formula*,
+that would yield **550.95–628.86 V** collector peak and **17.49–21.78**
+EHT/collector ratio. Those are algebraic alternatives, not an observed
+collector waveform or a qualified winding ratio. The active stage's
+roughly 459 V sampled collector peak and 11.7 kV EHT cannot be called
+document-consistent while its C21 voltage is about 24 V. The next A5 step
+must correct the design-point voltage reference and source-bound the
+booster/tap graph before using any turn-count inference.
