@@ -5321,3 +5321,27 @@ are under the Phase A 2% triage threshold, but the source placement and
 installed population of C30, TP17 pulse shape, connected drive and winding
 graph are unqualified. This narrows the C30 decision in one corrected
 conditional stage; it does not close the page-4 source review or A5.
+
+### A5: connected 20-port startup does not qualify the drive (2026-11-21)
+
+The [connected-drive diagnostic](reference/k7222-11/t3-page4-connected-drive-diagnostic.json)
+rebuilds the source-visible 20-port KiCad assembly with its provisional
+coupled-winding parameters, selects the first enumerated candidate and applies
+the explicitly synthetic native-pattern capture. It saves the actual
+`V(h_hot)-V(h_return)` drive, C21 differential, EHT and horizontal-yoke current
+with a 50 ns maximum solver step. The report binds the source, model, capture,
+script and ngspice binary by hash; the reproducer is
+[`t3_page4_connected_drive_diagnostic.py`](t3_page4_connected_drive_diagnostic.py).
+
+The 16 ms run exits successfully, but its 21,425-point raw trace repeats four
+timestamps, so the strict trace parser cannot accept it as a complete result.
+In the strictly increasing prefix from 15.000 to 15.925 ms, EHT is
+10.472–10.493 kV, the differential drive is −68.2 to 425.7 V, horizontal
+yoke current is 0.922 A p-p and C21 is 18.15–18.50 V. These are startup
+observations from a provisional candidate, not a periodic operating point or
+an installed winding-ratio estimate. The 20 ms solve aborts at 16.8269 ms with
+an ngspice timestep failure at `d206#internal`, the input-stage V4/D206 model;
+the 19–20 ms requested window has no saved trace. The failure identifies a
+numerical obstacle, not a physical fault in V4. A corrected connected model
+still needs a valid settled trace and source-bounded X2:4 waveform before its
+drive or C21 can support A5.

@@ -407,7 +407,10 @@ find no case jointly matching sampled EHT, TBY7 current and C21. The
 [drive audit](reference/k7222-11/t3-drive-voltage-audit.json) cannot turn the
 EHT/collector voltage proxy into a turns ratio without a bounded X2:4 drive
 waveform and HV cold end. These prescribed-drive screens do not establish a
-periodic connected operating point. The allowed equivalent-T3 fallback also
+periodic connected operating point. A [connected 20-port startup diagnostic](reference/k7222-11/t3-page4-connected-drive-diagnostic.json)
+also fails to qualify one: the 16 ms trace repeats timestamps and the 20 ms
+solve aborts at input-stage V4/D206 before a settled X2:4 waveform is saved.
+The allowed equivalent-T3 fallback also
 lacks A5-derived ratios and bounded loss/parasitics. A1 still needs independent
 full-page netlist comparisons for pages 3, 4, 9, 10 and 18; A2 still needs
 joint device bounds and stress qualification; A6 still needs several cited
