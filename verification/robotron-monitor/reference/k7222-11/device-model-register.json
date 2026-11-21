@@ -12,6 +12,7 @@
     "ddr_sc237": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SC 236 · SC 237 · SC 238 · SC 239", "use": "Historical SC237 group-E h21e 224–560 at VCE=6 V/IC=2 mA/1 kHz, typical fT 170 MHz at VCE=6 V/IC=10 mA/f=20 MHz, typical pulsed VCEsat 210 mV at IC=100 mA/IB=5 mA, and C11b/C22b 7.7/3.8 pF at stated biases. Not a fitted SC237E transistor curve."},
     "ddr_ssy20": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SSY 20", "use": "Group-A h21E 18–35 at IC=500 mA/VCE=1.3 V and VCEsat <=1 V at IC=500 mA/IB=50 mA constrain the provisional SSY20A proxy. The suffix-to-group mapping and individual SPICE parameters remain unverified."},
     "ddr_su165": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SU 165", "use": "Period data-book comparison for the handwritten V18 annotation only: UCERM 900 V with RBE <=100 ohm, UCEO 350 V with IB=0, continuous/peak collector current 2.5/3 A, Ptot 10 W at case <=90 C, and turn-on/off maxima 1/5 us under the stated 1 A switching conditions. The sheet gives no emitter-base reverse-voltage rating and does not identify the installed transistor."},
+    "robotron_k7222_13_23_description": {"url": "https://www.sax.de/~zander/zubehoer/k7222/k7222_61.pdf", "sha256": "887787a48f36e84ce92edbd39acf2469e6a64f755e22d12d80f687f376f492a6", "edition": "K7222.13/23 technical description, August 1984, section 5.7", "use": "Robotron explicitly names SU165 as V18 in the later .13/.23 horizontal stage with AE9VT. This raises SU165 as a cross-revision candidate for .11 but does not prove .11 factory population or transfer .13/.23 switching and winding data."},
     "ddr_sf126_129": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SF 126 · SF 127 · SF 128 · SF 129", "use": "Historical SF128 base-family h21E groups A–F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."},
     "vishay_uf4007": {"url": "https://www.vishay.com/docs/88755/uf4001.pdf", "revision": "6 April 2020, document 88755", "pages": [1, 2, 3], "use": "Comparable 1000 V ultrafast 1 A rectifier: VF <=1.7 V at 1 A, IR <=10 uA at 1000 V/25 C, trr <=75 ns at IF=0.5 A/IR=1 A/Irr=0.25 A and typical 17 pF at 4 V/1 MHz. Not an identity for 1YL1 variants."},
     "nexperia_bzx84_series": {"url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", "revision": "Rev. 7, 1 January 2023", "pages": [5, 6], "use": "BZX84-C6V2, C9V1 and C16 comparable 5 mA zener voltage, differential resistance and capacitance limits; not historical identifications or SPICE transit-time data."},
@@ -1197,7 +1198,7 @@
       "identity_tier": "class-typical; handwritten SU165 not adopted as factory identity",
       "model": "HOR_OUTPUT_N",
       "model_file": "circuits/k7222-11-horizontal-models.cir",
-      "sources": ["st_bu508af", "ddr_su165", "ngspice_manual_bjt"],
+      "sources": ["st_bu508af", "ddr_su165", "robotron_k7222_13_23_description", "ngspice_manual_bjt"],
       "parameters": {
         "IS": {"nominal": 1e-10, "bounds": [1e-12, 1e-8], "unit": "A", "basis": "Unfitted saturation-current proxy retained from the prior model; engineering bounds, not a BU508AF extraction"},
         "BF": {"nominal": 20, "bounds": [15, 28], "unit": "1", "basis": "With IKF=3..20 A, the independent BF=15..28 range keeps effective gain inside BU508AF-class 10..30 at 0.1 A and above 5 at 4.5 A in the 25 C DC fixture"},
@@ -1229,6 +1230,7 @@
       },
       "handwritten_su165_candidate": {
         "identity_status": "handwritten page-4 annotation; not printed as the V18 assembly type in the .11 board BOM",
+        "cross_revision_factory_comparator": "The K7222.13/23 Robotron technical description, section 5.7, explicitly assigns SU165 to V18; the .11 assembly identity remains unverified",
         "UCERM_v": {"maximum": 900, "conditions": "RBE <=100 ohm", "source": "DDR-Halbleiter SU 165 section"},
         "UCEO_v": {"maximum": 350, "conditions": "IB=0", "source": "DDR-Halbleiter SU 165 section"},
         "IC_continuous_a": {"maximum": 2.5, "source": "DDR-Halbleiter SU 165 section"},

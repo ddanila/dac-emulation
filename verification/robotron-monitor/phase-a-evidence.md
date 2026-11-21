@@ -1343,6 +1343,16 @@ establishing its base condition and the original device identity; current and
 thermal stress also remain unqualified. This read narrows the candidate
 comparison but does not close A2.
 
+Robotron's [K7222.13/23 technical description, section 5.7](https://www.sax.de/~zander/zubehoer/k7222/k7222_61.pdf)
+explicitly calls its V18 an SU165 in a horizontal stage using AE9VT. This is
+factory evidence for the later revision and strengthens the handwritten .11
+candidate, but its board revision is different and the .11 parts list still
+does not print V18's type. The active BU508AF comparison solves a 4.5 A
+operating point, above the SU165 candidate's 3 A peak rating; that check
+cannot qualify an SU165-class operating point. The next V18 stress check
+needs collector current and base conditions from the corrected .11 stage,
+not just its collector voltage peak.
+
 ST also specifies at most 1 V saturation at 4.5 A/1.6 A base drive and
 typical 2.5 µs storage plus 0.2 µs fall time in an inductive 16 kHz test.
 Those are recorded as A2 comparison targets, not claimed properties of the
