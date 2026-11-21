@@ -395,27 +395,27 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-21)
 
-**Goal blocked reason (2026-11-21): Phase A cannot be signed off.** A5 cannot
-produce a bounded, document-consistent design point because the active
-19-port T3 model conflicts with the .11 page-4 terminal labels: it omits
-X3:1 and X1:2, joins X1:3 to X2:3 where the drawing joins X1:2, and includes
-X1:16 without a resolved page-4 mapping. A separate, source-checked 20-pin
-KiCad candidate corrects the visible external connections, but its winding
-sections, turns, return and drive are still hypotheses. An opt-in connected
-20-port assembly now exists; the default connected path still uses the
-source-contradicted 19-port model. In the corrected 20-port prescribed-drive
-screens, neither
-the eight-sign screen (seven completed cases) nor the five-point booster-turn
-screen finds a case that jointly matches sampled EHT, TBY7 current and C21.
-Those screens are conditional sensitivities, not an installed winding ratio or
-periodic operating point. The permitted equivalent-T3 fallback also needs
-A5-derived ratios and bounded losses and parasitics, which are not yet
-qualified. A1, A2 and A6 remain open; A3 and A4 are done. This is an internal
-source, model and evidence gap, not an external dependency or approval wait.
-To unblock A5, resolve or bound the X1:16 mapping and internal graph, qualify
-the source-corrected connected candidate, then qualify the drive,
-returns, yoke transfer and settled C21 voltage before selecting T3 parameters
-or the equivalent fallback.
+**Goal blocked reason (2026-11-21): Phase A cannot be signed off.** The
+blocking A5 design point has no qualified T3 winding graph or ratio. The
+default 19-port model conflicts with the .11 page-4 drawing: it omits X3:1
+and X1:2, joins X1:3 to X2:3 where the drawing joins X1:2, and includes
+X1:16 without a resolved page-4 mapping. An opt-in 20-port connected assembly
+corrects the visible external pins, but its winding sections, turns, return
+and drive are provisional. The corrected [eight-sign screen](reference/k7222-11/t3-page4-visible-stage-screen.json)
+(seven completed cases) and [five-point booster screen](reference/k7222-11/t3-page4-booster-turn-screen.json)
+find no case jointly matching sampled EHT, TBY7 current and C21. The
+[drive audit](reference/k7222-11/t3-drive-voltage-audit.json) cannot turn the
+EHT/collector voltage proxy into a turns ratio without a bounded X2:4 drive
+waveform and HV cold end. These prescribed-drive screens do not establish a
+periodic connected operating point. The allowed equivalent-T3 fallback also
+lacks A5-derived ratios and bounded loss/parasitics. A1 still needs independent
+full-page netlist comparisons for pages 3, 4, 9, 10 and 18; A2 still needs
+joint device bounds and stress qualification; A6 still needs several cited
+class transfers. A3 and A4 are done. This is an internal source, model and
+evidence gap, not an external dependency or approval wait. To unblock Phase A,
+resolve or bound the T3 graph and X1:16 mapping, qualify the corrected
+connected candidate and drive/return/yoke/C21 behavior, then close A1, A2 and
+A6 against their rows below.
 The partial [design point](reference/k7222-11/design-point.json) now binds the
 corrected 20-port source read and candidate reports by hash. Its earlier
 19-port turn and polarity lists are explicitly historical, and its
@@ -566,25 +566,14 @@ K7222.25 repair account confirms core spacer plates but gives no thickness;
 neither result identifies a .11 core or winding. Switching to the fallback
 alone cannot close A5.
 
-**Phase A completion is blocked at A5.** The source-contradicted 19-port T3
-graph must be corrected before its numerical screens can qualify a design
-point. Within that historical graph, none of six conditional return cases
-jointly meets sampled EHT, yoke current and the 60–70 V C21 annotation. The
-corrected 99–113 V trace-node range gives only a conditional HV/collector
-voltage proxy: the settled C21 voltage, actual collector/drive pulse, T3
-tap/return graph and installed yoke transfer are not qualified. The current
-conditional stage cannot validate a T3 ratio, and the allowed equivalent
-fallback still lacks A5-derived ratios and bounded loss/parasitics. A1's
-full-page source comparisons, A2's sourced joint device bounds and stress
-checks, and A6's remaining class-typical transfers are also open; A3 and A4
-are done. This is
-an internal evidence and implementation gap, not an external wait or approval
-request. To unblock A5,
-carry unreadable connections and both link pairs as labelled bounded
-alternatives, bound L1/L2 and the field/current transfer, qualify settled C21
-voltage and the actual collector/drive pulse, then parameterize the fallback
-and close the other open rows below. Detailed findings and receipts are in
-[phase-a-evidence.md](phase-a-evidence.md).
+**Phase A completion remains blocked at A5.** The corrected 20-port screens
+supersede the historical 19-port numerical probes, but they do not qualify
+T3's internal graph, drive, settled C21 voltage or winding ratio. Carry
+unreadable connections and both link pairs as labelled bounded alternatives;
+bound L1/L2 and the yoke transfer; qualify the connected collector/drive
+pulse and C21 voltage; then parameterize the equivalent fallback if needed.
+The goal blocker and the other open A-items are stated above and in the table
+below. Detailed receipts are in [phase-a-evidence.md](phase-a-evidence.md).
 
 **Keep this section short.** It holds one row per item: what is still unmet
 and the next step. Results, numbers and source reads go in
