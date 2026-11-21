@@ -5205,3 +5205,28 @@ common scaling of *these three sections* as a solution within this
 provisional graph and prescribed drive. It does not bound individual
 section turns, identify the installed T3, qualify the X2:4 waveform, or
 reject other winding/return choices.
+
+### A5: design-point T3 claims reconciled with page-4 labels (2026-11-21)
+
+The partial [design point](reference/k7222-11/design-point.json) now records
+the [corrected page-4 source read](reference/k7222-11/page4-t3-terminal-identity-source-read.json):
+V21's pads are X3:1/X3:2, the upper conductor joins X1:2 to X2:3, and
+the scan visibly names 20 magnetic terminals. It links the source-checked
+candidate wrapper and the two corrected 20-port numerical screens by hash.
+The older 64-drive/1,000-HV turn scale and eight- and four-candidate polarity
+lists remain available to reproduce their 19-port reports, but are explicitly
+invalid as selections for the 20-port graph. The 17.49–21.78 EHT/ideal
+collector-voltage calculation is labelled a conditional voltage proxy, not a
+T3 turns ratio. The manual's connection-16 mapping, high-voltage cold end,
+X2:4 differential drive and settled C21 voltage remain unresolved. A new
+test checks the design-point links and terminal labels against the source
+read, so the obsolete V21 mapping cannot silently become the current A5
+interpretation again.
+
+The new source-consistency test passes. The broader `test_t3_*` selection
+still fails (**7 failures, 1 error across 14 tests**): several saved-report
+comparisons retain historical graph or design-point hashes; the G1 filter
+rejects a stale predecessor report; and the older 1,768-turn stage's
+collector-peak assertion misses its current output. These results do not
+requalify the 19-port graph. Historical report regeneration and the numerical
+stage mismatch remain separate from the corrected 20-port A5 qualification.

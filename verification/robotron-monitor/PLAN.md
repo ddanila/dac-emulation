@@ -414,6 +414,10 @@ To unblock A5, resolve or bound the X1:16 mapping and internal graph, promote
 and compare a source-corrected connected wrapper, then qualify the drive,
 returns, yoke transfer and settled C21 voltage before selecting T3 parameters
 or the equivalent fallback.
+The partial [design point](reference/k7222-11/design-point.json) now binds the
+corrected 20-port source read and candidate reports by hash. Its earlier
+19-port turn and polarity lists are explicitly historical, and its
+EHT/collector calculation is only a conditional voltage proxy.
 
 The .11 scan still does not settle T3's full return graph, tap order or
 high-voltage cold end. The
