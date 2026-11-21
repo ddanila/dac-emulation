@@ -180,7 +180,11 @@ static unsigned vbits(pc1715_video *v, unsigned x, unsigned y, unsigned *high) {
   unsigned gy = (v->reg[3] & 128) ? (y + n - 1) % n : y;
   unsigned bank = ((v->latch >> 6) ^ (a >> 2)) & 1;
   unsigned bits = v->glyphs[bank * 2048 + gy * 128 + (c & 127)];
-  unsigned blank = v->blank[x] || ((a & 2) && v->frames % 64 < 32);
+  /* 8275 underline MSB enables first/last physical scanline suppression.
+   * It uses the physical line, independently of offset line-counter mode. */
+  unsigned blank = v->blank[x] || ((a & 2) && v->frames % 64 < 32) ||
+                   ((v->reg[2] & 0x80) && (y == 0 || y + 1 == n));
+  unsigned light = 0;
   if (c >= 0xc0 && c < 0xf0) {
     /* Intel 8275 character attribute outputs. LA0/LA1 are unconnected on
      * the stock board, but VSP and LTEN still act on the glyph stream. */
@@ -193,12 +197,12 @@ static unsigned vbits(pc1715_video *v, unsigned x, unsigned y, unsigned *high) {
                         : y == underline ? 1
                                          : 2][(c >> 2) & 15];
     if (flags & 1)
-      bits = 255;
+      light = 1;
     if (flags & 2)
       blank = 1;
   }
   if ((a & 32) && y == (v->reg[2] >> 4))
-    bits = 255;
+    light = 1;
   if (a & 16)
     bits ^= 255;
   unsigned format = (v->reg[3] >> 4) & 3;
@@ -207,10 +211,11 @@ static unsigned vbits(pc1715_video *v, unsigned x, unsigned y, unsigned *high) {
     if (!(format & 1))
       bits ^= 255;
     else if (y == (v->reg[2] >> 4))
-      bits = 255;
+      light = 1;
   }
   *high = (a & 1) != 0;
-  return blank ? 0 : bits;
+  /* ZRE A16.3/A16.2: LTEN overrides VSP and reverse-video processing. */
+  return light ? 255 : blank ? 0 : bits;
 }
 void pc1715_video_tick(pc1715 *m) {
   pc1715_video *v = &m->video;

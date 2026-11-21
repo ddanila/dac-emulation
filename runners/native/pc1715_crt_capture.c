@@ -1,6 +1,6 @@
 /* Actual boot-ROM execution with optional RAM faults and native raster capture.
  * Usage: boot glyphs output-directory seconds
- * [clean|screen|work|alias|dead|reset|status-low]. */
+ * [clean|screen|work|alias|dead|reset|reset-pattern|status-low]. */
 #include "../../machines/robotron1715/pc1715.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
   if (strcmp(fault, "clean") && strcmp(fault, "screen") &&
       strcmp(fault, "work") && strcmp(fault, "alias") &&
       strcmp(fault, "dead") && strcmp(fault, "reset") &&
-      strcmp(fault, "status-low"))
+      strcmp(fault, "status-low") && strcmp(fault, "reset-pattern"))
     return 2;
   pc1715 *m = calloc(1, sizeof(*m));
   if (!m)
@@ -103,17 +103,19 @@ int main(int argc, char **argv) {
   machine_output = m->cpu.bus.output;
   m->cpu.bus.output = observe_output;
   uint64_t until = (uint64_t)(atof(argv[4]) * PC1715_CLOCK_HZ), started = 0;
-  unsigned previous = 255, index = 0, saved = 0, reset_done = 0;
+  unsigned previous = 255, previous_phase = 255, index = 0, saved = 0, reset_done = 0;
   uint64_t checkpoint = 10ull * PC1715_CLOCK_HZ;
   printf("{\"clock_hz\":%u,\"transitions\":[", PC1715_CLOCK_HZ);
   for (uint64_t t = 0; t < until; t += 1000) {
-    if (!strcmp(fault, "reset") && !reset_done && t >= PC1715_CLOCK_HZ) {
+    if ((!strcmp(fault, "reset") || !strcmp(fault, "reset-pattern")) &&
+        !reset_done && t >= (uint64_t)PC1715_CLOCK_HZ *
+        (!strcmp(fault, "reset-pattern") ? 2 : 1)) {
       pc1715_reset(m);
       m->cpu.bus.read = read_ram;
       m->cpu.bus.write = write_ram;
-  machine_output = m->cpu.bus.output;
-  m->cpu.bus.output = observe_output;
-      previous = 255;
+      machine_output = m->cpu.bus.output;
+      m->cpu.bus.output = observe_output;
+      previous = previous_phase = 255;
       reset_done = 1;
     }
     pc1715_run(m, 1000);
@@ -123,12 +125,14 @@ int main(int argc, char **argv) {
     }
     if (m->video.running) {
       unsigned id = m->ram[m->cpu.cpu.iy];
-      if (id != previous) {
+      unsigned phase = m->ram[(uint16_t)(m->cpu.cpu.iy + 1)];
+      if (id != previous || phase != previous_phase) {
         if (index)
           printf(",");
-        printf("{\"pattern\":%u,\"cycle\":%llu,\"screen\":%u,\"work\":%u}", id,
-               (unsigned long long)m->cpu.cycles, m->cpu.cpu.ix, m->cpu.cpu.iy);
+        printf("{\"pattern\":%u,\"cycle\":%llu,\"screen\":%u,\"work\":%u,\"phase\":\"%s\"}", id,
+               (unsigned long long)m->cpu.cycles, m->cpu.cpu.ix, m->cpu.cpu.iy, phase ? "pattern" : "title");
         previous = id;
+        previous_phase = phase;
         started = m->video.frames;
         saved = 0;
         index++;

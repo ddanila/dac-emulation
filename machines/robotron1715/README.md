@@ -177,3 +177,18 @@ It reproduces CRT diagnostic 1.1's repeated initialization when its expected
 frame flag never arrives. The capture reports CPU reads and display-start
 commands so qualification can reject both invisible polling and reinitialization.
 CRT diagnostic 1.2 uses a CPU delay and performs no input instructions.
+
+### Character-row boundary blanking
+
+8275 underline positions 8–15 suppress the first and last physical scanline
+of every character row, independently of offset line-counter mode. This
+behavior is documented under Underline Placement in the
+[Intel datasheet](https://bitsavers.org/components/intel/8275/1984_8275.pdf).
+The PC1715 A16.3/A16.2 gates apply LTEN after VSP and reverse-video processing,
+so underline/cursor lighting can override suppression. Independent tests cover
+positions 7/8, BBh/6Bh, both line-counter modes, and LTEN/RVV interactions.
+
+The capture runner now observes diagnostic work-page byte 1 and adds `phase`
+(`title` or `pattern`) to transition records. The video device itself does not
+interpret this state. `reset` resets during the title; `reset-pattern` resets
+during the clean pattern. Existing report fields remain available.

@@ -7,11 +7,11 @@
 static void wr(pc1715 *m, unsigned a, unsigned d) {
   assert(pc1715_video_write(m, a, d));
 }
-static void configure(pc1715 *m, unsigned flags) {
+static void configure_lines(pc1715 *m, unsigned flags, unsigned lines) {
   wr(m, 0x1b, 0);
   wr(m, 0x1a, 79);
   wr(m, 0x18, 0x57);
-  wr(m, 0x1a, 0xbb);
+  wr(m, 0x1a, lines);
   wr(m, 0x18, flags | 13);
   wr(m, 0x19, 0x80);
   wr(m, 0x18, 255);
@@ -19,6 +19,7 @@ static void configure(pc1715 *m, unsigned flags) {
   wr(m, 0x34, 0x3e);
   wr(m, 0x19, 0x23);
 }
+static void configure(pc1715 *m, unsigned flags) { configure_lines(m, flags, 0x6b); }
 static void run(pc1715 *m) { pc1715_run(m, PC1715_CLOCK_HZ / 20); }
 static unsigned floppy_writes, floppy_waits;
 static int card_wait(void *p, uint16_t a, int writing) {
@@ -138,7 +139,7 @@ int main(void) {
   wr(m, 0x18, 0);
   run(m);
   for (unsigned x = 0; x < 8; x++)
-    assert(m->video.pixels[11 * 640 + x] == 0xffaaaaaa);
+    assert(m->video.pixels[6 * 640 + x] == 0xffaaaaaa);
   /* FIFO overflow on seventeenth invisible attribute; inspect internal state.
    */
   for (unsigned i = 0; i < 17; i++) {
@@ -148,6 +149,39 @@ int main(void) {
   configure(m, 0);
   run(m);
   assert(m->video.overflows && (m->video.status & 1));
+  /* Independent boundary-line vectors: threshold 7/8 and BBh/6Bh.
+   * Exercise both LC modes with white glyphs, then cursor/field LTEN and RVV. */
+  for (unsigned y = 0; y < 16; y++) m->video.glyphs[y * 128 + 2] = 255;
+  const unsigned line_settings[] = {0x6b, 0x7b, 0x8b, 0xbb};
+  for (unsigned mode = 0; mode < 2; mode++) {
+    for (unsigned k = 0; k < 4; k++) {
+      pc1715_reset(m);
+      memset(m->ram + 0xf800, 2, 2048);
+      configure_lines(m, mode * 128, line_settings[k]);
+      run(m);
+      for (unsigned y = 0; y < 288; y++)
+        for (unsigned x = 0; x < 640; x++) {
+          unsigned suppressed = k >= 2 && (y % 12 == 0 || y % 12 == 11);
+          assert(m->video.pixels[y * 640 + x] ==
+                 (suppressed ? 0xff000000 : 0xffaaaaaa));
+        }
+      assert(!m->video.underruns && !m->video.overflows);
+    }
+  }
+  /* LTEN is applied after VSP/RVV by A16.2: underline survives blanking. */
+  configure_lines(m, 0x30, 0xbb);
+  wr(m, 0x19, 0x80); wr(m, 0x18, 0); wr(m, 0x18, 0);
+  run(m);
+  assert(m->video.pixels[0] == 0xff000000);
+  assert(m->video.pixels[11 * 640] == 0xffaaaaaa);
+  assert(m->video.pixels[11 * 640 + 8] == 0xff000000);
+  m->ram[0xf800] = 0xb0; /* underline + reverse, then a full-white glyph */
+  m->ram[0xf801] = 2;
+  configure_lines(m, 0, 0xbb);
+  run(m);
+  assert(m->video.pixels[0] == 0xff000000);
+  assert(m->video.pixels[640] == 0xff000000);
+  assert(m->video.pixels[11 * 640] == 0xffaaaaaa);
   /* Actual refresh slots gate DMA. Suppressing refresh must cause underrun. */
   pc1715_reset(m);
   configure(m, 0);
