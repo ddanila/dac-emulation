@@ -5323,10 +5323,18 @@ screen. Removing the model's 1 nF C30 moves sampled EHT from 11.680 to
 11.893 kV (**+1.82%**), horizontal yoke current from 0.9471 to 0.9489 A
 p-p (**+0.20%**) and C21 from 23.750 to 23.626 V (**−0.52%**). Both C21
 values remain below the 60–70 V annotation. All three sampled differences
-are under the Phase A 2% triage threshold, but the source placement and
-installed population of C30, TP17 pulse shape, connected drive and winding
-graph are unqualified. This narrows the C30 decision in one corrected
-conditional stage; it does not close the page-4 source review or A5.
+are under the Phase A 2% triage threshold. The same paired deck now samples
+TP17 at the source-mapped X2:6/V14 cathode (`h_sync`). Its 83.87 V populated
+pulse changes by only +0.55% in peak-to-peak swing when C30 is removed, but
+the largest difference at a common time is 5.52 V, or **6.58%** of that swing.
+At a 25 ns maximum step, the corresponding difference is 5.54 V, or **6.60%**;
+the peak-to-peak change is +0.58%. Thus the complete sampled waveform does
+not meet A1's 2% sensitivity shortcut, even though the three earlier scalar
+checks do. The comparison uses common absolute times, so timing changes count
+as pulse differences. Source placement and installed population of C30,
+connected drive and the winding graph remain unqualified. Keep C30 population
+as a labelled alternative until the source read or a qualified stage resolves
+it; this conditional screen does not close the page-4 review or A5.
 
 ### A5: connected 20-port startup does not qualify the drive (2026-11-21)
 
