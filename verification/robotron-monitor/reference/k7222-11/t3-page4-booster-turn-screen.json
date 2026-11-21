@@ -1,0 +1,222 @@
+{
+  "format": "dac-monitor-t3-page4-booster-turn-screen-v1",
+  "qualification": "five 20 ms common-scale source-visible booster section sensitivities within assumed, not documented, turns bounds; one positive-polarity 20-port graph and prescribed drive, no installed T3 or periodic qualification",
+  "input_sha256": {
+    "reference/k7222-11/t3-page4-visible-stage-screen.json": "71e694d8847517d2691d761f9b46280aaf92e663a5f405502a7c8ba278a43b77",
+    "reference/k7222-11/t3-page4-visible-graph.json": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "reference/k7222-11/page4-t3-visible-wrapper-comparison.json": "918dcd10bd9c092303dfca1a37311b2392f6421d5ee20c07279bd077c79a7382",
+    "circuits/k7222-11-horizontal-output-page4.kicad_sch": "7a7426dd8fe69fbb2743f7c237aea4721457a2f9097e9ebdd297e8d333806dc1",
+    "reference/k7222-11/horizontal-output-transcription.json": "0b056b42807752c34b86f4dc14886a5c90a92b085c5b28c11404a9806087a737",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "profiles/k7222-11-horizontal-oscillator.json": "20288f82c68b3b626c84c45713d3a88f281ec01aa8d2e5c8f4dc8f2142943d96",
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "bb8d3b08215561925553c6b0e7f87d30573569191fa90e0723639c08e37c6bba",
+    "circuits/k7222-11-centering-models.cir": "b002db59e7ac0234ea3578c0598a9fc5d2c9f7985669ad401fa01b58df353282",
+    "magnetics.py": "a1c785fbe7ce6e10b547a839edc8a0b9ad68bb3e1845dcad702446aadee312c8",
+    "transformer_candidates.py": "e35f2e76b637c7ae80e6e95267043417e1b4b97a50cb5bf4bbd6c833430027a0",
+    "page4_t3_visible_wrapper.py": "7c2ce5a01ba6d93720bf77def79eccd9dabb419bc03a03c3415a35a0d0d5817e",
+    "t3_page4_visible_stage_screen.py": "917d6a607896b5eac4f0914d7ba099e34baddfa61301b3187b74549c6e44c7b3",
+    "t3_brimar_boost_boundary_screen.py": "961f9e6ffb1092325b3c8276fbaa2bc56569a114a34ee23708fa7744f1b9190a",
+    "t3_output_stage_sweep.py": "5fac3da4ec98a972f5551f9538c52711992137720eeab8de921ad2e5e1bec21a",
+    "t3_page4_booster_turn_screen.py": "af72e60b144b69606aa3b1c414e850d65da374ced3af4148ff3d1a97266ae68a"
+  },
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "varied_sections": [
+    [
+      "X2_13",
+      "X2_11"
+    ],
+    [
+      "X2_11",
+      "X2_12"
+    ],
+    [
+      "X2_12",
+      "X2_10"
+    ]
+  ],
+  "factors": [
+    0.25,
+    0.5,
+    1,
+    2,
+    4
+  ],
+  "fixed_conditions": {
+    "feed_v": 42.504,
+    "initial_c21_differential_v": 65.0,
+    "window_s": [
+      0.019,
+      0.02
+    ],
+    "yoke_class": "TBY7",
+    "centering_link_pair": "E1+E2",
+    "maximum_step_ns": 50
+  },
+  "targets": {
+    "eht_v": [
+      11000,
+      12000
+    ],
+    "yoke_current_pp_a": [
+      0.9459574468085108,
+      1.4618078564381878
+    ],
+    "c21_differential_v": [
+      60,
+      70
+    ]
+  },
+  "cases": [
+    {
+      "factor": 0.25,
+      "section_turns": 1.75,
+      "status": "complete",
+      "observed": {
+        "normalized_deck_sha256": "aacc3a268f8ecf325d45392fc427b02fea6044b4aa6793e6ffd760296a1c2e13",
+        "sample_count": 2659,
+        "yoke_current_pp_a": 0.39357162,
+        "eht_at_collector_peak_v": 12780.7841,
+        "boost_node_at_collector_peak_v": 47.0619426,
+        "boost_node_range_v": [
+          47.0619426,
+          47.347046
+        ],
+        "c21_voltage_at_collector_peak_v": 4.55794265,
+        "c21_voltage_range_v": [
+          4.55794265,
+          4.84304604
+        ],
+        "c21_window_phase_drift_v": 0.000389600000000101,
+        "eht_window_phase_drift_v": 0.3364000000001397
+      },
+      "checks": {
+        "sampled_eht": false,
+        "sampled_yoke_current": false,
+        "sampled_c21": false
+      },
+      "joint_sampled_match": false
+    },
+    {
+      "factor": 0.5,
+      "section_turns": 3.5,
+      "status": "complete",
+      "observed": {
+        "normalized_deck_sha256": "a47c7a6daa9e4331fb9b236c7364257505f3214dec0adf2e4f2f4155df6b871a",
+        "sample_count": 2643,
+        "yoke_current_pp_a": 0.659399747,
+        "eht_at_collector_peak_v": 13269.0765,
+        "boost_node_at_collector_peak_v": 53.8141671,
+        "boost_node_range_v": [
+          53.8141531,
+          54.0476878
+        ],
+        "c21_voltage_at_collector_peak_v": 11.3101671,
+        "c21_voltage_range_v": [
+          11.3101531,
+          11.5436878
+        ],
+        "c21_window_phase_drift_v": 2.320000000111122e-05,
+        "eht_window_phase_drift_v": 0.040899999999965075
+      },
+      "checks": {
+        "sampled_eht": false,
+        "sampled_yoke_current": false,
+        "sampled_c21": false
+      },
+      "joint_sampled_match": false
+    },
+    {
+      "factor": 1,
+      "section_turns": 7,
+      "status": "complete",
+      "observed": {
+        "normalized_deck_sha256": "1e950f3016e4b06db7e8a3c4d49100d0e894db76ab492afe64092f28227b7382",
+        "sample_count": 2648,
+        "yoke_current_pp_a": 0.9470529050000001,
+        "eht_at_collector_peak_v": 11680.1871,
+        "boost_node_at_collector_peak_v": 66.2540453,
+        "boost_node_range_v": [
+          66.2510135,
+          66.3752249
+        ],
+        "c21_voltage_at_collector_peak_v": 23.7500453,
+        "c21_voltage_range_v": [
+          23.7470135,
+          23.8712249
+        ],
+        "c21_window_phase_drift_v": -0.10062680000000057,
+        "eht_window_phase_drift_v": -23.264100000000326
+      },
+      "checks": {
+        "sampled_eht": true,
+        "sampled_yoke_current": true,
+        "sampled_c21": false
+      },
+      "joint_sampled_match": false
+    },
+    {
+      "factor": 2,
+      "section_turns": 14,
+      "status": "complete",
+      "observed": {
+        "normalized_deck_sha256": "d2570292c0781f70de812aed5864cd8cb46fd889bb34d16c4d011c75bb817b6e",
+        "sample_count": 2589,
+        "yoke_current_pp_a": 0.426483124,
+        "eht_at_collector_peak_v": 10441.2723,
+        "boost_node_at_collector_peak_v": 56.2628442,
+        "boost_node_range_v": [
+          56.2628442,
+          56.4705871
+        ],
+        "c21_voltage_at_collector_peak_v": 13.7588442,
+        "c21_voltage_range_v": [
+          13.7588442,
+          13.9665871
+        ],
+        "c21_window_phase_drift_v": 5.4499999999180204e-05,
+        "eht_window_phase_drift_v": -0.0136000000002241
+      },
+      "checks": {
+        "sampled_eht": false,
+        "sampled_yoke_current": false,
+        "sampled_c21": false
+      },
+      "joint_sampled_match": false
+    },
+    {
+      "factor": 4,
+      "section_turns": 28,
+      "status": "complete",
+      "observed": {
+        "normalized_deck_sha256": "56fc16e68482b1a926748a9898f88b3c322542bc0c2ba9bcc440a62f3e084600",
+        "sample_count": 2549,
+        "yoke_current_pp_a": 0.08985584320000001,
+        "eht_at_collector_peak_v": 3277.6872,
+        "boost_node_at_collector_peak_v": 44.3086578,
+        "boost_node_range_v": [
+          44.3086577,
+          44.4173284
+        ],
+        "c21_voltage_at_collector_peak_v": 1.80465776,
+        "c21_voltage_range_v": [
+          1.8046577,
+          1.91332836
+        ],
+        "c21_window_phase_drift_v": -1.4050000000098706e-05,
+        "eht_window_phase_drift_v": -16.427100000000337
+      },
+      "checks": {
+        "sampled_eht": false,
+        "sampled_yoke_current": false,
+        "sampled_c21": false
+      },
+      "joint_sampled_match": false
+    }
+  ],
+  "complete_count": 5,
+  "solver_aborted_count": 0,
+  "joint_sampled_match_count": 0,
+  "interpretation": "Only the three hypothetical X2:13-to-X2:10 sections change. Their 1.75\u201328-turn interval is an assumed bound, not a .11 measurement; sampled success would not qualify a physical booster ratio or settled periodic state."
+}

@@ -5183,3 +5183,25 @@ aborted sign is unscored, not rejected. The corrected external interface
 therefore preserves the C21 discrepancy for this *one* parameter transfer;
 it neither proves the installed sign nor excludes other section/return
 graphs or the allowed A5 equivalent fallback.
+
+### A5: booster turn span does not close C21 in the corrected graph (2026-11-21)
+
+The [five-point screen](reference/k7222-11/t3-page4-booster-turn-screen.json)
+keeps the corrected 20-port KiCad interface, positive high-voltage/lower-tap
+signs, TBY7 class yoke, 42.504 V rail, E1+E2 centring case, prescribed V18
+drive and all other transferred parameters fixed. It scales only the three
+sections from **X2:13 through X2:11 and X2:12 to X2:10** by 0.25, 0.5,
+1, 2 and 4. Their individual turns become **1.75, 3.5, 7, 14 and 28**,
+all within the old *assumed* section bounds. The nominal case reproduces
+the preceding corrected 20-port screen within 0.02 V EHT, 2 µA yoke-current
+and 2 mV C21 tolerances.
+
+All five 20 ms cases complete. C21 spans **1.80–23.75 V**, always below
+the 60–70 V annotation. Sampled EHT spans **3.28–13.27 kV** and yoke
+current **0.090–0.947 A p-p**; **zero of five** cases jointly meets the
+three comparison bands. The response is nonmonotone: doubling the booster
+span lowers both EHT and current while C21 falls to 13.76 V. This excludes
+common scaling of *these three sections* as a solution within this
+provisional graph and prescribed drive. It does not bound individual
+section turns, identify the installed T3, qualify the X2:4 waveform, or
+reject other winding/return choices.
