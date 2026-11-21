@@ -4772,3 +4772,35 @@ to the 50 ns cases. The failing wiring changes by **0.040%** in current
 and **0.824%** in EHT, still far from either band. This removes a simple
 time-step explanation for the conditional split; it does not test a longer
 periodic state or validate the assumed graph.
+
+### A5/A6: U52 core-class geometry and material boundary (2026-11-21)
+
+The [K7222.13/23 technical description](https://www.sax.de/~zander/zubehoer/k7222/k7222_61.pdf)
+names a **U52/54** ferrite core for its T3 and says the winding capacitance
+and inductance are tuned to the third flyback harmonic. It identifies L4 as
+high-voltage-winding leakage compensation and C30 as a high-voltage/tuning
+adjustment. The independent [FONOX U52/H21 catalog](https://doe.cz/wp-content/uploads/fonox.pdf)
+prints **95 mm²** effective area, **148 mm** effective path, **14,060 mm³**
+volume and **1,180 nH/turn² ±25%** inductance factor for a U52 set. It gives
+at most **1.6 W** core loss at 15 kHz, 200 mT and 100 °C. The
+[source read](reference/k7222-11/t3-u52-core-source-read.json) records the
+page and byte hashes. Neither source identifies the installed K7222.11
+core, and the U52/54 notation is not proven identical to catalog U52.
+
+The [reproducible class screen](reference/k7222-11/t3-u52-core-class-screen.json)
+keeps the conditional T3 graph, provisional B–H curve and loss shunt,
+TBY7 yoke, centring bridge and prescribed base pulse fixed. Replacing only
+the active **150 mm²** area with 95 mm² gives **12.70–12.82 kV** sampled
+EHT at 41, 42.504 and 43 V. Replacing its 80 mm path as well with 148 mm gives
+**12.97–13.00 kV** and **0.875–0.905 A p-p** yoke current, below the
+transferred TBY7 **0.946 A p-p** lower proxy. At the prior 42.504 V
+crossing, 25 ns maximum-step reruns preserve both misses. The unchanged
+model B–H origin implies only **128 nH/turn²** at 95 mm²/148 mm, versus
+the catalog's **885–1,475 nH/turn²** set range. That mismatch is a
+diagnostic, not a contradiction: an intentional air gap, material and
+actual winding geometry are unknown. The catalog loss maximum translates
+to a **≥1.30 kΩ** equivalent first-section sine-wave shunt under its exact
+reference conditions; it does not bound the real 16 kHz flyback pulse loss.
+The U52 dimensions are therefore a class sensitivity, not new live T3
+parameters. A5 still needs a joint core/gap, turns, tap/return and parasitic
+argument before freezing the fallback.

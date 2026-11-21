@@ -1,0 +1,39 @@
+{
+  "format": "dac-monitor-t3-u52-core-source-read-v1",
+  "qualification": "cross-revision core-family and independent U52 class comparison; neither identifies the installed K7222.11 core or material",
+  "robotron": {
+    "url": "https://www.sax.de/~zander/zubehoer/k7222/k7222_61.pdf",
+    "sha256": "887787a48f36e84ce92edbd39acf2469e6a64f755e22d12d80f687f376f492a6",
+    "pdf_page": 11,
+    "printed_page": 10,
+    "revision": "K7222.13/23 technical description, 08/84",
+    "reading": "The later horizontal stage names a U52/54 ferrite core in T3. The HV and basic windings are layer-wound; capacitance and inductance are tuned to the third harmonic of flyback. L4 compensates HV-winding leakage and C30 adjusts EHT and the third-harmonic tuning.",
+    "limit": "No K7222.11 core type, material, effective geometry, air gap or winding map is stated. U52/54 is not proven identical to the independent catalog's U52."
+  },
+  "fonox": {
+    "url": "https://doe.cz/wp-content/uploads/fonox.pdf",
+    "sha256": "24bff43f4887ac88bf1ced33961aae4f1703f24fcb12ca20a54bd2954e69f889",
+    "edition": "FONOX ferrite-core catalog, undated PDF",
+    "pdf_pages": [46, 47],
+    "printed_pages": [46, 47],
+    "core": "U52, H21 material",
+    "effective_area_mm2": 95,
+    "effective_path_length_mm": 148,
+    "effective_volume_mm3": 14060,
+    "al_nh_per_turn2": 1180,
+    "al_tolerance_fraction": 0.25,
+    "loss_reference": {
+      "maximum_w": 1.6,
+      "frequency_hz": 15000,
+      "flux_amplitude_t": 0.2,
+      "temperature_c": 100
+    },
+    "flux_reference": {
+      "minimum_t": 0.31,
+      "field_a_per_m": 250,
+      "frequency_hz": 5000,
+      "temperature_c": 100
+    },
+    "limit": "These are catalog U52/H21 set values and test conditions, not measured ÜHA78 or installed .11 properties. The catalog does not specify an intentional gap; its printed AL cannot transfer to an unmeasured flyback gap."
+  }
+}

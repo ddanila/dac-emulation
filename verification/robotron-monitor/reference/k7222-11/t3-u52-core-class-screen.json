@@ -1,0 +1,173 @@
+{
+  "format": "dac-monitor-t3-u52-core-class-screen-v1",
+  "qualification": "cross-revision U52/54 and independent U52/H21 class geometry; area/path-only 4\u20135 ms prescribed-drive sensitivity with provisional B-H curve, T3 graph and TBY7 yoke, not a .11 core identification or A5 freeze",
+  "source_read_sha256": "0cfa73030b6fd0fb9e461040b4183a21de8c7366eb33a7f08f2da3564d884756",
+  "source_pdf_sha256": {
+    "robotron": "887787a48f36e84ce92edbd39acf2469e6a64f755e22d12d80f687f376f492a6",
+    "fonox": "24bff43f4887ac88bf1ced33961aae4f1703f24fcb12ca20a54bd2954e69f889"
+  },
+  "input_sha256": {
+    "reference/k7222-11/t3-brimar-rail-boundary-screen.json": "f4ddaf7ae37792119a7adc0a6dfd532d80c8c79c11a4ca922d04011f0a8b26a6",
+    "reference/k7222-11/a5-yoke-class-boundary.json": "603f687194cc18548a0f06206845088ce25c88b62c4902745fe07ee56adae8f8",
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "c3d0cfa7dd5786827ebd0eac4eac5f68e7a99422b8a22c158fcd94df3bdac4ca",
+    "reference/k7222-11/t3-coupled-source-ac-loss-parameters.json": "d6c8bf0731edf1d0fe63e9e54333867ab00afc7eea2dfe051fe539131136822e",
+    "circuits/k7222-11-centering-models.cir": "b002db59e7ac0234ea3578c0598a9fc5d2c9f7985669ad401fa01b58df353282",
+    "reference/k7222-11/t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "reference/k7222-11/horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+    "steady_supply.py": "a459e23925c690da6e31437d2c79557cd7c97482ca0ede351bf6b724da073e75",
+    "transformer_candidates.py": "7ffeda5af92cfb1841b49bad2c4dbfbf5ca1657a9f90ef06b1ce9b2a49eac7bc",
+    "magnetics.py": "722c379dcc2730ea4f5a4464102e28fe8af95f5d009aaef94faefdf3835978e7",
+    "t3_brimar_rail_boundary_screen.py": "350a92a8f758c6c32bef70f659c6547fd12ce771629d7c7a0d44527ebe13b82c",
+    "t3_centering_return_screen.py": "382a309b17614394f4195b91717f257fae11a3797a14ed813d990fbc48c13f25",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "t3_u52_core_class_screen.py": "66661fc81ac99b452d9709df37577e4512f6d0f921b782986178c016738c6752"
+  },
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "fixed_conditions": {
+    "yoke_type": "TBY7",
+    "yoke_line_l_h": 0.0041,
+    "yoke_line_r_ohm": 8.8,
+    "centering_link_pair": "E1+E2",
+    "centering_coil_l_h": 0.08,
+    "prescribed_base_edge_ns": 200,
+    "nominal_max_step_ns": 50,
+    "refined_max_step_ns": 25,
+    "provisional_bh_and_loss_unchanged": true
+  },
+  "class_lower_current_pp_a": 0.9459574468085108,
+  "manual_eht_bounds_v": [
+    11000,
+    12000
+  ],
+  "prior_boundary_feed_v": 42.50390625,
+  "catalog_al_nh_per_turn2": {
+    "nominal": 1180,
+    "tolerance_bounds": [
+      885.0,
+      1475.0
+    ],
+    "scope": "FONOX U52/H21 set with no intentional gap specified; not transferable to an unmeasured flyback gap"
+  },
+  "catalog_loss_reference": {
+    "first_drive_section_turns": 36,
+    "sine_voltage_rms_v": 45.58397894388,
+    "catalog_maximum_w": 1.6,
+    "equivalent_shunt_minimum_ohm_at_reference": 1298.6869602225593,
+    "active_shunt_ohm": 10000,
+    "scope": "15 kHz, 200 mT sine, 100 C catalog maximum only; not actual 16 kHz pulse loss"
+  },
+  "geometries": [
+    {
+      "geometry": "active_model",
+      "effective_area_m2": 0.00015,
+      "effective_path_length_m": 0.08,
+      "retained_provisional_bh_origin_slope_t_per_a_per_m": 0.0002,
+      "implied_model_al_nh_per_turn2": 374.99999999999994,
+      "cases": [
+        {
+          "feed_v": 42.50390625,
+          "yoke_current_pp_a": 0.945975692,
+          "eht_at_collector_peak_v": 11722.0144,
+          "drive_peak_v": 457.655189,
+          "current_in_transferred_class": true,
+          "sampled_eht_in_manual_band": true,
+          "normalized_deck_sha256": "2337ec1d46853855afcadc8287d556d8a0410aed6eda649caa811f52c96dce3b"
+        }
+      ]
+    },
+    {
+      "geometry": "U52_area_only",
+      "effective_area_m2": 9.499999999999999e-05,
+      "effective_path_length_m": 0.08,
+      "retained_provisional_bh_origin_slope_t_per_a_per_m": 0.0002,
+      "implied_model_al_nh_per_turn2": 237.5,
+      "cases": [
+        {
+          "feed_v": 41.0,
+          "yoke_current_pp_a": 0.932137294,
+          "eht_at_collector_peak_v": 12822.6773,
+          "drive_peak_v": 464.218209,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "6df7fb3067c00896a5de5863098ced0a9a2ae344861fea382697f9830ba1f5c6"
+        },
+        {
+          "feed_v": 42.50390625,
+          "yoke_current_pp_a": 0.958535067,
+          "eht_at_collector_peak_v": 12761.9072,
+          "drive_peak_v": 442.696062,
+          "current_in_transferred_class": true,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "f48832cf859d3a058b6d8facc42e419d36781640a41fcc196ca610efc68ca165"
+        },
+        {
+          "feed_v": 43.0,
+          "yoke_current_pp_a": 0.966736364,
+          "eht_at_collector_peak_v": 12704.2476,
+          "drive_peak_v": 441.18705,
+          "current_in_transferred_class": true,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "c33219c5fe15e842d546f3cf2dd81a265a6d1d422aefe2613c4c6b4cce243bd2"
+        },
+        {
+          "feed_v": 42.50390625,
+          "max_step_ns": 25,
+          "yoke_current_pp_a": 0.9586682100000001,
+          "eht_at_collector_peak_v": 12763.7946,
+          "drive_peak_v": 443.143069,
+          "current_in_transferred_class": true,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "d1de89abbff933be7818cc5a7c997b252ac58a61da3d8ebf1776a2a08d76b8c9"
+        }
+      ]
+    },
+    {
+      "geometry": "U52_area_and_length",
+      "effective_area_m2": 9.499999999999999e-05,
+      "effective_path_length_m": 0.148,
+      "retained_provisional_bh_origin_slope_t_per_a_per_m": 0.0002,
+      "implied_model_al_nh_per_turn2": 128.3783783783784,
+      "cases": [
+        {
+          "feed_v": 41.0,
+          "yoke_current_pp_a": 0.875179928,
+          "eht_at_collector_peak_v": 13000.2613,
+          "drive_peak_v": 564.729188,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "29600ce8aa8a125d77adc17f6b11a7d48249b7d55f2e4751992be4d136a962b1"
+        },
+        {
+          "feed_v": 42.50390625,
+          "yoke_current_pp_a": 0.896987382,
+          "eht_at_collector_peak_v": 12981.0984,
+          "drive_peak_v": 580.066027,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "c444925a5823ec0cc45555bf0b2d6ccb33a65bb17ea75f1ffe22accfcb3440b8"
+        },
+        {
+          "feed_v": 43.0,
+          "yoke_current_pp_a": 0.904858502,
+          "eht_at_collector_peak_v": 12970.4343,
+          "drive_peak_v": 586.171659,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "3f0acd0cf2d3a3f266359d83945ad20c8d4e844798e70a7df0138e2a4b03b1a0"
+        },
+        {
+          "feed_v": 42.50390625,
+          "max_step_ns": 25,
+          "yoke_current_pp_a": 0.897436758,
+          "eht_at_collector_peak_v": 12982.0109,
+          "drive_peak_v": 579.59246,
+          "current_in_transferred_class": false,
+          "sampled_eht_in_manual_band": false,
+          "normalized_deck_sha256": "5ac9a83d07cb5ea799fa0b32d9f915f013c82418308f8f0789d001fbfb6c5d3e"
+        }
+      ]
+    }
+  ],
+  "interpretation": "The U52 area-only and area-plus-path sensitivities miss the 11\u201312 kV sampled EHT band at 41, 42.504 and 43 V; the full-geometry case also misses the transferred TBY7 lower-current bound. The 25 ns crossing cases retain these outcomes. But the catalog AL is for a U52/H21 set with no intentional gap specified and differs from the provisional B-H model; changing geometry while holding that curve is not a class-valid replacement. The cross-revision U52/54 designation does not prove the .11 core or FONOX U52 identity. A joint core material/gap, winding and return argument remains necessary."
+}
