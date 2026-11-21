@@ -4114,3 +4114,32 @@ sensitivity points. This lower-loss trial removes the oversized
 12 V/5 V power premise from the high-current diagnosis, but leaves the
 pass-transistor/drive lower corner unqualified. It does not identify which
 internal parameter, behavioral drive bound or MAA723 variant is responsible.
+
+### A5/A6: ÜHA78 core-area sensitivity (2026-11-21)
+
+A [firsthand ÜHA78 geometry account, post 005](https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=22157)
+reports a 12 mm core diameter. If that describes a circular core leg in the
+installed transformer, its geometric area is π(6 mm)² = 113.10 mm², below
+the active model's assumed 150 mm². The post does not provide a factory
+cross-section drawing, effective magnetic area or a K7222.11 part-specific
+tolerance. This is a same-part-family comparator, not an installed-core
+identification.
+
+The [core-area sensitivity report](reference/k7222-11/t3-uha78-core-area-sensitivity.json)
+re-runs the existing 4–5 ms prescribed-base T3 stage with only the core area
+value changed to 113.10 mm². At a 50 ns maximum step, peak absolute model
+flux rises from 0.1977 to 0.2790 T, the collector peak from 459.0 to
+492.8 V, and EHT *at the collector peak* from 11.49 to 12.41 kV. The
+10 kΩ loss shunt dissipates 0.792 W instead of 0.723 W. The 25 ns rerun
+changes each of those last three values by less than 0.1%, so the sampled
+response is numerically stable at these steps. The 0.279 T flux crosses the
+candidate B–H table's 0.2 T breakpoint; simple inverse-area scaling would
+miss the changed circuit waveform. The EHT sample is not a sustained or
+service-scored high-voltage result.
+
+The active 150 mm² core area and its 0.198 T result therefore cannot be
+treated as a source-qualified A5 design point. Before selecting T3 loss,
+turns or a fallback, A5 needs a bounded effective core area and material
+curve followed by a stage sweep. The 12 mm comparison supplies one useful
+geometry constraint, but its revision and cross-section uncertainty keep
+A5 and the T3 part of A6 open.
