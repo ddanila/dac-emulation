@@ -469,6 +469,12 @@ approval wait. To unblock Phase A, resolve or bound the T3 graph and X1:16
 mapping, obtain a completing corrected connected run with bounded drive,
 return, yoke and C21 behavior, then close A1, A2 and A6 against their rows
 below.
+For A1 page 18, a [pin-coverage audit](reference/k7222-11/page18-pin-coverage-audit.json)
+now accounts for all 70 source-labelled endpoints across checked cable,
+input, panel, yoke and neck exports. A supplemental audit-only export checks
+the previously absent vertical X21:1=12P and X22:1=00 terminals. Physical
+pin coverage is complete, but the three classified functional model-scope
+gaps and connected contrast behavior still prevent whole-page signoff.
 The partial [design point](reference/k7222-11/design-point.json) now binds the
 corrected 20-port source read and candidate reports by hash. It also binds
 the upper-bridge source and eight-case connected diagnostic, with eight

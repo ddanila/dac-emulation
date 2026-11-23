@@ -1,0 +1,67 @@
+{
+  "format": "dac-monitor-page18-pin-coverage-audit-v1",
+  "qualification": "coverage accounting over existing partial comparisons; not a fresh independent netlist or complete page-18 functional signoff",
+  "input_sha256": {
+    "page18-interconnect-transcription.json": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
+    "page18-board-cable-pin-comparison.json": "33ecd98898ae2fd39fbcca4ce17cac4b867673908252c71ae4cfc5bb7bc5049d",
+    "page18-external-input-comparison.json": "cbbe97cef3c1004fb15877f9c1de84facc7a3832f8603b150716e361e0350bd6",
+    "page18-panel-topology-comparison.json": "f271032f6a8e1aaea81abfc3746b51343a35cd9cc19b356d495c8bc4d207bc51",
+    "page18-yoke-pin-comparison.json": "47a69ec79f882e2803573fb49c67d7e682db43763ce5355f369b057dd688848d",
+    "page16-neck-source-netlist.json": "d7a2b4ec65dadc4b2bb6992b19d591b8427fb9e7eaec2e902ea0b8fa1de267e0",
+    "page16-neck-comparison.json": "1661ac91fc7c7399ffaae184a7e5ac725b6e20147a988058b975ed34bab84a9d",
+    "page18-vertical-rail-terminals-comparison.json": "5190ed7934b7b5468d0ec91891ea78394bb0904e92630c5a8b894182458b2d44"
+  },
+  "script_sha256": "ce8e22aec22305fdd5c952ad365f823f6cf08e701c00484f29524025614de8ad",
+  "source_endpoint_count": 70,
+  "covered_endpoint_count": 70,
+  "proof_counts": {
+    "cables": 36,
+    "input": 5,
+    "panel": 11,
+    "yoke": 10,
+    "neck": 6,
+    "rail_terminals": 2
+  },
+  "uncovered": [],
+  "functional_model_scope_gaps": [
+    {
+      "cable": "1.11.017307.0",
+      "from_connector": "012-6921:X5",
+      "from_pin": "1",
+      "to_connector": "012-6931:X1",
+      "to_pin": "1",
+      "source_signal": "41P",
+      "model_net": "p41",
+      "horizontal_board_net_present": true,
+      "destination_board": "012-6931",
+      "destination_board_net_present": false
+    },
+    {
+      "cable": "1.11.017307.0",
+      "from_connector": "012-6921:X5",
+      "from_pin": "3",
+      "to_connector": "012-6931:X1",
+      "to_pin": "3",
+      "source_signal": "SYNCH",
+      "model_net": "h_sync",
+      "horizontal_board_net_present": true,
+      "destination_board": "012-6931",
+      "destination_board_net_present": false
+    },
+    {
+      "cable": "1.11.017294.0",
+      "from_connector": "012-6921:X3",
+      "from_pin": "3",
+      "to_connector": "012-6891:X1",
+      "to_pin": "6",
+      "source_signal": "10.7P",
+      "model_net": "p10_7",
+      "horizontal_board_net_present": true,
+      "destination_board": "012-6891",
+      "destination_board_net_present": false
+    }
+  ],
+  "physical_endpoint_comparison_complete": true,
+  "a1_page18_complete": false,
+  "audit_passed": true
+}

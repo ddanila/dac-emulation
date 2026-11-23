@@ -5685,3 +5685,28 @@ candidate IDs while explicitly leaving `installed_candidate_ids` null and
 `a5_qualified` false. The older 19-port polarity lists remain historical;
 the pre-bridge 20-port screen remains available as a paired baseline. The
 design-point identity test verifies the report hashes and survivor sets.
+
+### A1: page-18 physical endpoint coverage (2026-11-23)
+
+The [coverage audit](page18_pin_coverage_audit.py) enumerates every endpoint
+in the independent [page-18 source transcription](reference/k7222-11/page18-interconnect-transcription.json).
+It verifies existing physical comparisons for all 18 cable pairs (36 ends),
+the five X9 input pins, six panel-board X1 pins, five panel terminals, six
+vertical X2/yoke-board pins, four yoke pins and six neck-board X2 pins.
+That accounted for 68 of 70 source-labelled endpoints.
+
+The remaining X21:1=12P and X22:1=00 vertical rail terminals now have a
+supplemental [audit-only KiCad sheet](circuits/k7222-11-page18-vertical-rail-terminals.kicad_sch)
+and a [fresh export comparison](reference/k7222-11/page18-vertical-rail-terminals-comparison.json).
+The [aggregate report](reference/k7222-11/page18-pin-coverage-audit.json)
+therefore records **70/70 physical source endpoints covered**, with no
+unmatched labelled pin. The new sheet has no functional devices and is not
+part of the connected assembly; 12P and 00 remain ideal-rail equivalents.
+
+This closes the page-18 *physical endpoint inventory*, not A1's whole-page
+functional review. The existing board-cable comparison still classifies
+three model-scope gaps (41P/SYNCH converter paths and 10.7P heater), and the
+connected contrast path is not qualified. The coverage report leaves
+`a1_page18_complete` false. Regenerate with `python3
+verification/robotron-monitor/page18_vertical_rail_terminals_compare.py`
+followed by `python3 verification/robotron-monitor/page18_pin_coverage_audit.py`.
