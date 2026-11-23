@@ -5654,3 +5654,25 @@ current source mapping and provisional numerical sections. These are raw
 extrema, without the EO2 instrument/probe transform; they cannot qualify
 the installed winding polarity or a periodic TP17 waveform. Regenerate with
 `python3 verification/robotron-monitor/t3_upper_bridge_tp17_assessment.py`.
+
+### A5: lower-tap parallel-loop constraint (2026-11-23)
+
+The [parallel-loop audit](t3_upper_bridge_parallel_loop_audit.py) re-exports
+the corrected assembly and checks the two source-read external conductors:
+X2:11–X1:13 and X2:10–X1:15. In the *candidate* internal tap order, these
+join the X2:11→X2:12→X2:10 drive path to the X1:13→X1:10→X1:15 lower
+path at both ends. Each path has **14 assumed turns and 0.4 Ω** in the
+current transfer. With positive relative sign their induced voltages match;
+with negative sign they oppose and form a **28-turn loop EMF** in the
+candidate model. The [audit report](reference/k7222-11/t3-upper-bridge-parallel-loop-audit.json)
+links the source read, fresh exported nets, parameter sections, all eight
+connected yoke results and TP17 swings by hash.
+
+This explains why the negative lower-tap cases collapse to about 0.064 A
+p-p yoke current and 14 Vpp at TP17 in the connected screen. It supplies a
+strong functional constraint **if** the source-visible terminals really
+follow the candidate internal winding order. The drawn wires are sourced;
+the two internal paths and their 14/14 turns are not. The audit therefore
+does not select factory polarity or close A5. Run `python3
+verification/robotron-monitor/t3_upper_bridge_parallel_loop_audit.py` to
+regenerate the result against the current assembly and source PDF.

@@ -430,8 +430,14 @@ matches EHT, yoke current and C21 under provisional sections and the unverified
 also places all four positive lower-tap cases at 77–79 Vpp, inside the
 registered 64–96 Vpp guideline, while all four reversed cases are near
 14 Vpp. This is raw final-window amplitude without EO2 probe correction or
-periodicity qualification. It rejects this numerical transfer across the sampled signs,
-not the physical winding graph or every bounded parameter choice.
+periodicity qualification. A [parallel-loop audit](reference/k7222-11/t3-upper-bridge-parallel-loop-audit.json)
+shows why this sign is sensitive: the source-drawn X2:11–X1:13 and
+X2:10–X1:15 wires place two *assumed* 14-turn paths in parallel. The
+current candidate cancels induced loop voltage only with positive relative
+lower-tap sign; reversing it creates a 28-turn opposing loop. The path
+order and turns still lack factory proof. The connected screen rejects this
+numerical transfer across the sampled signs, but cannot rule out the physical
+winding graph or every bounded parameter choice.
 Conditional simulations can reject sampled assumptions; they cannot establish
 the missing physical connection. The corrected [eight-sign screen](reference/k7222-11/t3-page4-visible-stage-screen.json)
 (seven completed cases) and [five-point booster screen](reference/k7222-11/t3-page4-booster-turn-screen.json)

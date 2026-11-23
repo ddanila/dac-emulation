@@ -1,0 +1,132 @@
+{
+  "format": "dac-monitor-t3-upper-bridge-parallel-loop-audit-v1",
+  "qualification": "source external bridges plus provisional internal tap order and turns; not a factory winding map or A5 closure",
+  "source_read_sha256": "8dda2f505743b43641f5ac76826f556197896c2a39b9a17f4c933121599620ee",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "correction_script_sha256": "8a7c56e699ce6c362b7e5c0903d582766509ce0f3e63e71c7cc4b8de1a100a81",
+  "script_sha256": "0508dc1a90b1b49818791c246d526679a75f20f49d9299f3cfbebb542cc6122f",
+  "connected_screen_sha256": "8e8bf9df5e0b149387053d5dc7620087a4550259ac83c389c2725705e84d2db9",
+  "tp17_assessment_sha256": "c66055136a4b6221fb24a90194c6955596fa72e2b7a3d9459f8469a9a2847fe6",
+  "external_bridges": [
+    [
+      "X2_10",
+      "X1_15"
+    ],
+    [
+      "X2_11",
+      "X1_13"
+    ]
+  ],
+  "shared_endpoint_nets": [
+    "h_lower13",
+    "h_boost"
+  ],
+  "paths": [
+    {
+      "group": "drive",
+      "taps": [
+        "X2_11",
+        "X2_12",
+        "X2_10"
+      ],
+      "section_turns": [
+        7,
+        7
+      ],
+      "turns": 14,
+      "resistance_ohm": 0.4,
+      "section_evidence": [
+        "assumed-bound",
+        "assumed-bound"
+      ]
+    },
+    {
+      "group": "lower_taps",
+      "taps": [
+        "X1_13",
+        "X1_10",
+        "X1_15"
+      ],
+      "section_turns": [
+        7,
+        7
+      ],
+      "turns": 14,
+      "resistance_ohm": 0.4,
+      "section_evidence": [
+        "assumed-bound",
+        "assumed-bound"
+      ]
+    }
+  ],
+  "interpretation": "With the candidate tap order, the two paths form a closed parallel winding loop. Matching phase and effective induced voltage are required; the registered 14/14 turns cancel loop EMF only for lower relative sign +1. A negative sign produces a 28-turn opposing loop under these provisional values.",
+  "cases": [
+    {
+      "candidate_id": "t3-d4dad557ad79c4f5",
+      "lower_relative_sign": 1,
+      "assumed_loop_emf_turns": 0,
+      "yoke_current_pp_a": 0.9500853361877543,
+      "tp17_swing_vpp": 77.02206853741014,
+      "tp17_within_registered_band": true
+    },
+    {
+      "candidate_id": "t3-f53abe5ace016bfe",
+      "lower_relative_sign": 1,
+      "assumed_loop_emf_turns": 0,
+      "yoke_current_pp_a": 0.9336715775478261,
+      "tp17_swing_vpp": 76.69005440007962,
+      "tp17_within_registered_band": true
+    },
+    {
+      "candidate_id": "t3-04e718eeeadc143a",
+      "lower_relative_sign": -1,
+      "assumed_loop_emf_turns": 28,
+      "yoke_current_pp_a": 0.06401932608423858,
+      "tp17_swing_vpp": 13.61470378384356,
+      "tp17_within_registered_band": false
+    },
+    {
+      "candidate_id": "t3-8bfb72da2d26d2c1",
+      "lower_relative_sign": -1,
+      "assumed_loop_emf_turns": 28,
+      "yoke_current_pp_a": 0.06367079914537913,
+      "tp17_swing_vpp": 13.565735615748059,
+      "tp17_within_registered_band": false
+    },
+    {
+      "candidate_id": "t3-c5fc96078e34bdf8",
+      "lower_relative_sign": 1,
+      "assumed_loop_emf_turns": 0,
+      "yoke_current_pp_a": 0.9680187814084311,
+      "tp17_swing_vpp": 78.53981390834761,
+      "tp17_within_registered_band": true
+    },
+    {
+      "candidate_id": "t3-9f0306313ca56457",
+      "lower_relative_sign": 1,
+      "assumed_loop_emf_turns": 0,
+      "yoke_current_pp_a": 0.9731321089973586,
+      "tp17_swing_vpp": 79.04813478077229,
+      "tp17_within_registered_band": true
+    },
+    {
+      "candidate_id": "t3-6a53d53d1c091c28",
+      "lower_relative_sign": -1,
+      "assumed_loop_emf_turns": 28,
+      "yoke_current_pp_a": 0.06400870640795997,
+      "tp17_swing_vpp": 13.583194409050419,
+      "tp17_within_registered_band": false
+    },
+    {
+      "candidate_id": "t3-077afdb3000dd8dd",
+      "lower_relative_sign": -1,
+      "assumed_loop_emf_turns": 28,
+      "yoke_current_pp_a": 0.06403235247066334,
+      "tp17_swing_vpp": 13.58449789004516,
+      "tp17_within_registered_band": false
+    }
+  ],
+  "qualified_lower_tap_sign": null,
+  "a5_qualified": false,
+  "passed": true
+}
