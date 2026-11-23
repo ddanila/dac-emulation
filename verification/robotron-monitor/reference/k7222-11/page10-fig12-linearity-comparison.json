@@ -1,0 +1,37 @@
+{
+  "format": "dac-monitor-page10-fig12-linearity-comparison-v1",
+  "qualification": "12 manual-figure terminals match the current model; C23 conflicts with board-schematic page 10 and physical wiring remains unresolved",
+  "manual_read_sha256": "5affdde0dafbbb75408c63b29b1078df7b5b1371b912d36af3a2249247b626a1",
+  "sheet_sha256": "f4a82dde10cd54fc63b980397d4ea194126d373a9749ee07795df0e3b99989d1",
+  "parts_checked": 6,
+  "terminals_checked": 12,
+  "exported_nodes": {
+    "C23": [
+      "vertical_reference",
+      "0"
+    ],
+    "R59": [
+      "vertical_reference",
+      "lin_r59"
+    ],
+    "R60": [
+      "vertical_reference",
+      "lin_r60"
+    ],
+    "R52": [
+      "lin_r59",
+      "threshold_lower"
+    ],
+    "R53": [
+      "lin_r60",
+      "threshold_upper"
+    ],
+    "V24": [
+      "threshold_upper",
+      "amp_inv"
+    ]
+  },
+  "mismatches": {},
+  "passed": true,
+  "source_conflict": "The board-schematic page-10 scan joins C23 upper to A3 physical pin 6 (negative supply), not the A2 reference shown here."
+}

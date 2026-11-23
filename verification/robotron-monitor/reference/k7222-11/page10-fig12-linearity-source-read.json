@@ -1,0 +1,30 @@
+{
+  "format": "dac-monitor-page10-fig12-linearity-source-read-v1",
+  "qualification": "Operating-manual Fig. 12 functional topology, not an independent page-10 board-schematic netlist or installed-control read",
+  "source": {
+    "file": "older-operation.pdf",
+    "pdf_sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
+    "pdf_page": 15,
+    "printed_page": 13,
+    "figure": 12,
+    "view_600dpi_sha256": "dd9b1028a30c508eb34bed2e109481e194f9cdf8688f8532db78c8d5f3aae34a"
+  },
+  "scope": {
+    "board": "012-6931",
+    "parts": ["C23", "R59", "R60", "R52", "R53", "V24"]
+  },
+  "nets": {
+    "A2_7V15_REFERENCE": ["C23:upper", "R59:reference", "R60:reference"],
+    "ZERO": ["C23:lower"],
+    "R59_TO_R52": ["R59:output", "R52:left"],
+    "R60_TO_R53": ["R60:output", "R53:left"],
+    "LOWER_THRESHOLD": ["R52:right"],
+    "UPPER_THRESHOLD": ["R53:right", "V24:anode"],
+    "A3_INVERTING": ["V24:cathode"]
+  },
+  "reading_notes": [
+    "The text and Fig. 12 place R60/R53 and R59/R52 on the constant 7.15 V A2 reference. R60 controls the upper threshold branch, R59 the lower branch in this paragraph; later service-adjustment prose reverses the screen-region labels.",
+    "Fig. 12 draws C23 from that reference to the return, whereas the board-schematic page-10 scan draws C23 from A3 physical pin 6 to return. This manual read records one side of the known conflict and does not resolve the installed board wiring.",
+    "V24 is drawn from the upper threshold branch to A3 physical pin 4, the inverting input; the cathode is at that input. R59/R60 are shown as adjustable parts, but Fig. 12 does not establish installed wiper positions."
+  ]
+}

@@ -751,7 +751,11 @@ confirms printed R50/R57/R58/R59/R60 values and model bounds but supplies no
 terminals or installed trim positions, so the nine-part terminal gap is
 unchanged. A [sheet-and-receipt coverage audit](reference/k7222-11/page10-model-source-coverage.json)
 derives **33/42** functional modeled parts with at least one scoped source
-terminal; this is not a whole-page pin or source-part census.
+terminal; this is not a whole-page pin or source-part census. A separate
+[manual Fig. 12 comparison](reference/k7222-11/page10-fig12-linearity-comparison.json)
+matches 12 modeled linearity/threshold terminals, including V24 and both
+R59/R60 branches; it confirms the manual side of the C23 conflict without
+changing the schematic-source coverage count or resolving physical wiring.
 
 | Item | Still unmet | Next step |
 |---|---|---|

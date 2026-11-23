@@ -6034,3 +6034,15 @@ C19, C21, C23, R50, R57, R58, R59, R60 and V24, matching the manual list
 above. A touched part is not necessarily fully pin-covered, and the audit
 does not compare every drawn part or page-edge join. Reproduce with
 `python3 verification/robotron-monitor/page10_source_coverage.py`.
+
+The operating manual's printed page 13, Fig. 12 supplies a second, explicitly
+**manual-side** read of the vertical-linearity branches. It draws R60/R53 and
+R59/R52 from the constant 7.15 V A2 reference to their respective upper and
+lower threshold nodes, V24 between the upper node and A3 physical pin 4,
+and C23 from the reference to return. The [fresh-export Fig. 12 comparison](reference/k7222-11/page10-fig12-linearity-comparison.json)
+matches all **12** selected manual terminals, including V24's diode direction.
+This strengthens the manual-side explanation of the active model; it does
+**not** turn the page-10 board schematic's conflicting C23 pin-6 drawing into
+a match. The page-10 schematic-source coverage audit remains **33/42**, with
+the same nine untouched parts. Reproduce with
+`python3 verification/robotron-monitor/page10_fig12_linearity_compare.py`.
