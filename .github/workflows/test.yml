@@ -12,6 +12,8 @@ on:
       - 'verification/robotron-keyboard/digital/**'
       - '!verification/robotron-keyboard/digital/reports/**'
       - '!.github/workflows/keyboard-*.yml'
+      # Documents do not change what the cores build or test.
+      - '!**/*.md'
   pull_request:
     paths:
       - '**'
@@ -23,6 +25,8 @@ on:
       - 'verification/robotron-keyboard/digital/**'
       - '!verification/robotron-keyboard/digital/reports/**'
       - '!.github/workflows/keyboard-*.yml'
+      # Documents do not change what the cores build or test.
+      - '!**/*.md'
   workflow_dispatch:
 permissions:
   contents: read
