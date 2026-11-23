@@ -1,0 +1,71 @@
+{
+  "format": "dac-monitor-ssy20-fast-edge-screen-v1",
+  "qualification": "isolated synthetic neck bench at 5 ns sample spacing; not connected CRT stress, native video drive or an A2 qualification",
+  "input_sha256": {
+    "profiles/k7222-11-neck.json": "ed2f6e9bfd8ebf886f963ee40aa9a4fd1030b701c42feefc5630089fda908b05",
+    "circuits/k7222-11-neck-models.cir": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20",
+    "reference/k7222-11/ssy20-joint-timing-candidate.json": "06706e002ee3b1e662aba39d83239e04b1ede0c78c32c4cddc65883af9403ddc",
+    "circuits/k7222-11-neck-bench.cir": "d914bc7054679d0daa4111db693796af840f068187192bbef5172632896234c1",
+    "circuits/k7222-11-neck.kicad_sch": "b9370c0af89c3d8940875961b2dee1467ee0bd9fb834bc98226fddbaea6523fb",
+    "neck_ssy20_joint_timing_candidate.py": "c093dbd626cae573ae0b26128cf000fdddc18334b4a548841ad25e2ca8c2c18a",
+    "reference.py": "ef3b759f3f37385db577f0797617ab3e754ccb39d31697f5232423f69327c1dd",
+    "neck_ssy20_fast_edge_screen.py": "55cc735784c3302f09963a64231c9d9b134d92cccc9e703d8cf63be3602cb6e6"
+  },
+  "runtime_path": "build/monitor/runtime-phase-a-gcc16-verified",
+  "run_directory": "build/monitor/phase-a/ssy20-fast-edge-screen-20261123",
+  "step_s": 5e-09,
+  "stop_s": 0.0004,
+  "sample_count": 80001,
+  "active": {
+    "deck_sha256": "4943ed1364f38824ca507b496c05faa70a9d774e1e67a3fca0162337e37a8def",
+    "samples_sha256": "38955d4c1e14b53c527806628db435cbee86dd4722bdbaa85dff4a115cba2949"
+  },
+  "fast_candidate": {
+    "q_tf_s": 4e-10,
+    "deck_sha256": "d2db2ab7670e171c0e435c820ad436c4c26c898784df1fdbecf123c369b8db66",
+    "samples_sha256": "1308ce3d75b46aea20b7ba76a81dc1fc02096a844d8b86a84f438f3981c544a3"
+  },
+  "comparison": {
+    "collector": {
+      "peak_delta_v": 19.81917461515367,
+      "peak_time_s": 0.0003000100000001669,
+      "active_at_peak_v": 20.3795011056906,
+      "fast_at_peak_v": 0.5603264905369318,
+      "late_peak_delta_v": 19.81917461515367,
+      "late_200ns_grid_peak_delta_v": 6.125738849505069e-08
+    },
+    "cathode": {
+      "peak_delta_v": 4.825979510429101,
+      "peak_time_s": 0.0002000299999999158,
+      "active_at_peak_v": 7.71578716098984,
+      "fast_at_peak_v": 12.54176667141894,
+      "late_peak_delta_v": 4.1629206430311925,
+      "late_200ns_grid_peak_delta_v": 9.78958141217845e-08
+    },
+    "intensity": {
+      "peak_delta_v": 1.4905605638659836e-09,
+      "peak_time_s": 0.0003000000000001669,
+      "active_at_peak_v": 5.000000005050683,
+      "fast_at_peak_v": 5.000000003560123,
+      "late_peak_delta_v": 1.4905605638659836e-09,
+      "late_200ns_grid_peak_delta_v": 1.4905605638659836e-09
+    },
+    "grid1": {
+      "peak_delta_v": 4.543123921507686e-08,
+      "peak_time_s": 0.000300020000000167,
+      "active_at_peak_v": -25.00000000966822,
+      "fast_at_peak_v": -24.99999996423698,
+      "late_peak_delta_v": 4.543123921507686e-08,
+      "late_200ns_grid_peak_delta_v": 3.424407424290621e-09
+    },
+    "grid2": {
+      "peak_delta_v": 1.4820221849731752e-07,
+      "peak_time_s": 0.0003000000000001669,
+      "active_at_peak_v": 350.0000005021752,
+      "fast_at_peak_v": 350.000000353973,
+      "late_peak_delta_v": 1.4820221849731752e-07,
+      "late_200ns_grid_peak_delta_v": 1.4820221849731752e-07
+    }
+  },
+  "connected_stress_checked": false
+}

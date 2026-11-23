@@ -496,6 +496,17 @@ and slow corners miss the 250 MHz BSY34 *comparison* value; with both
 capacitances at their active maxima and other parameters nominal, TF would
 need to be at most about 0.538 ns. BSY34 is not a direct SSY20A limit, so
 this is a model-consistency candidate, not a promoted bound or A2 closure.
+A [joint faster-TF candidate](reference/k7222-11/ssy20-joint-timing-candidate.json)
+with 0.4 ns nominal and 0.53 ns maximum passes all 128 SSY20 switching
+corners and eight BSY34 AC-comparison corners; its worst on/off times are
+17.26/46.29 ns and worst AC unity-gain frequency is 253.4 MHz. It remains
+unpromoted until its changed neck dynamics are checked in the connected
+stage and the cross-type fT transfer is justified.
+A [5 ns paired neck bench](reference/k7222-11/ssy20-fast-edge-screen.json)
+shows the fast candidate shifts the isolated cathode edge by up to 4.83 V
+and collector edge by 19.82 V; the prior 200 ns grid aliases these changes
+to below 0.001 V. Connected neck stress and native video response remain
+unmeasured, so the candidate cannot be promoted from the fixture screens.
 The partial [design point](reference/k7222-11/design-point.json) now binds the
 corrected 20-port source read and candidate reports by hash. It also binds
 the upper-bridge source and eight-case connected diagnostic, with eight

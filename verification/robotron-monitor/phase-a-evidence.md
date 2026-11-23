@@ -5843,3 +5843,26 @@ candidate, not a manufacturer TF bound. Selecting it would change the
 nominal neck dynamics and invalidate connected-stage numerical receipts;
 the class transfer and joint switching/AC/connected-stress checks must be
 resolved before promoting a new active TF envelope.
+
+The [joint candidate screen](neck_ssy20_joint_timing_candidate.py) tests
+an alternate **TF=0.4 ns nominal, 0.2–0.53 ns bounded** proxy while keeping
+the other active model parameters and bounds. All **128** SSY20 switching
+corners pass the conditional fixture (worst **17.26 ns on / 46.29 ns off**),
+and all **eight** TF/CJE/CJC AC corners exceed the BSY34 comparator
+(worst **253.4 MHz**). Its nominal values are **6.78 ns on, 13.23 ns off**
+and **368.4 MHz** unity-current-gain frequency. The screen demonstrates a
+nonempty intersection of the two *model* constraints, but it does not
+validate the fixture threshold convention, prove BSY34 equivalence,
+measure an installed SSY20A, or check the changed connected neck dynamics.
+The candidate is therefore retained separately from the active profile.
+
+The [paired 5 ns isolated-neck screen](neck_ssy20_fast_edge_screen.py)
+holds the KiCad neck sheet, synthetic bench, supplies and all other model
+parameters fixed while changing nominal TF from 2.0 to 0.4 ns. It records
+80,001 aligned samples over 400 µs. At the video/intensity edges, the
+candidate shifts the cathode waveform by up to **4.826 V** and the
+collector by **19.819 V**. Sampling those same traces at the older 200 ns
+grid yields less than 0.001 V late-window difference, showing that the
+coarse stage receipt aliases away the timing change. This is an isolated
+synthetic excitation, not a native connected CRT waveform or a transistor
+stress qualification; those remain necessary before any TF promotion.
