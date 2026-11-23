@@ -5781,3 +5781,19 @@ Its 39–43 V 41P range, 60–70 V across C21, timing comparison and conditional
 99–113 V trace-node arithmetic remain sourced independently. The report no
 longer claims that the obsolete 42.219–42.570 V crossing fits the later
 revision's rail range.
+
+### A2: saved device receipts reconciled with the active register (2026-11-23)
+
+The full 354-test monitor suite exposed saved A2 receipts still hashing the
+device and class registers from before the SSY20 timing-bound promotion.
+Fifteen reports covering device inventory, implicit/default audits,
+MAA723 corners, transistor class checks and vertical-diode stage sensitivity
+have been regenerated from their live check functions. A field-by-field JSON
+comparison against the prior committed reports found only input-provenance
+hash changes, with **no numerical result changes**. The focused transistor,
+BJT-bound, MAA723, vertical-diode and A2 audit tests pass. This repairs the
+active register receipt chain but does not qualify the still-open device
+identities, joint bounds, temperatures or connected stresses in A2. The
+full suite also exposed separate historical T3-stage assertions that still
+assume the former external booster pin assignment; those failures are not
+evidence for a valid Phase A design point.
