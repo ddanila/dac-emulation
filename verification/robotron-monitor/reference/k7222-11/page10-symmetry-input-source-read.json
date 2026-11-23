@@ -1,0 +1,33 @@
+{
+  "format": "dac-monitor-page10-symmetry-input-source-read-v1",
+  "qualification": "Scoped page-10 C24/R49 input-coupling read; other symmetry, supply and feedback branches remain unreviewed",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 10,
+    "views": [
+      {
+        "description": "1200 dpi lower page-10 crop including C24 and R49",
+        "sha256": "2af1b099116f4c8c44e1bbdcf25702851dbf215afe6db12973f2701d3aa6b177"
+      },
+      {
+        "description": "enlarged left input crop of the same source page",
+        "sha256": "ee0d921cfe040464892612875ef43c54b8885ea804212e44422db5f9d6948757"
+      }
+    ]
+  },
+  "scope": {
+    "board": "012-6931",
+    "parts": ["C24", "R49"]
+  },
+  "reading_notes": [
+    "The upper C24 terminal joins the source 00 line also read at V14 cathode and C17 negative; its lower terminal joins the left end of R49.",
+    "R49's right end reaches the A3 physical pin 5 noninverting input. The handwritten 'asymmetrie' annotation lies on this input branch and does not set a separate electrical value.",
+    "The four terminals are a local read. The continuation of 00 and other symmetry-control parts must be reviewed in the full page-10 netlist."
+  ],
+  "nets": {
+    "ZERO": ["C24:upper"],
+    "SYMMETRY": ["C24:lower", "R49:left"],
+    "A3_NONINVERTING": ["R49:right"]
+  }
+}

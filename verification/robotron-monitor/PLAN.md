@@ -743,8 +743,9 @@ directions. The page-10 modeled parts without any scoped source terminal
 decrease from 19 to 15. A subsequent [output-stage resistor read](reference/k7222-11/page10-output-pair-comparison.json)
 matches 34/34 scoped terminals, including R38/R56 collector feeds and R36/R61
 emitter paths, reducing the modeled parts without a scoped source terminal
-from 15 to 11. The rest of that page and the A3 operating point still require
-review.
+from 15 to 11. A [C24/R49 input-branch read](reference/k7222-11/page10-symmetry-input-comparison.json)
+matches four more terminals and reduces that set to nine. The rest of that
+page and the A3 operating point still require review.
 
 | Item | Still unmet | Next step |
 |---|---|---|

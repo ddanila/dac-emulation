@@ -6002,3 +6002,13 @@ now number **11**: C19, C21, C23, C24, R49, R50, R57, R58, R59, R60 and V24.
 Reproduce with `python3 verification/robotron-monitor/page10_output_pair_compare.py
 --source-pdf build/monitor/phase-a/sources/older.pdf --output
 verification/robotron-monitor/reference/k7222-11/page10-output-pair-comparison.json`.
+
+A separate 1200 dpi page-10 input read follows C24 from 00 to the symmetry
+node and R49 from that node to A3 physical pin 5, the noninverting input.
+The [fresh-export comparison](reference/k7222-11/page10-symmetry-input-comparison.json)
+matches all **4** selected terminals. This removes C24 and R49 from the
+no-source-terminal set, leaving **9** modeled page-10 parts still untouched
+by a scoped terminal read: C19, C21, C23, R50, R57, R58, R59, R60 and V24.
+The scan's handwritten "asymmetrie" label is recorded as an annotation; the
+comparator checks only the drawn connectivity. Reproduce with
+`python3 verification/robotron-monitor/page10_symmetry_input_compare.py`.
