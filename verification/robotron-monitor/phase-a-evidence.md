@@ -5643,3 +5643,14 @@ turns selection. The run does not establish periodic state or timestep
 convergence. Reproduce with `python3
 verification/robotron-monitor/t3_upper_bridge_sign_screen.py --ngspice
 /opt/homebrew/bin/ngspice --work build/monitor/phase-a/<new-directory>`.
+
+The [TP17 assessment](t3_upper_bridge_tp17_assessment.py) compares the same
+eight saved final-window `h_sync` swings with the registered 80 Vpp guideline
+and its ±20% band. The [derived report](reference/k7222-11/t3-upper-bridge-tp17-assessment.json)
+puts **four of eight** inside 64–96 Vpp: the positive lower-tap cases give
+**76.69–79.05 Vpp**. The four reversed cases give **13.57–13.61 Vpp**.
+This makes the lower-tap sign a useful *conditional* discriminator under the
+current source mapping and provisional numerical sections. These are raw
+extrema, without the EO2 instrument/probe transform; they cannot qualify
+the installed winding polarity or a periodic TP17 waveform. Regenerate with
+`python3 verification/robotron-monitor/t3_upper_bridge_tp17_assessment.py`.
