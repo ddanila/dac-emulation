@@ -77,16 +77,21 @@ def summarize_trace(path):
     if len(rows) < 75000 or abs(rows[-1]['time']-edge.STOP_S) > 1e-12:
         raise ValueError('connected current trace is incomplete')
     currents = [row[CURRENT_PROBE] for row in rows]
+    collector_voltages = [row['v(collector)'] for row in rows]
     powers = [max(row['v(collector)'],0)*max(row[CURRENT_PROBE],0)
               for row in rows]
     energy = sum((right['time']-left['time'])*(p_left+p_right)/2
                  for left,right,p_left,p_right in zip(rows,rows[1:],powers,powers[1:]))
     peak_current = max(range(len(rows)),key=lambda i:currents[i])
+    peak_voltage = max(range(len(rows)),key=lambda i:collector_voltages[i])
     peak_power = max(range(len(rows)),key=lambda i:powers[i])
     duration = rows[-1]['time']-rows[0]['time']
     events = excursions_above_reference(rows,powers)
     return dict(raw_samples=len(rows),window_s=[rows[0]['time'],rows[-1]['time']],
                 collector_current_range_a=[min(currents),max(currents)],
+                collector_emitter_voltage_range_v=[min(collector_voltages),
+                                                   max(collector_voltages)],
+                peak_collector_emitter_voltage_time_s=rows[peak_voltage]['time'],
                 peak_collector_current_time_s=rows[peak_current]['time'],
                 peak_instantaneous_power_w=powers[peak_power],
                 peak_instantaneous_power_time_s=rows[peak_power]['time'],
@@ -107,7 +112,7 @@ def analyze(work, edge_work):
     source = json.loads(SOURCE_READ.read_text())
     thermal = json.loads(THERMAL_READ.read_text())
     limits = source['limits']
-    if (limits['ic_a'],limits['ptot_w_at_25c']) != (.6,.7):
+    if (limits['vceo_v'],limits['ic_a'],limits['ptot_w_at_25c']) != (40,.6,.7):
         raise ValueError('direct SSY20 current/power source read changed')
     rth = thermal['maximum_thermal_resistance_k_per_w']
     if (rth['junction_to_ambient'],rth['junction_to_case']) != (220,40):
@@ -118,25 +123,31 @@ def analyze(work, edge_work):
         deck = (work/label/'run.cir').read_text()
         if base.count(OLD_SAVE) != 1 or deck != base.replace(OLD_SAVE,NEW_SAVE):
             raise ValueError(label+' current deck differs beyond added probe')
+        if deck.count('Q1 collector base 0 SSY20A_BOUND') != 1:
+            raise ValueError(label+' Q1 emitter is no longer at ground')
         trace = work/label/'trace.raw'
         summary = summarize_trace(trace)
         cases[label] = dict(deck_sha256=sha(work/label/'run.cir'),
                             trace_sha256=sha(trace), **summary,
                             conditional_steady_mean_junction_rise_c=
                             summary['mean_power_w']*rth['junction_to_ambient'])
-    return dict(format='dac-monitor-ssy20-connected-current-screen-v3',
+    return dict(format='dac-monitor-ssy20-connected-current-screen-v4',
                 qualification='2 ms conditional native-video startup current/power probe; provisional 19-port T3, manual contrast equivalent, no thermal impedance or pulsed SOA model',
                 input_sha256={str(path.relative_to(ROOT)):sha(path)
                               for path in (edge.OUTPUT,SOURCE_READ,THERMAL_READ,
                                            ROOT/'neck_ssy20_connected_edge_screen.py',
                                            ROOT/'steady_supply.py',Path(__file__))},
                 work_directory=str(work),edge_work_directory=str(edge_work),
-                source_limits=dict(ic_max_a=.6,continuous_ptot_w_at_25c=.7,
+                source_limits=dict(vceo_v=40,ic_max_a=.6,
+                                   continuous_ptot_w_at_25c=.7,
                                    maximum_steady_rthja_k_per_w=220,
                                    maximum_steady_rthjc_k_per_w=40),
                 cases=cases,
                 both_peak_currents_below_source_max=all(
                     row['collector_current_range_a'][1] < .6 for row in cases.values()),
+                both_peak_vce_below_source_vceo=all(
+                    row['collector_emitter_voltage_range_v'][1] < 40
+                    for row in cases.values()),
                 both_window_mean_powers_below_continuous_reference=all(
                     row['mean_power_w'] < .7 for row in cases.values()),
                 any_instantaneous_power_above_continuous_reference=any(

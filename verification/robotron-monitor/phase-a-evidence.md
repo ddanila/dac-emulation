@@ -5895,6 +5895,11 @@ native-video window, the active and fast cases peak at **0.149** and
 **0.158 A** collector current, both below the direct SSY20 **0.6 A**
 maximum. Their window-mean collector dissipation is **0.0379** and
 **0.0265 W**, while instantaneous peaks are **1.552** and **1.978 W**.
+Q1's emitter is ground in both decks; its measured collector voltage is
+therefore VCE. It ranges **0.838–34.425 V** active and **0.116–34.508 V**
+fast, so both native-video windows remain below the direct **40 V VCEO**
+limit. This is a voltage-only comparison for the provisional connected
+startup, not a simultaneous current/voltage SOA qualification.
 The source's **0.7 W at 25 °C** is a continuous power rating; a peak above
 it is not by itself a pulsed-SOA failure. No thermal impedance, pulse-width
 derating, actual package temperature or sustained frame behavior is known.

@@ -1,5 +1,5 @@
 {
-  "format": "dac-monitor-ssy20-connected-current-screen-v3",
+  "format": "dac-monitor-ssy20-connected-current-screen-v4",
   "qualification": "2 ms conditional native-video startup current/power probe; provisional 19-port T3, manual contrast equivalent, no thermal impedance or pulsed SOA model",
   "input_sha256": {
     "reference/k7222-11/ssy20-connected-edge-screen.json": "d63efd5061a6991a14dd54661b84a979164c0ab1f4d4020cf33367db54cce075",
@@ -7,11 +7,12 @@
     "reference/k7222-11/ssy20-thermal-source-read.json": "3756e5b0be4002eb463c3273df436000076e4411f6dcf592b9b0dab7e3f7d149",
     "neck_ssy20_connected_edge_screen.py": "9ca1950834eb0bf9e2b8cf85621c3af04b6ac9b0caf75d3171c79ad711362cc9",
     "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
-    "neck_ssy20_connected_current_screen.py": "996a5574b2e99a694d54a2e4a35d32761f0e76dec5f95e13d79d27e0ae2ae737"
+    "neck_ssy20_connected_current_screen.py": "8ef11090d1b6ec8a3ae97c815d0178600a6c13098d0977ce9d3d903bd6867aa6"
   },
   "work_directory": "build/monitor/phase-a/ssy20-connected-current-clean-20261123",
   "edge_work_directory": "build/monitor/phase-a/ssy20-connected-edge-clean-20261123",
   "source_limits": {
+    "vceo_v": 40,
     "ic_max_a": 0.6,
     "continuous_ptot_w_at_25c": 0.7,
     "maximum_steady_rthja_k_per_w": 220,
@@ -30,6 +31,11 @@
         -0.0005250893197414015,
         0.14910678391519375
       ],
+      "collector_emitter_voltage_range_v": [
+        0.8377851927055918,
+        34.42482617693231
+      ],
+      "peak_collector_emitter_voltage_time_s": 0.0017506613581828782,
       "peak_collector_current_time_s": 0.0016252601947260301,
       "peak_instantaneous_power_w": 1.5516310951347057,
       "peak_instantaneous_power_time_s": 0.0019626918472544805,
@@ -67,6 +73,11 @@
         -0.0012012388621439618,
         0.15832730200320866
       ],
+      "collector_emitter_voltage_range_v": [
+        0.11578368233580433,
+        34.50751670747174
+      ],
+      "peak_collector_emitter_voltage_time_s": 0.0019459752140874127,
       "peak_collector_current_time_s": 0.001625259381354289,
       "peak_instantaneous_power_w": 1.978136734002563,
       "peak_instantaneous_power_time_s": 0.0018854321381515415,
@@ -94,6 +105,7 @@
     }
   },
   "both_peak_currents_below_source_max": true,
+  "both_peak_vce_below_source_vceo": true,
   "both_window_mean_powers_below_continuous_reference": true,
   "any_instantaneous_power_above_continuous_reference": true,
   "thermal_or_pulsed_soa_qualified": false

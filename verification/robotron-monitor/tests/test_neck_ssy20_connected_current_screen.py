@@ -26,6 +26,7 @@ class SSY20ConnectedCurrentScreenTests(unittest.TestCase):
             self.skipTest('connected raw traces are unavailable')
         self.assertEqual(screen.analyze(work,edge_work),saved)
         self.assertTrue(saved['both_peak_currents_below_source_max'])
+        self.assertTrue(saved['both_peak_vce_below_source_vceo'])
         self.assertTrue(saved['both_window_mean_powers_below_continuous_reference'])
         self.assertTrue(saved['any_instantaneous_power_above_continuous_reference'])
         self.assertFalse(saved['thermal_or_pulsed_soa_qualified'])
