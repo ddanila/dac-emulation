@@ -1,7 +1,8 @@
 """Compare the live SSY20A neck model with the SSY20 data-sheet DC biases.
 
 The printed SSY20A suffix is provisionally mapped to data-sheet group A.
-This checks gain and saturation only; switching time and fT remain open.
+This checks gain and saturation only; a separate conditional switching screen
+checks timing, while fT and connected stress remain open.
 """
 import argparse
 import hashlib

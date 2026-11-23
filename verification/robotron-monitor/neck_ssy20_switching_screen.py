@@ -11,8 +11,10 @@ ROOT = Path(__file__).resolve().parent
 PROFILE = ROOT / 'profiles/k7222-11-neck.json'
 MODELS = ROOT / 'circuits/k7222-11-neck-models.cir'
 OUTPUT = ROOT / 'reference/k7222-11/ssy20-switching-corner-screen.json'
+SOURCE_READ = ROOT / 'reference/k7222-11/ssy20-datasheet-direct-read.json'
 DYNAMIC = ('q_bf', 'q_ikf', 'q_rb', 'q_cje', 'q_cjc', 'q_tf', 'q_tr')
-CANDIDATE_MAX = {'q_tf': 3.2e-9, 'q_tr': 40e-9}
+ACTIVE_MAX = {'q_tf': 3.2e-9, 'q_tr': 40e-9}
+HISTORICAL_MAX = {'q_tf': 20e-9, 'q_tr': 100e-9}
 
 
 def sha(path):
@@ -67,11 +69,14 @@ def run():
     if ngspice is None:
         raise ValueError('ngspice executable not found')
     profile = json.loads(PROFILE.read_text())
+    source = json.loads(SOURCE_READ.read_text())
+    if (source['switching_tests']['ton_max_ns'] != 50 or
+            source['switching_tests']['toff_max_ns'] != 100 or
+            source['limits']['ic_a'] != .6):
+        raise ValueError('direct SSY20 source read changed')
     specs = profile['parameters']
     nominal = {key: spec['nominal'] for key, spec in specs.items()}
-    if (specs['q_tf']['maximum'] != 20e-9 or specs['q_tr']['maximum'] != 100e-9
-            or any(not specs[key]['minimum'] <= CANDIDATE_MAX[key] <= specs[key]['maximum']
-                   for key in CANDIDATE_MAX)):
+    if any(specs[key]['maximum'] != value for key, value in ACTIVE_MAX.items()):
         raise ValueError('SSY20 registered timing bounds changed')
     model = MODELS.read_text()
     with tempfile.TemporaryDirectory() as temporary:
@@ -79,32 +84,33 @@ def run():
         baseline = solve(nominal, model, directory)
         old_slow = dict(nominal)
         old_slow.update({key: specs[key]['maximum'] for key in DYNAMIC})
+        old_slow.update(HISTORICAL_MAX)
         old_corner = solve(old_slow, model, directory)
         cases = []
         for bits in itertools.product((0, 1), repeat=len(DYNAMIC)):
             params = dict(nominal)
             for key, bit in zip(DYNAMIC, bits):
-                params[key] = (CANDIDATE_MAX.get(key, specs[key]['maximum'])
-                               if bit else specs[key]['minimum'])
+                params[key] = specs[key]['maximum'] if bit else specs[key]['minimum']
             result = solve(params, model, directory)
             cases.append(dict(dynamic_parameters={key: params[key] for key in DYNAMIC},
                               **result))
     passed = (baseline['source_limits_met'] and not old_corner['source_limits_met']
               and len(cases) == 128 and all(row['source_limits_met'] for row in cases))
     return dict(format='dac-monitor-ssy20-switching-corner-screen-v1',
-                qualification='conditional SPICE 40 V/80 ohm fixture and 4/36 V collector thresholds; not a certified datasheet switching test, connected neck stress or promoted parameter bounds',
+                qualification='active conditional SPICE timing envelope at 40 V/80 ohm and 4/36 V collector thresholds; not a certified datasheet switching test or connected neck stress',
                 source_url='https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf',
+                direct_source_read_sha256=sha(SOURCE_READ),
                 source_conditions='SSY20: IC=500 mA, IB1=50 mA, reverse IB2=25 mA, RL=80 ohm; ton <=50 ns, toff <=100 ns. 40 V supply and 10/90% collector thresholds are fixture inferences.',
                 profile_sha256=sha(PROFILE), models_sha256=sha(MODELS),
                 script_sha256=sha(__file__), ngspice_sha256=sha(Path(ngspice).resolve()),
-                old_registered_dynamic_max={key: specs[key]['maximum'] for key in CANDIDATE_MAX},
-                proposed_dynamic_max=CANDIDATE_MAX,
+                historical_dynamic_max=HISTORICAL_MAX,
+                active_dynamic_max=ACTIVE_MAX,
                 nominal=baseline, old_all_maximum=old_corner,
                 candidate_corner_count=len(cases),
                 candidate_worst_on_ns=max(row['on_ns'] for row in cases),
                 candidate_worst_off_ns=max(row['off_ns'] for row in cases),
                 candidate_failures=sum(not row['source_limits_met'] for row in cases),
-                cases=cases, bounds_promoted=False, a2_qualified=False, passed=passed)
+                cases=cases, bounds_promoted=True, a2_qualified=False, passed=passed)
 
 
 if __name__ == '__main__':

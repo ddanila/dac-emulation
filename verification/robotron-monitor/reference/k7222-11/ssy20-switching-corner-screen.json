@@ -1,17 +1,18 @@
 {
   "format": "dac-monitor-ssy20-switching-corner-screen-v1",
-  "qualification": "conditional SPICE 40 V/80 ohm fixture and 4/36 V collector thresholds; not a certified datasheet switching test, connected neck stress or promoted parameter bounds",
+  "qualification": "active conditional SPICE timing envelope at 40 V/80 ohm and 4/36 V collector thresholds; not a certified datasheet switching test or connected neck stress",
   "source_url": "https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
+  "direct_source_read_sha256": "01a58a24a0198c8fedb03d0b15f6830817949c13b0d8f0a425b0d06413d883af",
   "source_conditions": "SSY20: IC=500 mA, IB1=50 mA, reverse IB2=25 mA, RL=80 ohm; ton <=50 ns, toff <=100 ns. 40 V supply and 10/90% collector thresholds are fixture inferences.",
-  "profile_sha256": "7641047d5ce292dfb93e5dd2bb42841d56471fdec7fb10031b65c7b29dd1fd7d",
+  "profile_sha256": "ed2f6e9bfd8ebf886f963ee40aa9a4fd1030b701c42feefc5630089fda908b05",
   "models_sha256": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20",
-  "script_sha256": "7e556fff04eac8b6077070e3f8a5b20bfdb8866c6fc5cbefa97bd81b7f36615b",
+  "script_sha256": "731f24a33e0bc9156ba1ca3d25e4531e4366cd705702825f8b875855df71729c",
   "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
-  "old_registered_dynamic_max": {
+  "historical_dynamic_max": {
     "q_tf": 2e-08,
     "q_tr": 1e-07
   },
-  "proposed_dynamic_max": {
+  "active_dynamic_max": {
     "q_tf": 3.2e-09,
     "q_tr": 4e-08
   },
@@ -1823,7 +1824,7 @@
       "source_limits_met": true
     }
   ],
-  "bounds_promoted": false,
+  "bounds_promoted": true,
   "a2_qualified": false,
   "passed": true
 }

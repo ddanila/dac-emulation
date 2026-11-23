@@ -1,0 +1,33 @@
+{
+  "format": "dac-monitor-ssy20-datasheet-direct-read-v1",
+  "source_url": "https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
+  "source_pdf_sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43",
+  "pdf_page_one_based": 146,
+  "render_1400px_sha256": "646743f49344ad25cc58d246c78460f21c38179b1814d66ceb133b4b540ef592",
+  "type": "SSY 20",
+  "package": "TO39",
+  "limits": {
+    "vceo_v": 40,
+    "ic_a": 0.6,
+    "ptot_w_at_25c": 0.7,
+    "junction_temperature_c": 175,
+    "ambient_temperature_c": [-40, 125]
+  },
+  "static_tests": {
+    "h21e_group_a": [18, 35],
+    "h21e_condition": "IC=500 mA, VCE=1.3 V",
+    "vcesat_max_v": 1,
+    "vcesat_condition": "IC=500 mA, IB=50 mA"
+  },
+  "switching_tests": {
+    "ton_max_ns": 50,
+    "toff_max_ns": 100,
+    "condition": "IC=500 mA, IB1=50 mA, reverse IB2=25 mA, RL=80 ohm",
+    "ambient_condition": "25 C minus 5 K as printed"
+  },
+  "interpretation_limits": [
+    "The table does not print its switching-test supply waveform or collector threshold convention on this page; the 40 V/4 V/36 V SPICE fixture remains a stated inference.",
+    "The printed SSY20A suffix-to-group-A mapping is inferred from the suffix, not explicitly established by this table.",
+    "The table gives assembled switching times, not individual SPICE TF or TR limits."
+  ]
+}

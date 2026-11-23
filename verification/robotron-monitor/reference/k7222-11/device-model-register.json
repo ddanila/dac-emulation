@@ -1171,8 +1171,8 @@
         "IS": {"profile_key": "q_is", "nominal": 1e-14, "bounds": [1e-16, 1e-12], "unit": "A", "basis": "Unfitted silicon BJT saturation-current proxy; engineering bounds, not SSY20 data"},
         "BF": {"profile_key": "q_bf", "nominal": 26, "bounds": [20, 35], "unit": "1", "basis": "Joint BF/IKF corners give h21E 18.32–34.38 at 0.5 A/1.3 V, within the provisional SSY20 group-A range"},
         "VAF": {"profile_key": "q_vaf", "nominal": 60, "bounds": [20, 150], "unit": "V", "basis": "Unfitted Early-voltage proxy with exploratory spread"},
-        "TF": {"profile_key": "q_tf", "nominal": 2e-9, "bounds": [2e-10, 2e-8], "unit": "s", "basis": "Unfitted forward transit proxy; SSY20 switching and comparison fT checks remain open"},
-        "TR": {"profile_key": "q_tr", "nominal": 1e-8, "bounds": [1e-9, 1e-7], "unit": "s", "basis": "Unfitted reverse transit proxy; source turn-off time is not a direct SPICE TR bound"},
+        "TF": {"profile_key": "q_tf", "nominal": 2e-9, "bounds": [2e-10, 3.2e-9], "unit": "s", "basis": "Conditional 128-corner SSY20 switching fixture screen; assembled 50 ns on limit is not a direct SPICE TF bound"},
+        "TR": {"profile_key": "q_tr", "nominal": 1e-8, "bounds": [1e-9, 4e-8], "unit": "s", "basis": "Conditional 128-corner SSY20 switching fixture screen; assembled 100 ns off limit is not a direct SPICE TR bound"},
         "CJE": {"profile_key": "q_cje", "nominal": 2e-11, "bounds": [5e-12, 6e-11], "unit": "F", "basis": "Unfitted base-emitter capacitance proxy"},
         "CJC": {"profile_key": "q_cjc", "nominal": 8e-12, "bounds": [2e-12, 3e-11], "unit": "F", "basis": "Unfitted base-collector capacitance proxy"},
         "IKF": {"profile_key": "q_ikf", "nominal": 5, "bounds": [5, 20], "unit": "A", "basis": "High-current gain-rolloff proxy jointly bounded with BF by the 0.5 A SSY20 group-A gain test; not an individual source limit"},
@@ -1195,7 +1195,9 @@
         "fT_hz": {"minimum": 2.5e8, "conditions": "BSY34 comparison, IC=30 mA, VCE=10 V, f=100 MHz; not a direct SSY20 specification", "source": "DDR-Halbleiter BSY34 section and DDR silicon transistor comparison list"}
       },
       "model_response_report": "reference/k7222-11/ssy20-model-dc-check.json",
-      "remaining": ["Measure switching under the data-sheet 80-ohm/500-mA conditions", "Measure model fT and bound TF/CJE/CJC against the BSY34 comparison", "Sweep connected neck-stage current, voltage and cathode sensitivity over joint model corners; present bounds are exploratory"]
+      "switching_source_read": "reference/k7222-11/ssy20-datasheet-direct-read.json",
+      "switching_response_report": "reference/k7222-11/ssy20-switching-corner-screen.json",
+      "remaining": ["Resolve the inferred 40 V/4 V/36 V switching fixture against any manufacturer threshold definition; the screened TF/TR limits are assembled-model proxies, not direct device limits", "Measure model fT and bound TF/CJE/CJC against the BSY34 comparison", "Sweep connected neck-stage current, voltage and cathode sensitivity over joint model corners; remaining bounds are exploratory"]
     },
     {
       "id": "012-6921:V18",

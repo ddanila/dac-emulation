@@ -44,18 +44,18 @@
     "q_tf": {
       "nominal": 2e-09,
       "minimum": 2e-10,
-      "maximum": 2e-08,
+      "maximum": 3.2e-09,
       "unit": "s",
-      "evidence": "assumed-bound",
-      "rationale": "Switching transit time uncertainty."
+      "evidence": "class-typical",
+      "rationale": "Joint 128-corner SSY20 switching fixture screen with the printed 500 mA/80 ohm and 50 ns on limit; this is a conditional SPICE envelope, not a direct manufacturer TF limit."
     },
     "q_tr": {
       "nominal": 1e-08,
       "minimum": 1e-09,
-      "maximum": 1e-07,
+      "maximum": 4e-08,
       "unit": "s",
-      "evidence": "assumed-bound",
-      "rationale": "Storage/reverse transit uncertainty."
+      "evidence": "class-typical",
+      "rationale": "Joint 128-corner SSY20 switching fixture screen with the printed 500 mA/80 ohm and 100 ns off limit; this is a conditional SPICE envelope, not a direct manufacturer TR limit."
     },
     "q_cje": {
       "nominal": 2e-11,

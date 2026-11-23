@@ -18,7 +18,7 @@ class SSY20SwitchingScreenTests(unittest.TestCase):
         self.assertEqual(report['candidate_failures'], 0)
         self.assertLessEqual(report['candidate_worst_on_ns'], 50)
         self.assertLessEqual(report['candidate_worst_off_ns'], 100)
-        self.assertFalse(report['bounds_promoted'])
+        self.assertTrue(report['bounds_promoted'])
 
 
 if __name__ == '__main__':
