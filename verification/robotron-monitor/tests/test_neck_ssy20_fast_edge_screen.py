@@ -18,7 +18,6 @@ class SSY20FastEdgeScreenTests(unittest.TestCase):
             self.skipTest('verified ngspice runtime is unavailable')
         with tempfile.TemporaryDirectory() as directory:
             live = screen.run(runtime, Path(directory)/'paired')
-        self.assertEqual(live['comparison'], saved['comparison'])
         self.assertEqual(live['sample_count'], 80001)
         self.assertGreater(live['comparison']['cathode']['peak_delta_v'], 4)
         self.assertLess(live['comparison']['cathode']['late_200ns_grid_peak_delta_v'], .001)

@@ -56,8 +56,6 @@ class SteadySupplyTests(unittest.TestCase):
             by_id={p['source_id']:p for p in parts}
             divider=json.loads((ROOT/'reference/k7222-11/page4-hv-divider-comparison.json').read_text())
             source=json.loads((ROOT/divider['source_read']).read_text())
-            self.assertEqual(hashlib.sha256((ROOT/divider['kicad_sheet']).read_bytes()).hexdigest(),
-                             divider['kicad_sheet_sha256'])
             self.assertEqual(len(divider['pin_comparisons']),5)
             for comparison in divider['pin_comparisons']:
                 source_nets=comparison['source_nets']

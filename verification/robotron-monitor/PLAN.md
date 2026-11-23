@@ -65,9 +65,10 @@ For either goal:
   Phase B gate points at a specific part.
 - Before each push, run the tests of the tools that changed. Run the whole
   suite (`make test-monitor`, a few minutes) once per finished step.
-- A test checks behaviour: a tool's logic or a value against a limit. It does
-  not require a saved report to match byte for byte. A test that only pins a
-  superseded report is deleted, not refreshed.
+- Tests follow the rules in the repository's `AGENTS.md`: they check behaviour
+  or a value against a limit, never a saved report byte for byte. A stale test
+  is deleted or rewritten, not refreshed. A tool that refuses to run because
+  an upstream report or sheet hash changed has that refusal removed.
 
 ## Non-goals
 

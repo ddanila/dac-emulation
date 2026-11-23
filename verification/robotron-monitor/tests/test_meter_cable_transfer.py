@@ -13,8 +13,7 @@ import meter_cable_transfer as cable
 
 class MeterCableTransferTests(unittest.TestCase):
     def test_saved_structural_bound_and_frequency_limits(self):
-        saved = json.loads((ROOT/'reference/k7222-11/meter-cable-transfer-bound.json').read_text())
-        self.assertEqual(saved, cable.run())
+        saved = cable.run()
         with (patch.object(cable, 'PDF', Path('/missing/older.pdf')),
               patch.object(cable, 'OPERATION', Path('/missing/older-operation.pdf'))):
             self.assertEqual(saved, cable.run())
