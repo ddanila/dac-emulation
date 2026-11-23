@@ -5443,7 +5443,12 @@ winding sections remain coupled alternatives.
 ### A1: page-9 A2 height/feedback crossing (2026-11-21)
 
 An independent [600 and 1200 dpi source read](reference/k7222-11/page9-integrator-crossing-source-read.json)
-checks the page-9 A2:7, R34, R35 and C22 branch. The R34-to-R35 height
+checks the page-9 A2:2, R34, R35 and C22 branch. The earlier receipt
+called the inverting input `A2:7`; the source drawing and exact Tesla
+MAA723 pin map identify it as pin **2**, while pin **7** is a positive
+supply. The electrical net comparison had checked A2's functional inverting
+slot, so the old pin number was a provenance error rather than a model-net
+change. The R34-to-R35 height
 control and C22 feedback lines cross the 12P rail without junction dots;
 R35's wiper is tied to its right-hand end at 00. A [fresh KiCad comparison](reference/k7222-11/page9-integrator-crossing-comparison.json)
 matches the three electrical component branches and A2 inverting input and

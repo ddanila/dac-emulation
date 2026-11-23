@@ -16,7 +16,7 @@ def compare(source, components):
     if source.get('format') != 'dac-monitor-page9-integrator-crossing-source-read-v1':
         raise ValueError('page-9 crossing source read changed')
     expected_nets = {
-        'A2_INVERTING': ['A2:7', 'R34:left', 'C22:left'],
+        'A2_INVERTING': ['A2:2', 'R34:left', 'C22:left'],
         'HEIGHT_TRIM': ['R34:right', 'R35:left'],
         '00': ['R35:right', 'R35:wiper'],
         'RAMP_FEEDBACK': ['C22:right'],

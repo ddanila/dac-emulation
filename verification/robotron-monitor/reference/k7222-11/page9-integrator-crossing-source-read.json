@@ -17,14 +17,14 @@
     ]
   },
   "source_nets": {
-    "A2_INVERTING": ["A2:7", "R34:left", "C22:left"],
+    "A2_INVERTING": ["A2:2", "R34:left", "C22:left"],
     "HEIGHT_TRIM": ["R34:right", "R35:left"],
     "00": ["R35:right", "R35:wiper"],
     "RAMP_FEEDBACK": ["C22:right"]
   },
   "crossing_read": "The R34-to-R35 line and C22 feedback line cross the vertical 12P rail without junction dots. R35's wiper is visibly joined to its right-hand end and 00, not to 12P.",
   "limits": [
-    "This read covers only A2:7, R34, R35 and C22; the rest of page 9 remains open.",
+    "This read covers only A2:2, R34, R35 and C22; the rest of page 9 remains open.",
     "The source drawing shows three physical R35 terminals; a two-terminal variable-resistance equivalent may preserve the electrical network but cannot satisfy the physical pin comparison."
   ]
 }

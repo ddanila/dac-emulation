@@ -729,6 +729,10 @@ ramp test fail (minimum slope 0.00013 V/s versus >50 V/s), so the active
 mapping remains a labelled functional fallback, not source-approved wiring.
 Reconcile the V13 bias/feedback branch on pages 9–10 and rerun the stage
 before A1 can close.
+The scoped page-9 crossing receipt's old `A2:7` label was corrected to
+`A2:2`: the drawing and Tesla pin map put the inverting input at pin 2 and
+the positive supply at pin 7. Both affected source comparisons were
+regenerated; their electrical terminal coverage is unchanged.
 
 | Item | Still unmet | Next step |
 |---|---|---|

@@ -67,7 +67,7 @@ def compare(source, components):
     previous_terminals = {terminal for terminals in previous_source['source_nets'].values()
                           for terminal in terminals}
     source_terminals = {row['terminal'] for row in checked} | previous_terminals
-    source_terminals.discard('A2:7')  # Same physical pin as A2:minus above.
+    source_terminals.discard('A2:2')  # Same physical pin as A2:minus above.
     all_ids = set(PIN_INDEX) | {'R34', 'R35', 'C22'}
     model_slots = sum(len(by_id['012-6931:' + part]['nodes']) for part in all_ids)
     verified_slots = len(source_terminals - {'R35:wiper'})
