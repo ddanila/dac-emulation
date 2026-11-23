@@ -54,8 +54,11 @@ def run(ngspice, source_pdf):
                     centering_source_netlist_sha256=comparison['source_netlist_sha256']),
         inputs_sha256={str(path.relative_to(ROOT)): sha(path)
                        for path in (brimar.OUTPUT, centering.OUTPUT,
+                                    ROOT / 'reference/k7222-11/t3-initial-parameters.json',
+                                    ROOT / 'reference/k7222-11/t3-winding-hypothesis.json',
                                     ROOT / 't3_centering_return_screen.py',
                                     ROOT / 't3_drive_pulse_screen.py',
+                                    ROOT / 't3_output_stage_sweep.py',
                                     ROOT / 'yoke_brimar_110deg_comparator.py',
                                     ROOT / 't3_yoke_brimar_stage_screen.py')},
         ngspice_sha256=sha(ngspice),

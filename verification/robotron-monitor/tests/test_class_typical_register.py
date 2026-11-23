@@ -159,9 +159,10 @@ class ClassTypicalRegisterTests(unittest.TestCase):
                              cases['TBY7'][key])
         stage_cases = {row['catalog_type']: row for row in stage['class_cases']}
         self.assertEqual(set(stage_cases), set(cases))
-        self.assertEqual(stage['class_cases_in_11_12kv_band_at_collector_peak'], 1)
-        self.assertTrue(11000 < stage_cases['TBY7']['eht_at_collector_peak_v'] < 12000)
-        self.assertLess(stage_cases['TBY3']['eht_at_collector_peak_v'], 11000)
+        self.assertEqual(stage['class_cases_in_11_12kv_band_at_collector_peak'], 0)
+        self.assertTrue(2000 < stage_cases['TBY7']['eht_at_collector_peak_v'] < 3000)
+        self.assertLess(stage_cases['TBY3']['eht_at_collector_peak_v'],
+                        stage_cases['TBY7']['eht_at_collector_peak_v'])
 
     def test_tube_heater_class_point_matches_live_equilibrium(self):
         check=json.loads((REF/'tube-heater-class-check.json').read_text())

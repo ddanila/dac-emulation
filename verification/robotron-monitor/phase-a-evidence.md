@@ -5740,3 +5740,21 @@ Older reports retaining the prior neck-profile hash are historical snapshots,
 not new checks of the current bounds; their provenance must be reconciled
 before A2 closure. Regenerate
 with `python3 verification/robotron-monitor/neck_ssy20_switching_screen.py`.
+
+### A5: Brimar stage result no longer reproduces the historical rail claim (2026-11-23)
+
+The Philips yoke comparator and Brimar paired-class reports now track the
+current design-point hash. Regenerating the [Brimar conditional stage](reference/k7222-11/t3-yoke-brimar-stage-screen.json)
+from the current deck gives **2.411 kV** sampled EHT and **0.0644 A p-p**
+for TBY7, versus the former saved **11.512 kV** and **0.914 A p-p**. None
+of its three class windings is in the 11–12 kV service band. The regenerated
+report now records the T3 graph, initial-parameter and stage-script hashes
+that govern its deck. The fixed class winding data are unchanged.
+
+This supersedes the earlier 11.51 kV TBY7 stage claim in this evidence log.
+The [R5 rail](reference/k7222-11/t3-brimar-rail-boundary-screen.json) and
+[link/choke](reference/k7222-11/t3-brimar-link-sensitivity.json) reports
+depend on the former 41 V base case and remain **historical**, including
+their 42.504 V current crossing. The current stage cannot establish an A5
+T3/yoke match; the source-corrected 20-port graph must be qualified before
+those sensitivities are useful again.
