@@ -5477,6 +5477,26 @@ slot coverage, not a complete page-9 second netlist. Joins to the oscillator,
 regulator and centring scopes, remaining page edges, transistor arrows and
 stage-function checks still require the full A1 review.
 
+### A1: page-9 V13 PNP emitter arrow conflicts with the active pin order (2026-11-23)
+
+An independent [600/1200 dpi arrow read](reference/k7222-11/page9-v13-arrow-source-read.json)
+shows the V13 KFY18 PNP emitter arrow on the upper-right lead, which joins
+the A2 inverting branch. The lower-right lead joins the 2 V bias branch.
+The current exported `Q606 ramp_inv retrace_base ramp_bias` places those
+two drawn leads at the SPICE collector and emitter positions respectively.
+Thus the earlier 35-terminal electrical comparison matches nets but does
+**not** establish semiconductor lead identity.
+
+A [source-order candidate trial](reference/k7222-11/page9-v13-emitter-candidate-screen.json)
+swapped only Q606 collector and emitter. Its provisional connected 2 ms
+video run completed, but the vertical integrator test then failed: the
+minimum sampled ramp slope was **0.00013 V/s** against the required
+**>50 V/s**. The existing active mapping was restored after this trial.
+This is a concrete A1 source/function conflict, not permission to retain
+the reversed model as source-approved. The adjoining bias and feedback
+connections on pages 9–10 must be reconciled before promoting a corrected
+vertical stage.
+
 ### A1: page-9 oscillator/filter terminal coverage (2026-11-21)
 
 The [new source read](reference/k7222-11/page9-oscillator-gap-source-read.json)

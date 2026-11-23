@@ -1,0 +1,29 @@
+{
+  "format": "dac-monitor-page9-v13-emitter-candidate-screen-v1",
+  "qualification": "source-order candidate only; active KiCad mapping retained pending vertical-stage correction",
+  "source_read_sha256": "4d7203e4c21fe9b41ec4cb27cbcf5532ac6ad3b7b02a521ef448f6bcdc0ddcdf",
+  "base_connected_deck_sha256": "dd445ba79967786da4cbafd2d1118ade826ff85243aae50a12297e5fc7552ce3",
+  "candidate_connected_deck_sha256": "5cd11bce210f910b6692283965d09f51ecb4ff6ea78ae717f6d7b168f3b6d585",
+  "candidate_connected_trace_sha256": "a97987526ac26301aab204db356d2e47a3c2585fb8faa6b4a094bbb7aee27933",
+  "deck_change": {
+    "from": "Q606 ramp_inv retrace_base ramp_bias VERTICAL_PNP_BOUND",
+    "to": "Q606 ramp_bias retrace_base ramp_inv VERTICAL_PNP_BOUND"
+  },
+  "connected_trial": {
+    "stop_s": 0.002,
+    "completed": true,
+    "candidate_video_window_s": [0.001625, 0.002],
+    "candidate_cathode_range_v": [22.050075140677045, 33.68162216683337],
+    "candidate_neck_collector_range_v": [0.8377851930277752, 34.424828864329754],
+    "limitation": "The saved connected deck probes only video/horizontal nodes; near-identical video ranges do not validate the vertical ramp or output."
+  },
+  "vertical_integrator_test": {
+    "command": "python3 -m unittest verification/robotron-monitor/tests/test_vertical_integrator.py",
+    "result_with_candidate_sheet": "FAIL",
+    "minimum_ramp_slope_v_per_s": 0.00013034565149450117,
+    "required_minimum_ramp_slope_v_per_s": 50,
+    "first_failed_assertion": "self.assertGreater(min(slopes),50)",
+    "candidate_sheet_restored_after_trial": true
+  },
+  "disposition": "Do not promote the source-order candidate as a functioning stage. Reconcile V13 terminal identity and the adjoining bias/feedback stage against the full page-9/10 drawing, then correct and rerun the vertical test before Phase A source signoff."
+}

@@ -722,6 +722,14 @@ except the labelled [pin-order screen](reference/k7222-11/t3-booster-pin-order-s
 Their sampled values must be regenerated for a selected source-corrected
 candidate before they can support A5 closure.
 
+A [new page-9 V13 arrow read](reference/k7222-11/page9-v13-arrow-source-read.json)
+finds its PNP emitter on the A2 inverting branch, while the active SPICE
+pin order places the collector there. A source-order swap makes the vertical
+ramp test fail (minimum slope 0.00013 V/s versus >50 V/s), so the active
+mapping remains a labelled functional fallback, not source-approved wiring.
+Reconcile the V13 bias/feedback branch on pages 9–10 and rerun the stage
+before A1 can close.
+
 | Item | Still unmet | Next step |
 |---|---|---|
 | A1 | A new page-4 terminal inventory finds 20 visible magnetic labels, including X3:1 and X1:2, and draws X1:2–X2:3; V21 pads are X3:1/X3:2; the earlier X1:1/X1:2 diode read and its comparison are superseded. Second netlists for pages 3–4 and 9–10 are partial: local branches match, the full pages are not compared. Combined page-9 A2 integrator reads touch all 16 modeled parts and match all 41 exported electrical terminal slots, including A2 pins 1/5 to 00 and 7/8 to 12P; R35’s physical wiper is collapsed in the model. Combined page-9 oscillator/filter reads match all 38 electrical slots of 18 modeled parts; X1/X3 page-edge connectors and whole-page joins remain open. Page 9 hand-labels SYN as X3:7, but the printed page-18 six-wire assembly and fresh cable export put SYN on X3:6; retain the page-18 model pin and carry the page-9 annotation as an unresolved revision alternative. Page 16's independent pin comparison and function checks are closed in the source-review gate; its separate unvalued meter cable remains an A6 transfer problem. Page 18 has three model-scope gaps, a [checked physical X9 input connector and logical cable seam](reference/k7222-11/page18-external-input-comparison.json), and no working contrast path. The page-10 diode/threshold feedback branch now matches 18/18 selected terminals, but the page-10 C23 schematic/manual conflict is resolved for the model in favor of Fig. 12 by its functional explanation and a <2% paired-stage topology screen; physical board wiring remains unverified. Scoped page-4 X2:4/C31/C32-to-H2/X5:5 and V16/C26/C21-to-T3 booster branches now match fresh exports after correcting the exchanged X2:10/X2:13 model pins; a later two-link read confirms the drawn X2:10–X1:15 and X2:11–X1:13 conductors, but the complete page remains open. Still unqualified: the full T3 return, tap order and HV cold end; T2 secondary phase and return; installed E2 and E1–E4 links; C30 population (the corrected paired TP17 waveform moves about 6.6%, above the 2% A1 shortcut); L1's crossing with the flyback line. | Finish the pin-to-pin comparisons. Carry each connection the scan cannot settle as a labelled, bounded alternative. |

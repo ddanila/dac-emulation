@@ -1,0 +1,23 @@
+{
+  "format": "dac-monitor-page9-v13-arrow-source-read-v1",
+  "qualification": "independent 600 and 1200 dpi crops establish V13 lead identity; connected-stage behavior still requires a corrected export and solve",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 9,
+    "views": [
+      {"description": "600 dpi V11/V13 and A2 context crop", "sha256": "ea4c2bdeae4f9958113378e0a14fd98d32e545f228d852f5e1871341dcc1d036"},
+      {"description": "1200 dpi V13 transistor-symbol crop", "sha256": "e60662ecce05e278665075b9a3a5042fdac9f1274da65ce53c3b3d7a7627328f"}
+    ]
+  },
+  "printed_type": "KFY18",
+  "device_polarity": "PNP",
+  "drawn_leads": {
+    "left": "base, fed through R39",
+    "upper_right": "emitter, arrow points inward toward base; connected to A2-minus/C15-left",
+    "lower_right": "collector, connected to 2 V ramp-bias branch"
+  },
+  "current_model_mismatch": "Q606 ramp_inv retrace_base ramp_bias VERTICAL_PNP_BOUND places the upper-right ramp_inv lead at the SPICE collector terminal and lower-right ramp_bias at the emitter terminal",
+  "source_order_candidate": "Q606 ramp_bias retrace_base ramp_inv VERTICAL_PNP_BOUND",
+  "scope_limit": "Arrow identity is a source reading; it does not by itself establish a functioning connected vertical stage."
+}
