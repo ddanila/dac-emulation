@@ -26,6 +26,70 @@
     "candidate_booster_turn_screen_sha256": "fcb7c0243839a5a459f1f733d933ac0ce2e3b6eacd3945055ae6bc660cb55009",
     "screen_result": "No joint sampled EHT, TBY7 current and C21 match in seven completed eight-sign cases or five completed booster-turn cases; prescribed-drive sensitivities do not qualify installed turns, returns or periodic state."
   },
+  "t3_corrected_upper_bridge_diagnostic": {
+    "status": "source-corrected diagnostic graph with provisional internal sections; no installed T3 design point",
+    "source_visible_port_count": 20,
+    "relative_polarity_candidate_count": 16,
+    "references": {
+      "upper_bridge_source_read": {
+        "path": "reference/k7222-11/page4-t3-upper-bridge-source-read.json",
+        "sha256": "fed471c40a249a02673168dc372975ce7fb688d8fd69863b0d8f80d8d5831c78"
+      },
+      "lower_bridge_source_read": {
+        "path": "reference/k7222-11/page4-t3-internal-links-source-read.json",
+        "sha256": "8dda2f505743b43641f5ac76826f556197896c2a39b9a17f4c933121599620ee"
+      },
+      "upper_bridge_export_audit": {
+        "path": "reference/k7222-11/page4-t3-upper-bridge-audit.json",
+        "sha256": "b08eb1da68b57bf661c043c5a7fcce1b756f64d9afd733366853432fc9228d8b"
+      },
+      "paired_connected_screen": {
+        "path": "reference/k7222-11/t3-page4-upper-bridge-screen.json",
+        "sha256": "d793e68a12390a924fa6d04ae0ce7083a4dd4a061df2e6b39e0adf3694fa2c58"
+      },
+      "conditional_g1_sign_screen": {
+        "path": "reference/k7222-11/t3-upper-bridge-g1-sign.json",
+        "sha256": "0d634940189b333b0114e4c0a9d77e7b2dc16cc4789a4a0548d8b61ca92ec7dc"
+      },
+      "corrected_connected_sign_screen": {
+        "path": "reference/k7222-11/t3-upper-bridge-sign-screen.json",
+        "sha256": "8e8bf9df5e0b149387053d5dc7620087a4550259ac83c389c2725705e84d2db9"
+      },
+      "conditional_tp17_assessment": {
+        "path": "reference/k7222-11/t3-upper-bridge-tp17-assessment.json",
+        "sha256": "c66055136a4b6221fb24a90194c6955596fa72e2b7a3d9459f8469a9a2847fe6"
+      },
+      "parallel_loop_audit": {
+        "path": "reference/k7222-11/t3-upper-bridge-parallel-loop-audit.json",
+        "sha256": "5e5655a4e814fbf487bed3d920ca3d47bf8e79f95a2505801b203d43538227e0"
+      }
+    },
+    "conditional_g1_candidate_ids": [
+      "t3-d4dad557ad79c4f5",
+      "t3-f53abe5ace016bfe",
+      "t3-04e718eeeadc143a",
+      "t3-8bfb72da2d26d2c1",
+      "t3-c5fc96078e34bdf8",
+      "t3-9f0306313ca56457",
+      "t3-6a53d53d1c091c28",
+      "t3-077afdb3000dd8dd"
+    ],
+    "conditional_tp17_candidate_ids": [
+      "t3-d4dad557ad79c4f5",
+      "t3-f53abe5ace016bfe",
+      "t3-c5fc96078e34bdf8",
+      "t3-9f0306313ca56457"
+    ],
+    "connected_cases_completed": 8,
+    "connected_joint_eht_c21_match": false,
+    "installed_candidate_ids": null,
+    "a5_qualified": false,
+    "limitations": [
+      "The upper bridge and two lower external conductors are source-drawn; internal winding order, returns, X1:16 mapping, turns and parasitics remain unqualified.",
+      "The G1 and TP17 survivor sets depend on provisional sections, synthetic input and an unverified 1 ns BSYN delay; TP17 uses raw extrema without EO2 correction.",
+      "The eight connected cases stop at 20 ms and do not prove a periodic operating point."
+    ]
+  },
   "mode": {
     "name": "S550 2 kByte",
     "line_period_s": 0.0000625,

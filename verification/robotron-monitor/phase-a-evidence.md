@@ -5676,3 +5676,12 @@ the two internal paths and their 14/14 turns are not. The audit therefore
 does not select factory polarity or close A5. Run `python3
 verification/robotron-monitor/t3_upper_bridge_parallel_loop_audit.py` to
 regenerate the result against the current assembly and source PDF.
+
+The partial [design point](reference/k7222-11/design-point.json) now has a
+separate `t3_corrected_upper_bridge_diagnostic` record. It pins the source
+reads, fresh export audit, connected screen, conditional G1/TP17 filters and
+parallel-loop audit by hash. It lists the eight G1 and four TP17 conditional
+candidate IDs while explicitly leaving `installed_candidate_ids` null and
+`a5_qualified` false. The older 19-port polarity lists remain historical;
+the pre-bridge 20-port screen remains available as a paired baseline. The
+design-point identity test verifies the report hashes and survivor sets.

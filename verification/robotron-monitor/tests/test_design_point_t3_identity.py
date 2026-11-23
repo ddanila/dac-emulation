@@ -60,6 +60,39 @@ class DesignPointT3IdentityTests(unittest.TestCase):
             self.assertFalse(design[key]["valid_for_current_20_port_graph"])
         self.assertIn("not an installed T3 turns ratio", design["high_voltage_ratio"]["status"])
 
+    def test_corrected_upper_bridge_diagnostic_is_bound_but_unselected(self):
+        design = json.loads((REF / "design-point.json").read_text())
+        corrected = design["t3_corrected_upper_bridge_diagnostic"]
+        self.assertFalse(corrected["a5_qualified"])
+        self.assertIsNone(corrected["installed_candidate_ids"])
+        self.assertEqual(corrected["source_visible_port_count"], 20)
+        self.assertEqual(corrected["relative_polarity_candidate_count"], 16)
+        reports = {}
+        for name, entry in corrected["references"].items():
+            path = ROOT / entry["path"]
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),
+                             entry["sha256"], name)
+            reports[name] = json.loads(path.read_text())
+        g1 = reports["conditional_g1_sign_screen"]
+        tp17 = reports["conditional_tp17_assessment"]
+        screen = reports["corrected_connected_sign_screen"]
+        self.assertEqual(set(corrected["conditional_g1_candidate_ids"]),
+                         set(g1["conditionally_accepted_ids"]))
+        self.assertEqual(set(corrected["conditional_tp17_candidate_ids"]),
+                         set(tp17["conditional_tp17_compatible_ids"]))
+        self.assertEqual(set(tp17["conditional_tp17_compatible_ids"]),
+                         {row["candidate_id"] for row in tp17["cases"]
+                          if row["within_registered_band"]})
+        self.assertEqual(corrected["connected_cases_completed"], 8)
+        self.assertTrue(all(case["status"] == "complete" for case in screen["cases"]))
+        self.assertFalse(corrected["connected_joint_eht_c21_match"])
+        self.assertFalse(any(
+            11000 <= case["observed"]["endpoint_eht_v"] <= 12000 and
+            60 <= case["observed"]["endpoint_c21_v"] <= 70
+            for case in screen["cases"]
+        ))
+        self.assertTrue(reports["parallel_loop_audit"]["passed"])
+
 
 if __name__ == "__main__":
     unittest.main()

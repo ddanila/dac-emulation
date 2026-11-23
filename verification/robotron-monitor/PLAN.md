@@ -470,8 +470,10 @@ mapping, obtain a completing corrected connected run with bounded drive,
 return, yoke and C21 behavior, then close A1, A2 and A6 against their rows
 below.
 The partial [design point](reference/k7222-11/design-point.json) now binds the
-corrected 20-port source read and candidate reports by hash. Its earlier
-19-port turn and polarity lists are explicitly historical, and its
+corrected 20-port source read and candidate reports by hash. It also binds
+the upper-bridge source and eight-case connected diagnostic, with eight
+conditional G1 and four conditional TP17 survivors but no installed T3
+selection. Its earlier 19-port turn and polarity lists are explicitly historical, and its
 EHT/collector calculation is only a conditional voltage proxy.
 
 The .11 scan still does not settle T3's full return graph, tap order or
