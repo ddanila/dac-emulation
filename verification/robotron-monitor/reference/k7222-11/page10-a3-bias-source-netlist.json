@@ -1,0 +1,26 @@
+{
+  "format": "dac-monitor-page10-a3-bias-source-netlist-v1",
+  "qualification": "scoped independent page-10 read of the A3 positive-supply bias branch; nearby C18/C19 identity and whole-page joins remain outside this read",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 10,
+    "views": [
+      {"description": "600 dpi full page 10", "sha256": "a814242d70edd17898f6eaa7352bf3550dbc175a065e29d024cc209259b7d854"},
+      {"description": "1200 dpi A3 bias and output context crop", "sha256": "95353d52a9b74aa3c32cc8a04be6171aedc0a41c687ebadacc2bc3119f855754"}
+    ]
+  },
+  "scope": {"board": "012-6931", "parts": ["R37", "C17", "V14", "V15"]},
+  "nets": {
+    "22P": ["R37:upper"],
+    "00": ["C17:negative", "V14:cathode"],
+    "ZENER_JOIN": ["V14:anode", "V15:anode"],
+    "AMP_VP": ["R37:lower", "C17:positive", "V15:cathode"]
+  },
+  "reading_notes": [
+    "The page labels the R37/C17/V15 junction approximately +17 V; the number is a schematic annotation, not a measured operating point.",
+    "V14's bar faces the 00 branch and V15's bar faces the +17 V branch. Their unbarred ends meet at the short middle wire.",
+    "C17 has a printed plus sign at the +17 V node and its other plate joins 00.",
+    "The adjacent upper-line capacitor is not named by this scoped read; it needs a separate identity and terminal check."
+  ]
+}

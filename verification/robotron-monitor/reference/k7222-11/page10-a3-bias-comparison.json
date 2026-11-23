@@ -1,0 +1,52 @@
+{
+  "format": "dac-monitor-page10-a3-bias-comparison-v1",
+  "qualification": "four-part scoped source-to-fresh-export comparison; not page-10 or A3 functional signoff",
+  "source_read_sha256": "3ed49c5e45ce0f98e039c327a8212865d91c3a128dae418b2b34a29370e3abba",
+  "sheet_sha256": "f4a82dde10cd54fc63b980397d4ea194126d373a9749ee07795df0e3b99989d1",
+  "parts_checked": 4,
+  "terminals_checked": 8,
+  "source_nets": {
+    "22P": [
+      "R37:upper"
+    ],
+    "00": [
+      "C17:negative",
+      "V14:cathode"
+    ],
+    "ZENER_JOIN": [
+      "V14:anode",
+      "V15:anode"
+    ],
+    "AMP_VP": [
+      "R37:lower",
+      "C17:positive",
+      "V15:cathode"
+    ]
+  },
+  "exported_nodes": {
+    "R37": [
+      "p22",
+      "amp_vp"
+    ],
+    "C17": [
+      "amp_vp",
+      "0"
+    ],
+    "V14": [
+      "zener_join",
+      "0"
+    ],
+    "V15": [
+      "zener_join",
+      "amp_vp"
+    ]
+  },
+  "diode_orientation_matches": true,
+  "c17_source_positive_node": "amp_vp",
+  "c17_model_limitation": "The generic SPICE capacitor has no polarity-dependent failure or leakage behavior.",
+  "passed": true,
+  "remaining": [
+    "Identify and compare the adjacent upper-line capacitor and other uncovered page-10 parts.",
+    "Complete page-10 joins and vertical-stage functional checks."
+  ]
+}

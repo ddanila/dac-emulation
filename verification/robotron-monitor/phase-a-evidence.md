@@ -5968,3 +5968,24 @@ qualifying transistor thermal stress. Reproduce from the edge-screen decks
 with `python3 verification/robotron-monitor/neck_ssy20_connected_current_screen.py
 --generate --edge-work build/monitor/phase-a/<edge-run> --work
 build/monitor/phase-a/<new-current-run> --ngspice /opt/homebrew/bin/ngspice`.
+
+### A1: page-10 A3 positive-bias branch source comparison (2026-11-23)
+
+The prior page-10 feedback, A3 compensation and output-pair source reads
+touch **23 of 42** modeled vertical-output parts; 19 parts had no terminal
+in those three independent reads. A new [600 dpi full-page and 1200 dpi
+crop read](reference/k7222-11/page10-a3-bias-source-netlist.json) covers
+four of them: R37 feeds the annotated +17 V A3 supply node from 22P, C17
+returns it to 00 with its positive plate at +17 V, and V14/V15 have their
+anodes joined with cathodes toward 00 and +17 V respectively. The
+[fresh-export comparison](reference/k7222-11/page10-a3-bias-comparison.json)
+matches all **8** terminals and both diode directions. The SPICE C17 is
+electrically symmetric, so its source polarity is recorded but no
+polarity-dependent capacitor behavior is claimed. The adjacent upper-line
+capacitor identity was not forced from this crop.
+
+The four parts reduce the modeled page-10 no-source-terminal set from
+**19 to 15**: C19, C21, C23, C24, R36, R38, R49, R50, R56, R57, R58,
+R59, R60, R61 and V24. This is a bounded component census, not a full
+page-10 netlist or functional signoff. Reproduce with
+`python3 verification/robotron-monitor/page10_a3_bias_compare.py`.
