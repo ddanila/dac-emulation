@@ -5866,3 +5866,40 @@ grid yields less than 0.001 V late-window difference, showing that the
 coarse stage receipt aliases away the timing change. This is an isolated
 synthetic excitation, not a native connected CRT waveform or a transistor
 stress qualification; those remain necessary before any TF promotion.
+
+The [native-input connected edge screen](neck_ssy20_connected_edge_screen.py)
+rebuilds the same bounded manual-Fig.-6 contrast startup used in the earlier
+2 ms solver screen, changes only TF=2.0 ns to 0.4 ns, and saves cathode,
+neck collector and horizontal hot-node traces at a 5 ns maximum step. Its
+first 200 µs were flat at the neck because the selected native capture's
+video transitions begin near **1.625 ms**; the comparison therefore uses
+the 1.625–2.000 ms interval. Both 2 ms solves complete. On 75,001 common
+interpolated timestamps, the fast candidate changes the cathode by up to
+**2.132 V** (0.232 V RMS) and neck collector by **18.211 V** (1.321 V RMS),
+while the upstream horizontal hot node differs by at most **0.144 V**.
+The active cathode itself spans about **22.06–33.68 V** in that window, so
+this is an exercised video response, not a no-input comparison.
+
+The deck comparison verifies that TF is the only changed line. Reproduce
+with `python3 verification/robotron-monitor/neck_ssy20_connected_edge_screen.py
+--generate --work build/monitor/phase-a/<new-run-name> --ngspice
+/opt/homebrew/bin/ngspice`. The report is still **conditional**: it uses
+the unqualified historical 19-port T3 graph, a manual contrast equivalent,
+short startup and no transistor current/power/SOA probes. It demonstrates
+a material connected video effect, not enough evidence to promote the
+BSY34-derived candidate or close A2.
+
+The [Q1 current and collector-power screen](neck_ssy20_connected_current_screen.py)
+adds only `@q1[ic]` to each of those paired connected decks. Over the same
+native-video window, the active and fast cases peak at **0.149** and
+**0.158 A** collector current, both below the direct SSY20 **0.6 A**
+maximum. Their window-mean collector dissipation is **0.0379** and
+**0.0265 W**, while instantaneous peaks are **1.552** and **1.978 W**.
+The source's **0.7 W at 25 °C** is a continuous power rating; a peak above
+it is not by itself a pulsed-SOA failure. No thermal impedance, pulse-width
+derating, actual package temperature or sustained frame behavior is known.
+The screen therefore bounds this short-startup current response without
+qualifying transistor thermal stress. Reproduce from the edge-screen decks
+with `python3 verification/robotron-monitor/neck_ssy20_connected_current_screen.py
+--generate --edge-work build/monitor/phase-a/<edge-run> --work
+build/monitor/phase-a/<new-current-run> --ngspice /opt/homebrew/bin/ngspice`.

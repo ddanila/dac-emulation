@@ -500,13 +500,26 @@ A [joint faster-TF candidate](reference/k7222-11/ssy20-joint-timing-candidate.js
 with 0.4 ns nominal and 0.53 ns maximum passes all 128 SSY20 switching
 corners and eight BSY34 AC-comparison corners; its worst on/off times are
 17.26/46.29 ns and worst AC unity-gain frequency is 253.4 MHz. It remains
-unpromoted until its changed neck dynamics are checked in the connected
-stage and the cross-type fT transfer is justified.
+unpromoted while the connected-stage consequences and cross-type fT transfer
+are being qualified.
 A [5 ns paired neck bench](reference/k7222-11/ssy20-fast-edge-screen.json)
 shows the fast candidate shifts the isolated cathode edge by up to 4.83 V
 and collector edge by 19.82 V; the prior 200 ns grid aliases these changes
-to below 0.001 V. Connected neck stress and native video response remain
-unmeasured, so the candidate cannot be promoted from the fixture screens.
+to below 0.001 V. This isolated screen cannot qualify connected neck stress.
+The [native-input 2 ms connected screen](reference/k7222-11/ssy20-connected-edge-screen.json)
+now includes video transitions after 1.625 ms. On a common 5 ns grid it
+finds up to 2.13 V cathode and 18.21 V neck-collector difference between
+the active and fast candidate, while the upstream horizontal node differs
+by at most 0.14 V. This is a provisional 19-port T3/manual-contrast
+startup, not connected SOA or sustained operation; it confirms that the
+candidate materially affects the actual video path and needs a qualified
+connected-stage check before promotion.
+A [paired Q1 current/power probe](reference/k7222-11/ssy20-connected-current-screen.json)
+in the same video window finds peak collector current 0.149 A active and
+0.158 A fast, below the SSY20 0.6 A limit. Mean collector power is 0.038 W
+and 0.026 W; instantaneous peaks are 1.55 W and 1.98 W. The data-sheet
+0.7 W figure is a 25 °C continuous rating, so these short pulses need a
+thermal-impedance/pulsed-SOA check before A2 stress signoff.
 The partial [design point](reference/k7222-11/design-point.json) now binds the
 corrected 20-port source read and candidate reports by hash. It also binds
 the upper-bridge source and eight-case connected diagnostic, with eight

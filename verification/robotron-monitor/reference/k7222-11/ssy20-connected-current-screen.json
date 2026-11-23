@@ -1,0 +1,59 @@
+{
+  "format": "dac-monitor-ssy20-connected-current-screen-v1",
+  "qualification": "2 ms conditional native-video startup current/power probe; provisional 19-port T3, manual contrast equivalent, no thermal impedance or pulsed SOA model",
+  "input_sha256": {
+    "reference/k7222-11/ssy20-connected-edge-screen.json": "d63efd5061a6991a14dd54661b84a979164c0ab1f4d4020cf33367db54cce075",
+    "reference/k7222-11/ssy20-datasheet-direct-read.json": "01a58a24a0198c8fedb03d0b15f6830817949c13b0d8f0a425b0d06413d883af",
+    "neck_ssy20_connected_edge_screen.py": "9ca1950834eb0bf9e2b8cf85621c3af04b6ac9b0caf75d3171c79ad711362cc9",
+    "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+    "neck_ssy20_connected_current_screen.py": "b1b7024ba62775d30af06397f2652b39379b53de39a4b49cbed58479008b15d2"
+  },
+  "work_directory": "build/monitor/phase-a/ssy20-connected-current-clean-20261123",
+  "edge_work_directory": "build/monitor/phase-a/ssy20-connected-edge-clean-20261123",
+  "source_limits": {
+    "ic_max_a": 0.6,
+    "continuous_ptot_w_at_25c": 0.7
+  },
+  "cases": {
+    "active": {
+      "deck_sha256": "dd445ba79967786da4cbafd2d1118ade826ff85243aae50a12297e5fc7552ce3",
+      "trace_sha256": "4b153734d8f372a5db9f812ac43e7fdb7b1881158156a254060af8b012e8e65c",
+      "raw_samples": 98613,
+      "window_s": [
+        0.0016250005404635226,
+        0.002
+      ],
+      "collector_current_range_a": [
+        -0.0005250893197414015,
+        0.14910678391519375
+      ],
+      "peak_collector_current_time_s": 0.0016252601947260301,
+      "peak_instantaneous_power_w": 1.5516310951347057,
+      "peak_instantaneous_power_time_s": 0.0019626918472544805,
+      "dissipated_energy_j": 1.4202455860382898e-05,
+      "mean_power_w": 0.03787327021201047
+    },
+    "fast_candidate": {
+      "deck_sha256": "c76e4cad66a00a4c889cd732d353331d22c7fa48dc9492144b8d0820b70912e5",
+      "trace_sha256": "8cd02bc34cac4f5a98c53fbc6a95dc150aa7053786e1f3a91f046cbb5d76b52d",
+      "raw_samples": 101241,
+      "window_s": [
+        0.0016250037976530828,
+        0.002
+      ],
+      "collector_current_range_a": [
+        -0.0012012388621439618,
+        0.15832730200320866
+      ],
+      "peak_collector_current_time_s": 0.001625259381354289,
+      "peak_instantaneous_power_w": 1.978136734002563,
+      "peak_instantaneous_power_time_s": 0.0018854321381515415,
+      "dissipated_energy_j": 9.919354781637261e-06,
+      "mean_power_w": 0.02645188063120876
+    }
+  },
+  "both_peak_currents_below_source_max": true,
+  "both_window_mean_powers_below_continuous_reference": true,
+  "any_instantaneous_power_above_continuous_reference": true,
+  "thermal_or_pulsed_soa_qualified": false
+}

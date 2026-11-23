@@ -1,0 +1,83 @@
+{
+  "format": "dac-monitor-ssy20-connected-edge-screen-v1",
+  "qualification": "2 ms native-logical-input connected startup with provisional 19-port T3 and manual Fig. 6 contrast equivalent; not sustained state or connected transistor SOA qualification",
+  "input_sha256": {
+    "examples/phase-a-native-full-text/capture.json.gz": "75cdc57e89fc7fe94bce7ff8c456033e7838c95f36617fdf292b995af04f59e8",
+    "profiles/k7222-11-neck.json": "ed2f6e9bfd8ebf886f963ee40aa9a4fd1030b701c42feefc5630089fda908b05",
+    "circuits/k7222-11-neck-models.cir": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20",
+    "reference/k7222-11/ssy20-joint-timing-candidate.json": "06706e002ee3b1e662aba39d83239e04b1ede0c78c32c4cddc65883af9403ddc",
+    "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+    "neck_ssy20_joint_timing_candidate.py": "c093dbd626cae573ae0b26128cf000fdddc18334b4a548841ad25e2ca8c2c18a",
+    "neck_ssy20_connected_edge_screen.py": "9ca1950834eb0bf9e2b8cf85621c3af04b6ac9b0caf75d3171c79ad711362cc9"
+  },
+  "run_directory": "build/monitor/phase-a/ssy20-connected-edge-clean-20261123",
+  "candidate_id": "t3-fc941ad61c50ce31",
+  "contrast_topology": "manual-fig6-equivalent",
+  "max_step_s": 5e-09,
+  "comparison_window_s": [
+    0.001625,
+    0.002
+  ],
+  "common_grid_samples": 75001,
+  "active": {
+    "q_tf_s": 2e-09,
+    "deck_sha256": "32451d6f6971f8bd0af0b82e63fd016686a5b1c4a9fb11080eb79fd0c3f44238",
+    "raw_sha256": "c5317dcbabb0588d88e322394c77cc492992e6fed30122d474dfea17ff57102f",
+    "raw_samples": 427433
+  },
+  "fast_candidate": {
+    "q_tf_s": 4e-10,
+    "deck_sha256": "0417758ead25eafc7af074cf394e10c33a3ae2c1cd723a6f908f2f2ec559085d",
+    "raw_sha256": "5065599eff8216528043fc718d5796c3a6b86c5613e9944e95b3087ad6ec0328",
+    "raw_samples": 430049
+  },
+  "comparison": {
+    "v(cathode)": {
+      "peak_abs_delta_v": 2.131903508548355,
+      "peak_time_s": 0.001750095,
+      "active_at_peak_v": 26.80578575095182,
+      "fast_at_peak_v": 24.673882242403465,
+      "rms_delta_v": 0.23247387220378046,
+      "active_range_v": [
+        22.05976968363486,
+        33.681397654801245
+      ],
+      "fast_range_v": [
+        22.250522610743396,
+        33.70354655255329
+      ]
+    },
+    "v(collector)": {
+      "peak_abs_delta_v": 18.21129840565676,
+      "peak_time_s": 0.0016252349999999998,
+      "active_at_peak_v": 21.292845552585838,
+      "fast_at_peak_v": 3.08154714692908,
+      "rms_delta_v": 1.3213774176264128,
+      "active_range_v": [
+        0.8400379902020784,
+        34.42234794428502
+      ],
+      "fast_range_v": [
+        0.1158293171003493,
+        34.50719769363118
+      ]
+    },
+    "v(h_hot)": {
+      "peak_abs_delta_v": 0.14420759649338422,
+      "peak_time_s": 0.0018717,
+      "active_at_peak_v": 23.57897597032031,
+      "fast_at_peak_v": 23.723183566813695,
+      "rms_delta_v": 0.02515151510949261,
+      "active_range_v": [
+        -0.488307959645336,
+        54.47775438662919
+      ],
+      "fast_range_v": [
+        -0.48121770827528987,
+        54.477428239588846
+      ]
+    }
+  },
+  "connected_edge_checked": true,
+  "connected_stress_qualified": false
+}
