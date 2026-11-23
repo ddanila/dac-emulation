@@ -6024,3 +6024,13 @@ physical wiper wiring or installed settings. These five parts therefore
 references C19/C21 are too unclear in the inspected page-10 scan to assign
 from this crop alone; no terminal claim was added for them. Reproduce with
 `python3 verification/robotron-monitor/page10_control_values_compare.py`.
+
+The [page-10 modeled-part coverage audit](reference/k7222-11/page10-model-source-coverage.json)
+now derives the terminal-read census directly from the current KiCad sheet
+and the five passed, hash-linked page-10 source comparisons. It finds **33 of
+42 functional modeled parts** touched by at least one scoped source terminal;
+the separate X2 physical connector is also touched. The remaining nine are
+C19, C21, C23, R50, R57, R58, R59, R60 and V24, matching the manual list
+above. A touched part is not necessarily fully pin-covered, and the audit
+does not compare every drawn part or page-edge join. Reproduce with
+`python3 verification/robotron-monitor/page10_source_coverage.py`.

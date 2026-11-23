@@ -749,7 +749,9 @@ page and the A3 operating point still require review. The
 [page-15 control-value check](reference/k7222-11/page10-control-values-comparison.json)
 confirms printed R50/R57/R58/R59/R60 values and model bounds but supplies no
 terminals or installed trim positions, so the nine-part terminal gap is
-unchanged.
+unchanged. A [sheet-and-receipt coverage audit](reference/k7222-11/page10-model-source-coverage.json)
+derives **33/42** functional modeled parts with at least one scoped source
+terminal; this is not a whole-page pin or source-part census.
 
 | Item | Still unmet | Next step |
 |---|---|---|

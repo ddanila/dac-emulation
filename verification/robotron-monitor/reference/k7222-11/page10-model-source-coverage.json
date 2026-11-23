@@ -1,0 +1,100 @@
+{
+  "format": "dac-monitor-page10-model-source-coverage-v1",
+  "qualification": "Current modeled-part touch census from five passed scoped reads; does not establish complete source-page inventory, all pins or page-edge joins",
+  "sheet_sha256": "f4a82dde10cd54fc63b980397d4ea194126d373a9749ee07795df0e3b99989d1",
+  "modeled_functional_parts": 42,
+  "functional_parts_with_scoped_source_terminal": 33,
+  "functional_parts_without_scoped_source_terminal": 9,
+  "without_source_terminal": [
+    "C19",
+    "C21",
+    "C23",
+    "R50",
+    "R57",
+    "R58",
+    "R59",
+    "R60",
+    "V24"
+  ],
+  "physical_x2_connector_touched": true,
+  "receipts": [
+    {
+      "source_read": "page10-a3-source-netlist.json",
+      "comparison": "page10-a3-comparison.json",
+      "parts_touched": [
+        "A3",
+        "C26",
+        "C27",
+        "R48",
+        "R54"
+      ],
+      "terminal_mentions": 15
+    },
+    {
+      "source_read": "page10-a3-bias-source-netlist.json",
+      "comparison": "page10-a3-bias-comparison.json",
+      "parts_touched": [
+        "C17",
+        "R37",
+        "V14",
+        "V15"
+      ],
+      "terminal_mentions": 8
+    },
+    {
+      "source_read": "page10-feedback-source-netlist.json",
+      "comparison": "page10-feedback-comparison.json",
+      "parts_touched": [
+        "A3",
+        "R27",
+        "R43",
+        "R45",
+        "R46",
+        "R47",
+        "R51",
+        "R52",
+        "R53",
+        "V23",
+        "V25",
+        "X2"
+      ],
+      "terminal_mentions": 18
+    },
+    {
+      "source_read": "page10-output-pair-source-netlist.json",
+      "comparison": "page10-output-pair-comparison.json",
+      "parts_touched": [
+        "R27",
+        "R29",
+        "R36",
+        "R38",
+        "R48",
+        "R56",
+        "R61",
+        "V18",
+        "V19",
+        "V20",
+        "V21",
+        "V26",
+        "V27",
+        "V28",
+        "X2"
+      ],
+      "terminal_mentions": 34
+    },
+    {
+      "source_read": "page10-symmetry-input-source-read.json",
+      "comparison": "page10-symmetry-input-comparison.json",
+      "parts_touched": [
+        "C24",
+        "R49"
+      ],
+      "terminal_mentions": 4
+    }
+  ],
+  "open": [
+    "Nine modeled parts still have no source terminal in the passed scoped reads.",
+    "Part touch does not prove all terminals or all source-page parts have been inventoried.",
+    "C23 schematic/manual topology conflict and page-edge joins remain separate A1 issues."
+  ]
+}
