@@ -14,8 +14,11 @@ status. It holds no work log: results live in the reports under
    that cannot pass is replaced by a labelled equivalent (see "Fallbacks") and
    the work moves on. The outcome is always a frame with an honest label.
 3. **Budget.** An open question gets at most three solver runs or one re-read
-   of the page. After that its default or fallback is taken. Progress is
-   counted in Phase B steps scored against the manual, not in reports written.
+   of the page. After that its default or fallback is taken. Sweeps that a
+   step itself calls for (calibration inside bounds, trim searches, B8
+   sensitivity) do not count against this. A Phase B step that has not passed
+   after one day of work takes its fallback. Progress is counted in Phase B
+   steps scored against the manual, not in reports written.
 4. **Accept what the documents can check.** A model that reproduces every
    documented value at its boundary is accepted. A detail that no document can
    distinguish (an internal winding join, an installed link, a part's safe
@@ -77,6 +80,7 @@ fails and points at it.
 | Alternative | Default |
 |---|---|
 | T3 internal joins, tap order, high-voltage cold end, manual-only X1:16 | 20-port page-4 graph with the X1:1–X1:7 bridge; cold end grounded; X1:16 unused |
+| AE9VT yoke inductance, resistance and field per ampere | Inductance from the 16.0 µs retrace and the printed tuning capacitors; resistance `class-typical`; field per ampere set by picture size in B6 |
 | T2 secondary phase and return | The phase that turns V18 off when V13 conducts (stated in the PC1715 manual) |
 | E1–E4 centring links | E1+E2 (the pairs differ by under 0.02%) |
 | C30 populated | Populated |
