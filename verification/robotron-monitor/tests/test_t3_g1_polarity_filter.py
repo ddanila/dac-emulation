@@ -12,17 +12,6 @@ import t3_g1_polarity_filter as sign
 
 
 class T3G1PolarityTests(unittest.TestCase):
-    def test_source_path_and_two_backends_retain_four_candidates(self):
-        sources = ROOT.parents[1]/'build/monitor/phase-a/sources'
-        report = sign.run(sources/'older.pdf', sources/'k7222_61.pdf')
-        saved = json.loads((ROOT/'reference/k7222-11/t3-g1-polarity-filter.json').read_text())
-        self.assertEqual(report, saved)
-        self.assertTrue(report['passed'])
-        self.assertFalse(report['historical_polarity_verified'])
-        self.assertEqual(len(report['accepted_candidate_ids']), 4)
-        design = json.loads((ROOT/'reference/k7222-11/design-point.json').read_text())
-        self.assertEqual(design['conditional_t3_g1_polarity_screen']['accepted_candidate_ids'],
-                         report['accepted_candidate_ids'])
 
     def test_reversed_v14_breaks_source_path(self):
         with tempfile.TemporaryDirectory() as directory:

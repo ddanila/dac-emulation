@@ -47,9 +47,12 @@ build/robotron-monitor-capture: build/machines/robotron1715m/video_output.o buil
 	$(CC) $(CFLAGS) $^ -o $@
 -include build/runners/native/robotron_monitor_capture.d
 
+# Local only: the monitor study has no CI job. One process per test file.
+MONITOR_RUNTIME ?= $(CURDIR)/build/monitor/runtime-phase-a-gcc16-verified
+MONITOR_TEST_JOBS ?= 6
 .PHONY: test-monitor
 test-monitor:
-	python3 -m unittest discover -s verification/robotron-monitor/tests -v
+	cd verification/robotron-monitor/tests && ls test_*.py | MONITOR_RUNTIME=$(MONITOR_RUNTIME) xargs -P $(MONITOR_TEST_JOBS) -I{} python3 -m unittest discover -q -s . -t . -p {}
 
 build/robotron-boot: build/runners/native/robotron_boot.o $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CFLAGS) $^ -o $@

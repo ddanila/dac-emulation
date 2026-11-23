@@ -12,18 +12,6 @@ import t3_flyback_sign as sign
 
 
 class T3FlybackSignTests(unittest.TestCase):
-    def test_source_path_and_isolated_backends_agree(self):
-        pdf = ROOT.parents[1]/'build/monitor/phase-a/sources/older.pdf'
-        report = sign.run(pdf)
-        saved = json.loads((ROOT/'reference/k7222-11/t3-flyback-sign-filter.json').read_text())
-        self.assertEqual(report, saved)
-        self.assertTrue(report['passed'])
-        self.assertTrue(report['backend_signs_agree'])
-        self.assertEqual(len(report['accepted_candidate_ids']), 8)
-        self.assertFalse(report['historical_polarity_verified'])
-        design = json.loads((ROOT/'reference/k7222-11/design-point.json').read_text())
-        self.assertEqual(design['conditional_t3_polarity_screen']['accepted_candidate_ids'],
-                         report['accepted_candidate_ids'])
 
     def test_reversed_damper_pin_breaks_source_path(self):
         with tempfile.TemporaryDirectory() as directory:

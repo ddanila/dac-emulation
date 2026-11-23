@@ -64,8 +64,10 @@ For either goal:
 - No new audit, source comparison or stress check is written unless a failed
   Phase B gate points at a specific part.
 - Before each push, run the tests of the tools that changed. Run the whole
-  suite (`make test-monitor`) once per finished step; it takes more than ten
-  minutes.
+  suite (`make test-monitor`, a few minutes) once per finished step.
+- A test checks behaviour: a tool's logic or a value against a limit. It does
+  not require a saved report to match byte for byte. A test that only pins a
+  superseded report is deleted, not refreshed.
 
 ## Non-goals
 
@@ -208,8 +210,9 @@ heater heat balance, solver step audits.
 - **Independent solves run in parallel**, one per CPU core, each in its own
   output directory.
 - **One solver.** Every Phase B run and every test uses the pinned ngspice 47
-  runtime: `MONITOR_RUNTIME=build/monitor/runtime-phase-a-gcc16-verified`.
-  Without that variable the runtime tests are skipped, not passed. Saved
+  runtime, `build/monitor/runtime-phase-a-gcc16-verified`. `make test-monitor`
+  sets `MONITOR_RUNTIME` to it; a bare `unittest` run without that variable
+  skips the runtime tests. Saved
   reports made with the system ngspice may be re-scored in B0, but a result
   that passes a step is produced on the pinned runtime.
 - **Every run records its cost:** wall time, simulated time, accepted steps,

@@ -75,7 +75,7 @@ def run():
     if {points[n]['model_node'] for n in (7,8)}!={'y1','y2'}:
         raise ValueError('manual yoke-terminal probe mapping changed')
     sense_source=json.loads(SENSE_SOURCE.read_text())
-    if (sense_source.get('format')!='dac-monitor-page10-output-pair-source-netlist-v3'
+    if (sense_source.get('format') not in ('dac-monitor-page10-output-pair-source-netlist-v3','dac-monitor-page10-output-pair-source-netlist-v4')
             or not {'R27:1','X2:4'}<=set(sense_source['nets']['Y2_RETURN'])
             or 'R27:2' not in sense_source['nets']['ZERO_RETURN']
             or not {'R29:1','X2:3'}<=set(sense_source['nets']['Y1_OUTPUT'])
