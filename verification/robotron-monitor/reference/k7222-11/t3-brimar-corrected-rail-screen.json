@@ -1,0 +1,40 @@
+{
+  "format": "dac-monitor-t3-brimar-corrected-rail-screen-v1",
+  "qualification": "conditional prescribed-base stage with corrected external X2:10/X2:13 nets; legacy T3 magnetic graph remains unqualified",
+  "input_hashes": {
+    "reference/k7222-11/yoke-brimar-110deg-comparator.json": "734ea2442045ee5eb504b770851c02fcd70a78fa8fdfac7bf894f5153ac13b1e",
+    "reference/k7222-11/t3-yoke-brimar-stage-screen.json": "3404875cca4e89e21461ba26f4aefa60d9b469df38dec6af0458f11c32823f29",
+    "reference/k7222-11/horizontal-output-transcription.json": "0b056b42807752c34b86f4dc14886a5c90a92b085c5b28c11404a9806087a737",
+    "t3_brimar_rail_boundary_screen.py": "350a92a8f758c6c32bef70f659c6547fd12ce771629d7c7a0d44527ebe13b82c",
+    "t3_drive_pulse_screen.py": "dccf3e41498a80ca6237aa8c0a332d4a37f40087f0dedd51f0c84f2580d39d38",
+    "t3_brimar_corrected_rail_screen.py": "70887c8f7fd0bebe73aa128c6412a64857a05bccd6171ab397f7ec35e05b5511"
+  },
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "tby7_class_lower_current_pp_a": 0.9459574468085108,
+  "cases": [
+    {
+      "feed_v": 39.0,
+      "r5_equivalent_position": 0.7853846153846152,
+      "yoke_current_pp_a": 0.06350777737,
+      "eht_at_collector_peak_v": 2421.50355,
+      "normalized_deck_sha256": "16d6d78693db51749a32dd3583cb041af4fe141eecf5763c56e9899a076e2a61"
+    },
+    {
+      "feed_v": 41.0,
+      "r5_equivalent_position": 0.63,
+      "yoke_current_pp_a": 0.0644361732,
+      "eht_at_collector_peak_v": 2411.12908,
+      "normalized_deck_sha256": "6dce94653349bf1c407f429dd990d6e87e260c7687c3681a965a59903cc755c6"
+    },
+    {
+      "feed_v": 43.0,
+      "r5_equivalent_position": 0.4890697674418607,
+      "yoke_current_pp_a": 0.0652497695,
+      "eht_at_collector_peak_v": 2401.80657,
+      "normalized_deck_sha256": "fb3b0e25b506406140bf2eb73bf7eb25e4c7a2a8b7e105f1ad4cf7cdb9d9e365"
+    }
+  ],
+  "class_current_reached": false,
+  "interpretation": "Across the source-derived 39\u201343 V rail span, the corrected-pin conditional stage remains below the transferred TBY7 current boundary and far below the 11\u201312 kV EHT target; the former 42.504 V crossing is not reproducible."
+}

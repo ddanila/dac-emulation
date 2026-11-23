@@ -5750,6 +5750,12 @@ for TBY7, versus the former saved **11.512 kV** and **0.914 A p-p**. None
 of its three class windings is in the 11–12 kV service band. The regenerated
 report now records the T3 graph, initial-parameter and stage-script hashes
 that govern its deck. The fixed class winding data are unchanged.
+The cause is the page-4 booster correction in commit `95db0b3a`: the
+horizontal-output transcription exchanged the model nets on X2:10 and
+X2:13. The old Brimar report was generated before that correction, then
+continued to be cited as though it described the corrected external pins.
+The current stage report also hashes the transcription so this change cannot
+silently pass through the same provenance path again.
 
 This supersedes the earlier 11.51 kV TBY7 stage claim in this evidence log.
 The [R5 rail](reference/k7222-11/t3-brimar-rail-boundary-screen.json) and
@@ -5758,3 +5764,13 @@ depend on the former 41 V base case and remain **historical**, including
 their 42.504 V current crossing. The current stage cannot establish an A5
 T3/yoke match; the source-corrected 20-port graph must be qualified before
 those sensitivities are useful again.
+
+The [corrected-pin three-point rail check](reference/k7222-11/t3-brimar-corrected-rail-screen.json)
+repeats the TBY7 conditional case at 39, 41 and 43 V. It gives respectively
+0.0635, 0.0644 and 0.0652 A p-p yoke current, versus the transferred
+TBY7 lower bound of 0.946 A p-p. Sampled EHT falls slightly from 2.422 to
+2.402 kV across those feeds. Thus this rail interval cannot restore either
+current or EHT on the present legacy magnetic graph. Regenerate with
+`python3 verification/robotron-monitor/t3_brimar_corrected_rail_screen.py
+--ngspice /opt/homebrew/bin/ngspice --source-pdf
+build/monitor/phase-a/sources/older.pdf`.
