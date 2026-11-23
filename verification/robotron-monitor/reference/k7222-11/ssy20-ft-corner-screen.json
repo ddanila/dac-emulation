@@ -1,0 +1,158 @@
+{
+  "format": "dac-monitor-ssy20-ft-corner-screen-v1",
+  "qualification": "25 C short-circuit current-gain AC comparison at 30 mA/10 V; BSY34 is a period comparator, not a direct SSY20A fT specification",
+  "source_url": "https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
+  "profile_sha256": "ed2f6e9bfd8ebf886f963ee40aa9a4fd1030b701c42feefc5630089fda908b05",
+  "models_sha256": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20",
+  "register_sha256": "ca687f8981d24e3c7549f19f804b1f89f831895df06f05305afe0c6b7b2550eb",
+  "script_sha256": "6ab82c1e5d073ef78362f2c5b05eeac681e9c184b939b99f4da25bdfe8a568b0",
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "comparator": {
+    "type": "BSY34",
+    "minimum_ft_hz": 250000000.0,
+    "bias_ic_a": 0.03,
+    "bias_vce_v": 10
+  },
+  "nominal": {
+    "base_current_a": 0.0010048780333250756,
+    "collector_current_a": 0.03,
+    "unity_gain_frequency_hz": 78287292.55533572,
+    "meets_bsy34_comparator": false,
+    "crossing_bracket_hz": [
+      75857757.5,
+      79432823.5
+    ]
+  },
+  "cases": [
+    {
+      "corner": {
+        "q_tf": 2e-10,
+        "q_cje": 5e-12,
+        "q_cjc": 2e-12
+      },
+      "base_current_a": 0.0010048780333250756,
+      "collector_current_a": 0.03,
+      "unity_gain_frequency_hz": 764915845.1641058,
+      "meets_bsy34_comparator": true,
+      "crossing_bracket_hz": [
+        758577575.0,
+        794328235.0
+      ]
+    },
+    {
+      "corner": {
+        "q_tf": 2e-10,
+        "q_cje": 5e-12,
+        "q_cjc": 3e-11
+      },
+      "base_current_a": 0.0010048780333250756,
+      "collector_current_a": 0.03,
+      "unity_gain_frequency_hz": 725884119.9512317,
+      "meets_bsy34_comparator": true,
+      "crossing_bracket_hz": [
+        724435960.0,
+        758577575.0
+      ]
+    },
+    {
+      "corner": {
+        "q_tf": 2e-10,
+        "q_cje": 6e-11,
+        "q_cjc": 2e-12
+      },
+      "base_current_a": 0.0010048780333250756,
+      "collector_current_a": 0.03,
+      "unity_gain_frequency_hz": 555341133.4749199,
+      "meets_bsy34_comparator": true,
+      "crossing_bracket_hz": [
+        549540874.0,
+        575439937.0
+      ]
+    },
+    {
+      "corner": {
+        "q_tf": 2e-10,
+        "q_cje": 6e-11,
+        "q_cjc": 3e-11
+      },
+      "base_current_a": 0.0010048780333250756,
+      "collector_current_a": 0.03,
+      "unity_gain_frequency_hz": 534353086.9520131,
+      "meets_bsy34_comparator": true,
+      "crossing_bracket_hz": [
+        524807460.0,
+        549540874.0
+      ]
+    },
+    {
+      "corner": {
+        "q_tf": 3.2e-09,
+        "q_cje": 5e-12,
+        "q_cjc": 2e-12
+      },
+      "base_current_a": 0.0010048780333250756,
+      "collector_current_a": 0.03,
+      "unity_gain_frequency_hz": 49584430.31993207,
+      "meets_bsy34_comparator": false,
+      "crossing_bracket_hz": [
+        47863009.2,
+        50118723.4
+      ]
+    },
+    {
+      "corner": {
+        "q_tf": 3.2e-09,
+        "q_cje": 5e-12,
+        "q_cjc": 3e-11
+      },
+      "base_current_a": 0.0010048780333250756,
+      "collector_current_a": 0.03,
+      "unity_gain_frequency_hz": 49408466.35762067,
+      "meets_bsy34_comparator": false,
+      "crossing_bracket_hz": [
+        47863009.2,
+        50118723.4
+      ]
+    },
+    {
+      "corner": {
+        "q_tf": 3.2e-09,
+        "q_cje": 6e-11,
+        "q_cjc": 2e-12
+      },
+      "base_current_a": 0.0010048780333250756,
+      "collector_current_a": 0.03,
+      "unity_gain_frequency_hz": 48400413.4000295,
+      "meets_bsy34_comparator": false,
+      "crossing_bracket_hz": [
+        47863009.2,
+        50118723.4
+      ]
+    },
+    {
+      "corner": {
+        "q_tf": 3.2e-09,
+        "q_cje": 6e-11,
+        "q_cjc": 3e-11
+      },
+      "base_current_a": 0.0010048780333250756,
+      "collector_current_a": 0.03,
+      "unity_gain_frequency_hz": 48232738.48133446,
+      "meets_bsy34_comparator": false,
+      "crossing_bracket_hz": [
+        47863009.2,
+        50118723.4
+      ]
+    }
+  ],
+  "bsy34_comparator_tf_boundary": {
+    "condition": "CJE and CJC at their active maxima; other parameters nominal",
+    "last_compatible_tf_s": 5.384704589843751e-10,
+    "first_incompatible_tf_s": 5.385162353515626e-10,
+    "compatible_ft_hz": 250002965.3515522,
+    "incompatible_ft_hz": 249984977.77152357,
+    "candidate_only": true
+  },
+  "all_corners_meet_comparator": false,
+  "direct_ssy20_ft_qualified": false
+}

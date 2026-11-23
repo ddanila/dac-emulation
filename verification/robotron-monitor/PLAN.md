@@ -489,6 +489,13 @@ requalified by the switching screen.
 Fifteen A2 device coverage and class-check receipts have since been
 regenerated against the active register; their numerical results are
 unchanged and their input hashes now match the current files.
+An [SSY20A AC corner screen](reference/k7222-11/ssy20-ft-corner-screen.json)
+now measures the live model's 30 mA/10 V unity-current-gain frequency:
+78.3 MHz nominal and 48.2–764.9 MHz over TF/CJE/CJC corners. The nominal
+and slow corners miss the 250 MHz BSY34 *comparison* value; with both
+capacitances at their active maxima and other parameters nominal, TF would
+need to be at most about 0.538 ns. BSY34 is not a direct SSY20A limit, so
+this is a model-consistency candidate, not a promoted bound or A2 closure.
 The partial [design point](reference/k7222-11/design-point.json) now binds the
 corrected 20-port source read and candidate reports by hash. It also binds
 the upper-bridge source and eight-case connected diagnostic, with eight

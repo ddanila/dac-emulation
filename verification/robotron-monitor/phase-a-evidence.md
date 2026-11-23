@@ -5822,3 +5822,24 @@ complete; the corrected paired case still ends at about **10.35 kV EHT**
 and **18.48 V across C21**. The TP17 amplitude assessment again accepts four
 of eight cases, and the parallel-loop audit passes. These results refresh
 the input chain without selecting an installed winding or a periodic state.
+
+### A2: SSY20A transition-frequency screen (2026-11-23)
+
+The [live AC screen](neck_ssy20_ft_screen.py) biases the current neck
+`SSY20A_BOUND` model at 30 mA collector current and 10 V collector-emitter
+voltage, drives its base with a small AC current, and interpolates the
+short-circuit collector/base current-gain unity crossing. The saved
+[corner report](reference/k7222-11/ssy20-ft-corner-screen.json) gives
+**78.3 MHz nominal** and **48.2–764.9 MHz** across all eight active
+TF/CJE/CJC min/max corners at 25 °C. Thus the active nominal and slow
+corners do not match the **250 MHz BSY34 comparison** cited in the register.
+This is not a direct SSY20A fT failure: the period list names BSY34 as a
+comparison type, while the SSY20 data sheet does not print fT.
+
+With CJE and CJC at their active maxima and all other parameters nominal,
+a bisection of the live model places the comparator-compatible TF ceiling
+between **0.538470 and 0.538516 ns**. That value is a conditional model
+candidate, not a manufacturer TF bound. Selecting it would change the
+nominal neck dynamics and invalidate connected-stage numerical receipts;
+the class transfer and joint switching/AC/connected-stress checks must be
+resolved before promoting a new active TF envelope.
