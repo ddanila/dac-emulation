@@ -25,5 +25,32 @@
     "first_failed_assertion": "self.assertGreater(min(slopes),50)",
     "candidate_sheet_restored_after_trial": true
   },
+  "stage_bias_diagnostic": {
+    "work_directory": "build/monitor/phase-a/page9-v13-base-probe-20261123",
+    "stop_s": 0.16,
+    "step_s": 4e-6,
+    "only_profile_change": "Add v(retrace_base) probe to the existing bounded vertical-integrator profile; the source-order candidate swaps only Q606 collector and emitter schematic labels.",
+    "at_time_s": 0.119,
+    "active": {
+      "deck_sha256": "0c723df846b6729ef3edf16907e97d6fda5a882c8a3018dd8d2bc0f90a23369c",
+      "samples_sha256": "fc1921c74dddeec7fd4c5eb8058cf222d353c92127d96c4ae024671ac00f6305",
+      "ramp_output_v": 1.599954881193451,
+      "a2_plus_v": 1.862130176450988,
+      "a2_minus_v": 1.861834358452415,
+      "v13_base_v": 1.862130163522494,
+      "v13_emitter_v": 1.862110443280633
+    },
+    "source_order": {
+      "deck_sha256": "5f99a9fd1bc37eaa4fd2eb6e14e83bdeac0f770b55c5e0a31b83522d5c727bef",
+      "samples_sha256": "f8b26862db93717271a0543ffc8bda33d9ca0df300343e6892e4852a8cd5dbf5",
+      "ramp_output_v": 3.914279977572729,
+      "a2_plus_v": 1.867747491682548,
+      "a2_minus_v": 0.2720098959319677,
+      "v13_base_v": 1.86774373115373,
+      "v13_emitter_v": 0.2720098959319677,
+      "v13_emitter_minus_base_v": -1.5957338352217623
+    },
+    "interpretation": "At this sampled time the candidate PNP emitter is below its base and A2's inverting input is far below its non-inverting input; the observed ramp output is nearly flat near its upper level. These node measurements diagnose the failing candidate but do not identify which neighboring source branch must change."
+  },
   "disposition": "Do not promote the source-order candidate as a functioning stage. Reconcile V13 terminal identity and the adjoining bias/feedback stage against the full page-9/10 drawing, then correct and rerun the vertical test before Phase A source signoff."
 }

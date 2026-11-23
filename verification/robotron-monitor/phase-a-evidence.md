@@ -5492,6 +5492,15 @@ swapped only Q606 collector and emitter. Its provisional connected 2 ms
 video run completed, but the vertical integrator test then failed: the
 minimum sampled ramp slope was **0.00013 V/s** against the required
 **>50 V/s**. The existing active mapping was restored after this trial.
+At 119 ms in a paired 160 ms stage run, the source-order candidate has
+V13 emitter **0.272 V** and base **1.868 V**, a **−1.596 V** emitter-base
+bias. A2's inverting input is **0.272 V** versus **1.868 V** at its
+non-inverting input, and its output remains near **3.914 V**. The active
+stage has both inputs near **1.862 V** and output **1.600 V** at that time.
+The two stage decks differ only in Q606 collector/emitter order; hashed
+decks and samples are recorded in the candidate report. These voltages
+show why the candidate is failing at the sampled operating point, but do
+not identify an allowable change to the neighboring source connections.
 This is a concrete A1 source/function conflict, not permission to retain
 the reversed model as source-approved. The adjoining bias and feedback
 connections on pages 9–10 must be reconciled before promoting a corrected
