@@ -24,7 +24,7 @@ The native probe now preserves operand, memory and I/O-read bytes too. Compariso
 requires matching these bytes alongside fetch bytes, clocks and read counts.
 ROM enable levels additionally constrain only the last physical capture, where
 they were measured. Several earlier opcode-only prefixes fail this stricter
-comparison sooner. The original campaign remains archived at commit `d3047c88`;
+comparison sooner. The original campaign remains archived at commit `ab406a0c`;
 its model/source hashes refer to that version, not the extended probe.
 
 ## New fault models
@@ -163,7 +163,7 @@ wiring, startup states, read settling, or analog faults.
 The archive [independent.json.gz](bit-results/independent.json.gz) contains
 all parameters/scores, the best forward simulation for each capture, and source,
 fixture and ROM hashes. Stage-2 archives remain associated with commit
-`3a848e66`; replaying their qualified best model with the extended probe produced
+`71d1bf48`; replaying their qualified best model with the extended probe produced
 an identical complete JSON simulation. Twenty fault tests and the plain-PC1715
 suite pass, including independent bit-plane writes and upstream-fault isolation.
 

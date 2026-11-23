@@ -2,7 +2,7 @@
   "completed": true,
   "qualified": false,
   "pairCompleted": false,
-  "runtimeSourceRevision": "52ec707a98d3956b6a371df6689d2556de89d894",
+  "runtimeSourceRevision": "d5481384baeb75bde42e5895386f74724f560d47",
   "scope": "Operationally bounded accepted-state observation of the experimental exact capacitor-addition correction.",
   "finding": "The disabled capture runtime reproduces all five baseline circuit/waveform artifacts and the original failure. Both exact-capacitor-addition captures reach the operational accepted-point limit and retain their waveforms. Saved cable voltages still exhibit large excursions, with a 52.402844 V maximum coarse/fine difference over the common absolute-time prefix. Exact local capacitor additions alone therefore do not provide a qualified transient remedy; longer runtime cannot erase the already retained excursions.",
   "boundary": "Budget stops retain accepted waveforms without changing the circuit or timesteps. They are neither solver failures nor completed refinements; snapshots are not restart checkpoints. Prefix comparisons use absolute time and one interpolated common endpoint, with no extrapolation or phase alignment.",

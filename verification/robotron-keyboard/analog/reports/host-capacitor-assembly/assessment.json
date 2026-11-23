@@ -2,7 +2,7 @@
   "completed": true,
   "qualified": false,
   "pairCompleted": false,
-  "runtimeSourceRevisionVerified": "b7fdb4ea0aa533575f6a060aaae9fcafdc0c749b",
+  "runtimeSourceRevisionVerified": "66afd220e49effbd0d016381dbc470ec7b418eb9",
   "scope": "Opt-in exact-rational constant-capacitor addition corrections passed directly into MPFR256 transient solves.",
   "finding": "The disabled correction reproduces baseline circuit/waveform bytes and failure. Both corrected attempts advance beyond the original stopping time but make negligible progress near representable timestep scales. They were operationally interrupted because of diagnostic log growth and lack of useful simulated-time advance. Neither reaches the requested endpoint; no voltage-refinement comparison or convergence claim is possible.",
   "boundary": "No circuit values or acceptance tolerances changed. This correction covers local constant-capacitor contributions only; subsequent rounding, nonlinear-device stamps and previously rounded histories remain. Interrupted ngspice runs did not write waveform files, and producer missing-file errors are retained. Logged Newton trials are not accepted waveform samples. Operational interruption does not prove eventual solver failure.",

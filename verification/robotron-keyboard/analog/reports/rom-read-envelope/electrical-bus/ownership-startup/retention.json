@@ -1,5 +1,5 @@
 {
-  "sourceCommit": "5b7b7b6",
+  "sourceCommit": "0c46454",
   "interpretation": "Live digital driver intent confirms release of CPU, ROM and latch at the same first failed read. Electrical voltage remains unknown; no voltage or timing acceptance gate changed.",
   "waveformScope": "Complete 1.6 ms bus trace, not the full contact scenario. The prepared report is preparation-only; ownership-assessment.json records actual execution.",
   "reproduce": "At sourceCommit, prepare firmware_io_cosim.py with standard ROM, single-press, electrical-bus, electrical-wr, serial-driver 7406-dc, falling-indexed-candidate, rom-read-envelope, electrical-cpu-pullups, electrical-logic-pullups, logic-load-pf 10, bus-latch-pf 12, bus-7406-pf 3, step-ns 5, minimum-breakpoint-fs 1 and the recorded runtime/bridge. Copy run-diagnostic.py into the fresh prepared directory and adapt its ROM path. The script changes only the transient stop and checks the complete short trace.",

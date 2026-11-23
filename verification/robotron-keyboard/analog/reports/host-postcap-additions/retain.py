@@ -16,7 +16,7 @@ for mode in ('off','coarse','fine','quarter'):
  retained[mode]={'localRawDirectory':str(src),'compressed':{name:sha(src/name) for name in ['ngspice.log','host-trace.txt']},'localOnly':{name:report['artifacts'][name] for name in ['trace.txt','driver-trace.txt','boundary-trace.txt']}}
 # Preserve the exact runner used before the fourth-step option was added.
 root=out.parents[4]
-old=subprocess.check_output(['git','show','b50e993:verification/robotron-keyboard/analog/reports/host-postcap-additions/run.py'],cwd=root)
+old=subprocess.check_output(['git','show','806343b:verification/robotron-keyboard/analog/reports/host-postcap-additions/run.py'],cwd=root)
 (out/'captured-runner-v1.py').write_bytes(old)
 summary=json.loads((out/'assessment.json').read_text())
 manifest={'scope':__doc__,'retained':retained,'files':{str(f.relative_to(out)):sha(f) for f in sorted(out.rglob('*')) if f.is_file() and f.name!='manifest.json'}}
