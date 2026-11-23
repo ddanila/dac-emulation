@@ -1,0 +1,52 @@
+{
+  "format": "dac-monitor-page10-v24-presence-screen-v1",
+  "qualification": "Provisional 160 ms synthetic-sync ideal-rail stage, final two-field paired topology screen; not a settled or installed-board score",
+  "inputs": {
+    "source_conflict_sha256": "34d2c7a0984491f42ee67796d20bfecbec782c5808ae11374f255fa25be57d80",
+    "profile_sha256": "6c51e75a4ea27e48a0a8f27c39bccc128c21b9a327169233430b115731ab3a62",
+    "sheet_sha256": "f4a82dde10cd54fc63b980397d4ea194126d373a9749ee07795df0e3b99989d1",
+    "script_sha256": "8c919abfc364998b0a7536ef323a105b656f6514a7b4ca0869bfec3db076f863",
+    "present_deck_sha256": "5541405eb68b5c394919908d68707f9d1481baece45491f398bfa418ba47e3f2",
+    "omitted_deck_sha256": "a234a794093058c012949b9d47073339b975bbc7032842e147eb9fffcf049609"
+  },
+  "comparison": {
+    "stop_s": 0.16,
+    "sample_step_s": 1e-05,
+    "final_two_field_start_s": 0.1184,
+    "paired_final_rows": 4160,
+    "present_line": "D736 threshold_upper amp_inv VERTICAL_DIODE",
+    "omitted_change": "delete exactly the present_line",
+    "metrics": {
+      "tp7_y2_v": {
+        "present_swing": 2.1962573378434183,
+        "omitted_swing": 2.388271103340749,
+        "max_pointwise_difference": 0.5765641026184769,
+        "difference_fraction_of_present_mean_or_swing": 0.26252119580150174
+      },
+      "tp8_y1_v": {
+        "present_swing": 25.66513391432862,
+        "omitted_swing": 25.27913153663308,
+        "max_pointwise_difference": 21.085399459403558,
+        "difference_fraction_of_present_mean_or_swing": 0.8215581313461124
+      },
+      "yoke_a": {
+        "present_swing": 0.5436519259964294,
+        "omitted_swing": 0.5923419544509771,
+        "max_pointwise_difference": 0.12610296370876017,
+        "difference_fraction_of_present_mean_or_swing": 0.2319553333277226
+      },
+      "a2_reference_v": {
+        "present_swing": 0.0009045603832236182,
+        "omitted_swing": 0.0011810917160905987,
+        "max_pointwise_difference": 0.0003739725737048616,
+        "difference_fraction_of_present_mean_or_swing": 5.2583939932015285e-05
+      }
+    },
+    "all_selected_probes_below_two_percent": false
+  },
+  "decision": {
+    "selected": "manual-and-parts-list-present-V24",
+    "basis": "Fig. 12 and the printed parts list include V24; the board-schematic feedback crop does not visibly locate it. The paired screen bounds the current stage consequence of omitting it but cannot establish installed wiring.",
+    "phase_b_qualified": false
+  }
+}

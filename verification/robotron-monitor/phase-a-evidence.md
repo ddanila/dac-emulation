@@ -6046,3 +6046,25 @@ This strengthens the manual-side explanation of the active model; it does
 a match. The page-10 schematic-source coverage audit remains **33/42**, with
 the same nine untouched parts. Reproduce with
 `python3 verification/robotron-monitor/page10_fig12_linearity_compare.py`.
+
+
+The [V24 presence record](reference/k7222-11/page10-v24-source-conflict.json)
+now preserves the unresolved source discrepancy: the printed parts list
+includes V24 in V19–V25 and operating-manual Fig. 12 draws its connection,
+but no V24 symbol or label was located in the board-schematic feedback crop.
+This observation does not establish absence elsewhere on the physical board.
+The [paired presence screen](reference/k7222-11/page10-v24-presence-screen.json)
+compares the active stage against deletion of exactly D736/V24, holding all
+other deck lines fixed. Both 160 ms runs completed; 4,160 aligned samples
+cover the final two fields. Maximum pointwise differences are **21.0854 V
+at Y1, 0.576564 V at Y2 and 0.126103 A in yoke current**. Dividing by the
+greater of each baseline absolute mean and peak-to-peak swing gives
+**82.16%, 26.25% and 23.20%**, respectively; these are not percentages of
+peak-to-peak amplitude change. The A2 reference difference is 0.374 mV.
+The result exceeds the A1 2% shortcut, so V24 presence remains a material
+unresolved wiring question. The active model retains V24 on the manual and
+parts-list evidence. This provisional synthetic-sync, ideal-rail comparison
+neither proves installed wiring nor qualifies settled behavior or Phase B.
+The report hashes its source record, script, profile, sheet and both decks;
+the script checks the source PDF/view hashes and solver output. Reproduce
+with `python3 verification/robotron-monitor/page10_v24_presence_screen.py`.

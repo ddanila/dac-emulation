@@ -1,0 +1,29 @@
+{
+  "format": "dac-monitor-page10-v24-source-conflict-v1",
+  "qualification": "V24 presence conflict among board-schematic feedback cluster, printed parts list and operation manual; the cropped board scan does not prove the diode is absent elsewhere on the board",
+  "board_schematic": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 10,
+    "full_page_600dpi_sha256": "a814242d70edd17898f6eaa7352bf3550dbc175a065e29d024cc209259b7d854",
+    "feedback_crop_1200dpi_sha256": "d2b94780e4f8a2878703d579bdab177add167330f52f6664e350a77765f892b0",
+    "observation": "The enlarged A3 feedback cluster visibly labels V25 between A3's inverting line and the upper threshold branch and V23 between the lower and upper threshold branches. A V24 symbol or label has not been located in that cluster. This is an unresolved absence observation, not a complete-board absence proof."
+  },
+  "parts_list": {
+    "file": "older.pdf",
+    "page": 15,
+    "view_600dpi_sha256": "dc6524605ee53e3f850d23e4bb57e1791ee16eb58f9ccd24daa8a611211635e2",
+    "observation": "The printed diode 1 AE 15 entry includes the range V19 through V25, which includes V24."
+  },
+  "operation_manual": {
+    "file": "older-operation.pdf",
+    "pdf_sha256": "7506b2fcf81bcc31ba3f6d27832b5295324bdd6cd91c459f3e7adb3701a67f21",
+    "pdf_page": 15,
+    "printed_page": 13,
+    "figure": 12,
+    "view_600dpi_sha256": "dd9b1028a30c508eb34bed2e109481e194f9cdf8688f8532db78c8d5f3aae34a",
+    "observation": "Fig. 12 draws V24 from the upper threshold node to A3's inverting input, opposite V25."
+  },
+  "active_model": "D736 threshold_upper amp_inv VERTICAL_DIODE",
+  "candidate": "Remove only D736/V24 from the provisional stage; retain all other devices and source settings."
+}
