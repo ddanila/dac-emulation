@@ -519,7 +519,12 @@ in the same video window finds peak collector current 0.149 A active and
 0.158 A fast, below the SSY20 0.6 A limit. Mean collector power is 0.038 W
 and 0.026 W; instantaneous peaks are 1.55 W and 1.98 W. The data-sheet
 0.7 W figure is a 25 °C continuous rating, so these short pulses need a
-thermal-impedance/pulsed-SOA check before A2 stress signoff.
+thermal-impedance/pulsed-SOA check before A2 stress signoff. Native-trace
+interpolation finds 582 excursions above 0.7 W per 375 µs window in each
+case; the longest are 14.21 ns active and 7.72 ns fast, carrying 15.38 nJ
+and 9.43 nJ respectively. Those measured pulse descriptors cannot settle
+repetitive SOA without the device's transient thermal data and installed
+temperature.
 The partial [design point](reference/k7222-11/design-point.json) now binds the
 corrected 20-port source read and candidate reports by hash. It also binds
 the upper-bridge source and eight-case connected diagnostic, with eight

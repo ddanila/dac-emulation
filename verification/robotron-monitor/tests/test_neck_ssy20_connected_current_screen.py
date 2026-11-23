@@ -10,6 +10,14 @@ import neck_ssy20_connected_current_screen as screen
 
 
 class SSY20ConnectedCurrentScreenTests(unittest.TestCase):
+    def test_excursion_crossings_integrate_pulse_energy(self):
+        rows=[{'time':float(t)} for t in range(4)]
+        events=screen.excursions_above_reference(rows,[0.,1.4,1.4,0.])
+        self.assertEqual(len(events),1)
+        self.assertAlmostEqual(events[0]['start_s'],.5)
+        self.assertAlmostEqual(events[0]['duration_s'],2.)
+        self.assertAlmostEqual(events[0]['energy_j'],2.45)
+
     def test_source_limits_and_trace_receipt(self):
         saved=json.loads(screen.OUTPUT.read_text())
         work=Path(saved['work_directory'])

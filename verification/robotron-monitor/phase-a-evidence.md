@@ -5898,6 +5898,14 @@ maximum. Their window-mean collector dissipation is **0.0379** and
 The source's **0.7 W at 25 °C** is a continuous power rating; a peak above
 it is not by itself a pulsed-SOA failure. No thermal impedance, pulse-width
 derating, actual package temperature or sustained frame behavior is known.
+Linear interpolation of the native trace around that reference identifies
+**582** excursions in each 375 µs video window. Their longest spans are
+**14.21 ns** active and **7.72 ns** fast, with **15.38 nJ** and **9.43 nJ**
+integrated collector energy respectively. Total above-reference occupancy
+is **5.78 µs** active and **2.78 µs** fast. These are trace-derived pulse
+descriptors, not an allowable pulse rating: a repeated-pulse thermal
+impedance or SOA curve and installed temperature are still needed, and
+the 2 ms startup does not establish steady frame stress.
 The screen therefore bounds this short-startup current response without
 qualifying transistor thermal stress. Reproduce from the edge-screen decks
 with `python3 verification/robotron-monitor/neck_ssy20_connected_current_screen.py

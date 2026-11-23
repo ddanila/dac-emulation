@@ -15,6 +15,7 @@ SOURCE_READ = ROOT/'reference/k7222-11/ssy20-datasheet-direct-read.json'
 CURRENT_PROBE = 'i(@q1[ic])'
 OLD_SAVE = '.save time v(cathode) v(collector) v(h_hot)'
 NEW_SAVE = OLD_SAVE+' @q1[ic]'
+CONTINUOUS_REFERENCE_W = .7
 
 
 def sha(path):
@@ -39,6 +40,36 @@ def generate(work, edge_work, ngspice):
                              +(result.stdout+result.stderr)[-500:])
 
 
+def excursions_above_reference(rows, powers, threshold=CONTINUOUS_REFERENCE_W):
+    """Integrate each linearly interpolated above-threshold power excursion."""
+    events = []
+    start = None
+    energy = 0.0
+    peak = 0.0
+    for left, right, p_left, p_right in zip(rows, rows[1:], powers, powers[1:]):
+        t_left, t_right = left['time'], right['time']
+        if p_left <= threshold and p_right <= threshold:
+            continue
+        if p_left > threshold and start is None:
+            start = t_left
+        if p_left <= threshold < p_right:
+            start = t_left+(threshold-p_left)*(t_right-t_left)/(p_right-p_left)
+            t_left, p_left = start, threshold
+        elif p_left > threshold >= p_right:
+            t_right = t_left+(threshold-p_left)*(t_right-t_left)/(p_right-p_left)
+            p_right = threshold
+        energy += (t_right-t_left)*(p_left+p_right)/2
+        peak = max(peak, p_left, p_right)
+        if p_right <= threshold:
+            events.append(dict(start_s=start, duration_s=t_right-start,
+                               energy_j=energy, peak_power_w=peak))
+            start, energy, peak = None, 0.0, 0.0
+    if start is not None:
+        events.append(dict(start_s=start, duration_s=rows[-1]['time']-start,
+                           energy_j=energy, peak_power_w=peak))
+    return events
+
+
 def summarize_trace(path):
     rows = [row for row in steady_supply.raw_rows(path)
             if row['time'] >= edge.VIDEO_WINDOW_START_S]
@@ -52,12 +83,22 @@ def summarize_trace(path):
     peak_current = max(range(len(rows)),key=lambda i:currents[i])
     peak_power = max(range(len(rows)),key=lambda i:powers[i])
     duration = rows[-1]['time']-rows[0]['time']
+    events = excursions_above_reference(rows,powers)
     return dict(raw_samples=len(rows),window_s=[rows[0]['time'],rows[-1]['time']],
                 collector_current_range_a=[min(currents),max(currents)],
                 peak_collector_current_time_s=rows[peak_current]['time'],
                 peak_instantaneous_power_w=powers[peak_power],
                 peak_instantaneous_power_time_s=rows[peak_power]['time'],
-                dissipated_energy_j=energy,mean_power_w=energy/duration)
+                dissipated_energy_j=energy,mean_power_w=energy/duration,
+                above_continuous_reference=dict(
+                    reference_w=CONTINUOUS_REFERENCE_W,
+                    excursion_count=len(events),
+                    total_duration_s=sum(event['duration_s'] for event in events),
+                    total_energy_j=sum(event['energy_j'] for event in events),
+                    longest_excursion=max(events,key=lambda event:event['duration_s'])
+                    if events else None,
+                    highest_energy_excursion=max(events,key=lambda event:event['energy_j'])
+                    if events else None))
 
 
 def analyze(work, edge_work):
@@ -76,7 +117,7 @@ def analyze(work, edge_work):
         cases[label] = dict(deck_sha256=sha(work/label/'run.cir'),
                             trace_sha256=sha(trace),
                             **summarize_trace(trace))
-    return dict(format='dac-monitor-ssy20-connected-current-screen-v1',
+    return dict(format='dac-monitor-ssy20-connected-current-screen-v2',
                 qualification='2 ms conditional native-video startup current/power probe; provisional 19-port T3, manual contrast equivalent, no thermal impedance or pulsed SOA model',
                 input_sha256={str(path.relative_to(ROOT)):sha(path)
                               for path in (edge.OUTPUT,SOURCE_READ,
