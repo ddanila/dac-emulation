@@ -5526,6 +5526,15 @@ matches all 10 new terminals and rechecks the prior oscillator and sync-input
 reads. Those three reads now account for **all 38 modeled electrical slots
 of 18 oscillator/filter parts**, with no export mismatch. The X1 and X3
 page-edge connector pins are reported separately, not counted as completed.
+Together with the **41** verified integrator slots and **9** centring-bridge
+slots, the existing scoped reads account for **88 electrical slots in 38
+modeled page-9 components** (18 + 16 + 4 disjoint parts). This count is a
+model-component census, not proof that every part printed on the source page
+is modeled. The page-18 cable comparison covers physical X1/X3 pin pairs,
+but the page-9 X3 SYN marking conflicts with that assembly map; page-10
+joins and stage function are still unresolved. The integrator comparison
+now explicitly reports V13's semiconductor lead-identity mismatch even
+though its 41 electrical nets match.
 This is a complete local component-slot census, not the required independent
 whole-page netlist. Page-edge joins, the remaining page-9 branches, DC paths,
 transistor operating points and connected oscillator behavior remain open.

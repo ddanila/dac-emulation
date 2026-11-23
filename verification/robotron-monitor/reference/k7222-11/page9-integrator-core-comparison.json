@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-page9-integrator-core-comparison-v1",
-  "qualification": "scoped source-to-fresh-KiCad electrical pin comparison using the exact MAA723 pin map; rest of page 9 and functional response remain open",
-  "source_read_sha256": "89d85982e7d1f259f7834fd2c0e9632af830f4bb6d2bb1545918b4b6b09d1c8e",
+  "qualification": "scoped electrical-net comparison using the exact MAA723 pin map; V13 C/E identity conflicts with its later arrow read, and full page 9 remains open",
+  "source_read_sha256": "6322101ddd1d840fa25979e86a8409911c39840bf1cc52881ffda6bda161d6c5",
   "crossing_source_read_sha256": "c3fc10d761b7fde5b83fb0554bbe69e5eda189625e66f97f70423fab6be9b00a",
   "sheet_sha256": "fcc4105a85343558459544a6a0e19538b2b82691860eb9517956c0992e9c65ea",
   "terminals_checked": 35,
@@ -188,6 +188,13 @@
     }
   ],
   "mismatches": [],
+  "semiconductor_lead_identity_mismatch": {
+    "source_id": "012-6931:V13",
+    "source_read": "reference/k7222-11/page9-v13-arrow-source-read.json",
+    "drawn_upper_right": "emitter",
+    "active_spice_upper_right": "collector",
+    "status": "open; source-order candidate fails the vertical ramp stage test"
+  },
   "remaining": [
     "Combine with the other scoped page-9 source reads into a complete physical pin-to-pin netlist, including all page-edge traces.",
     "Re-read transistor arrows and perform the A1 static/functional checks; a matching electrical export does not qualify the source-stage behavior."

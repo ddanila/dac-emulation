@@ -76,7 +76,7 @@ def compare(source, components):
         raise ValueError('combined page-9 integrator coverage changed')
     return {
         'format': 'dac-monitor-page9-integrator-core-comparison-v1',
-        'qualification': 'scoped source-to-fresh-KiCad electrical pin comparison using the exact MAA723 pin map; rest of page 9 and functional response remain open',
+        'qualification': 'scoped electrical-net comparison using the exact MAA723 pin map; V13 C/E identity conflicts with its later arrow read, and full page 9 remains open',
         'source_read_sha256': hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         'crossing_source_read_sha256': hashlib.sha256(PREVIOUS_READ.read_bytes()).hexdigest(),
         'sheet_sha256': hashlib.sha256(SHEET.read_bytes()).hexdigest(),
@@ -88,6 +88,13 @@ def compare(source, components):
         'unverified_a2_model_slot_indices': [],
         'checked': checked,
         'mismatches': [],
+        'semiconductor_lead_identity_mismatch': {
+            'source_id': '012-6931:V13',
+            'source_read': 'reference/k7222-11/page9-v13-arrow-source-read.json',
+            'drawn_upper_right': 'emitter',
+            'active_spice_upper_right': 'collector',
+            'status': 'open; source-order candidate fails the vertical ramp stage test',
+        },
         'remaining': source['remaining'],
     }
 

@@ -733,6 +733,10 @@ The scoped page-9 crossing receipt's old `A2:7` label was corrected to
 `A2:2`: the drawing and Tesla pin map put the inverting input at pin 2 and
 the positive supply at pin 7. Both affected source comparisons were
 regenerated; their electrical terminal coverage is unchanged.
+Across the existing page-9 oscillator/filter, integrator and centring
+receipts, **88 electrical slots in 38 modeled parts** have scoped source
+comparisons. This is a model-component census; whole-page part completeness,
+page-edge joins and V13 semiconductor lead identity still prevent A1 signoff.
 
 | Item | Still unmet | Next step |
 |---|---|---|

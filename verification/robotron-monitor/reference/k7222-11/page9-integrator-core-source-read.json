@@ -28,7 +28,7 @@
   },
   "reading_notes": [
     "V12's bar is left, toward the oscillator pulse; V16 and V17 have their bars to the right, toward the output.",
-    "V13's upper-right lead returns to the A2 inverting branch, its base is fed through R39, and its lower-right lead joins the 2 V bias branch. The C/E names for these two leads are a model assignment, not an independently established printed-arrow read.",
+    "V13's upper-right lead returns to the A2 inverting branch, its base is fed through R39, and its lower-right lead joins the 2 V bias branch. A later independent 600/1200 dpi arrow read (page9-v13-arrow-source-read.json) identifies the upper-right lead as the KFY18 PNP emitter and lower-right as collector; the active model's C/E order therefore conflicts with the source despite matching these electrical nets.",
     "C14 has its marked positive plate on the 2 V bias branch and negative plate on 00.",
     "The 12P and 00 vertical rails cross several horizontal A2 branches without junction dots. The separately recorded R34/R35/C22 read checks the height and feedback crossings.",
     "The exact Tesla MAA 723 no-H catalog identifies pins 1 and 5 as current sense and ground, and pins 7 and 8 as output-transistor and unregulated-input supplies. The page-9 drawing joins pins 1 and 5 on a line ending at a dotted 00-rail junction; this line crosses the 7.15 V reference and R44 lines without dots. The two upper-right A2 supply leads join the 12P rail. The catalog identifies the previously read functional pins as 2, 3, 4, 6, 9 and 10."
