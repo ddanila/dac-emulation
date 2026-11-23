@@ -5797,3 +5797,28 @@ identities, joint bounds, temperatures or connected stresses in A2. The
 full suite also exposed separate historical T3-stage assertions that still
 assume the former external booster pin assignment; those failures are not
 evidence for a valid Phase A design point.
+
+### A5: break yoke/design-point provenance cycle (2026-11-23)
+
+The 20-port stage could not be refreshed after the Brimar comparator update:
+its comparator inherited a hash of the full design point through the Philips
+yoke-class report, while the design point itself hashes that stage. The
+[yoke-class comparator](yoke_class_comparator.py) reads only the EHT target
+range from `design-point.json`, so its report now hashes that **specific
+EHT-target object** rather than the unrelated full design-point file. This
+removes the cycle without loosening the numerical input check.
+
+In dependency order, the Philips comparator, Brimar comparator, Brimar
+conditional stage, corrected 20-port polarity screen, five-factor booster
+screen and paired C30 screen were regenerated. The 20-port numerical results
+are unchanged: seven of eight polarity cases complete, none jointly meets
+sampled EHT/current/C21, and removing C30 changes sampled EHT, yoke current
+and C21 by about 1.82%, 0.20% and −0.52%. The partial design point now binds
+the current stage and booster receipts. The source-corrected TP17 waveform
+comparison still precludes an A1 C30 population decision.
+The corrected upper-bridge paired 20 ms run and eight-case sign screen were
+also rerun against the active neck and device-register hashes. All cases
+complete; the corrected paired case still ends at about **10.35 kV EHT**
+and **18.48 V across C21**. The TP17 amplitude assessment again accepts four
+of eight cases, and the parallel-loop audit passes. These results refresh
+the input chain without selecting an installed winding or a periodic state.

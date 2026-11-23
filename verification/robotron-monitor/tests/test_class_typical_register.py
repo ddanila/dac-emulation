@@ -113,10 +113,13 @@ class ClassTypicalRegisterTests(unittest.TestCase):
         self.assertEqual(report['source']['sha256'],
                          self.register['sources']['philips_t16_yoke_class']['sha256'])
         for key, path in (('profile', ROOT/'profiles/k7222-11-yoke-geometry.json'),
-                          ('targets', REF/'service-observations.json'),
-                          ('design', REF/'design-point.json')):
+                          ('targets', REF/'service-observations.json')):
             self.assertEqual(report['inputs_sha256'][key],
                              hashlib.sha256(path.read_bytes()).hexdigest())
+        design = json.loads((REF/'design-point.json').read_text())
+        self.assertEqual(report['inputs_sha256']['design_eht_target'],
+                         hashlib.sha256(json.dumps(design['high_voltage_ratio']['eht_target_v'],
+                                                   sort_keys=True).encode()).hexdigest())
         class_bounds = report['class_envelope_si']
         for id_suffix, key in (('line_inductance', 'line_inductance_h'),
                                ('line_resistance', 'line_resistance_ohm'),

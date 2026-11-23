@@ -43,6 +43,11 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def eht_target_sha(design):
+    target = design['high_voltage_ratio']['eht_target_v']
+    return hashlib.sha256(json.dumps(target, sort_keys=True).encode()).hexdigest()
+
+
 def current_proxy(reference_app, target_mm, reference_mm, target_eht_v):
     return reference_app * target_mm / reference_mm * math.sqrt(target_eht_v / 12000)
 
@@ -159,7 +164,8 @@ def run(source_pdf):
                 source=dict(url=PDF_URL, sha256=PDF_SHA256,
                             selection_guide_printed_page=6,
                             at1077_05_data_printed_pages=[449, 450]),
-                inputs_sha256=dict(profile=sha(PROFILE), targets=sha(TARGETS), design=sha(DESIGN)),
+                inputs_sha256=dict(profile=sha(PROFILE), targets=sha(TARGETS),
+                                   design_eht_target=eht_target_sha(design)),
                 class_scope='Philips 1987 31 cm, 90-degree, 20 mm-neck, 12 kV monochrome deflection units',
                 class_rows=rows, class_envelope=family, class_envelope_si=family_si,
                 reference_scan_at1077_05=dict(width_mm=257, height_mm=195,

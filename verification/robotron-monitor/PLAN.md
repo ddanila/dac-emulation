@@ -495,6 +495,13 @@ the upper-bridge source and eight-case connected diagnostic, with eight
 conditional G1 and four conditional TP17 survivors but no installed T3
 selection. Its earlier 19-port turn and polarity lists are explicitly historical, and its
 EHT/collector calculation is only a conditional voltage proxy.
+The Philips yoke comparator now hashes only the EHT target it actually uses,
+breaking a provenance cycle through the Brimar comparator and 20-port stage.
+The corrected polarity, booster-turn and C30 screens have been rerun against
+this stable chain; their electrical results are unchanged.
+The corrected upper-bridge paired and eight-sign connected screens were
+also rerun against the active model hashes; they still miss the C21 and EHT
+targets and do not select an installed T3 candidate.
 
 The .11 scan still does not settle T3's full return graph, tap order or
 high-voltage cold end. The
