@@ -27,7 +27,8 @@ are SF1260/SF1280; substituting a generic modern transistor does not qualify
 those devices. The board-level SP2 BOM omits some assembly-level items such as
 the flyback T3 and output transistor V18. Neck C2 is given as a part designation,
 not a directly usable capacitance. SP3 has a duplicated-looking C5/C6 scan entry
-and handwritten semiconductor annotation. These need review, not guessed values.
+and handwritten semiconductor annotation. The [plan](PLAN.md) closes such gaps
+with agent reads and bounded class-typical values.
 
 The museum CAD's K7222.25 comparison and the later .13/.23 diagrams do not establish
 that any of these is the installed specimen. The earlier boards are a separate
@@ -57,7 +58,7 @@ electron-gun geometry, phosphor decay or transformer equivalent circuit.
 The [board inventory](reference/k7222-11/inventory.json) now records 260 entries,
 including individually designated diode/capacitor sections and known
 schematic-only parts. Descriptions are normalized transcriptions, not verbatim
-quotes. Its values and inferred designators still need independent review.
+quotes.
 [Assembly identities, neck connector pins and annotations](reference/k7222-11/assembly.json)
 are separate. In particular, handwritten voltage/current/control notes are not
 promoted to manufacturer specifications. The duplicated-looking SP3 C5 entry is
