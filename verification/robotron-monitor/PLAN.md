@@ -619,16 +619,22 @@ finds only 0.0635–0.0652 A p-p current and 2.402–2.422 kV EHT over
 39–43 V. The old crossings are withdrawn until a source-corrected T3 graph
 is qualified. Both historical screens used exploratory L1/L2 and prescribed
 drive. Neither establishes installed
-yoke currents, T3 ratios or a sustained operating point. The permitted
+yoke currents, T3 ratios or a sustained operating point. The
+[return](reference/k7222-11/t3-brimar-return-boundary-screen.json),
+[asymmetric-choke](reference/k7222-11/t3-brimar-asymmetric-choke-screen.json),
+[U52 AL-gap](reference/k7222-11/t3-u52-al-gap-screen.json) and
+[U52 core-class](reference/k7222-11/t3-u52-core-class-screen.json)
+reports also hash the withdrawn rail screen and remain historical until
+rebuilt on the corrected graph. Historically, the
 conditional [return boundary screen](reference/k7222-11/t3-brimar-return-boundary-screen.json)
-screens all six upper-return/cold-end combinations: two fail this
-conditional stage's sampled current/EHT checks and four pass at both 50 and
-25 ns maximum steps. A [C21 differential probe](reference/k7222-11/t3-brimar-boost-boundary-screen.json)
-finds only 23.67–23.70 V across C21 in those four passing cases at the 5 ms
+screened six upper-return/cold-end combinations: two failed that older
+conditional stage's sampled current/EHT checks and four passed at both 50 and
+25 ns maximum steps. A historical [C21 differential probe](reference/k7222-11/t3-brimar-boost-boundary-screen.json)
+found only 23.67–23.70 V across C21 in those four passing cases at the 5 ms
 sample, below the .11 page-4 60–70 V annotation; none of the six sampled
 cases matches all three current/EHT/C21 checks. A
-[20 ms initial-state screen](reference/k7222-11/t3-brimar-boost-settling-screen.json)
-brings one passing return case to about 23.7 V across C21 from both its
+[historical 20 ms initial-state screen](reference/k7222-11/t3-brimar-boost-settling-screen.json)
+brought one old return case to about 23.7 V across C21 from both its
 original 22.5 V and a corrected 65 V start. Thus the short run's initial
 voltage alone does not explain that conditional stage's mismatch. It still
 cannot qualify the source-connected, periodic .11 operating point. The

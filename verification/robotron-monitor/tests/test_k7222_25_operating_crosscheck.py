@@ -1,4 +1,4 @@
-"""Keep the AE9VT cross-revision comparison tied to its source and rail screen."""
+"""Keep the AE9VT cross-revision comparison tied to its source."""
 
 import json
 from pathlib import Path
@@ -17,18 +17,19 @@ class K722225OperatingCrosscheckTests(unittest.TestCase):
     def test_saved_comparison_tracks_current_inputs(self):
         saved = json.loads(check.OUTPUT.read_text())
         self.assertEqual(check.run(), saved)
-        self.assertTrue(saved['crossing_inside_k7222_25_41p_range'])
+        self.assertEqual(saved['k7222_25_41p_v'], [39, 43])
+        self.assertNotIn('conditional_tby7_nominal_crossing_feed_v', saved)
         self.assertEqual(saved['corrected_conditional_trace_node_v'], [99, 113])
         self.assertTrue(saved['design_point_uses_c21_differential_reference'])
 
-    def test_cross_revision_rail_range_rejects_an_outside_crossing(self):
-        report = json.loads(check.LINK.read_text())
-        report['threshold_feed_range_v'][1] = 43.5
+    def test_cross_revision_rejects_wrong_c21_voltage_reference(self):
+        report = json.loads(check.READ.read_text())
+        report['horizontal_stage_k7222_25']['boost_voltage_reference'] = 'to ground'
         with tempfile.TemporaryDirectory() as directory:
-            altered = Path(directory) / 'link.json'
+            altered = Path(directory) / 'read.json'
             altered.write_text(json.dumps(report))
-            with patch.object(check, 'LINK', altered), self.assertRaisesRegex(
-                    ValueError, 'exceeds K7222.25 comparator range'):
+            with patch.object(check, 'READ', altered), self.assertRaisesRegex(
+                    ValueError, 'boost voltage reference changed'):
                 check.run()
 
 

@@ -4774,8 +4774,8 @@ selection through transformer taps 2, 3 and 4. The same manual's K7222.25
 timing column gives 46.2 µs trace, 16.2 µs retrace and a 19.5 ms field,
 versus the .11 design point's 46.5 µs, 16.0 µs and 19.5 ms. The
 [crosscheck](reference/k7222-11/k7222-25-operating-crosscheck.json) verifies
-that the current conditional TBY7 rail crossings, 42.219–42.570 V, lie
-inside the later model's 39–43 V range. Its voltage-reference correction is
+the source-derived timing, rail and C21 voltage comparison without relying
+on the withdrawn TBY7 rail crossings. Its voltage-reference correction is
 documented below: the partial .11 design point used C21's 60–70 V
 **differential** as a trace-node voltage. This is independent AE9VT-family operating context,
 not an AE9VT current or field specification, a .11 transformer tap map or a
@@ -5774,3 +5774,10 @@ current or EHT on the present legacy magnetic graph. Regenerate with
 `python3 verification/robotron-monitor/t3_brimar_corrected_rail_screen.py
 --ngspice /opt/homebrew/bin/ngspice --source-pdf
 build/monitor/phase-a/sources/older.pdf`.
+
+The [K7222.25 operating crosscheck](reference/k7222-11/k7222-25-operating-crosscheck.json)
+has been regenerated without its former TBY7 rail and link/choke dependencies.
+Its 39–43 V 41P range, 60–70 V across C21, timing comparison and conditional
+99–113 V trace-node arithmetic remain sourced independently. The report no
+longer claims that the obsolete 42.219–42.570 V crossing fits the later
+revision's rail range.
