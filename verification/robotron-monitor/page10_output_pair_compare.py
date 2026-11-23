@@ -23,7 +23,7 @@ NET_NAMES = {
 PIN_NUMBERS = {'C': '1', 'B': '2', 'E': '3',
                'A': '1', 'K': '2', '1': '1', '2': '2', '3': '3', '4': '4'}
 PARTS = ['V18', 'V19', 'V20', 'V21', 'V26', 'V27', 'V28',
-         'R27', 'R29', 'R48', 'X2']
+         'R27', 'R29', 'R36', 'R38', 'R48', 'R56', 'R61', 'X2']
 
 
 def sha(path):
@@ -31,7 +31,7 @@ def sha(path):
 
 
 def compare(source, xml):
-    if source.get('format') != 'dac-monitor-page10-output-pair-source-netlist-v3':
+    if source.get('format') != 'dac-monitor-page10-output-pair-source-netlist-v4':
         raise ValueError('unsupported source netlist')
     if source['source']['page'] != 10 or source['scope']['board'] != '012-6931':
         raise ValueError('wrong source page or board')
@@ -52,7 +52,8 @@ def compare(source, xml):
     for part in PARTS:
         pins = {pin for source_id, pin in expected if source_id == '012-6931:' + part}
         required = ({'3', '4'} if part == 'X2' else
-                    {'1', '2'} if part in {'V19', 'V20', 'V21', 'R27', 'R29', 'R48'}
+                    {'1', '2'} if part in {'V19', 'V20', 'V21', 'R27', 'R29',
+                                         'R36', 'R38', 'R48', 'R56', 'R61'}
                     else {'1', '2', '3'})
         if pins != required:
             raise ValueError('part has an incomplete source read: ' + part)
@@ -108,8 +109,8 @@ def compare(source, xml):
         match = re.search(r'^\.model\s+' + re.escape(alias) + r'\s+(NPN|PNP)\b',
                           model_text, flags=re.I | re.M)
         polarity[part] = match.group(1).upper() if match else None
-    return dict(format='dac-monitor-page10-output-pair-comparison-v3',
-                qualification='partial A1 check of 26 driver, bias, output and Y2-sense terminals; whole page 10 remains open',
+    return dict(format='dac-monitor-page10-output-pair-comparison-v4',
+                qualification='partial A1 check of 34 driver, bias, output, resistor and Y2-sense terminals; whole page 10 remains open',
                 source_netlist_sha256=sha(SOURCE),
                 source_pdf_sha256=source['source']['pdf_sha256'],
                 sheet_sha256=sha(SHEET), model_sha256=sha(MODELS),

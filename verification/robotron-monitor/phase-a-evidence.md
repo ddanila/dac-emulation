@@ -5989,3 +5989,16 @@ The four parts reduce the modeled page-10 no-source-terminal set from
 R59, R60, R61 and V24. This is a bounded component census, not a full
 page-10 netlist or functional signoff. Reproduce with
 `python3 verification/robotron-monitor/page10_a3_bias_compare.py`.
+
+The page-10 output-pair read now includes the two driver collector-feed
+resistors R38/R56 and the two emitter-to-Y1 resistors R36/R61. An independent
+1200 dpi crop of the original page records their eight terminals and the
+shared Y1 connection. The [fresh-export comparison](reference/k7222-11/page10-output-pair-comparison.json)
+matches **34/34** scoped terminals (previously 26/26), including all four
+new resistor paths. This establishes the drawn local connectivity; it does
+not qualify vertical-yoke current, output-stage dissipation, or the remaining
+page-10 branches. The modeled page-10 parts with no scoped source terminal
+now number **11**: C19, C21, C23, C24, R49, R50, R57, R58, R59, R60 and V24.
+Reproduce with `python3 verification/robotron-monitor/page10_output_pair_compare.py
+--source-pdf build/monitor/phase-a/sources/older.pdf --output
+verification/robotron-monitor/reference/k7222-11/page10-output-pair-comparison.json`.

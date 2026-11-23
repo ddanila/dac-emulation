@@ -740,8 +740,11 @@ page-edge joins and V13 semiconductor lead identity still prevent A1 signoff.
 A [page-10 A3 bias read](reference/k7222-11/page10-a3-bias-comparison.json)
 matches R37, C17, V14 and V15 across eight source terminals and both diode
 directions. The page-10 modeled parts without any scoped source terminal
-decrease from 19 to 15; the rest of that page and the A3 operating point
-still require review.
+decrease from 19 to 15. A subsequent [output-stage resistor read](reference/k7222-11/page10-output-pair-comparison.json)
+matches 34/34 scoped terminals, including R38/R56 collector feeds and R36/R61
+emitter paths, reducing the modeled parts without a scoped source terminal
+from 15 to 11. The rest of that page and the A3 operating point still require
+review.
 
 | Item | Still unmet | Next step |
 |---|---|---|

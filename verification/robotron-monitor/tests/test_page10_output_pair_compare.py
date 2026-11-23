@@ -21,7 +21,7 @@ class Page10OutputPairCompareTests(unittest.TestCase):
                             'kicadxml', '-o', str(xml), str(page10_output_pair_compare.SHEET)],
                            check=True, capture_output=True, text=True)
             self.assertEqual(page10_output_pair_compare.compare(source, xml), saved)
-            self.assertEqual(saved['source_pins'], 26)
+            self.assertEqual(saved['source_pins'], 34)
 
             changed = copy.deepcopy(source)
             changed['nets']['DIODE_19_20'].remove('V20:A')
@@ -42,6 +42,15 @@ class Page10OutputPairCompareTests(unittest.TestCase):
             self.assertFalse(result['passed'])
             self.assertIn(dict(source_id='012-6931:R27', pin='2',
                                expected_net='y2', actual_net='0'),
+                          result['missing_or_changed_pins'])
+
+            changed = copy.deepcopy(source)
+            changed['nets']['Y1_OUTPUT'].remove('R36:2')
+            changed['nets']['UPPER_DRIVER'].append('R36:2')
+            result = page10_output_pair_compare.compare(changed, xml)
+            self.assertFalse(result['passed'])
+            self.assertIn(dict(source_id='012-6931:R36', pin='2',
+                               expected_net='upper_emitter', actual_net='y1'),
                           result['missing_or_changed_pins'])
 
 
