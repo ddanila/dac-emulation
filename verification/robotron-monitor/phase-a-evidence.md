@@ -5564,3 +5564,41 @@ regenerate the wrapper comparison and affected screen before assembling a
 connected candidate. Preserve the existing numerical results as historical
 evidence of the pre-bridge model. The upper-bridge audit and wrapper test
 passed; the audit explicitly reports a source/model mismatch, not A5 closure.
+
+### A1/A5: corrected upper-bridge candidate runs connected (2026-11-23)
+
+The [candidate builder](t3_page4_upper_bridge_candidate.py) now generates
+a separate KiCad sheet with X1:1 and X1:7 on the same net, checks a fresh
+export, and uses that export in connected assembly. The HV group is split
+into X3:1–X1:1 and a separate X1:2–X1:3–X1:5–X1:7 upper winding. This
+removes the assumed X1:1–X1:2 one-turn section before adding the wire, so
+the correction does not short the former chain of winding sections. All
+other provisional numerical sections are retained. Reduced overwind
+coupling now applies only to the HV section, not the upper taps.
+
+Six structural checks pass, including the 20-port inventory, retained
+X1:2–X2:3 link, separate crossed taps, unchanged non-T3 component nets and
+absence of externally shorted groups. All **16 relative-polarity candidates**
+compile with **20 ports and 15 sections**. Their section values and signs
+remain hypotheses; only the all-positive relative-sign case is simulated.
+The original graph, parameter transfer, sheet and numerical reports are
+preserved as the pre-bridge baseline.
+
+The [paired connected screen](reference/k7222-11/t3-page4-upper-bridge-screen.json)
+runs both models to 20 ms with a 50 ns maximum step, the same synthetic
+capture and the previously explored, unverified 1 ns BSYN delay. Both
+complete with strictly increasing saved timestamps. Over 19–20 ms, the
+pre-bridge model gives 10.515–10.540 kV EHT and 18.346–18.661 V across
+C21; the corrected candidate gives **10.339–10.367 kV** and
+**18.378–18.679 V**. Yoke current changes from 0.937 to 0.950 A p-p.
+The corrected endpoints are about 10.347 kV and 18.484 V. Neither candidate
+reaches the documented 11–12 kV EHT and 60–70 V C21 ranges.
+
+This implements the source conductor in a runnable connected variant. It
+does not qualify the remaining section values, independent upper-winding
+sign, manual connection 16, steady state or timestep convergence. Continue
+with this corrected section map when bounding the transformer; the earlier
+20-port results cannot select its polarity or turns. Reproduce the paired
+run with `t3_page4_upper_bridge_screen.py --ngspice /path/to/ngspice --work
+build/monitor/phase-a/<new-directory>`; the report records the saved deck,
+assembly and solver provenance.

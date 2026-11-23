@@ -1,0 +1,451 @@
+{
+  "format": "dac-monitor-t3-page4-upper-bridge-screen-v1",
+  "qualification": "paired connected startup under provisional section parameters and unverified 1 ns BSYN delay; no periodic state, installed winding or A5 qualification",
+  "ngspice_sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "artifact_directory": "build/monitor/phase-a/t3-upper-bridge-final-20261123",
+  "script_sha256": "9f0b9fabeeb014e74b71b02ffaf4a1a4ad2dc5a7f1379790d64e8dc16d222c80",
+  "correction_script_sha256": "8a7c56e699ce6c362b7e5c0903d582766509ce0f3e63e71c7cc4b8de1a100a81",
+  "correction": {
+    "checks": {
+      "same_20_ports": true,
+      "upper_bridge_joined": true,
+      "upper_return_preserved": true,
+      "crossed_taps_not_joined": true,
+      "other_components_unchanged": true,
+      "no_group_short_circuited": true
+    },
+    "exported_nodes": {
+      "X2_7": "h_hot",
+      "X2_10": "h_boost",
+      "X2_11": "h_lower13",
+      "X2_12": "h_feedback",
+      "X2_13": "h_boosttap",
+      "X2_4": "h_return",
+      "X2_5": "0",
+      "X2_6": "h_sync",
+      "X2_3": "h_upper2",
+      "X3_1": "h_hvac",
+      "X1_1": "t3_x1_1",
+      "X1_2": "h_upper2",
+      "X1_3": "t3_x1_3",
+      "X1_5": "t3_x1_5",
+      "X1_7": "t3_x1_1",
+      "X1_9": "t3_x1_9",
+      "X1_12": "t3_x1_12",
+      "X1_13": "h_lower13",
+      "X1_10": "t3_x1_10",
+      "X1_15": "h_boost"
+    },
+    "source_read_sha256": "fed471c40a249a02673168dc372975ce7fb688d8fd69863b0d8f80d8d5831c78",
+    "graph": {
+      "format": "dac-monitor-winding-graph-v1",
+      "id": "k7222-11-t3-page4-upper-bridge-candidate",
+      "historical_topology_verified": false,
+      "anchor": "drive",
+      "source_terminal_read_file": "page4-t3-terminal-identity-source-read.json",
+      "source_terminal_read_sha256": "b79db095bd3922e075e9709a1a2bb25800d42583fb70266b9b1a33ffaa6eded1",
+      "groups": [
+        {
+          "id": "drive",
+          "taps": [
+            "X2_7",
+            "X2_13",
+            "X2_11",
+            "X2_12",
+            "X2_10",
+            "X2_4"
+          ],
+          "evidence": {
+            "file": "older.pdf",
+            "page": 4
+          },
+          "assumption": "Visible X2 positions are treated as a continuous ordered winding for this candidate; the scan does not specify section turns or polarity."
+        },
+        {
+          "id": "auxiliary",
+          "taps": [
+            "X2_5",
+            "X2_6",
+            "X2_3"
+          ],
+          "evidence": {
+            "file": "older.pdf",
+            "page": 4
+          },
+          "assumption": "Visible X2 auxiliary positions are treated as one ordered winding; turns and polarity remain unverified."
+        },
+        {
+          "id": "high_voltage",
+          "taps": [
+            "X3_1",
+            "X1_1"
+          ],
+          "evidence": {
+            "file": "older.pdf",
+            "page": 4
+          },
+          "assumption": "Separate HV overwind candidate from V21 anode X3:1 to X1:1; X1:1 externally joins X1:7. Turns and manual connection 16 remain unqualified."
+        },
+        {
+          "id": "upper_taps",
+          "taps": [
+            "X1_2",
+            "X1_3",
+            "X1_5",
+            "X1_7"
+          ],
+          "evidence": {
+            "file": "older.pdf",
+            "page": 4
+          },
+          "assumption": "Separate upper tapped winding candidate; internal order and section values remain provisional. X1:7 is externally wired to the overwind end X1:1."
+        },
+        {
+          "id": "lower_taps",
+          "taps": [
+            "X1_9",
+            "X1_12",
+            "X1_13",
+            "X1_10",
+            "X1_15"
+          ],
+          "evidence": {
+            "file": "older.pdf",
+            "page": 4
+          },
+          "assumption": "Visible lower X1 positions are treated as one ordered winding; section turns and polarity remain unverified."
+        }
+      ],
+      "limitations": [
+        "The 20 magnetic terminal labels match the scoped page-4 visual inventory; X3:2 is V21's rectified output, not a winding terminal.",
+        "The source draws X1:2 to X2:3, X2:10 to X1:15, and X2:11 to X1:13; these conductor equalities belong to the external node map and are not created by this magnetic graph.",
+        "X1:16 is not visible on page 4, while the manual mentions winding connections 1 and 16 without a complete connector-prefix map. Its physical role remains an alternative to resolve.",
+        "Tap order, turns, polarity, return and cold-end position remain conditional; this graph is not a qualified .11 transformer.",
+        "X1:1-X1:7 is an external conductor. The prior assumed X1:1-X1:2 winding section is removed; the remaining section values are transferred hypotheses."
+      ],
+      "upper_bridge_source_sha256": "fed471c40a249a02673168dc372975ce7fb688d8fd69863b0d8f80d8d5831c78"
+    },
+    "section_turns": {
+      "drive": [
+        36,
+        7,
+        7,
+        7,
+        7
+      ],
+      "auxiliary": [
+        10.0,
+        2.5
+      ],
+      "high_voltage": [
+        1768
+      ],
+      "lower_taps": [
+        7,
+        7,
+        7,
+        7
+      ],
+      "upper_taps": [
+        1,
+        3,
+        30
+      ]
+    },
+    "relative_polarity_candidates": 16,
+    "a5_qualified": false
+  },
+  "setup": {
+    "stop_ms": 20,
+    "saved_from_ms": 19,
+    "max_step_ns": 50,
+    "bsyn_delay_ns": 1,
+    "source": "synthetic diagnostic capture",
+    "polarity": "all positive relative group signs; split upper group adds independent untested sign",
+    "timeout_s": 180
+  },
+  "cases": [
+    {
+      "name": "pre_bridge",
+      "status": "complete",
+      "candidate": {
+        "id": "t3-8130433bb201581d",
+        "topology_sha256": "8130433bb201581db2d92bb5cf6c0139d8281058c132b3af7b046535caf53731",
+        "polarity": {
+          "drive": 1,
+          "auxiliary": 1,
+          "high_voltage": 1,
+          "lower_taps": 1
+        },
+        "qualification": "experimental-winding-candidate",
+        "historical_topology_verified": false
+      },
+      "deck_sha256": "b538766037bcff6be2526c43b17a757586ae4958f3b39a28953ab9de83598b9e",
+      "solver_log_sha256": "80d5ddf3cb013d43008206684d14ff9004176c522061c0d64a96897ab7eff988",
+      "assembly_inputs_sha256": {
+        "circuits/k7222-11-input.kicad_sch": "996d2d742367be8f16b9e0da4f664c0f40a3172ffc88344a2e1f7f4c100ec0b2",
+        "circuits/k7222-11-sync-filter.kicad_sch": "d9d9872f7e753b2b0828736648ccb5ee565518856e43490b73fd175fa4cc502e",
+        "circuits/k7222-11-vertical-oscillator.kicad_sch": "fd88c461fa263880ca4aa9f156995f539da9c61a33987459feed16563df7205c",
+        "circuits/k7222-11-vertical-integrator.kicad_sch": "fcc4105a85343558459544a6a0e19538b2b82691860eb9517956c0992e9c65ea",
+        "circuits/k7222-11-vertical-output.kicad_sch": "f4a82dde10cd54fc63b980397d4ea194126d373a9749ee07795df0e3b99989d1",
+        "circuits/k7222-11-centering.kicad_sch": "130641bcee2abb40d691465b34cc890f6ace85cd8f1fa4690df13ba14ac80e74",
+        "circuits/k7222-11-regulator5.kicad_sch": "595f78745ed367ac140681ca01eccd69045d0012b9b14ec022b7357693b5a189",
+        "circuits/k7222-11-horizontal-oscillator.kicad_sch": "f84a73d359edfbf7610b791a1d0dc99087fb3fcd8993d346ce670935e20aa6af",
+        "circuits/k7222-11-neck.kicad_sch": "b9370c0af89c3d8940875961b2dee1467ee0bd9fb834bc98226fddbaea6523fb",
+        "circuits/k7222-11-horizontal-output-page4.kicad_sch": "7a7426dd8fe69fbb2743f7c237aea4721457a2f9097e9ebdd297e8d333806dc1",
+        "circuits/1715w-output.kicad_sch": "1a8602511addb6cc64e30fbf7f6e53c60283a628ebcaf02d2ce961c6de721575",
+        "profiles/k7222-11-horizontal-oscillator.json": "20288f82c68b3b626c84c45713d3a88f281ec01aa8d2e5c8f4dc8f2142943d96",
+        "profiles/k7222-11-vertical-output.json": "6c51e75a4ea27e48a0a8f27c39bccc128c21b9a327169233430b115731ab3a62",
+        "profiles/k7222-11-regulator5.json": "da7b0ef9b5169b8444c07ae308afe9c0b776fea99d9730e69af268a1db398b7b",
+        "profiles/k7222-11-neck.json": "7641047d5ce292dfb93e5dd2bb42841d56471fdec7fb10031b65c7b29dd1fd7d",
+        "profiles/yoke.json": "4553f3d817ed5d094cea2df8d49343bed890c1b70dc9911b998c6f10e5b98f78",
+        "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+        "circuits/k7222-11-vertical-integrator-models.cir": "fc2ef20aafa92e42364924e1e6631150d5f7e3689d46ad48dc6331449c7f6015",
+        "devices/p09a-equivalent.cir": "b3283dcda3155ecf232888a82cd999fe8ae1019eb35e5ca51074a21ddf4d6c9e",
+        "circuits/k7222-11-vertical-output-models.cir": "707af9030fb2e2978949981f68b4441a578e3ce8ecd16cf2bf1791ca07318443",
+        "circuits/k7222-11-small-transistor-models.cir": "3a20130fbb779cf47db557f5e3e6910772cdc0bcc9157e7c1cdbb5fae6e368df",
+        "circuits/k7222-11-regulator5-models.cir": "e5ddc1f23f6dfb0ba6278780186b959cfa895a9e0c408e33cc1a51d5d9f4a5a0",
+        "circuits/k7222-11-neck-models.cir": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20",
+        "circuits/signal-path-models.cir": "cba15c8a071a064015018f87c74642de095783504075bbeef45672cf7d60a422",
+        "circuits/k7222-11-centering-models.cir": "b002db59e7ac0234ea3578c0598a9fc5d2c9f7985669ad401fa01b58df353282",
+        "reference/k7222-11/inventory.json": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
+        "reference/k7222-11/service-observations.json": "4268a1b1f5f3eb5ae6721476cfc5f0a22e73528e992183bebd69a3260e0927a9",
+        "reference/k7222-11/service-instrument.json": "65445bf0595f147d091b1a8d9adb8c191dbf50f7fbdbb8d0f598488d2cd2ef4d",
+        "reference/1715w/output.json": "5a59017720904ed1064fcdb6c6c4443c2150eee5d3d33c2237c5dd5ea560dc5c",
+        "reference/k7222-11/t3-winding-hypothesis.json": "6ec005383d08fe5a941c81e6f94cb753678c47b3a9e10cc4804ddbfe6f41857e",
+        "reference/k7222-11/t3-hv-terminal-read.json": "16d3efcdd886f8f40dc72b87fd988767312c47969b5d2876c92d7e690373400d",
+        "reference/k7222-11/t3-initial-parameters.json": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+        "reference/k7222-11/t3-hv-ratio-sweep.json": "dd95c8d885e59fade42d98783eb92ead68873f5c22cc670cfc9b2a1da29f7c03",
+        "reference/k7222-11/t3-return-variants.json": "0c422de8591f77d9170c0e694ee92ed48d9de91ebfb32e35ff8056230f5315dd",
+        "reference/k7222-11/horizontal-output-transcription.json": "0b056b42807752c34b86f4dc14886a5c90a92b085c5b28c11404a9806087a737",
+        "reference/k7222-11/assembly.json": "e3883360002705d7a0c69a682768fe9f067940e2b9c016a8790de23defc6fc9d",
+        "reference/k7222-11/page18-interconnect-transcription.json": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
+        "reference/k7222-11/page18-frame-comparison.json": "15d05bed895891a7f2693e96302ba3dfab2f6756b5f083d829d2427b3a8903c9",
+        "reference/k7222-11/page9-centering-source-netlist.json": "b499fbeaee2b5682e22c4879577b8038ec6a4077785d88444b5af277be738230",
+        "reference/k7222-11/page9-centering-comparison.json": "29b9560da1cf1c22a53e66db26d2b812511c8e5a0ea869aa6069920b60edcebe",
+        "reference/k7222-11/centering-bridge-check.json": "747696b3d4ec657147821cc6135fe2d011f41c1cb2e94dca87d01fa4c1837bf6",
+        "reference/k7222-11/horizontal-t1-design.json": "6a6bcb9dfab248ccba8d8c08c36bf407a7779eeaac8fad1d4f0b78773ef847d6",
+        "reference/k7222-11/page3-t2-primary-source-read.json": "dbf02720f8b0d723e9ada1ac65e736ce64efbab14655f962bfdc0777da49c53d",
+        "reference/k7222-11/horizontal-t2-design.json": "e13d8d89d1d2720fa2a436ed24807062af8b0f1314b2c8d0c9e0251417c2c985",
+        "reference/k7222-11/page4-l1-source-read.json": "b1f37936ee69916e79d8d9ba0d7e07544428612aefc6d711d7421b1368b900d0",
+        "reference/k7222-11/page4-l1-comparison.json": "c4346e51fc6466bab4db0d068810465ba92602ff4b79bf7eb68a04a3a910566d",
+        "reference/k7222-11/horizontal-l1-design.json": "8c6d32ca0c9e04e58b3876f5b611c718d24908a432d384eba10e0c44ac057b43",
+        "reference/k7222-11/horizontal-l3-design.json": "a4a655100534079242b489712234777700216d642bc30ed4e77a7b45ce948015",
+        "reference/k7222-11/horizontal-l4-design.json": "14ca77b7c09640b50171f3212118a1e257230a007c25cf6e638c1c0e060af87e",
+        "reference/k7222-11/device-model-register.json": "fee960b1c26b449b95723eb1b7293d235b0421c68204fd1cf2824b8f457064d1",
+        "reference/k7222-11/class-typical-register.json": "8db33b76ec55b999194b453a236de652f9039ede0018632e1999d234c8495494",
+        "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+        "page9_centering_compare.py": "12696e99148958bfd7031b4f43555e340d8f8d5677f85af0a52bbc7b19f686e5",
+        "centering_bridge_check.py": "4329f6fb05f62dc3d882ac2406d6ec693c3f92f5b8aa2910f9cda76a71f8df3d",
+        "horizontal_t1_design.py": "f690d824e9eb6bac6b8fbfe0c140ecff767636072de926a5b62438a98fa669e4",
+        "horizontal_t2_design.py": "b82c340d916d02ae1a650a02e4197c23090c65c547e9653b0d26b89e6ac1d390",
+        "page4_l1_compare.py": "0f65a68d679c978aee400eede6585aba0170e1258bd3e6b63f9f98d14c47cc7e",
+        "horizontal_l1_design.py": "cd00a0c92100873177b49ea58c38ae72141d135d409142315e23797bf5e28ca8",
+        "horizontal_l3_design.py": "634daf155f11e7bc79c7992ec14f7221713e5635df09c09f7575b2dc02e7d271",
+        "horizontal_l4_design.py": "93fa3609a1973cd7685e5d1a526f9250da10b772885167c4e10169c47e22705f",
+        "t3_hv_ratio_sweep.py": "a52353712935eb1aaaac738de4dc110ce1124132b537a119554dd7dc63a8dfc3",
+        "t3_return_variants.py": "524c920e888a0b13d82b718436684646f7edf2487d96b02fb684979d3ffbb66d",
+        "magnetics.py": "a1c785fbe7ce6e10b547a839edc8a0b9ad68bb3e1845dcad702446aadee312c8",
+        "transformer_candidates.py": "e35f2e76b637c7ae80e6e95267043417e1b4b97a50cb5bf4bbd6c833430027a0",
+        "electrothermal.py": "9c09699a61d6d9fbba74411a9d5f818d975287fda3aec4762e2d052ec87c35b7",
+        "yoke_profile.py": "85a7973a20fd2bfdcbaf7904dad1348e12e0f8a2557594a4c23bf0b352a0ecf7",
+        "yoke_geometry.py": "c141ddafd26c444b0c155bf1c3f31a01fdade73db53a95cc98428df58e2ef175",
+        "steady_acceptance.py": "aeb7196822a7e0dd74952a05b7ea954bfe5e3759a61f71879dfee991713ba9a3",
+        "steady_trace.py": "8bbf89abef566e3bf5403f50ef0aab6a597b4e3f108c0f8a91ba59272dc578b8",
+        "scan_diagnostics.py": "745efaa24d09457d23294b3f10887ca548574fc06ac9ee4a6a6bf8d984ad1943",
+        "sync_lock.py": "0e8e2b5cdf87d59fc47dc190b48e02a5ab2d42b16abd5f2aa5bdd8c7bd818a5a",
+        "lock_scan.py": "a8a3c00adc889a560928bfe4b68ff6f10ef1751ee63c4f75a9ccff44d7c88759",
+        "electrical_cache.py": "2e2721b48e461fec505d9b085239513dd537206056d9afae9f97af23b16faa5c",
+        "collection.py": "f871fedcea3838475a505fc7d99f8910330f4384847d1076c11e57a06d710905",
+        "beam_feedback.py": "4d26c06259a8d5d20dddd7455ddbe02c60ad5318bd10012518386e0172bb6205",
+        "energy_ledger.py": "43815e9a3681c3316592fbbbe6fdbcf4a4c1387cc89bc08d0d9a855ce87059f8",
+        "energy_validation.py": "122e42e45c16f9eb91e060d6d12edce32461331e4bd6ff92c3e53036b7e7da97",
+        "service_score.py": "c57e74828ec73083e5de487e860e8126f54ed4ca15a1653adf458af3b2109ba7",
+        "calibration_contract.py": "02e8cd297fb46665aef203b1aed7c5e58c59cc97eca7ea9310c362e185e05473",
+        "calibration_measurements.py": "be271bd351f31cba0e8d8142f7e1d63abaaf482744e2ca388fa7352e7507fdda",
+        "grid_geometry.py": "7ed9715119cc3e736662c42af1e5bfa3736cdd485faa4d8010aea019f51844b5",
+        "phase_a_gates.py": "468d8819de02f9aa7fe587eba9fef7605d96a0fcf92d48e883d0ad8abd528838",
+        "reference/k7222-11/page4-t3-terminal-identity-source-read.json": "b79db095bd3922e075e9709a1a2bb25800d42583fb70266b9b1a33ffaa6eded1",
+        "reference/k7222-11/t3-page4-visible-graph.json": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+        "reference/k7222-11/t3-page4-provisional-parameters.json": "d0a15aeec7114384048ac99596b0fc819c69f00dad1486706ece7fb4578088e2",
+        "reference/k7222-11/page4-t3-visible-wrapper-comparison.json": "02e98ec849d595836c0d466bf4a1b104711c5ca98b062104341ebef473be98de",
+        "reference/k7222-11/t3-page4-visible-stage-screen.json": "02ca2160770558940403a74720c0625af3d90818b3fc53bd4b4ccb0e8e79a483"
+      },
+      "observed": {
+        "sample_count": 21633,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.019000016242263496,
+          0.02
+        ],
+        "eht_v": [
+          10514.726373671134,
+          10540.39277314518
+        ],
+        "hot_to_return_drive_v": [
+          -68.44785941878222,
+          428.406587017796
+        ],
+        "c21_differential_v": [
+          18.345959408791842,
+          18.661114564416295
+        ],
+        "tp17_mapped_v": [
+          -65.55465087904221,
+          11.236480752591751
+        ],
+        "yoke_current_pp_a": 0.9368713939761355,
+        "endpoint_eht_v": 10522.389122105815,
+        "endpoint_c21_v": 18.608401878763004
+      }
+    },
+    {
+      "name": "upper_bridge",
+      "status": "complete",
+      "candidate": {
+        "id": "t3-d4dad557ad79c4f5",
+        "topology_sha256": "d4dad557ad79c4f541741e41d1b016255a2670d24976cc8bee8df78043826013",
+        "polarity": {
+          "drive": 1,
+          "auxiliary": 1,
+          "high_voltage": 1,
+          "lower_taps": 1,
+          "upper_taps": 1
+        },
+        "qualification": "experimental-winding-candidate",
+        "historical_topology_verified": false
+      },
+      "deck_sha256": "8d98614886bab53903a249e2a6c94b5acfcf6640eab53affb4d3c71afbee54e8",
+      "solver_log_sha256": "9ba495ee250fe0969da6bbe55763c580eae2f38ce7a01191e4f481e78727bfb7",
+      "assembly_inputs_sha256": {
+        "circuits/k7222-11-input.kicad_sch": "996d2d742367be8f16b9e0da4f664c0f40a3172ffc88344a2e1f7f4c100ec0b2",
+        "circuits/k7222-11-sync-filter.kicad_sch": "d9d9872f7e753b2b0828736648ccb5ee565518856e43490b73fd175fa4cc502e",
+        "circuits/k7222-11-vertical-oscillator.kicad_sch": "fd88c461fa263880ca4aa9f156995f539da9c61a33987459feed16563df7205c",
+        "circuits/k7222-11-vertical-integrator.kicad_sch": "fcc4105a85343558459544a6a0e19538b2b82691860eb9517956c0992e9c65ea",
+        "circuits/k7222-11-vertical-output.kicad_sch": "f4a82dde10cd54fc63b980397d4ea194126d373a9749ee07795df0e3b99989d1",
+        "circuits/k7222-11-centering.kicad_sch": "130641bcee2abb40d691465b34cc890f6ace85cd8f1fa4690df13ba14ac80e74",
+        "circuits/k7222-11-regulator5.kicad_sch": "595f78745ed367ac140681ca01eccd69045d0012b9b14ec022b7357693b5a189",
+        "circuits/k7222-11-horizontal-oscillator.kicad_sch": "f84a73d359edfbf7610b791a1d0dc99087fb3fcd8993d346ce670935e20aa6af",
+        "circuits/k7222-11-neck.kicad_sch": "b9370c0af89c3d8940875961b2dee1467ee0bd9fb834bc98226fddbaea6523fb",
+        "circuits/k7222-11-horizontal-output-page4.kicad_sch": "7a7426dd8fe69fbb2743f7c237aea4721457a2f9097e9ebdd297e8d333806dc1",
+        "circuits/1715w-output.kicad_sch": "1a8602511addb6cc64e30fbf7f6e53c60283a628ebcaf02d2ce961c6de721575",
+        "profiles/k7222-11-horizontal-oscillator.json": "20288f82c68b3b626c84c45713d3a88f281ec01aa8d2e5c8f4dc8f2142943d96",
+        "profiles/k7222-11-vertical-output.json": "6c51e75a4ea27e48a0a8f27c39bccc128c21b9a327169233430b115731ab3a62",
+        "profiles/k7222-11-regulator5.json": "da7b0ef9b5169b8444c07ae308afe9c0b776fea99d9730e69af268a1db398b7b",
+        "profiles/k7222-11-neck.json": "7641047d5ce292dfb93e5dd2bb42841d56471fdec7fb10031b65c7b29dd1fd7d",
+        "profiles/yoke.json": "4553f3d817ed5d094cea2df8d49343bed890c1b70dc9911b998c6f10e5b98f78",
+        "circuits/k7222-11-horizontal-models.cir": "856f731a4b8179af3c404bcca7abb127682ff95b789b3b225a452e08d768a214",
+        "circuits/k7222-11-vertical-integrator-models.cir": "fc2ef20aafa92e42364924e1e6631150d5f7e3689d46ad48dc6331449c7f6015",
+        "devices/p09a-equivalent.cir": "b3283dcda3155ecf232888a82cd999fe8ae1019eb35e5ca51074a21ddf4d6c9e",
+        "circuits/k7222-11-vertical-output-models.cir": "707af9030fb2e2978949981f68b4441a578e3ce8ecd16cf2bf1791ca07318443",
+        "circuits/k7222-11-small-transistor-models.cir": "3a20130fbb779cf47db557f5e3e6910772cdc0bcc9157e7c1cdbb5fae6e368df",
+        "circuits/k7222-11-regulator5-models.cir": "e5ddc1f23f6dfb0ba6278780186b959cfa895a9e0c408e33cc1a51d5d9f4a5a0",
+        "circuits/k7222-11-neck-models.cir": "f8cd7611fcda85139734a21067ba76a4e1a4ac6232c1f4936da19b72c0f9ab20",
+        "circuits/signal-path-models.cir": "cba15c8a071a064015018f87c74642de095783504075bbeef45672cf7d60a422",
+        "circuits/k7222-11-centering-models.cir": "b002db59e7ac0234ea3578c0598a9fc5d2c9f7985669ad401fa01b58df353282",
+        "reference/k7222-11/inventory.json": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
+        "reference/k7222-11/service-observations.json": "4268a1b1f5f3eb5ae6721476cfc5f0a22e73528e992183bebd69a3260e0927a9",
+        "reference/k7222-11/service-instrument.json": "65445bf0595f147d091b1a8d9adb8c191dbf50f7fbdbb8d0f598488d2cd2ef4d",
+        "reference/1715w/output.json": "5a59017720904ed1064fcdb6c6c4443c2150eee5d3d33c2237c5dd5ea560dc5c",
+        "reference/k7222-11/t3-winding-hypothesis.json": "6ec005383d08fe5a941c81e6f94cb753678c47b3a9e10cc4804ddbfe6f41857e",
+        "reference/k7222-11/t3-hv-terminal-read.json": "16d3efcdd886f8f40dc72b87fd988767312c47969b5d2876c92d7e690373400d",
+        "reference/k7222-11/t3-initial-parameters.json": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+        "reference/k7222-11/t3-hv-ratio-sweep.json": "dd95c8d885e59fade42d98783eb92ead68873f5c22cc670cfc9b2a1da29f7c03",
+        "reference/k7222-11/t3-return-variants.json": "0c422de8591f77d9170c0e694ee92ed48d9de91ebfb32e35ff8056230f5315dd",
+        "reference/k7222-11/horizontal-output-transcription.json": "0b056b42807752c34b86f4dc14886a5c90a92b085c5b28c11404a9806087a737",
+        "reference/k7222-11/assembly.json": "e3883360002705d7a0c69a682768fe9f067940e2b9c016a8790de23defc6fc9d",
+        "reference/k7222-11/page18-interconnect-transcription.json": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
+        "reference/k7222-11/page18-frame-comparison.json": "15d05bed895891a7f2693e96302ba3dfab2f6756b5f083d829d2427b3a8903c9",
+        "reference/k7222-11/page9-centering-source-netlist.json": "b499fbeaee2b5682e22c4879577b8038ec6a4077785d88444b5af277be738230",
+        "reference/k7222-11/page9-centering-comparison.json": "29b9560da1cf1c22a53e66db26d2b812511c8e5a0ea869aa6069920b60edcebe",
+        "reference/k7222-11/centering-bridge-check.json": "747696b3d4ec657147821cc6135fe2d011f41c1cb2e94dca87d01fa4c1837bf6",
+        "reference/k7222-11/horizontal-t1-design.json": "6a6bcb9dfab248ccba8d8c08c36bf407a7779eeaac8fad1d4f0b78773ef847d6",
+        "reference/k7222-11/page3-t2-primary-source-read.json": "dbf02720f8b0d723e9ada1ac65e736ce64efbab14655f962bfdc0777da49c53d",
+        "reference/k7222-11/horizontal-t2-design.json": "e13d8d89d1d2720fa2a436ed24807062af8b0f1314b2c8d0c9e0251417c2c985",
+        "reference/k7222-11/page4-l1-source-read.json": "b1f37936ee69916e79d8d9ba0d7e07544428612aefc6d711d7421b1368b900d0",
+        "reference/k7222-11/page4-l1-comparison.json": "c4346e51fc6466bab4db0d068810465ba92602ff4b79bf7eb68a04a3a910566d",
+        "reference/k7222-11/horizontal-l1-design.json": "8c6d32ca0c9e04e58b3876f5b611c718d24908a432d384eba10e0c44ac057b43",
+        "reference/k7222-11/horizontal-l3-design.json": "a4a655100534079242b489712234777700216d642bc30ed4e77a7b45ce948015",
+        "reference/k7222-11/horizontal-l4-design.json": "14ca77b7c09640b50171f3212118a1e257230a007c25cf6e638c1c0e060af87e",
+        "reference/k7222-11/device-model-register.json": "fee960b1c26b449b95723eb1b7293d235b0421c68204fd1cf2824b8f457064d1",
+        "reference/k7222-11/class-typical-register.json": "8db33b76ec55b999194b453a236de652f9039ede0018632e1999d234c8495494",
+        "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
+        "page9_centering_compare.py": "12696e99148958bfd7031b4f43555e340d8f8d5677f85af0a52bbc7b19f686e5",
+        "centering_bridge_check.py": "4329f6fb05f62dc3d882ac2406d6ec693c3f92f5b8aa2910f9cda76a71f8df3d",
+        "horizontal_t1_design.py": "f690d824e9eb6bac6b8fbfe0c140ecff767636072de926a5b62438a98fa669e4",
+        "horizontal_t2_design.py": "b82c340d916d02ae1a650a02e4197c23090c65c547e9653b0d26b89e6ac1d390",
+        "page4_l1_compare.py": "0f65a68d679c978aee400eede6585aba0170e1258bd3e6b63f9f98d14c47cc7e",
+        "horizontal_l1_design.py": "cd00a0c92100873177b49ea58c38ae72141d135d409142315e23797bf5e28ca8",
+        "horizontal_l3_design.py": "634daf155f11e7bc79c7992ec14f7221713e5635df09c09f7575b2dc02e7d271",
+        "horizontal_l4_design.py": "93fa3609a1973cd7685e5d1a526f9250da10b772885167c4e10169c47e22705f",
+        "t3_hv_ratio_sweep.py": "a52353712935eb1aaaac738de4dc110ce1124132b537a119554dd7dc63a8dfc3",
+        "t3_return_variants.py": "524c920e888a0b13d82b718436684646f7edf2487d96b02fb684979d3ffbb66d",
+        "magnetics.py": "a1c785fbe7ce6e10b547a839edc8a0b9ad68bb3e1845dcad702446aadee312c8",
+        "transformer_candidates.py": "e35f2e76b637c7ae80e6e95267043417e1b4b97a50cb5bf4bbd6c833430027a0",
+        "electrothermal.py": "9c09699a61d6d9fbba74411a9d5f818d975287fda3aec4762e2d052ec87c35b7",
+        "yoke_profile.py": "85a7973a20fd2bfdcbaf7904dad1348e12e0f8a2557594a4c23bf0b352a0ecf7",
+        "yoke_geometry.py": "c141ddafd26c444b0c155bf1c3f31a01fdade73db53a95cc98428df58e2ef175",
+        "steady_acceptance.py": "aeb7196822a7e0dd74952a05b7ea954bfe5e3759a61f71879dfee991713ba9a3",
+        "steady_trace.py": "8bbf89abef566e3bf5403f50ef0aab6a597b4e3f108c0f8a91ba59272dc578b8",
+        "scan_diagnostics.py": "745efaa24d09457d23294b3f10887ca548574fc06ac9ee4a6a6bf8d984ad1943",
+        "sync_lock.py": "0e8e2b5cdf87d59fc47dc190b48e02a5ab2d42b16abd5f2aa5bdd8c7bd818a5a",
+        "lock_scan.py": "a8a3c00adc889a560928bfe4b68ff6f10ef1751ee63c4f75a9ccff44d7c88759",
+        "electrical_cache.py": "2e2721b48e461fec505d9b085239513dd537206056d9afae9f97af23b16faa5c",
+        "collection.py": "f871fedcea3838475a505fc7d99f8910330f4384847d1076c11e57a06d710905",
+        "beam_feedback.py": "4d26c06259a8d5d20dddd7455ddbe02c60ad5318bd10012518386e0172bb6205",
+        "energy_ledger.py": "43815e9a3681c3316592fbbbe6fdbcf4a4c1387cc89bc08d0d9a855ce87059f8",
+        "energy_validation.py": "122e42e45c16f9eb91e060d6d12edce32461331e4bd6ff92c3e53036b7e7da97",
+        "service_score.py": "c57e74828ec73083e5de487e860e8126f54ed4ca15a1653adf458af3b2109ba7",
+        "calibration_contract.py": "02e8cd297fb46665aef203b1aed7c5e58c59cc97eca7ea9310c362e185e05473",
+        "calibration_measurements.py": "be271bd351f31cba0e8d8142f7e1d63abaaf482744e2ca388fa7352e7507fdda",
+        "grid_geometry.py": "7ed9715119cc3e736662c42af1e5bfa3736cdd485faa4d8010aea019f51844b5",
+        "phase_a_gates.py": "468d8819de02f9aa7fe587eba9fef7605d96a0fcf92d48e883d0ad8abd528838",
+        "reference/k7222-11/page4-t3-terminal-identity-source-read.json": "b79db095bd3922e075e9709a1a2bb25800d42583fb70266b9b1a33ffaa6eded1",
+        "reference/k7222-11/t3-page4-visible-graph.json": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+        "reference/k7222-11/t3-page4-provisional-parameters.json": "d0a15aeec7114384048ac99596b0fc819c69f00dad1486706ece7fb4578088e2",
+        "reference/k7222-11/page4-t3-visible-wrapper-comparison.json": "02e98ec849d595836c0d466bf4a1b104711c5ca98b062104341ebef473be98de",
+        "reference/k7222-11/t3-page4-visible-stage-screen.json": "02ca2160770558940403a74720c0625af3d90818b3fc53bd4b4ccb0e8e79a483",
+        "reference/k7222-11/t3-upper-bridge-graph.json": "9a288465c1f25c95a16ddd6c032eca7438f4cfb62fa0f826abb1736afce6bc92",
+        "reference/k7222-11/t3-upper-bridge-parameters.json": "74634689991f17cadd7d4b636d96d7344d04b774b577c6ecb7a41bce045e84df",
+        "circuits/k7222-11-horizontal-output-upper-bridge.kicad_sch": "10e97d73ead07b85e27f349ffa545148090c61dd69482a95d4da3b5c0794185f",
+        "t3_page4_upper_bridge_candidate.py": "8a7c56e699ce6c362b7e5c0903d582766509ce0f3e63e71c7cc4b8de1a100a81",
+        "reference/k7222-11/page4-t3-upper-bridge-source-read.json": "fed471c40a249a02673168dc372975ce7fb688d8fd69863b0d8f80d8d5831c78"
+      },
+      "observed": {
+        "sample_count": 21701,
+        "duplicate_time_count": 0,
+        "window_s": [
+          0.01900000425855795,
+          0.02
+        ],
+        "eht_v": [
+          10339.296367891371,
+          10366.505889220301
+        ],
+        "hot_to_return_drive_v": [
+          -68.48399423522167,
+          432.42856623322155
+        ],
+        "c21_differential_v": [
+          18.377567328787563,
+          18.679447144879823
+        ],
+        "tp17_mapped_v": [
+          -65.72310733640757,
+          11.298961201002571
+        ],
+        "yoke_current_pp_a": 0.9500853361877543,
+        "endpoint_eht_v": 10347.231456228696,
+        "endpoint_c21_v": 18.48383438130388
+      }
+    }
+  ],
+  "a5_qualified": false,
+  "limitations": [
+    "The same provisional numerical sections are retained except for the removed X1:1-X1:2 one-turn bridge.",
+    "Only the separated HV overwind receives the reduced overwind coupling; upper taps now use background coupling.",
+    "The two graph candidates differ in external join, section map and resulting coupling. This is a topology correction, not a one-parameter sensitivity.",
+    "Remaining polarity alternatives, section bounds, periodicity and timestep convergence must be checked before selecting a design point."
+  ]
+}
