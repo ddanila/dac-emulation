@@ -5602,3 +5602,20 @@ with this corrected section map when bounding the transformer; the earlier
 run with `t3_page4_upper_bridge_screen.py --ngspice /path/to/ngspice --work
 build/monitor/phase-a/<new-directory>`; the report records the saved deck,
 assembly and solver provenance.
+
+### A5: corrected upper-bridge conditional G1 sign (2026-11-23)
+
+The [G1 sign diagnostic](t3_upper_bridge_g1_sign.py) compiles all 16 relative
+signs of the corrected split-winding graph. For each, xspice and flux models
+receive the same isolated 1 V positive X2:7-to-X2:4 collector pulse. At 80 ns,
+both backends agree that **8 of 16** make X2:6 negative relative to X2:5;
+all eight have auxiliary relative sign +1 in the candidate ordering. The
+[machine-readable report](reference/k7222-11/t3-upper-bridge-g1-sign.json)
+records all voltages, assumptions and input hashes. Run
+`python3 verification/robotron-monitor/t3_upper_bridge_g1_sign.py` to
+regenerate it.
+
+This is a conditional function check. It assumes X2:5 is the 00 return and
+that X2:5–X2:6 is the actual auxiliary section that charges V14/G1. It
+does not identify the HV winding cold end, its differential sign or the
+manual-only X1:16 mapping, and it is not a connected periodic point.

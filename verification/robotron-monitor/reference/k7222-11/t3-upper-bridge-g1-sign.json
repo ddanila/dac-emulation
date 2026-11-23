@@ -1,0 +1,239 @@
+{
+  "format": "dac-monitor-t3-upper-bridge-g1-sign-v1",
+  "qualification": "conditional isolated pulse only; X2:5 return and auxiliary continuity remain unverified",
+  "graph_source_sha256": "d2b3869cf279f935db5a2f837c9b56e793e7b13a8b0465f295fa0d5f3e542287",
+  "parameters_source_sha256": "d0a15aeec7114384048ac99596b0fc819c69f00dad1486706ece7fb4578088e2",
+  "functional_core_sha256": "a5fda3ababdfea55999c6f589e126e8a301f919287f12413351486c679913689",
+  "correction_script_sha256": "8a7c56e699ce6c362b7e5c0903d582766509ce0f3e63e71c7cc4b8de1a100a81",
+  "script_sha256": "2775d02b3eaf47287176e1540479e0d7898e930b64ad813e7564d33ff7d8f383",
+  "setup": "1 V positive X2:7-to-X2:4 pulse, 1 Gohm shunts on other ports, V(X2:6)-V(X2:5) at 80 ns",
+  "assumptions": [
+    "X2:5 is the 00 return",
+    "X2:5 and X2:6 form the auxiliary winding",
+    "V14 must charge negative G1 on positive collector flyback"
+  ],
+  "candidate_results": [
+    {
+      "id": "t3-d4dad557ad79c4f5",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": 1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "v_g1_xspice": -0.0331732915,
+      "v_g1_flux": -0.0290829244,
+      "conditionally_compatible": true
+    },
+    {
+      "id": "t3-f53abe5ace016bfe",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": 1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "v_g1_xspice": -0.0331732915,
+      "v_g1_flux": -0.0290829244,
+      "conditionally_compatible": true
+    },
+    {
+      "id": "t3-04e718eeeadc143a",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": 1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "v_g1_xspice": -0.0331732915,
+      "v_g1_flux": -0.0290829244,
+      "conditionally_compatible": true
+    },
+    {
+      "id": "t3-8bfb72da2d26d2c1",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": 1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "v_g1_xspice": -0.0331732915,
+      "v_g1_flux": -0.0290829244,
+      "conditionally_compatible": true
+    },
+    {
+      "id": "t3-c5fc96078e34bdf8",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "v_g1_xspice": -0.0331732915,
+      "v_g1_flux": -0.0290829244,
+      "conditionally_compatible": true
+    },
+    {
+      "id": "t3-9f0306313ca56457",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "v_g1_xspice": -0.0331732915,
+      "v_g1_flux": -0.0290829244,
+      "conditionally_compatible": true
+    },
+    {
+      "id": "t3-6a53d53d1c091c28",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "v_g1_xspice": -0.0331732915,
+      "v_g1_flux": -0.0290829244,
+      "conditionally_compatible": true
+    },
+    {
+      "id": "t3-077afdb3000dd8dd",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "v_g1_xspice": -0.0331732915,
+      "v_g1_flux": -0.0290829244,
+      "conditionally_compatible": true
+    },
+    {
+      "id": "t3-a055876e818b4a6f",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": 1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "v_g1_xspice": 0.0331732915,
+      "v_g1_flux": 0.0290829244,
+      "conditionally_compatible": false
+    },
+    {
+      "id": "t3-ed657216b6b124ee",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": 1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "v_g1_xspice": 0.0331732915,
+      "v_g1_flux": 0.0290829244,
+      "conditionally_compatible": false
+    },
+    {
+      "id": "t3-9acb8aac65a056c4",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": 1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "v_g1_xspice": 0.0331732915,
+      "v_g1_flux": 0.0290829244,
+      "conditionally_compatible": false
+    },
+    {
+      "id": "t3-55f01044fff0e235",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": 1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "v_g1_xspice": 0.0331732915,
+      "v_g1_flux": 0.0290829244,
+      "conditionally_compatible": false
+    },
+    {
+      "id": "t3-3af909a2e919828f",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "v_g1_xspice": 0.0331732915,
+      "v_g1_flux": 0.0290829244,
+      "conditionally_compatible": false
+    },
+    {
+      "id": "t3-d3d0b723e82364d1",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "v_g1_xspice": 0.0331732915,
+      "v_g1_flux": 0.0290829244,
+      "conditionally_compatible": false
+    },
+    {
+      "id": "t3-5ebfb4c626cd4ef3",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "v_g1_xspice": 0.0331732915,
+      "v_g1_flux": 0.0290829244,
+      "conditionally_compatible": false
+    },
+    {
+      "id": "t3-7e098c45f68e51bd",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "v_g1_xspice": 0.0331732915,
+      "v_g1_flux": 0.0290829244,
+      "conditionally_compatible": false
+    }
+  ],
+  "conditionally_accepted_ids": [
+    "t3-d4dad557ad79c4f5",
+    "t3-f53abe5ace016bfe",
+    "t3-04e718eeeadc143a",
+    "t3-8bfb72da2d26d2c1",
+    "t3-c5fc96078e34bdf8",
+    "t3-9f0306313ca56457",
+    "t3-6a53d53d1c091c28",
+    "t3-077afdb3000dd8dd"
+  ],
+  "qualified_hv_sign": null,
+  "qualified_g1_sign": null,
+  "a5_qualified": false,
+  "passed": true
+}

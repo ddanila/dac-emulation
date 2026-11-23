@@ -416,6 +416,11 @@ case ends near 10.35 kV EHT and 18.48 V C21 under provisional values and a
 winding bounds or periodic design point.
 The corrected V21 pads are X3:1/X3:2; without their HV winding cold end,
 the earlier one-of-four sign screen cannot select a valid 20-port polarity.
+The [upper-bridge G1 sign screen](reference/k7222-11/t3-upper-bridge-g1-sign.json)
+tests all 16 corrected-graph relative signs under an isolated collector pulse:
+eight give negative X2:6 relative to X2:5 in both magnetic backends. This
+conditionally selects the auxiliary sign only if X2:5 is the return and that
+section is continuous. It does not select the HV sign or qualify A5.
 Conditional simulations can reject sampled assumptions; they cannot establish
 the missing physical connection. The corrected [eight-sign screen](reference/k7222-11/t3-page4-visible-stage-screen.json)
 (seven completed cases) and [five-point booster screen](reference/k7222-11/t3-page4-booster-turn-screen.json)
