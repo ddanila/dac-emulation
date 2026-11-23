@@ -1,18 +1,21 @@
 {
-  "format": "dac-monitor-ssy20-connected-current-screen-v2",
+  "format": "dac-monitor-ssy20-connected-current-screen-v3",
   "qualification": "2 ms conditional native-video startup current/power probe; provisional 19-port T3, manual contrast equivalent, no thermal impedance or pulsed SOA model",
   "input_sha256": {
     "reference/k7222-11/ssy20-connected-edge-screen.json": "d63efd5061a6991a14dd54661b84a979164c0ab1f4d4020cf33367db54cce075",
     "reference/k7222-11/ssy20-datasheet-direct-read.json": "01a58a24a0198c8fedb03d0b15f6830817949c13b0d8f0a425b0d06413d883af",
+    "reference/k7222-11/ssy20-thermal-source-read.json": "3756e5b0be4002eb463c3273df436000076e4411f6dcf592b9b0dab7e3f7d149",
     "neck_ssy20_connected_edge_screen.py": "9ca1950834eb0bf9e2b8cf85621c3af04b6ac9b0caf75d3171c79ad711362cc9",
     "steady_supply.py": "b33c29107b6cb732fa89d1475ce7c00d506e380c9178e7fb1dac4c73aba84029",
-    "neck_ssy20_connected_current_screen.py": "3f736c3534ec3cb6a4436b4ee80a8f467bf930dcba2f258286680e13124a99ac"
+    "neck_ssy20_connected_current_screen.py": "996a5574b2e99a694d54a2e4a35d32761f0e76dec5f95e13d79d27e0ae2ae737"
   },
   "work_directory": "build/monitor/phase-a/ssy20-connected-current-clean-20261123",
   "edge_work_directory": "build/monitor/phase-a/ssy20-connected-edge-clean-20261123",
   "source_limits": {
     "ic_max_a": 0.6,
-    "continuous_ptot_w_at_25c": 0.7
+    "continuous_ptot_w_at_25c": 0.7,
+    "maximum_steady_rthja_k_per_w": 220,
+    "maximum_steady_rthjc_k_per_w": 40
   },
   "cases": {
     "active": {
@@ -49,7 +52,8 @@
           "energy_j": 1.538469290121084e-08,
           "peak_power_w": 1.5398040598360925
         }
-      }
+      },
+      "conditional_steady_mean_junction_rise_c": 8.332119446642304
     },
     "fast_candidate": {
       "deck_sha256": "c76e4cad66a00a4c889cd732d353331d22c7fa48dc9492144b8d0820b70912e5",
@@ -85,7 +89,8 @@
           "energy_j": 9.430700717584185e-09,
           "peak_power_w": 1.805384474477735
         }
-      }
+      },
+      "conditional_steady_mean_junction_rise_c": 5.8194137388659275
     }
   },
   "both_peak_currents_below_source_max": true,

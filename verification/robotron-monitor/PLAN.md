@@ -524,7 +524,11 @@ interpolation finds 582 excursions above 0.7 W per 375 µs window in each
 case; the longest are 14.21 ns active and 7.72 ns fast, carrying 15.38 nJ
 and 9.43 nJ respectively. Those measured pulse descriptors cannot settle
 repetitive SOA without the device's transient thermal data and installed
-temperature.
+temperature. A direct SSY20 source-page read adds steady 220 K/W
+junction-to-ambient and 40 K/W junction-to-case maxima. Applied to the
+short-window means only, 220 K/W gives conditional steady rises of 8.33 °C
+active and 5.82 °C fast; neither is a sustained-state temperature or a
+repetitive-pulse qualification.
 The partial [design point](reference/k7222-11/design-point.json) now binds the
 corrected 20-port source read and candidate reports by hash. It also binds
 the upper-bridge source and eight-case connected diagnostic, with eight

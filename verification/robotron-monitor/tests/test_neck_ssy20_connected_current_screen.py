@@ -29,6 +29,10 @@ class SSY20ConnectedCurrentScreenTests(unittest.TestCase):
         self.assertTrue(saved['both_window_mean_powers_below_continuous_reference'])
         self.assertTrue(saved['any_instantaneous_power_above_continuous_reference'])
         self.assertFalse(saved['thermal_or_pulsed_soa_qualified'])
+        self.assertEqual(saved['source_limits']['maximum_steady_rthja_k_per_w'],220)
+        for case in saved['cases'].values():
+            self.assertAlmostEqual(case['conditional_steady_mean_junction_rise_c'],
+                                   case['mean_power_w']*220)
         self.assertGreater(saved['cases']['fast_candidate']['peak_instantaneous_power_w'],
                            saved['cases']['active']['peak_instantaneous_power_w'])
 

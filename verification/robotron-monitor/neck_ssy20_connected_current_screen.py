@@ -12,6 +12,7 @@ import steady_supply
 ROOT = Path(__file__).resolve().parent
 OUTPUT = ROOT/'reference/k7222-11/ssy20-connected-current-screen.json'
 SOURCE_READ = ROOT/'reference/k7222-11/ssy20-datasheet-direct-read.json'
+THERMAL_READ = ROOT/'reference/k7222-11/ssy20-thermal-source-read.json'
 CURRENT_PROBE = 'i(@q1[ic])'
 OLD_SAVE = '.save time v(cathode) v(collector) v(h_hot)'
 NEW_SAVE = OLD_SAVE+' @q1[ic]'
@@ -104,9 +105,13 @@ def summarize_trace(path):
 def analyze(work, edge_work):
     work, edge_work = Path(work), Path(edge_work)
     source = json.loads(SOURCE_READ.read_text())
+    thermal = json.loads(THERMAL_READ.read_text())
     limits = source['limits']
     if (limits['ic_a'],limits['ptot_w_at_25c']) != (.6,.7):
         raise ValueError('direct SSY20 current/power source read changed')
+    rth = thermal['maximum_thermal_resistance_k_per_w']
+    if (rth['junction_to_ambient'],rth['junction_to_case']) != (220,40):
+        raise ValueError('direct SSY20 thermal source read changed')
     cases = {}
     for label in ('active','fast_candidate'):
         base = (edge_work/label/'run.cir').read_text()
@@ -114,17 +119,21 @@ def analyze(work, edge_work):
         if base.count(OLD_SAVE) != 1 or deck != base.replace(OLD_SAVE,NEW_SAVE):
             raise ValueError(label+' current deck differs beyond added probe')
         trace = work/label/'trace.raw'
+        summary = summarize_trace(trace)
         cases[label] = dict(deck_sha256=sha(work/label/'run.cir'),
-                            trace_sha256=sha(trace),
-                            **summarize_trace(trace))
-    return dict(format='dac-monitor-ssy20-connected-current-screen-v2',
+                            trace_sha256=sha(trace), **summary,
+                            conditional_steady_mean_junction_rise_c=
+                            summary['mean_power_w']*rth['junction_to_ambient'])
+    return dict(format='dac-monitor-ssy20-connected-current-screen-v3',
                 qualification='2 ms conditional native-video startup current/power probe; provisional 19-port T3, manual contrast equivalent, no thermal impedance or pulsed SOA model',
                 input_sha256={str(path.relative_to(ROOT)):sha(path)
-                              for path in (edge.OUTPUT,SOURCE_READ,
+                              for path in (edge.OUTPUT,SOURCE_READ,THERMAL_READ,
                                            ROOT/'neck_ssy20_connected_edge_screen.py',
                                            ROOT/'steady_supply.py',Path(__file__))},
                 work_directory=str(work),edge_work_directory=str(edge_work),
-                source_limits=dict(ic_max_a=.6,continuous_ptot_w_at_25c=.7),
+                source_limits=dict(ic_max_a=.6,continuous_ptot_w_at_25c=.7,
+                                   maximum_steady_rthja_k_per_w=220,
+                                   maximum_steady_rthjc_k_per_w=40),
                 cases=cases,
                 both_peak_currents_below_source_max=all(
                     row['collector_current_range_a'][1] < .6 for row in cases.values()),

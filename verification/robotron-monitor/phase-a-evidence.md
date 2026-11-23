@@ -5906,6 +5906,15 @@ is **5.78 µs** active and **2.78 µs** fast. These are trace-derived pulse
 descriptors, not an allowable pulse rating: a repeated-pulse thermal
 impedance or SOA curve and installed temperature are still needed, and
 the 2 ms startup does not establish steady frame stress.
+The same [SSY20 source page](reference/k7222-11/ssy20-thermal-source-read.json)
+also prints maximum *steady* thermal resistances of **220 K/W** junction to
+ambient and **40 K/W** junction to case. If the measured video-window mean
+were maintained indefinitely under the data-sheet ambient condition, the
+220 K/W upper bound would imply at most **8.33 °C** active or **5.82 °C** fast
+mean junction rise above ambient. This is a conditional arithmetic bound,
+not a junction-temperature prediction for the installed transistor: the
+window is brief, startup and blanking have different power, and the source
+does not give transient thermal impedance or a repetitive-pulse SOA curve.
 The screen therefore bounds this short-startup current response without
 qualifying transistor thermal stress. Reproduce from the edge-screen decks
 with `python3 verification/robotron-monitor/neck_ssy20_connected_current_screen.py
