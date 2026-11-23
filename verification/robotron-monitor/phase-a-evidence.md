@@ -5619,3 +5619,27 @@ This is a conditional function check. It assumes X2:5 is the 00 return and
 that X2:5–X2:6 is the actual auxiliary section that charges V14/G1. It
 does not identify the HV winding cold end, its differential sign or the
 manual-only X1:16 mapping, and it is not a connected periodic point.
+
+### A5: corrected upper-bridge connected sign screen (2026-11-23)
+
+The [connected sign screen](t3_upper_bridge_sign_screen.py) takes those eight
+conditional G1 survivors through the corrected 20-port assembly. All eight
+ngspice runs complete 20 ms with 50 ns maximum step; the final 19–20 ms
+window is saved. This uses the same synthetic capture and **unverified 1 ns
+BSYN delay** as the paired upper-bridge run. The
+[report](reference/k7222-11/t3-upper-bridge-sign-screen.json) records each
+relative sign, deck and solver hash, full assembly input hashes, and observed
+EHT, C21, drive and yoke measurements. The generated run artifacts are under
+`build/monitor/phase-a/t3-upper-bridge-sign-screen-20261123`.
+
+For positive lower-tap sign, the endpoints span **3.86–10.70 kV EHT** and
+**18.48–18.77 V across C21**, with **0.934–0.973 A p-p** yoke current.
+Reversing the lower-tap sign gives about **1.59–2.08 kV EHT**, **−21.7 V
+across C21**, and **0.064 A p-p** yoke current. The independent upper-tap
+sign has only a small effect in these sampled cases. No case reaches the
+joint 11–12 kV EHT and 60–70 V C21 target. This is a rejection of the
+current provisional numerical transfer, not a source-based polarity or
+turns selection. The run does not establish periodic state or timestep
+convergence. Reproduce with `python3
+verification/robotron-monitor/t3_upper_bridge_sign_screen.py --ngspice
+/opt/homebrew/bin/ngspice --work build/monitor/phase-a/<new-directory>`.

@@ -421,6 +421,13 @@ tests all 16 corrected-graph relative signs under an isolated collector pulse:
 eight give negative X2:6 relative to X2:5 in both magnetic backends. This
 conditionally selects the auxiliary sign only if X2:5 is the return and that
 section is continuous. It does not select the HV sign or qualify A5.
+The [corrected connected sign screen](reference/k7222-11/t3-upper-bridge-sign-screen.json)
+runs all eight conditional survivors to 20 ms. All complete, but none jointly
+matches EHT, yoke current and C21 under provisional sections and the unverified
+1 ns BSYN delay. The positive lower-tap cases end at 3.86–10.70 kV and
+18.48–18.77 V C21; reversing that group collapses yoke current to about
+0.064 A p-p. This rejects this numerical transfer across the sampled signs,
+not the physical winding graph or every bounded parameter choice.
 Conditional simulations can reject sampled assumptions; they cannot establish
 the missing physical connection. The corrected [eight-sign screen](reference/k7222-11/t3-page4-visible-stage-screen.json)
 (seven completed cases) and [five-point booster screen](reference/k7222-11/t3-page4-booster-turn-screen.json)
