@@ -24,6 +24,15 @@ status. It holds no work log: results live in the reports under
    distinguish (an internal winding join, an installed link, a part's safe
    operating area) is not a blocker. It is carried as a bounded alternative
    and reported in B8.
+5. **Commit and push every increment.** Any change that runs and leaves the
+   tests green is committed and pushed to `main` at once: a fixed target, a
+   corrected net, a new score, a partial step. Work is never held back until
+   a step passes.
+6. **This file shows the current state, not the path to it.** When a result
+   changes a target, a default, a step or a fallback, edit that line in place,
+   in the same commit as the result. The Status table carries the latest
+   scored value of each step against its limit. Nothing is appended: no dates,
+   no "tried X, then Y". The commit message says why.
 
 ## Goal
 
@@ -34,6 +43,27 @@ waveform repeating field to field. Scan currents, high voltage and electrode
 voltages are solved by the circuit; nothing prescribes the beam position.
 
 "Sustained" means periodic steady state, not a simulated warm-up from cold.
+
+## Named goals
+
+A standing instruction can name one of these, as in "Goal B8 as per PLAN.md".
+Both are worked under the ground rules above, in the order of "Steps", and the
+unit of work is the next unscored Phase B step.
+
+| Name | Done when |
+|---|---|
+| **Goal B3** | B0–B3 are passed or on a named fallback: the vertical chain and horizontal oscillator are scored against the manual, and the horizontal output stage holds every port value of its table in periodic steady state |
+| **Goal B8** | B0–B8 are passed or on a named fallback: the native full-text frame is rendered and labelled, and the B8 report is archived under `examples/` |
+
+For either goal:
+
+- A step is finished only when the scorer or gate tool shows its "Pass when"
+  condition, or when its fallback has been taken and labelled.
+- "Blocked" is not a valid state. A labelled frame with equivalent stages is a
+  valid result.
+- No new audit, source comparison or stress check is written unless a failed
+  Phase B gate points at a specific part.
+- Run `make test-monitor` before pushing code changes.
 
 ## Non-goals
 
@@ -240,7 +270,8 @@ re-run the gates from there.
 
 ## Status
 
-One row per step. Change a row only when its state changes. No narrative.
+One row per step. "State" holds the step's latest scored values against
+their limits, or "passed" or the fallback's name. Edit rows in place.
 
 | Step | State | Next |
 |---|---|---|
