@@ -745,7 +745,11 @@ matches 34/34 scoped terminals, including R38/R56 collector feeds and R36/R61
 emitter paths, reducing the modeled parts without a scoped source terminal
 from 15 to 11. A [C24/R49 input-branch read](reference/k7222-11/page10-symmetry-input-comparison.json)
 matches four more terminals and reduces that set to nine. The rest of that
-page and the A3 operating point still require review.
+page and the A3 operating point still require review. The
+[page-15 control-value check](reference/k7222-11/page10-control-values-comparison.json)
+confirms printed R50/R57/R58/R59/R60 values and model bounds but supplies no
+terminals or installed trim positions, so the nine-part terminal gap is
+unchanged.
 
 | Item | Still unmet | Next step |
 |---|---|---|

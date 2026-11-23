@@ -1,0 +1,27 @@
+{
+  "format": "dac-monitor-page10-control-values-comparison-v1",
+  "qualification": "five parts-list values and model parameterizations; no terminal, wiper, installed-setting or full-page signoff",
+  "source_read_sha256": "06d0dcaa0f2091d84ec64fd48b46133799650c364a16997795067c6abad49065",
+  "profile_sha256": "6c51e75a4ea27e48a0a8f27c39bccc128c21b9a327169233430b115731ab3a62",
+  "model_sha256": "707af9030fb2e2978949981f68b4441a578e3ce8ecd16cf2bf1791ca07318443",
+  "exported_values": {
+    "R50": "10k",
+    "R57": "910",
+    "R58": "VERT_POT",
+    "R59": "{linearity_r59}",
+    "R60": "{linearity_r60}"
+  },
+  "checks": {
+    "R50_fixed_10k": true,
+    "R57_fixed_910": true,
+    "R58_three_terminal_pot": true,
+    "R58_total_470": true,
+    "R58_fraction_bounds": true,
+    "R59_R60_source_maximum": true
+  },
+  "passed": true,
+  "open": [
+    "R59/R60 are two-terminal rheostat abstractions of 47 kohm listed adjustable parts; physical wiper wiring is unreviewed.",
+    "The controls have no source-terminal read or installed-position evidence."
+  ]
+}

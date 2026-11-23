@@ -6012,3 +6012,15 @@ by a scoped terminal read: C19, C21, C23, R50, R57, R58, R59, R60 and V24.
 The scan's handwritten "asymmetrie" label is recorded as an annotation; the
 comparator checks only the drawn connectivity. Reproduce with
 `python3 verification/robotron-monitor/page10_symmetry_input_compare.py`.
+
+The page-15 printed parts list independently confirms the remaining page-10
+control values: R50 **10 kΩ**, R57 **910 Ω**, R58 **470 Ω adjustable**, and
+R59/R60 **47 kΩ adjustable** each. A [fresh-assembly value comparison](reference/k7222-11/page10-control-values-comparison.json)
+passes six checks of the exported values, R58's three-terminal 470 Ω split,
+and the 47 kΩ bounds of R59/R60. R59 and R60 remain two-terminal rheostat
+abstractions set to 23.5 kΩ nominal; the parts list does not prove their
+physical wiper wiring or installed settings. These five parts therefore
+**remain in the nine-part no-source-terminal set**. The supply-capacitor
+references C19/C21 are too unclear in the inspected page-10 scan to assign
+from this crop alone; no terminal claim was added for them. Reproduce with
+`python3 verification/robotron-monitor/page10_control_values_compare.py`.
