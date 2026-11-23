@@ -26,6 +26,20 @@ Tests must stay lean and must survive correct changes to the thing they test.
   (`verification/robotron-monitor`) has no CI job; run `make test-monitor`
   locally.
 
+## Repository size
+
+Git holds sources, inputs and conclusions, not bulk output.
+
+- **Not committed:** raw solver traces and logs, waveform dumps, archives
+  (`.xz`, `.gz`, `.tar.*`, split parts), compiled simulator or build output
+  (`.vvp`, `.vpi`, objects, binaries), and anything that a script in the
+  repository can regenerate.
+- **Committed:** the summary report (JSON), the deck or other input that
+  reproduces it, and the hashes of the raw files it was made from.
+- A single file over 1 MB needs a reason stated in the commit message.
+- CI does not re-verify raw output. It runs logic tests and checks that read
+  summaries.
+
 ## Documents
 
 Plans and other `.md` files show the current state, not the path to it. No

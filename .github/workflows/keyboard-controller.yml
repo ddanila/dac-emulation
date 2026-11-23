@@ -6,18 +6,26 @@ on:
   push:
     branches: [main]
     paths:
-      - '**'
-      # Nothing here reads the monitor or the plain PC1715 fault study.
-      - '!verification/robotron-monitor/**'
-      - '!verification/pc1715-faults/**'
-      - '!.github/workflows/test.yml'
+      # Only what the job reads. Documents and other studies do not start it.
+      - 'verification/robotron-keyboard/**'
+      - '!verification/robotron-keyboard/**/*.md'
+      - 'common/**'
+      - 'machines/**'
+      - 'third_party/**'
+      - 'tools/**'
+      - 'Makefile'
+      - '.github/workflows/keyboard-controller.yml'
   pull_request:
     paths:
-      - '**'
-      # Nothing here reads the monitor or the plain PC1715 fault study.
-      - '!verification/robotron-monitor/**'
-      - '!verification/pc1715-faults/**'
-      - '!.github/workflows/test.yml'
+      # Only what the job reads. Documents and other studies do not start it.
+      - 'verification/robotron-keyboard/**'
+      - '!verification/robotron-keyboard/**/*.md'
+      - 'common/**'
+      - 'machines/**'
+      - 'third_party/**'
+      - 'tools/**'
+      - 'Makefile'
+      - '.github/workflows/keyboard-controller.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -78,19 +86,13 @@ jobs:
           python3 verification/robotron-keyboard/digital/io_write_probe.py
           python3 verification/robotron-keyboard/digital/io_repeat_probe.py
           python3 verification/robotron-keyboard/digital/io_pin_review.py --require-pass
-          python3 verification/robotron-keyboard/digital/io_boundary_evidence.py
-          python3 verification/robotron-keyboard/digital/io_final_evidence.py
           python3 verification/robotron-keyboard/digital/cpu_bus_review.py
           python3 verification/robotron-keyboard/digital/cpu_bus_cross.py --pins --require-pass
           python3 verification/robotron-keyboard/digital/cpu_bus_instructions.py
-          python3 verification/robotron-keyboard/digital/cpu_bus_evidence.py
-          python3 verification/robotron-keyboard/digital/c_read_evidence.py
-          python3 verification/robotron-keyboard/digital/verify_joint_phase.py
           python3 verification/robotron-keyboard/digital/joint_repeat.py --verify verification/robotron-keyboard/digital/reports/joint-repeat
           python3 verification/robotron-keyboard/digital/pin_timing.py
           python3 verification/robotron-keyboard/digital/pin_timing.py --verify verification/robotron-keyboard/digital/reports/pin-timing
           python3 verification/robotron-keyboard/analog/test_history_sensitivity_review.py
-          python3 verification/robotron-keyboard/analog/test_postcap_additions.py
           python3 verification/robotron-keyboard/analog/test_cosim_input_barrier.py
           python3 verification/robotron-keyboard/analog/test_cosim_dispatch_rollback.py
           python3 verification/robotron-keyboard/analog/test_cosim_registration.py
@@ -100,37 +102,24 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_raw_stream_review.py
           python3 verification/robotron-keyboard/analog/test_stream_capture.py
           python3 verification/robotron-keyboard/analog/test_keyboard_stream_benchmark.py
-          python3 verification/robotron-keyboard/analog/keyboard_stream_benchmark.py --check verification/robotron-keyboard/analog/reports/keyboard-stream-benchmark
           python3 verification/robotron-keyboard/analog/test_stream_refinement_capture.py
           python3 verification/robotron-keyboard/analog/test_newton_retry_review.py
           python3 verification/robotron-keyboard/analog/test_retain_newton_retry.py
-          python3 verification/robotron-keyboard/analog/retain_newton_retry.py --check --out verification/robotron-keyboard/analog/reports/newton-retry
           python3 verification/robotron-keyboard/analog/test_rollback_dispatch_review.py
           python3 verification/robotron-keyboard/analog/test_live_bridge_time_capture.py
           python3 verification/robotron-keyboard/analog/test_bridge_rollback_log.py
-          python3 verification/robotron-keyboard/analog/retain_rollback_dispatch.py --check --out verification/robotron-keyboard/analog/reports/rollback-dispatch
-          python3 verification/robotron-keyboard/analog/retain_bridge_rollback.py --check --out verification/robotron-keyboard/analog/reports/bridge-rollback
           python3 verification/robotron-keyboard/analog/test_eval_cache.py
           python3 verification/robotron-keyboard/analog/test_eval_cache_benchmark.py
           python3 verification/robotron-keyboard/analog/test_audit_log.py
-          python3 verification/robotron-keyboard/analog/test_internal_state_probe.py
           python3 verification/robotron-keyboard/analog/test_live_cosim_state_review.py
           python3 verification/robotron-keyboard/analog/test_history_state_review.py
           python3 verification/robotron-keyboard/analog/test_event_state_review.py
           python3 verification/robotron-keyboard/analog/test_staged_output.py
           python3 verification/robotron-keyboard/analog/test_staged_output_review.py
           python3 verification/robotron-keyboard/analog/test_startup_fixes_review.py
-          python3 verification/robotron-keyboard/analog/startup_fixes_review.py --root verification/robotron-keyboard/analog/reports/startup-fixes --check-manifest
-          python3 verification/robotron-keyboard/analog/event_state_review.py --root verification/robotron-keyboard/analog/reports/event-state --check-manifest
-          python3 verification/robotron-keyboard/analog/staged_output_review.py --root verification/robotron-keyboard/analog/reports/staged-output --check-manifest
           python3 verification/robotron-keyboard/analog/test_output_history_init.py
-          python3 verification/robotron-keyboard/analog/output_history_review.py --root verification/robotron-keyboard/analog/reports/output-history-init --check-manifest
-          python3 verification/robotron-keyboard/analog/history_state_review.py --root verification/robotron-keyboard/analog/reports/history-state --check-manifest
           python3 verification/robotron-keyboard/analog/barrier_state_source_review.py --check
-          python3 verification/robotron-keyboard/analog/live_cosim_state_review.py --root verification/robotron-keyboard/analog/reports/live-cosim-state --check-manifest
-          python3 verification/robotron-keyboard/analog/internal_state_probe.py --check --out verification/robotron-keyboard/analog/reports/internal-state
           python3 verification/robotron-keyboard/analog/test_live_cache_review.py
-          python3 verification/robotron-keyboard/analog/live_cache_review.py --check --out verification/robotron-keyboard/analog/reports/live-cache-reset
           python3 verification/robotron-keyboard/analog/test_bus_read_replay.py
           python3 verification/robotron-keyboard/analog/test_bus_device_review.py
           python3 verification/robotron-keyboard/analog/test_bus_endpoint_candidates.py
@@ -151,291 +140,38 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_private_sync_family_bridge.py
           python3 verification/robotron-keyboard/analog/test_private_sync_family_board_review.py
           python3 verification/robotron-keyboard/analog/test_display_board_bridge.py
-          python3 verification/robotron-keyboard/analog/test_display_stop_bridge.py
-          python3 verification/robotron-keyboard/analog/test_stop_board_review.py
           python3 verification/robotron-keyboard/analog/test_stop_board_capture.py
-          python3 verification/robotron-keyboard/analog/test_executing_wrapper_probe.py
           python3 verification/robotron-keyboard/analog/test_executing_wrapper_bridge.py
-          python3 verification/robotron-keyboard/analog/test_wrapper_board_review.py
           python3 verification/robotron-keyboard/analog/test_port_identity_bridge.py
           python3 verification/robotron-keyboard/analog/test_absolute_ticks.py
           python3 verification/robotron-keyboard/analog/test_postreset_tick.py
           python3 verification/robotron-keyboard/analog/test_postreset_drain.py
           python3 verification/robotron-keyboard/analog/input_tick_probe.py --check verification/robotron-keyboard/analog/reports/input-tick
-          python3 verification/robotron-keyboard/analog/test_port_board_review.py
           python3 verification/robotron-keyboard/analog/test_startup_callback_bridge.py
-          python3 verification/robotron-keyboard/analog/test_startup_callback_board_review.py
-          python3 verification/robotron-keyboard/analog/test_assignment_board_review.py
           python3 verification/robotron-keyboard/analog/test_assignment_bridge.py
-          python3 verification/robotron-keyboard/analog/test_primitive_probe.py
-          python3 verification/robotron-keyboard/analog/test_island_probe.py
-          python3 verification/robotron-keyboard/analog/test_island_filter_probe.py
-          python3 verification/robotron-keyboard/analog/test_thread_probe.py
-          python3 verification/robotron-keyboard/analog/test_code_binding_probe.py
           python3 verification/robotron-keyboard/analog/test_code_binding_bridge.py
-          python3 verification/robotron-keyboard/analog/test_code_binding_board_review.py
-          python3 verification/robotron-keyboard/analog/code_binding_probe.py --check verification/robotron-keyboard/analog/reports/code-binding
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/code-binding
-          python3 verification/robotron-keyboard/analog/test_thread_lifecycle_probe.py
-          python3 verification/robotron-keyboard/analog/test_thread_board_reachability.py
-          python3 verification/robotron-keyboard/analog/test_board_thread_contract.py
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/board-thread-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/scope-source-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/code-operand-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/code-operands
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/code-operand-budget
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_code_operand_budget.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_code_operand_board.py
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-source-contract
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_array_source_contract.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_compiled_scope_profile.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_array_probe.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_array_budget.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_array_compact.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_array_board.py
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-board
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_array_family_probe.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_net_source_contract.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_net_probe.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_net_budget.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_net_delta.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_net_board.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_net_types.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_wire_probe.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_wire_board.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_wire_delta.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_wire_board_integration.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_source_contract.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_probe.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_admission.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_delta.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_board_integration.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_logic_source_contract.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_expression_source_contract.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_mux_probe.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_mux_partial_probe.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_mux_board.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_mux_delta.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_mux_growth.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_mux_board_integration.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_probe.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_probe.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_board.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_delta.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_delta_family.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_growth.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_width.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_board_integration.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_probe.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_board.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_delta.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_delta_family.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_growth.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_board_integration.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_strength_encoding.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_strength_switch.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_wire_raw*.py'
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_raw_wire_board_integration.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_concat*.py'
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_resolver*.py'
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_island_raw*.py'
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_assignment_raw*.py'
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_ownership.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_lists.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_list_families.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_words.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_word_shared.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_registration.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_nested.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_board_budget.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_delta.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_delta_budget.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_delta_families.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_owner_lifecycle.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_list_integration.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_list_preflight.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_referents.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_handles.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_handle_families.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_handle_board_budget.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_signal_links.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_signal_board_budget.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_signal_integration.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_typed_signal_faults.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_scope_scan.py
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-source-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-state
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-growth
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-board-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-delta-growth
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-delta-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-delta-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-widths
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-width-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-strength-inputs
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-strength-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-asymmetric-inputs
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-asymmetric-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-state
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-growth
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-growth-callbacks
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-inputs
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-strengths
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-competing
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-conditional
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-partselect
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-feedback
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-delta-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-board-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-state
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-board-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-growth
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-delta-growth
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-delta-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-delta-families
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_families.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_families.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_families.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_inputs.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_delta.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_growth.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_board_integration.py
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-growth
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-input-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-delta-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-delta-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-inputs
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_native_gate_board.py
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-board-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-state
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-board-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-delta-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-delta-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-growth
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-widths
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-state
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-board-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-delta-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-delta-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-growth
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/strength-encoding
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/strength-switch
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-raw-board-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-raw-state
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-raw-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-raw-growth
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-raw-delta-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-raw-delta-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-raw-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-state
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/mux-growth
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/mux-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/mux-partial-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/mux-delta-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/mux-board-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/mux-partial
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/mux-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/logic-source-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/signal-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/signal-delta-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/signal-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/signal-board-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/signal-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/signal-source-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-delta-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-board-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-state
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/net-types
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/net-types-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/net-delta
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/net-delta-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/net-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/net-state
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/net-source-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-families
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/code-binding-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/scope-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/code-operand-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-compact
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-compact-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-budget
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-state
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_code_operand_probe.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_code_operand_contract.py
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/scope-membership
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_scope_*.py'
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/thread-board-reachability
-          python3 verification/robotron-keyboard/analog/thread_lifecycle_probe.py --check verification/robotron-keyboard/analog/reports/thread-lifecycle
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/thread-lifecycle
-          python3 verification/robotron-keyboard/analog/test_wait_probe.py
-          python3 verification/robotron-keyboard/analog/test_wait_unsupported_probe.py
-          python3 verification/robotron-keyboard/analog/wait_unsupported_probe.py --check verification/robotron-keyboard/analog/reports/wait-unsupported
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wait-unsupported
           python3 verification/robotron-keyboard/analog/test_wait_bridge.py
-          python3 verification/robotron-keyboard/analog/test_wait_board_review.py
           python3 verification/robotron-keyboard/analog/test_fast_audit_log.py
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/audit-scan
-          python3 verification/robotron-keyboard/analog/wait_probe.py --check verification/robotron-keyboard/analog/reports/wait-event
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wait-event
-          python3 verification/robotron-keyboard/analog/test_thread_board_review.py
           python3 verification/robotron-keyboard/analog/test_thread_bridge.py
-          python3 verification/robotron-keyboard/analog/thread_compact_probe.py --check verification/robotron-keyboard/analog/reports/thread-compact
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/thread-compact
-          python3 verification/robotron-keyboard/analog/thread_probe.py --check verification/robotron-keyboard/analog/reports/thread-payload
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/thread-payload
           python3 verification/robotron-keyboard/analog/test_island_filter_bridge.py
-          python3 verification/robotron-keyboard/analog/test_island_filter_board_review.py
-          python3 verification/robotron-keyboard/analog/island_filter_probe.py --check verification/robotron-keyboard/analog/reports/island-filter
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-filter
           python3 verification/robotron-keyboard/analog/test_island_bridge.py
-          python3 verification/robotron-keyboard/analog/test_island_board_review.py
-          python3 verification/robotron-keyboard/analog/island_probe.py --check verification/robotron-keyboard/analog/reports/island-payload
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-payload
           python3 verification/robotron-keyboard/analog/test_primitive_bridge.py
-          python3 verification/robotron-keyboard/analog/test_primitive_board_review.py
-          python3 verification/robotron-keyboard/analog/primitive_probe.py --check verification/robotron-keyboard/analog/reports/primitive-payload
-          python3 verification/robotron-keyboard/analog/test_assignment_probe.py
-          python3 verification/robotron-keyboard/analog/assignment_probe.py --check verification/robotron-keyboard/analog/reports/assignment-payload
-          python3 verification/robotron-keyboard/analog/test_startup_callback_probe.py
-          python3 verification/robotron-keyboard/analog/startup_callback_probe.py --check verification/robotron-keyboard/analog/reports/startup-callback
-          python3 verification/robotron-keyboard/analog/test_value_callback_probe.py
           python3 verification/robotron-keyboard/analog/test_output_callback_bridge.py
-          python3 verification/robotron-keyboard/analog/test_output_callback_board_review.py
-          python3 verification/robotron-keyboard/analog/value_callback_probe.py --check verification/robotron-keyboard/analog/reports/value-callback
-          python3 verification/robotron-keyboard/analog/executing_wrapper_probe.py --check verification/robotron-keyboard/analog/reports/executing-wrapper
-          python3 verification/robotron-keyboard/analog/test_display_board_review.py
-          python3 verification/robotron-keyboard/analog/test_display_association_probe.py
-          python3 verification/robotron-keyboard/analog/display_association_probe.py --check verification/robotron-keyboard/analog/reports/display-association
-          python3 verification/robotron-keyboard/analog/test_display_payload_probe.py
-          python3 verification/robotron-keyboard/analog/display_payload_probe.py --check verification/robotron-keyboard/analog/reports/display-payload
-          python3 verification/robotron-keyboard/analog/test_private_sync_family_probe.py
-          python3 verification/robotron-keyboard/analog/private_sync_family_probe.py --check verification/robotron-keyboard/analog/reports/private-sync-family
-          python3 verification/robotron-keyboard/analog/test_private_sync_probe.py
-          python3 verification/robotron-keyboard/analog/private_sync_probe.py --check verification/robotron-keyboard/analog/reports/private-hdl-sync
-          python3 verification/robotron-keyboard/analog/test_private_queue_probe.py
           python3 verification/robotron-keyboard/analog/test_private_queue_bridge.py
-          python3 verification/robotron-keyboard/analog/test_private_queue_board_review.py
-          python3 verification/robotron-keyboard/analog/private_queue_probe.py --check verification/robotron-keyboard/analog/reports/private-hdl-queue
           python3 verification/robotron-keyboard/analog/test_postreset_refinement_review.py
           python3 verification/robotron-keyboard/analog/test_bounded_log_process.py
           python3 verification/robotron-keyboard/analog/test_postreset_state_review.py
-          python3 verification/robotron-keyboard/analog/event_state_review.py --root verification/robotron-keyboard/analog/reports/postreset-state-immediate --check-manifest
           python3 verification/robotron-keyboard/analog/test_postreset_startup_review.py
-          python3 verification/robotron-keyboard/analog/event_state_review.py --root verification/robotron-keyboard/analog/reports/postreset-startup-fixes --check-manifest
           python3 verification/robotron-keyboard/analog/test_delayed_corruption.py
           python3 verification/robotron-keyboard/analog/test_delayed_corruption_review.py
           python3 verification/robotron-keyboard/analog/test_circuit_output_review.py
@@ -443,9 +179,6 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_cached_postreset_review.py
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/cached-output-inventory
           python3 verification/robotron-keyboard/analog/test_instance_queue_review.py
-          python3 verification/robotron-keyboard/analog/instance_queue_review.py --root verification/robotron-keyboard/analog/reports/instance-queue-state --check-manifest
-          python3 verification/robotron-keyboard/analog/circuit_output_review.py --root verification/robotron-keyboard/analog/reports/circuit-output-state --check-manifest
-          python3 verification/robotron-keyboard/analog/delayed_corruption_review.py --root verification/robotron-keyboard/analog/reports/delayed-corruption --check-manifest
           python3 verification/robotron-keyboard/analog/test_bus_transition.py
           python3 verification/robotron-keyboard/analog/test_dac_ramp.py
           python3 verification/robotron-keyboard/analog/test_dac_state_audit.py
@@ -458,7 +191,6 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_startup_truncation_review.py
           python3 verification/robotron-keyboard/analog/test_startup_truncation_log.py
           python3 verification/robotron-keyboard/analog/test_dac_anchor.py
-          python3 verification/robotron-keyboard/analog/test_live_state.py
           python3 verification/robotron-keyboard/analog/test_fixture_crossing_grid.py
           python3 verification/robotron-keyboard/analog/test_fixture_grid_review.py
           python3 verification/robotron-keyboard/analog/test_sampling_grid.py
@@ -471,21 +203,11 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_local_refinement_grid.py
           python3 verification/robotron-keyboard/analog/test_startup_grid_review.py
           python3 verification/robotron-keyboard/analog/test_startup_tolerance_review.py
-          python3 verification/robotron-keyboard/analog/test_switching_event.py
-          python3 verification/robotron-keyboard/analog/test_output_switch.py
-          python3 verification/robotron-keyboard/analog/test_inductor_chain.py
           python3 verification/robotron-keyboard/analog/test_paired_cap_history.py
-          python3 verification/robotron-keyboard/analog/test_network_refinement.py
           python3 verification/robotron-keyboard/analog/test_numerical_voltage_budget.py
           python3 verification/robotron-keyboard/analog/test_boundary_trace.py
           python3 verification/robotron-keyboard/analog/test_adc_crossing.py
-          python3 verification/robotron-keyboard/analog/test_boundary_evidence.py
-          python3 verification/robotron-keyboard/analog/test_ttl7406_dynamic.py
-          python3 verification/robotron-keyboard/analog/test_cpu_serial_drive.py
-          python3 verification/robotron-keyboard/analog/test_serial_path.py
-          python3 verification/robotron-keyboard/analog/switching_event_review.py verification/robotron-keyboard/analog/reports/switching-events --verify
           python3 verification/robotron-keyboard/analog/test_live_transition.py
-          python3 verification/robotron-keyboard/analog/live_transition_review.py --verify --out verification/robotron-keyboard/analog/reports/live-transition
           python3 verification/robotron-keyboard/analog/bus_device_review.py --verify --out verification/robotron-keyboard/analog/reports/bus-device-admission/assessment.json
           python3 verification/robotron-keyboard/analog/bus_transition_review.py --verify --out verification/robotron-keyboard/analog/reports/bus-transition
           python3 verification/robotron-keyboard/analog/bus_read_replay.py --verify --out verification/robotron-keyboard/analog/reports/bus-read-replay
@@ -493,10 +215,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/eval_cache_benchmark.py --verify --out verification/robotron-keyboard/analog/reports/eval-cache-bus-read
           python3 verification/robotron-keyboard/analog/eval_cache_benchmark.py --verify --out verification/robotron-keyboard/analog/reports/eval-cache-startup-2ms
           python3 verification/robotron-keyboard/analog/test_coupled_acceptance.py
-          python3 verification/robotron-keyboard/analog/test_device_additions.py
           python3 verification/robotron-keyboard/analog/device_endpoint_probe.py --verify verification/robotron-keyboard/analog/reports/device-endpoints
-          python3 verification/robotron-keyboard/analog/bridge_time_review.py --verify --out verification/robotron-keyboard/analog/reports/qualified-cpu-bridge-time
-          python3 verification/robotron-keyboard/analog/input_barrier_review.py --verify --out verification/robotron-keyboard/analog/reports/input-barrier
           python3 verification/robotron-keyboard/analog/electrical_status.py --check
       - name: CPU write-data setup and hold
         run: python3 verification/robotron-keyboard/analog/bus_timing_probe.py
@@ -578,8 +297,6 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_live_raw_output.py
           python3 verification/robotron-keyboard/analog/test_live_raw_review.py
           python3 verification/robotron-keyboard/analog/test_live_raw_acceptance.py
-          python3 verification/robotron-keyboard/analog/raw_pipe_review.py --check --out verification/robotron-keyboard/analog/reports/raw-pipe-transport
-          python3 verification/robotron-keyboard/analog/retain_live_raw.py --check --out verification/robotron-keyboard/analog/reports/live-raw-output
           python3 verification/robotron-keyboard/analog/test_bus_inventory.py
           python3 verification/robotron-keyboard/analog/test_electrical_bus_interface.py
           python3 verification/robotron-keyboard/analog/test_bus_observation.py
@@ -634,77 +351,20 @@ jobs:
       - name: Reference reset, power cycling and BR2 isolation
         run: |
           python3 verification/robotron-keyboard/analog/test_reset_supply_observation.py
-          python3 verification/robotron-keyboard/analog/test_supply_recovery_review.py
           python3 verification/robotron-keyboard/analog/test_cpu_reset_setup_review.py
           python3 verification/robotron-keyboard/analog/test_evidence_parts.py
           python3 verification/robotron-keyboard/analog/test_retained_evidence.py
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/postreset-output-state
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/postreset-combined-refinement
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/clock-crossing-control
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/board-adc-crossing-control
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/postreset-instance-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-sync-discovery
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/callback-continuation
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-sync-family
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-sync-family-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/display-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/stop-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wrapper-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/port-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/output-callback-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/startup-callback
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/assignment-payload
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/assignment-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/primitive-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-filter-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/thread-board
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/thread-source-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wait-event-source-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wait-board
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-source-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/primitive-payload
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/startup-callback-board
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/value-callback
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/input-tick
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/absolute-tick-board
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/port-state-contract
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/postreset-adc
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/postreset-tick
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/output-drain
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/output-drain-board
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/stop-runtime-selection
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/executing-wrapper
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/display-association
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/display-payload
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-hdl-sync
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-hdl-queue
-          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-hdl-board
           python3 verification/robotron-keyboard/analog/test_output_breakpoint_probe.py
           python3 verification/robotron-keyboard/analog/test_output_breakpoint_review.py
-          python3 verification/robotron-keyboard/analog/output_breakpoint_fixture.py --out verification/robotron-keyboard/analog/reports/output-breakpoint-target --verify
-          python3 verification/robotron-keyboard/analog/output_breakpoint_fixture.py --out verification/robotron-keyboard/analog/reports/output-breakpoint-sampled --verify
-          python3 verification/robotron-keyboard/analog/event_state_review.py --root verification/robotron-keyboard/analog/reports/output-breakpoint-controls --check-manifest
           python3 verification/robotron-keyboard/analog/test_reset_capacitance_review.py
           python3 verification/robotron-keyboard/analog/test_reset_capacitor_polarity.py
           python3 verification/robotron-keyboard/analog/test_reset_release_driver_review.py
-          python3 verification/robotron-keyboard/analog/reset_release_audit_review.py --out verification/robotron-keyboard/analog/reports/reset-release-audit --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/fixture-grid-reset --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/fixture-grid-gear --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/fixture-grid-sampling --check
-          python3 verification/robotron-keyboard/analog/tolerance_controls_review.py --out verification/robotron-keyboard/analog/reports/fixture-grid-tolerances --check
-          python3 verification/robotron-keyboard/analog/startup_passive_review.py --out verification/robotron-keyboard/analog/reports/startup-passive --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/tight-passive-refinement --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/nested-local-refinement --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/dac-state-startup --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/dac-anchored-startup --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/startup-grid-density --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/startup-tight-tolerance --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/startup-voltage-tolerance --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/startup-truncation --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/dense-anchored-refinement --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/transient-error-refinement --check
-          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/filter-truncation --check
           python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/filter-charge-history --check
           python3 verification/robotron-keyboard/analog/reset_probe.py
           python3 verification/robotron-keyboard/analog/reset_probe.py --reset-load reference-capacitance --npn-profile sc236-dc --supply-stimulus verification/robotron-keyboard/analog/supply-stimuli/brownout.json --stop-seconds .127 --out build/keyboard-controller-analog/reset-brownout

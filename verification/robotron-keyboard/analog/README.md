@@ -1,5 +1,11 @@
 # Reference analog simulation
 
+> **Raw output is not in the repository.** Report folders keep their summary
+> JSON, decks and recorded hashes. Raw traces, logs, archives and compiled
+> simulator files were removed; `--check` and `--verify` modes that re-hash
+> them need a local regeneration with the commands in this file.
+
+
 This harness couples schematic-derived electrical circuits to the controller HDL.
 It supports subcircuit probes, virtual BR service runs and closed-board firmware
 execution. Models and qualification limits remain explicit assumptions; an

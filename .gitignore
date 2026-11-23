@@ -9,3 +9,15 @@ node_modules/
 __pycache__/
 *.pyc
 .venv/
+
+# Keyboard study: raw solver output, archives and compiled simulator files are
+# not kept in git. Reports keep their summaries, decks and recorded hashes.
+/verification/robotron-keyboard/**/reports/**/*.xz
+/verification/robotron-keyboard/**/reports/**/*.gz
+/verification/robotron-keyboard/**/reports/**/*.vvp
+/verification/robotron-keyboard/**/reports/**/*.vpi
+/verification/robotron-keyboard/**/reports/**/*.nm
+/verification/robotron-keyboard/**/reports/**/*.stdout
+/verification/robotron-keyboard/**/reports/**/*.partial
+/verification/robotron-keyboard/**/reports/**/*.part-[0-9]*
+/verification/robotron-keyboard/**/reports/**/*.parts/
