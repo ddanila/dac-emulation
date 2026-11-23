@@ -475,6 +475,12 @@ input, panel, yoke and neck exports. A supplemental audit-only export checks
 the previously absent vertical X21:1=12P and X22:1=00 terminals. Physical
 pin coverage is complete, but the three classified functional model-scope
 gaps and connected contrast behavior still prevent whole-page signoff.
+For A2, the [SSY20 switching corner screen](reference/k7222-11/ssy20-switching-corner-screen.json)
+finds that the active neck-transistor timing envelope includes an all-maximum
+corner which does not switch within the 520 ns fixture window. A candidate
+TF≤3.2 ns/TR≤40 ns envelope passes all 128 screened dynamic corners at the
+cited 500 mA/80 Ω base-drive condition, but is not yet promoted: fixture
+thresholds, connected stress and downstream profile provenance need review.
 The partial [design point](reference/k7222-11/design-point.json) now binds the
 corrected 20-port source read and candidate reports by hash. It also binds
 the upper-bridge source and eight-case connected diagnostic, with eight

@@ -5710,3 +5710,29 @@ connected contrast path is not qualified. The coverage report leaves
 `a1_page18_complete` false. Regenerate with `python3
 verification/robotron-monitor/page18_vertical_rail_terminals_compare.py`
 followed by `python3 verification/robotron-monitor/page18_pin_coverage_audit.py`.
+
+### A2: SSY20A switching bounds have incompatible joint corners (2026-11-23)
+
+The [DDR SSY20 data](https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf)
+gives **500 mA**, **80 Ω**, +50 mA and −25 mA
+base-drive conditions with at most **50 ns on** and **100 ns off**. The
+[switching screen](neck_ssy20_switching_screen.py) applies those currents to
+the live `SSY20A_BOUND` neck model at 25 °C. A 40 V source supplies the
+500 mA/80 Ω scale; collector crossings at 4 V and 36 V define the reported
+10/90% timing. The exact data-sheet fixture and threshold definition are
+not printed in the retained register, so this is a conditional comparison.
+
+The nominal model gives **24.0 ns on / 35.4 ns off**. Combining all seven
+registered dynamic maxima, including TF=20 ns and TR=100 ns, never reaches
+the 4 V on threshold during the driven interval. A candidate envelope
+with **TF≤3.2 ns and TR≤40 ns**, holding the existing BF, IKF, RB, CJE and
+CJC bounds, passes **all 128 min/max combinations**: worst on is 48.20 ns
+and worst off 86.01 ns. The [report](reference/k7222-11/ssy20-switching-corner-screen.json)
+records each corner, the active profile/model hashes and solver hash.
+
+This rejects the *joint use* of the present wide timing bounds for the
+documented switching function. It does not identify the installed die,
+certify the datasheet fixture, bound temperature or connected neck stress,
+or promote the candidate bounds into the active profile. Those checks and
+the affected report hashes must be reconciled before A2 closure. Regenerate
+with `python3 verification/robotron-monitor/neck_ssy20_switching_screen.py`.
