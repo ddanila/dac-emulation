@@ -63,7 +63,9 @@ For either goal:
   valid result.
 - No new audit, source comparison or stress check is written unless a failed
   Phase B gate points at a specific part.
-- Run `make test-monitor` before pushing code changes.
+- Before each push, run the tests of the tools that changed. Run the whole
+  suite (`make test-monitor`) once per finished step; it takes more than ten
+  minutes.
 
 ## Non-goals
 
@@ -205,6 +207,11 @@ heater heat balance, solver step audits.
   from B4 on, and then at most four.
 - **Independent solves run in parallel**, one per CPU core, each in its own
   output directory.
+- **One solver.** Every Phase B run and every test uses the pinned ngspice 47
+  runtime: `MONITOR_RUNTIME=build/monitor/runtime-phase-a-gcc16-verified`.
+  Without that variable the runtime tests are skipped, not passed. Saved
+  reports made with the system ngspice may be re-scored in B0, but a result
+  that passes a step is produced on the pinned runtime.
 - **Every run records its cost:** wall time, simulated time, accepted steps,
   median step.
 
@@ -299,8 +306,7 @@ their limits, or "passed" or the fallback's name. Edit rows in place.
   voltage; use 50 ns or finer and let G6 decide.
 
 `make test-monitor` checks the tools and that saved reports reproduce. It
-needs the pinned runtime (`MONITOR_RUNTIME`) and the source PDFs under
-`build/`. A green run is not a Phase B result.
+needs the source PDFs under `build/`. A green run is not a Phase B result.
 
 ## What the result may be called
 
