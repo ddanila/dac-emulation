@@ -344,3 +344,6 @@ build/libdac-runtime.so build/runtime-test build/browser-reference: .EXTRA_PRERE
 
 build/juku-video-capture: verification/juku-video/capture.c build/libdac-juku.a
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< build/libdac-juku.a -o $@
+
+build/juku-scroll-capture: verification/juku-scroll/capture.c build/libdac-juku.a
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< build/libdac-juku.a -o $@

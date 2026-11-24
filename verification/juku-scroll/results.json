@@ -1,0 +1,698 @@
+{
+  "status": "investigation_complete_no_emulator_core_defect_demonstrated",
+  "issue": "https://github.com/infoaed/juku3000/issues/20",
+  "summary": "The reproducible EKDOS prompt failure is a guest command/drive-validation bug. Both emulators execute real smooth-scrolling output successfully; no core patch is justified.",
+  "changes": "Opt-in native/MAME/WASM reproduction, disposable CP/M diagnostic, pixel/font analysis, tool tests, and conclusions. No emulation, API, snapshot, ROM or original-disk changes.",
+  "inputs": {
+    "rom": "fc44df76b2601ab81745f2512edb7a56bb24dca6419e7173a5bf11cae4c1fc27",
+    "disk": "dc3e9edf3e3f21222ed3fbe959d03635ca090eb7cdea0e68de5492e9f115416e",
+    "core_revision": "070ee117c03cd7c8bd211408eb45b4056a139d32",
+    "mame_version": "MAME v0.289 (unknown)",
+    "diagnostic": {
+      "block": 77,
+      "directory_slot": 27,
+      "program_bytes": 3468
+    }
+  },
+  "mame_source_comparison": {
+    "runtime_version": "0.289",
+    "release_commit": "d0b7160e54874fa58f553614db373d73100d5ecb",
+    "upstream_head_checked": "bff61db87f415e984580261f91a42fedc99660fd",
+    "release_juku_cpp_sha256": "3b9dde3d3bc5eefd1271cd7a29266165d86f41882443f210437020d230a6202e",
+    "upstream_juku_cpp_sha256": "4c586abbce404cd3fa82a79a4d2b9726068387b35d88ce5537c5d2159a4a2c6e",
+    "difference": "Only SCREEN(config, m_screen, SCREEN_TYPE_RASTER) changed to SCREEN(config, m_screen); no relevant keyboard, timer, banking or scrolling change. Upstream was inspected, not executed."
+  },
+  "root_cause": {
+    "input_context": "EKDOS 2.30 command prompt; ESC : followed by dir and Return, or ESC : Return.",
+    "keyboard_echo": "Input Escape is echoed as printable caret/left-bracket bytes 5E 5B, not sent as 1B to the screen escape handler. D499 stays 00.",
+    "ccp": "At B67E, SBI 40 converts input 1B to DB. B690 accepts it because the following character is colon; BBF0 receives DB.",
+    "bios": "The zero-based drive C=DA reaches CD71. MOV A,C; CPI 03; RP uses the sign flag, so DA-03=D7 fails to return. CD83 indexes disk parameter headers with DA, beyond the valid drive table.",
+    "native_instruction_witnesses": [
+      {
+        "cycle": 36870332,
+        "pc": "B690",
+        "bc": "DB0A"
+      },
+      {
+        "cycle": 36884556,
+        "pc": "CD71",
+        "bc": "00DA"
+      },
+      {
+        "cycle": 36884573,
+        "pc": "CD75",
+        "bc": "00DA"
+      },
+      {
+        "cycle": 36884693,
+        "pc": "CD83",
+        "bc": "00DA"
+      }
+    ],
+    "failure": "Guest execution escapes into invalid code and interrupts eventually remain disabled; emulated cycles/video frames continue. Neither host process crashes.",
+    "ctrl_q": "Ctrl-Q in the filename triggers CCP syntax rejection at B630/B609 before disk selection. The error printer emits the original command verbatim, including 1B 3A. This enables smooth scrolling through ROM 0DEE, then returns to the prompt.",
+    "ctrl_q_output_prefix_hex": "5e5b3a5e516469720d0d0a1b3a114449523f0d0a0d0a413e230d0a20206469720d0d0a413a4a434d20202020202e484c50202020413a43462020202020202e484c502020200d0a413a58444952202020202e434f4d202020413a535441542020",
+    "mame_correspondence": "Same frozen command line, parsed drive DB and unchanged scroll flag 00; the Ctrl-Q variant changes scroll flag to 01 and continues. Exact instruction witnesses above are from native, not inferred MAME instruction traces.",
+    "drive_trace_sha256": "b3927f11cb352a5ddc384a42400ee5fcab300fee06213ffcc36003d87df5310b"
+  },
+  "cases": {
+    "ekdos-plain": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "35c58c395204615fbe79f549492b801d5ddbc4e0e38ba51aa3fe0046de9ce4c5",
+        "received_keys_hex": "6469720d156469720d6469720d",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "48314cb85de9400233171178427a5099fbb1a7c432ddc103f1c451005d756ceb"
+      },
+      "outcome": "guest_remains_responsive"
+    },
+    "ekdos-colon": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "db",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "34d8c6ddf5475199c06ee98385bf067e885ce65e9bbfd0c1f72375f63deb01f9",
+        "received_keys_hex": "1b3a6469720d",
+        "final_interrupt_enable": 0,
+        "interrupt_acknowledgements_last_second": 0
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "db",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "5e53cb6aa69f8d05b3721575f3e3b7711b95dc09c33c0c9dde9602f02cedb063"
+      },
+      "outcome": "guest_invalid_drive_failure"
+    },
+    "ekdos-semicolon": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "27a775f1eca2989ffd6040f4591a2483803e792133c69fc7cec556d2a735fc9d",
+        "received_keys_hex": "1b3b6469720d156469720d6469720d",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "68f882ec607b7cabff8a3fe91b88ce90bcb37e9a5830180fca1b6790c8b8a85a"
+      },
+      "outcome": "guest_remains_responsive"
+    },
+    "ekdos-colon-q": {
+      "native": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "4325c98cfe0d76cd989f561986f2c57052a8b5ed8a1b82105a9f733cce4adb18",
+        "received_keys_hex": "1b3a116469720d156469720d6469",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "32d2eb7ad8471ca7d8614763eca287b93d390e058012f8936762cbc54aaba4b6"
+      },
+      "outcome": "guest_remains_responsive"
+    },
+    "ekdos-colon-x": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "db",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "619d8c00a8b0f7d5fec5396146d8d6498730f4443114472245c9f0b4924db752",
+        "received_keys_hex": "1b3a786469720d",
+        "final_interrupt_enable": 0,
+        "interrupt_acknowledgements_last_second": 0
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "db",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "8312b5bbf3f6b8967c1eb9bd29e84cc54d522e48b71e006cdbe306ca73017b7e"
+      },
+      "outcome": "guest_invalid_drive_failure"
+    },
+    "ekdos-colon-return": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "db",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "511b857ccf5ab537929f4b039cd6fc42194a7843a93828181bbee315322940d8",
+        "received_keys_hex": "1b3a0d",
+        "final_interrupt_enable": 0,
+        "interrupt_acknowledgements_last_second": 0
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "db",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "4ef74e80c2a28c24237c2016f3728d173745684bab407b934db7e16aec88dc4f"
+      },
+      "outcome": "guest_invalid_drive_failure"
+    },
+    "ekdos-q": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "60922eb3b03ebdb814399567596e6db4bdea54dd2aa9ead9cce82ad5671f87c8",
+        "received_keys_hex": "116469720d156469720d6469720d",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "f29c262818934ff8de1ecd381af0fccfbf92e5363c18d45a0ce715dfab59f1b3"
+      },
+      "outcome": "guest_remains_responsive"
+    },
+    "ekdos-escape": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "fe452bedfa445f681eddb5188dc4bd9f6222288f7981ed641d7786188439c0f0",
+        "received_keys_hex": "1b6469720d156469720d6469720d",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "38f80aeff80cf1251be482ba73d5e6df0f4fd509b6e76d9e7a102d938635c2c8"
+      },
+      "outcome": "guest_remains_responsive"
+    },
+    "monitor-plain": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "302e48aa994837a6b879979c38bab38050946842428ffe738ada6ddd5f63b31f",
+        "received_keys_hex": "6162630d6162630d6162630d6162630d03",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "75873f8fc12ca14a030c37a557b88906a66cbd0bb51c4fa49e329b47c173427d"
+      },
+      "outcome": "direct_echo_remains_responsive"
+    },
+    "monitor-colon": {
+      "native": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "a88c9ae738deacdc0dfdf1104d63d3f72529860a90544b54e25ef803a49c397f",
+        "received_keys_hex": "1b3a6162630d6162630d6162630d6162630d03",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "3943993d8fda29dfdabaeb518e93ef2df1415f2f60eb0185b53616cdd7395353"
+      },
+      "outcome": "direct_echo_remains_responsive"
+    },
+    "monitor-semicolon": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "ce0b8237b28a6b033bd7cd23c5740ca882a15c32066505f726c349e11ce373ad",
+        "received_keys_hex": "1b3b6162630d6162630d6162630d6162630d03",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "925f1bf8cc7fb0d97b22b508e93cbb41d0819c82cfadb3ca41f22a8a787fe402"
+      },
+      "outcome": "direct_echo_remains_responsive"
+    },
+    "monitor-colon-q": {
+      "native": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "35ffc040f6959225936a94404a38dc39fdd6b853cbd313bd035a009e8eba20b5",
+        "received_keys_hex": "1b3a116162630d6162630d6162630d6162630d03",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "f360aae44edcee997b2c7d39b5f2f0cfaa07f81395d5ea4aff1aba80c7cce231"
+      },
+      "outcome": "direct_echo_remains_responsive"
+    },
+    "monitor-colon-x": {
+      "native": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "18865955b26127074d69880f8f17b20251a9a5f420b7a79225e507661d277843",
+        "received_keys_hex": "1b3a786162630d6162630d6162630d6162630d03",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "c68736453d496445266d4242ab4db668387b864584a7955e725594e39a280e67"
+      },
+      "outcome": "direct_echo_remains_responsive"
+    },
+    "monitor-colon-return": {
+      "native": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "4360e6b3522fb612291a82d8ee95c33bc660c45baf8452c759b8e33f5bf6031b",
+        "received_keys_hex": "1b3a0d6162630d6162630d6162630d6162630d03",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "53bc7bd2d22c68184cd47a8f1a5cb6deb970230308e7e5abe7285933e1b75d73"
+      },
+      "outcome": "direct_echo_remains_responsive"
+    },
+    "monitor-q": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "d8f74275b8970b7a4be90c7ffbedfdfa292a6153e0c2286c3b6048c971fcd37f",
+        "received_keys_hex": "116162630d6162630d6162630d6162630d03",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "9b32aff9e75f406dbe72a895c2d9919b6ec36b0979f7b3806040bf8be9a83fed"
+      },
+      "outcome": "direct_echo_remains_responsive"
+    },
+    "monitor-escape": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "ddd4627d23d8ab7ad4fd943c89dbf6b8f3abef3106060a7c7ad7b36f7d27c19d",
+        "received_keys_hex": "1b6162630d6162630d6162630d6162630d03",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "3014ff9822d8ed2adf83c96dad3ac9fc199b44c059423a63cab601b4b7caa13b"
+      },
+      "outcome": "direct_echo_remains_responsive"
+    },
+    "ekdos-plain-0.5x": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "89df64a6995459ee799510d749a6d4cf16233d79d746dfcf7478a1567c00c59d",
+        "received_keys_hex": "6469156469720d6469720d",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "07edcdff548e8447955153ec4482e3724a63505a02dd3238e5886be8be30c481"
+      },
+      "outcome": "inconclusive_short_key_holds_lose_input"
+    },
+    "ekdos-colon-0.5x": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "28631f859774dd951059c5e05ede2bb1c8a8df46b5768c71157474df0c03d2e8",
+        "received_keys_hex": "1b3a156469720d6469720d",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "16e2754aa842a317d84d6791a6bb8e9c94cce7c6f2e6c7df7b4a8f2e76838d72"
+      },
+      "outcome": "inconclusive_short_key_holds_lose_input"
+    },
+    "ekdos-colon-q-0.5x": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "5bda99271930348a91dc8d470b2191b345585ea3e0fb8e97a285b161f56422b3",
+        "received_keys_hex": "1b3a156469720d6469720d",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "e3525ef6286dcd505b7214c3e1477b239d11b92358222c5f069b8a1e499010a2"
+      },
+      "outcome": "inconclusive_short_key_holds_lose_input"
+    },
+    "ekdos-plain-2x": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "0629aebcf2aff4380b6696e9b189e0a98ff573077fa2862adb39bf09cff80de1",
+        "received_keys_hex": "6469720d156469720d6469720d",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "5050d9121d450852a2d50a0af2cd8ead92c686f134dd4bf5ff6101e0a7bcb52c"
+      },
+      "outcome": "guest_remains_responsive"
+    },
+    "ekdos-colon-2x": {
+      "native": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "db",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "44eda59301c0b36dd1a0d2a8bd788be5056c04c790923027747ecae5e5efaafe",
+        "received_keys_hex": "1b3a6469720d",
+        "final_interrupt_enable": 0,
+        "interrupt_acknowledgements_last_second": 0
+      },
+      "mame": {
+        "final_scroll_flag": "00",
+        "final_parsed_drive": "db",
+        "scroll_flags_observed": [
+          "00"
+        ],
+        "events_sha256": "984b721029b52e79ab8421b956ad7852cc9c8bcca7ece114e8792b4b1b682fc5"
+      },
+      "outcome": "guest_invalid_drive_failure"
+    },
+    "ekdos-colon-q-2x": {
+      "native": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "15a8d92bade560787c7f9ce0ffe13c1e193aa28ff6faa49862da2126b1061d55",
+        "received_keys_hex": "1b3a116469720d156469720d64720d",
+        "final_interrupt_enable": 1,
+        "interrupt_acknowledgements_last_second": 50
+      },
+      "mame": {
+        "final_scroll_flag": "01",
+        "final_parsed_drive": "00",
+        "scroll_flags_observed": [
+          "00",
+          "01"
+        ],
+        "events_sha256": "5a8b1919ebc04b78fde8fb96b8e2365fa0927ca3e7121e99e92cc155f7d1caeb"
+      },
+      "outcome": "guest_remains_responsive"
+    }
+  },
+  "diagnostic": {
+    "native": {
+      "frames": 8137,
+      "one_pixel_up_transitions": 656,
+      "ten_pixel_up_transitions": 52,
+      "example_transition_frames": {
+        "1": "capture-000994.pbm",
+        "10": "capture-002850.pbm"
+      },
+      "numbered_lines_seen": 180,
+      "missing_numbered_lines": [],
+      "final_text": [
+        "T39 ABCDEFGHIJKLM",
+        "T40 ABCDEFGHIJKLM",
+        "T41 ABCDEFGHIJKLM",
+        "T42 ABCDEFGHIJKLM",
+        "T43 ABCDEFGHIJKLM",
+        "T44 ABCDEFGHIJKLM",
+        "T45 ABCDEFGHIJKLM",
+        "T46 ABCDEFGHIJKLM",
+        "T47 ABCDEFGHIJKLM",
+        "T48 ABCDEFGHIJKLM",
+        "T49 ABCDEFGHIJKLM",
+        "T50 ABCDEFGHIJKLM",
+        "T51 ABCDEFGHIJKLM",
+        "T52 ABCDEFGHIJKLM",
+        "T53 ABCDEFGHIJKLM",
+        "T54 ABCDEFGHIJKLM",
+        "T55 ABCDEFGHIJKLM",
+        "T56 ABCDEFGHIJKLM",
+        "T57 ABCDEFGHIJKLM",
+        "T58 ABCDEFGHIJKLM",
+        "T59 ABCDEFGHIJKLM",
+        "SCROLL COMPLETE",
+        "",
+        "A>?"
+      ],
+      "completed": true,
+      "events_sha256": "94fda131213e43744ee3d8619f0de7c83907985481319b132365f81bc1f63222",
+      "video_timer_writes_after_17_seconds": 0
+    },
+    "mame": {
+      "frames": 8138,
+      "one_pixel_up_transitions": 592,
+      "ten_pixel_up_transitions": 52,
+      "example_transition_frames": {
+        "1": "capture-001068.png",
+        "10": "capture-002929.png"
+      },
+      "numbered_lines_seen": 180,
+      "missing_numbered_lines": [],
+      "final_text": [
+        "T39 ABCDEFGHIJKLM",
+        "T40 ABCDEFGHIJKLM",
+        "T41 ABCDEFGHIJKLM",
+        "T42 ABCDEFGHIJKLM",
+        "T43 ABCDEFGHIJKLM",
+        "T44 ABCDEFGHIJKLM",
+        "T45 ABCDEFGHIJKLM",
+        "T46 ABCDEFGHIJKLM",
+        "T47 ABCDEFGHIJKLM",
+        "T48 ABCDEFGHIJKLM",
+        "T49 ABCDEFGHIJKLM",
+        "T50 ABCDEFGHIJKLM",
+        "T51 ABCDEFGHIJKLM",
+        "T52 ABCDEFGHIJKLM",
+        "T53 ABCDEFGHIJKLM",
+        "T54 ABCDEFGHIJKLM",
+        "T55 ABCDEFGHIJKLM",
+        "T56 ABCDEFGHIJKLM",
+        "T57 ABCDEFGHIJKLM",
+        "T58 ABCDEFGHIJKLM",
+        "T59 ABCDEFGHIJKLM",
+        "SCROLL COMPLETE",
+        "",
+        "A>"
+      ],
+      "completed": true,
+      "events_sha256": "58c946246376dea8a5278d53a3d94fd2e2928f0888ce722eb02a1dd7707c900d",
+      "video_timer_writes_after_17_seconds": 0
+    },
+    "read_only_copy_recheck": "Native and MAME repeat the invalid-drive case and complete the diagnostic with MAME mounting mode-0444 disposable copies."
+  },
+  "wasm": {
+    "frames": 5651,
+    "one_pixel_up_transitions": 656,
+    "ten_pixel_up_transitions": 52,
+    "example_transition_frames": {
+      "1": "wasm-verified-19940.pbm",
+      "10": "wasm-verified-57120.pbm"
+    },
+    "numbered_lines_seen": 180,
+    "missing_numbered_lines": [],
+    "final_text": [
+      "T39 ABCDEFGHIJKLM",
+      "T40 ABCDEFGHIJKLM",
+      "T41 ABCDEFGHIJKLM",
+      "T42 ABCDEFGHIJKLM",
+      "T43 ABCDEFGHIJKLM",
+      "T44 ABCDEFGHIJKLM",
+      "T45 ABCDEFGHIJKLM",
+      "T46 ABCDEFGHIJKLM",
+      "T47 ABCDEFGHIJKLM",
+      "T48 ABCDEFGHIJKLM",
+      "T49 ABCDEFGHIJKLM",
+      "T50 ABCDEFGHIJKLM",
+      "T51 ABCDEFGHIJKLM",
+      "T52 ABCDEFGHIJKLM",
+      "T53 ABCDEFGHIJKLM",
+      "T54 ABCDEFGHIJKLM",
+      "T55 ABCDEFGHIJKLM",
+      "T56 ABCDEFGHIJKLM",
+      "T57 ABCDEFGHIJKLM",
+      "T58 ABCDEFGHIJKLM",
+      "T59 ABCDEFGHIJKLM",
+      "SCROLL COMPLETE",
+      "",
+      "A>?"
+    ],
+    "completed": true
+  },
+  "validation": {
+    "native_suite": "make test: pass",
+    "wasm_suite": "make test-wasm: pass",
+    "tool_tests": "3 unittest cases: pass",
+    "original_disk_unchanged": true,
+    "native_test_log_sha256": "5cb3837e1fc6ae23a467d9dd9d6bbc1b45a1692b9d46d7f074c1092730c8d81d",
+    "wasm_test_log_sha256": "77e7c9f6b8b49305bedd5d4adcc0265b990eb8159abf748b34e5849365966823"
+  },
+  "limits": [
+    "Original reporter ROM/disk/input context is unspecified; this reproduces and explains one matching failure, not every possible report context.",
+    "60/80 ms hold/gap variants lose characters and are inconclusive for the same semantic input; they are not counted as successful fixes. Native accepted-key traces and MAME screen output record the difference.",
+    "MAME input transitions are quantized to host display frames, up to 20.032 ms; native transitions occur at instruction boundaries.",
+    "Pixel-motion counts describe matched bands in captured frames, not exact refresh-rate equivalence. Full-screen copy can span several frames.",
+    "No physical machine validation, FEDITOR acceptance, or new physical video-address validation.",
+    "EKDOS guest code is intentionally unmodified. Masking its invalid-drive crash inside an emulator would be a compatibility shortcut."
+  ],
+  "evidence": {
+    "analysis_sha256": "316a119b16a3fa70b42d7d76f2168e7572a4fdd0103a3b252bf22f6e773967fc",
+    "bulk_capture_directory": "/tmp/juku-scroll-verified",
+    "wasm_capture_prefix": "/tmp/juku-scroll/wasm-verified"
+  }
+}
