@@ -1,0 +1,196 @@
+{
+  "provenance": {
+    "rom_sha256": "fc44df76b2601ab81745f2512edb7a56bb24dca6419e7173a5bf11cae4c1fc27",
+    "disk_sha256": "dc3e9edf3e3f21222ed3fbe959d03635ca090eb7cdea0e68de5492e9f115416e",
+    "core_revision": "8fec94b940f670b33cfa4b7c1d80fccf4b6cf858",
+    "mame_version": "MAME v0.289 (unknown)",
+    "mame_master_inspected": "bff61db87f415e984580261f91a42fedc99660fd",
+    "mame_driver_sha256": "4c586abbce404cd3fa82a79a4d2b9726068387b35d88ce5537c5d2159a4a2c6e"
+  },
+  "cases": {
+    "stock": {
+      "paced": 0,
+      "data_reads": 14336,
+      "busy_without_drq_before_in": 0,
+      "final_pc": "d874",
+      "final_status": 0,
+      "common_read_gaps_cpu_cycles": [
+        [
+          49,
+          14308
+        ],
+        [
+          9508,
+          2
+        ],
+        [
+          9558,
+          2
+        ]
+      ],
+      "final_text": [
+        "A:SND     .COM   A:KULT    .HLP",
+        "A:MIC     .HLP   A:GTR     .DOK",
+        "A:AVE     .PLR   A:BEETHOVE.PLR",
+        "A:PACIUS  .PLR   A:BACH    .PLR",
+        "A:BIZET   .PLR   A:VALGRE  .PLR",
+        "A:PATTERN .PIC   A:MAJA    .PIC",
+        "A:URMAS   .PIC   A:KAALIKAS.PIC",
+        "A:NSVL    .PIC   A:KORVITS .PIC",
+        "A:KAAK-MAD.PIC   A:MEHHAAN .PIC",
+        "A:MAKK    .PIC   A:KING    .PIC",
+        "A:LAEVADEP.PIC   A:BIKE    .PIC",
+        "A:JOBU    .PIC   A:FRIENDS .PIC",
+        "A:TORUD   .PIC   A:MAASTIK .PIC",
+        "A:X-FILE  .PIC   A:PUNK    .PIC",
+        "A:SIPELGAS.PIC   A:RAHA    .PIC",
+        "A:BIGDASAR.PIC   A:KLIRR   .PIC",
+        "A:MIKA    .PIC   A:MEHHAAN2.PIC",
+        "A:JEESUS  .PIC   A:MUSKETAR.PIC",
+        "A:KORVITS2.PIC   A:KLAABUTV.PIC",
+        "A:JAIL    .PIC   A:ALIENS  .PIC",
+        "A:CD      .PIC   A:READ    .ME",
+        "A:HOTEL   .PIC   A:GAMEBOY1.PIC",
+        "A:HINT    .COM   A:ED      .COM",
+        "A>"
+      ],
+      "trace_sha256": "79eb1c68f8f71c1bd943ea2907da35b501e91654df3887e5c0e0ae2eebec5782"
+    },
+    "paced_without_wait": {
+      "paced": 1,
+      "data_reads": 20480,
+      "busy_without_drq_before_in": 7960,
+      "final_pc": "d9cc",
+      "final_status": 4,
+      "common_read_gaps_cpu_cycles": [
+        [
+          49,
+          20440
+        ],
+        [
+          16829,
+          16
+        ],
+        [
+          16978,
+          9
+        ]
+      ],
+      "final_text": [
+        "BOOTSTRAP v4.1 - 1793 on Main board",
+        "",
+        "System disk type (D/S/8) D",
+        "",
+        "Loading system ... 04 DISK READ ERROR",
+        "NON-SYSTEM DISK OR DISK ERROR",
+        "REPLACE AND STRIKE ANY KEY WHEN READY",
+        "",
+        "System disk type (D/S/8) D",
+        "",
+        "Loading system ... 04 DISK READ ERROR",
+        "NON-SYSTEM DISK OR DISK ERROR",
+        "REPLACE AND STRIKE ANY KEY WHEN READY",
+        "",
+        "System disk type (D/S/8) ?",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "trace_sha256": "ba4fc7a2089e0f1b3ee7fa63612f23592593b2a97671708189d96eb3def09540"
+    },
+    "mame": {
+      "data_read_callbacks_including_retries": 28672,
+      "callback_pcs": {
+        "e5a8": 14336,
+        "e5aa": 14336
+      },
+      "common_read_callback_gaps_us": [
+        [
+          24.5,
+          14308
+        ],
+        [
+          7.5,
+          14308
+        ],
+        [
+          4804.5,
+          2
+        ]
+      ],
+      "commands": {
+        "02": 2,
+        "1a": 3,
+        "80": 28,
+        "18": 1
+      },
+      "final_text": [
+        "A:SND     .COM   A:KULT    .HLP",
+        "A:MIC     .HLP   A:GTR     .DOK",
+        "A:AVE     .PLR   A:BEETHOVE.PLR",
+        "A:PACIUS  .PLR   A:BACH    .PLR",
+        "A:BIZET   .PLR   A:VALGRE  .PLR",
+        "A:PATTERN .PIC   A:MAJA    .PIC",
+        "A:URMAS   .PIC   A:KAALIKAS.PIC",
+        "A:NSVL    .PIC   A:KORVITS .PIC",
+        "A:KAAK-MAD.PIC   A:MEHHAAN .PIC",
+        "A:MAKK    .PIC   A:KING    .PIC",
+        "A:LAEVADEP.PIC   A:BIKE    .PIC",
+        "A:JOBU    .PIC   A:FRIENDS .PIC",
+        "A:TORUD   .PIC   A:MAASTIK .PIC",
+        "A:X-FILE  .PIC   A:PUNK    .PIC",
+        "A:SIPELGAS.PIC   A:RAHA    .PIC",
+        "A:BIGDASAR.PIC   A:KLIRR   .PIC",
+        "A:MIKA    .PIC   A:MEHHAAN2.PIC",
+        "A:JEESUS  .PIC   A:MUSKETAR.PIC",
+        "A:KORVITS2.PIC   A:KLAABUTV.PIC",
+        "A:JAIL    .PIC   A:ALIENS  .PIC",
+        "A:CD      .PIC   A:READ    .ME",
+        "A:HOTEL   .PIC   A:GAMEBOY1.PIC",
+        "A:HINT    .COM   A:ED      .COM",
+        "A>?"
+      ],
+      "trace_sha256": "6b0ec7dbeb659374b6bcfb9be1c14e6e051152af4e00a03d42611900d8db56d6"
+    }
+  },
+  "issue": "https://github.com/infoaed/juku3000/issues/25",
+  "status": "Read-path timing shortcut reproduced; hardware replacement not implemented",
+  "findings": [
+    {
+      "subject": "MAME workaround",
+      "evidence": "fdc_cmd_w remembers the command. fdc_data_r/fdc_data_w inspect command, DRQ and BUSY, assert external HALT and rewind PC by two bytes. fdc_drq_w clears external HALT when DRQ rises. The issue omits the analogous write handler from its list.",
+      "runtime": "28 read-sector commands, 14336 delivered reads and 14336 rewound callbacks; typical callback gaps 24.5 then 7.5 microseconds."
+    },
+    {
+      "subject": "Portable Juku shortcut",
+      "evidence": "Juku initializes paced_data to zero. A serviced read immediately exposes the next buffered byte. juku.c additionally clears write_sector_lead_pending after Write Sector commands. The shared controller supports pacing, enabled separately by Kaypro.",
+      "runtime": "Stock firmware IN loop period 49 CPU cycles (24.5 microseconds), shorter than the modeled 64-cycle (32 microsecond) media byte. Boot and DIR succeed."
+    },
+    {
+      "subject": "Controlled perturbation",
+      "evidence": "Enable only paced_data in the investigation harness; no ROM or disk changes.",
+      "runtime": "Guest reports 04 DISK READ ERROR, never reaches EKDOS, and finishes with LOST DATA status. This establishes a missing synchronization mechanism in ours, not the exact hardware implementation."
+    },
+    {
+      "subject": "MAME completion concern",
+      "evidence": "Driver clears the forced external HALT only on DRQ assertion; no INTRQ callback is connected. The BUSY check also calls status_r, a status acknowledgement.",
+      "runtime": "Not exercised for an error or completion without DRQ; deadlock/acknowledgement effects remain source-level concerns, not reproduced bugs."
+    },
+    {
+      "subject": "Hardware boundary",
+      "evidence": "Sibling 8080-cosim schematic reviews leave the D96 remote clear source unresolved and portions of D96/D101 owner-board continuity unmeasured. Runnable HDL holds a related decoder input high.",
+      "runtime": "No physical hardware tested; these sources do not close a complete CPU wait-state equation."
+    }
+  ],
+  "validation": {
+    "native_probe": "compiled with C11 -Wall -Wextra -Werror; stock and paced runs completed",
+    "mame_probe": "exit 0, no Lua error, all 14 scheduled key transitions observed, shutdown capture present",
+    "production_changes": "none; this commit adds opt-in investigation tools and evidence only"
+  }
+}
