@@ -1,0 +1,293 @@
+{
+  "issue": "https://github.com/infoaed/juku3000/issues/19",
+  "core_revision": "7b469772516ec84b83ad66d171dceea466dfe868",
+  "mame_version": "MAME v0.289 (unknown)",
+  "inputs": {
+    "rom": {
+      "path": "/Users/ddanila/fun/8080-cosim/roms/ekta37.bin",
+      "sha256": "fc44df76b2601ab81745f2512edb7a56bb24dca6419e7173a5bf11cae4c1fc27"
+    },
+    "base": {
+      "path": "/private/tmp/juku-video-study/prog1.juk",
+      "sha256": "dc3e9edf3e3f21222ed3fbe959d03635ca090eb7cdea0e68de5492e9f115416e"
+    },
+    "bowling": {
+      "path": "/private/tmp/juku-video-study/game1.juk",
+      "sha256": "e08f1bab9a13b6d14c10565f17dda4abbc14d2dcbd2a43c914c5dd8aeb99814b"
+    },
+    "mfd": {
+      "path": "/private/tmp/juku-video-study/VAKSTU05.JUK",
+      "sha256": "96c00ca90cb0750d822e19872bf59376ab9f2536a68fa6e0cc04e8dfa8bd8c7f"
+    }
+  },
+  "cases": {
+    "mfd-original": {
+      "media": {
+        "directory_slot": 27,
+        "block": 77,
+        "program_bytes": 2304
+      },
+      "program_sha256": "d2870920f21a63824ac2bd362a1e890503193106acd9b131ddece82f179613ef",
+      "all_engine_font_bytes_equal": true,
+      "screen_differences_from_native": {
+        "paced": {
+          "pixels": 0,
+          "bounds": null
+        },
+        "mame": {
+          "pixels": 0,
+          "bounds": null
+        }
+      },
+      "engines": {
+        "native": {
+          "installed_font": "0x9fe",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "ff0000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd01",
+          "patches": 0,
+          "keys": 14,
+          "frame_sha256": "37c39b435918868901d41859a76d95e56c7cad47e08f6f5e142590ca328430f0",
+          "trace_sha256": "632d431928c3bae9fc80acf064579e2595214be9cf7eab98746407e67c4f4a99",
+          "physical_ram_sha256": "f01156e14f3e115765855fb11698d48fa3e34f98da2d6899128c9fb721b3046e"
+        },
+        "paced": {
+          "installed_font": "0x9fe",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "ff0000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd01",
+          "patches": 0,
+          "keys": 14,
+          "frame_sha256": "37c39b435918868901d41859a76d95e56c7cad47e08f6f5e142590ca328430f0",
+          "trace_sha256": "d1f7abe0e30f7ddfd260ad682b9a8d0bde2ad057114443aede94c50e604fbab7",
+          "physical_ram_sha256": "b6fbac9646c3dfc2b5e86600314236d03f24ec6119540a77a5f3698c1bde490a"
+        },
+        "mame": {
+          "installed_font": "0x9fe",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "ff0000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd01",
+          "patches": 0,
+          "keys": 14,
+          "frame_sha256": "8fa166cca44a204b8836dfd92e14bcfb6a0cb62ea99c61444945a446ddcaca92",
+          "trace_sha256": "fa877e2dc5ee3854a12a9a03923e73cc4bdbea74727c4094546141bdabacfe5a",
+          "physical_ram_sha256": "ca22f7ebb81f558e2ec23239ebf561f61901c97bcc2ee6c458ea7034b03a9e09"
+        }
+      }
+    },
+    "mfd-control": {
+      "media": {
+        "directory_slot": 27,
+        "block": 77,
+        "program_bytes": 2304
+      },
+      "program_sha256": "d2870920f21a63824ac2bd362a1e890503193106acd9b131ddece82f179613ef",
+      "all_engine_font_bytes_equal": true,
+      "screen_differences_from_native": {
+        "paced": {
+          "pixels": 0,
+          "bounds": null
+        },
+        "mame": {
+          "pixels": 0,
+          "bounds": null
+        }
+      },
+      "engines": {
+        "native": {
+          "installed_font": "0x9fe",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "000000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd02",
+          "patches": 1,
+          "keys": 14,
+          "frame_sha256": "e125250b0c487e9ac8a0b4220ba56184b7f11349649152e82b374f53b662ae40",
+          "trace_sha256": "154d49c23ee69fe295da9522e5e0b95e77a6fb4017c0eca12dd7dcf61acc9fb4",
+          "physical_ram_sha256": "b0da8f5cf03fd9ebeb27d49e0206d165f9f379e5471e3b3660fb5363c1c4cbbb"
+        },
+        "paced": {
+          "installed_font": "0x9fe",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "000000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd02",
+          "patches": 1,
+          "keys": 14,
+          "frame_sha256": "e125250b0c487e9ac8a0b4220ba56184b7f11349649152e82b374f53b662ae40",
+          "trace_sha256": "fad9476983e1af6b84e16b11ae5d666cd31ee584b94dd3c676e068343dcf7f41",
+          "physical_ram_sha256": "1292da635ed6dc8d64b816179e5109dd522028445fb44a49a31de047f16eadbd"
+        },
+        "mame": {
+          "installed_font": "0x9fe",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "000000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd02",
+          "patches": 1,
+          "keys": 14,
+          "frame_sha256": "41714cea66732803f8a87c1b5f5b6d88da3b1732f8e365621ef318bfdc63a9ff",
+          "trace_sha256": "a0d0bdb10023d2611b5c4061382d4d1b5adbf206051049e04199c2dfd7c89d8a",
+          "physical_ram_sha256": "d882dbcfd6825b6004f759cf9578366701c09fe0291263762e84f865924947c0"
+        }
+      }
+    },
+    "bowling-original": {
+      "media": {
+        "directory_slot": 27,
+        "block": 77,
+        "program_bytes": 3456
+      },
+      "program_sha256": "27883b1755a145ca7dbabd1215d373916204eeaeb13f642c2263435032da441d",
+      "all_engine_font_bytes_equal": true,
+      "screen_differences_from_native": {
+        "paced": {
+          "pixels": 0,
+          "bounds": null
+        },
+        "mame": {
+          "pixels": 80,
+          "bounds": [
+            240,
+            150,
+            248,
+            160
+          ]
+        }
+      },
+      "engines": {
+        "native": {
+          "installed_font": "0x7000",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "ff0000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd01",
+          "patches": 0,
+          "keys": 22,
+          "frame_sha256": "96e1e6d12af2568868400b9dfde20c4a4f393c8e7e70fe667a006779d6bd0aae",
+          "trace_sha256": "0d1faaf92588110c142fa0fe3449de59520ead78c92b44f1e3fdc5c677471a54",
+          "physical_ram_sha256": "5a3acb2ce01da0dab8231c2eabfbe39406868536e7254125ed192c7b1b659a94"
+        },
+        "paced": {
+          "installed_font": "0x7000",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "ff0000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd01",
+          "patches": 0,
+          "keys": 22,
+          "frame_sha256": "96e1e6d12af2568868400b9dfde20c4a4f393c8e7e70fe667a006779d6bd0aae",
+          "trace_sha256": "d0e127e9bbf32b69951a149310473de0f0f204a1644764519a5dac1609c8d6fd",
+          "physical_ram_sha256": "098d470a7d07836193ce9b094004e0c8fbea2eeb696646af39ae56b7406332b0"
+        },
+        "mame": {
+          "installed_font": "0x7000",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "ff0000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd01",
+          "patches": 0,
+          "keys": 22,
+          "frame_sha256": "ce10cb7dfe1dc4ed5c4881b130f501c3147a1e6a7e925c9f362a7f87d8b093c0",
+          "trace_sha256": "7d800fbc0e3237b3039c3d89a6ecde385cb657b4d70952163ee2f9e78be64719",
+          "physical_ram_sha256": "a8211f2b556dcd8d1a52588da3f885fc645d5a1d09b23f054b90d1fb12fefe15"
+        }
+      }
+    },
+    "bowling-control": {
+      "media": {
+        "directory_slot": 27,
+        "block": 77,
+        "program_bytes": 3456
+      },
+      "program_sha256": "27883b1755a145ca7dbabd1215d373916204eeaeb13f642c2263435032da441d",
+      "all_engine_font_bytes_equal": true,
+      "screen_differences_from_native": {
+        "paced": {
+          "pixels": 0,
+          "bounds": null
+        },
+        "mame": {
+          "pixels": 80,
+          "bounds": [
+            240,
+            150,
+            248,
+            160
+          ]
+        }
+      },
+      "engines": {
+        "native": {
+          "installed_font": "0x7000",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "000000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd02",
+          "patches": 1,
+          "keys": 22,
+          "frame_sha256": "95102fd3df72abd5bfbf99463bf56c0f825fa050a0e0786e11fbbe5d1eade86c",
+          "trace_sha256": "ed0808e449f6c4ea98e6bd2589a0b14f09a5f0643be7f2d9f45897e1edaeceb5",
+          "physical_ram_sha256": "63e41b6239d021c1cf3b7e02cfb8baf1fd9e082f91c1b34911e3ec022f25ffbe"
+        },
+        "paced": {
+          "installed_font": "0x7000",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "000000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd02",
+          "patches": 1,
+          "keys": 22,
+          "frame_sha256": "95102fd3df72abd5bfbf99463bf56c0f825fa050a0e0786e11fbbe5d1eade86c",
+          "trace_sha256": "eff5074e109f595355a03ac0a19e4d83e581bc6c0541184b5a2ee8d1e4298e17",
+          "physical_ram_sha256": "12d0ce75f187f3760d224f6d0cfe8b9514eafb97ce1e783277c4d098f4149610"
+        },
+        "mame": {
+          "installed_font": "0x7000",
+          "font_bytes": 864,
+          "font_matches_source_transform": true,
+          "space_glyph": "000000000000000000",
+          "source_reads": 1728,
+          "first_source_address": "dd02",
+          "patches": 1,
+          "keys": 22,
+          "frame_sha256": "79f1d2d1d70202cc5b19885134fbb2e042310ab78ae35da95da8a36d28626b5f",
+          "trace_sha256": "65d40db3eeac286930365a6c4d3aa27d07c3bc041cebfb872351d840d071883b",
+          "physical_ram_sha256": "c181322ae045c21aa13ef1aa3fe102b33c0b3569bc7cd2c6e39d9b9fdade9c8b"
+        }
+      }
+    }
+  },
+  "diagnosis": {
+    "firmware_initial_font_pointer": "D7FB -> DD02 (written by DCB4)",
+    "mfd_copy_instruction": "0141: LXI H,DD01",
+    "bowling_copy_instruction": "0B43: LXI H,DD01",
+    "copy_bytes": 864,
+    "copy_transform": "input | (input >> 1); C5 4E 7E 1F B1 12 13 23 C1 0B 78 B1",
+    "byte_before_font": "DD01=ED; ED | (ED >> 1) = FF",
+    "space": "Wrong origin produces FF 00 00 00 00 00 00 00 00; correct origin gives nine zero bytes.",
+    "application_fix_scope": "Diagnostic initial-copy correction only; both applications also hard-code DD01 in other font-selection/restoration paths."
+  },
+  "conclusion": "Both applications use DD01; EKTA #0037 initializes its font pointer to DD02. Both emulator builds and MAME reproduce the resulting glyph corruption. The controlled source-address correction clears the space glyph in all three.",
+  "limits": [
+    "FEDITOR executable unavailable; no FEDITOR claim.",
+    "No physical-hardware run; MAME is a comparison, not a hardware oracle.",
+    "Control runs alter the application font source only in the diagnostic harness.",
+    "No emulator or historical application changes are justified by these cases.",
+    "Initial application screens only; no complete gameplay or MFD function coverage."
+  ]
+}
