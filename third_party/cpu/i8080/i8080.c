@@ -356,6 +356,14 @@ static inline void i8080_xthl(i8080* const c) {
 }
 
 static inline void i8080_execute(i8080* const c, uint8_t opcode) {
+  if (c->io_ready && (opcode == 0xdb || opcode == 0xd3)) {
+    c->io_port = i8080_next_byte(c);
+    c->io_data = c->a;
+    c->io_pending = opcode == 0xdb ? 1 : 2;
+    // M1=4, immediate read=3, I/O T1+T2=2; T3 is committed on resume.
+    c->cyc += 9;
+    return;
+  }
   c->cyc += OPCODES_CYCLES[opcode];
 
   // when DI is executed, interrupts won't be serviced
@@ -685,6 +693,8 @@ void i8080_init(i8080* const c) {
   c->write_byte = NULL;
   c->port_in = NULL;
   c->port_out = NULL;
+  c->io_ready = NULL;
+  c->io_pending = c->io_port = c->io_data = 0;
   c->userdata = NULL;
 
   c->cyc = 0;
@@ -718,6 +728,16 @@ void i8080_init(i8080* const c) {
 }
 
 void i8080_step(i8080* const c) {
+  if (c->io_pending) {
+    bool ready = c->io_ready(c->userdata, c->io_port, c->io_pending == 2);
+    c->cyc++; // one Tw if not ready, otherwise the final T3
+    if (!ready) return;
+    if (c->io_pending == 1) c->a = c->port_in(c->userdata, c->io_port);
+    else c->port_out(c->userdata, c->io_port, c->io_data);
+    c->io_pending = 0;
+    if (c->interrupt_delay) c->interrupt_delay--;
+    return;
+  }
   // interrupt processing: if an interrupt is pending and IFF is set,
   // we execute the interrupt vector passed by the user.
   if (c->interrupt_pending && c->iff && c->interrupt_delay == 0) {

@@ -1247,6 +1247,7 @@ static int other_state_save(dac_session *s, void *p, size_t n) {
     j->cpu.write_byte = NULL;
     j->cpu.port_in = NULL;
     j->cpu.port_out = NULL;
+    j->cpu.io_ready = NULL;
     j->cpu.userdata = NULL;
     memset(&j->hooks, 0, sizeof(j->hooks));
     memset(&j->bus_trace, 0, sizeof(j->bus_trace));
@@ -1265,7 +1266,7 @@ static int other_state_save(dac_session *s, void *p, size_t n) {
   if (s->disk_size)
     memcpy(payload + size, s->disk, s->disk_size);
   state_header h = {0x44414353,
-                    (s->j ? 20 : 10 + s->kind),
+                    (s->j ? 21 + DAC_JUKU_EXPERIMENTAL_FDC_SYNC : 10 + s->kind),
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -1282,7 +1283,7 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
   state_header h;
   memcpy(&h, p, sizeof(h));
   const uint8_t *payload = (const uint8_t *)p + sizeof(h);
-  if (h.magic != 0x44414353 || h.version != (s->j ? 20 : 10 + s->kind) || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != (s->j ? 21 + DAC_JUKU_EXPERIMENTAL_FDC_SYNC : 10 + s->kind) || h.size != n ||
       h.disk_size != s->disk_size || h.writable != (unsigned)s->writable ||
       h.disk_b_size || h.writable_b ||
       h.crc != state_crc(payload, n - sizeof(h)))
@@ -1316,6 +1317,8 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
     juku_fdc *f = &j->fdc;
     int bad =
         memcmp(j->rom, s->firmware, 16384) ||
+        j->cpu.io_pending > 2 || (!DAC_JUKU_EXPERIMENTAL_FDC_SYNC && j->cpu.io_pending) ||
+        j->fdc_rotation >= 400000 ||
         !j->video_stride || j->video_stride > 80 ||
         !j->video_lines || j->video_lines > 384 ||
         j->scanout.frame_stride > JUKU_SCAN_STRIDE ||
@@ -1330,7 +1333,7 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
         (f->write_track_state == 1 && f->write_track_field_pos >= 4) ||
         (f->write_track_state == 3 &&
          f->write_track_field_pos >= JUK_SECTOR_SIZE) ||
-        f->write_track_pending_sector < 0 ||
+        f->write_track_pending_sector < -1 ||
         f->write_track_pending_sector > 10 || f->write_track_state < 0 ||
         f->write_track_state > 4;
     bad |= j->scanout.next_byte_ns <= j->scanout.ns ||
@@ -1361,6 +1364,7 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
     j->cpu.write_byte = fresh->cpu.write_byte;
     j->cpu.port_in = fresh->cpu.port_in;
     j->cpu.port_out = fresh->cpu.port_out;
+    j->cpu.io_ready = fresh->cpu.io_ready;
     j->cpu.userdata = j;
     free(fresh);
     memset(&j->hooks, 0, sizeof(j->hooks));

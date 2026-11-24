@@ -16,6 +16,9 @@
 #define KBD_HOLD 3
 #define KBD_GAP 3
 #define KBD_NONE 0xCF
+#ifndef DAC_JUKU_EXPERIMENTAL_FDC_SYNC
+#define DAC_JUKU_EXPERIMENTAL_FDC_SYNC 0
+#endif
 
 typedef struct {
  void *user;
@@ -135,6 +138,7 @@ struct juku {
   unsigned long fdc_data_reads;
   unsigned long stop_fdc_data_reads;
   unsigned long fdc_last_cyc;
+  unsigned fdc_rotation; // experimental drive phase, 2 MHz ticks, 300 RPM
   int timing_log;
   int io_trace;
   int bank_trace;

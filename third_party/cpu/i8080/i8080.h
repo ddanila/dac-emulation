@@ -10,6 +10,11 @@ typedef struct i8080 {
   void (*write_byte)(void*, uint16_t, uint8_t);
   uint8_t (*port_in)(void*, uint8_t);
   void (*port_out)(void*, uint8_t, uint8_t);
+  // Optional READY sampler for resumable IN/OUT. No bus side effects here.
+  // Called at T2 of the I/O cycle, then once per Tw; normal callbacks commit
+  // exactly once at the end of T3. NULL preserves instruction-atomic behavior.
+  bool (*io_ready)(void*, uint8_t, bool);
+  uint8_t io_pending, io_port, io_data; // pending: 1=IN, 2=OUT
   void* userdata;
 
   unsigned long cyc;

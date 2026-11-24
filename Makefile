@@ -14,6 +14,22 @@ OBJECTS = $(CORE:%.c=build/%.o)
 .PHONY: all test clean
 all: build/libdac-juku.a build/juku-trace
 
+# Isolated experimental builds: never reuse normal objects with different flags.
+build/juku-fdc-sync-test: tests/integration/juku_fdc_sync_test.c $(CORE) $(wildcard machines/juku/*.h third_party/cpu/i8080/*.h common/fdc/* common/media/*.h)
+	@mkdir -p build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) -DDAC_JUKU_EXPERIMENTAL_FDC_SYNC=1 tests/integration/juku_fdc_sync_test.c $(CORE) -o $@
+
+build/i8080-io-wait-test: tests/integration/i8080_io_wait_test.c third_party/cpu/i8080/i8080.c third_party/cpu/i8080/i8080.h
+	@mkdir -p build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $(filter %.c,$^) -o $@
+
+.PHONY: test-juku-fdc-sync
+test-juku-fdc-sync: build/juku-fdc-sync-test build/i8080-io-wait-test
+	./build/i8080-io-wait-test
+	./build/juku-fdc-sync-test
+	./build/juku-fdc-snapshot-test
+
+
 build/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) -MMD -MP -c $< -o $@
@@ -27,9 +43,10 @@ build/juku-trace: $(HOST:%.c=build/%.o) build/libdac-juku.a
 build/support-test: tests/integration/support_test.c build/libdac-juku.a
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< build/libdac-juku.a -o $@
 
-test: all build/support-test build/machines-test
+test: all build/support-test build/machines-test build/i8080-io-wait-test
 	./build/support-test
 	./build/machines-test
+	./build/i8080-io-wait-test
 
 clean:
 	rm -rf build
@@ -347,3 +364,24 @@ build/juku-video-capture: verification/juku-video/capture.c build/libdac-juku.a
 
 build/juku-scroll-capture: verification/juku-scroll/capture.c build/libdac-juku.a
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< build/libdac-juku.a -o $@
+
+build/libdac-fdc-experimental.so: $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
+	@mkdir -p build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) -DDAC_JUKU_EXPERIMENTAL_FDC_SYNC=1 -fPIC -shared $(RUNTIME_SOURCES) -o $@
+
+build/juku-fdc-snapshot-test: tests/integration/juku_fdc_snapshot_test.c build/libdac-fdc-experimental.so
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) -DDAC_JUKU_EXPERIMENTAL_FDC_SYNC=1 $^ -o $@
+
+test-juku-fdc-sync: build/juku-fdc-snapshot-test
+
+EMCC ?= emcc
+build/fdc-experimental.mjs: $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
+	@mkdir -p build
+	$(EMCC) $(CPPFLAGS) -O2 -std=c11 -DDAC_JUKU_EXPERIMENTAL_FDC_SYNC=1 $(RUNTIME_SOURCES) -sMODULARIZE=1 -sEXPORT_ES6=1 -sENVIRONMENT=node -sALLOW_MEMORY_GROWTH=1 -sFILESYSTEM=0 -sEXPORTED_RUNTIME_METHODS=HEAPU8 -sEXPORTED_FUNCTIONS='["_malloc","_free","_dac_create","_dac_load","_dac_mount","_dac_power","_dac_reset","_dac_run","_dac_key","_dac_video","_dac_width","_dac_height","_dac_disk_data","_dac_disk_size","_dac_state_size","_dac_state_save","_dac_state_load","_dac_destroy"]' -o $@
+
+build/juku-fdc-snapshot-test.cjs: tests/integration/juku_fdc_snapshot_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
+	$(EMCC) $(CPPFLAGS) -O2 -std=c11 -DDAC_JUKU_EXPERIMENTAL_FDC_SYNC=1 tests/integration/juku_fdc_snapshot_test.c $(RUNTIME_SOURCES) -sENVIRONMENT=node -sALLOW_MEMORY_GROWTH=1 -sSTACK_SIZE=4194304 -o $@
+
+.PHONY: test-juku-fdc-sync-wasm
+test-juku-fdc-sync-wasm: build/juku-fdc-snapshot-test.cjs
+	$(NODE) $<

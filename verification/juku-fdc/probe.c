@@ -32,7 +32,7 @@ int main(int argc,char **argv) {
       else {juku_key(j,0,0);held=0;index++;next+=320000;if(index==3)next=32000000;}
     }
     uint16_t pc=j->cpu.pc;uint8_t op=juku_peek_byte(j,pc),p=juku_peek_byte(j,(uint16_t)(pc+1));
-    if((op==0xdb||op==0xd3)&&p>=0x1c&&p<=0x1f) {
+    if(!j->cpu.io_pending&&(op==0xdb||op==0xd3)&&p>=0x1c&&p<=0x1f) {
       fprintf(f,"%lu,%04x,%02x,%02x,%02x,%02x,%02x,%u,%u,%u\n",j->cpu.cyc,pc,op,p,j->cpu.a,j->fdc.status,j->fdc.command,j->fdc.buffer_pos,j->fdc.drq_ticks,j->fdc.byte_delay);
       if(op==0xdb&&p==0x1f){reads++;if((j->fdc.status&3)==1)early++;}
     }

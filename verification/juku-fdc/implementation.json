@@ -1,0 +1,243 @@
+{
+  "status": "Experimental implementation verified; default promotion withheld",
+  "configuration": {
+    "build_option": "DAC_JUKU_EXPERIMENTAL_FDC_SYNC=1",
+    "default": false,
+    "snapshot_versions": {
+      "default": 21,
+      "experimental": 22
+    },
+    "public_session_api_changes": false
+  },
+  "contract": {
+    "cpu": "Resumable IN/OUT at I/O T2 after 9 nominal cycles; one-cycle Tw steps; one T3 and one register access on release; interrupt acceptance deferred.",
+    "board": "PROVISIONAL: matching active transfer waits while BUSY=1 and DRQ=0, releases on DRQ or command completion; no status-register observation.",
+    "controller": "Existing byte pacing enabled; write-sector lead-in override disabled in experimental builds; shared WD179x source unchanged.",
+    "drive": "Functional 300 RPM index source, 2 ms pulse, no motor spin-up or flux model."
+  },
+  "guest_workload": {
+    "provenance": {
+      "core_revision": "d0437d31629e0ad410bcb5775deffe9094a0776c",
+      "rom_sha256": "fc44df76b2601ab81745f2512edb7a56bb24dca6419e7173a5bf11cae4c1fc27",
+      "disk_sha256": "dc3e9edf3e3f21222ed3fbe959d03635ca090eb7cdea0e68de5492e9f115416e",
+      "mame_version": "MAME v0.289 (unknown)"
+    },
+    "engines": {
+      "native": {
+        "file_bytes": 1024,
+        "allocated_blocks": [
+          78
+        ],
+        "unrelated_bytes_unchanged": true,
+        "final_text": [
+          "52K EKDOS 2.30",
+          "",
+          "Drive assignments:",
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "A>fdc25",
+          "",
+          "FDC25 PASS",
+          "",
+          "A>?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "disk_sha256": "13d1e68d159dc2d3b692c0684b78a6bbf2269957ae9db61d387a585a0eafa63e"
+      },
+      "wasm": {
+        "file_bytes": 1024,
+        "allocated_blocks": [
+          78
+        ],
+        "unrelated_bytes_unchanged": true,
+        "final_text": [
+          "52K EKDOS 2.30",
+          "",
+          "Drive assignments:",
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "A>fdc25",
+          "",
+          "FDC25 PASS",
+          "",
+          "A>?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "disk_sha256": "13d1e68d159dc2d3b692c0684b78a6bbf2269957ae9db61d387a585a0eafa63e"
+      },
+      "mame": {
+        "file_bytes": 1024,
+        "allocated_blocks": [
+          78
+        ],
+        "unrelated_bytes_unchanged": true,
+        "final_text": [
+          "52K EKDOS 2.30",
+          "",
+          "Drive assignments:",
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "A>fdc25",
+          "",
+          "FDC25 PASS",
+          "",
+          "A>?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "disk_sha256": "13d1e68d159dc2d3b692c0684b78a6bbf2269957ae9db61d387a585a0eafa63e"
+      }
+    }
+  },
+  "validation": {
+    "cpu_ready_tests": "PASS immediate and 0..49 wait cycles for IN/OUT, exact-once side effects, EI/interrupt deferral, indefinite wait and reset",
+    "machine_tests": "PASS sector reads/writes at both controller clocks; preload/pacing; remount; Read Address; Read Track; multiple-record reads/writes; Write Track formatting; missing ID; lost data; force abort; write protection; not ready; bounded stepping; pending IRQ",
+    "snapshots": "PASS native and WASM: pending IN/OUT save/restore, execution chunk invariance, reset cancellation, cross-configuration rejection",
+    "default_native": "make test PASS, including Kaypro controller regression",
+    "default_wasm": "make test-wasm PASS",
+    "sanitizers": "AddressSanitizer and UndefinedBehaviorSanitizer machine tests PASS",
+    "physical_hardware": "NOT TESTED"
+  },
+  "hdl": {
+    "cosim_revision": "dfadee28dc2be6cbd0ee921bc6d449c6832c0a14",
+    "verilator": "Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905",
+    "component_tests": {
+      "bus": {
+        "exit_code": 0,
+        "command": [
+          "vvp",
+          "/private/tmp/juku-fdc-implementation/hdl-verified/bus"
+        ],
+        "log_sha256": "4bdfa3c4ef6403cc99432fd0f24ff70da5fcc30e315a20aea8946cb3975591a6"
+      },
+      "controller": {
+        "exit_code": 0,
+        "command": [
+          "vvp",
+          "/private/tmp/juku-fdc-implementation/hdl-verified/controller"
+        ],
+        "log_sha256": "9105a48f2359eb6bd33e25d189a03fa235a154d56429c5d5730b31cd72439b57"
+      },
+      "ag3": {
+        "exit_code": 0,
+        "command": [
+          "/private/tmp/juku-fdc-implementation/hdl-verified/ag3/Vag3_oneshot_tb"
+        ],
+        "log_sha256": "14bff33a8193e804c8a01f310edb27bd4ba5f40241cc9738bdc4e1d4d38cb93b"
+      }
+    },
+    "full_board": {
+      "exit_code": 0,
+      "command": [
+        "/private/tmp/juku-fdc-implementation/hdl-verified/board-build/Vissue25_board_trace",
+        "+rom=/private/tmp/juku-fdc-implementation/hdl-verified/rom.hex",
+        "+disk=/private/tmp/juku-video-study/prog1.juk",
+        "+disk_heads=2",
+        "+frameirq=0",
+        "+frame_mcyc=50761",
+        "+framephase=49891",
+        "+ekdoskeys=1",
+        "+keyat=42000",
+        "+khold=900000",
+        "+kgap=900000",
+        "+tracefdc=1",
+        "+stopfdc=0",
+        "+stopfdcdata=512",
+        "+stoppic=0",
+        "+stopppi=0",
+        "+maxvram=100000",
+        "+timecap=2000000000"
+      ],
+      "log_sha256": "676213a1d73d1769dd689c68368051c33d4f580d0eb916eb88455ca201209b0d",
+      "sector_boundary_reached": false,
+      "hardware_wait_oracle": false,
+      "limitation": "Inherited boot bench forces READY high; runnable board also ties D94 A4 high."
+    },
+    "full_board_observation": "Run stopped at the 100000 VRAM-write bound with zero FDC data reads, one FDC status read, zero raw I/O writes, and motor off. No firmware sector loop reached. Cause not diagnosed by this change.",
+    "forced_boundaries": [
+      "juku_top_tb forces CPU READY high",
+      "runnable juku_top ties D94 A4 high",
+      "boot harness does not enable FDC_BYTE_TIMING"
+    ],
+    "focused_bench": "Captured D94 table matches all 32 decoded rows; A4 gates data read/write strobes. Externally stimulated D2/D30 READY stalls VM80A through one IN and one OUT with 40 wait phases; not a board-wiring proof."
+  },
+  "independent_sources": [
+    {
+      "url": "https://colorcomputerarchive.com/repo/Documents/Manuals/Hardware/Western%20Digital%20Floppy%20Controller%20-%20WD179X.pdf",
+      "sha256": "3406379987c063091370d3bc29e47e6cced61a861ab8ebece25452c30e616b6f",
+      "pages_printed": [
+        6,
+        12,
+        13
+      ],
+      "use": "Read/write DRQ, status acknowledgment, lost-data continuation and 22-byte MFM write lead interval. Does not specify Juku CPU synchronization."
+    },
+    {
+      "url": "https://github.com/MiSTer-devel/Vector-06C_MiSTer/blob/master/rtl/wd1793.sv",
+      "sha256": "7a4eb592dfa01ea623249158c2caad97adeaffd4cfa53df91ed15c58803fe360",
+      "use": "Independent functional state-machine comparison only. STATE_READ loads read_timer=15 and watchdog uses 4096 CPU-enable events; not accepted as a Juku physical byte-timing oracle. No third-party code copied."
+    }
+  ],
+  "promotion_gate": [
+    "Resolve D96 remote clear and D96/D101 board qualification from continuity/waveforms or equivalent primary evidence",
+    "Establish relationship between qualified strobes and CPU READY including memory-cycle delays",
+    "Obtain an actual full-machine transfer trace without forced READY/qualification bypasses",
+    "Validate first/last-byte, completion/error and reset timing against that contract"
+  ],
+  "known_limits": [
+    "Experimental only; issue 25 is not declared hardware-resolved",
+    "No MAME code patch or MAME completion-without-DRQ failure test",
+    "Other ROM/controller variants remain issue 16 scope",
+    "Controller model remains sector/byte-level, not flux/CRC pipeline timing"
+  ],
+  "artifacts_directory": "/tmp/juku-fdc-implementation",
+  "implementation_sources_sha256": {
+    "third_party/cpu/i8080/i8080.c": "c5277550a90350c4d8af8f6c4cf4b79a8624389c97d195c3ddfa8a23c7adb989",
+    "third_party/cpu/i8080/i8080.h": "ecbc33e21097b6511e2d081c4dafb20b87bd2da332cf345b04cc330f01c381d0",
+    "machines/juku/juku.c": "412172d0afccff433a0302dc299d0b7168f057decdfb2e8c820ac9c879344775",
+    "machines/juku/juku_internal.h": "89779b409d85d3d320af9c222834753f699b526e4b361b19ddef61e8dc7d6e84",
+    "common/runtime/session.c": "127d2dd6f40f10cdfcef46133578374e954cb1490c93b4441ca10efe90e72537"
+  },
+  "runtime_binaries_sha256": {
+    "libdac-fdc-experimental.so": "143a67577d45ced9706cd524c07d860bf878f4e27794d739575f21f6e90460a0",
+    "fdc-experimental.wasm": "e18fecd8ed1a468b362c00a644b723ac823def727d09a73dc7cde230b9c1fb37"
+  }
+}

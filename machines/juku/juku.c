@@ -728,7 +728,7 @@ void juku_wb(juku *ctx, void* u, uint16_t a, uint8_t v) {
 int juku_take_pic_irq(juku *ctx, i8080* cpu, unsigned irq, const char* source,
                         unsigned long* log_count) {
   (void)ctx;
-  if (!cpu || irq > 7 || !cpu->iff || cpu->interrupt_delay || (ctx->pic_mask & (1u << irq))) return 0;
+  if (!cpu || cpu->io_pending || irq > 7 || !cpu->iff || cpu->interrupt_delay || (ctx->pic_mask & (1u << irq))) return 0;
 
   uint16_t vec = ((uint16_t)ctx->pic_icw2 << 8) | (ctx->pic_icw1 & 0xE0) | (irq << 2);
   if ((*log_count)++ < 3)
@@ -755,9 +755,45 @@ int juku_take_pic_irq(juku *ctx, i8080* cpu, unsigned irq, const char* source,
 void juku_sync_fdc_time(juku *ctx, i8080* cpu) {
   (void)ctx;
   if (!ctx->fdc_enabled || !cpu || cpu->cyc == ctx->fdc_last_cyc) return;
-  juku_fdc_tick(&ctx->fdc, (unsigned)(cpu->cyc - ctx->fdc_last_cyc));
+  unsigned ticks = (unsigned)(cpu->cyc - ctx->fdc_last_cyc);
+#if DAC_JUKU_EXPERIMENTAL_FDC_SYNC
+  ctx->fdc.paced_data = 1;
+  while (ticks) {
+    if (!ctx->fdc.motor_on || !ctx->fdc.disk || !ctx->fdc.disk->media.storage.read) {
+      ctx->fdc_rotation = 0;
+      juku_fdc_index(&ctx->fdc, 0);
+      juku_fdc_tick(&ctx->fdc, ticks);
+      break;
+    }
+    unsigned boundary = ctx->fdc_rotation < 4000 ? 4000 : 400000;
+    unsigned n = boundary - ctx->fdc_rotation;
+    if (n > ticks) n = ticks;
+    juku_fdc_tick(&ctx->fdc, n);
+    ticks -= n;
+    ctx->fdc_rotation += n;
+    if (ctx->fdc_rotation == 400000) {
+      ctx->fdc_rotation = 0;
+      juku_fdc_index(&ctx->fdc, 1);
+    } else if (ctx->fdc_rotation == 4000) juku_fdc_index(&ctx->fdc, 0);
+  }
+#else
+  juku_fdc_tick(&ctx->fdc, ticks);
+#endif
   ctx->fdc_last_cyc = cpu->cyc;
 }
+
+#if DAC_JUKU_EXPERIMENTAL_FDC_SYNC
+static bool cpu_io_ready(void *user, uint8_t port, bool write) {
+  juku *ctx = user;
+  juku_sync_fdc_time(ctx, &ctx->cpu);
+  if (!ctx->fdc_enabled || port != 0x1f) return true;
+  uint8_t command = ctx->fdc.command;
+  bool transfer = write ? ((command & 0xe0) == 0xa0 || (command & 0xf0) == 0xf0)
+                        : ((command & 0xe0) == 0x80 || (command & 0xfb) == 0xc0 || (command & 0xfb) == 0xe0);
+  // Provisional board contract. No status read: that would acknowledge INTRQ.
+  return !transfer || (ctx->fdc.status & 3) != 1;
+}
+#endif
 
 uint8_t juku_pin(juku *ctx, void* u, uint8_t p) {
   (void)ctx;
@@ -828,7 +864,7 @@ void juku_pout(juku *ctx, void* u, uint8_t p, uint8_t v) {
      * stream immediately; the controller-level test retains and checks the
      * exact WD1793 write lead-in timing. */
     const uint8_t fdc_value = ctx->fdc_bus_invert ? (uint8_t)~v : v;
-    if (p == 0x1C && (fdc_value & 0xE0) == 0xA0)
+    if (!DAC_JUKU_EXPERIMENTAL_FDC_SYNC && p == 0x1C && (fdc_value & 0xE0) == 0xA0)
       ctx->fdc.write_sector_lead_pending = 0;
   }
   if (ctx->usart.enabled && p >= 0x08 && p <= 0x0B)
@@ -1022,6 +1058,9 @@ juku *juku_create(void) {
   ctx->cpu.userdata = ctx;
   ctx->cpu.read_byte = cpu_read; ctx->cpu.write_byte = cpu_write;
   ctx->cpu.port_in = cpu_in; ctx->cpu.port_out = cpu_out;
+#if DAC_JUKU_EXPERIMENTAL_FDC_SYNC
+  ctx->cpu.io_ready = cpu_io_ready;
+#endif
   juku_pit_init(ctx);
   return ctx;
 }
