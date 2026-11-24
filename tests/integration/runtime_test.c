@@ -568,10 +568,51 @@ static void debugger(void) {
   assert(!dac_debug_break(s, 0) && dac_debug_run(s, 10) == 10);
   dac_destroy(s);
 }
+static void juku_scanout_snapshots(void) {
+  uint8_t rom[16384] = {0};
+  const uint8_t writes[][2] = {
+    {0x13,0x15},{0x13,0x53},{0x13,0x93},
+    {0x17,0x34},{0x17,0x73},{0x17,0x93},
+    {0x10,0x64},{0x11,0x24},{0x12,0x08},
+    {0x14,0x39},{0x14,0x01},{0x15,0x72},{0x15,0},{0x16,0x25}
+  };
+  unsigned offset=0;
+  for(unsigned i=0;i<sizeof(writes)/sizeof(writes[0]);i++) {
+    rom[offset++]=0x3e;rom[offset++]=writes[i][1];
+    rom[offset++]=0xd3;rom[offset++]=writes[i][0];
+  }
+  const uint8_t end[]={0x3e,0x80,0x32,0,0xd8,0x76};
+  memcpy(rom+offset,end,sizeof(end));
+  dac_session *a=dac_create(0), *b=dac_create(0);
+  assert(a&&b&&!dac_load(a,0,rom,sizeof(rom))&&!dac_load(b,0,rom,sizeof(rom)));
+  assert(!dac_power(a,1)&&!dac_power(b,1));
+  for(unsigned i=0;i<4;i++)assert(dac_run(a,40064)>=40064);
+  assert(dac_run(a,777)>=777);
+  unsigned n=dac_state_size(a);void *saved=malloc(n),*left=malloc(n),*right=malloc(n);
+  assert(saved&&left&&right&&!dac_state_save(a,saved,n));
+  assert(!dac_state_load(b,saved,n));
+  for(unsigned i=0;i<4;i++) {
+    assert(dac_run(a,10000)==dac_run(b,10000));
+    const uint32_t *pa=dac_video(a),*pb=dac_video(b);
+    assert(pa&&pb&&dac_width(a)==320&&dac_height(a)==241);
+    assert(!memcmp(pa,pb,320*241*4));
+    assert(pa[0]!=pa[1]); /* first fetched bit is lit; adjacent one is dark */
+  }
+  assert(!dac_state_save(a,left,n)&&!dac_state_save(b,right,n));
+  assert(!memcmp(left,right,n));
+  ((uint32_t*)saved)[1]=10; /* previous Juku snapshot version */
+  assert(dac_state_load(b,saved,n)<0);
+  assert(!dac_state_save(b,right,n)&&!memcmp(left,right,n));
+  assert(!dac_reset(b));
+  for(unsigned i=0;i<4;i++)dac_run(b,40064);
+  assert(dac_video(b)&&dac_width(b)==320&&dac_height(b)==241);
+  free(saved);free(left);free(right);dac_destroy(a);dac_destroy(b);
+}
 int main(int argc,char **argv) {
   if(argc==3&&!strcmp(argv[1],"--s600")){uint8_t rom[2048];FILE *f=fopen(argv[2],"rb");assert(f&&fread(rom,1,sizeof(rom),f)==sizeof(rom)&&fgetc(f)==EOF);fclose(f);s600_workload(rom);return 0;}
   if(argc!=1){fprintf(stderr,"usage: runtime-test [--s600 path/to/S600.bin]\n");return 2;}
 
+  juku_scanout_snapshots();
   mixed_workload_snapshots(0);
   mixed_workload_snapshots(1);
   debugger();

@@ -11,15 +11,19 @@ void juku_destroy(juku *);
  * Unlike the legacy CLI, this does not patch firmware checksums. */
 int juku_load_rom(juku *, const void *, size_t);
 /* Borrowed packed monochrome framebuffer, valid until destroy; contents and
- * dimensions may change on subsequent steps. */
+ * dimensions may change on subsequent steps. Height is bounded by the
+ * remaining RAM; use juku_frame for the acquired display. */
 const uint8_t *juku_video(juku *, unsigned *stride, unsigned *lines);
+/* Last completed packed monochrome scanout, NULL until the first frame.
+ * Borrowed until the next frame publication/reset/destroy. */
+const uint8_t *juku_frame(juku *, unsigned *stride, unsigned *lines, uint64_t *sequence);
 /* Interactive single-contact keyboard; key=0, down=0 releases all. */
 void juku_key(juku *, uint8_t key, int down);
 void juku_step(juku *);
 /* Stops at instruction boundaries: may exceed budget by the last instruction
  * and interrupt entry effects. Returns actual CPU cycles advanced. A halted
- * CPU with no progress returns early; advancing halted clock time is not yet
- * modeled by the inherited instruction-granular core. */
+ * CPU advances idle time when a timer is armed; without a clocked device it
+ * returns early. Guest bus accesses remain instruction-granular. */
 unsigned long juku_run(juku *, unsigned long budget);
 /* Split stepping is for native instrumentation between CPU and device steps. */
 void juku_step_cpu(juku *);

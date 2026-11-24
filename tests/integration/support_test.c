@@ -38,7 +38,7 @@ static void instances(void) {
   assert(oa.events == 3 && ob.events > 3);
   assert(juku_load_rom(a, program, sizeof(program)) == -EBUSY);
   a->frame_cyc = 40000;
-  assert(juku_run(a, 100) == 0); /* halted execution remains bounded */
+  assert(juku_run(a, 100) == 100); /* halted clock advances within budget */
   unsigned stride, lines;
   assert(juku_video(a, &stride, &lines) == a->ram + VRAM_BASE);
   assert(stride == 40 && lines == 241);

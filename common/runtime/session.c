@@ -369,7 +369,7 @@ int dac_power(dac_session *s, int on) {
     free(s->j);
     s->j = next;
     juku_load_rom(s->j, s->firmware, s->firmware_size);
-    s->j->frame_cyc = s->j->next_frame = 40000;
+    s->j->frame_cyc = s->j->next_frame = 0; /* D55 drives IR5. */
     juku_key(s->j, 0, 0);
     if (s->disk) {
       int heads = s->disk_size == JUK_DOUBLE_SIDED_SIZE ? 2 : 1;
@@ -602,7 +602,11 @@ const uint32_t *dac_video(dac_session *s) {
   } else {
     unsigned stride = 40, lines = 241;
     const uint8_t *p =
-        s->v ? s->v->ram + 0xd800 : juku_video(s->j, &stride, &lines);
+        s->v ? s->v->ram + 0xd800 : juku_frame(s->j, &stride, &lines, NULL);
+    if (!p) {
+      for (unsigned i=0;i<s->width*s->height;i++) s->pixels[i]=0xff101812;
+      return s->pixels;
+    }
     if (stride * 8 > 640 || lines > 384)
       return NULL;
     s->width = stride * 8;
@@ -1261,7 +1265,7 @@ static int other_state_save(dac_session *s, void *p, size_t n) {
   if (s->disk_size)
     memcpy(payload + size, s->disk, s->disk_size);
   state_header h = {0x44414353,
-                    10 + s->kind,
+                    (s->j ? 20 : 10 + s->kind),
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -1278,7 +1282,7 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
   state_header h;
   memcpy(&h, p, sizeof(h));
   const uint8_t *payload = (const uint8_t *)p + sizeof(h);
-  if (h.magic != 0x44414353 || h.version != 10 + s->kind || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != (s->j ? 20 : 10 + s->kind) || h.size != n ||
       h.disk_size != s->disk_size || h.writable != (unsigned)s->writable ||
       h.disk_b_size || h.writable_b ||
       h.crc != state_crc(payload, n - sizeof(h)))
@@ -1311,11 +1315,14 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
     memcpy(j, payload, sizeof(*j));
     juku_fdc *f = &j->fdc;
     int bad =
-        !j->frame_cyc || memcmp(j->rom, s->firmware, 16384) ||
-        j->video_modx_sequence >= 6 || j->video_stock_sequence >= 5 ||
-        j->video_64_sequence >= 5 || !j->video_stride || j->video_stride > 80 ||
+        memcmp(j->rom, s->firmware, 16384) ||
+        !j->video_stride || j->video_stride > 80 ||
         !j->video_lines || j->video_lines > 384 ||
-        j->video_stride * j->video_lines > 10240 || j->mode < 0 ||
+        j->scanout.frame_stride > JUKU_SCAN_STRIDE ||
+        j->scanout.frame_lines > JUKU_SCAN_LINES ||
+        j->scanout.x > JUKU_SCAN_STRIDE || j->scanout.y > JUKU_SCAN_LINES ||
+        j->scanout.width > JUKU_SCAN_STRIDE || j->scanout.rows > JUKU_SCAN_LINES ||
+        j->mode < 0 ||
         j->mode > 3 || j->console_len < 0 || j->console_len >= CONSOLE_QUEUE ||
         j->console_visible_len < 0 || j->console_visible_len > CONSOLE_QUEUE ||
         f->buffer_len > sizeof(f->buffer) || f->buffer_pos > f->buffer_len ||
@@ -1326,6 +1333,21 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
         f->write_track_pending_sector < 0 ||
         f->write_track_pending_sector > 10 || f->write_track_state < 0 ||
         f->write_track_state > 4;
+    bad |= j->scanout.next_byte_ns <= j->scanout.ns ||
+           j->scanout.next_byte_ns - j->scanout.ns > 1000 ||
+           j->scanout.address > 65535 ||
+           j->scanout.frame_started > 1 || j->scanout.line_active > 1 ||
+           j->scanout.irq_pending > 1 || j->scanout.frame_event > 1 ||
+           j->scanout.hsync_active > 1;
+    for (unsigned chip=0;chip<2;chip++) for (unsigned ch=0;ch<3;ch++) {
+      const pit_counter *counter=&j->pit_counters[chip][ch];
+      bad |= counter->counter > 65536 || counter->reload > 65536 ||
+             !counter->access || counter->access > 3 || counter->mode > 5 ||
+             counter->bcd > 1 || counter->gate > 1 || counter->output > 1 ||
+             counter->armed > 1 || counter->running > 1 || counter->pending > 1 ||
+             counter->trigger > 1 || counter->write_phase > 1 || counter->read_phase > 1 ||
+             counter->latch_valid > 1;
+    }
     if (bad) {
       free(j);
       return -EINVAL;

@@ -333,3 +333,14 @@ test-pc1715-video: build/pc1715-video-test
 build/pc1715-video-sanitize: tests/integration/pc1715_video_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
 	@mkdir -p build
 	$(CC) $(CPPFLAGS) -std=c11 -O1 -g -fsanitize=address,undefined tests/integration/pc1715_video_test.c $(RUNTIME_SOURCES) -o $@
+
+build/juku-video-test: tests/integration/juku_video_test.c build/libdac-juku.a
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< build/libdac-juku.a -o $@
+.PHONY: test-juku-video
+test-juku-video: build/juku-video-test
+	./build/juku-video-test
+test: test-juku-video
+build/libdac-runtime.so build/runtime-test build/browser-reference: .EXTRA_PREREQS += machines/juku/video.inc
+
+build/juku-video-capture: verification/juku-video/capture.c build/libdac-juku.a
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< build/libdac-juku.a -o $@

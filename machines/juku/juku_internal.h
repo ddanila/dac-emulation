@@ -25,6 +25,7 @@ typedef struct {
  void (*memory_read)(void *, uint16_t, uint8_t);
  void (*log)(void *, const char *);
  void (*frame)(void *, unsigned long);
+ void (*video_signal)(void *, uint64_t, unsigned, uint8_t);
 } juku_hooks;
 typedef struct {
   uint16_t count_register;
@@ -36,7 +37,21 @@ typedef struct {
   uint8_t latch_valid;
   uint8_t bcd;
   uint8_t mode;
+  uint32_t counter, reload;
+  uint8_t output, gate, armed, running, pending, trigger;
 } pit_counter;
+#define JUKU_SCAN_STRIDE 80u
+#define JUKU_SCAN_LINES 384u
+typedef struct {
+  unsigned long last_cycle;
+  uint64_t ns, next_byte_ns, hsync_end_ns;
+  unsigned x, y, width, rows, address;
+  unsigned frame_stride, frame_lines;
+  uint64_t sequence;
+  uint8_t hsync_active, line_active, frame_started, irq_pending, frame_event;
+  uint8_t draw[JUKU_SCAN_STRIDE * JUKU_SCAN_LINES];
+  uint8_t frame[JUKU_SCAN_STRIDE * JUKU_SCAN_LINES];
+} juku_scanout;
 typedef struct {
   int enabled;
   int expect_mode;
@@ -86,11 +101,9 @@ struct juku {
   uint8_t ram[65536];
   int mode;
   uint8_t portc;
+  juku_scanout scanout;
   unsigned int video_stride;
   unsigned int video_lines;
-  unsigned int video_modx_sequence;
-  unsigned int video_stock_sequence;
-  unsigned int video_64_sequence;
   int video_modx_mode;
   unsigned int video_console_mode;
   uint8_t kbd_s21_config;
@@ -242,7 +255,8 @@ struct juku {
 int juku_is_pit_data_port(juku *ctx, uint8_t port);
 pit_counter* juku_pit_counter_for_port(juku *ctx, uint8_t port);
 void juku_pit_write(juku *ctx, uint8_t port, uint8_t value);
-void juku_video_observe_pit_write(juku *ctx, uint8_t port, uint8_t value);
+void juku_video_advance(juku *ctx);
+void juku_video_signals(juku *ctx, const uint8_t before[6]);
 uint8_t juku_pit_read(juku *ctx, uint8_t port);
 void juku_pit_init(juku *ctx);
 uint8_t juku_apply_ram_fault(juku *ctx, uint16_t address, uint8_t value);

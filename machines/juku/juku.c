@@ -57,7 +57,10 @@ pit_counter* juku_pit_counter_for_port(juku *ctx, uint8_t port) {
   return &ctx->pit_counters[chip][channel];
 }
 
+#include "video.inc"
+
 void juku_pit_write(juku *ctx, uint8_t port, uint8_t value) {
+  juku_video_advance(ctx);
   (void)ctx;
   unsigned chip = (port - 0x10) >> 2;
   unsigned reg = port & 3;
@@ -70,7 +73,7 @@ void juku_pit_write(juku *ctx, uint8_t port, uint8_t value) {
       // A pending latch owns the output latch until its programmed byte(s)
       // are consumed; later counter-latch commands are ignored.
       if (!counter->latch_valid) {
-        counter->output_latch = counter->count_register;
+        counter->output_latch = chip < 2 ? pit_encoded(counter) : counter->count_register;
         counter->latch_valid = 1;
         counter->read_phase = 0;
       }
@@ -82,13 +85,18 @@ void juku_pit_write(juku *ctx, uint8_t port, uint8_t value) {
       counter->write_phase = 0;
       counter->read_phase = 0;
       counter->latch_valid = 0;
+      if (chip < 2) {
+        uint8_t before[6]; video_outputs(ctx, before);
+        counter->armed = counter->running = counter->pending = counter->trigger = 0;
+        counter->output = counter->mode != 0;
+        juku_video_signals(ctx, before);
+      }
     }
     return;
   }
 
   pit_counter* counter = &ctx->pit_counters[chip][reg];
-  counter->latch_valid = 0;
-  counter->read_phase = 0;
+  if (chip == 2) { counter->latch_valid = 0; counter->read_phase = 0; }
   if (counter->access == 1) {
     counter->count_register = value;
   } else if (counter->access == 2) {
@@ -97,89 +105,27 @@ void juku_pit_write(juku *ctx, uint8_t port, uint8_t value) {
     if (!counter->write_phase) {
       counter->write_latch = value;
       counter->write_phase = 1;
+      if (chip < 2 && counter->mode == 0) counter->running = 0;
       return;
     }
     counter->count_register = (uint16_t)(((uint16_t)value << 8) |
                                          (counter->write_latch & 0xFF));
     counter->write_phase = 0;
   }
-}
-
-void juku_video_observe_pit_write(juku *ctx, uint8_t port, uint8_t value) {
-  (void)ctx;
-  /* MODX's resident console programs D54/D55 with this exact sequence.  The
-     resulting timing is a 400x192 bitmap: 50 bytes per raster line and 24
-     eight-scanline text rows.  Keep the stock 320x241 view until the complete
-     signature is observed so ordinary EktaSoft video remains unchanged. */
-  static const uint8_t modx_sequence[][2] = {
-    {0x17, 0x73}, {0x11, 0x14}, {0x12, 0x03},
-    {0x15, 0x1A}, {0x15, 0x01}, {0x16, 0x45},
-  };
-  static const uint8_t stock_sequence[][2] = {
-    {0x11, 0x24}, {0x12, 0x08}, {0x15, 0x72},
-    {0x15, 0x00}, {0x16, 0x25},
-  };
-  static const uint8_t mode64_sequence[][2] = {
-    {0x11, 0x16}, {0x12, 0x04}, {0x15, 0x12},
-    {0x15, 0x01}, {0x16, 0x45},
-  };
-  const unsigned sequence_length =
-      (unsigned)(sizeof(modx_sequence) / sizeof(modx_sequence[0]));
-
-  if (port == modx_sequence[ctx->video_modx_sequence][0] &&
-      value == modx_sequence[ctx->video_modx_sequence][1]) {
-    ctx->video_modx_sequence++;
-    if (ctx->video_modx_sequence == sequence_length) {
-      ctx->video_stride = 50;
-      ctx->video_lines = 192;
-      ctx->video_modx_mode = 1;
-      ctx->video_console_mode = 3;
-      ctx->video_modx_sequence = 0;
-      juku_log(ctx, "[VIDEO] recognized MODX 400x192 timing\n");
-    }
-    return;
+  if (chip < 2) {
+    counter->reload = pit_decode(counter->count_register, counter->bcd);
+    counter->armed = 1;
+    if (counter->mode != 1 && counter->mode != 5)
+      counter->pending = 1;
   }
-
-  ctx->video_modx_sequence =
-      (port == modx_sequence[0][0] && value == modx_sequence[0][1]) ? 1 : 0;
-
-  do {
-    const unsigned length = (unsigned)(sizeof(stock_sequence) / sizeof((stock_sequence)[0]));
-    if (port == (stock_sequence)[ctx->video_stock_sequence][0] && value == (stock_sequence)[ctx->video_stock_sequence][1]) {
-      (ctx->video_stock_sequence)++;
-      if ((ctx->video_stock_sequence) == length) {
-        ctx->video_stride = (40);
-        ctx->video_lines = (241);
-        ctx->video_modx_mode = 0;
-        ctx->video_console_mode = ((ctx->kbd_s21_config >> 1) & 1);
-        (ctx->video_stock_sequence) = 0;
-      }
-    } else {
-      (ctx->video_stock_sequence) = (port == (stock_sequence)[0][0] && value == (stock_sequence)[0][1]) ? 1 : 0;
-    }
-  } while (0);
-  do {
-    const unsigned length = (unsigned)(sizeof(mode64_sequence) / sizeof((mode64_sequence)[0]));
-    if (port == (mode64_sequence)[ctx->video_64_sequence][0] && value == (mode64_sequence)[ctx->video_64_sequence][1]) {
-      (ctx->video_64_sequence)++;
-      if ((ctx->video_64_sequence) == length) {
-        ctx->video_stride = (48);
-        ctx->video_lines = (201);
-        ctx->video_modx_mode = 0;
-        ctx->video_console_mode = (2);
-        (ctx->video_64_sequence) = 0;
-      }
-    } else {
-      (ctx->video_64_sequence) = (port == (mode64_sequence)[0][0] && value == (mode64_sequence)[0][1]) ? 1 : 0;
-    }
-  } while (0);
 }
 
 uint8_t juku_pit_read(juku *ctx, uint8_t port) {
   (void)ctx;
   pit_counter* counter = juku_pit_counter_for_port(ctx, port);
+  juku_video_advance(ctx);
   uint16_t value = counter->latch_valid
-      ? counter->output_latch : counter->count_register;
+      ? counter->output_latch : (port < 0x18 ? pit_encoded(counter) : counter->count_register);
   uint8_t result;
   if (counter->access == 2) {
     result = (uint8_t)(value >> 8);
@@ -201,6 +147,8 @@ void juku_pit_init(juku *ctx) {
   for (unsigned chip = 0; chip < 3; ++chip)
     for (unsigned channel = 0; channel < 3; ++channel)
       ctx->pit_counters[chip][channel].access = 3;
+  ctx->pit_counters[0][0].gate = ctx->pit_counters[1][0].gate = 1;
+  ctx->scanout.next_byte_ns = 1000;
 }
 
 uint8_t juku_apply_ram_fault(juku *ctx, uint16_t address, uint8_t value) {
@@ -620,7 +568,9 @@ int juku_vram_pixel(juku *ctx, int x, int y) {
   (void)ctx;
   if (x < 0 || x >= (int)ctx->video_stride * 8 ||
       y < 0 || y >= (int)ctx->video_lines) return 0;
-  uint8_t byte = ctx->ram[VRAM_BASE + y * ctx->video_stride + (x >> 3)];
+  unsigned address = VRAM_BASE + (unsigned)y * ctx->video_stride + ((unsigned)x >> 3);
+  if (address >= MEM_SIZE) return 0;
+  uint8_t byte = ctx->ram[address];
   return (byte >> (7 - (x & 7))) & 1;
 }
 
@@ -778,7 +728,7 @@ void juku_wb(juku *ctx, void* u, uint16_t a, uint8_t v) {
 int juku_take_pic_irq(juku *ctx, i8080* cpu, unsigned irq, const char* source,
                         unsigned long* log_count) {
   (void)ctx;
-  if (!cpu || irq > 7 || !cpu->iff || (ctx->pic_mask & (1u << irq))) return 0;
+  if (!cpu || irq > 7 || !cpu->iff || cpu->interrupt_delay || (ctx->pic_mask & (1u << irq))) return 0;
 
   uint16_t vec = ((uint16_t)ctx->pic_icw2 << 8) | (ctx->pic_icw1 & 0xE0) | (irq << 2);
   if ((*log_count)++ < 3)
@@ -885,7 +835,7 @@ void juku_pout(juku *ctx, void* u, uint8_t p, uint8_t v) {
     juku_usart_write(ctx, p & 1, v, cpu ? cpu->cyc : 0);
   if (p >= 0x10 && p <= 0x1B) {
     juku_pit_write(ctx, p, v);
-    if (p <= 0x17) juku_video_observe_pit_write(ctx, p, v);
+
     if (ctx->usart_pit_clock && p == 0x18 && v) {
       /* D57 CLK0 is 16 MHz / 13.  Preserve the PIT's BCD interpretation and
          recompute after either the count or the 8251 x1/x16/x64 mode changes. */
@@ -898,7 +848,7 @@ void juku_pout(juku *ctx, void* u, uint8_t p, uint8_t v) {
   if (p == 0x04) ctx->kbd_col = v & 0x0F;   // 8255 Port A low nibble = keyboard column select
 
   // 8259 PIC programming (port 0x00 = A0=0, port 0x01 = A0=1)
-  if (p == 0x00) { if (v & 0x10) { ctx->pic_icw1 = v; ctx->pic_expect_icw2 = 1; } }   // ICW1
+  if (p == 0x00) { if (v & 0x10) { ctx->scanout.irq_pending = 0; ctx->pic_icw1 = v; ctx->pic_expect_icw2 = 1; } }   // ICW1
   else if (p == 0x01) {
     if (ctx->pic_expect_icw2) { ctx->pic_icw2 = v; ctx->pic_expect_icw2 = 0; }             // ICW2 (vector hi)
     else ctx->pic_mask = v;                                                       // OCW1 (mask)
@@ -924,7 +874,7 @@ void juku_pout(juku *ctx, void* u, uint8_t p, uint8_t v) {
 }
 
 static uint8_t cpu_read(void *p, uint16_t a) { juku *ctx = p; return juku_rb(ctx, &ctx->cpu, a); }
-static void cpu_write(void *p, uint16_t a, uint8_t v) { juku *ctx = p; juku_wb(ctx, &ctx->cpu, a, v); }
+static void cpu_write(void *p, uint16_t a, uint8_t v) { juku *ctx = p; juku_video_advance(ctx); juku_wb(ctx, &ctx->cpu, a, v); }
 static uint8_t cpu_in(void *p, uint8_t a) { juku *ctx = p; return juku_pin(ctx, &ctx->cpu, a); }
 static void cpu_out(void *p, uint8_t a, uint8_t v) { juku *ctx = p; juku_pout(ctx, &ctx->cpu, a, v); }
 
@@ -935,9 +885,6 @@ juku *juku_create(void) {
   ctx->portc = 0;
   ctx->video_stride = 40;
   ctx->video_lines = 241;
-  ctx->video_modx_sequence = 0;
-  ctx->video_stock_sequence = 0;
-  ctx->video_64_sequence = 0;
   ctx->video_modx_mode = 0;
   ctx->video_console_mode = 0;
   ctx->kbd_s21_config = 0;
@@ -1089,11 +1036,19 @@ int juku_load_rom(juku *ctx, const void *bytes, size_t size) {
 const uint8_t *juku_video(juku *ctx, unsigned *stride, unsigned *lines) {
   if (!ctx) return NULL;
   if (stride) *stride = ctx->video_stride;
-  if (lines) *lines = ctx->video_lines;
+  if (lines) {
+    unsigned available = (MEM_SIZE - VRAM_BASE) / ctx->video_stride;
+    *lines = ctx->video_lines < available ? ctx->video_lines : available;
+  }
   return ctx->ram + VRAM_BASE;
 }
-void juku_step_cpu(juku *ctx) { i8080_step(&ctx->cpu); }
+void juku_step_cpu(juku *ctx) {
+  if (ctx->cpu.halted && (ctx->frame_cyc || ctx->pit_counters[0][0].armed))
+    ctx->cpu.cyc += 4;
+  else i8080_step(&ctx->cpu);
+}
 void juku_step_devices(juku *ctx) {
+    juku_video_advance(ctx);
     juku_sync_fdc_time(ctx, &ctx->cpu);
     juku_usart_poll(ctx, ctx->cpu.cyc);
     // D11 RxRDY and TxRDY directly drive D10/PIC IR2 and IR3.  NetBios is
@@ -1117,14 +1072,21 @@ void juku_step_devices(juku *ctx) {
     if (ctx->usart_tx_irq_pending &&
         juku_take_pic_irq(ctx, &ctx->cpu, 3, "USART TxRDY", &ctx->usart_tx_irq_count))
       ctx->usart_tx_irq_pending = 0;
+    int hardware_frame_taken = 0;
+    if (!ctx->frame_cyc && ctx->scanout.irq_pending) {
+      hardware_frame_taken = juku_take_pic_irq(ctx, &ctx->cpu, 5, "frame", &ctx->frame_irq_count);
+      if (hardware_frame_taken) ctx->scanout.irq_pending = 0;
+    }
     // --- frame interrupt: 8253 VER-RTR -> 8259 IR5 -> CPU (MCS-80 CALL to the ICW vector) ---
-    if (ctx->frame_cyc && clock_due(ctx->cpu.cyc, ctx->next_frame)) {
-      ctx->next_frame += ctx->frame_cyc;
+    if ((ctx->frame_cyc && clock_due(ctx->cpu.cyc, ctx->next_frame)) ||
+        (!ctx->frame_cyc && ctx->scanout.frame_event)) {
+      if (ctx->frame_cyc) ctx->next_frame += ctx->frame_cyc;
+      ctx->scanout.frame_event = 0;
       // A host PTY byte represents a physical contact. Publish newly queued
       // contacts only at a frame boundary so they cannot appear halfway
       // through one guest matrix sweep. Scripted JUKU_KEYS are unchanged.
       if (ctx->kbd_str == ctx->console_queue) ctx->console_visible_len = ctx->console_len;
-      int frame_taken = juku_take_pic_irq(ctx, &ctx->cpu, 5, "frame", &ctx->frame_irq_count);
+      int frame_taken = ctx->frame_cyc ? juku_take_pic_irq(ctx, &ctx->cpu, 5, "frame", &ctx->frame_irq_count) : hardware_frame_taken;
       char frame_key = juku_kbd_current_char(ctx);
       if (ctx->kbd_trace && frame_key)
         juku_log(ctx, "[KBD] frame char=%02X pos=%d phase=%d irq=%s iff=%d mask=%02X "
@@ -1161,7 +1123,7 @@ void juku_step_devices(juku *ctx) {
 void juku_step(juku *ctx) { juku_step_cpu(ctx); juku_step_devices(ctx); }
 unsigned long juku_run(juku *ctx, unsigned long budget) {
   unsigned long start = ctx->cpu.cyc;
-  while (ctx->cpu.cyc - start < budget && (!ctx->cpu.halted || ctx->frame_cyc)) {
+  while (ctx->cpu.cyc - start < budget && (!ctx->cpu.halted || ctx->frame_cyc || ctx->pit_counters[0][0].armed)) {
     unsigned long before = ctx->cpu.cyc;
     juku_step(ctx);
     if (ctx->cpu.cyc == before) break;

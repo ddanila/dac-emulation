@@ -1,0 +1,109 @@
+{
+  "status": "digital_timing_implemented_feditor_acceptance_open",
+  "issue": "https://github.com/infoaed/juku3000/issues/17",
+  "native": {
+    "jmon33": {
+      "cycles": 10000001,
+      "frames": 248,
+      "width": 320,
+      "height": 240,
+      "ekdos_prompt": false,
+      "frame_irqs": 234
+    },
+    "ekta37": {
+      "cycles": 30000002,
+      "frames": 747,
+      "width": 320,
+      "height": 241,
+      "ekdos_prompt": true,
+      "frame_irqs": 673
+    },
+    "modx": {
+      "cycles": 40000006,
+      "frames": 997,
+      "width": 400,
+      "height": 193,
+      "ekdos_prompt": false,
+      "frame_irqs": 922
+    },
+    "monitor33_display": "Native baseline and updated core both lack the MONITOR 3.3 header in the sampled frame; geometry validation is not full monitor-display validation."
+  },
+  "wasm": {
+    "33": {
+      "cycles": 10000001,
+      "width": 320,
+      "height": 240
+    },
+    "37": {
+      "cycles": 10000002,
+      "width": 320,
+      "height": 241
+    }
+  },
+  "mame": {
+    "version": "0.289",
+    "source_tag": "mame0289",
+    "source_commit": "d0b7160e54874fa58f553614db373d73100d5ecb",
+    "monitor33": {
+      "width": 320,
+      "height": 714,
+      "capture_frame": 150
+    },
+    "process_exit": 0,
+    "crash_reproduced": false,
+    "excess_height_and_garbage_reproduced": true,
+    "screenshot_sha256": "e19dc732da1c9385e2f5df4802abcce46d6e9d157255f07a811fed3966bfac85"
+  },
+  "inputs": {
+    "jmon33_rom_sha256": "ce9e9c63abbb1780566423a871081bd0bf048a2f3c79e370b465ea9869ff51b8",
+    "ekta37_rom_sha256": "fc44df76b2601ab81745f2512edb7a56bb24dca6419e7173a5bf11cae4c1fc27",
+    "browser_disk": {
+      "url": "https://infoaed.ee/juku/prog1.juk",
+      "sha256": "dc3e9edf3e3f21222ed3fbe959d03635ca090eb7cdea0e68de5492e9f115416e"
+    }
+  },
+  "feditor": {
+    "status": "blocked_missing_executable",
+    "sources_checked": [
+      "https://infoaed.ee/juku/prog1.juk",
+      "https://infoaed.ee/juku/game1.juk",
+      "https://infoaed.ee/juku/game2.juk",
+      "https://elektroonikamuuseum.ee/failid/juku/tarkvara/",
+      "https://arti.ee/juku/tarkvara/",
+      "https://web.archive.org/web/20250619221522id_/https://infoaed.ee/juku/prog1.juk",
+      "https://j3k.infoaed.ee/tarkvara-kataloog.txt"
+    ],
+    "museum_images_checked": 47,
+    "arti_archives_checked": [
+      "JUKU1.7Z",
+      "JUKU2.7Z",
+      "juku_e5101_part01.rar",
+      "juku_e5101_part02.rar"
+    ],
+    "finding": "Browser prog1 contains deleted font-file entries and help text naming FEDITOR.COM, but no active FEDITOR.COM directory entry. No executable was located in the checked collections."
+  },
+  "hdl_crosscheck": {
+    "status": "blocked_existing_elaboration_errors",
+    "tool": "iverilog",
+    "symbols": [
+      "pit_hchain",
+      "pit_vchain",
+      "hor_rtr",
+      "d94_d1_d99_a2n"
+    ],
+    "reason": "declaration after use in current 8080-cosim/hdl/juku_top.v"
+  },
+  "unverified": [
+    "FEDITOR startup/editing/exit and complete transition frames",
+    "physical video address preset/load and porch-dependent mapping",
+    "full digital equivalence against the HDL bench",
+    "Physical 8253 behavior for MODX invalid BCD count 011A"
+  ],
+  "validation": {
+    "make_test": "pass",
+    "make_test_wasm": "pass",
+    "address_and_undefined_behavior_sanitizers": "pass",
+    "native_log_sha256": "7832b3154c573b3848488715f9fadf00a2e4cf9f10822e42cb16ce6b6fbb60d9",
+    "wasm_log_sha256": "77e7c9f6b8b49305bedd5d4adcc0265b990eb8159abf748b34e5849365966823"
+  }
+}

@@ -71,7 +71,18 @@ rom[256:576]=''.join(x.upper().ljust(80) for x in text).encode('ascii')
 (OUT/'cas.bin').write_bytes(bytes([15])*256)
 # 8080-compatible demo draws a pixel pattern on the real Juku/VJUGA RAM bus.
 j=bytearray(16384);j[:19]=bytes([0xf3,0x21,0x00,0xd8,0x01,0xa8,0x25,0x78,0xa9,0x77,0x23,0x0b,0x78,0xb1,0xc2,7,0,0x76,0])
-(OUT/'juku.bin').write_bytes(j)
+# The Juku display is clocked by guest-programmed D54/D55 counters.
+video = bytearray()
+for port, value in [(0x13,0x15),(0x13,0x53),(0x13,0x93),
+                    (0x17,0x34),(0x17,0x73),(0x17,0x93),
+                    (0x10,0x64),(0x11,0x24),(0x12,0x08),
+                    (0x14,0x39),(0x14,0x01),(0x15,0x72),(0x15,0),(0x16,0x25)]:
+ video.extend([0x3e,value,0xd3,port])
+juku = bytearray(16384)
+juku[:len(video)] = video
+juku[len(video):len(video)+19] = j[:19]
+juku[len(video)+15] = len(video)+7
+(OUT/'juku.bin').write_bytes(juku)
 (OUT/'vjuga.bin').write_bytes(j)
 (OUT/'manifest.json').write_text(json.dumps({'license':'MIT','description':'Original DAC diagnostics; not historical firmware','sha256':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in OUT.glob('*.bin')}},indent=2)+'\n')
 print('Built original diagnostic ROMs and glyphs')

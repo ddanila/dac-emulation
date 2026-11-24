@@ -110,7 +110,8 @@ static volatile sig_atomic_t checkpoint_requests;
 static volatile sig_atomic_t tpa_measurement_requests;
 static int usart_fd = -1;
 static FILE * video_capture_fp;
-static uint8_t video_capture_previous[9640];
+static uint8_t video_capture_previous[JUKU_SCAN_STRIDE * JUKU_SCAN_LINES];
+static unsigned video_capture_stride, video_capture_lines;
 static int video_capture_has_previous;
 static FILE * cpm_disk_trace_fp;
 static unsigned long cpm_disk_trace_sequence;
@@ -242,17 +243,19 @@ static void console_poll(juku *ctx) {
 
 static void capture_video_frame(juku *ctx, unsigned long cycle) {
   if (!video_capture_fp) return;
-  size_t size = (size_t)ctx->video_stride * ctx->video_lines;
-  const uint8_t* frame = &ctx->ram[VRAM_BASE];
-  if (video_capture_has_previous &&
-      memcmp(video_capture_previous, frame, size) == 0) return;
+  unsigned frame_stride, frame_lines;
+  const uint8_t* frame = juku_frame(ctx, &frame_stride, &frame_lines, NULL);
+  if (!frame) return;
+  size_t size = (size_t)frame_stride * frame_lines;
+  if (video_capture_has_previous && video_capture_stride == frame_stride &&
+      video_capture_lines == frame_lines && memcmp(video_capture_previous, frame, size) == 0) return;
   (void)cycle;
   struct timespec captured_at;
   clock_gettime(CLOCK_MONOTONIC, &captured_at);
   uint64_t timestamp = (uint64_t)captured_at.tv_sec * 1000000000u +
       (uint64_t)captured_at.tv_nsec;
-  uint16_t stride = (uint16_t)ctx->video_stride;
-  uint16_t lines = (uint16_t)ctx->video_lines;
+  uint16_t stride = (uint16_t)frame_stride;
+  uint16_t lines = (uint16_t)frame_lines;
   if (fwrite(&timestamp, sizeof(timestamp), 1, video_capture_fp) != 1 ||
       fwrite(&stride, sizeof(stride), 1, video_capture_fp) != 1 ||
       fwrite(&lines, sizeof(lines), 1, video_capture_fp) != 1 ||
@@ -263,6 +266,8 @@ static void capture_video_frame(juku *ctx, unsigned long cycle) {
     return;
   }
   memcpy(video_capture_previous, frame, size);
+  video_capture_stride = frame_stride;
+  video_capture_lines = frame_lines;
   video_capture_has_previous = 1;
 }
 
@@ -559,7 +564,7 @@ int main(int argc, char** argv) {
   juku *ctx = juku_create();
   if (!ctx) return 2;
   ctx->hooks = (juku_hooks){ctx, host_serial_read, host_serial_write,
-      host_serial_wait, host_memory_read, host_log, host_frame};
+      host_serial_wait, host_memory_read, host_log, host_frame, NULL};
   ctx->bus_trace.emit = host_bus_trace;
   ctx->bus_trace.user = ctx;
   signal(SIGTERM, request_termination);
@@ -1264,7 +1269,7 @@ int main(int argc, char** argv) {
       env_enabled(getenv("JUKU_TPA_STACK_TRACE"));
   uint16_t pc_history[256] = {0};
   unsigned pc_history_pos = 0;
-  while (ctx->cpu.cyc < max_cyc && (!ctx->cpu.halted || ctx->frame_cyc) &&
+  while (ctx->cpu.cyc < max_cyc && (!ctx->cpu.halted || ctx->frame_cyc || ctx->pit_counters[0][0].armed) &&
          !(ctx->g_vw_limit && ctx->g_vw >= ctx->g_vw_limit) &&
          !(checkpoint_cyc && ctx->cpu.cyc >= checkpoint_cyc) &&
          !(stop_pc_enabled && ctx->usart.rx_bytes >= stop_pc_after_usart_rx &&
@@ -1321,9 +1326,6 @@ int main(int argc, char** argv) {
       juku_set_mode(ctx, 0);
       ctx->video_stride = VID_DEFAULT_STRIDE;
       ctx->video_lines = VID_DEFAULT_LINES;
-      ctx->video_modx_sequence = 0;
-      ctx->video_stock_sequence = 0;
-      ctx->video_64_sequence = 0;
       ctx->video_modx_mode = 0;
       ctx->video_console_mode = 0;
       juku_usart_reset(ctx);
@@ -1355,9 +1357,6 @@ int main(int argc, char** argv) {
       juku_set_mode(ctx, 0);
       ctx->video_stride = VID_DEFAULT_STRIDE;
       ctx->video_lines = VID_DEFAULT_LINES;
-      ctx->video_modx_sequence = 0;
-      ctx->video_stock_sequence = 0;
-      ctx->video_64_sequence = 0;
       ctx->video_modx_mode = 0;
       ctx->video_console_mode = 0;
     }
