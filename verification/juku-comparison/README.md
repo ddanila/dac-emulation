@@ -91,3 +91,7 @@ specialized native/WASM and controller tests remain separate.
 
 Controller polarity, JUSS input and historical bootstrap coverage are provided
 by the separate [issue #16 investigation](../juku-fdc-variants/README.md).
+
+Disk-image ordering and BDOS file I/O across the head boundary are covered by
+the separate [issue #23 investigation](../juku-layout/README.md), which reuses
+these capture adapters with a generated file in explicitly selected blocks.
