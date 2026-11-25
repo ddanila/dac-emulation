@@ -1,0 +1,2340 @@
+{
+  "source_url": "https://github.com/sinijarv-juku/juku-emu",
+  "source_revision": "1b82a399240b14cc9a54679cc075983a47ccdc33",
+  "source_dirty": false,
+  "dac_revision": "41bce94ba177418a1e0330553f21131578d242dc",
+  "mame_version": "MAME v0.289 (unknown)",
+  "rustc": "rustc 1.100.0 (0ef1bc386 2026-11-09)",
+  "inputs": {
+    "rom": "fc44df76b2601ab81745f2512edb7a56bb24dca6419e7173a5bf11cae4c1fc27",
+    "monitor33": "ce9e9c63abbb1780566423a871081bd0bf048a2f3c79e370b465ea9869ff51b8",
+    "base": "dc3e9edf3e3f21222ed3fbe959d03635ca090eb7cdea0e68de5492e9f115416e",
+    "mfd": "96c00ca90cb0750d822e19872bf59376ab9f2536a68fa6e0cc04e8dfa8bd8c7f",
+    "bowling": "e08f1bab9a13b6d14c10565f17dda4abbc14d2dcbd2a43c914c5dd8aeb99814b",
+    "archive": "03d3c7a71bbffd2d53f1501a1ca42a325fd722812114192ce18ebee7d1515153"
+  },
+  "cases": {
+    "feditor-original": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "1345812c72f68fe0606bea2460d1fa3031e074f49ca6ed334f5b2716320df68f",
+        "final_pc": "0634",
+        "final_text": [
+          "   ?  ?    ?  ?    ?       ?  ???????",
+          "      ?     ??   ?     ?     ???????????",
+          "      ?   ?        ?? ??  ?  ???????????",
+          "       ?   ?    ?  ? ?    ?  ????????",
+          " ?? ??   ????? ??       ?    ?????????",
+          "       ? ????      ?       ?  ?   ??",
+          "    ???   ???   ?  ?   ?   ?    ?",
+          "  ?       ? ?        ? ?   ?    ?",
+          "?    ?          ??       ??   ?  ?  ?",
+          "?             ?  ?   ?   ??  ?  ??    ?",
+          "    ? ?????????????????????????????? ?",
+          "      ?.? ?   ?       ?     ?    ? ????",
+          "        ?   ?  ? ? ? ? ? ? ??   ?  ?????",
+          " ?    ? ? ?     ?        ?     ?   ????",
+          "        ???????????????????????????????",
+          "         ?    ??????????????????????????",
+          "???           ??????????????????????????",
+          "??        ??  ?????????????????????????",
+          "?   ?      ????????????????????????????",
+          "      ?????????????????????????????????",
+          "   ???????????????????????????????????",
+          "?????????????????????????????????????",
+          "??????????????????????????????????? ??",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "editor_dimensions": [
+          320,
+          241
+        ],
+        "space_grid_first_row": 237,
+        "font_address_prediction_matches": true,
+        "blanking": [
+          {
+            "start": 19.70453,
+            "end": 20.180643,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 25.3491495,
+            "end": 25.6177465,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 55.4275285,
+            "end": 56.288475,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 66.031621,
+            "end": 66.884803,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 80.076126,
+            "end": 81.8629575,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 124.0453885,
+            "end": 124.295056,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 136.099351,
+            "end": 137.859008,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 146.044979,
+            "end": 146.743878,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          }
+        ],
+        "blanking_honored_at_samples": true,
+        "font_file": {
+          "bytes": 1408,
+          "first_byte": 128,
+          "matches_except_first_pixel": true
+        }
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "3ef8fa981ff2496357319405e62695e946be0f4bcb932f5700cc711a8b5e0c0f",
+        "final_pc": "0499",
+        "final_text": [
+          "   ?  ?    ?  ?    ?       ?  ???????",
+          "      ?     ??   ?     ?     ???????????",
+          "      ?   ?        ?? ??  ?  ???????????",
+          "       ?   ?    ?  ? ?    ?  ????????",
+          " ?? ??   ????? ??       ?    ?????????",
+          "       ? ????      ?       ?  ?   ??",
+          "    ???   ???   ?  ?   ?   ?    ?",
+          "  ?       ? ?        ? ?   ?    ?",
+          "?    ?          ??       ??   ?  ?  ?",
+          "?             ?  ?   ?   ??  ?  ??    ?",
+          "    ? ?????????????????????????????? ?",
+          "      ?.? ?   ?       ?     ?    ? ????",
+          "        ?   ?  ? ? ? ? ? ? ??   ?  ?????",
+          " ?    ? ? ?     ?        ?     ?   ????",
+          "        ???????????????????????????????",
+          "         ?    ??????????????????????????",
+          "???           ??????????????????????????",
+          "??        ??  ?????????????????????????",
+          "?   ?      ????????????????????????????",
+          "      ?????????????????????????????????",
+          "   ???????????????????????????????????",
+          "?????????????????????????????????????",
+          "??????????????????????????????????? ??",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "editor_dimensions": [
+          320,
+          241
+        ],
+        "space_grid_first_row": 109,
+        "font_address_prediction_matches": true,
+        "blanking": [
+          {
+            "start": 29.952207,
+            "end": 30.428422,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 7056
+          },
+          {
+            "start": 41.139107,
+            "end": 41.4077125,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 14913
+          },
+          {
+            "start": 55.5440285,
+            "end": 56.4053585,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 8332
+          },
+          {
+            "start": 66.0563065,
+            "end": 66.9098275,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 6964
+          },
+          {
+            "start": 80.10092,
+            "end": 81.8878515,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 10756
+          },
+          {
+            "start": 124.0718925,
+            "end": 124.3199515,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 11451
+          },
+          {
+            "start": 136.1296105,
+            "end": 137.8916105,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 10756
+          },
+          {
+            "start": 146.0698185,
+            "end": 146.7695515,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 7711
+          }
+        ],
+        "blanking_honored_at_samples": false,
+        "font_file": {
+          "bytes": 1408,
+          "first_byte": 128,
+          "matches_except_first_pixel": true
+        }
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "1345812c72f68fe0606bea2460d1fa3031e074f49ca6ed334f5b2716320df68f",
+        "final_pc": "0634",
+        "final_text": [
+          "   ?  ?    ?  ?    ?       ?  ???????",
+          "      ?     ??   ?     ?     ???????????",
+          "      ?   ?        ?? ??  ?  ???????????",
+          "       ?   ?    ?  ? ?    ?  ????????",
+          " ?? ??   ????? ??       ?    ?????????",
+          "       ? ????      ?       ?  ?   ??",
+          "    ???   ???   ?  ?   ?   ?    ?",
+          "  ?       ? ?        ? ?   ?    ?",
+          "?    ?          ??       ??   ?  ?  ?",
+          "?             ?  ?   ?   ??  ?  ??    ?",
+          "    ? ?????????????????????????????? ?",
+          "      ?.? ?   ?       ?     ?    ? ????",
+          "        ?   ?  ? ? ? ? ? ? ??   ?  ?????",
+          " ?    ? ? ?     ?        ?     ?   ????",
+          "        ???????????????????????????????",
+          "         ?    ??????????????????????????",
+          "???           ??????????????????????????",
+          "??        ??  ?????????????????????????",
+          "?   ?      ????????????????????????????",
+          "      ?????????????????????????????????",
+          "   ???????????????????????????????????",
+          "?????????????????????????????????????",
+          "??????????????????????????????????? ??",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 74240,
+        "longest_data_io_instruction_cycles": 396828,
+        "editor_dimensions": [
+          320,
+          241
+        ],
+        "space_grid_first_row": 109,
+        "font_address_prediction_matches": true,
+        "blanking": [
+          {
+            "start": 29.966515,
+            "end": 30.4411265,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 41.1536705,
+            "end": 41.4206905,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 55.427629,
+            "end": 56.288941,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 66.0317165,
+            "end": 66.8852375,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 80.07633,
+            "end": 81.8636165,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 124.0452795,
+            "end": 124.2933385,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 136.1030155,
+            "end": 137.8653525,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 146.0451025,
+            "end": 146.744197,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          }
+        ],
+        "blanking_honored_at_samples": true,
+        "font_file": {
+          "bytes": 1408,
+          "first_byte": 128,
+          "matches_except_first_pixel": true
+        }
+      }
+    },
+    "feditor-control": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "dcd2d85e0c3e05dc8fe9e253ac369feacfa77cb9aead63e28cb5f5050454dcfb",
+        "final_pc": "d85e",
+        "final_text": [
+          "   ?  ?    ?  ?    ?       ?  ???????",
+          "      ?     ??   ?     ?     ???????????",
+          "      ?   ?        ?? ??  ?  ???????????",
+          "       ?   ?    ?  ? ?    ?  ????????",
+          " ?? ??   ????? ??       ?    ?????????",
+          "       ? ????      ?       ?  ?   ??",
+          "    ???   ???   ?  ?   ?   ?    ?",
+          "  ?       ? ?        ? ?   ?    ?",
+          "?    ?          ??       ??   ?  ?  ?",
+          "?             ?  ?   ?   ??  ?  ??    ?",
+          "    ? ?????????????????????????????? ?",
+          "      ?.? ?   ?       ?     ?    ? ????",
+          "        ?   ?  ? ? ? ? ? ? ??   ?  ?????",
+          " ?    ? ? ?     ?        ?     ?   ????",
+          "        ???????????????????????????????",
+          "         ?    ??????????????????????????",
+          "A>?           ??????????????????????????",
+          "??        ??  ?????????????????????????",
+          "?   ?      ????????????????????????????",
+          "      ?????????????????????????????????",
+          "   ???????????????????????????????????",
+          "?????????????????????????????????????",
+          "??????????????????????????????????? ??",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "editor_dimensions": [
+          320,
+          241
+        ],
+        "space_grid_first_row": 0,
+        "font_address_prediction_matches": true,
+        "blanking": [
+          {
+            "start": 19.70453,
+            "end": 20.180643,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 25.3491495,
+            "end": 25.6177465,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 55.4275285,
+            "end": 56.288475,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 66.031621,
+            "end": 66.884803,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 80.0761355,
+            "end": 81.8371475,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 124.047504,
+            "end": 124.2971715,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 136.102157,
+            "end": 137.863746,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 146.045112,
+            "end": 146.744011,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          }
+        ],
+        "blanking_honored_at_samples": true,
+        "font_file": {
+          "bytes": 1408,
+          "first_byte": 128,
+          "matches_except_first_pixel": true
+        }
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "1715fb6c9edbe831562790601cd9c796a819bcd652d7e146e651ddee68b3899f",
+        "final_pc": "0499",
+        "final_text": [
+          "   ?  ?    ?  ?    ?       ?  ???????",
+          "      ?     ??   ?     ?     ???????????",
+          "      ?   ?        ?? ??  ?  ???????????",
+          "       ?   ?    ?  ? ?    ?  ????????",
+          " ?? ??   ????? ??       ?    ?????????",
+          "       ? ????      ?       ?  ?   ??",
+          "    ???   ???   ?  ?   ?   ?    ?",
+          "  ?       ? ?        ? ?   ?    ?",
+          "?    ?          ??       ??   ?  ?  ?",
+          "?             ?  ?   ?   ??  ?  ??    ?",
+          "    ? ?????????????????????????????? ?",
+          "      ?.? ?   ?       ?     ?    ? ????",
+          "        ?   ?  ? ? ? ? ? ? ??   ?  ?????",
+          " ?    ? ? ?     ?        ?     ?   ????",
+          "        ???????????????????????????????",
+          "         ?    ??????????????????????????",
+          "A>?           ??????????????????????????",
+          "??        ??  ?????????????????????????",
+          "?   ?      ????????????????????????????",
+          "      ?????????????????????????????????",
+          "   ???????????????????????????????????",
+          "?????????????????????????????????????",
+          "??????????????????????????????????? ??",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "editor_dimensions": [
+          320,
+          241
+        ],
+        "space_grid_first_row": 128,
+        "font_address_prediction_matches": true,
+        "blanking": [
+          {
+            "start": 29.952207,
+            "end": 30.428422,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 7056
+          },
+          {
+            "start": 41.139107,
+            "end": 41.4077125,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 14913
+          },
+          {
+            "start": 55.5440285,
+            "end": 56.4053585,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 8332
+          },
+          {
+            "start": 66.0563065,
+            "end": 66.9098275,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 6964
+          },
+          {
+            "start": 80.1009295,
+            "end": 81.863346,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 10756
+          },
+          {
+            "start": 124.0718925,
+            "end": 124.3199515,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 11451
+          },
+          {
+            "start": 136.1296105,
+            "end": 137.8916105,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 10756
+          },
+          {
+            "start": 146.0698185,
+            "end": 146.7695515,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 7711
+          }
+        ],
+        "blanking_honored_at_samples": false,
+        "font_file": {
+          "bytes": 1408,
+          "first_byte": 128,
+          "matches_except_first_pixel": true
+        }
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "dcd2d85e0c3e05dc8fe9e253ac369feacfa77cb9aead63e28cb5f5050454dcfb",
+        "final_pc": "0634",
+        "final_text": [
+          "   ?  ?    ?  ?    ?       ?  ???????",
+          "      ?     ??   ?     ?     ???????????",
+          "      ?   ?        ?? ??  ?  ???????????",
+          "       ?   ?    ?  ? ?    ?  ????????",
+          " ?? ??   ????? ??       ?    ?????????",
+          "       ? ????      ?       ?  ?   ??",
+          "    ???   ???   ?  ?   ?   ?    ?",
+          "  ?       ? ?        ? ?   ?    ?",
+          "?    ?          ??       ??   ?  ?  ?",
+          "?             ?  ?   ?   ??  ?  ??    ?",
+          "    ? ?????????????????????????????? ?",
+          "      ?.? ?   ?       ?     ?    ? ????",
+          "        ?   ?  ? ? ? ? ? ? ??   ?  ?????",
+          " ?    ? ? ?     ?        ?     ?   ????",
+          "        ???????????????????????????????",
+          "         ?    ??????????????????????????",
+          "A>?           ??????????????????????????",
+          "??        ??  ?????????????????????????",
+          "?   ?      ????????????????????????????",
+          "      ?????????????????????????????????",
+          "   ???????????????????????????????????",
+          "?????????????????????????????????????",
+          "??????????????????????????????????? ??",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 74240,
+        "longest_data_io_instruction_cycles": 396828,
+        "editor_dimensions": [
+          320,
+          241
+        ],
+        "space_grid_first_row": 0,
+        "font_address_prediction_matches": true,
+        "blanking": [
+          {
+            "start": 29.966515,
+            "end": 30.4411265,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 41.1536705,
+            "end": 41.4206905,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 55.427629,
+            "end": 56.288941,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 66.0317165,
+            "end": 66.8852375,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 80.0763395,
+            "end": 81.8380815,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 124.0452795,
+            "end": 124.2933385,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 136.1030155,
+            "end": 137.8653525,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          },
+          {
+            "start": 146.0451025,
+            "end": 146.744197,
+            "dimensions": [
+              320,
+              241
+            ],
+            "lit_pixels": 0
+          }
+        ],
+        "blanking_honored_at_samples": true,
+        "font_file": {
+          "bytes": 1408,
+          "first_byte": 128,
+          "matches_except_first_pixel": true
+        }
+      }
+    },
+    "mfd": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "37c39b435918868901d41859a76d95e56c7cad47e08f6f5e142590ca328430f0",
+        "final_pc": "d85e",
+        "final_text": [
+          "    ?????????????????????????????????",
+          "   ???????????????????????????????????",
+          "?????????????????????????????",
+          "",
+          "",
+          "????????????????",
+          "",
+          "??????????????????",
+          "",
+          "????????????????????????",
+          "",
+          "????????????????????????????",
+          "",
+          "??????????????????????????",
+          "",
+          "????????????????????????",
+          "",
+          "???????????????????",
+          "",
+          "?????????????????",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 12,
+        "parsed_drive": 0,
+        "space_glyph": "ff0000000000000000",
+        "dd01_space_corruption_reproduced": true,
+        "installed_font_pointer": 2558,
+        "font_matches_dd01_transform": true
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "8fa166cca44a204b8836dfd92e14bcfb6a0cb62ea99c61444945a446ddcaca92",
+        "final_pc": "d878",
+        "final_text": [
+          "    ?????????????????????????????????",
+          "   ???????????????????????????????????",
+          "?????????????????????????????",
+          "",
+          "",
+          "????????????????",
+          "",
+          "??????????????????",
+          "",
+          "????????????????????????",
+          "",
+          "????????????????????????????",
+          "",
+          "??????????????????????????",
+          "",
+          "????????????????????????",
+          "",
+          "???????????????????",
+          "",
+          "?????????????????",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 12,
+        "parsed_drive": 0,
+        "space_glyph": "ff0000000000000000",
+        "dd01_space_corruption_reproduced": true,
+        "installed_font_pointer": 2558,
+        "font_matches_dd01_transform": true
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "37c39b435918868901d41859a76d95e56c7cad47e08f6f5e142590ca328430f0",
+        "final_pc": "d7ea",
+        "final_text": [
+          "    ?????????????????????????????????",
+          "   ???????????????????????????????????",
+          "?????????????????????????????",
+          "",
+          "",
+          "????????????????",
+          "",
+          "??????????????????",
+          "",
+          "????????????????????????",
+          "",
+          "????????????????????????????",
+          "",
+          "??????????????????????????",
+          "",
+          "????????????????????????",
+          "",
+          "???????????????????",
+          "",
+          "?????????????????",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 12,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 15360,
+        "longest_data_io_instruction_cycles": 396828,
+        "space_glyph": "ff0000000000000000",
+        "dd01_space_corruption_reproduced": true,
+        "installed_font_pointer": 2558,
+        "font_matches_dd01_transform": true
+      }
+    },
+    "bowling": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "96e1e6d12af2568868400b9dfde20c4a4f393c8e7e70fe667a006779d6bd0aae",
+        "final_pc": "d874",
+        "final_text": [
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "??????????????????????????????????????",
+          "",
+          "        ????????????????????????",
+          "",
+          "????????????????????????????????????????",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?        ??????????????????????        ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "????????????????????????????????????????",
+          "",
+          "        ????????????????????????",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "space_glyph": "ff0000000000000000",
+        "dd01_space_corruption_reproduced": true,
+        "installed_font_pointer": 28672,
+        "font_matches_dd01_transform": true
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "ce10cb7dfe1dc4ed5c4881b130f501c3147a1e6a7e925c9f362a7f87d8b093c0",
+        "final_pc": "0634",
+        "final_text": [
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "??????????????????????????????????????",
+          "",
+          "        ????????????????????????",
+          "",
+          "????????????????????????????????????????",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?        ??????????????????????        ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "????????????????????????????????????????",
+          "",
+          "        ????????????????????????",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "space_glyph": "ff0000000000000000",
+        "dd01_space_corruption_reproduced": true,
+        "installed_font_pointer": 28672,
+        "font_matches_dd01_transform": true
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "f8c95ea72a0a24652e2df606a0cf531f5a4d355bd3f037ad15e2afa88564d4da",
+        "final_pc": "0b0b",
+        "final_text": [
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "????????????????????????????????????????",
+          "??????????????????????????????????????",
+          "",
+          "        ????????????????????????",
+          "",
+          "????????????????????????????????????????",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?        ??????????????????????        ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "?                                      ?",
+          "????????????????????????????????????????",
+          "",
+          "        ????????????????????????",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 16384,
+        "longest_data_io_instruction_cycles": 396828,
+        "space_glyph": "ff0000000000000000",
+        "dd01_space_corruption_reproduced": true,
+        "installed_font_pointer": 28672,
+        "font_matches_dd01_transform": true
+      }
+    },
+    "ekdos-plain": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "99b36342cd009140de19f8519a9398e914cfd495944e45332875d870f50b8607",
+        "final_pc": "d7f0",
+        "final_text": [
+          "A:ME      .DOC   A:SND     .ASM",
+          "A:SND     .COM",
+          "A>dir",
+          "A:JCM     .HLP   A:CF      .HLP",
+          "A:XDIR    .COM   A:STAT    .COM",
+          "A:RDEM    .COM   A:FORMAT  .COM",
+          "A:DOSGEN  .COM   A:CF      .COM",
+          "A:MODX    .COM   A:LF      .COM",
+          "A:ASCII   .      A:EST     .",
+          "A:RUS     .      A:JSET    .COM",
+          "A:KUVA    .COM   A:MODE    .COM",
+          "A:MED     .COM   A:JCM     .COM",
+          "A:GTR     .COM   A:ME      .COM",
+          "A:JUKU3000.PIC   A:WSJ     .COM",
+          "A:WSMSGS  .OVR   A:WSOVLY1 .OVR",
+          "A:MIC     .COM   A:SED     .COM",
+          "A:SED80   .COM   A:MUSAM   .COM",
+          "A:FDMAINT .COM   A:ASM     .COM",
+          "A:LOAD    .COM   A:JBASIC  .COM",
+          "A:CAL     .COM   d",
+          "A>ir",
+          "IR?",
+          "",
+          "A>"
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": []
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "6ad25b289dbd82c05497943c794f7ac8bf85b22cb7708578857ec78f9da2dcb8",
+        "final_pc": "bc1a",
+        "final_text": [
+          "A:SK      .COM   A:POWER   .COM",
+          "A:DIGGER  .COM   A:FLIGHT  .COM",
+          "A:ME      .DOC   d",
+          "A>ir",
+          "IR?",
+          "",
+          "A>dir",
+          "A:JCM     .HLP   A:CF      .HLP",
+          "A:XDIR    .COM   A:STAT    .COM",
+          "A:RDEM    .COM   A:FORMAT  .COM",
+          "A:DOSGEN  .COM   A:CF      .COM",
+          "A:MODX    .COM   A:LF      .COM",
+          "A:ASCII   .      A:EST     .",
+          "A:RUS     .      A:JSET    .COM",
+          "A:KUVA    .COM   A:MODE    .COM",
+          "A:MED     .COM   A:JCM     .COM",
+          "A:GTR     .COM   A:ME      .COM",
+          "A:JUKU3000.PIC   A:WSJ     .COM",
+          "A:WSMSGS  .OVR   A:WSOVLY1 .OVR",
+          "A:MIC     .COM   A:SED     .COM",
+          "A:SED80   .COM   A:MUSAM   .COM",
+          "A:FDMAINT .COM   A:ASM     .COM",
+          "A:LOAD    .COM   A:JBASIC  .COM",
+          "A:CAL"
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": [
+          "00",
+          "55",
+          "aa"
+        ]
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "f2ea064b29ca92c381e6f4002ed6a57b4e9dcd52baa0da8112b5be8a643dd324",
+        "final_pc": "0973",
+        "final_text": [
+          "A:DIGGER  .COM   A:FLIGHT  .COM",
+          "A:ME      .DOC   d",
+          "A>ir",
+          "IR?",
+          "",
+          "A>dir",
+          "A:JCM     .HLP   A:CF      .HLP",
+          "A:XDIR    .COM   A:STAT    .COM",
+          "A:RDEM    .COM   A:FORMAT  .COM",
+          "A:DOSGEN  .COM   A:CF      .COM",
+          "A:MODX    .COM   A:LF      .COM",
+          "A:ASCII   .      A:EST     .",
+          "A:RUS     .      A:JSET    .COM",
+          "A:KUVA    .COM   A:MODE    .COM",
+          "A:MED     .COM   A:JCM     .COM",
+          "A:GTR     .COM   A:ME      .COM",
+          "A:JUKU3000.PIC   A:WSJ     .COM",
+          "A:WSMSGS  .OVR   A:WSOVLY1 .OVR",
+          "A:MIC     .COM   A:SED     .COM",
+          "A:SED80   .COM   A:MUSAM   .COM",
+          "A:FDMAINT .COM   A:ASM     .COM",
+          "A:LOAD    .COM   A:JBASIC  .COM",
+          "A:LOAD    .COM   A:JBASIC  .COM",
+          "A:CAL     .COM   A:DOCTOR  .COM"
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 17920,
+        "longest_data_io_instruction_cycles": 401476,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": [
+          "00",
+          "55",
+          "aa"
+        ]
+      }
+    },
+    "ekdos-colon": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "06cad60394472656e83889329b161476d1bf773578bbec5059a9e9365a2a1ab7",
+        "final_pc": "3d0c",
+        "final_text": [
+          "52K EKDOS 2.30",
+          "",
+          "Drive assignments:",
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "?>^[:dir",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 219,
+        "invalid_drive_value_observed_at_end": true,
+        "scroll_flags_sampled": []
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "3dc2f747a374fb9ceb9eb6c3513f5636d61091451eb2995163af9816063dfc3a",
+        "final_pc": "435b",
+        "final_text": [
+          "52K EKDOS 2.30",
+          "",
+          "Drive assignments:",
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "?>^[:dir",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 219,
+        "invalid_drive_value_observed_at_end": true,
+        "scroll_flags_sampled": [
+          "00",
+          "55",
+          "aa"
+        ]
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "06cad60394472656e83889329b161476d1bf773578bbec5059a9e9365a2a1ab7",
+        "final_pc": "6418",
+        "final_text": [
+          "52K EKDOS 2.30",
+          "",
+          "Drive assignments:",
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "?>^[:dir",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 219,
+        "data_io_wait_instructions": 10752,
+        "longest_data_io_instruction_cycles": 372251,
+        "invalid_drive_value_observed_at_end": true,
+        "scroll_flags_sampled": [
+          "00",
+          "55",
+          "aa"
+        ]
+      }
+    },
+    "ekdos-semicolon": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "ffcdbdc87a705d1725fc3906fed12a4f1146cfa2b07d12c82c733472015a66d2",
+        "final_pc": "d9d0",
+        "final_text": [
+          "A:DOSGEN  .COM   A:CF      .COM",
+          "A:MODX    .COM   A:LF      .COM",
+          "A:ASCII   .      A:EST     .",
+          "A:RUS     .      A:JSET    .COM",
+          "A:KUVA    .COM   A:MODE    .COM",
+          "A:MED     .COM   A:JCM     .COM",
+          "A:GTR     .COM   A:ME      .COM",
+          "A:JUKU3000.PIC   A:WSJ     .COM",
+          "A:WSMSGS  .OVR   A:WSOVLY1 .OVR",
+          "A:MIC     .COM   A:SED     .COM",
+          "A:SED80   .COM   A:MUSAM   .COM",
+          "A:FDMAINT .COM   A:ASM     .COM",
+          "A:LOAD    .COM   A:JBASIC  .COM",
+          "A:CAL     .COM   A:DOCTOR  .COM",
+          "A:KULT    .COM   A:SID     .COM",
+          "A:SID     .DOK   A:HIIR    .ASM",
+          "A:HIIR    .COM   A:HINT    .ASM",
+          "A:PIP     .COM   A:SYSINFO .COM",
+          "A:SK      .COM   A:POWER   .COM",
+          "A:DIGGER  .COM   d",
+          "A>ir",
+          "IR?",
+          "",
+          "A>?"
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": []
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "fd75fadcd63016506a268e5b5d32190b6aea4b8b332e3c7e49f653b190d95702",
+        "final_pc": "d876",
+        "final_text": [
+          "A:RDEM    .COM   A:FORMAT  .COM",
+          "A:DOSGEN  .COM   A:CF      .COM",
+          "A:MODX    .COM   A:LF      .COM",
+          "A:ASCII   .      A:EST     .",
+          "A:RUS     .      A:JSET    .COM",
+          "A:KUVA    .COM   A:MODE    .COM",
+          "A:MED     .COM   A:JCM     .COM",
+          "A:GTR     .COM   A:ME      .COM",
+          "A:JUKU3000.PIC   A:WSJ     .COM",
+          "A:WSMSGS  .OVR   A:WSOVLY1 .OVR",
+          "A:MIC     .COM   A:SED     .COM",
+          "A:SED80   .COM   A:MUSAM   .COM",
+          "A:FDMAINT .COM   A:ASM     .COM",
+          "A:LOAD    .COM   A:JBASIC  .COM",
+          "A:CAL     .COM   A:DOCTOR  .COM",
+          "A:KULT    .COM   A:SID     .COM",
+          "A:SID     .DOK   A:HIIR    .ASM",
+          "A:HIIR    .COM   A:HINT    .ASM",
+          "A:PIP     .COM   A:SYSINFO .COM",
+          "A:SK      .COM   d",
+          "A>ir",
+          "IR?",
+          "",
+          "A>?"
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": [
+          "00",
+          "55",
+          "aa"
+        ]
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "c0ba98819162c09ff8849275e1db7a922b48d184f65c03328e23eac55308c957",
+        "final_pc": "d876",
+        "final_text": [
+          "A:RDEM    .COM   A:FORMAT  .COM",
+          "A:DOSGEN  .COM   A:CF      .COM",
+          "A:MODX    .COM   A:LF      .COM",
+          "A:ASCII   .      A:EST     .",
+          "A:RUS     .      A:JSET    .COM",
+          "A:KUVA    .COM   A:MODE    .COM",
+          "A:MED     .COM   A:JCM     .COM",
+          "A:GTR     .COM   A:ME      .COM",
+          "A:JUKU3000.PIC   A:WSJ     .COM",
+          "A:WSMSGS  .OVR   A:WSOVLY1 .OVR",
+          "A:MIC     .COM   A:SED     .COM",
+          "A:SED80   .COM   A:MUSAM   .COM",
+          "A:FDMAINT .COM   A:ASM     .COM",
+          "A:LOAD    .COM   A:JBASIC  .COM",
+          "A:CAL     .COM   A:DOCTOR  .COM",
+          "A:KULT    .COM   A:SID     .COM",
+          "A:SID     .DOK   A:HIIR    .ASM",
+          "A:HIIR    .COM   A:HINT    .ASM",
+          "A:PIP     .COM   A:SYSINFO .COM",
+          "A:SK      .COM   d",
+          "A>ir",
+          "IR?",
+          "",
+          "A>"
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 15872,
+        "longest_data_io_instruction_cycles": 372953,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": [
+          "00",
+          "55",
+          "aa"
+        ]
+      }
+    },
+    "ekdos-colon-q": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "042644c17fcca1becaa7605d44cde48d57dadd363dfa67f770dff69863d387c9",
+        "final_pc": "d871",
+        "final_text": [
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "A>^[:^Qdir",
+          "DIR?",
+          "",
+          "A>#",
+          "  dir",
+          "A:JCM     .HLP   A:CF      .HLP",
+          "A:XDIR    .COM   A:STAT    .COM",
+          "A:RDEM    .COM   A:FORMAT  .COM",
+          "A:DOSGEN  .COM   A:CF      .COM",
+          "A:MODX    .COM   A:LF      .COM",
+          "A:ASCII   .      A:EST     .",
+          "A:RUS     .      A:JSET    .COM",
+          "A:KUVA    .COM   A:MODE    .COM",
+          "A:MED     .COM   A:JCM     .COM",
+          "A:GTR     .COM   A:ME      .COM",
+          "A:JUKU3000.PIC   A:WSJ     .COM",
+          "A:WSMSGS  .OVR   A:WSOVLY1 .OVR",
+          "A:MIC     .COM   A:SED     .COM",
+          "A:SED80   .COM   d",
+          "A>i"
+        ],
+        "scroll_flag": 1,
+        "parsed_drive": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": []
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "6debfeb2c42d4c51942d8180d8631427fb80117e93373e6b45d8db6fd303d86e",
+        "final_pc": "d7e7",
+        "final_text": [
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "A>^[:^Qdir",
+          "DIR?",
+          "",
+          "A>#",
+          "  dir",
+          "A:JCM     .HLP   A:CF      .HLP",
+          "A:XDIR    .COM   A:STAT    .COM",
+          "A:RDEM    .COM   A:FORMAT  .COM",
+          "A:DOSGEN  .COM   A:CF      .COM",
+          "A:MODX    .COM   A:LF      .COM",
+          "A:ASCII   .      A:EST     .",
+          "A:RUS     .      A:JSET    .COM",
+          "A:KUVA    .COM   A:MODE    .COM",
+          "A:MED     .COM   A:JCM     .COM",
+          "A:GTR     .COM   A:ME      .COM",
+          "A:JUKU3000.PIC   A:WSJ     .COM",
+          "A:WSMSGS  .OVR   A:WSOVLY1 .OVR",
+          "A:MIC     .COM   A:SED     .COM",
+          "A:SED80   .COM   d",
+          "A>i?"
+        ],
+        "scroll_flag": 1,
+        "parsed_drive": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": [
+          "00",
+          "01",
+          "55",
+          "aa"
+        ]
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "2c2da23bc7b0df6fbe8344c2db72588b6963465560647243ca4c39c1ce400964",
+        "final_pc": "d7e7",
+        "final_text": [
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "A>^[:^Qdir",
+          "DIR?",
+          "",
+          "A>#",
+          "  dir",
+          "A:JCM     .HLP   A:CF      .HLP",
+          "A:XDIR    .COM   A:STAT    .COM",
+          "A:RDEM    .COM   A:FORMAT  .COM",
+          "A:DOSGEN  .COM   A:CF      .COM",
+          "A:MODX    .COM   A:LF      .COM",
+          "A:ASCII   .      A:EST     .",
+          "A:RUS     .      A:JSET    .COM",
+          "A:KUVA    .COM   A:MODE    .COM",
+          "A:MED     .COM   A:JCM     .COM",
+          "A:GTR     .COM   A:ME      .COM",
+          "A:JUKU3000.PIC   A:WSJ     .COM",
+          "A:WSMSGS  .OVR   A:WSOVLY1 .OVR",
+          "A:MIC     .COM   A:SED     .COM",
+          "A:SED80   .COM   d",
+          "A>i?"
+        ],
+        "scroll_flag": 1,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 11776,
+        "longest_data_io_instruction_cycles": 372251,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": [
+          "00",
+          "01",
+          "55",
+          "aa"
+        ]
+      }
+    },
+    "monitor-colon": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "26a423cc6e1b1f1778ae3796a76be1bba2612bdf0cb142a694512fbc4c17a94e",
+        "final_pc": "d7ea",
+        "final_text": [
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "",
+          "RomBios 3.43m",
+          "",
+          "",
+          "abcbc",
+          "*?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 1,
+        "parsed_drive": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": []
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "096f9db86652947dc2f49a91ec4bff9f77ed98774c75d0569020a1bc8480ad9c",
+        "final_pc": "d871",
+        "final_text": [
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "",
+          "RomBios 3.43m",
+          "",
+          "",
+          "abcbc",
+          "*?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 1,
+        "parsed_drive": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": [
+          "00",
+          "01",
+          "55",
+          "aa"
+        ]
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "26a423cc6e1b1f1778ae3796a76be1bba2612bdf0cb142a694512fbc4c17a94e",
+        "final_pc": "d7ea",
+        "final_text": [
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "",
+          "RomBios 3.43m",
+          "",
+          "",
+          "abcbc",
+          "*?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 1,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 0,
+        "longest_data_io_instruction_cycles": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": [
+          "00",
+          "01",
+          "55",
+          "aa"
+        ]
+      }
+    },
+    "monitor-semicolon": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "26a423cc6e1b1f1778ae3796a76be1bba2612bdf0cb142a694512fbc4c17a94e",
+        "final_pc": "0639",
+        "final_text": [
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "",
+          "RomBios 3.43m",
+          "",
+          "",
+          "abcbc",
+          "*?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": []
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "096f9db86652947dc2f49a91ec4bff9f77ed98774c75d0569020a1bc8480ad9c",
+        "final_pc": "d867",
+        "final_text": [
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "",
+          "RomBios 3.43m",
+          "",
+          "",
+          "abcbc",
+          "*?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": [
+          "00",
+          "55",
+          "aa"
+        ]
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "26a423cc6e1b1f1778ae3796a76be1bba2612bdf0cb142a694512fbc4c17a94e",
+        "final_pc": "d875",
+        "final_text": [
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "????????????????????????????????",
+          "",
+          "RomBios 3.43m",
+          "",
+          "",
+          "abcbc",
+          "*?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 0,
+        "longest_data_io_instruction_cycles": 0,
+        "invalid_drive_value_observed_at_end": false,
+        "scroll_flags_sampled": [
+          "00",
+          "55",
+          "aa"
+        ]
+      }
+    },
+    "scroll-diagnostic": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "6450895fbe2900f0d3d3c6954ec629672c48efe4284e7f055441fececee662de",
+        "final_pc": "d86e",
+        "final_text": [
+          "T39 ABCDEFGHIJKLM",
+          "T40 ABCDEFGHIJKLM",
+          "T41 ABCDEFGHIJKLM",
+          "T42 ABCDEFGHIJKLM",
+          "T43 ABCDEFGHIJKLM",
+          "T44 ABCDEFGHIJKLM",
+          "T45 ABCDEFGHIJKLM",
+          "T46 ABCDEFGHIJKLM",
+          "T47 ABCDEFGHIJKLM",
+          "T48 ABCDEFGHIJKLM",
+          "T49 ABCDEFGHIJKLM",
+          "T50 ABCDEFGHIJKLM",
+          "T51 ABCDEFGHIJKLM",
+          "T52 ABCDEFGHIJKLM",
+          "T53 ABCDEFGHIJKLM",
+          "T54 ABCDEFGHIJKLM",
+          "T55 ABCDEFGHIJKLM",
+          "T56 ABCDEFGHIJKLM",
+          "T57 ABCDEFGHIJKLM",
+          "T58 ABCDEFGHIJKLM",
+          "T59 ABCDEFGHIJKLM",
+          "SCROLL COMPLETE",
+          "",
+          "A>?"
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "scroll": {
+          "frames": 8137,
+          "one_pixel_up_transitions": 656,
+          "ten_pixel_up_transitions": 52,
+          "example_transition_frames": {
+            "1": "capture-000994.pbm",
+            "10": "capture-002850.pbm"
+          },
+          "numbered_lines_seen": 180,
+          "missing_numbered_lines": [],
+          "final_text": [
+            "T39 ABCDEFGHIJKLM",
+            "T40 ABCDEFGHIJKLM",
+            "T41 ABCDEFGHIJKLM",
+            "T42 ABCDEFGHIJKLM",
+            "T43 ABCDEFGHIJKLM",
+            "T44 ABCDEFGHIJKLM",
+            "T45 ABCDEFGHIJKLM",
+            "T46 ABCDEFGHIJKLM",
+            "T47 ABCDEFGHIJKLM",
+            "T48 ABCDEFGHIJKLM",
+            "T49 ABCDEFGHIJKLM",
+            "T50 ABCDEFGHIJKLM",
+            "T51 ABCDEFGHIJKLM",
+            "T52 ABCDEFGHIJKLM",
+            "T53 ABCDEFGHIJKLM",
+            "T54 ABCDEFGHIJKLM",
+            "T55 ABCDEFGHIJKLM",
+            "T56 ABCDEFGHIJKLM",
+            "T57 ABCDEFGHIJKLM",
+            "T58 ABCDEFGHIJKLM",
+            "T59 ABCDEFGHIJKLM",
+            "SCROLL COMPLETE",
+            "",
+            "A>?"
+          ],
+          "completed": true
+        }
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "d3d8d7d205c3137015973c4ee4f83c64f533ac659d8f7619f2b9daf7a44b9856",
+        "final_pc": "d875",
+        "final_text": [
+          "T39 ABCDEFGHIJKLM",
+          "T40 ABCDEFGHIJKLM",
+          "T41 ABCDEFGHIJKLM",
+          "T42 ABCDEFGHIJKLM",
+          "T43 ABCDEFGHIJKLM",
+          "T44 ABCDEFGHIJKLM",
+          "T45 ABCDEFGHIJKLM",
+          "T46 ABCDEFGHIJKLM",
+          "T47 ABCDEFGHIJKLM",
+          "T48 ABCDEFGHIJKLM",
+          "T49 ABCDEFGHIJKLM",
+          "T50 ABCDEFGHIJKLM",
+          "T51 ABCDEFGHIJKLM",
+          "T52 ABCDEFGHIJKLM",
+          "T53 ABCDEFGHIJKLM",
+          "T54 ABCDEFGHIJKLM",
+          "T55 ABCDEFGHIJKLM",
+          "T56 ABCDEFGHIJKLM",
+          "T57 ABCDEFGHIJKLM",
+          "T58 ABCDEFGHIJKLM",
+          "T59 ABCDEFGHIJKLM",
+          "SCROLL COMPLETE",
+          "",
+          "A>"
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "scroll": {
+          "frames": 8138,
+          "one_pixel_up_transitions": 592,
+          "ten_pixel_up_transitions": 52,
+          "example_transition_frames": {
+            "1": "capture-001068.png",
+            "10": "capture-002929.png"
+          },
+          "numbered_lines_seen": 180,
+          "missing_numbered_lines": [],
+          "final_text": [
+            "T39 ABCDEFGHIJKLM",
+            "T40 ABCDEFGHIJKLM",
+            "T41 ABCDEFGHIJKLM",
+            "T42 ABCDEFGHIJKLM",
+            "T43 ABCDEFGHIJKLM",
+            "T44 ABCDEFGHIJKLM",
+            "T45 ABCDEFGHIJKLM",
+            "T46 ABCDEFGHIJKLM",
+            "T47 ABCDEFGHIJKLM",
+            "T48 ABCDEFGHIJKLM",
+            "T49 ABCDEFGHIJKLM",
+            "T50 ABCDEFGHIJKLM",
+            "T51 ABCDEFGHIJKLM",
+            "T52 ABCDEFGHIJKLM",
+            "T53 ABCDEFGHIJKLM",
+            "T54 ABCDEFGHIJKLM",
+            "T55 ABCDEFGHIJKLM",
+            "T56 ABCDEFGHIJKLM",
+            "T57 ABCDEFGHIJKLM",
+            "T58 ABCDEFGHIJKLM",
+            "T59 ABCDEFGHIJKLM",
+            "SCROLL COMPLETE",
+            "",
+            "A>"
+          ],
+          "completed": true
+        }
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "6450895fbe2900f0d3d3c6954ec629672c48efe4284e7f055441fececee662de",
+        "final_pc": "d866",
+        "final_text": [
+          "T39 ABCDEFGHIJKLM",
+          "T40 ABCDEFGHIJKLM",
+          "T41 ABCDEFGHIJKLM",
+          "T42 ABCDEFGHIJKLM",
+          "T43 ABCDEFGHIJKLM",
+          "T44 ABCDEFGHIJKLM",
+          "T45 ABCDEFGHIJKLM",
+          "T46 ABCDEFGHIJKLM",
+          "T47 ABCDEFGHIJKLM",
+          "T48 ABCDEFGHIJKLM",
+          "T49 ABCDEFGHIJKLM",
+          "T50 ABCDEFGHIJKLM",
+          "T51 ABCDEFGHIJKLM",
+          "T52 ABCDEFGHIJKLM",
+          "T53 ABCDEFGHIJKLM",
+          "T54 ABCDEFGHIJKLM",
+          "T55 ABCDEFGHIJKLM",
+          "T56 ABCDEFGHIJKLM",
+          "T57 ABCDEFGHIJKLM",
+          "T58 ABCDEFGHIJKLM",
+          "T59 ABCDEFGHIJKLM",
+          "SCROLL COMPLETE",
+          "",
+          "A>?"
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 22016,
+        "longest_data_io_instruction_cycles": 396828,
+        "scroll": {
+          "frames": 7999,
+          "one_pixel_up_transitions": 653,
+          "ten_pixel_up_transitions": 54,
+          "example_transition_frames": {
+            "1": "capture-001075.pbm",
+            "10": "capture-002938.pbm"
+          },
+          "numbered_lines_seen": 180,
+          "missing_numbered_lines": [],
+          "final_text": [
+            "T39 ABCDEFGHIJKLM",
+            "T40 ABCDEFGHIJKLM",
+            "T41 ABCDEFGHIJKLM",
+            "T42 ABCDEFGHIJKLM",
+            "T43 ABCDEFGHIJKLM",
+            "T44 ABCDEFGHIJKLM",
+            "T45 ABCDEFGHIJKLM",
+            "T46 ABCDEFGHIJKLM",
+            "T47 ABCDEFGHIJKLM",
+            "T48 ABCDEFGHIJKLM",
+            "T49 ABCDEFGHIJKLM",
+            "T50 ABCDEFGHIJKLM",
+            "T51 ABCDEFGHIJKLM",
+            "T52 ABCDEFGHIJKLM",
+            "T53 ABCDEFGHIJKLM",
+            "T54 ABCDEFGHIJKLM",
+            "T55 ABCDEFGHIJKLM",
+            "T56 ABCDEFGHIJKLM",
+            "T57 ABCDEFGHIJKLM",
+            "T58 ABCDEFGHIJKLM",
+            "T59 ABCDEFGHIJKLM",
+            "SCROLL COMPLETE",
+            "",
+            "A>?"
+          ],
+          "completed": true
+        }
+      }
+    },
+    "fdc25": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "dea799107d1e96750c6b0a0dee6c753e3087954d8f922c66b4114f3b5a961cb7",
+        "final_pc": "d85c",
+        "final_text": [
+          "52K EKDOS 2.30",
+          "",
+          "Drive assignments:",
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "A>fdc25",
+          "",
+          "FDC25 PASS",
+          "",
+          "A>?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "file_io": {
+          "file_bytes": 1024,
+          "allocated_blocks": [
+            78
+          ],
+          "unrelated_bytes_unchanged": true,
+          "returned_prompt": true,
+          "passed": true
+        }
+      },
+      "mame": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "676e60918f0d5b0c2350546a1046b18161fa92afacc5cfc74f3d48b2b41b5821",
+        "final_pc": "d7ea",
+        "final_text": [
+          "52K EKDOS 2.30",
+          "",
+          "Drive assignments:",
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "A>fdc25",
+          "",
+          "FDC25 PASS",
+          "",
+          "A>?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "file_io": {
+          "file_bytes": 1024,
+          "allocated_blocks": [
+            78
+          ],
+          "unrelated_bytes_unchanged": true,
+          "returned_prompt": true,
+          "passed": true
+        }
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "a2b50d35fa7e27e7030a64023d0be1b93e6e84f9fda64ab4bd9ada2b18a1f265",
+        "final_pc": "d85d",
+        "final_text": [
+          "52K EKDOS 2.30",
+          "",
+          "Drive assignments:",
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "A>fdc25",
+          "",
+          "FDC25 PASS",
+          "",
+          "A>",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 25600,
+        "longest_data_io_instruction_cycles": 376676,
+        "file_io": {
+          "file_bytes": 1024,
+          "allocated_blocks": [
+            78
+          ],
+          "unrelated_bytes_unchanged": true,
+          "returned_prompt": true,
+          "passed": true
+        }
+      },
+      "paced": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          241
+        ],
+        "frame_sha256": "dea799107d1e96750c6b0a0dee6c753e3087954d8f922c66b4114f3b5a961cb7",
+        "final_pc": "062a",
+        "final_text": [
+          "52K EKDOS 2.30",
+          "",
+          "Drive assignments:",
+          "",
+          "<A> - 5\" 786K",
+          "<B> - 5\" 786K",
+          "",
+          "A>fdc25",
+          "",
+          "FDC25 PASS",
+          "",
+          "A>?",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "file_io": {
+          "file_bytes": 1024,
+          "allocated_blocks": [
+            78
+          ],
+          "unrelated_bytes_unchanged": true,
+          "returned_prompt": true,
+          "passed": true
+        }
+      }
+    },
+    "monitor33": {
+      "native": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          240
+        ],
+        "frame_sha256": "e311e0960c92e410c6e82b322e4984e155633c7dd713256731efd0725fe4887d",
+        "final_pc": "fc86",
+        "scroll_flag": 0,
+        "parsed_drive": 0
+      },
+      "mame": {
+        "execution_status": "failed",
+        "return_code": -10,
+        "without_capture_script_return_code": -10,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "reason": "SIGBUS during Monitor 3.3 boot, reproduced with and without the Lua adapter. A separate no-disk/no-script run also terminated with SIGSEGV (-11)."
+      },
+      "sinijarv": {
+        "execution_status": "completed",
+        "dimensions": [
+          320,
+          240
+        ],
+        "frame_sha256": "e311e0960c92e410c6e82b322e4984e155633c7dd713256731efd0725fe4887d",
+        "final_pc": "fc86",
+        "scroll_flag": 0,
+        "parsed_drive": 0,
+        "data_io_wait_instructions": 0,
+        "longest_data_io_instruction_cycles": 0
+      }
+    }
+  },
+  "monitor33_mame_repeats": [
+    {
+      "capture_adapter": false,
+      "attempt": 1,
+      "return_code": -10,
+      "lua_error": false,
+      "log_sha256": "3d710b9dd694367b89b714110beff94aa74731523af35dcac46e1a9508eb1b5f"
+    },
+    {
+      "capture_adapter": false,
+      "attempt": 2,
+      "return_code": -11,
+      "lua_error": false,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "capture_adapter": false,
+      "attempt": 3,
+      "return_code": -10,
+      "lua_error": false,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "capture_adapter": true,
+      "attempt": 1,
+      "return_code": -11,
+      "lua_error": false,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "capture_adapter": true,
+      "attempt": 2,
+      "return_code": -10,
+      "lua_error": false,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "capture_adapter": true,
+      "attempt": 3,
+      "return_code": -10,
+      "lua_error": false,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "monitor33_separate_successful_run": {
+    "native": {
+      "execution_status": "completed",
+      "dimensions": [
+        320,
+        240
+      ],
+      "frame_sha256": "e311e0960c92e410c6e82b322e4984e155633c7dd713256731efd0725fe4887d",
+      "final_pc": "fc86",
+      "scroll_flag": 0,
+      "parsed_drive": 0
+    },
+    "mame": {
+      "execution_status": "completed",
+      "dimensions": [
+        320,
+        714
+      ],
+      "frame_sha256": "a0c31f60c06c33b83f72138ddc44ec776eda4ecb62ddf308252c5b89b377532a",
+      "final_pc": "fc86",
+      "scroll_flag": 0,
+      "parsed_drive": 0
+    },
+    "sinijarv": {
+      "execution_status": "completed",
+      "dimensions": [
+        320,
+        240
+      ],
+      "frame_sha256": "e311e0960c92e410c6e82b322e4984e155633c7dd713256731efd0725fe4887d",
+      "final_pc": "fc86",
+      "scroll_flag": 0,
+      "parsed_drive": 0,
+      "data_io_wait_instructions": 0,
+      "longest_data_io_instruction_cycles": 0
+    }
+  },
+  "interpretation": {
+    "issue17": "DAC and sinijarv honor all eight sampled FEDITOR blank intervals. MAME exposes redraw pixels. Monitor 3.3 gives identical 320x240 final pictures in DAC and sinijarv. MAME has observed signal terminations and a separate successful 320x714 capture.",
+    "issue19": "All three reproduce the DD01 font assumption in MFD, BOWLING and FEDITOR on EKTA #0037; the diagnostic FEDITOR DD02 control clears the space grid in all three.",
+    "issue20": "All three reproduce EKDOS parsed drive DB after the escape-colon command-line sequence. All three show all 180 diagnostic lines, both scroll increments, completion and returned prompt.",
+    "issue25": "Default DAC, experimental DAC, MAME and sinijarv preserve the verified 1024-byte file and unrelated disk bytes and return to EKDOS. The sinijarv adapter observed 25600 extended data-I/O instructions, the longest 376676 CPU cycles; this is instruction-level evidence, not a physical READY trace.",
+    "limits": [
+      "No physical machine comparison.",
+      "Only the stated firmware, media and schedules.",
+      "FEDITOR first-pixel difference occurs in all three; arbitrary editing and mouse operation remain unverified.",
+      "No promotion of DAC experimental FDC timing.",
+      "MAME Monitor 3.3 process failure is intermittent; both failed and completed runs are retained."
+    ]
+  }
+}

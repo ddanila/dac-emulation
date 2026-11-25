@@ -5,6 +5,9 @@ with unmodified EKTA #0037 firmware and EKDOS 2.30 on the public `prog1.juk`.
 Measured outcomes, input provenance, and limitations are in [results.json](results.json).
 Historical ROMs/disks and generated captures are external inputs, not vendored here.
 
+The [cross-emulator suite](../juku-comparison/README.md) extends these workloads
+to the independent `sinijarv-juku/juku-emu` core.
+
 ## What the comparison distinguishes
 
 An escape sequence sent **to console output** is different from the same keys

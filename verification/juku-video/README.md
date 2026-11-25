@@ -5,6 +5,9 @@ sequences. `juku_frame()` exposes the last completed packed monochrome frame;
 `juku_video()` remains a bounded view of live video RAM. Runtime and native
 video capture consume completed frames. Historical media are external inputs.
 
+The [cross-emulator suite](../juku-comparison/README.md) extends these workloads
+to the independent `sinijarv-juku/juku-emu` core.
+
 The investigation targets [juku3000 issue 17](https://github.com/infoaed/juku3000/issues/17).
 Current measured results, media provenance, and outstanding acceptance criteria
 are in [results.json](results.json). The subsequent

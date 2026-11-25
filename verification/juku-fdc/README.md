@@ -6,6 +6,9 @@ The baseline is in `results.json`; implementation evidence is in
 `implementation.json`. The experimental synchronization model is opt-in. It
 is not yet a verified reconstruction of the board circuit.
 
+The [cross-emulator suite](../juku-comparison/README.md) extends these workloads
+to the independent `sinijarv-juku/juku-emu` core.
+
 ## Experimental implementation
 
 Build with `DAC_JUKU_EXPERIMENTAL_FDC_SYNC=1`. The dedicated targets isolate

@@ -6,6 +6,9 @@ public browser's game1.juk. It compares native default and experimental paced
 floppy builds with MAME 0.289, using unmodified EKTA #0037 and EKDOS 2.30.
 Measurements, the diagnosis, and limitations belong in [results.json](results.json).
 
+The [cross-emulator suite](../juku-comparison/README.md) extends these workloads
+to the independent `sinijarv-juku/juku-emu` core.
+
 ## Reproduce
 
 Requirements: C compiler, Python 3 with Pillow, MAME and its Juku ROM set.

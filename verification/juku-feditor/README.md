@@ -7,6 +7,9 @@ is named `fed.com`; the supplied help calls it FEDITOR. Measurements and input
 hashes are in [results.json](results.json) and [wasm-results.json](wasm-results.json). Regression-suite and Monitor 3.3 checks
 are recorded in [validation.json](validation.json).
 
+The [cross-emulator suite](../juku-comparison/README.md) extends these workloads
+to the independent `sinijarv-juku/juku-emu` core.
+
 ## Hardware contract
 
 The [1988 Juku manual](https://elektroonikamuuseum.ee/failid/juku/Mikroarvuti_JUKU_kasutamisjuhend_1988.pdf),
