@@ -74,6 +74,7 @@ that saved pointer on exit, rather than assume one ROM address.
 
 The investigation covers the initial MFD menu and BOWLING speed-selection
 screen. It does not cover every application function, other ROMs, real hardware,
-or FEDITOR, whose executable remains unavailable. The issue does not specify
+or FEDITOR, which is covered by the subsequent
+[FEDITOR investigation](../juku-feditor/README.md). The issue does not specify
 its original ROM or show a screenshot, so these are concrete reproductions of
 the named applications' font corruption, not proof of every reported symptom.

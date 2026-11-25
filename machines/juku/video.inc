@@ -100,6 +100,13 @@ static void video_publish(juku *j) {
     j->video_console_mode = j->video_modx_mode ? 3 :
       (s->width == 48 ? 2 : ((j->kbd_s21_config >> 1) & 1));
   }
+  /* A complete vertically timed frame can be wholly blanked horizontally.
+   * Keep the last acquired geometry, but publish black rather than retaining
+   * a stale picture while software redraws video RAM (e.g. FEDITOR). */
+  if (s->frame_started && !s->width && s->frame_stride && s->frame_lines) {
+    memset(s->frame, 0, s->frame_stride * s->frame_lines);
+    s->sequence++;
+  }
   s->x = s->y = s->width = s->rows = 0;
   s->address = 0;
   s->frame_started = 1;
@@ -128,6 +135,12 @@ void juku_video_signals(juku *j, const uint8_t previous[6]) {
       }
       s->hsync_active = 1;
       s->hsync_end_ns = s->ns + 5040;
+    }
+    /* If horizontal retriggering keeps OUT1 low for whole lines, those
+     * lines still occupy vertical raster positions; they contain black. */
+    if (!before[0] && now[0] && !now[1] && now[4]) {
+      video_end_line(s);
+      s->line_active = 1;
     }
     if (before[1] && !now[1]) video_end_line(s);
     if (before[4] && !now[4]) {

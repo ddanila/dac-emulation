@@ -98,8 +98,9 @@ The comparison diagnoses guest behavior and rendering for the stated inputs.
 It does not establish that the original reporter used exactly this firmware,
 disk, or input context. It does not fix EKDOS or claim that MAME is a hardware
 oracle. No emulator behavior changes, public API changes, or snapshot migration
-are needed unless a core defect is demonstrated. FEDITOR acceptance and the
-physical video-address validation from issue #17 remain separate work.
+are needed for this EKDOS defect. FEDITOR is covered by the separate
+[FEDITOR investigation](../juku-feditor/README.md); physical video-address
+validation from issue #17 remains open.
 
 Keep generated disks, executables, frame sequences, traces, and intermediate
 reports outside Git. The small summary records hashes for provenance only;

@@ -18,6 +18,25 @@ static void setup(juku *j, unsigned blank, unsigned vertical_blank) {
   count(j,0x17,0x73); count(j,0x15,vertical_blank); count(j,0x15,0);
   count(j,0x17,0x93); count(j,0x16,0x25);
 }
+static void rom_reads_video_writes(void) {
+  juku *j = juku_create(); assert(j);
+  uint8_t rom[16384]; memset(rom, 0xa5, sizeof rom);
+  assert(juku_load_rom(j, rom, sizeof rom) == 0);
+  for (unsigned mode = 0; mode < 4; mode++) {
+    j->mode = mode;
+    uint16_t address = mode == 0 ? 0x1234 : 0xd834;
+    j->ram[address] = 0;
+    juku_wb(j, &j->cpu, address, 0x3c);
+    assert(j->ram[address] == 0x3c);
+    assert(juku_peek_byte(j, address) == (mode == 3 ? 0x3c : 0xa5));
+    j->mode = 3;
+    assert(juku_peek_byte(j, address) == 0x3c);
+  }
+  j->mode = 2; j->ram[0x4000] = 0x69;
+  juku_wb(j, &j->cpu, 0x4000, 0x96);
+  assert(j->ram[0x4000] == 0x69);
+  juku_destroy(j);
+}
 static void geometry_and_pixels(void) {
   juku *j=juku_create(); assert(j);
   for(unsigned i=0;i<10240;i++) j->ram[VRAM_BASE+i]=(uint8_t)(i*13+7);
@@ -43,6 +62,26 @@ static void geometry_and_pixels(void) {
   advance(j,40064*3);
   juku_frame(j,&stride,&lines,NULL);assert(stride==50&&lines==193);
   juku_destroy(j);
+}
+static void horizontal_blanking(void) {
+  const unsigned phases[] = {0, 1, 17, 50, 100, 1000, 39999};
+  for (unsigned phase = 0; phase < sizeof phases / sizeof phases[0]; phase++) {
+    juku *j = juku_create(); assert(j);
+    memset(j->ram + VRAM_BASE, 0xff, 9640);
+    setup(j, 0x24, 0x72); advance(j, 40064 * 3);
+    advance(j, phases[phase]);
+    uint64_t sequence = j->scanout.sequence;
+    /* BCD zero loads 10000 clocks; repeated line triggers keep OUT1 low. */
+    count(j, 0x11, 0); advance(j, 40064 * 3);
+    unsigned stride, lines;
+    const uint8_t *frame = juku_frame(j, &stride, &lines, NULL);
+    assert(stride == 40 && lines == 241 && j->scanout.sequence >= sequence + 2);
+    for (unsigned i = 0; i < stride * lines; i++) assert(frame[i] == 0);
+    count(j, 0x11, 0x24); advance(j, 40064 * 3);
+    frame = juku_frame(j, &stride, &lines, NULL);
+    for (unsigned i = 0; i < stride * lines; i++) assert(frame[i] == 0xff);
+    juku_destroy(j);
+  }
 }
 static void counter_semantics(void) {
   juku *j=juku_create();
@@ -116,4 +155,4 @@ static void reload_and_square_wave(void) {
   advance(j,2);assert(j->pit_counters[0][0].output);
   juku_destroy(j);
 }
-int main(void){counter_semantics();geometry_and_pixels();chunking();bcd_vertical_and_irq();atomic_frame();reload_and_square_wave();puts("PASS: Juku clocked video, arbitrary geometry, pixels, latch, BCD and chunk invariance");}
+int main(void){horizontal_blanking();rom_reads_video_writes();counter_semantics();geometry_and_pixels();chunking();bcd_vertical_and_irq();atomic_frame();reload_and_square_wave();puts("PASS: Juku clocked video, arbitrary geometry, pixels, latch, BCD and chunk invariance");}

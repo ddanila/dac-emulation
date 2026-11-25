@@ -7,10 +7,10 @@ video capture consume completed frames. Historical media are external inputs.
 
 The investigation targets [juku3000 issue 17](https://github.com/infoaed/juku3000/issues/17).
 Current measured results, media provenance, and outstanding acceptance criteria
-are in [results.json](results.json). Monitor 3.3 geometry is measured separately from its pre-existing missing
-header in the native core; no full monitor-display equivalence is claimed.
-FEDITOR acceptance remains open until an
-intact executable and its required font files are available and exercised.
+are in [results.json](results.json). The subsequent
+[FEDITOR investigation](../juku-feditor/README.md) exercises the recovered
+application and corrects high-ROM write-through and horizontal blanking.
+The write-through correction also restores Monitor 3.3's missing header.
 
 ## Timing contract
 
@@ -42,8 +42,8 @@ of `0312` is therefore 786 total / 714 active lines.
 
 CPU accesses remain instruction-granular. Digital counter edges run at their
 own timestamps; drawing samples one byte per active 1 MHz interval before
-subsequent guest writes. Completed frames are published without blank-frame
-insertion or a mode-switch debounce. Storage clips scanout to 640 × 384;
+subsequent guest writes. Completed frames include timer-requested blank frames, without a mode-switch
+debounce. Storage clips scanout to 640 × 384;
 clipping does not change the guest counters or interrupt rate.
 
 The active-byte address walk starts at D800 and wraps at 16 bits. This retains

@@ -700,10 +700,11 @@ void juku_wb(juku *ctx, void* u, uint16_t a, uint8_t v) {
   juku_trace_bus_event(ctx, "MW", a, v);
   unsigned idx = 0;
   int ov = juku_overlay(ctx, a, &idx);
-  // EktaSoft 3.7's low-ROM dispatcher writes its return frame behind page-zero
-  // ROM. High-ROM and cartridge windows remain read-only overlays; allowing
-  // those writes corrupts the independently guarded Monitor 3.3 framebuffer.
-  if (ov && !(ctx->mode == 0 && a <= 0x3FFF)) return;
+  /* The BIOS overlays affect reads only: mode 0 writes reach low RAM,
+   * and modes 1/2 write D800-FFFF to video RAM (Juku 1988 manual,
+   * section 0.4, pp. 10-12). The mode-2 expansion window selects external
+   * memory instead, so it must not write the internal RAM underneath. */
+  if (ov == 2) return;
   if (ctx->ram_drop_write_enabled && ctx->ram_drop_write_remaining &&
       a == ctx->ram_drop_write_addr && v == ctx->ram_drop_write_value) {
     ctx->ram_drop_write_remaining--;
