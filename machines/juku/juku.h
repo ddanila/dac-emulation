@@ -26,6 +26,8 @@ const uint8_t *juku_video(juku *, unsigned *stride, unsigned *lines);
  * Borrowed until the next frame publication/reset/destroy. */
 const uint8_t *juku_frame(juku *, unsigned *stride, unsigned *lines, uint64_t *sequence);
 /* Interactive single-contact keyboard; key=0, down=0 releases all. */
+/* ASCII/synthetic keys, plus Latin-1 identities for äõöüÄÕÖÜ. These select
+ * physical contacts or AT scan codes; the active ROM supplies guest bytes. */
 void juku_key(juku *, uint8_t key, int down);
 void juku_step(juku *);
 /* Stops at instruction boundaries: may exceed budget by the last instruction

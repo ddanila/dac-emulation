@@ -27,6 +27,11 @@ static const struct { char c; uint8_t col, bit, shift; } KMAP[] = {
   {'.',13,1,0},{'>',13,1,1},{',',14,1,0},{'<',14,1,1},{'/',12,1,0},{'?',12,1,1},
   {';',11,1,0},{'+',11,1,1},{'-',11,4,0},{'=',11,4,1},{':',10,5,0},{'*',10,5,1},
   {'[',9,3,0},{']',8,3,0},{'\\',11,3,0},{'^',11,3,1},
+  // Latin-1 host key identities; firmware still determines the guest code.
+  {'\xe4',11,5,0},{'\xc4',11,5,1}, // ä Ä
+  {'\xf5',10,3,0},{'\xd5',10,3,1}, // õ Õ
+  {'\xf6',12,5,0},{'\xd6',12,5,1}, // ö Ö
+  {'\xfc',11,3,0},{'\xdc',11,3,1}, // ü Ü
   {'\x80',9,2,0}, // synthetic PTY byte: factory Down contact (row 6)
   {'\x81',8,4,0}, // synthetic PTY byte: factory Erase contact (row 1)
   {'\x82',4,0,0}, // synthetic PTY byte: factory F5 contact (row 5)

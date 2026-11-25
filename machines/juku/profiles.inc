@@ -39,6 +39,12 @@ static void juku_juss_contact(uint8_t key, int *col, int *row, int *shift,
   *row = -1;
   *shift = 0;
   *ctrl = 0;
+  switch (key) {
+  case 0xc4: case 0xe4: *col=11; *row=3; *shift=key==0xc4; return;
+  case 0xd5: case 0xf5: *col=12; *row=2; *shift=key==0xd5; return;
+  case 0xd6: case 0xf6: *col=10; *row=3; *shift=key==0xd6; return;
+  case 0xdc: case 0xfc: *col=11; *row=2; *shift=key==0xdc; return;
+  }
   if (key >= 'A' && key <= 'Z') {
     key += 32;
     *shift = 1;
@@ -164,6 +170,13 @@ static unsigned juku_at_scan(uint8_t key, unsigned *shift, unsigned *ctrl) {
                                     36, 37, 38, 50, 49, 24, 25, 16, 19,
                                     31, 20, 22, 47, 17, 45, 21, 44};
   *shift = *ctrl = 0;
+  // #0043's table assigns Õ to set-1 26 and Ü to 27 (opposite Juku positions).
+  switch (key) {
+  case 0xc4: case 0xe4: *shift=key==0xc4; return 40;
+  case 0xd5: case 0xf5: *shift=key==0xd5; return 26;
+  case 0xd6: case 0xf6: *shift=key==0xd6; return 39;
+  case 0xdc: case 0xfc: *shift=key==0xdc; return 27;
+  }
   if (key >= 'A' && key <= 'Z') {
     key += 32;
     *shift = 1;

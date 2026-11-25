@@ -99,3 +99,7 @@ these capture adapters with a generated file in explicitly selected blocks.
 The [issue #13 investigation](../juku-window/README.md) uses a separate generated
 8080 program to compare external-window reads and internal RAM write isolation
 across all memory modes, with the preserved D6 PROM as decode evidence.
+
+The [issue #18 investigation](../juku-input/README.md) compares natural and
+physical Estonian keyboard input through original ROM services, including
+native/WASM profile coverage and the resulting glyphs.
