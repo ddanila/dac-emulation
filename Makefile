@@ -385,3 +385,17 @@ build/juku-fdc-snapshot-test.cjs: tests/integration/juku_fdc_snapshot_test.c $(R
 .PHONY: test-juku-fdc-sync-wasm
 test-juku-fdc-sync-wasm: build/juku-fdc-snapshot-test.cjs
 	$(NODE) $<
+
+# Opt-in historical controller-interface checks; no additional CI job.
+build/juku-fdc-variants-test: tests/integration/juku_fdc_variants_test.c $(CORE) $(wildcard machines/juku/*.h third_party/cpu/i8080/*.h common/fdc/* common/media/*.h)
+	@mkdir -p build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< $(CORE) -o $@
+
+build/juku-fdc-variants-paced-test: tests/integration/juku_fdc_variants_test.c $(CORE) $(wildcard machines/juku/*.h third_party/cpu/i8080/*.h common/fdc/* common/media/*.h)
+	@mkdir -p build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) -DDAC_JUKU_EXPERIMENTAL_FDC_SYNC=1 $< $(CORE) -o $@
+
+.PHONY: test-juku-fdc-variants
+test-juku-fdc-variants: build/juku-fdc-variants-test build/juku-fdc-variants-paced-test
+	./build/juku-fdc-variants-test
+	./build/juku-fdc-variants-paced-test

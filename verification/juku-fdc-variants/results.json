@@ -1,0 +1,1151 @@
+{
+  "issue": "https://github.com/infoaed/juku3000/issues/16",
+  "dac_base_revision": "f598f95c952a499ecffe48aac21393d963d32ed8",
+  "sinijarv_revision": "1b82a399240b14cc9a54679cc075983a47ccdc33",
+  "sinijarv_dirty": false,
+  "mame_version": "MAME v0.289 (unknown)",
+  "inputs": {
+    "base": "dc3e9edf3e3f21222ed3fbe959d03635ca090eb7cdea0e68de5492e9f115416e",
+    "ekta37.bin": "fc44df76b2601ab81745f2512edb7a56bb24dca6419e7173a5bf11cae4c1fc27",
+    "ekta24.bin": "e1bd9894134ee4085c14bde854780539d3b1e03cfc032c81ec352729e9d69287",
+    "jmon33.bin": "ce9e9c63abbb1780566423a871081bd0bf048a2f3c79e370b465ea9869ff51b8"
+  },
+  "cases": {
+    "ekta37-native-direct": {
+      "return_code": 0,
+      "juss_contacts": false,
+      "inverted_bus": false,
+      "log_sha256": "0f0805245cad477c033edfdee29f046ccb9945bec141298c3073f74af1dfa28e",
+      "lua_error": false,
+      "final_pc": "062a",
+      "data_bytes_read": 23552,
+      "warm_boot_vector": "c303ca0000c306bc",
+      "console": "\u001bH\u001bJ\u001bM0\u001b'EktaSoft '88  Serial #0037      \r\nScreen b/w 40x24/+wnd           \r\nJuku' Qwerty/sw kbd             \r\nParallel printer                \r\nDiskBios (Fdc 1793 on MBoard*)  \r\nNetBios                         \r\nMax Rom on Board: 4000          \r\n\u001b(D\u001bL52K EKDOS 2.30  \r\n\nDrive assignments:\r\n\n<A> - 5\" 786K\r\n<B> - 5\" 786K\r\n\r\nA>fdc25\r\r\n\r\nFDC25 PASS\r\n\r\nA>",
+      "file_io": {
+        "file_bytes": 1024,
+        "allocated_blocks": [
+          78
+        ],
+        "unrelated_bytes_unchanged": true,
+        "guest_passed": true
+      },
+      "raw_sha256": {
+        "capture.console": "2b79f2a42c3fbd28426fa006e6f6f9eb8fa9eee8a2f935a3a39d5450bdf1b6cd",
+        "capture.data.csv": "418f454cbc748947d8385f8deb10789a899d9643a3e23fc098d49a52224a02b5",
+        "capture.events.csv": "320fde0eed3a3b0a158675d8996c012edf81445c8f6d89cbf349f1afb2ee4b46",
+        "capture.frames.csv": "0ee6e2b1f22a76aab9cde3dbc81de4cd32aa4dde625db62aaf0527e69c793e67",
+        "capture.juk": "13d1e68d159dc2d3b692c0684b78a6bbf2269957ae9db61d387a585a0eafa63e",
+        "capture.ram": "fd7adf56c32d162eaf1e3cd2ca2fbf7fc51d8b495656b48e854e0e085edf0869",
+        "capture.samples.csv": "a8e74257bdbade69ba315edbfdc763f9eb16124fead7f3e87ab6f26e92ba1962"
+      },
+      "execution_status": "completed"
+    },
+    "ekta37-native-inverted": {
+      "return_code": 0,
+      "juss_contacts": false,
+      "inverted_bus": true,
+      "log_sha256": "c416c8437f846685a3a469323f5aaf623d5e803ddfa392ddc3d5f14d8eadc1d3",
+      "lua_error": false,
+      "final_pc": "e75c",
+      "data_bytes_read": 0,
+      "warm_boot_vector": "c313d90000c900d3",
+      "console": "\u001bH\u001bJ\u001bM0\u001b'EktaSoft '88  Serial #0037      \r\nScreen b/w 40x24/+wnd           \r\nJuku' Qwerty/sw kbd             \r\nParallel printer                \r\nDiskBios (Fdc 1793 on MBoard*)  \r\nNetBios                         \r\nMax Rom on Board: 4000          \r\n\u001b(D",
+      "file_io": {
+        "guest_passed": false
+      },
+      "raw_sha256": {
+        "capture.console": "8ed0f4d87f8d6fd81d09570bfbadb5591e0e7e9ca9b56233656217a86a60dc06",
+        "capture.data.csv": "fd315ff111943bcfa47884d4f7c72c7cd034ff451671b0af6800ca1776d88c6d",
+        "capture.events.csv": "9dccf6af11cff9708785b89b99ce9745150ae516248da4bcc5b40e951c732060",
+        "capture.frames.csv": "ba68ae89f2a7b6fb3376babf7f34654b38aa3ff0c4ec8e055930909451f6fa42",
+        "capture.juk": "b3b50913534378d11f42b1409416c5b26782fa47e8d5e3f159cb258fdcf604c4",
+        "capture.ram": "67aa8bd44a012af2f588e9d5036497800cbbbba1688842ee5d2d12cf0babad66",
+        "capture.samples.csv": "537be1e7c59bb45bfa227704aa2e54a1b31fd1e113dc5cb8ce43f7f38a7219b4"
+      },
+      "execution_status": "completed"
+    },
+    "ekta37-sinijarv": {
+      "return_code": 0,
+      "juss_contacts": false,
+      "inverted_bus": false,
+      "log_sha256": "5bf65fb84f2697e1d6593f99e695023b726ed649a6207c3aee1ea33fb566aea6",
+      "lua_error": false,
+      "final_pc": "d7e7",
+      "data_io_waits": 25600,
+      "persisted_file": {
+        "file_bytes": 1024,
+        "allocated_blocks": [
+          78
+        ],
+        "unrelated_bytes_unchanged": true
+      },
+      "raw_sha256": {
+        "capture.events.csv": "f24d49f1eb8ce382c9564d7d4076c6b6b1969befbfb860a94657ab3b679386ce",
+        "capture.frames.csv": "b28ea248b42fe315e98e0d73ae8f20d9325756d9195581fdccbba83650b52d6b",
+        "capture.instructions.csv": "c3c45f8b83f820c1282030317b9f4a4314ed4cd268681bca927a9e9c4d5664df",
+        "capture.juk": "13d1e68d159dc2d3b692c0684b78a6bbf2269957ae9db61d387a585a0eafa63e",
+        "capture.ram": "ec4f696e58fcfe4035476f0527fbfc3f743f5ee87baa687efaf0a7b0470cf324",
+        "capture.samples.csv": "7f6a63f731eec1c5fb202dd5b0e8a52b76c0b86af0f371312bd725c8e22b98e2"
+      },
+      "execution_status": "completed"
+    },
+    "ekta37-mame": {
+      "return_code": 0,
+      "juss_contacts": false,
+      "inverted_bus": false,
+      "log_sha256": "76d9c45765c6286e6dc29e7e7084faf0b4a85123542fc7307f004fcfe35fce96",
+      "lua_error": false,
+      "final_pc": "d870",
+      "persisted_file": {
+        "file_bytes": 1024,
+        "allocated_blocks": [
+          78
+        ],
+        "unrelated_bytes_unchanged": true
+      },
+      "raw_sha256": {
+        "capture.events.csv": "f10a512656f331ccd58a3b9ce3c7d655ae8b036074926f06003733b0bd96ddae",
+        "capture.fdc.csv": "d478f5920aef7702f799bb73cb19990a7b64de3ed2e14787b7d60e4fa74584c9",
+        "capture.ram": "aa095110156dde20172470fad4c73698d85f1292627bf332700780d1ecda4209",
+        "capture.samples.csv": "c8067a4e5586435e412bb7e3419603628459911bd0c1cb9b7718d8ec2f74d23f"
+      },
+      "execution_status": "completed"
+    },
+    "ekta24-native-direct": {
+      "return_code": 0,
+      "juss_contacts": true,
+      "inverted_bus": false,
+      "log_sha256": "53e9eb5ce148e0c70021ab6f1c6e19930847de3a85b52ca25474fe4f26838cfe",
+      "lua_error": false,
+      "final_pc": "e74d",
+      "data_bytes_read": 0,
+      "warm_boot_vector": "c312d90000c900d3",
+      "console": "\u001bH\u001bJ\u001bM1\u001b'EktaSoft '88  Serial #0024      \r\nScreen b/w 53x24/+wnd           \r\nJuss' Qwerty keyboard/sw        \r\nParallel printer                \r\nDiskBios (Fdc 1791/2 on MBoard) \r\nNetBios                         \r\nMax Rom on Board: 4000          \r\n\u001b(D",
+      "file_io": {
+        "guest_passed": false
+      },
+      "raw_sha256": {
+        "capture.console": "e9f48206770c6a2de66e2684ab6295f2567d4948a4942040f2f3e095e540c063",
+        "capture.data.csv": "fd315ff111943bcfa47884d4f7c72c7cd034ff451671b0af6800ca1776d88c6d",
+        "capture.events.csv": "452de348868c43969f51003153d4e823e9426b8d1761f3c00df15601dce760ca",
+        "capture.frames.csv": "7fe32f645e76b0e7fa454f3ab6571c1d31c41132dfa2e8550ca363de40d1acb3",
+        "capture.juk": "b3b50913534378d11f42b1409416c5b26782fa47e8d5e3f159cb258fdcf604c4",
+        "capture.ram": "048f9df06a19aaedbc4ffaa2b0fcb6f664105112454b2b6085417be725c3f8c7",
+        "capture.samples.csv": "a14d0848b7e64c57d43d224542053f79df898e2c6ba5199f956f37d61c4f86b4"
+      },
+      "execution_status": "completed"
+    },
+    "ekta24-native-inverted": {
+      "return_code": 0,
+      "juss_contacts": true,
+      "inverted_bus": true,
+      "log_sha256": "0cfb90cef3020e4cae732ca358803e037ca759d4949acec194ffdbb6cfa69216",
+      "lua_error": false,
+      "final_pc": "d863",
+      "data_bytes_read": 23552,
+      "warm_boot_vector": "c303ca0000c306bc",
+      "console": "\u001bH\u001bJ\u001bM1\u001b'EktaSoft '88  Serial #0024      \r\nScreen b/w 53x24/+wnd           \r\nJuss' Qwerty keyboard/sw        \r\nParallel printer                \r\nDiskBios (Fdc 1791/2 on MBoard) \r\nNetBios                         \r\nMax Rom on Board: 4000          \r\n\u001b(D\u001bL52K EKDOS 2.30  \r\n\nDrive assignments:\r\n\n<A> - 5\" 786K\r\n<B> - 5\" 786K\r\n\r\nA>fdc25\r\r\n\r\nFDC25 PASS\r\n\r\nA>",
+      "file_io": {
+        "file_bytes": 1024,
+        "allocated_blocks": [
+          78
+        ],
+        "unrelated_bytes_unchanged": true,
+        "guest_passed": true
+      },
+      "raw_sha256": {
+        "capture.console": "cc9511a47693c8b6ea61fa93a880a932557e38a41d6984891bd6cc83186eca65",
+        "capture.data.csv": "290bf7040c10c8dd509b448cc3ee1c44d3100c218fb4a94d64b172f33ba9b649",
+        "capture.events.csv": "4ce452c31a67dc32e99b666b690269f2251deb36c945fb289a16d456afc19746",
+        "capture.frames.csv": "d4bb0971f9d74ad5d1877001b3a42fcfc80396eff1cdcada2f72759e516fbd46",
+        "capture.juk": "13d1e68d159dc2d3b692c0684b78a6bbf2269957ae9db61d387a585a0eafa63e",
+        "capture.ram": "bbd0423f2ee78b9777f33bc6a177fcb45c8a0cb1f6fc3e21b70e21e37c73a877",
+        "capture.samples.csv": "1e64b62eb2304d4febf1436eb6926fb823ee646461e781bc46e09398574a434c"
+      },
+      "execution_status": "completed"
+    },
+    "ekta24-sinijarv": {
+      "return_code": 0,
+      "juss_contacts": true,
+      "inverted_bus": false,
+      "log_sha256": "b83a35285ea42188bd5a821cfcb01fa4077e8c3ae849f2841d3d3cdabe41995d",
+      "lua_error": false,
+      "final_pc": "e762",
+      "data_io_waits": 0,
+      "persisted_file": null,
+      "raw_sha256": {
+        "capture.events.csv": "f9cd5624fffc9c65380ea76bee1af40adcc50bb27080b43725f70e885e78117a",
+        "capture.frames.csv": "ad6070af8134be52497418b32f235afa78970653033b634ed04d8508e9d6a285",
+        "capture.instructions.csv": "c3c45f8b83f820c1282030317b9f4a4314ed4cd268681bca927a9e9c4d5664df",
+        "capture.juk": "b3b50913534378d11f42b1409416c5b26782fa47e8d5e3f159cb258fdcf604c4",
+        "capture.ram": "23201f04d9a6cff45111066e65987be874b68dbdda1644013724f7366ddab1af",
+        "capture.samples.csv": "e2af3acff10db39fdb36751bfbf6a0e358d3d0a0a5a433ae581cdffe5d03a6ca"
+      },
+      "execution_status": "completed"
+    },
+    "ekta24-mame": {
+      "return_code": 0,
+      "juss_contacts": true,
+      "inverted_bus": false,
+      "log_sha256": "64d4d8a01cd2117bf28b9375b7a58d9bffdbb9d77beba2cdda9074d04ec60d32",
+      "lua_error": false,
+      "final_pc": "e762",
+      "persisted_file": null,
+      "raw_sha256": {
+        "capture.events.csv": "63ffef2aca5b75ce35e5a523745623b5b5f64a11a101192f6cf70e924c0a7a2e",
+        "capture.fdc.csv": "a67b4a084ef5dc33059aa7eb96a3510735058f1528df48d0bf1dfd1cc0121dfb",
+        "capture.ram": "3e8cfd5228450c73d95f075730f24e01b7436dce848789adb01ab5f671eaf346",
+        "capture.samples.csv": "45d0b9daee1e6317ed7130f624f1b716ca3d1e503439d381010e5a4d15822895"
+      },
+      "execution_status": "completed"
+    },
+    "ekta24-paced-inverted": {
+      "return_code": 0,
+      "juss_contacts": true,
+      "inverted_bus": true,
+      "log_sha256": "5b2f9a464c0957ab63d8e37d15c49c93a0324de51af86cfcccb9c7ddb0d60939",
+      "lua_error": false,
+      "final_pc": "d867",
+      "data_bytes_read": 23552,
+      "warm_boot_vector": "c303ca0000c306bc",
+      "console": "\u001bH\u001bJ\u001bM1\u001b'EktaSoft '88  Serial #0024      \r\nScreen b/w 53x24/+wnd           \r\nJuss' Qwerty keyboard/sw        \r\nParallel printer                \r\nDiskBios (Fdc 1791/2 on MBoard) \r\nNetBios                         \r\nMax Rom on Board: 4000          \r\n\u001b(D\u001bL52K EKDOS 2.30  \r\n\nDrive assignments:\r\n\n<A> - 5\" 786K\r\n<B> - 5\" 786K\r\n\r\nA>fdc25\r\r\n\r\nFDC25 PASS\r\n\r\nA>",
+      "file_io": {
+        "file_bytes": 1024,
+        "allocated_blocks": [
+          78
+        ],
+        "unrelated_bytes_unchanged": true,
+        "guest_passed": true
+      },
+      "raw_sha256": {
+        "capture.console": "cc9511a47693c8b6ea61fa93a880a932557e38a41d6984891bd6cc83186eca65",
+        "capture.data.csv": "7fef5a5cb1b19ebd26ac1cd44d07e25bfd2668eabd5a4cc5bfa06d401e3ce8f0",
+        "capture.events.csv": "1ade1e371ef75841733796e51702b5c7a0425fa0f377c3a85240632c07f8e272",
+        "capture.frames.csv": "adbfdfd6e8842559950fdd6fe4be17a80421892d6565a62257788b1907b4b0cf",
+        "capture.juk": "13d1e68d159dc2d3b692c0684b78a6bbf2269957ae9db61d387a585a0eafa63e",
+        "capture.ram": "d8787e4b970de3e990b56bc0179f05b8719983d68c41657554204aec3b8047e0",
+        "capture.samples.csv": "aeaa72f7ebe06bee1db1e6c04e488c5deb4d031bc000b39f458fb0c101e8ff70"
+      },
+      "execution_status": "completed"
+    },
+    "jmon33-native-direct": {
+      "return_code": 0,
+      "juss_contacts": false,
+      "inverted_bus": false,
+      "log_sha256": "e9944e6c198f33eaeff337b84c99af553060a4299b7b87d9619c5f8d15e5ee8f",
+      "lua_error": false,
+      "final_pc": "e429",
+      "data_bytes_read": 0,
+      "warm_boot_vector": "c327fc1c72c900d6",
+      "console": "D",
+      "file_io": {
+        "guest_passed": false
+      },
+      "raw_sha256": {
+        "capture.console": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "capture.data.csv": "fd315ff111943bcfa47884d4f7c72c7cd034ff451671b0af6800ca1776d88c6d",
+        "capture.events.csv": "d511ef1328be1e0e2165c283aefc11d0e43f4b8136bc7b0e98f263fe76c7f666",
+        "capture.frames.csv": "3d0268dcc80f31a57577b82859cc9bfa4d88b584a58943e3fc52b9c078ca1af8",
+        "capture.juk": "b3b50913534378d11f42b1409416c5b26782fa47e8d5e3f159cb258fdcf604c4",
+        "capture.ram": "fbf936bb9442bf4a7ce2f6e1dad2923b1b7a3223287bc4b6e9d876d73c1471bb",
+        "capture.samples.csv": "39b52757a3750dccc02460acd51d3d401cbbc79e93db8c4688c8b65a2a267424"
+      },
+      "execution_status": "completed"
+    },
+    "jmon33-native-inverted": {
+      "return_code": 0,
+      "juss_contacts": false,
+      "inverted_bus": true,
+      "log_sha256": "5b281c51b9f37957adae8a419d4d09e8f33e16a099dd141619e29e229ceae5bc",
+      "lua_error": false,
+      "final_pc": "b7e4",
+      "data_bytes_read": 6656,
+      "warm_boot_vector": "c327fc1c72c900d6",
+      "console": "D",
+      "file_io": {
+        "guest_passed": false
+      },
+      "raw_sha256": {
+        "capture.console": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "capture.data.csv": "ac11079582ca4b71ccaac57277563c5c349d04182c2bde27e91ebc053352ff7a",
+        "capture.events.csv": "05d38e96d45fc91a67cb5821dd0b88fbca1368b3c1d1c748c1e87de19e0720e8",
+        "capture.frames.csv": "1c5d15ddde2a9c0d094e91cc096d52553900b7b5e55ccb2084f76f0e80491faa",
+        "capture.juk": "b3b50913534378d11f42b1409416c5b26782fa47e8d5e3f159cb258fdcf604c4",
+        "capture.ram": "ed777476ced676719d2a286a793eaad8003866e535a7d5371e0784550e07a5d1",
+        "capture.samples.csv": "0515222b233b9505faddeb8e0f37ad97d0230c2250fe8b5931c3aa1290c3227b"
+      },
+      "execution_status": "completed"
+    },
+    "jmon33-sinijarv": {
+      "return_code": 0,
+      "juss_contacts": false,
+      "inverted_bus": false,
+      "log_sha256": "a618860b746eb8931495fb952e1548ad9ae64b01c48af8035f6a0fcdba06557d",
+      "lua_error": false,
+      "final_pc": "e43a",
+      "data_io_waits": 0,
+      "persisted_file": null,
+      "raw_sha256": {
+        "capture.events.csv": "f2e0500517e05333bdb6e37803cc94d53ac5207019655f05627651bb6032e569",
+        "capture.frames.csv": "da199349a656e3e7137ddf482d99321bf0751a9d3975a05176148da8625b6c60",
+        "capture.instructions.csv": "c3c45f8b83f820c1282030317b9f4a4314ed4cd268681bca927a9e9c4d5664df",
+        "capture.juk": "b3b50913534378d11f42b1409416c5b26782fa47e8d5e3f159cb258fdcf604c4",
+        "capture.ram": "8563c4cc530e66dd70b26ed0799fa6e8de9bb9d16dcd41cbf9465abfa5020126",
+        "capture.samples.csv": "ec01654fa2d5472e2543e5b3b54bf9f52b874052ed24c583770ad10a1b5ab70b"
+      },
+      "execution_status": "completed"
+    },
+    "jmon33-mame": {
+      "return_code": -10,
+      "juss_contacts": false,
+      "inverted_bus": false,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lua_error": false,
+      "raw_sha256": {
+        "capture.events.csv": "887dfb6f89328cb329abaa08e761ff4eae17edc56ec13be394f881b3468f3c2b",
+        "capture.fdc.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture.samples.csv": "1294d3929826b0e54f43a0acd38dbd2b9a6976fe65ba549fc06cd2b3ed4c1c76"
+      },
+      "execution_status": "failed"
+    },
+    "jmon33-fixture-native-inverted": {
+      "return_code": 0,
+      "juss_contacts": false,
+      "inverted_bus": true,
+      "log_sha256": "d1755b5bcaf86dacd35290e51f61db02763d1e898a5166884ff818655c095f0a",
+      "lua_error": false,
+      "final_pc": "ce0c",
+      "data_bytes_read": 6656,
+      "warm_boot_vector": "c327fc1c72c900d6",
+      "console": "D",
+      "sector_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          10
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "bootstrap_passed": true,
+      "raw_sha256": {
+        "capture.console": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "capture.data.csv": "1988f47204de7bd630db906779315eba25001e9e7ebab2a3b6f9353b6fd71ce2",
+        "capture.events.csv": "e67f9038d3fcf2465644fb857ac1007e4ddc1a956ad22d5dda0f1cecafe8b525",
+        "capture.frames.csv": "7820844c5b5fd8865be96b4b45ccc373df0f67fc49440af651c9afd835ef8d8e",
+        "capture.juk": "cb5d3458166e2225face2542715932ed5fe9602eb816afbbd0bb61493e82a632",
+        "capture.ram": "2e32d7d0d5a14ce90d7a13243ea1f8642aa108a7d2dca073905eb46db8bdb541",
+        "capture.samples.csv": "d274a7d67f9a78aab9b069a2585a413d94f4e34df729eb463e89175b9c46d3ac"
+      },
+      "execution_status": "completed"
+    },
+    "jmon33-fixture-paced-inverted": {
+      "return_code": 0,
+      "juss_contacts": false,
+      "inverted_bus": true,
+      "log_sha256": "ccf55759ed5c1a631325d7aebe81d5669830447279763808d9100aacf97a9850",
+      "lua_error": false,
+      "final_pc": "ce0c",
+      "data_bytes_read": 6656,
+      "warm_boot_vector": "c327fc1c72c900d6",
+      "console": "D",
+      "sector_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          10
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "bootstrap_passed": true,
+      "raw_sha256": {
+        "capture.console": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "capture.data.csv": "1c32b8a117dc78efe755db8b8d537894e72f965bfc84dbc6e5664d31c636a52a",
+        "capture.events.csv": "6eccc013b65df20e651c427774b26ae4ce239ea7d97c343c091f37b7d7fa37c3",
+        "capture.frames.csv": "b0ce06cca51c6e812315cc8f80b37b1cf856fd2569ec69008601fd971c6789fd",
+        "capture.juk": "cb5d3458166e2225face2542715932ed5fe9602eb816afbbd0bb61493e82a632",
+        "capture.ram": "732967a168fce472fd03c8d8680d119a2c372c6dbdde525368e687682e8ee9b7",
+        "capture.samples.csv": "62478a66ecb60a83556115a3df825ed82230932104d5f20bd7029345a2e0a328"
+      },
+      "execution_status": "completed"
+    }
+  },
+  "firmware_patterns": {
+    "ekta24": {
+      "sha256": "e1bd9894134ee4085c14bde854780539d3b1e03cfc032c81ec352729e9d69287",
+      "writes": [
+        {
+          "offset": "0x25a0",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x25db",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x25f3",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x261c",
+          "port": "0x1f",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x2628",
+          "port": "0x1e",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x263c",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x269c",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x26a2",
+          "port": "0x1f",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x26e3",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x2718",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x271e",
+          "port": "0x1f",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x27c0",
+          "port": "0x1d",
+          "before": "0x2f"
+        }
+      ],
+      "reads": [
+        {
+          "offset": "0x25a7",
+          "port": "0x1f",
+          "after": "0x2f"
+        },
+        {
+          "offset": "0x262e",
+          "port": "0x1d",
+          "after": "0x2f"
+        },
+        {
+          "offset": "0x26bc",
+          "port": "0x1c",
+          "after": "0x2f"
+        },
+        {
+          "offset": "0x26e8",
+          "port": "0x1f",
+          "after": "0x2f"
+        },
+        {
+          "offset": "0x274d",
+          "port": "0x1c",
+          "after": "0x2f"
+        },
+        {
+          "offset": "0x2760",
+          "port": "0x1c",
+          "after": "0x2f"
+        }
+      ]
+    },
+    "ekta31": {
+      "sha256": "26f1f4161a547ea60312a250bde9df41c0b07a939c0b880628050eaec18ec4e4",
+      "writes": [
+        {
+          "offset": "0x25a0",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x25db",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2601",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x262a",
+          "port": "0x1f",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2636",
+          "port": "0x1e",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x264a",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26aa",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26b0",
+          "port": "0x1f",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26f1",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2726",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x272c",
+          "port": "0x1f",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x27ce",
+          "port": "0x1d",
+          "before": "0x0"
+        }
+      ],
+      "reads": [
+        {
+          "offset": "0x25a7",
+          "port": "0x1f",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x263c",
+          "port": "0x1d",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x26ca",
+          "port": "0x1c",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x26f6",
+          "port": "0x1f",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x275b",
+          "port": "0x1c",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x276e",
+          "port": "0x1c",
+          "after": "0x0"
+        }
+      ]
+    },
+    "ekta32": {
+      "sha256": "1826563e23b5d8bc23c61694ceccb923d6a31778077934ad0338772070671122",
+      "writes": [
+        {
+          "offset": "0x25a2",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x25dc",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2601",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2627",
+          "port": "0x32",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x263b",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x269b",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26a1",
+          "port": "0x33",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26e2",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2717",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x271d",
+          "port": "0x33",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x27ac",
+          "port": "0x31",
+          "before": "0x0"
+        }
+      ],
+      "reads": [
+        {
+          "offset": "0x25a9",
+          "port": "0x33",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x262d",
+          "port": "0x31",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x26bb",
+          "port": "0x30",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x26e7",
+          "port": "0x33",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x274c",
+          "port": "0x30",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x275f",
+          "port": "0x30",
+          "after": "0x0"
+        }
+      ]
+    },
+    "ekta35": {
+      "sha256": "e8fe5e657037b8f3203f57512cd01cc35f7eaa2a3f0dae8d0ae19378908bd518",
+      "writes": [
+        {
+          "offset": "0x25ad",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x25e8",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x260e",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2637",
+          "port": "0x1f",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2643",
+          "port": "0x1e",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2657",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26b7",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26bd",
+          "port": "0x1f",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26fe",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2733",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2739",
+          "port": "0x1f",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x27db",
+          "port": "0x1d",
+          "before": "0x0"
+        }
+      ],
+      "reads": [
+        {
+          "offset": "0x25b4",
+          "port": "0x1f",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x2649",
+          "port": "0x1d",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x26d7",
+          "port": "0x1c",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x2703",
+          "port": "0x1f",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x2768",
+          "port": "0x1c",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x277b",
+          "port": "0x1c",
+          "after": "0x0"
+        }
+      ]
+    },
+    "ekta37": {
+      "sha256": "fc44df76b2601ab81745f2512edb7a56bb24dca6419e7173a5bf11cae4c1fc27",
+      "writes": [
+        {
+          "offset": "0x25a1",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x25dc",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2602",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x262b",
+          "port": "0x1f",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2637",
+          "port": "0x1e",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x264b",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26ab",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26b1",
+          "port": "0x1f",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26f2",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2727",
+          "port": "0x1c",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x272d",
+          "port": "0x1f",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x27cf",
+          "port": "0x1d",
+          "before": "0x0"
+        }
+      ],
+      "reads": [
+        {
+          "offset": "0x25a8",
+          "port": "0x1f",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x263d",
+          "port": "0x1d",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x26cb",
+          "port": "0x1c",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x26f7",
+          "port": "0x1f",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x275c",
+          "port": "0x1c",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x276f",
+          "port": "0x1c",
+          "after": "0x0"
+        }
+      ]
+    },
+    "ekta43": {
+      "sha256": "39e3ca8978b369632d03c658300654445b898139009f188cb154e2f901238ba7",
+      "writes": [
+        {
+          "offset": "0x25a3",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x25dd",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2602",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2628",
+          "port": "0x32",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x263c",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x269c",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26a2",
+          "port": "0x33",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x26e3",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x2718",
+          "port": "0x30",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x271e",
+          "port": "0x33",
+          "before": "0x0"
+        },
+        {
+          "offset": "0x27ad",
+          "port": "0x31",
+          "before": "0x0"
+        }
+      ],
+      "reads": [
+        {
+          "offset": "0x25aa",
+          "port": "0x33",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x262e",
+          "port": "0x31",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x26bc",
+          "port": "0x30",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x26e8",
+          "port": "0x33",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x274d",
+          "port": "0x30",
+          "after": "0x0"
+        },
+        {
+          "offset": "0x2760",
+          "port": "0x30",
+          "after": "0x0"
+        }
+      ]
+    },
+    "jmon33": {
+      "sha256": "ce9e9c63abbb1780566423a871081bd0bf048a2f3c79e370b465ea9869ff51b8",
+      "writes": [
+        {
+          "offset": "0x227a",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x22b5",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x22cd",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x22f6",
+          "port": "0x1f",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x2302",
+          "port": "0x1e",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x2316",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x2376",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x237c",
+          "port": "0x1f",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x23bd",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x23f2",
+          "port": "0x1c",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x23f8",
+          "port": "0x1f",
+          "before": "0x2f"
+        },
+        {
+          "offset": "0x249a",
+          "port": "0x1d",
+          "before": "0x2f"
+        }
+      ],
+      "reads": [
+        {
+          "offset": "0x2281",
+          "port": "0x1f",
+          "after": "0x2f"
+        },
+        {
+          "offset": "0x2308",
+          "port": "0x1d",
+          "after": "0x2f"
+        },
+        {
+          "offset": "0x2396",
+          "port": "0x1c",
+          "after": "0x2f"
+        },
+        {
+          "offset": "0x23c2",
+          "port": "0x1f",
+          "after": "0x2f"
+        },
+        {
+          "offset": "0x2427",
+          "port": "0x1c",
+          "after": "0x2f"
+        },
+        {
+          "offset": "0x243a",
+          "port": "0x1c",
+          "after": "0x2f"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "FD1791 DAL polarity is verified; FD1792 single-density FM is not implemented or tested.",
+    "Card ROMs 0032/0043 are inspected statically, not boot-tested; their 30..33 FDC mapping is outside this probe.",
+    "JUSS contacts are supplied by capture adapters; frontend keyboard/profile selection is not added.",
+    "Monitor 3.3 bootstrap passes a generated disk; the supplied EKDOS 2.30 disk does not boot under that monitor.",
+    "Inversion uses the existing diagnostic option; the default remains the direct-bus FD1793 profile.",
+    "Experimental paced FDC remains opt-in; these tests do not establish physical timing accuracy."
+  ],
+  "findings": {
+    "mainboard_roms": "0024 and Monitor 3.3 use inverted DAL at 1C..1F; 0031/0035/0037 use direct DAL at the same ports.",
+    "card_roms": "0032/0043 use direct DAL at 30..33 in their FDC routines; polarity alone cannot provide their machine configuration.",
+    "ekta24": "Native direct-bus control stalls without sector reads; inverted bus boots EKDOS 2.30 and passes guest read/write/EOF plus independent persisted-file verification in both timing modes.",
+    "cross_core": "Unmodified MAME and sinijarv stall with 0024; 0037 is a successful file-I/O baseline in all three cores.",
+    "monitor33": "Inverted bus transfers 13 sectors correctly and executes a synthetic bootstrap. Supplied EKDOS 2.30 has an incompatible bootstrap layout; a historical compatible OS remains unverified.",
+    "mame_monitor33": "Consult the recorded process status; a failed process is not a successful FDC comparison."
+  }
+}

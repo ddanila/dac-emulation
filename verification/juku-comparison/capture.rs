@@ -5,6 +5,16 @@ fn contact(m: &mut Machine, k: u8) {
     m.release_all_keys();
     let letters = [(5,5),(4,1),(6,1),(6,5),(6,3),(2,5),(4,5),(0,5),(14,3),(7,5),(14,5),(13,5),(7,1),(0,1),(13,3),(12,3),(5,3),(2,3),(1,5),(4,3),(7,3),(2,1),(1,3),(1,1),(0,3),(5,1)];
     let digits = [12,5,1,6,2,4,0,7,14,13];
+    if env::var_os("JUKU_JUSS_CONTACTS").is_some() {
+        let lower=k.to_ascii_lowercase();
+        let mut contact=None;
+        for (letters,col,row) in [("1234567890",2,1),("qwertyuiop",1,2),("asdfghjkl",1,3),("zxcvbnm",0,4)] {
+            if let Some(i)=letters.bytes().position(|c|c==lower) {contact=Some((col+i as u8,row));}
+        }
+        contact=match k {13=>Some((13,3)),b'.'=>Some((8,4)),b' '=>Some((3,5)),_=>contact};
+        let (col,row)=contact.expect("unsupported JUSS probe key");
+        m.set_key(0x80,k.is_ascii_uppercase());m.set_key(col<<3|row,true);return;
+    }
     let (col,row) = match k {
         0x83 => (0,0), 0x87 => (3,0), 0x88 => (5,0), 0x89 => (6,0),
         27 => (3,4), 13 => (8,5), 58 => (10,5), 59 => (11,1), 32 => (11,2), 46 => (13,1),

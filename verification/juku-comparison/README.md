@@ -88,3 +88,6 @@ active area, not the CRT shader or the full analog monitor response. Mouse,
 other firmware/application versions, abnormal FDC transfers and the original
 scrolling study's full input-timing matrix are outside this extension. Existing
 specialized native/WASM and controller tests remain separate.
+
+Controller polarity, JUSS input and historical bootstrap coverage are provided
+by the separate [issue #16 investigation](../juku-fdc-variants/README.md).
