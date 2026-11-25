@@ -7,28 +7,10 @@ static FILE *events, *data_reads, *console;
 static juku *machine;
 static unsigned long overlay_writes;
 static unsigned long fdc_reads[4], fdc_writes[4];
-/* Diagnostic JUSS contacts, separate from the core's default keyboard layout. */
-static uint8_t (*base_in)(void *, uint8_t);
-static unsigned live_contact;
-static uint8_t juss_in(void *u, uint8_t port) {
-  uint8_t value = base_in(u, port);
-  if (port != 5 || !live_contact) return value;
-  unsigned key=live_contact, shift=key>='A' && key<='Z';
-  if (shift) key+=32;
-  const char *rows[]={"1234567890","qwertyuiop","asdfghjkl","zxcvbnm"};
-  const unsigned columns[]={2,1,1,0}, row_numbers[]={1,2,3,4};
-  unsigned col=0,row=0;int found=0;
-  for(unsigned i=0;i<4;i++) {const char *c=strchr(rows[i],(int)key);if(c){col=columns[i]+(unsigned)(c-rows[i]);row=row_numbers[i];found=1;break;}}
-  if(key==13){col=13;row=3;found=1;}
-  if(key=='.'){col=8;row=4;found=1;}
-  if(key==' '){col=3;row=5;found=1;}
-  if(!found){fputs("unsupported JUSS probe key\n",stderr);exit(2);}
-  value = (uint8_t)((value & 0x30) | 0x80 | (shift ? 0 : 0x40));
-  return (uint8_t)(value | (machine->kbd_col == col ? ((~row & 7) << 1) : 15));
-}
 static void bus(void *user, const dac_trace_event *e) {
   (void)user;
-  if (e->address >= 0x1c && e->address <= 0x1f &&
+  unsigned base=juku_profile_info(machine->profile)->card?0x30:0x1c;
+  if (e->address >= base && e->address <= base+3 &&
       (!strcmp(e->kind,"IR") || !strcmp(e->kind,"IW"))) {
     unsigned reg = e->address & 3;
     if (reg == 3 && !strcmp(e->kind,"IR")) {
@@ -74,8 +56,10 @@ int main(int argc,char**argv) {
   if(n!=409600 && n!=819200)return 2;
   if(juk_disk_bind(&j->disk,dac_memory_storage(disk,n,1),n==819200?2:1,1))return 2;
   juku_fdc_init(&j->fdc,&j->disk);j->fdc_enabled=1;j->kbd_enabled=1;
+  const char *profile=getenv("JUKU_PROFILE");
+  if(profile && juku_set_profile(j,(unsigned)strtoul(profile,NULL,10)))return 2;
   const char *invert = getenv("JUKU_FDC_BUS_INVERT");
-  j->fdc_bus_invert = invert && !strcmp(invert,"1");
+  if(invert)j->fdc_bus_invert=!strcmp(invert,"1");
   FILE*keys=fopen(argv[4],"r");if(!keys)return 2;
   unsigned long ms=0;unsigned key;int down,have=read_key(keys,&ms,&key,&down);
   char path[4096];if(strlen(argv[3])>sizeof(path)-80)return 2;
@@ -88,8 +72,6 @@ int main(int argc,char**argv) {
 
   snprintf(path,sizeof(path),"%s.frames.csv",argv[3]);FILE*frames=fopen(path,"w");if(!frames)return 2;
   fputs("sequence,cycle,width,height,lit_bytes\n",frames);
-  int juss = getenv("JUKU_JUSS_CONTACTS") != NULL;
-  if (juss) {base_in=j->cpu.port_in; j->cpu.port_in=juss_in;}
   unsigned long checkpoint=28000;
   snprintf(path,sizeof(path),"%s.samples.csv",argv[3]);FILE*samples=fopen(path,"w");if(!samples)return 2;
   fputs("cycle,pc,sp,a,iff,frame_irqs,frames,font_latin_lo,font_latin_hi,font_source_lo\n",samples);
@@ -97,9 +79,7 @@ int main(int argc,char**argv) {
   uint64_t sequence=0;
   while(j->cpu.cyc<end) {
     while(have && j->cpu.cyc>=ms*2000) {
-      if (juss) {
-        live_contact = down ? key : 0;
-      } else juku_key(j,(uint8_t)key,down);
+      juku_key(j,(uint8_t)key,down);
       fprintf(events,"KEY,%lu,%02x,%d,%04x\n",j->cpu.cyc,key,down,j->cpu.pc);
       have=read_key(keys,&ms,&key,&down);
     }

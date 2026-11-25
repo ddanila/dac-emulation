@@ -39,7 +39,7 @@ instructions.
 
 The real-media runner compares direct and inverted buses explicitly. Its
 `JUKU_FDC_BUS_INVERT=1` setting selects the existing internal diagnostic option;
-it does not add a frontend machine profile. For ROM #0024, adapters supply JUSS
+production profile support is described in [Juku profiles](../juku-profiles/README.md). For ROM #0024, our capture uses the public JUSS profile; external adapters supply JUSS
 physical keyboard contacts. MAME's fixed input fields omit some of those
 contacts, so its adapter supplies the encoded keyboard lines at port 5 while
 preserving DIP-switch bits. All other emulated hardware remains unchanged.
@@ -59,5 +59,5 @@ not evidence that a historical operating-system disk boots successfully.
 The firmware inventory recognizes raw IN/OUT byte patterns and adjacent
 CMA/NOP bytes. It does not establish reachability of every match. Expansion-card
 ROMs #0032/#0043 are inventoried at ports 30–33 but are outside the dynamic boot
-matrix. Complete selectable machine profiles, JUSS frontend input, FD1792/FM,
-and expansion-card emulation remain separate implementation work.
+matrix. Production profile, keyboard, FM and expansion-card coverage is owned by the
+[Juku profile qualification](../juku-profiles/README.md).

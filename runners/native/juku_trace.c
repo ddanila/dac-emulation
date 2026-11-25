@@ -21,7 +21,7 @@
 // stall was the ROM self-test checksum loop (0x042C/0x0443), NOT the keyboard.
 //   - ekta37.bin (official) boots cleanly -> banner (render vram.bin at stride 40).
 //   - ekta43.bin (homebrew AT-kbd) has a STALE block-1 checksum (0x000A=0xF2 but
-//     bytes 0x000B..0x07FF sum to 0x57); patched at load so it boots too. All 5
+//     bytes 0x000B..0x07FF sum to 0x57); preserved unchanged. All 5
 //     official ekta ROMs pass block-1; only ekta43 fails (confirms our checksum).
 //
 // Build: cc -O2 -o trace trace.c i8080.c juk_disk.c juku_fdc.c
@@ -561,8 +561,19 @@ static void host_frame(void *user, unsigned long cycle) {
 }
 
 int main(int argc, char** argv) {
+  unsigned profile=0;
+  if(argc>1 && !strcmp(argv[1],"--list-profiles")) {
+    for(unsigned i=0;i<JUKU_PROFILE_COUNT;i++){const juku_profile *p=juku_profile_info(i);printf("%s: %s (%s)\n",p->id,p->name,p->firmware);}return 0;
+  }
+  if(argc>2 && !strcmp(argv[1],"--profile")) {
+    for(profile=0;profile<JUKU_PROFILE_COUNT;profile++)if(!strcmp(argv[2],juku_profile_info(profile)->id))break;
+    if(profile==JUKU_PROFILE_COUNT){fputs("unknown Juku profile\n",stderr);return 2;}
+    argv+=2;argc-=2;
+  }
   juku *ctx = juku_create();
   if (!ctx) return 2;
+  juku_set_profile(ctx,profile);
+  fprintf(stderr,"Juku profile: %s\n",juku_profile_info(profile)->id);
   ctx->hooks = (juku_hooks){ctx, host_serial_read, host_serial_write,
       host_serial_wait, host_memory_read, host_log, host_frame, NULL};
   ctx->bus_trace.emit = host_bus_trace;
@@ -1133,8 +1144,10 @@ int main(int argc, char** argv) {
     return 2;
   }
   const char* fdc_bus_invert_env = getenv("JUKU_FDC_BUS_INVERT");
-  ctx->fdc_bus_invert = fdc_bus_invert_env && fdc_bus_invert_env[0] &&
-                   strcmp(fdc_bus_invert_env, "0") != 0;
+  if(fdc_bus_invert_env && fdc_bus_invert_env[0]) {
+    ctx->fdc_bus_invert=strcmp(fdc_bus_invert_env,"0")!=0;
+    fprintf(stderr,"Diagnostic FDC bus inversion override: %d\n",ctx->fdc_bus_invert);
+  }
   if (cart_path && cart_path[0]) {
     size_t cn = load_image(cart_path, ctx->cart, CART_SIZE, 0xFF);
     ctx->cart_enabled = 1;
@@ -1163,6 +1176,7 @@ int main(int argc, char** argv) {
       }
     }
     juku_fdc_init(&ctx->fdc, &ctx->disk);
+    ctx->fdc.fm_only=juku_profile_info(profile)->controller==1792;ctx->fdc.fm=ctx->fdc.fm_only;
     ctx->fdc_enabled = 1;
     fprintf(stderr, "loaded JUKU disk image %s (%ld bytes, %d side%s, %s, FDC bus %s)\n",
             disk_path, ctx->disk.size, ctx->disk.heads, ctx->disk.heads == 1 ? "" : "s",
@@ -1175,13 +1189,8 @@ int main(int argc, char** argv) {
   size_t n = load_image(rom_path, ctx->rom, ROM_SIZE, 0x00);
   fprintf(stderr, "loaded %zu bytes of ROM from %s\n", n, rom_path);
 
-  // ekta43.bin (homebrew AT-kbd mod) has a STALE block-1 checksum: bytes
-  // 0x000B..0x07FF sum to 0x57 but the stored checksum at 0x000A is 0xF2, so the
-  // ROM self-test fails and retries forever. Patch the stored byte to boot.
-  if (ctx->rom[0x0A] == 0xF2 && (sum_block(ctx->rom) == 0x57)) {
-    ctx->rom[0x0A] = 0x57;
-    fprintf(stderr, "[PATCH] ekta43 block-1 checksum 0x000A: 0xF2 -> 0x57 (stale homebrew checksum)\n");
-  }
+  if (ctx->rom[0x0A] != sum_block(ctx->rom))
+    fprintf(stderr,"ROM block-1 checksum differs; firmware is preserved unchanged\n");
 
   ctx->cpu.fault_a12_increment_high_loss = ctx->cpu_a12_increment_fault;
   ctx->cpu.pc = 0x0000;

@@ -113,7 +113,10 @@ struct juku {
   juk_disk disk;
   juku_fdc fdc;
   int fdc_enabled;
-  int fdc_bus_invert;
+  int fdc_bus_invert; /* diagnostic override; initialized from controller profile */
+  unsigned profile;
+  uint8_t card_control, at_queue[32], at_count, at_bit, at_key;
+
   int cart_enabled;
   int rom_consecutive_a12_low;
   unsigned int rom_read_burst_count;

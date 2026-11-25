@@ -45,6 +45,8 @@ static const struct { char c; uint8_t col, bit, shift; } KMAP[] = {
   {'\x91',7,0,0}, // synthetic PTY byte: factory F7 contact (row 5)
 };
 
+#include "profiles.inc"
+
 int juku_is_pit_data_port(juku *ctx, uint8_t port) {
   (void)ctx;
   return port >= 0x10 && port <= 0x1A && (port & 3) != 3;
@@ -666,6 +668,8 @@ uint8_t juku_kbd_portb(juku *ctx, const i8080* cpu) {
       for (unsigned i = 0; i < sizeof(KMAP)/sizeof(KMAP[0]); i++)
         if (KMAP[i].c == lc) { col = KMAP[i].col; bit = KMAP[i].bit; shift |= KMAP[i].shift; break; }
   }
+  if (juku_profile_info(ctx->profile)->keyboard == 1 && c)
+    juku_juss_contact((uint8_t)c, &col, &bit, &shift, &ctrl);
   uint8_t pb = (uint8_t)(0xC0 | contrdat);
   if (shift) pb &= (uint8_t)~0x40;                     // SHIFT1 held = bit6 low (active-low)
   if (ctrl) pb &= (uint8_t)~0x80;                      // CTRL held = bit7 low (active-low)
@@ -787,7 +791,7 @@ void juku_sync_fdc_time(juku *ctx, i8080* cpu) {
 static bool cpu_io_ready(void *user, uint8_t port, bool write) {
   juku *ctx = user;
   juku_sync_fdc_time(ctx, &ctx->cpu);
-  if (!ctx->fdc_enabled || port != 0x1f) return true;
+  if (!ctx->fdc_enabled || port != juku_fdc_base(ctx) + 3) return true;
   uint8_t command = ctx->fdc.command;
   bool transfer = write ? ((command & 0xe0) == 0xa0 || (command & 0xf0) == 0xf0)
                         : ((command & 0xe0) == 0x80 || (command & 0xfb) == 0xc0 || (command & 0xfb) == 0xe0);
@@ -808,14 +812,14 @@ uint8_t juku_pin(juku *ctx, void* u, uint8_t p) {
   }
   ctx->in_count[p]++;
   uint8_t value;
-  if (p == 0x05 && ctx->kbd_enabled) value = juku_kbd_portb(ctx, cpu);          // 8255 Port B = keyboard 74148/config scan
+  if (p == 0x05 && ctx->kbd_enabled) value = juku_profile_info(ctx->profile)->keyboard == 2 ? juku_at_read(ctx) : juku_kbd_portb(ctx, cpu);          // 8255 Port B = keyboard 74148/config scan
   else if (p == 0x06) value = ctx->portc;  // Port C latch, including BSR writes
   else if (ctx->usart.enabled && p >= 0x08 && p <= 0x0B)
     value = juku_usart_read(ctx, p & 1, cpu ? cpu->cyc : 0);
-  else if (ctx->fdc_enabled && p >= 0x1C && p <= 0x1F) {
+  else if (ctx->fdc_enabled && p >= juku_fdc_base(ctx) && p <= juku_fdc_base(ctx) + 3) {
     value = juku_fdc_read(&ctx->fdc, p & 3);
     if (ctx->fdc_bus_invert) value = (uint8_t)~value;
-    if (p == 0x1F) ctx->fdc_data_reads++;
+    if (p == juku_fdc_base(ctx) + 3) ctx->fdc_data_reads++;
   }
   else if (juku_is_pit_data_port(ctx, p)) value = juku_pit_read(ctx, p);
   // Optional expansion hardware occupies F0h-F3h in some software paths.
@@ -858,14 +862,14 @@ void juku_pout(juku *ctx, void* u, uint8_t p, uint8_t v) {
     juku_log(ctx, "[IOSEQ] OUT port=0x%02X value=0x%02X cyc=%lu pc=%04X g_vw=%lu count=%lu\n",
             p, v, cpu ? cpu->cyc : 0, cpu ? cpu->pc : 0, ctx->g_vw, ctx->out_count[p]);
   }
-  if (ctx->fdc_enabled && p >= 0x1C && p <= 0x1F) {
+  if (ctx->fdc_enabled && p >= juku_fdc_base(ctx) && p <= juku_fdc_base(ctx) + 3) {
     juku_fdc_write(&ctx->fdc, p & 3, ctx->fdc_bus_invert ? (uint8_t)~v : v);
     /* The instruction-granular cosim has no model of the Juku's I/O wait
      * states.  As in rombios_fdc_write_test, start the 512-byte firmware
      * stream immediately; the controller-level test retains and checks the
      * exact WD1793 write lead-in timing. */
     const uint8_t fdc_value = ctx->fdc_bus_invert ? (uint8_t)~v : v;
-    if (!DAC_JUKU_EXPERIMENTAL_FDC_SYNC && p == 0x1C && (fdc_value & 0xE0) == 0xA0)
+    if (!DAC_JUKU_EXPERIMENTAL_FDC_SYNC && p == juku_fdc_base(ctx) && (fdc_value & 0xE0) == 0xA0)
       ctx->fdc.write_sector_lead_pending = 0;
   }
   if (ctx->usart.enabled && p >= 0x08 && p <= 0x0B)
@@ -882,6 +886,16 @@ void juku_pout(juku *ctx, void* u, uint8_t p, uint8_t v) {
     }
   }
 
+  if (juku_profile_info(ctx->profile)->card && ctx->fdc_enabled) {
+    if (p == 0x34) {
+      ctx->card_control = v;
+      /* ROM card control: motor=2, clock=3, FM=4, drive=5, side=6. */
+      juku_fdc_portc(&ctx->fdc, v);
+      ctx->fdc.fm = (v >> 4) & 1;
+    }
+    if (p == 0x35) juku_fdc_write(&ctx->fdc, 3, v); /* seek-data alias, without DRQ wait */
+  }
+  if (p == 0x04 && juku_profile_info(ctx->profile)->keyboard == 2) juku_at_write(ctx,v);
   if (p == 0x04) ctx->kbd_col = v & 0x0F;   // 8255 Port A low nibble = keyboard column select
 
   // 8259 PIC programming (port 0x00 = A0=0, port 0x01 = A0=1)
@@ -894,17 +908,17 @@ void juku_pout(juku *ctx, void* u, uint8_t p, uint8_t v) {
   // 8255#0 Port C controls the memory view (ports 0x04..0x07)
   if (p == 0x06) {                 // direct write to Port C
     ctx->portc = v;
-    if (ctx->fdc_enabled) juku_fdc_portc(&ctx->fdc, ctx->portc);
+    juku_mainboard_control(ctx);
     juku_set_mode(ctx, ctx->portc & 0b11);
   } else if (p == 0x07) {          // 8255 control port
     if (v & 0x80) {                // mode-set command: outputs reset to 0
       ctx->portc = 0;
-      if (ctx->fdc_enabled) juku_fdc_portc(&ctx->fdc, ctx->portc);
+      juku_mainboard_control(ctx);
       juku_set_mode(ctx, 0);
     } else {                       // bit set/reset on Port C
       int bit = (v >> 1) & 7;
       if (v & 1) ctx->portc |= (1u << bit); else ctx->portc &= ~(1u << bit);
-      if (ctx->fdc_enabled) juku_fdc_portc(&ctx->fdc, ctx->portc);
+      juku_mainboard_control(ctx);
       juku_set_mode(ctx, ctx->portc & 0b11);
     }
   }
@@ -1175,6 +1189,7 @@ void juku_key(juku *ctx, uint8_t key, int down) {
   if (!ctx) return;
   ctx->live_keyboard = ctx->kbd_enabled = 1;
   ctx->kbd_start_vram = 0;
+  if (juku_profile_info(ctx->profile)->keyboard == 2) juku_at_key(ctx,key,down);
   if (down) ctx->live_key = key;
   else if (!key || key == ctx->live_key) ctx->live_key = 0;
 }

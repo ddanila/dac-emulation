@@ -54,7 +54,7 @@ they are not a physical board's PROM dump.
 
 The JSON object requires `schema: "dac-scenario-1"`, `machine` (`juku` or
 `robotron1715m`), `firmware` and `steps`. It optionally accepts `disks` and
-`trace_limit`. Unknown fields/operations fail instead of being ignored.
+`trace_limit`, plus a stable `juku_profile` ID for Juku hardware selection. Unknown fields/operations fail instead of being ignored.
 
 Firmware maps string slots to either `{"path": "relative/to/scenario.bin"}`
 or `{"hex": "3e4232008076", "size": 16384}`. Inline bytes are zero-padded to

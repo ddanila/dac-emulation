@@ -15,10 +15,6 @@ enum {
   ST_NOT_READY = 0x80,
 };
 
-enum {
-  DRQ_BYTE_TICKS = 64,
-  WRITE_SECTOR_LEAD_TICKS = 22 * DRQ_BYTE_TICKS,
-};
 
 enum {
   WT_SCAN = 0,
@@ -28,6 +24,13 @@ enum {
   WT_DATA_CRC = 4,
 };
 
+
+static unsigned byte_ticks(const wd179x *f){return (f->fm || f->fm_only)?128:64;}
+static unsigned track_bytes(const wd179x *f){return (f->fm || f->fm_only)?3125:6250;}
+static unsigned sector_size(const wd179x *f,int sector){return wd_disk_sector_size(f->disk,f->physical_track,f->head,sector);}
+static int density_matches(const wd179x *f){return wd_disk_encoding(f->disk,f->physical_track,f->head)==(int)(f->fm || f->fm_only);}
+static unsigned sector_code(const wd179x *f,int sector){unsigned n=sector_size(f,sector),code=0;while(n>128){n>>=1;code++;}return code;}
+static int id_matches(const wd179x *f){uint8_t id[4];return density_matches(f) && !wd_disk_id(f->disk,f->physical_track,f->head,f->sector,id) && id[0]==f->track;}
 
 static int controller_ready(const wd179x* fdc) {
   return fdc->ready_line && fdc->motor_on && fdc->disk && fdc->disk->media.storage.read &&
@@ -87,13 +90,14 @@ static uint16_t crc_byte(uint16_t crc, uint8_t data) {
 }
 
 
-static uint16_t id_crc(uint8_t track, uint8_t side, uint8_t sector) {
+static uint16_t id_crc(const wd179x *fdc,uint8_t track, uint8_t side, uint8_t sector, uint8_t code) {
   uint16_t crc = 0xFFFF;
+  if(!(fdc->fm || fdc->fm_only))for(unsigned i=0;i<3;i++)crc=crc_byte(crc,0xa1);
   crc = crc_byte(crc, 0xFE);  // ID address mark
   crc = crc_byte(crc, track);
   crc = crc_byte(crc, side);
   crc = crc_byte(crc, sector);
-  return crc_byte(crc, 2);    // 512-byte sector length code
+  return crc_byte(crc, code);
 }
 
 
@@ -145,7 +149,7 @@ static void complete_transfer(wd179x* fdc) {
 
 
 static int load_read_sector(wd179x* fdc) {
-  if (fdc->track != fdc->physical_track) return -1;
+  if (!id_matches(fdc)) return -1;
   int rc = wd_disk_read_sector(
       fdc->disk, fdc->physical_track, fdc->head, fdc->sector, fdc->buffer);
   if (rc != 0) return rc;
@@ -155,8 +159,9 @@ static int load_read_sector(wd179x* fdc) {
   } else {
     fdc->status &= (uint8_t)~ST_RECORD_TYPE;
   }
+  if(wd_disk_sector_error(fdc->disk,fdc->physical_track,fdc->head,fdc->sector))fdc->status |= ST_CRC;
   fdc->buffer_pos = 0;
-  fdc->buffer_len = JUK_SECTOR_SIZE;
+  fdc->buffer_len = sector_size(fdc,fdc->sector);
   fdc->status |= ST_BUSY | ST_DRQ;
   fdc->drq_ticks = 0;
   return 0;
@@ -164,7 +169,9 @@ static int load_read_sector(wd179x* fdc) {
 
 
 static int side_compare_mismatch(const wd179x* fdc, uint8_t command) {
-  return (command & 0x02) && (((command >> 3) & 1) != (fdc->head & 1));
+  uint8_t id[4];
+  if(wd_disk_id(fdc->disk,fdc->physical_track,fdc->head,fdc->sector,id))return 1;
+  return (command & 0x02) && (((command >> 3) & 1) != (id[1] & 1));
 }
 
 
@@ -179,7 +186,7 @@ static void begin_read_sector(wd179x* fdc, uint8_t command) {
     complete_transfer(fdc);
     return;
   }
-  if (fdc->track != fdc->physical_track ||
+  if (!id_matches(fdc) ||
       wd_disk_offset(fdc->disk, fdc->physical_track, fdc->head, fdc->sector) < 0) {
     fdc->id_search_pending = 1;
     fdc->status |= ST_BUSY;
@@ -258,9 +265,17 @@ static void begin_type_i_verification(wd179x* fdc) {
     fdc->type_i_hlt_pending = 1;
     return;
   }
-  if (fdc->track == fdc->physical_track && fdc->physical_track < (int)fdc->disk->media.geometry.tracks) {
-    complete_transfer(fdc);
-    return;
+  if (density_matches(fdc)) {
+    unsigned count = wd_disk_sector_count(fdc->disk, fdc->physical_track, fdc->head);
+    for (unsigned i = 0; i < count; i++) {
+      uint8_t id[4];
+      int sector = wd_disk_sector_id(fdc->disk, fdc->physical_track, fdc->head, i);
+      if (!wd_disk_id(fdc->disk, fdc->physical_track, fdc->head, sector, id) &&
+          id[0] == fdc->track) {
+        complete_transfer(fdc);
+        return;
+      }
+    }
   }
   if (fdc->physical_track < (int)fdc->disk->media.geometry.tracks) {
     fdc->status |= ST_RNF;  // Type-I meaning: SEEK ERROR
@@ -321,11 +336,11 @@ static void begin_type_i(wd179x* fdc, uint8_t command) {
 
 static void arm_write_sector_record(wd179x* fdc) {
   fdc->buffer_pos = 0;
-  fdc->buffer_len = JUK_SECTOR_SIZE;
+  fdc->buffer_len = sector_size(fdc,fdc->sector);
   fdc->write_transfer = 1;
   fdc->write_first_byte_pending = 1;
   fdc->write_sector_lead_pending = 1;
-  fdc->write_sector_lead_ticks = WRITE_SECTOR_LEAD_TICKS;
+  fdc->write_sector_lead_ticks = (fdc->fm || fdc->fm_only ? 11u : 22u) * byte_ticks(fdc);
   fdc->write_sector_preloaded = 0;
   fdc->status |= ST_BUSY | ST_DRQ;
   fdc->drq_ticks = 0;
@@ -348,7 +363,7 @@ static void begin_write_sector(wd179x* fdc, uint8_t command) {
     complete_transfer(fdc);
     return;
   }
-  if (fdc->track != fdc->physical_track ||
+  if (!id_matches(fdc) ||
       wd_disk_offset(fdc->disk, fdc->physical_track, fdc->head, fdc->sector) < 0) {
     fdc->id_search_pending = 1;
     fdc->status |= ST_BUSY;
@@ -375,7 +390,7 @@ static void begin_read_address(wd179x* fdc) {
     complete_transfer(fdc);
     return;
   }
-  if (fdc->physical_track >= (int)fdc->disk->media.geometry.tracks || fdc->head < 0 || fdc->head >= fdc->disk->heads) {
+  if (!density_matches(fdc) || !wd_disk_sector_count(fdc->disk,fdc->physical_track,fdc->head) || fdc->physical_track >= (int)fdc->disk->media.geometry.tracks || fdc->head < 0 || fdc->head >= fdc->disk->heads) {
     fdc->status |= ST_RNF;
     complete_transfer(fdc);
     return;
@@ -383,12 +398,11 @@ static void begin_read_address(wd179x* fdc) {
 
   // A flat sector image has no rotational position. Use the first sector ID
   // after index as the deterministic representation of the next ID field.
-  const uint8_t address_sector = (uint8_t)fdc->disk->media.geometry.first_sector;
-  const uint16_t crc = id_crc(fdc->physical_track, (uint8_t)fdc->head, address_sector);
-  fdc->buffer[0] = fdc->physical_track;
-  fdc->buffer[1] = (uint8_t)fdc->head;
-  fdc->buffer[2] = address_sector;
-  fdc->buffer[3] = 2;
+  const int address_sector = wd_disk_sector_id(fdc->disk,fdc->physical_track,fdc->head,0);
+  if(!density_matches(fdc) || wd_disk_id(fdc->disk,fdc->physical_track,fdc->head,address_sector,fdc->buffer)){
+    fdc->id_search_pending=1;fdc->status |= ST_BUSY;return;
+  }
+  const uint16_t crc = id_crc(fdc,fdc->buffer[0],fdc->buffer[1],fdc->buffer[2],fdc->buffer[3]);
   fdc->buffer[4] = (uint8_t)(crc >> 8);
   fdc->buffer[5] = (uint8_t)crc;
   fdc->buffer_pos = 0;
@@ -400,7 +414,7 @@ static void begin_read_address(wd179x* fdc) {
 
 
 static void track_byte(wd179x* fdc, unsigned* pos, uint8_t value) {
-  if (*pos < JUK_MFM_TRACK_SIZE) fdc->buffer[*pos] = value;
+  if (*pos < track_bytes(fdc)) fdc->buffer[*pos] = value;
   (*pos)++;
 }
 
@@ -422,7 +436,7 @@ static void begin_read_track(wd179x* fdc) {
     complete_transfer(fdc);
     return;
   }
-  if (fdc->physical_track >= (int)fdc->disk->media.geometry.tracks || fdc->head < 0 || fdc->head >= fdc->disk->heads) {
+  if (!density_matches(fdc) || !wd_disk_sector_count(fdc->disk,fdc->physical_track,fdc->head) || fdc->physical_track >= (int)fdc->disk->media.geometry.tracks || fdc->head < 0 || fdc->head >= fdc->disk->heads) {
     fdc->status |= ST_RNF;
     complete_transfer(fdc);
     return;
@@ -433,9 +447,10 @@ static void begin_read_track(wd179x* fdc) {
   // The raw image itself contains sector payloads only, so physical gap bytes
   // and rotational phase cannot be recovered from it.
   unsigned pos = 0;
-  for (int i = 0; i < 32; i++) track_byte(fdc, &pos, 0x4E);
-  for (int sector_id = (int)fdc->disk->media.geometry.first_sector; sector_id < (int)fdc->disk->media.geometry.first_sector+JUK_SECTORS_PER_TRACK; sector_id++) {
-    uint8_t sector_data[JUK_SECTOR_SIZE];
+  for (int i = 0; i < 32; i++) track_byte(fdc, &pos, (fdc->fm || fdc->fm_only)?0xff:0x4e);
+  for (unsigned si=0;si<wd_disk_sector_count(fdc->disk,fdc->physical_track,fdc->head);si++) {
+    int sector_id=wd_disk_sector_id(fdc->disk,fdc->physical_track,fdc->head,si);
+    uint8_t sector_data[WD_MAX_SECTOR_SIZE];
     if (wd_disk_read_sector(
             fdc->disk, fdc->physical_track, fdc->head, sector_id, sector_data) != 0) {
       fdc->status |= ST_RNF;
@@ -443,33 +458,32 @@ static void begin_read_track(wd179x* fdc) {
       return;
     }
 
-    for (int i = 0; i < 12; i++) track_byte(fdc, &pos, 0x00);
+    for (int i = 0; i < ((fdc->fm || fdc->fm_only)?6:12); i++) track_byte(fdc, &pos, 0x00);
     uint16_t crc = 0xFFFF;
-    for (int i = 0; i < 3; i++) track_crc_byte(fdc, &pos, &crc, 0xA1);
+    for (int i = 0; i < ((fdc->fm || fdc->fm_only)?0:3); i++) track_crc_byte(fdc, &pos, &crc, 0xA1);
     track_crc_byte(fdc, &pos, &crc, 0xFE);
-    track_crc_byte(fdc, &pos, &crc, fdc->physical_track);
-    track_crc_byte(fdc, &pos, &crc, (uint8_t)fdc->head);
-    track_crc_byte(fdc, &pos, &crc, (uint8_t)sector_id);
-    track_crc_byte(fdc, &pos, &crc, 2);
+    uint8_t id[4];wd_disk_id(fdc->disk,fdc->physical_track,fdc->head,sector_id,id);
+    for(unsigned i=0;i<4;i++)track_crc_byte(fdc,&pos,&crc,id[i]);
     track_byte(fdc, &pos, (uint8_t)(crc >> 8));
     track_byte(fdc, &pos, (uint8_t)crc);
-    for (int i = 0; i < 22; i++) track_byte(fdc, &pos, 0x4E);
+    for (int i = 0; i < ((fdc->fm || fdc->fm_only)?11:22); i++) track_byte(fdc, &pos, (fdc->fm || fdc->fm_only)?0xff:0x4e);
 
-    for (int i = 0; i < 12; i++) track_byte(fdc, &pos, 0x00);
+    for (int i = 0; i < ((fdc->fm || fdc->fm_only)?6:12); i++) track_byte(fdc, &pos, 0x00);
     crc = 0xFFFF;
-    for (int i = 0; i < 3; i++) track_crc_byte(fdc, &pos, &crc, 0xA1);
+    for (int i = 0; i < ((fdc->fm || fdc->fm_only)?0:3); i++) track_crc_byte(fdc, &pos, &crc, 0xA1);
     const uint8_t data_mark = wd_disk_sector_deleted(
         fdc->disk, fdc->physical_track, fdc->head, sector_id) > 0 ? 0xF8 : 0xFB;
     track_crc_byte(fdc, &pos, &crc, data_mark);
-    for (int i = 0; i < JUK_SECTOR_SIZE; i++) {
+    for (int i = 0; i < (int)sector_size(fdc,sector_id); i++) {
       track_crc_byte(fdc, &pos, &crc, sector_data[i]);
     }
+    if(wd_disk_sector_error(fdc->disk,fdc->physical_track,fdc->head,sector_id))crc^=1;
     track_byte(fdc, &pos, (uint8_t)(crc >> 8));
     track_byte(fdc, &pos, (uint8_t)crc);
-    for (int i = 0; i < 35; i++) track_byte(fdc, &pos, 0x4E);
+    for (int i = 0; i < ((fdc->fm || fdc->fm_only)?16:35); i++) track_byte(fdc, &pos, (fdc->fm || fdc->fm_only)?0xff:0x4e);
   }
-  while (pos < JUK_MFM_TRACK_SIZE) track_byte(fdc, &pos, 0x4E);
-  if (pos != JUK_MFM_TRACK_SIZE) {
+  while (pos < track_bytes(fdc)) track_byte(fdc, &pos, (fdc->fm || fdc->fm_only)?0xff:0x4e);
+  if (pos != track_bytes(fdc)) {
     fdc->status |= ST_RNF;
     complete_transfer(fdc);
     return;
@@ -527,7 +541,8 @@ static void accept_write_byte(wd179x* fdc, uint8_t data) {
 }
 
 
-static uint8_t write_track_decoded_byte(uint8_t data) {
+static uint8_t write_track_decoded_byte(const wd179x *fdc,uint8_t data) {
+  if(fdc->fm || fdc->fm_only)return data;
   if (data == 0xF5) return 0xA1;
   if (data == 0xF6) return 0xC2;
   return data;
@@ -535,8 +550,7 @@ static uint8_t write_track_decoded_byte(uint8_t data) {
 
 
 static void finish_write_track_sector(wd179x* fdc) {
-  if (fdc->write_track_pending_sector < (int)fdc->disk->media.geometry.first_sector ||
-      fdc->write_track_pending_sector >= (int)(fdc->disk->media.geometry.first_sector + fdc->disk->media.geometry.sectors)) {
+  if (!sector_size(fdc,fdc->write_track_pending_sector)) {
     fdc->write_track_format_error = 1;
     return;
   }
@@ -554,7 +568,8 @@ static void finish_write_track_sector(wd179x* fdc) {
     fdc->write_track_format_error = 1;
     return;
   }
-  const uint16_t sector_bit = (uint16_t)1u << (fdc->write_track_pending_sector - fdc->disk->media.geometry.first_sector);
+  unsigned si=0;while(si<32 && wd_disk_sector_id(fdc->disk,fdc->physical_track,fdc->head,si)!=fdc->write_track_pending_sector)si++;
+  const uint32_t sector_bit = si<32 ? (uint32_t)1u << si : 0;
   if (fdc->write_track_seen & sector_bit) fdc->write_track_format_error = 1;
   fdc->write_track_seen |= sector_bit;
   fdc->write_track_pending_sector = -1;
@@ -580,7 +595,7 @@ static void accept_write_track_byte(wd179x* fdc, uint8_t data) {
   fdc->drq_ticks = 0;
 
   fdc->write_track_output_pos += data == 0xF7 ? 2u : 1u;
-  const uint8_t decoded = write_track_decoded_byte(data);
+  const uint8_t decoded = write_track_decoded_byte(fdc,data);
 
   switch (fdc->write_track_state) {
     case WT_ID:
@@ -600,9 +615,8 @@ static void accept_write_track_byte(wd179x* fdc, uint8_t data) {
       if (data == 0xF7 &&
           fdc->write_track_id[0] == fdc->physical_track &&
           fdc->write_track_id[1] == (uint8_t)fdc->head &&
-          fdc->write_track_id[2] >= fdc->disk->media.geometry.first_sector &&
-          fdc->write_track_id[2] < fdc->disk->media.geometry.first_sector + fdc->disk->media.geometry.sectors &&
-          fdc->write_track_id[3] == 2) {
+          sector_size(fdc,fdc->write_track_id[2]) &&
+          fdc->write_track_id[3] == sector_code(fdc,fdc->write_track_id[2])) {
         fdc->write_track_pending_sector = fdc->write_track_id[2];
         fdc->write_track_pending_deleted = 0;
       } else {
@@ -621,7 +635,7 @@ static void accept_write_track_byte(wd179x* fdc, uint8_t data) {
         fdc->write_track_field_pos = 0;
       } else {
         fdc->buffer[fdc->write_track_field_pos++] = decoded;
-        if (fdc->write_track_field_pos == JUK_SECTOR_SIZE) {
+        if (fdc->write_track_field_pos == sector_size(fdc,fdc->write_track_pending_sector)) {
           fdc->write_track_state = WT_DATA_CRC;
         }
       }
@@ -640,9 +654,9 @@ static void accept_write_track_byte(wd179x* fdc, uint8_t data) {
       } else {
         const unsigned sync_count = fdc->write_track_field_pos;
         fdc->write_track_field_pos = 0;
-        if (sync_count >= 3 && data == 0xFE) {
+        if (((fdc->fm || fdc->fm_only) || sync_count >= 3) && data == 0xFE) {
           fdc->write_track_state = WT_ID;
-        } else if (sync_count >= 3 && (data == 0xFB || data == 0xF8) &&
+        } else if (((fdc->fm || fdc->fm_only) || sync_count >= 3) && (data == 0xFB || data == 0xF8) &&
                    fdc->write_track_pending_sector >= 0) {
           fdc->write_track_pending_deleted = data == 0xF8;
           fdc->write_track_state = WT_DATA;
@@ -651,10 +665,10 @@ static void accept_write_track_byte(wd179x* fdc, uint8_t data) {
       break;
   }
 
-  if (fdc->write_track_output_pos >= JUK_MFM_TRACK_SIZE) {
-    if (fdc->write_track_output_pos != JUK_MFM_TRACK_SIZE ||
+  if (fdc->write_track_output_pos >= track_bytes(fdc)) {
+    if (fdc->write_track_output_pos != track_bytes(fdc) ||
         fdc->write_track_state != WT_SCAN ||
-        fdc->write_track_seen != 0x03FF ||
+        fdc->write_track_seen != (UINT32_MAX >> (32-wd_disk_sector_count(fdc->disk,fdc->physical_track,fdc->head))) ||
         fdc->write_track_format_error) {
       fdc->status |= ST_WRITE_FAULT;
     }
@@ -679,7 +693,7 @@ static void begin_write_track(wd179x* fdc) {
     complete_transfer(fdc);
     return;
   }
-  if (fdc->physical_track >= (int)fdc->disk->media.geometry.tracks || fdc->head < 0 || fdc->head >= fdc->disk->heads) {
+  if (!density_matches(fdc) || !wd_disk_sector_count(fdc->disk,fdc->physical_track,fdc->head) || fdc->physical_track >= (int)fdc->disk->media.geometry.tracks || fdc->head < 0 || fdc->head >= fdc->disk->heads) {
     fdc->status |= ST_RNF;
     complete_transfer(fdc);
     return;
@@ -848,7 +862,7 @@ void wd179x_tick(wd179x* fdc, unsigned ticks) {
       }
     } else if (!fdc->track_waiting_index &&
                (fdc->status & (ST_BUSY | ST_DRQ)) == (ST_BUSY | ST_DRQ)) {
-      const unsigned remaining = DRQ_BYTE_TICKS - fdc->drq_ticks;
+      const unsigned remaining = byte_ticks(fdc) - fdc->drq_ticks;
       if (ticks < remaining) {
         fdc->drq_ticks += ticks;
         return;
@@ -994,7 +1008,7 @@ uint8_t wd179x_read(wd179x* fdc, uint8_t reg) {
         fdc->data = fdc->buffer[fdc->buffer_pos];
         advance_read_byte(fdc);
         if(fdc->paced_data && (fdc->status & (ST_BUSY|ST_DRQ))==(ST_BUSY|ST_DRQ)) {
-          fdc->status &= (uint8_t)~ST_DRQ; fdc->byte_delay=DRQ_BYTE_TICKS-elapsed;
+          fdc->status &= (uint8_t)~ST_DRQ; fdc->byte_delay=byte_ticks(fdc)-elapsed;
         }
         return fdc->data;
       }
@@ -1040,7 +1054,7 @@ void wd179x_write(wd179x* fdc, uint8_t reg, uint8_t data) {
       if (fdc->write_track_transfer) accept_write_track_byte(fdc, data);
       else accept_write_byte(fdc, data);
       if(fdc->paced_data && (fdc->status & (ST_BUSY|ST_DRQ))==(ST_BUSY|ST_DRQ)) {
-        fdc->status &= (uint8_t)~ST_DRQ; fdc->byte_delay=DRQ_BYTE_TICKS-elapsed;
+        fdc->status &= (uint8_t)~ST_DRQ; fdc->byte_delay=byte_ticks(fdc)-elapsed;
       }
       break;
     }

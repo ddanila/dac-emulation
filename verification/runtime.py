@@ -105,6 +105,21 @@ class Runtime:
             sink = Sink(self.callback, None, 0, 0)
             self.checked("dac_set_trace", C.byref(sink))
 
+    def set_juku_profile(self, name):
+        if self.profile["kind"] != 0 or not isinstance(name, str):
+            raise ValueError("juku_profile requires a Juku machine and a profile ID")
+        for symbol, result, args in [
+            ("dac_juku_profile_count", C.c_uint, []),
+            ("dac_juku_profile_id", C.c_char_p, [C.c_uint]),
+            ("dac_juku_set_profile", C.c_int, [C.c_void_p, C.c_uint]),
+        ]:
+            fn=getattr(self.lib,symbol);fn.restype=result;fn.argtypes=args
+        for index in range(self.lib.dac_juku_profile_count()):
+            if self.lib.dac_juku_profile_id(index).decode()==name:
+                self.checked("dac_juku_set_profile",index)
+                return
+        raise ValueError("unknown Juku profile: "+name)
+
     def checked(self, name, *args):
         result = getattr(self.lib, name)(self.session, *args)
         if result < 0:

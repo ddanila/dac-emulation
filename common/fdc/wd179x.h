@@ -8,6 +8,7 @@
 typedef struct {
   wd_disk* disk;
   int enabled;
+  unsigned fm, fm_only;
   unsigned paced_data, byte_delay, lost_position;
   int head;
   int drive;
@@ -34,7 +35,7 @@ typedef struct {
   uint8_t write_track_id[4];
   int write_track_pending_sector;
   int write_track_pending_deleted;
-  uint16_t write_track_seen;
+  uint32_t write_track_seen;
   int write_track_format_error;
   int track_waiting_index;
   int write_track_preloaded;

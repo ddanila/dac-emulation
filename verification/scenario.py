@@ -47,7 +47,7 @@ def image(spec, base):
 
 def execute(document, base, library, report, events, wall_timeout=30):
     fields(
-        document, ("schema", "machine", "firmware", "steps"), ("disks", "trace_limit")
+        document, ("schema", "machine", "firmware", "steps"), ("disks", "trace_limit", "juku_profile")
     )
     if document["schema"] != "dac-scenario-1" or document["machine"] not in PROFILES:
         raise ValueError("unsupported scenario schema or machine")
@@ -74,6 +74,9 @@ def execute(document, base, library, report, events, wall_timeout=30):
     with Runtime(library, document["machine"], trace_limit) as runtime:
         report["runtime_build_id"] = runtime.build_id
         try:
+            if "juku_profile" in document:
+                runtime.set_juku_profile(document["juku_profile"])
+                report["juku_profile"]=document["juku_profile"]
             for slot, spec in document["firmware"].items():
                 if slot not in ("0", "1", "2", "3"):
                     raise ValueError("invalid firmware slot")

@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 struct dac_session {
-  unsigned kind, on, width, height;
+  unsigned kind, on, width, height, juku_profile_id;
   dac_trace_sink observer;
   unsigned timeline_on, timeline_count, timeline_mode, timeline_pre,
       timeline_triggered, timeline_index, timeline_filter, timeline_master,
@@ -257,6 +257,16 @@ dac_session *dac_create(unsigned kind) {
   }
   return s;
 }
+unsigned dac_juku_profile_count(void) { return JUKU_PROFILE_COUNT; }
+const char *dac_juku_profile_id(unsigned id) { const juku_profile *p=juku_profile_info(id);return p?p->id:NULL; }
+const char *dac_juku_profile_name(unsigned id) { const juku_profile *p=juku_profile_info(id);return p?p->name:NULL; }
+const char *dac_juku_profile_firmware(unsigned id) { const juku_profile *p=juku_profile_info(id);return p?p->firmware:NULL; }
+int dac_juku_set_profile(dac_session *s,unsigned id) {
+ if(!s || !s->j || !juku_profile_info(id))return -EINVAL;
+ if(s->on)return -EBUSY;
+ s->juku_profile_id=id;return 0;
+}
+unsigned dac_juku_get_profile(dac_session *s) {return s && s->j ? s->juku_profile_id : UINT32_MAX;}
 void dac_destroy(dac_session *s) {
   if (!s)
     return;
@@ -302,16 +312,12 @@ int dac_mount_unit(dac_session *s, unsigned unit, const void *p, size_t n,
   if (s->on &&
       (!s->r || s->r->fdc.phase || s->r->fdc.cmd_pos || s->r->fdc.seeking))
     return -EBUSY;
-  if (n &&
-      (s->kind == 2
-           ? robotron_disk_validate(dac_memory_storage((void *)p, n, 0)) != 0
-           : (n != JUK_SINGLE_SIDED_SIZE && n != JUK_DOUBLE_SIDED_SIZE)))
-    return -EINVAL;
-  uint8_t *copy = n ? malloc(n) : NULL;
-  if (n && !copy)
-    return -ENOMEM;
-  if (n)
-    memcpy(copy, p, n);
+  uint8_t *copy=NULL;
+  if(n && s->j){size_t imported=0;int r=wd_disk_import(p,n,&copy,&imported);if(r)return r;n=imported;}
+  else {
+    if(n && robotron_disk_validate(dac_memory_storage((void *)p,n,0)))return -EINVAL;
+    copy=n?malloc(n):NULL;if(n && !copy)return -ENOMEM;if(n)memcpy(copy,p,n);
+  }
   if (s->on) {
     int r = robotron_disk_unit(s->r, unit,
                                n ? dac_memory_storage(copy, n, !!writable)
@@ -366,17 +372,17 @@ int dac_power(dac_session *s, int on) {
     juku *next = juku_create();
     if (!next)
       return -ENOMEM;
+    juku_set_profile(next,s->juku_profile_id);
     free(s->j);
     s->j = next;
     juku_load_rom(s->j, s->firmware, s->firmware_size);
     s->j->frame_cyc = s->j->next_frame = 0; /* D55 drives IR5. */
     juku_key(s->j, 0, 0);
     if (s->disk) {
-      int heads = s->disk_size == JUK_DOUBLE_SIDED_SIZE ? 2 : 1;
-      juk_disk_bind(&s->j->disk,
-                    dac_memory_storage(s->disk, s->disk_size, s->writable),
-                    heads, s->writable);
+      int bound=wd_disk_bind_image(&s->j->disk,dac_memory_storage(s->disk,s->disk_size,s->writable),s->writable);
+      if(bound)return bound;
       juku_fdc_init(&s->j->fdc, &s->j->disk);
+      juku_set_profile(s->j,s->juku_profile_id);
       s->j->fdc_enabled = 1;
     }
   } else if (s->plain) {
@@ -1266,7 +1272,7 @@ static int other_state_save(dac_session *s, void *p, size_t n) {
   if (s->disk_size)
     memcpy(payload + size, s->disk, s->disk_size);
   state_header h = {0x44414353,
-                    (s->j ? 21 + DAC_JUKU_EXPERIMENTAL_FDC_SYNC : 10 + s->kind),
+                    (s->j ? 23 + DAC_JUKU_EXPERIMENTAL_FDC_SYNC : 10 + s->kind),
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -1283,7 +1289,7 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
   state_header h;
   memcpy(&h, p, sizeof(h));
   const uint8_t *payload = (const uint8_t *)p + sizeof(h);
-  if (h.magic != 0x44414353 || h.version != (s->j ? 21 + DAC_JUKU_EXPERIMENTAL_FDC_SYNC : 10 + s->kind) || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != (s->j ? 23 + DAC_JUKU_EXPERIMENTAL_FDC_SYNC : 10 + s->kind) || h.size != n ||
       h.disk_size != s->disk_size || h.writable != (unsigned)s->writable ||
       h.disk_b_size || h.writable_b ||
       h.crc != state_crc(payload, n - sizeof(h)))
@@ -1316,6 +1322,10 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
     memcpy(j, payload, sizeof(*j));
     juku_fdc *f = &j->fdc;
     int bad =
+        j->profile != s->juku_profile_id || j->profile >= JUKU_PROFILE_COUNT ||
+        j->at_count > sizeof(j->at_queue) || j->at_bit > 7 ||
+        j->fdc_bus_invert != (juku_profile_info(s->juku_profile_id)->controller!=1793) ||
+        j->fdc.fm > 1 || j->fdc.fm_only != (juku_profile_info(s->juku_profile_id)->controller==1792) ||
         memcmp(j->rom, s->firmware, 16384) ||
         j->cpu.io_pending > 2 || (!DAC_JUKU_EXPERIMENTAL_FDC_SYNC && j->cpu.io_pending) ||
         j->fdc_rotation >= 400000 ||
@@ -1332,9 +1342,9 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
         f->write_track_field_pos > sizeof(f->buffer) ||
         (f->write_track_state == 1 && f->write_track_field_pos >= 4) ||
         (f->write_track_state == 3 &&
-         f->write_track_field_pos >= JUK_SECTOR_SIZE) ||
+         f->write_track_field_pos >= WD_MAX_SECTOR_SIZE) ||
         f->write_track_pending_sector < -1 ||
-        f->write_track_pending_sector > 10 || f->write_track_state < 0 ||
+        f->write_track_pending_sector > 255 || f->write_track_state < 0 ||
         f->write_track_state > 4;
     bad |= j->scanout.next_byte_ns <= j->scanout.ns ||
            j->scanout.next_byte_ns - j->scanout.ns > 1000 ||
@@ -1375,13 +1385,13 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
     memset(&j->disk.marks, 0, sizeof(j->disk.marks));
     memset(&j->disk.media, 0, sizeof(j->disk.media));
     if (s->disk_size) {
-      unsigned heads = s->disk_size == JUK_DOUBLE_SIDED_SIZE ? 2 : 1;
-      dac_media_init(&j->disk.media,
-                     dac_memory_storage(s->disk, s->disk_size, s->writable),
-                     (dac_geometry){80, heads, 10, 512, 1}, s->writable);
-      j->disk.heads = heads;
-      j->disk.size = s->disk_size;
-      j->disk.writable = s->writable;
+      wd_disk *rebuilt=calloc(1,sizeof(*rebuilt));
+      if(!rebuilt){free(j);return -ENOMEM;}
+      int r=wd_disk_bind_image(rebuilt,dac_memory_storage((void *)(payload+size),s->disk_size,s->writable),s->writable);
+      if(r){free(rebuilt);free(j);return r;}
+      if(!rebuilt->imd)memcpy(rebuilt->deleted_data,j->disk.deleted_data,sizeof(rebuilt->deleted_data));
+      j->disk=*rebuilt;free(rebuilt);
+      j->disk.media.storage=dac_memory_storage(s->disk,s->disk_size,s->writable);
     }
     free(s->j);
     s->j = j;

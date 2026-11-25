@@ -15,7 +15,7 @@ OBJECTS = $(CORE:%.c=build/%.o)
 all: build/libdac-juku.a build/juku-trace
 
 # Isolated experimental builds: never reuse normal objects with different flags.
-build/juku-fdc-sync-test: tests/integration/juku_fdc_sync_test.c $(CORE) $(wildcard machines/juku/*.h third_party/cpu/i8080/*.h common/fdc/* common/media/*.h)
+build/juku-fdc-sync-test: tests/integration/juku_fdc_sync_test.c $(CORE) $(wildcard machines/juku/*.h machines/juku/*.inc third_party/cpu/i8080/*.h common/fdc/* common/media/*.h)
 	@mkdir -p build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) -DDAC_JUKU_EXPERIMENTAL_FDC_SYNC=1 tests/integration/juku_fdc_sync_test.c $(CORE) -o $@
 
@@ -387,11 +387,11 @@ test-juku-fdc-sync-wasm: build/juku-fdc-snapshot-test.cjs
 	$(NODE) $<
 
 # Opt-in historical controller-interface checks; no additional CI job.
-build/juku-fdc-variants-test: tests/integration/juku_fdc_variants_test.c $(CORE) $(wildcard machines/juku/*.h third_party/cpu/i8080/*.h common/fdc/* common/media/*.h)
+build/juku-fdc-variants-test: tests/integration/juku_fdc_variants_test.c $(CORE) $(wildcard machines/juku/*.h machines/juku/*.inc third_party/cpu/i8080/*.h common/fdc/* common/media/*.h)
 	@mkdir -p build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< $(CORE) -o $@
 
-build/juku-fdc-variants-paced-test: tests/integration/juku_fdc_variants_test.c $(CORE) $(wildcard machines/juku/*.h third_party/cpu/i8080/*.h common/fdc/* common/media/*.h)
+build/juku-fdc-variants-paced-test: tests/integration/juku_fdc_variants_test.c $(CORE) $(wildcard machines/juku/*.h machines/juku/*.inc third_party/cpu/i8080/*.h common/fdc/* common/media/*.h)
 	@mkdir -p build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) -DDAC_JUKU_EXPERIMENTAL_FDC_SYNC=1 $< $(CORE) -o $@
 
@@ -399,3 +399,21 @@ build/juku-fdc-variants-paced-test: tests/integration/juku_fdc_variants_test.c $
 test-juku-fdc-variants: build/juku-fdc-variants-test build/juku-fdc-variants-paced-test
 	./build/juku-fdc-variants-test
 	./build/juku-fdc-variants-paced-test
+
+build/juku-profiles-test: tests/integration/juku_profiles_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< $(RUNTIME_SOURCES) -o $@
+.PHONY: test-juku-profiles
+test-juku-profiles: build/juku-profiles-test
+	./build/juku-profiles-test
+
+build/juku-profiles-test.cjs: tests/integration/juku_profiles_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc
+	$(EMCC) $(CPPFLAGS) -O2 -std=c11 $< $(RUNTIME_SOURCES) -sENVIRONMENT=node -sALLOW_MEMORY_GROWTH=1 -sSTACK_SIZE=4194304 -o $@
+.PHONY: test-juku-profiles-wasm
+test-juku-profiles-wasm: build/juku-profiles-test.cjs
+	$(NODE) $<
+
+build/juku-profiles-sanitize: tests/integration/juku_profiles_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc
+	$(CC) $(CPPFLAGS) -O1 -g $(WARN) -fsanitize=address,undefined -fno-omit-frame-pointer $< $(RUNTIME_SOURCES) -o $@
+.PHONY: test-juku-profiles-sanitize
+test-juku-profiles-sanitize: build/juku-profiles-sanitize
+	./build/juku-profiles-sanitize

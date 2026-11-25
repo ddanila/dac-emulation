@@ -1,4 +1,4 @@
-/* DACR1/2 are bounded, little-endian transports for DAC-recording-1/2.
+/* DACR1/2/3 are bounded, little-endian transports for DAC-recording-1/2/3.
  * The museum's replay-native.mjs validates its JSON envelope and converts it.
  * Output: length-prefixed video, disk A, disk B, printer; DACR2 adds V.24.
  */
@@ -19,7 +19,7 @@ static uint32_t number(void) {
          (uint32_t)b[3] << 24;
 }
 static void *bytes(uint32_t n) {
-  if (n > 1638400)
+  if (n > 2*1024*1024)
     fail();
   void *p = malloc(n ? n : 1);
   if (!p || fread(p, 1, n, stdin) != n)
@@ -34,11 +34,19 @@ static void output(const void *p, uint32_t n) {
 int main(void) {
   char magic[5];
   if (fread(magic, 1, 5, stdin) != 5 ||
-      (memcmp(magic, "DACR1", 5) && memcmp(magic, "DACR2", 5)))
+      (memcmp(magic, "DACR1", 5) && memcmp(magic, "DACR2", 5) && memcmp(magic,"DACR3",5)))
     fail();
-  dac_session *s = dac_create(number());
+  unsigned kind=number(),outputs=magic[4]=='2'?5:4;
+  dac_session *s = dac_create(kind);
   if (!s)
     fail();
+  if(magic[4]=='3'){
+    unsigned length=number();if(!length || length>64)fail();char id[65];
+    if(fread(id,1,length,stdin)!=length)fail();id[length]=0;
+    unsigned profile=0;while(profile<dac_juku_profile_count() && strcmp(id,dac_juku_profile_id(profile)))profile++;
+    if(kind!=0 || dac_juku_set_profile(s,profile)<0)fail();
+    outputs=number();if(outputs!=4 && outputs!=5)fail();
+  }
   unsigned count = number();
   if (count > 4)
     fail();
@@ -127,7 +135,7 @@ int main(void) {
   for (unsigned u = 0; u < 2; u++)
     output(dac_disk_data_unit(s, u), dac_disk_size_unit(s, u));
   output(dac_printer_data(s), dac_printer_size(s));
-  if (magic[4] == '2')
+  if (outputs == 5)
     output(dac_serial_data(s), dac_serial_size(s));
   for (unsigned i = 0; i < media_count; i++)
     free(media[i]);

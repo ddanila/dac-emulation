@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
+#include <stdlib.h>
 
 
 static int file_read(void* p, uint64_t offset, void* out, size_t count) {
@@ -38,20 +39,22 @@ static int open_mode(juk_disk* disk, const char* path, int writable) {
   if (!fp) return -errno;
 
   long size = file_size(fp);
-  if (size == JUK_SINGLE_SIDED_SIZE) disk->heads = 1;
-  else if (size == JUK_DOUBLE_SIDED_SIZE) disk->heads = 2;
-  else {
-    fclose(fp);
-    return -EINVAL;
+  uint8_t magic[4];
+  if(size<4 || file_read(fp,0,magic,4)){fclose(fp);return -EINVAL;}
+  if(!memcmp(magic,"IMD ",4)){
+    if(size>2*1024*1024){fclose(fp);return -EFBIG;}
+    uint8_t *input=malloc((size_t)size),*output=NULL;size_t length=0;
+    if(!input){fclose(fp);return -ENOMEM;}
+    int r=file_read(fp,0,input,(size_t)size);fclose(fp);
+    if(!r)r=wd_disk_import(input,(size_t)size,&output,&length);free(input);
+    if(r)return r;
+    fp=tmpfile();if(!fp){free(output);return -errno;}
+    r=file_write(fp,0,output,length);free(output);if(r){fclose(fp);return r;}
+    size=(long)length;
   }
-
-  disk->fp = fp;
-  disk->size = size;
-  disk->writable = writable;
   dac_storage storage = {fp, (uint64_t)size, file_read, file_write};
-  return dac_media_init(&disk->media, storage,
-      (dac_geometry){JUK_TRACKS, (unsigned)disk->heads, JUK_SECTORS_PER_TRACK,
-                     JUK_SECTOR_SIZE, 1}, writable);
+  int r=wd_disk_bind_image(disk,storage,writable);
+  if(r){fclose(fp);return r;}disk->fp=fp;return 0;
 }
 
 
@@ -66,7 +69,7 @@ int juk_disk_open_writable(juk_disk* disk, const char* path) {
 
 
 int juk_disk_attach_deleted_marks(juk_disk* disk, const char* path) {
-  if (!disk || !disk->fp || !path || !path[0]) return -EINVAL;
+  if (!disk || disk->imd || !disk->fp || !path || !path[0]) return -EINVAL;
   if (disk->deleted_marks_fp) return -EBUSY;
 
   FILE* fp = fopen(path, disk->writable ? "r+b" : "rb");
@@ -111,6 +114,18 @@ int juk_disk_attach_deleted_marks(juk_disk* disk, const char* path) {
 
 
 void juk_disk_close(juk_disk* disk) {
+  /* IMD runs on a private normalized copy. Export is explicit, never an
+   * implicit rewrite of a historical source image. */
+  const char *export_path=getenv("JUKU_DISK_EXPORT");
+  if(disk->imd && disk->fp && export_path && *export_path){
+    FILE *out=fopen(export_path,"wb");int failed=!out;uint8_t bytes[4096];
+    for(long pos=0;!failed && pos<disk->size;pos+=(long)sizeof(bytes)){
+      size_t count=(size_t)(disk->size-pos);if(count>sizeof(bytes))count=sizeof(bytes);
+      failed=file_read(disk->fp,(uint64_t)pos,bytes,count) || fwrite(bytes,1,count,out)!=count;
+    }
+    if(out && fclose(out))failed=1;
+    if(failed)fprintf(stderr,"Could not export IMD session to %s\n",export_path);
+  }
   if (disk->deleted_marks_fp) fclose(disk->deleted_marks_fp);
   if (disk->fp) fclose(disk->fp);
   memset(disk, 0, sizeof(*disk));

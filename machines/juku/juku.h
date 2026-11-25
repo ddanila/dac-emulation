@@ -2,13 +2,21 @@
 #define DAC_JUKU_H
 #include <stddef.h>
 #include <stdint.h>
-/* Experimental portable core. Configuration is currently available through
- * juku_internal.h for the legacy harness; not yet a frozen museum ABI. */
+/* Portable core. Hardware profiles are public; diagnostic internals are not
+ * a stable ABI. Firmware is always loaded without implicit patches. */
 typedef struct juku juku;
+enum { JUKU_PROFILE_COUNT = 7 };
+typedef struct {
+  const char *id, *name, *firmware;
+  unsigned controller, card, keyboard; /* controller 1791/2/3; keyboard 0=Juku,1=JUSS,2=AT */
+} juku_profile;
+const juku_profile *juku_profile_info(unsigned);
+int juku_set_profile(juku *, unsigned); /* before execution; negative errno */
+unsigned juku_get_profile(const juku *);
 juku *juku_create(void);
 void juku_destroy(juku *);
 /* Before execution only; copies up to 16 KiB and zero-fills the remainder.
- * Unlike the legacy CLI, this does not patch firmware checksums. */
+ * Firmware checksums are preserved. */
 int juku_load_rom(juku *, const void *, size_t);
 /* Borrowed packed monochrome framebuffer, valid until destroy; contents and
  * dimensions may change on subsequent steps. Height is bounded by the

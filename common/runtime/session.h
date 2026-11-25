@@ -13,6 +13,14 @@ typedef struct dac_session dac_session;
  * All loads copy bytes. Persistence is owned by the host. */
 dac_session *dac_create(unsigned kind);
 void dac_destroy(dac_session *);
+/* Juku hardware profiles; set while powered off, preserved by reset/power.
+ * Names/IDs are immutable strings, NULL for invalid profiles. */
+unsigned dac_juku_profile_count(void);
+const char *dac_juku_profile_id(unsigned);
+const char *dac_juku_profile_name(unsigned);
+const char *dac_juku_profile_firmware(unsigned);
+int dac_juku_set_profile(dac_session *, unsigned);
+unsigned dac_juku_get_profile(dac_session *);
 int dac_load(dac_session *, unsigned slot, const void *, size_t);
 int dac_mount(dac_session *, const void *, size_t, int writable);
 /* Robotron units 0/1, Juku unit 0. Empty bytes eject. No active transfers. */

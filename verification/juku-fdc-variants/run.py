@@ -146,8 +146,10 @@ def main():
         for engine in engines:
             dest=a.output/(name+'-'+engine);dest.mkdir();prefix=dest/'capture'
             env=os.environ.copy();env.pop('JUKU_JUSS_CONTACTS',None);env.pop('JUKU_FDC_BUS_INVERT',None)
-            if name=='ekta24':env['JUKU_JUSS_CONTACTS']='1'
-            if engine.endswith('inverted'):env['JUKU_FDC_BUS_INVERT']='1'
+            if name=='ekta24':
+                env['JUKU_JUSS_CONTACTS']='1'
+                env['JUKU_PROFILE']='1'
+            if engine.startswith(('native','paced')):env['JUKU_FDC_BUS_INVERT']='1' if engine.endswith('inverted') else '0'
             if engine=='mame':
                 shutil.copyfile(media,dest/'media.juk')
                 env.update(JUKU_VARIANT_SCHEDULER=str(ROOT/'verification/juku-scroll/mame.lua'),

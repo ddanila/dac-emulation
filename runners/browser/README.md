@@ -58,3 +58,6 @@ Older snapshots require their preserved core because the device layout changed.
 `dac_drive_inserted(session, unit, inserted)` requires an open lever. Ejection
 retains the session image and its writes for reinsertion/export; READY and index
 are suppressed. Opcode 10 records insertion state. A fresh mount resets ejection.
+
+Juku hardware profile selection, FM/IMD media, snapshot compatibility and
+qualification are described in [Juku profiles](../../verification/juku-profiles/README.md).
