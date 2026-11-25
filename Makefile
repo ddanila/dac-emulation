@@ -116,7 +116,7 @@ test-wasm: test-clock-wasm
 
 RUNTIME_BUILD_ID := $(shell git describe --always --dirty --abbrev=40 --exclude='*' 2>/dev/null || echo unversioned)
 RUNTIME_SOURCES = machines/robotron1715/pc1715.c common/runtime/session.c $(CORE) common/cpu/z80.c machines/vjuga/vjuga.c $(ROBOTRON_OBJECTS:build/%.o=%.c)
-RUNTIME_HEADERS = machines/robotron1715/video.inc $(wildcard machines/robotron1715m/generated/keyboard_cpu/*.h common/*/*.h machines/*/*.h third_party/cpu/i8080/*.h third_party/cpu/chips/*.h)
+RUNTIME_HEADERS = machines/juku/profiles.inc machines/robotron1715/video.inc $(wildcard machines/robotron1715m/generated/keyboard_cpu/*.h common/*/*.h machines/*/*.h third_party/cpu/i8080/*.h third_party/cpu/chips/*.h)
 
 build/libdac-runtime.so: $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
 	@mkdir -p build
