@@ -78,17 +78,20 @@ static void media(void) {
 
   uint8_t *image = calloc(1, JUK_SINGLE_SIDED_SIZE);
   assert(image);
-  juk_disk disk;
-  assert(juk_disk_bind(&disk, dac_memory_storage(image, JUK_SINGLE_SIDED_SIZE, 1), 1, 1) == 0);
+  /* IMD track metadata exceeds the default WASM stack budget. */
+  juk_disk *disk = calloc(1, sizeof(*disk));
+  assert(disk);
+  assert(juk_disk_bind(disk, dac_memory_storage(image, JUK_SINGLE_SIDED_SIZE, 1), 1, 1) == 0);
   uint8_t juku_sector[JUK_SECTOR_SIZE];
   memset(juku_sector, 0x5a, sizeof(juku_sector));
-  assert(juk_disk_write_sector(&disk, 79, 0, 10, juku_sector) == 0);
+  assert(juk_disk_write_sector(disk, 79, 0, 10, juku_sector) == 0);
   assert(image[JUK_SINGLE_SIDED_SIZE - 1] == 0x5a);
-  assert(juk_disk_set_sector_deleted(&disk, 79, 0, 10, 1) == 0);
-  assert(juk_disk_sector_deleted(&disk, 79, 0, 10) == 1);
+  assert(juk_disk_set_sector_deleted(disk, 79, 0, 10, 1) == 0);
+  assert(juk_disk_sector_deleted(disk, 79, 0, 10) == 1);
   juku_fdc fdc;
-  juku_fdc_init(&fdc, &disk);
+  juku_fdc_init(&fdc, disk);
   assert(fdc.enabled); /* no FILE pointer is required by the controller */
+  free(disk);
   free(image);
 }
 
