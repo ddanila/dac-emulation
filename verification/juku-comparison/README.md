@@ -103,3 +103,8 @@ across all memory modes, with the preserved D6 PROM as decode evidence.
 The [issue #18 investigation](../juku-input/README.md) compares natural and
 physical Estonian keyboard input through original ROM services, including
 native/WASM profile coverage and the resulting glyphs.
+
+The [issue #15 keyboard inventory](../juku-keyboards/README.md) covers JUSS
+and AT host mappings and hold/release behavior through original ROMs in
+native/WASM builds. Other-emulator alternate-profile support is assessed
+from source; this is not a claim of dynamic three-way AT qualification.
