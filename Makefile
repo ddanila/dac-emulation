@@ -401,18 +401,22 @@ test-juku-fdc-variants: build/juku-fdc-variants-test build/juku-fdc-variants-pac
 	./build/juku-fdc-variants-paced-test
 
 build/juku-profiles-test: tests/integration/juku_profiles_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc
+	@mkdir -p build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< $(RUNTIME_SOURCES) -o $@
 .PHONY: test-juku-profiles
+test: test-juku-profiles
 test-juku-profiles: build/juku-profiles-test
 	./build/juku-profiles-test
 
 build/juku-profiles-test.cjs: tests/integration/juku_profiles_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc
+	@mkdir -p build
 	$(EMCC) $(CPPFLAGS) -O2 -std=c11 $< $(RUNTIME_SOURCES) -sENVIRONMENT=node -sALLOW_MEMORY_GROWTH=1 -sSTACK_SIZE=4194304 -o $@
 .PHONY: test-juku-profiles-wasm
 test-juku-profiles-wasm: build/juku-profiles-test.cjs
 	$(NODE) $<
 
 build/juku-profiles-sanitize: tests/integration/juku_profiles_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc
+	@mkdir -p build
 	$(CC) $(CPPFLAGS) -O1 -g $(WARN) -fsanitize=address,undefined -fno-omit-frame-pointer $< $(RUNTIME_SOURCES) -o $@
 .PHONY: test-juku-profiles-sanitize
 test-juku-profiles-sanitize: build/juku-profiles-sanitize

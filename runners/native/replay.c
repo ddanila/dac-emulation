@@ -19,7 +19,7 @@ static uint32_t number(void) {
          (uint32_t)b[3] << 24;
 }
 static void *bytes(uint32_t n) {
-  if (n > 2*1024*1024)
+  if (n > 2 * 1024 * 1024)
     fail();
   void *p = malloc(n ? n : 1);
   if (!p || fread(p, 1, n, stdin) != n)
@@ -34,18 +34,30 @@ static void output(const void *p, uint32_t n) {
 int main(void) {
   char magic[5];
   if (fread(magic, 1, 5, stdin) != 5 ||
-      (memcmp(magic, "DACR1", 5) && memcmp(magic, "DACR2", 5) && memcmp(magic,"DACR3",5)))
+      (memcmp(magic, "DACR1", 5) && memcmp(magic, "DACR2", 5) &&
+       memcmp(magic, "DACR3", 5)))
     fail();
-  unsigned kind=number(),outputs=magic[4]=='2'?5:4;
+  unsigned kind = number(), outputs = magic[4] == '2' ? 5 : 4;
   dac_session *s = dac_create(kind);
   if (!s)
     fail();
-  if(magic[4]=='3'){
-    unsigned length=number();if(!length || length>64)fail();char id[65];
-    if(fread(id,1,length,stdin)!=length)fail();id[length]=0;
-    unsigned profile=0;while(profile<dac_juku_profile_count() && strcmp(id,dac_juku_profile_id(profile)))profile++;
-    if(kind!=0 || dac_juku_set_profile(s,profile)<0)fail();
-    outputs=number();if(outputs!=4 && outputs!=5)fail();
+  if (magic[4] == '3') {
+    unsigned length = number();
+    if (!length || length > 64)
+      fail();
+    char id[65];
+    if (fread(id, 1, length, stdin) != length)
+      fail();
+    id[length] = 0;
+    unsigned profile = 0;
+    while (profile < dac_juku_profile_count() &&
+           strcmp(id, dac_juku_profile_id(profile)))
+      profile++;
+    if (kind != 0 || dac_juku_set_profile(s, profile) < 0)
+      fail();
+    outputs = number();
+    if (outputs != 4 && outputs != 5)
+      fail();
   }
   unsigned count = number();
   if (count > 4)

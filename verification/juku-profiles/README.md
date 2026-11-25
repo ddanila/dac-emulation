@@ -4,7 +4,8 @@ Profiles configure hardware independently of firmware bytes. The registry in
 `machines/juku/profiles.inc` owns stable IDs, names, controller placement and
 keyboard selection. The default remains `mainboard-juku`. Qualification evidence
 is in [results.json](results.json); the default-profile compatibility matrix is
-in [regression.json](regression.json).
+in [regression.json](regression.json). The original and checksum-corrected #0043
+comparison is in [checksum-results.json](checksum-results.json).
 
 | ID | Controller | Keyboard | Firmware association |
 | --- | --- | --- | --- |
@@ -16,7 +17,7 @@ in [regression.json](regression.json).
 | `card-at` | Expansion FD1793 | AT adapter | #0043 |
 | `single-density` | Mainboard FD1792 | JUSS | Generated diagnostics; historical pairing unverified |
 
-No ROM recognition, checksum repair, guest-memory input injection or profile
+The emulator performs no ROM recognition, checksum repair, guest-memory input injection or profile
 selection based on a disk's contents is performed. The native runner's explicit
 `JUKU_FDC_BUS_INVERT` override remains diagnostic. Timing mode is independent of
 profile selection; experimental FDC synchronization remains opt-in.
@@ -61,8 +62,12 @@ The #0043 AT adapter exposes translated scan-set-1 bytes through PB7 (ready)
 and PB0 (serial data), clocked by PA5 and acknowledged/reset by PA7. Its queue,
 shift position, make/break codes and modifier state are modeled at the PPI
 interface. This is a firmware-derived adapter contract, not a complete PC 8042
-or PS/2 electrical model. The preserved ROM's block-1 checksum discrepancy is
-not repaired; its historical startup remains unqualified. JUSS supports the
+or PS/2 electrical model. The preserved ROM's block-1 checksum discrepancy prevents startup. An explicitly
+corrected copy (offset `0x000A`, `F2` to `57`, calculated from bytes `0x000B..0x07FF`)
+boots EKDOS and passes guest file creation, write/read/EOF and host persisted-file
+verification in both timing modes. Only that checksum byte differs; the emulator
+does not alter either ROM. The adapter reloads bit zero on receipt of a new byte,
+including after disk firmware clocks an empty adapter. JUSS supports the
 verified alphanumeric, punctuation, modifier and control contacts; unverified
 special-key legends must not be inferred from the Juku keyboard layout.
 
@@ -110,3 +115,14 @@ bootstrap because a compatible historical OS disk has not been qualified.
 FD1792 tests use generated FM media, including a real CPU bootstrap, formatting,
 readback, density mismatch and IMD snapshot restoration. Reports distinguish
 these diagnostics from historical software compatibility.
+
+To reproduce the #0043 comparison, including a derived checksum-corrected ROM:
+
+```sh
+python3 verification/juku-profiles/run.py \
+  --roms ../8080-cosim/roms --base /path/to/prog1.juk \
+  --output /tmp/juku43-checksum-study --only ekta43 --include-corrected-ekta43
+```
+
+The derived ROM is written only into the output directory. The report records
+both ROM hashes and the changed offset/value; the source ROM is untouched.

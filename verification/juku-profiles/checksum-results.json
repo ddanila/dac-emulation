@@ -1,0 +1,133 @@
+{
+  "inputs": {
+    "base": "dc3e9edf3e3f21222ed3fbe959d03635ca090eb7cdea0e68de5492e9f115416e"
+  },
+  "cases": {
+    "ekta43-native": {
+      "data_bytes_read": 0,
+      "warm_boot_vector": "c300000000000000",
+      "console": "",
+      "file_io": {
+        "guest_passed": false
+      },
+      "profile": 5,
+      "paced": false,
+      "rom_sha256": "39e3ca8978b369632d03c658300654445b898139009f188cb154e2f901238ba7",
+      "raw_sha256": {
+        "capture.frames.csv": "6c1c84fb8cd4ecff21d01669f3b18f23c7db383202a683df4b7641c3dacfaefe",
+        "capture.ram": "44acebdcaa2f4e38d5daac5eb49cdc85def54e53fa66bd07cef31e0e9112f987",
+        "capture.data.csv": "fd315ff111943bcfa47884d4f7c72c7cd034ff451671b0af6800ca1776d88c6d",
+        "capture.samples.csv": "653b34475116ebf62fbf725a9df92cb90286c57a4d5d3a1d985b18ee764a5d3b",
+        "capture.console": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture.juk": "b3b50913534378d11f42b1409416c5b26782fa47e8d5e3f159cb258fdcf604c4",
+        "capture.events.csv": "1ac1147d9fb233eee3d1c6bbb0b38894de6b56863b382cba504878ee4083242c"
+      },
+      "limitation": "Unmodified ROM retries startup; stored block-1 checksum differs from the computed sum. No firmware repair applied.",
+      "checksum": {
+        "stored": 242,
+        "calculated": 87
+      }
+    },
+    "ekta43-corrected-native": {
+      "data_bytes_read": 23552,
+      "warm_boot_vector": "c303ca0000c306bc",
+      "console": "\u001bH\u001bJ\u001bM1\u001b'EktaSoft '90  Serial #0043      \r\nScreen b/w 53x24/+wnd           \r\nIBM AT keyboard                 \r\nParallel printer                \r\nDiskBios (Fdc 1793 on Card*)    \r\nTapeBios (Rc on MBoard)         \r\nRomBios length: 4000            \r\n\u001b(D\u001bL52K EKDOS 2.30  \r\n\nDrive assignments:\r\n\n<A> - 5\" 786K\r\n<B> - 5\" 786K\r\n\r\nA>fdc25\r\r\n\r\nFDC25 PASS\r\n\r\nA>",
+      "file_io": {
+        "file_bytes": 1024,
+        "allocated_blocks": [
+          78
+        ],
+        "unrelated_bytes_unchanged": true,
+        "guest_passed": true
+      },
+      "profile": 5,
+      "paced": false,
+      "rom_sha256": "858741fa68603df45f085f092de3f457002cd1951856c3eac7f34792300104a4",
+      "raw_sha256": {
+        "capture.frames.csv": "2a2bdf7cb8bfed9f8ae0d0a90cd249c6714f65e9cc63e6dca80ce66f13d0c974",
+        "capture.ram": "08870b1f8959d413b1b6c1f6f8711c5bb20dc553408ad36c722a33fb52ba225b",
+        "capture.data.csv": "8f832ae0e003e3c43dac147a102a552f5d5278ca1f40720111fca1eeaf68a6ad",
+        "capture.samples.csv": "13182fc6ebe189f9753afeace03b17c214dc98f5c6eea26d417d790edb1f8ffa",
+        "capture.console": "316b41e2ff1c6d1f4c66bd968a8a0ab4cdbd51335162beadec2fd68ccfd12ed6",
+        "capture.juk": "13d1e68d159dc2d3b692c0684b78a6bbf2269957ae9db61d387a585a0eafa63e",
+        "capture.events.csv": "93d5193a2ae4952f311e5e740a2f7d248c91c46d137d8246484aa79c449488ee"
+      },
+      "firmware_correction": {
+        "source_sha256": "39e3ca8978b369632d03c658300654445b898139009f188cb154e2f901238ba7",
+        "corrected_sha256": "858741fa68603df45f085f092de3f457002cd1951856c3eac7f34792300104a4",
+        "changes": [
+          {
+            "offset": 10,
+            "before": 242,
+            "after": 87
+          }
+        ]
+      }
+    },
+    "ekta43-paced": {
+      "data_bytes_read": 0,
+      "warm_boot_vector": "c300000000000000",
+      "console": "",
+      "file_io": {
+        "guest_passed": false
+      },
+      "profile": 5,
+      "paced": true,
+      "rom_sha256": "39e3ca8978b369632d03c658300654445b898139009f188cb154e2f901238ba7",
+      "raw_sha256": {
+        "capture.frames.csv": "6c1c84fb8cd4ecff21d01669f3b18f23c7db383202a683df4b7641c3dacfaefe",
+        "capture.ram": "44acebdcaa2f4e38d5daac5eb49cdc85def54e53fa66bd07cef31e0e9112f987",
+        "capture.data.csv": "fd315ff111943bcfa47884d4f7c72c7cd034ff451671b0af6800ca1776d88c6d",
+        "capture.samples.csv": "653b34475116ebf62fbf725a9df92cb90286c57a4d5d3a1d985b18ee764a5d3b",
+        "capture.console": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture.juk": "b3b50913534378d11f42b1409416c5b26782fa47e8d5e3f159cb258fdcf604c4",
+        "capture.events.csv": "1ac1147d9fb233eee3d1c6bbb0b38894de6b56863b382cba504878ee4083242c"
+      },
+      "limitation": "Unmodified ROM retries startup; stored block-1 checksum differs from the computed sum. No firmware repair applied.",
+      "checksum": {
+        "stored": 242,
+        "calculated": 87
+      }
+    },
+    "ekta43-corrected-paced": {
+      "data_bytes_read": 23552,
+      "warm_boot_vector": "c303ca0000c306bc",
+      "console": "\u001bH\u001bJ\u001bM1\u001b'EktaSoft '90  Serial #0043      \r\nScreen b/w 53x24/+wnd           \r\nIBM AT keyboard                 \r\nParallel printer                \r\nDiskBios (Fdc 1793 on Card*)    \r\nTapeBios (Rc on MBoard)         \r\nRomBios length: 4000            \r\n\u001b(D\u001bL52K EKDOS 2.30  \r\n\nDrive assignments:\r\n\n<A> - 5\" 786K\r\n<B> - 5\" 786K\r\n\r\nA>fdc25\r\r\n\r\nFDC25 PASS\r\n\r\nA>",
+      "file_io": {
+        "file_bytes": 1024,
+        "allocated_blocks": [
+          78
+        ],
+        "unrelated_bytes_unchanged": true,
+        "guest_passed": true
+      },
+      "profile": 5,
+      "paced": true,
+      "rom_sha256": "858741fa68603df45f085f092de3f457002cd1951856c3eac7f34792300104a4",
+      "raw_sha256": {
+        "capture.frames.csv": "727f90aa25a70b46f5d29812ce07372a6b7439ba6349ec9c5fe89bf2213f8f35",
+        "capture.ram": "8954150fea466eb14712946c43a12a67098b6df5cb9caa19e73ed9560e335620",
+        "capture.data.csv": "273e34a06790697d652c0e1b8c14e2f7d1d60cbf588e717a9ac03a6be3377de6",
+        "capture.samples.csv": "4f11bceb01a4720a1ce77c7dcba024346c74029b12e5d1299ee7c4d349f201f3",
+        "capture.console": "316b41e2ff1c6d1f4c66bd968a8a0ab4cdbd51335162beadec2fd68ccfd12ed6",
+        "capture.juk": "13d1e68d159dc2d3b692c0684b78a6bbf2269957ae9db61d387a585a0eafa63e",
+        "capture.events.csv": "29cbe772298f94b029f9507f8bc763d96b2388b6284ebd0d8d39eb047c12e535"
+      },
+      "firmware_correction": {
+        "source_sha256": "39e3ca8978b369632d03c658300654445b898139009f188cb154e2f901238ba7",
+        "corrected_sha256": "858741fa68603df45f085f092de3f457002cd1951856c3eac7f34792300104a4",
+        "changes": [
+          {
+            "offset": 10,
+            "before": 242,
+            "after": 87
+          }
+        ]
+      }
+    }
+  },
+  "qualification": {
+    "card-at": "Checksum-corrected #0043 boots EKDOS and passes file I/O; original ROM fails startup checksum; wiring inferred from firmware"
+  },
+  "source_revision": "e57a7e0fcc107052740f68c292fcf5e9438952c7"
+}
