@@ -1,0 +1,3462 @@
+{
+  "issue": 13,
+  "provenance": {
+    "dac_revision": "b3d08a25fa9ff7f949a671bfcfc0533815f80682",
+    "sinijarv_revision": "1b82a399240b14cc9a54679cc075983a47ccdc33",
+    "mame_version": "MAME v0.289 (unknown)",
+    "rom_sha256": "fc44df76b2601ab81745f2512edb7a56bb24dca6419e7173a5bf11cae4c1fc27",
+    "cart_sha256": "ff86e17c7ce6de177e18bc0468d23cee7ed2ecd6e8adc56950138cdf6ee5ba60"
+  },
+  "physical_prom": {
+    "sha256": "c07ba671c4a75c35e1265e370a4fed4b82d1cd423859b5c56bc6cbc6572a9489",
+    "mode_signatures_2k_blocks": {
+      "0": "88888888111111111111111111111111",
+      "1": "11111111111111111111111111188888",
+      "2": "11111111FFFFFFFFFFFFFFFF11188888",
+      "3": "11111111111111111111111111111111"
+    },
+    "mode2_internal_ram_and_rom_deselected_entire_window": true
+  },
+  "cases": {
+    "empty-mode0": {
+      "native": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 218,
+            "after": 218,
+            "backing_ram": 165,
+            "expected_before": 218,
+            "expected_after": 218
+          },
+          {
+            "address": "3fff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      },
+      "sinijarv": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 218,
+            "after": 218,
+            "backing_ram": 165,
+            "expected_before": 218,
+            "expected_after": 218
+          },
+          {
+            "address": "3fff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      },
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 218,
+            "after": 218,
+            "backing_ram": 165,
+            "expected_before": 218,
+            "expected_after": 218
+          },
+          {
+            "address": "3fff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      }
+    },
+    "empty-mode1": {
+      "native": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      },
+      "sinijarv": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      },
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      }
+    },
+    "empty-mode2": {
+      "native": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "5fff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "6000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "7fff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "87ff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8800",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "bfff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      },
+      "sinijarv": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "5fff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "6000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "7fff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "87ff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8800",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "bfff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      },
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 32768,
+        "first_incorrect_address": "4000",
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "5fff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "6000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "7fff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "87ff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8800",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "bfff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      }
+    },
+    "empty-mode3": {
+      "native": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      },
+      "sinijarv": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      },
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      }
+    },
+    "cartridge-mode0": {
+      "native": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 218,
+            "after": 218,
+            "backing_ram": 165,
+            "expected_before": 218,
+            "expected_after": 218
+          },
+          {
+            "address": "3fff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      },
+      "sinijarv": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 218,
+            "after": 218,
+            "backing_ram": 165,
+            "expected_before": 218,
+            "expected_after": 218
+          },
+          {
+            "address": "3fff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      },
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 218,
+            "after": 218,
+            "backing_ram": 165,
+            "expected_before": 218,
+            "expected_after": 218
+          },
+          {
+            "address": "3fff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      }
+    },
+    "cartridge-mode1": {
+      "native": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      },
+      "sinijarv": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      },
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      }
+    },
+    "cartridge-mode2": {
+      "native": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 195,
+            "after": 195,
+            "backing_ram": 90,
+            "expected_before": 195,
+            "expected_after": 195
+          },
+          {
+            "address": "5fff",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 90,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "6000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "7fff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "87ff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8800",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "bfff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      },
+      "sinijarv": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 195,
+            "after": 195,
+            "backing_ram": 90,
+            "expected_before": 195,
+            "expected_after": 195
+          },
+          {
+            "address": "5fff",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 90,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "6000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "7fff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "87ff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8800",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "bfff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 90,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      },
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 32768,
+        "first_incorrect_address": "4000",
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 195,
+            "after": 195,
+            "backing_ram": 165,
+            "expected_before": 195,
+            "expected_after": 195
+          },
+          {
+            "address": "5fff",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "6000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "7fff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8000",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "87ff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "8800",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "bfff",
+            "before": 255,
+            "after": 255,
+            "backing_ram": 165,
+            "expected_before": 255,
+            "expected_after": 255
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      }
+    },
+    "cartridge-mode3": {
+      "native": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      },
+      "sinijarv": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      },
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      }
+    },
+    "mame-stock-mode0": {
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 218,
+            "after": 218,
+            "backing_ram": 165,
+            "expected_before": 218,
+            "expected_after": 218
+          },
+          {
+            "address": "3fff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      }
+    },
+    "mame-stock-mode1": {
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      }
+    },
+    "mame-stock-mode2": {
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 32768,
+        "first_incorrect_address": "4000",
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 195,
+            "after": 195,
+            "backing_ram": 165,
+            "expected_before": 195,
+            "expected_after": 195
+          },
+          {
+            "address": "5fff",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "6000",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "7fff",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "8000",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "87ff",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "8800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "bfff",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 0,
+            "after": 0,
+            "backing_ram": 165,
+            "expected_before": 0,
+            "expected_after": 0
+          },
+          {
+            "address": "ffff",
+            "before": 220,
+            "after": 220,
+            "backing_ram": 165,
+            "expected_before": 220,
+            "expected_after": 220
+          }
+        ]
+      }
+    },
+    "mame-stock-mode3": {
+      "mame": {
+        "guest_completed": true,
+        "window_bytes_checked": 32768,
+        "incorrect_backing_bytes": 0,
+        "first_incorrect_address": null,
+        "adjacent_and_overlay_writes_reach_ram": true,
+        "read_mapping_matches": true,
+        "samples": [
+          {
+            "address": "1000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "3fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "4000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "5fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "6000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "7fff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "87ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "8800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "bfff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "c000",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d7ff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "d800",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          },
+          {
+            "address": "ffff",
+            "before": 90,
+            "after": 165,
+            "backing_ram": 165,
+            "expected_before": 90,
+            "expected_after": 165
+          }
+        ]
+      }
+    }
+  }
+}

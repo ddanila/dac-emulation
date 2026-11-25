@@ -95,3 +95,7 @@ by the separate [issue #16 investigation](../juku-fdc-variants/README.md).
 Disk-image ordering and BDOS file I/O across the head boundary are covered by
 the separate [issue #23 investigation](../juku-layout/README.md), which reuses
 these capture adapters with a generated file in explicitly selected blocks.
+
+The [issue #13 investigation](../juku-window/README.md) uses a separate generated
+8080 program to compare external-window reads and internal RAM write isolation
+across all memory modes, with the preserved D6 PROM as decode evidence.
