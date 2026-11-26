@@ -10,7 +10,45 @@ static dac_session *start(void) {
   unsigned char prom[256];memset(prom,15,sizeof(prom));
   assert(!dac_load(s,0,rom,sizeof(rom)));assert(!dac_load(s,1,prom,sizeof(prom)));assert(!dac_power(s,1));return s;
 }
+/* Compare counted overview polling with the complete bus/phase history. */
+static void sense_polling(unsigned command) {
+  unsigned char rom[2048]={0xf3,0x31,0,0xf0,0x3e,8,0xd3,0x1d,
+    0xdb,0x1c,0xe6,0xc0,0xfe,0xc0,0x20,0xf8,0xdb,0x1d,0xc3,4,0};
+  if(command==4){
+    const unsigned char drive[]={0xf3,0x31,0,0xf0,0x06,0,0x3e,4,0xd3,0x1d,
+      0x78,0xd3,0x1d,0x3c,0xe6,1,0x47,0xdb,0x1c,0xe6,0xc0,0xfe,0xc0,
+      0x20,0xf8,0xdb,0x1d,0xc3,6,0};
+    memcpy(rom,drive,sizeof(drive));
+  }
+  unsigned char prom[256];memset(prom,15,sizeof(prom));
+  dac_session *sessions[2];unsigned totals[2][3][256]={{{0}}},counts[2];
+  for(unsigned mode=0;mode<2;mode++){
+    dac_session *s=sessions[mode]=dac_create(2);assert(s);
+    assert(!dac_load(s,0,rom,sizeof(rom))&&!dac_load(s,1,prom,sizeof(prom)));
+    assert(!dac_power(s,1)&&!dac_journey_capture(s,mode?2:0));
+    for(unsigned t=0;t<200000;t+=100000)assert(dac_run(s,100000)==100000);dac_journey_stop(s);
+    assert(dac_journey_status(s)==2);counts[mode]=dac_journey_count(s);
+    const uint32_t *rows=dac_journey_data(s,0);
+    for(unsigned i=0;i<counts[mode];i++){
+      const uint32_t *r=rows+i*96;
+      if((r[2]==14||r[2]==15)&&(r[3]&255)==0x1d)
+        totals[mode][r[2]-14][r[4]&255]+=r[95];
+      if(r[2]==24&&r[3]==1)totals[mode][2][r[4]&255]+=r[95];
+    }
+  }
+  assert(!memcmp(totals[0],totals[1],sizeof(totals[0])));
+  for(unsigned i=0;i<3;i++){
+    unsigned total=0;for(unsigned j=0;j<256;j++)total+=totals[0][i][j];
+    assert(total>100);
+  }
+  assert(counts[0]<counts[1]/10);
+  size_t n=dac_state_size(sessions[0]);void *a=malloc(n),*b=malloc(n);assert(a&&b);
+  assert(!dac_state_save(sessions[0],a,n)&&!dac_state_save(sessions[1],b,n));
+  assert(!memcmp(a,b,n));free(a);free(b);
+  dac_destroy(sessions[0]);dac_destroy(sessions[1]);
+}
 int main(int argc,char **argv){
+  sense_polling(4);sense_polling(8);
   dac_session *a=start(),*b=start();assert(dac_journey_capabilities(a)==1);assert(dac_journey_words()==96);
   assert(!dac_journey_capture(a,7));dac_run(a,20000);dac_run(b,20000);dac_journey_stop(a);
   unsigned n=dac_journey_count(a);assert(n>100&&dac_journey_status(a)==2);

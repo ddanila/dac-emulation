@@ -3,8 +3,37 @@
 #define JOURNEY_CAPACITY 131072u
 static void journey_record(dac_session *s,unsigned kind,unsigned address,unsigned value,unsigned master,unsigned space,unsigned offset) {
   if(!s->journey_on)return;
-  if(s->journey_count==JOURNEY_CAPACITY){s->journey_on=0;s->journey_full=1;bind_observer(s);return;}
+  /* The boot ROM repeatedly issues SENSE DRIVE STATUS / INTERRUPT while waiting for drives.
+   * Retain distinct controller observations, not thousands of identical polls.
+   * Detailed captures keep every event; overview counts disclose aggregation. */
   robotron *m=s->r;robotron_fdc *f=&m->fdc;robotron_dma *d=&m->dma;
+  unsigned sense=!(s->journey_mask&2)&&((f->command[0]&31)==8||(f->command[0]&31)==4)&&
+    ((kind==24&&address==1)||((kind==14||kind==15)&&
+      ((address&255)==0x1c||(address&255)==0x1d)));
+  unsigned poll=(kind*31+address*17+value*7+s->dive_hpc*13+f->phase*23+f->unit*43)&4095;
+  if(sense){
+    uint32_t controller[]={
+      f->phase|(f->search<<4)|(f->command[0]<<8)|(f->write<<16)|(f->pending<<24),
+      f->unit|(f->physical[f->unit&3]<<8)|(f->head<<16)|(f->sector<<24),
+      f->data_pos|(f->data_len<<16),
+      f->command[0]|(f->command[1]<<8)|(f->command[2]<<16)|(f->command[3]<<24),
+      f->result[0]|(f->result[1]<<8)|(f->result[2]<<16)|(f->result_pos<<24),
+      d->remaining,d->run_a|(d->run_b<<16),
+      robotron_journey_probe(m,0),robotron_journey_probe(m,1)
+    };
+    if(s->journey_poll[poll]){
+      uint32_t *last=s->journey_rows+(s->journey_poll[poll]-1)*JOURNEY_WORDS;
+      if(last[2]==kind&&last[3]==address&&last[4]==value&&
+         last[7]==s->dive_hpc&&last[12]==m->bank&&
+         !memcmp(last+57,controller,sizeof(controller))&&
+         last[76]==f->steps[0]&&last[77]==f->steps[1]&&
+         last[90]==(unsigned)(f->cmd_pos|(f->result_len<<8))&&last[91]==m->motor){
+        last[95]++;return;
+      }
+    }
+  }
+  if(s->journey_count==JOURNEY_CAPACITY){s->journey_on=0;s->journey_full=1;bind_observer(s);return;}
+  if(sense)s->journey_poll[poll]=s->journey_count+1;
   uint32_t *r=s->journey_rows+s->journey_count++*JOURNEY_WORDS;
   memset(r,0,JOURNEY_WORDS*4);dive_snapshot(s,r,kind,address,value);
   r[54]=master;r[55]=space;r[56]=offset;
