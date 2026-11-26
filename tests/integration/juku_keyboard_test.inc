@@ -17,6 +17,8 @@ static void keyboard_contacts_test(void) {
   assert((j->cpu.port_in(j, 5) & 0xcf) == 0xcf);
   assert(juku_keyboard_contact(j, 7, 1) == -EINVAL);
   assert(juku_keyboard_state_valid(j));
+  j->kbd_col = 255;
+  assert(!juku_keyboard_state_valid(j));
   juku_destroy(j);
   j = juku_create();
   assert(!juku_set_profile(j, 5));

@@ -243,6 +243,7 @@ static void juku_keyboard_tick(juku *j) {
   j->key_repeat_due = j->cpu.cyc + period;
 }
 int juku_keyboard_state_valid(const juku *j) {
+  if (j->kbd_col > 15) return 0;
   unsigned layout = profiles[j->profile].keyboard;
   for (unsigned id = 0; id < 520; id++)
     if (key_bit(j->key_physical, id) && !key_valid(layout, id))
