@@ -26,7 +26,10 @@ static void sense_polling(unsigned command) {
     dac_session *s=sessions[mode]=dac_create(2);assert(s);
     assert(!dac_load(s,0,rom,sizeof(rom))&&!dac_load(s,1,prom,sizeof(prom)));
     assert(!dac_power(s,1)&&!dac_journey_capture(s,mode?2:0));
-    for(unsigned t=0;t<200000;t+=100000)assert(dac_run(s,100000)==100000);dac_journey_stop(s);
+    for(unsigned t=0;t<200000;t+=100000){
+      assert(dac_run(s,100000)==100000);
+    }
+    dac_journey_stop(s);
     assert(dac_journey_status(s)==2);counts[mode]=dac_journey_count(s);
     const uint32_t *rows=dac_journey_data(s,0);
     for(unsigned i=0;i<counts[mode];i++){
