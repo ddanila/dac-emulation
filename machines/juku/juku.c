@@ -26,7 +26,7 @@ static const struct { char c; uint8_t col, bit, shift; } KMAP[] = {
   {' ',11,2,0},{'\r',8,5,0},{'\n',8,5,0},{'\t',3,3,0},{'\b',13,2,0},{'\033',3,4,0},
   {'.',13,1,0},{'>',13,1,1},{',',14,1,0},{'<',14,1,1},{'/',12,1,0},{'?',12,1,1},
   {';',11,1,0},{'+',11,1,1},{'-',11,4,0},{'=',11,4,1},{':',10,5,0},{'*',10,5,1},
-  {'[',9,3,0},{']',8,3,0},{'\\',11,3,0},{'^',11,3,1},
+  {'[',9,3,0},{']',8,3,0},{'{',9,3,1},{'}',8,3,1},{'@',10,4,1},{'`',10,3,1},{'|',11,5,0},{'~',11,3,0},{'\\',9,4,0},{'^',9,4,1},
   // Latin-1 host key identities; firmware still determines the guest code.
   {'\xe4',11,5,0},{'\xc4',11,5,1}, // ä Ä
   {'\xf5',10,3,0},{'\xd5',10,3,1}, // õ Õ
@@ -51,6 +51,7 @@ static const struct { char c; uint8_t col, bit, shift; } KMAP[] = {
 };
 
 #include "profiles.inc"
+#include "keyboard.inc"
 
 int juku_is_pit_data_port(juku *ctx, uint8_t port) {
   (void)ctx;
@@ -640,7 +641,7 @@ uint8_t juku_kbd_portb(juku *ctx, const i8080* cpu) {
   char current = juku_kbd_current_char(ctx);
   int hold_frames = ctx->kbd_pc_trigger_active && ctx->kbd_pc_trigger_hold_frames > 0
                     ? ctx->kbd_pc_trigger_hold_frames : ctx->kbd_hold_frames;
-  char c = (current && (ctx->live_keyboard || ctx->kbd_phase < hold_frames)) ? current : 0;
+  char c = (!ctx->live_keyboard && current && ctx->kbd_phase < hold_frames) ? current : 0;
   if (c == '|') return idle;                           // prompt wait marker, not a typed key
   int shift = 0, ctrl = 0, col = -1, bit = -1;
   if (c) {
@@ -675,11 +676,17 @@ uint8_t juku_kbd_portb(juku *ctx, const i8080* cpu) {
   }
   if (juku_profile_info(ctx->profile)->keyboard == 1 && c)
     juku_juss_contact((uint8_t)c, &col, &bit, &shift, &ctrl);
+  unsigned rows=0;
+  for(unsigned r=0;r<6;r++)if(key_bit(ctx->key_effective,ctx->kbd_col*8+r))rows|=1u<<r;
+  if(col==ctx->kbd_col && bit>=0)rows|=1u<<bit;
+  shift |= key_bit(ctx->key_effective,128);ctrl |= key_bit(ctx->key_effective,129);
   uint8_t pb = (uint8_t)(0xC0 | contrdat);
   if (shift) pb &= (uint8_t)~0x40;                     // SHIFT1 held = bit6 low (active-low)
   if (ctrl) pb &= (uint8_t)~0x80;                      // CTRL held = bit7 low (active-low)
-  if (c && col == ctx->kbd_col)
-    pb |= (uint8_t)(((~bit) & 7) << 1);                // 74148 code in b1-3, GS active (b0=0)
+  if (rows) {
+    unsigned highest=5;while(!(rows&(1u<<highest)))highest--;
+    pb |= (uint8_t)(((~highest) & 7) << 1);
+  }                // 74148 code in b1-3, GS active (b0=0)
   else
     pb |= 0x0F;                                        // no key here: code=7 + GS released (b0=1)
   if (ctx->kbd_trace && c && col == ctx->kbd_col)
@@ -1107,6 +1114,7 @@ void juku_step_cpu(juku *ctx) {
   else i8080_step(&ctx->cpu);
 }
 void juku_step_devices(juku *ctx) {
+    juku_keyboard_tick(ctx);
     juku_video_advance(ctx);
     juku_sync_fdc_time(ctx, &ctx->cpu);
     juku_usart_poll(ctx, ctx->cpu.cyc);
@@ -1188,13 +1196,4 @@ unsigned long juku_run(juku *ctx, unsigned long budget) {
     if (ctx->cpu.cyc == before) break;
   }
   return ctx->cpu.cyc - start;
-}
-
-void juku_key(juku *ctx, uint8_t key, int down) {
-  if (!ctx) return;
-  ctx->live_keyboard = ctx->kbd_enabled = 1;
-  ctx->kbd_start_vram = 0;
-  if (juku_profile_info(ctx->profile)->keyboard == 2) juku_at_key(ctx,key,down);
-  if (down) ctx->live_key = key;
-  else if (!key || key == ctx->live_key) ctx->live_key = 0;
 }

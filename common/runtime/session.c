@@ -569,8 +569,8 @@ int dac_key(dac_session *s, unsigned key, int down) {
   if (!s || !s->on || key > 255)
     return -EINVAL;
   if (s->j) {
-    juku_key(s->j, (uint8_t)key, down);
-    return 0;
+    int r=juku_key(s->j, (uint8_t)key, down);
+    return r==-EAGAIN?DAC_KEYBOARD_BUSY:r;
   }
   if (s->r) {
     if (s->r->disconnected & 1)
@@ -637,6 +637,19 @@ unsigned dac_disk_activity(dac_session *s) {
   return 0;
 }
 
+int dac_keyboard_contact(dac_session *s,unsigned id,int down) {
+  int r=s && s->on && s->j ? juku_keyboard_contact(s->j,id,down) : -EINVAL;
+  return r==-EAGAIN?DAC_KEYBOARD_BUSY:r;
+}
+int dac_keyboard_release_all(dac_session *s) {
+  int r=s && s->on && s->j ? juku_keyboard_release_all(s->j) : -EINVAL;
+  return r==-EAGAIN?DAC_KEYBOARD_BUSY:r;
+}
+int dac_keyboard_text_contact(dac_session *s,unsigned key,unsigned index) {
+  if(!s || !s->j || index>2)return -EINVAL;
+  unsigned ids[3];int n=juku_keyboard_text_contacts(s->juku_profile_id,key,ids);
+  return n<0?n:(index<(unsigned)n?(int)ids[index]:-1);
+}
 int dac_matrix(dac_session *s, unsigned key, int down) {
   if (!s || !s->on || !s->r || !s->r->keyboard_enabled)
     return -EINVAL;
@@ -1272,7 +1285,7 @@ static int other_state_save(dac_session *s, void *p, size_t n) {
   if (s->disk_size)
     memcpy(payload + size, s->disk, s->disk_size);
   state_header h = {0x44414353,
-                    (s->j ? 23 + DAC_JUKU_EXPERIMENTAL_FDC_SYNC : 10 + s->kind),
+                    (s->j ? 25 + DAC_JUKU_EXPERIMENTAL_FDC_SYNC : 10 + s->kind),
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -1289,7 +1302,7 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
   state_header h;
   memcpy(&h, p, sizeof(h));
   const uint8_t *payload = (const uint8_t *)p + sizeof(h);
-  if (h.magic != 0x44414353 || h.version != (s->j ? 23 + DAC_JUKU_EXPERIMENTAL_FDC_SYNC : 10 + s->kind) || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != (s->j ? 25 + DAC_JUKU_EXPERIMENTAL_FDC_SYNC : 10 + s->kind) || h.size != n ||
       h.disk_size != s->disk_size || h.writable != (unsigned)s->writable ||
       h.disk_b_size || h.writable_b ||
       h.crc != state_crc(payload, n - sizeof(h)))
@@ -1324,6 +1337,7 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
     int bad =
         j->profile != s->juku_profile_id || j->profile >= JUKU_PROFILE_COUNT ||
         j->at_count > sizeof(j->at_queue) || j->at_bit > 7 ||
+        !juku_keyboard_state_valid(j) ||
         j->fdc_bus_invert != (juku_profile_info(s->juku_profile_id)->controller!=1793) ||
         j->fdc.fm > 1 || j->fdc.fm_only != (juku_profile_info(s->juku_profile_id)->controller==1792) ||
         memcmp(j->rom, s->firmware, 16384) ||

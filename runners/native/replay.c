@@ -35,13 +35,13 @@ int main(void) {
   char magic[5];
   if (fread(magic, 1, 5, stdin) != 5 ||
       (memcmp(magic, "DACR1", 5) && memcmp(magic, "DACR2", 5) &&
-       memcmp(magic, "DACR3", 5)))
+       memcmp(magic, "DACR3", 5) && memcmp(magic, "DACR4", 5)))
     fail();
   unsigned kind = number(), outputs = magic[4] == '2' ? 5 : 4;
   dac_session *s = dac_create(kind);
   if (!s)
     fail();
-  if (magic[4] == '3') {
+  if (magic[4] == '3' || magic[4] == '4') {
     unsigned length = number();
     if (!length || length > 64)
       fail();
@@ -100,6 +100,10 @@ int main(void) {
       r = dac_run(s, a) ? 0 : -1;
     else if (op == 1 && a <= 255 && b <= 1)
       r = dac_key(s, a, b);
+    else if (op == 20 && magic[4] == '4' && a <= 512 && b <= 1)
+      r = dac_keyboard_contact(s, a, b);
+    else if (op == 21 && magic[4] == '4')
+      r = dac_keyboard_release_all(s);
     else if (op == 2 && a < 104 && b <= 1)
       r = dac_matrix(s, a, b);
     else if (op == 3 && a < 104 && b <= 3)

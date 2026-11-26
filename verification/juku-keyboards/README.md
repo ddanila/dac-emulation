@@ -27,7 +27,8 @@ The hold probe continuously calls TTI and counts returns. Five four-million-
 cycle intervals exercise press/hold, release, press again, another down event
 without release, then release. It measures firmware-visible output, not
 physical debounce or the electrical timing of an AT cable. Native/WASM must
-agree on these observations; historical output is not compared to a frozen
+agree on these observations; The physical probe independently checks letters, modifiers, locks, navigation,
+function keys and keypad contacts. Historical output is not compared to a frozen
 report. Captures stay outside Git. [results.json](results.json) holds the
 host-to-guest inventory, input provenance and qualification summary.
 
@@ -39,14 +40,41 @@ to equivalent physical keys. Codes 5Ch, 60h, 7Bh–7Eh also represent Estonian
 letters in the installed EKTA font, so ASCII byte equality alone is not a
 complete character or glyph test. LF intentionally selects the Return key.
 
-The AT host mapping currently mixes US punctuation positions with #0043's
-layout and lacks the synthetic navigation/function keys. Its latch accepts
-make/break bytes but does not implement keyboard typematic. JUSS maps text
-and four arrows, with other synthetic functions absent. Completing those
-paths requires independent contact/scan evidence, not injecting expected
-characters into RAM or rewriting the ROM tables. Language modes, caps-lock,
-keypad/extended sequences, overlapping keys and snapshot continuation also
-need separate qualification before claiming a complete keyboard model.
+The core models independent physical contacts and text-generated contact
+combinations. Their union drives the matrix encoder or AT make/break transport;
+releasing a generated Shift cannot release a physical Shift. Matrix row priority
+matches the 74148 encoder. Host repeat events are ignored: matrix repeat belongs
+to the monitor, and AT typematic uses a 500 ms initial delay and approximately
+10.9 Hz in emulated cycles, with the most recently pressed repeatable key owning
+repeat. These defaults follow the [IBM PC AT technical reference](https://ftpmirror.your.org/pub/misc/bitsavers/pdf/ibm/pc/at/6183355_PC_AT_Technical_Reference_Mar86.pdf).
+
+`juku_keyboard_contact` accepts matrix IDs `column * 8 + row` (rows 0–5),
+Shift 128 and Ctrl 129; AT IDs are set-1 scan codes, extended codes plus 256,
+and Pause 512. `juku_keyboard_release_all` clears both ownership sources.
+The text-contact query reports unsupported identities before typing begins.
+The bounded AT host transport accepts complete transitions atomically; callers
+retry busy input after running the machine. Repeat yields queue space to releases.
+This queue is not a PC 8042. Snapshots retain contacts, queued/latching scan
+bytes and repeat deadlines. The runtime snapshot version is 25.
+
+[keyboards.json](../../machines/juku/keyboards.json) supplies browser physical
+positions and legends. JUSS function/navigation positions and Caps/LAT-RUS were
+checked through original-ROM TTI calls using independent contact constants in
+`physical.c`. The #0043 scanner at 120Fh recognizes Caps break BAh, LAT/RUS
+break C6h (Scroll Lock), and Num Lock break C5h. The physical probe exercises
+these locks, right Ctrl and keypad Enter; Monitor 3.3 retains Latin output in
+this language-toggle case. Text punctuation follows the original ROM tables,
+not US scan positions. In default AT language state, `[` and `]` have no text
+mapping and are rejected. Character byte aliases for Estonian glyphs remain
+intentional; the separate glyph qualification must also pass.
+
+The adapter remains a firmware-derived PPI contract, not an electrical PS/2
+simulation. Extended keys, Print Screen and Pause have transport sequences;
+that does not imply the historical ROM gives every modern key a function.
+Print Screen uses its ordinary set-1 sequence; modifier-specific variants and
+host-to-keyboard commands are outside this adapter model. Hardware debounce,
+keyboard cable timing and every multi-key chord have not been qualified on
+physical Juku hardware. No console bytes or ROM translation tables are patched.
 
 ## Other emulators
 

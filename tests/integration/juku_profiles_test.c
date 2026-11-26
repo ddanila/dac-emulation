@@ -219,8 +219,11 @@ static void media_test(void) {
   image[6] = 2;
   assert(wd_disk_import(image, sizeof(image) - 1, &raw, &n) < 0);
 }
+#include "juku_keyboard_test.inc"
 int main(void) {
   profiles_test();
+  keyboard_contacts_test();
+  keyboard_snapshot_test();
   media_test();
   puts("PASS Juku profile lifecycle, port isolation, keyboards and FM/IMD "
        "transfers");

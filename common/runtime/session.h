@@ -72,6 +72,13 @@ int dac_power(dac_session *, int on);
 int dac_reset(dac_session *);
 unsigned dac_run(dac_session *, unsigned ticks);
 int dac_key(dac_session *, unsigned key, int down);
+/* Stable across native and Emscripten errno numbering. */
+enum { DAC_KEYBOARD_BUSY = -4096 };
+/* Juku physical IDs and negative errno semantics: see machines/juku/juku.h. */
+int dac_keyboard_contact(dac_session *, unsigned key_id, int down);
+int dac_keyboard_release_all(dac_session *);
+/* Query a text combination without mutating state; index 0..2, -1 past end. */
+int dac_keyboard_text_contact(dac_session *, unsigned key, unsigned index);
 unsigned dac_width(dac_session *);
 unsigned dac_height(dac_session *);
 const uint32_t *dac_video(dac_session *);

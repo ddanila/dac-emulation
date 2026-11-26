@@ -25,10 +25,17 @@ const uint8_t *juku_video(juku *, unsigned *stride, unsigned *lines);
 /* Last completed packed monochrome scanout, NULL until the first frame.
  * Borrowed until the next frame publication/reset/destroy. */
 const uint8_t *juku_frame(juku *, unsigned *stride, unsigned *lines, uint64_t *sequence);
-/* Interactive single-contact keyboard; key=0, down=0 releases all. */
+/* Text identities compose with independent physical contacts. Zero/up releases
+ * all text ownership; release_all also releases independently held contacts. */
 /* ASCII/synthetic keys, plus Latin-1 identities for äõöüÄÕÖÜ. These select
  * physical contacts or AT scan codes; the active ROM supplies guest bytes. */
-void juku_key(juku *, uint8_t key, int down);
+int juku_key(juku *, uint8_t key, int down);
+/* Matrix IDs: column*8+row (row 0..5), Shift=128, Ctrl=129.
+ * AT: base set-1 position; E0 position=256+scan; Pause=512.
+ * Negative errno on unsupported input/backpressure, with no state change. */
+int juku_keyboard_contact(juku *, unsigned key_id, int down);
+int juku_keyboard_release_all(juku *);
+int juku_keyboard_text_contacts(unsigned profile, unsigned key, unsigned ids[3]);
 void juku_step(juku *);
 /* Stops at instruction boundaries: may exceed budget by the last instruction
  * and interrupt entry effects. Returns actual CPU cycles advanced. A halted

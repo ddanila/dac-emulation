@@ -116,7 +116,7 @@ test-wasm: test-clock-wasm
 
 RUNTIME_BUILD_ID := $(shell git describe --always --dirty --abbrev=40 --exclude='*' 2>/dev/null || echo unversioned)
 RUNTIME_SOURCES = machines/robotron1715/pc1715.c common/runtime/session.c $(CORE) common/cpu/z80.c machines/vjuga/vjuga.c $(ROBOTRON_OBJECTS:build/%.o=%.c)
-RUNTIME_HEADERS = machines/juku/profiles.inc machines/robotron1715/video.inc $(wildcard machines/robotron1715m/generated/keyboard_cpu/*.h common/*/*.h machines/*/*.h third_party/cpu/i8080/*.h third_party/cpu/chips/*.h)
+RUNTIME_HEADERS = machines/juku/profiles.inc machines/juku/keyboard.inc machines/robotron1715/video.inc $(wildcard machines/robotron1715m/generated/keyboard_cpu/*.h common/*/*.h machines/*/*.h third_party/cpu/i8080/*.h third_party/cpu/chips/*.h)
 
 build/libdac-runtime.so: $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
 	@mkdir -p build
@@ -400,7 +400,7 @@ test-juku-fdc-variants: build/juku-fdc-variants-test build/juku-fdc-variants-pac
 	./build/juku-fdc-variants-test
 	./build/juku-fdc-variants-paced-test
 
-build/juku-profiles-test: tests/integration/juku_profiles_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc
+build/juku-profiles-test: tests/integration/juku_profiles_test.c tests/integration/juku_keyboard_test.inc $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc machines/juku/keyboard.inc
 	@mkdir -p build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $< $(RUNTIME_SOURCES) -o $@
 .PHONY: test-juku-profiles
@@ -408,14 +408,14 @@ test: test-juku-profiles
 test-juku-profiles: build/juku-profiles-test
 	./build/juku-profiles-test
 
-build/juku-profiles-test.cjs: tests/integration/juku_profiles_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc
+build/juku-profiles-test.cjs: tests/integration/juku_profiles_test.c tests/integration/juku_keyboard_test.inc $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc machines/juku/keyboard.inc
 	@mkdir -p build
 	$(EMCC) $(CPPFLAGS) -O2 -std=c11 $< $(RUNTIME_SOURCES) -sENVIRONMENT=node -sALLOW_MEMORY_GROWTH=1 -sSTACK_SIZE=4194304 -o $@
 .PHONY: test-juku-profiles-wasm
 test-juku-profiles-wasm: build/juku-profiles-test.cjs
 	$(NODE) $<
 
-build/juku-profiles-sanitize: tests/integration/juku_profiles_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc
+build/juku-profiles-sanitize: tests/integration/juku_profiles_test.c tests/integration/juku_keyboard_test.inc $(RUNTIME_SOURCES) $(RUNTIME_HEADERS) machines/juku/profiles.inc machines/juku/keyboard.inc
 	@mkdir -p build
 	$(CC) $(CPPFLAGS) -O1 -g $(WARN) -fsanitize=address,undefined -fno-omit-frame-pointer $< $(RUNTIME_SOURCES) -o $@
 .PHONY: test-juku-profiles-sanitize

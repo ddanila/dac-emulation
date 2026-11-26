@@ -67,9 +67,10 @@ corrected copy (offset `0x000A`, `F2` to `57`, calculated from bytes `0x000B..0x
 boots EKDOS and passes guest file creation, write/read/EOF and host persisted-file
 verification in both timing modes. Only that checksum byte differs; the emulator
 does not alter either ROM. The adapter reloads bit zero on receipt of a new byte,
-including after disk firmware clocks an empty adapter. JUSS supports the
-verified alphanumeric, punctuation, modifier and control contacts; unverified
-special-key legends must not be inferred from the Juku keyboard layout.
+including after disk firmware clocks an empty adapter. Independent physical
+contacts, JUSS function/navigation keys and AT typematic are described in the
+[keyboard qualification](../juku-keyboards/README.md). Text input translates
+into contacts; the original ROM performs character translation.
 
 ## Media
 

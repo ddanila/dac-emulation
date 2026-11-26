@@ -18,7 +18,7 @@ node tests/integration/browser_smoke.mjs
 
 Pointers returned by video/disk getters are borrowed until destroy or a relevant mutation. Memory growth can invalidate JavaScript typed-array views; always read the module's current `HEAPU8` after a call. Video dimensions may change after drawing; query them after `dac_video`. Pixels are RGBA bytes on the supported little-endian native/WASM targets.
 
-Juku input is currently one contact at a time; key zero/up clears it on focus loss. Its browser adapter advances halted time in four-clock increments so frame IRQs can resume the CPU. The legacy native runner is unchanged. Long-running Juku sessions across the WASM32 cycle-counter wrap are not qualified. VJUGA's bounded profile has no keyboard/disk. Robotron keys enqueue character packets; release-all clears queued packets.
+Juku input combines independently held physical contacts with text-generated combinations. `dac_keyboard_release_all` releases both; key zero/up releases text ownership only. AT repeat advances in emulated cycles and busy transitions must be retried. See the [keyboard qualification](../../verification/juku-keyboards/README.md). Its browser adapter advances halted time in four-clock increments so frame IRQs can resume the CPU. The legacy native runner is unchanged. Long-running Juku sessions across the WASM32 cycle-counter wrap are not qualified. VJUGA's bounded profile has no keyboard/disk. Robotron keys enqueue character packets; release-all clears queued packets.
 
 The bundled demonstration ROMs and glyphs are original MIT DAC diagnostics built by `tools/build_demo.py`. They are clearly distinct from historical firmware.
 

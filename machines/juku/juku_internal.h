@@ -6,6 +6,7 @@
 #include "juk_disk.h"
 #include "juku_fdc.h"
 #include "../../common/trace/trace.h"
+int juku_keyboard_state_valid(const juku *);
 #define MEM_SIZE 0x10000u
 #define ROM_SIZE 0x4000u
 #define CART_SIZE 0x8000u
@@ -115,7 +116,13 @@ struct juku {
   int fdc_enabled;
   int fdc_bus_invert; /* diagnostic override; initialized from controller profile */
   unsigned profile;
-  uint8_t card_control, at_queue[32], at_count, at_bit, at_key;
+  uint8_t card_control, at_queue[512], at_bit, at_key;
+  uint16_t at_count;
+  /* Physical and text ownership are separate; effective is their union. */
+  uint8_t key_physical[65], key_text[32], key_effective[65];
+  uint16_t key_repeat; /* ID+1, zero means no repeat owner. */
+  unsigned long key_repeat_due;
+  uint8_t key_repeat_fraction;
 
   int cart_enabled;
   int rom_consecutive_a12_low;

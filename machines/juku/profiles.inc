@@ -40,6 +40,8 @@ static void juku_juss_contact(uint8_t key, int *col, int *row, int *shift,
   *shift = 0;
   *ctrl = 0;
   switch (key) {
+  case '|': *col=11; *row=3; return;
+  case '~': *col=11; *row=2; return;
   case 0xc4: case 0xe4: *col=11; *row=3; *shift=key==0xc4; return;
   case 0xd5: case 0xf5: *col=12; *row=2; *shift=key==0xd5; return;
   case 0xd6: case 0xf6: *col=10; *row=3; *shift=key==0xd6; return;
@@ -119,15 +121,25 @@ static void juku_juss_contact(uint8_t key, int *col, int *row, int *shift,
     *row = 5;
     return;
   case 0x8c:
-    *col = 1;
-    *row = 0;
+    *col = 2;
+    *row = 5;
     return;
   case 0x8d:
-    *col = 0;
-    *row = 0;
+    *col = 1;
+    *row = 5;
     return;
-  default:
-    break;
+  case 0x81: *col=13; *row=0; return;
+  case 0x87: *col=0; *row=0; return;
+  case 0x88: *col=1; *row=0; return;
+  case 0x89: *col=2; *row=0; return;
+  case 0x8a: *col=3; *row=0; return;
+  case 0x82: *col=8; *row=0; return;
+  case 0x83: *col=9; *row=0; return;
+  case 0x91: *col=10; *row=0; return;
+  case 0x84: case 0x86: *col=11; *row=0; *shift=key==0x86; return;
+  case 0x85: case 0x8e: *col=key==0x85?4:5; *row=5; *ctrl=1; return;
+  case 0x8f: case 0x90: *col=key==0x8f?4:5; *row=5; *shift=1; return;
+  default: break;
   }
   if (key >= 1 && key <= 26) {
     juku_juss_contact((uint8_t)('a' + key - 1), col, row, shift, ctrl);
@@ -185,19 +197,43 @@ static unsigned juku_at_scan(uint8_t key, unsigned *shift, unsigned *ctrl) {
     return letters[key - 'a'];
   if (key >= '1' && key <= '9')
     return key - '1' + 2;
-  const char *plain = "0-=\t[];'/`\\,./ ";
-  const uint8_t scans[] = {11, 12, 13, 15, 26, 27, 39, 40,
-                           53, 41, 43, 51, 52, 53, 57};
+  // #0043 Estonian table, not US host key positions. ASCII slots occupied
+  // by Estonian glyphs remain byte aliases; Unicode identities are above.
+  const char *plain = "0+'\t,.- ";
+  const uint8_t scans[] = {11,12,13,15,51,52,53,57};
   const char *p = strchr(plain, key);
-  if (p && key)
-    return scans[p - plain];
-  const char *upper = "!@#$%^&*()_+{}:\"~|<>?";
+  if (p && key) return scans[p-plain];
+  const char *upper = "!\"#$%&/()=?*;:_<>";
+  const uint8_t shifted[] = {2,3,4,5,6,7,8,9,10,11,12,43,51,52,53,86,86};
   p = strchr(upper, key);
-  const uint8_t shifted[] = {2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12,
-                             13, 26, 27, 39, 40, 41, 43, 51, 52, 53};
-  if (p && key) {
-    *shift = 1;
-    return shifted[p - upper];
+  if (p && key) { *shift=key!='<'; return shifted[p-upper]; }
+  switch(key) {
+  case '@': *shift=1; return 39;
+  case '\\': *shift=1; return 40;
+  case '^': *shift=1; return 27;
+  case '`': *shift=1; return 26;
+  case '{': return 39;
+  case '|': return 40;
+  case '}': return 26;
+  case '~': return 27;
+  case 127: case 0x81: return 83;
+  case 0x80: return 80;
+  case 0x8b: return 72;
+  case 0x8c: return 77;
+  case 0x8d: return 75;
+  case 0x85: return 71;
+  case 0x8e: return 79;
+  case 0x8f: return 73;
+  case 0x90: return 81;
+  case 0x87: return 59;
+  case 0x88: return 60;
+  case 0x89: return 61;
+  case 0x8a: return 62;
+  case 0x82: return 63;
+  case 0x83: return 64;
+  case 0x91: return 65;
+  case 0x84: return 66;
+  case 0x86: *shift=1; return 66;
   }
   if (key == 13 || key == 10)
     return 28;
@@ -210,24 +246,4 @@ static unsigned juku_at_scan(uint8_t key, unsigned *shift, unsigned *ctrl) {
     return letters[key - 1];
   }
   return 0;
-}
-static void juku_at_key(juku *j, uint8_t key, int down) {
-  if (j->live_key && (!down || key != j->live_key)) {
-    unsigned shift, ctrl, scan = juku_at_scan(j->live_key, &shift, &ctrl);
-    if (scan)
-      juku_at_enqueue(j, (uint8_t)(scan | 0x80));
-    if (shift)
-      juku_at_enqueue(j, 0xaa);
-    if (ctrl)
-      juku_at_enqueue(j, 0x9d);
-  }
-  if (down && key != j->live_key) {
-    unsigned shift, ctrl, scan = juku_at_scan(key, &shift, &ctrl);
-    if (shift)
-      juku_at_enqueue(j, 0x2a);
-    if (ctrl)
-      juku_at_enqueue(j, 0x1d);
-    if (scan)
-      juku_at_enqueue(j, (uint8_t)scan);
-  }
 }
